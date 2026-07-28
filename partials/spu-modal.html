@@ -1,0 +1,51 @@
+<!-- TOMBOL MELAYANG (FLOATING BUTTON) -->
+<button id="btnOpenSpu" onclick="toggleSpuModal(true)"
+        class="fixed bottom-6 right-6 bg-teal-600 hover:bg-teal-700 text-white font-bold px-4 py-3 rounded-full shadow-lg flex items-center gap-2 transition transform hover:scale-105 z-40">
+    <span class="text-xl">🧪</span>
+    <span class="text-sm">Tabel Periodik (Ar)</span>
+</button>
+
+<!-- MODAL POP-UP SISTEM PERIODIK UNSUR (118 UNSUR) -->
+<div id="spuModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
+
+        <!-- Header Modal & Input Pencarian -->
+        <div class="p-4 sm:p-6 bg-slate-900 text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    🧪 Tabel Periodik & Massa Atom Relatif (Ar)
+                </h3>
+                <p class="text-xs text-slate-400 mt-1">Menampilkan 118 Unsur Kimia Lengkap</p>
+            </div>
+
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <input type="text" id="searchUnsur" onkeyup="filterUnsur()" placeholder="Cari nama, lambang, atau Ar..."
+                       class="px-3 py-1.5 rounded-lg bg-slate-800 text-white text-sm border border-slate-700 focus:outline-none focus:border-teal-400 w-full sm:w-64">
+                <button onclick="toggleSpuModal(false)" class="text-slate-400 hover:text-white text-2xl font-bold px-2">&times;</button>
+            </div>
+        </div>
+
+        <!-- Isi Modal: Legenda Kategori + Panel Detail + Grid Unsur (semua dirender via JS) -->
+        <div class="p-4 sm:p-6 overflow-y-auto flex-grow bg-slate-50">
+            <div class="flex items-center justify-between mb-3">
+                <div id="legendaUnsur" class="flex flex-wrap gap-x-3 gap-y-1.5"></div>
+                <span class="hidden sm:inline text-[11px] text-slate-400 italic shrink-0 ml-3">👆 Klik unsur untuk detail</span>
+            </div>
+            <hr class="border-slate-200 mb-4">
+
+            <div id="detailUnsur" class="hidden mb-4"></div>
+
+            <div id="gridUnsur" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5">
+                <!-- Data 118 Unsur dirender otomatis oleh js/spu.js -->
+            </div>
+        </div>
+
+        <!-- Footer Modal -->
+        <div class="p-4 bg-white border-t border-slate-200 flex justify-between items-center text-xs text-slate-500">
+            <span>Tekan tombol <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded text-slate-700">ESC</kbd> untuk menutup</span>
+            <button onclick="toggleSpuModal(false)" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold px-4 py-1.5 rounded-lg transition">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
