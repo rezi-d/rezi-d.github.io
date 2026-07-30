@@ -1,0 +1,45 @@
+// =================================================================
+// js/curriculum.js — Peta Seluruh Konten Web (Single Source of Truth)
+//
+// Semua sidebar, dropdown "Materi", dan halaman hub dirender OTOMATIS
+// dari data di file ini. Untuk menambah materi baru:
+//   1. Tambah entri di objek `kurikulum` (kelas > bab > subbab)
+//   2. Buat file HTML-nya di folder yang sesuai
+//   3. TIDAK PERLU edit partials/header.html atau logika sidebar
+//
+// Untuk menambah modul non-materi (seperti TKA/ANBK baru), tambah
+// entri di array `modulLain`.
+// =================================================================
+
+const kurikulum = {
+    "10": {
+        label: "Kelas X",
+        bab: []   // <- kosong dulu, isi nanti: { slug, title, subbab: [...] }
+    },
+    "11": {
+        label: "Kelas XI",
+        bab: [
+            {
+                slug: "stoikiometri",
+                title: "Stoikiometri",
+                subbab: [
+                    { file: "konsep-mol.html", title: "Konsep Mol & Massa Molar" },
+                    { file: "volume-gas-molaritas.html", title: "Volume Gas & Molaritas" },
+                    { file: "rumus-empiris.html", title: "Rumus Empiris & Molekul" },
+                    { file: "pereaksi-pembatas.html", title: "Pereaksi Pembatas (M-R-S)" },
+                    { file: "kadar-kemurnian.html", title: "Kadar Kemurnian & Air Kristal" }
+                ]
+            }
+        ]
+    },
+    "12": {
+        label: "Kelas XII",
+        bab: []   // <- kosong dulu
+    }
+};
+
+// Modul di luar struktur Kelas/Bab (tampil sebagai menu terpisah di header)
+const modulLain = [
+    { slug: "tka",  title: "Simulasi TKA",    path: "/tka/index.html",  icon: "📝", status: "segera" },
+    { slug: "anbk", title: "Persiapan ANBK",  path: "/anbk/index.html", icon: "🎯", status: "segera" }
+];
