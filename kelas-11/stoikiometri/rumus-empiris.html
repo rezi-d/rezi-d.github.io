@@ -1,496 +1,517 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rumus Empiris &amp; Rumus Molekul — Stoikiometri Kelas XI | KimiaInteraktif</title>
-<link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumus Empiris & Molekul - KimiaInteraktif</title>
+    <link rel="icon" href="data:,">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- ============================================================
-     INTEGRASI KE KimiaInteraktif
-     File ini berdiri sendiri (standalone) agar bisa langsung dibuka
-     dan ditinjau. Saat ditempel ke struktur proyek:
-     1. Pindahkan ke: kelas-11/stoikiometri/rumus-empiris-dan-molekul.html
-     2. Ganti blok <!-- HEADER PLACEHOLDER --> dan
-        <!-- FOOTER PLACEHOLDER --> di bawah dengan pemanggilan
-        partial via js/include.js, misalnya:
-        <div data-include="/partials/header.html"></div>
-        <div data-include="/partials/sidebar.html"></div>
-        ... konten ...
-        <div data-include="/partials/footer.html"></div>
-     3. Tambahkan entri sub-bab ini ke js/curriculum.js supaya
-        muncul otomatis di sidebar & dropdown header.
-     4. Ganti pemanggilan Tailwind/KaTeX di bawah dengan aset lokal
-        bila proyek sudah punya bundel sendiri; kalau belum, biarkan
-        CDN ini apa adanya.
-     5. Fungsi pasangAutoKoreksi() di bagian bawah script meniru pola
-        js/quiz.js (debounce 2 detik). Ganti dengan import js/quiz.js
-        yang asli bila sudah tersedia.
-     ============================================================ -->
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          ink:    '#1B2430',
-          paper:  '#F5F6F2',
-          teal:   { DEFAULT: '#0F6E63', dark: '#0B5049', light: '#E4F0EE' },
-          indigo: { DEFAULT: '#2B3A67', light: '#EEF0F7' },
-          amber:  { DEFAULT: '#E8A33D', light: '#FCF1DF' },
-          clay:   { DEFAULT: '#C1443C', light: '#FBEAE8' },
-        },
-        fontFamily: {
-          display: ['"Newsreader"', 'serif'],
-          body: ['"Inter"', 'sans-serif'],
-          mono: ['"JetBrains Mono"', 'monospace'],
-        },
-      },
-    },
-  };
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<!-- KaTeX untuk notasi pecahan bertingkat (bukan simbol ÷) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-
-<style>
-  body { font-family: 'Inter', sans-serif; background-color: #F5F6F2; color: #1B2430; }
-  .font-display { font-family: 'Newsreader', serif; }
-  .font-mono { font-family: 'JetBrains Mono', monospace; }
-  .grid-paper {
-    background-image:
-      linear-gradient(rgba(43,58,103,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(43,58,103,0.06) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-  .step-rail { border-left: 3px solid #0F6E63; }
-  .katex-display { margin: 0.6em 0 !important; overflow-x: auto; overflow-y: hidden; }
-  input.jawaban:focus { outline: 2px solid #0F6E63; outline-offset: 1px; }
-  .fb-correct { background-color: #E4F0EE !important; border-color: #0F6E63 !important; }
-  .fb-wrong { background-color: #FBEAE8 !important; border-color: #C1443C !important; }
-  ::selection { background: #E8A33D; color: #1B2430; }
-</style>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen" data-kelas="11" data-bab="stoikiometri">
 
-<body data-kelas="11" data-bab="stoikiometri" data-subbab="3" class="text-ink antialiased">
+    <!-- HEADER (dimuat otomatis dari partials/header.html) -->
+    <div id="header-placeholder"></div>
 
-<!-- HEADER PLACEHOLDER: ganti dengan <div data-include="/partials/header.html"></div> -->
-<header class="border-b border-ink/10 bg-paper/90 backdrop-blur sticky top-0 z-30">
-  <div class="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between">
-    <a href="/kelas-11/stoikiometri/index.html" class="flex items-center gap-2 text-sm text-ink/60 hover:text-teal transition-colors">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-      Kelas XI &rsaquo; Stoikiometri
-    </a>
-    <span class="font-mono text-xs uppercase tracking-wider text-teal bg-teal-light px-2.5 py-1 rounded-full">Sub-bab 3</span>
-  </div>
-</header>
-<!-- END HEADER PLACEHOLDER -->
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-<main>
+        <!-- SIDEBAR (dimuat otomatis dari partials/sidebar.html) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
 
-  <!-- ================= HERO ================= -->
-  <section class="grid-paper border-b border-ink/10">
-    <div class="max-w-5xl mx-auto px-5 py-14 md:py-20 grid md:grid-cols-5 gap-10 items-center">
-      <div class="md:col-span-3">
-        <p class="font-mono text-xs uppercase tracking-wider text-teal mb-3">Stoikiometri &middot; Sub-bab 3</p>
-        <h1 class="font-display text-4xl md:text-5xl leading-tight text-indigo mb-4">
-          Rumus Empiris &amp;<br><em class="not-italic text-teal">Rumus Molekul</em>
-        </h1>
-        <p class="text-ink/70 leading-relaxed max-w-md">
-          Dua senyawa bisa punya rasio atom yang sama persis, tapi jumlah atom sesungguhnya
-          berbeda jauh. Formaldehida dan glukosa sama-sama punya rasio C : H : O = 1 : 2 : 1 —
-          bedanya, molekul glukosa adalah <em>enam kali lipat</em> versi paling sederhananya.
-          Di sinilah rumus empiris dan rumus molekul berperan.
-        </p>
-        <div class="flex flex-wrap gap-2 mt-6">
-          <a href="#konsep" class="px-3 py-1.5 rounded-full border border-ink/15 text-sm hover:border-teal hover:text-teal transition-colors">Konsep Dasar</a>
-          <a href="#langkah" class="px-3 py-1.5 rounded-full border border-ink/15 text-sm hover:border-teal hover:text-teal transition-colors">Langkah Penentuan</a>
-          <a href="#eksperimen" class="px-3 py-1.5 rounded-full border border-ink/15 text-sm hover:border-teal hover:text-teal transition-colors">Analisis Pembakaran</a>
-          <a href="#rumus-molekul" class="px-3 py-1.5 rounded-full border border-ink/15 text-sm hover:border-teal hover:text-teal transition-colors">Ke Rumus Molekul</a>
-          <a href="#latihan" class="px-3 py-1.5 rounded-full border border-ink/15 text-sm hover:border-teal hover:text-teal transition-colors">Latihan</a>
-        </div>
-      </div>
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-8">
+            <article class="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm">
 
-      <!-- Signature visual: transformasi rumus empiris -> molekul -->
-      <div class="md:col-span-2">
-        <svg viewBox="0 0 320 220" class="w-full h-auto" role="img" aria-label="Diagram rumus empiris CH2O dikalikan enam menjadi rumus molekul glukosa C6H12O6">
-          <rect x="6" y="30" width="118" height="72" rx="10" fill="#FFFFFF" stroke="#2B3A67" stroke-width="1.5"/>
-          <text x="65" y="60" text-anchor="middle" class="font-mono" font-size="20" fill="#1B2430">CH<tspan baseline-shift="sub" font-size="12">2</tspan>O</text>
-          <text x="65" y="88" text-anchor="middle" font-size="10" fill="#2B3A67" font-family="Inter, sans-serif">rumus empiris</text>
+    <!-- Badge & Judul Bab -->
+    <span class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold uppercase mb-3">
+        Bab 1: Stoikiometri
+    </span>
+    <h1 class="text-3xl font-bold text-slate-900 mb-4 tracking-tight">
+        3. Rumus Empiris & Molekul
+    </h1>
 
-          <g transform="translate(140,66)">
-            <line x1="0" y1="0" x2="56" y2="0" stroke="#E8A33D" stroke-width="2.5"/>
-            <polygon points="56,-5 66,0 56,5" fill="#E8A33D"/>
-            <circle cx="33" cy="-18" r="14" fill="#E8A33D"/>
-            <text x="33" y="-13" text-anchor="middle" font-size="13" fill="#1B2430" font-weight="600" font-family="Inter, sans-serif">&times;6</text>
-          </g>
-
-          <rect x="196" y="20" width="118" height="92" rx="10" fill="#0F6E63" stroke="#0B5049" stroke-width="1.5"/>
-          <text x="255" y="58" text-anchor="middle" class="font-mono" font-size="19" fill="#FFFFFF">C<tspan baseline-shift="sub" font-size="11">6</tspan>H<tspan baseline-shift="sub" font-size="11">12</tspan>O<tspan baseline-shift="sub" font-size="11">6</tspan></text>
-          <text x="255" y="82" text-anchor="middle" font-size="10" fill="#E4F0EE" font-family="Inter, sans-serif">rumus molekul</text>
-          <text x="255" y="98" text-anchor="middle" font-size="9.5" fill="#E4F0EE" font-family="Inter, sans-serif" opacity="0.85">(glukosa)</text>
-
-          <text x="160" y="150" text-anchor="middle" font-size="10.5" fill="#1B2430" opacity="0.6" font-family="Inter, sans-serif">Mr empiris = 30,03 g/mol &nbsp;&middot;&nbsp; Mr molekul = 180,16 g/mol</text>
-          <text x="160" y="168" text-anchor="middle" font-size="10.5" fill="#1B2430" opacity="0.6" font-family="Inter, sans-serif">n = 180,16 &divide; 30,03 &asymp; 6</text>
-        </svg>
-      </div>
+    <!-- QUICK-JUMP PILLS -->
+    <div class="flex flex-wrap gap-2 mb-6 pb-6 border-b border-slate-100">
+        <a href="#konsep" class="text-xs font-medium px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full hover:bg-teal-100 hover:text-teal-800 transition">Konsep Dasar</a>
+        <a href="#langkah" class="text-xs font-medium px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full hover:bg-teal-100 hover:text-teal-800 transition">Langkah Penentuan</a>
+        <a href="#eksperimen" class="text-xs font-medium px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full hover:bg-teal-100 hover:text-teal-800 transition">Analisis Pembakaran</a>
+        <a href="#rumus-molekul" class="text-xs font-medium px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full hover:bg-teal-100 hover:text-teal-800 transition">Ke Rumus Molekul</a>
+        <a href="#latihan" class="text-xs font-medium px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full hover:bg-teal-100 hover:text-teal-800 transition">Latihan</a>
     </div>
-  </section>
 
-  <div class="max-w-5xl mx-auto px-5 py-12 space-y-16">
+    <!-- 1. KONSEP DASAR -->
+    <section id="konsep" class="mb-8 scroll-mt-24">
+        <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+            💡 Apa Bedanya Rumus Empiris dan Rumus Molekul?
+        </h2>
 
-    <!-- ================= 1. KONSEP DASAR ================= -->
-    <section id="konsep" class="scroll-mt-20">
-      <h2 class="font-display text-2xl md:text-3xl text-indigo mb-4">1. Konsep Dasar</h2>
-      <div class="space-y-4 text-ink/80 leading-relaxed">
-        <p>
-          <strong class="text-ink">Rumus empiris</strong> menyatakan perbandingan jumlah atom
-          paling sederhana antar unsur penyusun suatu senyawa &mdash; sekadar rasio, bukan jumlah
-          atom yang sebenarnya. <strong class="text-ink">Rumus molekul</strong> menyatakan jumlah
-          atom yang <em>sesungguhnya</em> menyusun satu molekul senyawa tersebut.
-        </p>
-        <p>
-          Keduanya dihubungkan oleh sebuah bilangan pengali bulat <em>n</em>:
-        </p>
-        <div class="bg-indigo-light rounded-lg px-5 py-4 font-mono text-center text-indigo text-lg">
-          Rumus molekul = (Rumus empiris) &times; n &nbsp;&nbsp;|&nbsp;&nbsp; Mr molekul = Mr empiris &times; n
-        </div>
-        <p>
-          Karena rumus empiris hanyalah rasio, dua senyawa yang <em>sama sekali berbeda</em> bisa
-          memiliki rumus empiris yang identik. Tabel berikut membandingkan beberapa senyawa yang
-          sudah dikenal:
-        </p>
-      </div>
-
-      <div class="mt-6 overflow-x-auto rounded-lg border border-ink/10">
-        <table class="w-full text-sm">
-          <thead class="bg-indigo text-white">
-            <tr>
-              <th class="text-left px-4 py-2.5 font-medium">Senyawa</th>
-              <th class="text-left px-4 py-2.5 font-medium">Rumus Molekul</th>
-              <th class="text-left px-4 py-2.5 font-medium">Rumus Empiris</th>
-              <th class="text-left px-4 py-2.5 font-medium">n</th>
-            </tr>
-          </thead>
-          <tbody class="font-mono">
-            <tr class="border-t border-ink/10 bg-white"><td class="px-4 py-2.5">Air</td><td class="px-4 py-2.5">H<sub>2</sub>O</td><td class="px-4 py-2.5">H<sub>2</sub>O</td><td class="px-4 py-2.5">1</td></tr>
-            <tr class="border-t border-ink/10 bg-paper"><td class="px-4 py-2.5">Hidrogen peroksida</td><td class="px-4 py-2.5">H<sub>2</sub>O<sub>2</sub></td><td class="px-4 py-2.5">HO</td><td class="px-4 py-2.5">2</td></tr>
-            <tr class="border-t border-ink/10 bg-white"><td class="px-4 py-2.5">Etana</td><td class="px-4 py-2.5">C<sub>2</sub>H<sub>6</sub></td><td class="px-4 py-2.5">CH<sub>3</sub></td><td class="px-4 py-2.5">2</td></tr>
-            <tr class="border-t border-ink/10 bg-paper"><td class="px-4 py-2.5">Benzena</td><td class="px-4 py-2.5">C<sub>6</sub>H<sub>6</sub></td><td class="px-4 py-2.5">CH</td><td class="px-4 py-2.5">6</td></tr>
-            <tr class="border-t border-ink/10 bg-white"><td class="px-4 py-2.5">Asam asetat (cuka)</td><td class="px-4 py-2.5">C<sub>2</sub>H<sub>4</sub>O<sub>2</sub></td><td class="px-4 py-2.5">CH<sub>2</sub>O</td><td class="px-4 py-2.5">2</td></tr>
-            <tr class="border-t border-ink/10 bg-paper"><td class="px-4 py-2.5">Glukosa</td><td class="px-4 py-2.5">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></td><td class="px-4 py-2.5">CH<sub>2</sub>O</td><td class="px-4 py-2.5">6</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-sm text-ink/60 mt-3">
-        Perhatikan asam asetat dan glukosa: keduanya punya rumus empiris yang sama persis,
-        CH<sub>2</sub>O, padahal keduanya adalah senyawa yang sangat berbeda sifatnya. Rumus
-        empiris saja tidak cukup untuk mengenali suatu senyawa &mdash; dibutuhkan massa molar
-        untuk mengetahui rumus molekulnya.
-      </p>
-    </section>
-
-    <!-- ================= 2. LANGKAH PENENTUAN ================= -->
-    <section id="langkah" class="scroll-mt-20">
-      <h2 class="font-display text-2xl md:text-3xl text-indigo mb-4">2. Menentukan Rumus Empiris dari Persen Komposisi</h2>
-      <p class="text-ink/80 leading-relaxed mb-6">
-        Ketika sebuah senyawa dianalisis di laboratorium, hasilnya biasanya berupa persentase
-        massa tiap unsur. Berikut alur bakunya:
-      </p>
-
-      <ol class="space-y-4">
-        <li class="step-rail pl-5 py-1">
-          <span class="font-mono text-teal text-sm">Langkah 1</span>
-          <p class="text-ink/80">Anggap sampel bermassa tepat <strong>100 gram</strong>. Dengan begitu, setiap persen (%) langsung berarti jumlah gram unsur tersebut.</p>
-        </li>
-        <li class="step-rail pl-5 py-1">
-          <span class="font-mono text-teal text-sm">Langkah 2</span>
-          <p class="text-ink/80">Ubah massa (gram) setiap unsur menjadi mol, dengan membagi massa terhadap massa molar (Ar) unsur itu.</p>
-        </li>
-        <li class="step-rail pl-5 py-1">
-          <span class="font-mono text-teal text-sm">Langkah 3</span>
-          <p class="text-ink/80">Bagi jumlah mol setiap unsur dengan jumlah mol <em>terkecil</em> di antara semuanya, untuk mendapatkan rasio mol paling sederhana.</p>
-        </li>
-        <li class="step-rail pl-5 py-1">
-          <span class="font-mono text-teal text-sm">Langkah 4</span>
-          <p class="text-ink/80">Jika hasilnya belum bilangan bulat, kalikan semua rasio dengan bilangan bulat terkecil yang membuat semuanya utuh (lihat tabel pengali umum di bawah).</p>
-        </li>
-        <li class="step-rail pl-5 py-1">
-          <span class="font-mono text-teal text-sm">Langkah 5</span>
-          <p class="text-ink/80">Tuliskan rumus empirisnya menggunakan bilangan bulat tersebut sebagai subskrip.</p>
-        </li>
-      </ol>
-
-      <div class="mt-6 bg-amber-light border border-amber/40 rounded-lg px-5 py-4">
-        <p class="font-medium text-sm mb-2">Tabel pengali cepat (Langkah 4)</p>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-sm text-ink/80">
-          <div>desimal &asymp; ,20 &rarr; &times;5</div>
-          <div>desimal &asymp; ,25 &rarr; &times;4</div>
-          <div>desimal &asymp; ,33 &rarr; &times;3</div>
-          <div>desimal &asymp; ,50 &rarr; &times;2</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= CONTOH SOAL 1 ================= -->
-    <section id="contoh-1" class="scroll-mt-20">
-      <div class="rounded-xl border border-teal/25 bg-white p-6 md:p-8">
-        <p class="font-mono text-xs uppercase tracking-wider text-teal mb-2">Contoh Soal 1</p>
-        <p class="text-ink/85 mb-5">
-          Suatu senyawa organik mengandung 40,0% karbon, 6,7% hidrogen, dan 53,3% oksigen
-          menurut massa. Tentukan rumus empirisnya.
+        <p class="text-slate-600 leading-relaxed mb-4 text-justify">
+            <strong>Rumus empiris</strong> hanya menyatakan perbandingan jumlah atom paling
+            sederhana antar unsur penyusun senyawa. <strong>Rumus molekul</strong> menyatakan
+            jumlah atom yang sesungguhnya menyusun satu molekul senyawa itu. Contohnya, glukosa:
         </p>
 
-        <ol class="space-y-3 text-sm">
-          <li><span class="font-mono text-teal">1.</span> Anggap sampel 100 g &rarr; C = 40,0 g; H = 6,7 g; O = 53,3 g.</li>
-          <li>
-            <span class="font-mono text-teal">2.</span> Ubah ke mol (Ar C = 12,01; Ar H = 1,008; Ar O = 16,00):
-            <div class="mt-2 pl-4">
-              $n_C = \dfrac{40{,}0\text{ g}}{12{,}01\text{ g/mol}} = 3{,}33\text{ mol}$<br>
-              $n_H = \dfrac{6{,}7\text{ g}}{1{,}008\text{ g/mol}} = 6{,}65\text{ mol}$<br>
-              $n_O = \dfrac{53{,}3\text{ g}}{16{,}00\text{ g/mol}} = 3{,}33\text{ mol}$
+        <!-- Kotak Analogi Empiris vs Molekul -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center">
+                <span class="text-3xl">🔡</span>
+                <h3 class="font-bold text-slate-800 mt-2">Rumus Empiris</h3>
+                <p class="text-sm text-teal-600 font-semibold mt-1">CH<sub>2</sub>O</p>
+                <p class="text-xs text-slate-500 mt-1">rasio atom paling sederhana (1 : 2 : 1)</p>
             </div>
-          </li>
-          <li>
-            <span class="font-mono text-teal">3.</span> Bagi dengan mol terkecil (3,33):
-            <div class="mt-2 pl-4 font-mono">C : H : O = 1,00 : 2,00 : 1,00</div>
-          </li>
-          <li><span class="font-mono text-teal">4&ndash;5.</span> Rasio sudah bulat &rarr; rumus empiris = <strong class="font-mono">CH<sub>2</sub>O</strong></li>
-        </ol>
-
-        <div class="mt-5 bg-teal-light rounded-lg px-4 py-3 text-sm text-teal-dark">
-          <strong>Catatan:</strong> senyawa dengan persen komposisi ini bisa jadi formaldehida
-          (CH<sub>2</sub>O), asam asetat (C<sub>2</sub>H<sub>4</sub>O<sub>2</sub>), atau glukosa
-          (C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>) &mdash; rumus empiris saja belum cukup untuk
-          memastikan. Lanjut ke bagian 4 untuk melihat cara membedakannya lewat Mr.
+            <div class="bg-teal-50 p-4 rounded-lg border border-teal-200 text-center">
+                <span class="text-3xl">🧬</span>
+                <h3 class="font-bold text-slate-800 mt-2">Rumus Molekul</h3>
+                <p class="text-sm text-teal-700 font-semibold mt-1">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></p>
+                <p class="text-xs text-slate-500 mt-1">jumlah atom sesungguhnya (glukosa)</p>
+            </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ================= 3. ANALISIS PEMBAKARAN ================= -->
-    <section id="eksperimen" class="scroll-mt-20">
-      <h2 class="font-display text-2xl md:text-3xl text-indigo mb-4">3. Penentuan dari Data Eksperimen: Analisis Pembakaran</h2>
-      <p class="text-ink/80 leading-relaxed mb-4">
-        Untuk senyawa organik yang tersusun dari C, H, dan (kadang) O, persen komposisi jarang
-        diberikan langsung. Sebagai gantinya, sampel dibakar sempurna dalam kelebihan oksigen.
-        Semua atom karbon berakhir sebagai gas CO<sub>2</sub>, dan semua atom hidrogen berakhir
-        sebagai uap H<sub>2</sub>O. Kedua gas ini ditangkap secara terpisah oleh alat penyerap,
-        lalu ditimbang.
-      </p>
-      <ul class="text-ink/80 leading-relaxed space-y-1.5 list-disc pl-5 mb-4">
-        <li>Massa karbon dihitung mundur dari massa CO<sub>2</sub> yang terbentuk.</li>
-        <li>Massa hidrogen dihitung mundur dari massa H<sub>2</sub>O yang terbentuk.</li>
-        <li>Jika senyawa awal juga mengandung oksigen, massa oksigen didapat dari <em>selisih</em>: massa sampel dikurangi massa C dan H yang sudah ditemukan &mdash; sebab oksigen dari udara pembakaran ikut campur, sehingga tidak bisa dihitung langsung dari produk.</li>
-      </ul>
+        <!-- KOTAK RUMUS UTAMA -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-lg my-6 text-center">
+            <p class="text-xs uppercase tracking-wider text-amber-900 font-bold mb-3">Hubungan Keduanya</p>
+            <p class="text-base sm:text-lg font-bold text-slate-800">Rumus Molekul = (Rumus Empiris) &times; n</p>
+            <p class="text-base sm:text-lg font-bold text-slate-800 mt-1">Mr Molekul = Mr Empiris &times; n</p>
+            <p class="text-xs text-amber-950 mt-3 border-t border-amber-200/60 pt-2">
+                <strong>Keterangan:</strong> n adalah bilangan bulat (1, 2, 3, ...) yang menyatakan berapa kali rumus empiris "digandakan".
+            </p>
+        </div>
 
-      <div class="rounded-xl border border-teal/25 bg-white p-6 md:p-8">
-        <p class="font-mono text-xs uppercase tracking-wider text-teal mb-2">Contoh Soal 2</p>
-        <p class="text-ink/85 mb-5">
-          Pembakaran sempurna 4,60 gram senyawa organik yang hanya mengandung C, H, dan O
-          menghasilkan 8,80 gram CO<sub>2</sub> dan 5,40 gram H<sub>2</sub>O. Tentukan rumus
-          empiris senyawa tersebut.
+        <p class="text-slate-600 leading-relaxed mb-3 text-justify">
+            Karena rumus empiris hanyalah rasio, dua senyawa yang sifatnya sangat berbeda bisa
+            memiliki rumus empiris yang identik:
         </p>
 
-        <ol class="space-y-3 text-sm">
-          <li>
-            <span class="font-mono text-teal">1.</span> Massa C dari CO<sub>2</sub> (Mr CO<sub>2</sub> = 44,01; Ar C = 12,01):
-            <div class="mt-2 pl-4">
-              $8{,}80\text{ g CO}_2 \times \dfrac{1\text{ mol CO}_2}{44{,}01\text{ g}} \times \dfrac{1\text{ mol C}}{1\text{ mol CO}_2} \times \dfrac{12{,}01\text{ g}}{1\text{ mol C}} = 2{,}40\text{ g C}$
-            </div>
-          </li>
-          <li>
-            <span class="font-mono text-teal">2.</span> Massa H dari H<sub>2</sub>O (Mr H<sub>2</sub>O = 18,02; Ar H = 1,008):
-            <div class="mt-2 pl-4">
-              $5{,}40\text{ g H}_2\text{O} \times \dfrac{1\text{ mol H}_2\text{O}}{18{,}02\text{ g}} \times \dfrac{2\text{ mol H}}{1\text{ mol H}_2\text{O}} \times \dfrac{1{,}008\text{ g}}{1\text{ mol H}} = 0{,}604\text{ g H}$
-            </div>
-          </li>
-          <li>
-            <span class="font-mono text-teal">3.</span> Massa O = massa sampel &minus; (massa C + massa H):
-            <div class="mt-2 pl-4 font-mono">4,60 g &minus; (2,40 g + 0,604 g) = 1,60 g O</div>
-          </li>
-          <li>
-            <span class="font-mono text-teal">4.</span> Konversi ke mol lalu bagi dengan mol terkecil:
-            <div class="mt-2 pl-4">
-              $n_C = \dfrac{2{,}40}{12{,}01} = 0{,}200\text{ mol}\quad n_H = \dfrac{0{,}604}{1{,}008} = 0{,}599\text{ mol}\quad n_O = \dfrac{1{,}60}{16{,}00} = 0{,}0997\text{ mol}$
-            </div>
-            <div class="mt-2 pl-4 font-mono">C : H : O &asymp; 2,01 : 6,01 : 1,00 &asymp; 2 : 6 : 1</div>
-          </li>
-          <li><span class="font-mono text-teal">5.</span> Rumus empiris = <strong class="font-mono">C<sub>2</sub>H<sub>6</sub>O</strong></li>
-        </ol>
-      </div>
+        <div class="overflow-x-auto rounded-lg border border-slate-200 my-4">
+            <table class="w-full text-sm">
+                <thead class="bg-teal-600 text-white">
+                    <tr>
+                        <th class="text-left px-4 py-2.5 font-semibold">Senyawa</th>
+                        <th class="text-left px-4 py-2.5 font-semibold">Rumus Molekul</th>
+                        <th class="text-left px-4 py-2.5 font-semibold">Rumus Empiris</th>
+                        <th class="text-left px-4 py-2.5 font-semibold">n</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-t border-slate-100 bg-white"><td class="px-4 py-2.5">Air</td><td class="px-4 py-2.5">H<sub>2</sub>O</td><td class="px-4 py-2.5">H<sub>2</sub>O</td><td class="px-4 py-2.5">1</td></tr>
+                    <tr class="border-t border-slate-100 bg-slate-50"><td class="px-4 py-2.5">Hidrogen peroksida</td><td class="px-4 py-2.5">H<sub>2</sub>O<sub>2</sub></td><td class="px-4 py-2.5">HO</td><td class="px-4 py-2.5">2</td></tr>
+                    <tr class="border-t border-slate-100 bg-white"><td class="px-4 py-2.5">Etana</td><td class="px-4 py-2.5">C<sub>2</sub>H<sub>6</sub></td><td class="px-4 py-2.5">CH<sub>3</sub></td><td class="px-4 py-2.5">2</td></tr>
+                    <tr class="border-t border-slate-100 bg-slate-50"><td class="px-4 py-2.5">Benzena</td><td class="px-4 py-2.5">C<sub>6</sub>H<sub>6</sub></td><td class="px-4 py-2.5">CH</td><td class="px-4 py-2.5">6</td></tr>
+                    <tr class="border-t border-slate-100 bg-white"><td class="px-4 py-2.5">Asam asetat (cuka)</td><td class="px-4 py-2.5">C<sub>2</sub>H<sub>4</sub>O<sub>2</sub></td><td class="px-4 py-2.5">CH<sub>2</sub>O</td><td class="px-4 py-2.5">2</td></tr>
+                    <tr class="border-t border-slate-100 bg-slate-50"><td class="px-4 py-2.5">Glukosa</td><td class="px-4 py-2.5">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub></td><td class="px-4 py-2.5">CH<sub>2</sub>O</td><td class="px-4 py-2.5">6</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-xs text-slate-500">Perhatikan: asam asetat dan glukosa punya rumus empiris yang sama persis, padahal senyawanya jauh berbeda. Rumus empiris saja belum cukup untuk mengenali suatu senyawa.</p>
     </section>
 
-    <!-- ================= 4. KE RUMUS MOLEKUL ================= -->
-    <section id="rumus-molekul" class="scroll-mt-20">
-      <h2 class="font-display text-2xl md:text-3xl text-indigo mb-4">4. Dari Rumus Empiris ke Rumus Molekul</h2>
-      <p class="text-ink/80 leading-relaxed mb-4">
-        Rumus molekul selalu merupakan kelipatan bulat dari rumus empiris. Jika massa molar
-        (Mr) senyawa sesungguhnya sudah diketahui &mdash; biasanya dari spektrometri massa &mdash;
-        bilangan pengali <em>n</em> bisa dicari dengan:
-      </p>
-      <div class="bg-indigo-light rounded-lg px-5 py-4 text-center text-indigo mb-6">
-        $$n = \dfrac{\text{Mr molekul}}{\text{Mr empiris}}$$
-      </div>
+    <hr class="my-6 border-slate-100">
 
-      <div class="rounded-xl border border-teal/25 bg-white p-6 md:p-8">
-        <p class="font-mono text-xs uppercase tracking-wider text-teal mb-2">Contoh Soal 3</p>
-        <p class="text-ink/85 mb-5">
-          Melanjutkan Contoh Soal 2: senyawa dengan rumus empiris C<sub>2</sub>H<sub>6</sub>O
-          diketahui memiliki Mr &asymp; 46 g/mol dari hasil spektrometri massa. Tentukan rumus
-          molekulnya.
+    <!-- 2. LANGKAH PENENTUAN -->
+    <section id="langkah" class="mb-8 scroll-mt-24">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+            2. Menentukan Rumus Empiris dari Persen Komposisi
+        </h2>
+        <p class="text-slate-600 leading-relaxed mb-4 text-justify">
+            Hasil analisis laboratorium biasanya berupa persentase massa tiap unsur. Berikut alur bakunya:
         </p>
-        <ol class="space-y-3 text-sm">
-          <li>
-            <span class="font-mono text-teal">1.</span> Hitung Mr rumus empiris:
-            <div class="mt-2 pl-4 font-mono">Mr (C<sub>2</sub>H<sub>6</sub>O) = 2(12,01) + 6(1,008) + 16,00 = 46,07 g/mol</div>
-          </li>
-          <li>
-            <span class="font-mono text-teal">2.</span> Cari n:
-            <div class="mt-2 pl-4">$n = \dfrac{46}{46{,}07} \approx 1$</div>
-          </li>
-          <li><span class="font-mono text-teal">3.</span> Rumus molekul = (C<sub>2</sub>H<sub>6</sub>O) &times; 1 = <strong class="font-mono">C<sub>2</sub>H<sub>6</sub>O</strong> &mdash; senyawa ini adalah etanol.</li>
-        </ol>
-      </div>
 
-      <div class="rounded-xl border border-teal/25 bg-white p-6 md:p-8 mt-6">
-        <p class="font-mono text-xs uppercase tracking-wider text-teal mb-2">Contoh Soal 4</p>
-        <p class="text-ink/85 mb-5">
-          Rumus empiris suatu senyawa adalah CH<sub>2</sub>, dengan Mr &asymp; 56 g/mol.
-          Tentukan rumus molekulnya.
+        <div class="space-y-3 my-4">
+            <div class="bg-slate-50 border-l-4 border-teal-500 p-4 rounded-r-lg">
+                <p class="text-xs font-bold text-teal-700 uppercase mb-1">Langkah 1</p>
+                <p class="text-sm text-slate-700">Anggap sampel bermassa tepat <strong>100 gram</strong>, sehingga setiap persen (%) langsung berarti jumlah gram unsur tersebut.</p>
+            </div>
+            <div class="bg-slate-50 border-l-4 border-teal-500 p-4 rounded-r-lg">
+                <p class="text-xs font-bold text-teal-700 uppercase mb-1">Langkah 2</p>
+                <p class="text-sm text-slate-700">Ubah massa (gram) tiap unsur menjadi mol dengan membaginya dengan Ar unsur tersebut.</p>
+            </div>
+            <div class="bg-slate-50 border-l-4 border-teal-500 p-4 rounded-r-lg">
+                <p class="text-xs font-bold text-teal-700 uppercase mb-1">Langkah 3</p>
+                <p class="text-sm text-slate-700">Bagi jumlah mol tiap unsur dengan jumlah mol <em>terkecil</em> di antara semuanya.</p>
+            </div>
+            <div class="bg-slate-50 border-l-4 border-teal-500 p-4 rounded-r-lg">
+                <p class="text-xs font-bold text-teal-700 uppercase mb-1">Langkah 4</p>
+                <p class="text-sm text-slate-700">Jika hasilnya belum bilangan bulat, kalikan semua rasio dengan bilangan bulat terkecil yang membuat semuanya utuh.</p>
+            </div>
+            <div class="bg-slate-50 border-l-4 border-teal-500 p-4 rounded-r-lg">
+                <p class="text-xs font-bold text-teal-700 uppercase mb-1">Langkah 5</p>
+                <p class="text-sm text-slate-700">Tuliskan rumus empirisnya menggunakan bilangan bulat itu sebagai subskrip.</p>
+            </div>
+        </div>
+
+        <!-- KOTAK TIPS -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 my-6">
+            <h3 class="font-bold text-amber-900 text-sm flex items-center gap-2 mb-2">
+                📌 Tabel Pengali Cepat (Langkah 4)
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs sm:text-sm text-amber-950 font-mono">
+                <div class="bg-white/80 rounded-lg border border-amber-200/60 p-2 text-center">&hellip;,20 &rarr; &times;5</div>
+                <div class="bg-white/80 rounded-lg border border-amber-200/60 p-2 text-center">&hellip;,25 &rarr; &times;4</div>
+                <div class="bg-white/80 rounded-lg border border-amber-200/60 p-2 text-center">&hellip;,33 &rarr; &times;3</div>
+                <div class="bg-white/80 rounded-lg border border-amber-200/60 p-2 text-center">&hellip;,50 &rarr; &times;2</div>
+            </div>
+        </div>
+
+        <!-- CONTOH SOAL 1 -->
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 my-6">
+            <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                ✏️ Contoh Soal: Rumus Empiris dari Persen Komposisi
+            </h3>
+            <p class="text-sm text-slate-700 mb-4 text-justify">
+                Suatu senyawa organik mengandung <strong>40,0% karbon, 6,7% hidrogen, dan 53,3% oksigen</strong> menurut massa. Tentukan rumus empirisnya. <br>
+                <span class="text-xs text-slate-500">(Diketahui Ar C = 12, H = 1, O = 16)</span>
+            </p>
+
+            <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm space-y-3">
+                <p class="font-semibold text-slate-800 border-b border-slate-100 pb-2">Langkah Penyelesaian:</p>
+
+                <p class="text-slate-700"><strong>1. Anggap sampel 100 gram</strong> &rarr; C = 40,0 g; H = 6,7 g; O = 53,3 g.</p>
+
+                <p class="text-slate-700 font-semibold">2. Ubah ke mol:</p>
+                <div class="flex items-center gap-2 pl-3 flex-wrap text-slate-800">
+                    <span>n<sub>C</sub> =</span>
+                    <div class="inline-flex flex-col items-center leading-none text-xs">
+                        <span class="border-b border-slate-400 pb-0.5 px-1">40,0 gram</span>
+                        <span class="pt-0.5 px-1">12 gram/mol</span>
+                    </div>
+                    <span>= <strong class="text-teal-600">3,33 mol</strong></span>
+                </div>
+                <div class="flex items-center gap-2 pl-3 flex-wrap text-slate-800">
+                    <span>n<sub>H</sub> =</span>
+                    <div class="inline-flex flex-col items-center leading-none text-xs">
+                        <span class="border-b border-slate-400 pb-0.5 px-1">6,7 gram</span>
+                        <span class="pt-0.5 px-1">1 gram/mol</span>
+                    </div>
+                    <span>= <strong class="text-teal-600">6,70 mol</strong></span>
+                </div>
+                <div class="flex items-center gap-2 pl-3 flex-wrap text-slate-800">
+                    <span>n<sub>O</sub> =</span>
+                    <div class="inline-flex flex-col items-center leading-none text-xs">
+                        <span class="border-b border-slate-400 pb-0.5 px-1">53,3 gram</span>
+                        <span class="pt-0.5 px-1">16 gram/mol</span>
+                    </div>
+                    <span>= <strong class="text-teal-600">3,33 mol</strong></span>
+                </div>
+
+                <p class="text-slate-700"><strong>3. Bagi dengan mol terkecil (3,33):</strong><br>
+                <span class="pl-3 text-xs text-slate-600 block mt-1 font-mono">C : H : O = 1,00 : 2,01 : 1,00 &asymp; 1 : 2 : 1</span></p>
+
+                <div class="bg-amber-50 p-3 rounded-lg border border-amber-200 text-amber-900 font-semibold text-center mt-2">
+                    Rumus Empiris = CH<sub>2</sub>O
+                </div>
+            </div>
+
+            <div class="mt-4 bg-teal-50 border-l-4 border-teal-500 p-3 rounded-r-md text-xs text-teal-900">
+                <strong>Catatan:</strong> senyawa dengan komposisi ini bisa jadi formaldehida (CH<sub>2</sub>O), asam asetat (C<sub>2</sub>H<sub>4</sub>O<sub>2</sub>), atau glukosa (C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>). Lanjut ke bagian 4 untuk melihat cara memastikannya lewat Mr.
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-6 border-slate-100">
+
+    <!-- 3. ANALISIS PEMBAKARAN -->
+    <section id="eksperimen" class="mb-8 scroll-mt-24">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+            3. Penentuan dari Data Eksperimen: Analisis Pembakaran
+        </h2>
+        <p class="text-slate-600 leading-relaxed mb-3 text-justify">
+            Untuk senyawa organik (C, H, dan kadang O), persen komposisi jarang diberikan
+            langsung. Sampel dibakar sempurna dalam kelebihan oksigen: semua atom karbon
+            berakhir sebagai gas CO<sub>2</sub>, semua atom hidrogen berakhir sebagai uap
+            H<sub>2</sub>O. Kedua gas ini ditangkap terpisah lalu ditimbang.
         </p>
-        <ol class="space-y-3 text-sm">
-          <li><span class="font-mono text-teal">1.</span> Mr empiris = 12,01 + 2(1,008) = 14,03 g/mol</li>
-          <li><span class="font-mono text-teal">2.</span> $n = \dfrac{56}{14{,}03} \approx 4$</li>
-          <li><span class="font-mono text-teal">3.</span> Rumus molekul = (CH<sub>2</sub>) &times; 4 = <strong class="font-mono">C<sub>4</sub>H<sub>8</sub></strong> &mdash; sesuai dengan salah satu isomer butena.</li>
-        </ol>
-      </div>
+        <ul class="text-sm text-slate-600 leading-relaxed space-y-1.5 list-disc pl-5 mb-4">
+            <li>Massa karbon dihitung mundur dari massa CO<sub>2</sub> yang terbentuk.</li>
+            <li>Massa hidrogen dihitung mundur dari massa H<sub>2</sub>O yang terbentuk.</li>
+            <li>Jika senyawa mengandung oksigen, massanya didapat dari <strong>selisih</strong>: massa sampel dikurangi massa C dan H, karena oksigen dari udara pembakaran ikut campur pada gas hasil.</li>
+        </ul>
+
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 my-6">
+            <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                ✏️ Contoh Soal: Rumus Empiris dari Data Pembakaran
+            </h3>
+            <p class="text-sm text-slate-700 mb-4 text-justify">
+                Pembakaran sempurna <strong>4,60 gram</strong> senyawa organik (C, H, O) menghasilkan <strong>8,80 gram CO<sub>2</sub></strong> dan <strong>5,40 gram H<sub>2</sub>O</strong>. Tentukan rumus empirisnya. <br>
+                <span class="text-xs text-slate-500">(Diketahui Ar C = 12, H = 1, O = 16; Mr CO<sub>2</sub> = 44, Mr H<sub>2</sub>O = 18)</span>
+            </p>
+
+            <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm space-y-3">
+                <p class="font-semibold text-slate-800 border-b border-slate-100 pb-2">Langkah Penyelesaian:</p>
+
+                <p class="text-slate-700 font-semibold">1. Massa C dari CO<sub>2</sub>:</p>
+                <div class="flex items-center gap-2 pl-3 flex-wrap text-slate-800">
+                    <span>n<sub>CO2</sub> =</span>
+                    <div class="inline-flex flex-col items-center leading-none text-xs">
+                        <span class="border-b border-slate-400 pb-0.5 px-1">8,80 gram</span>
+                        <span class="pt-0.5 px-1">44 gram/mol</span>
+                    </div>
+                    <span>= 0,200 mol = n<sub>C</sub></span>
+                </div>
+                <div class="flex items-center gap-2 pl-3 flex-wrap text-slate-800">
+                    <span>massa C =</span>
+                    <span class="font-semibold">0,200 mol</span>
+                    <span>&times;</span>
+                    <span class="font-semibold">12 gram/mol</span>
+                    <span>= <strong class="text-teal-600">2,40 gram</strong></span>
+                </div>
+
+                <p class="text-slate-700 font-semibold">2. Massa H dari H<sub>2</sub>O:</p>
+                <div class="flex items-center gap-2 pl-3 flex-wrap text-slate-800">
+                    <span>n<sub>H2O</sub> =</span>
+                    <div class="inline-flex flex-col items-center leading-none text-xs">
+                        <span class="border-b border-slate-400 pb-0.5 px-1">5,40 gram</span>
+                        <span class="pt-0.5 px-1">18 gram/mol</span>
+                    </div>
+                    <span>= 0,300 mol &rarr; n<sub>H</sub> = 2 &times; 0,300 = 0,600 mol</span>
+                </div>
+                <div class="flex items-center gap-2 pl-3 flex-wrap text-slate-800">
+                    <span>massa H =</span>
+                    <span class="font-semibold">0,600 mol</span>
+                    <span>&times;</span>
+                    <span class="font-semibold">1 gram/mol</span>
+                    <span>= <strong class="text-teal-600">0,600 gram</strong></span>
+                </div>
+
+                <p class="text-slate-700"><strong>3. Massa O = massa sampel &minus; (massa C + massa H):</strong><br>
+                <span class="pl-3 text-xs text-slate-600 block mt-1 font-mono">4,60 &minus; (2,40 + 0,600) = 1,60 gram O &rarr; n<sub>O</sub> = 1,60 &divide; 16 = 0,100 mol</span></p>
+
+                <p class="text-slate-700"><strong>4. Bagi dengan mol terkecil (0,100):</strong><br>
+                <span class="pl-3 text-xs text-slate-600 block mt-1 font-mono">C : H : O = 2,00 : 6,00 : 1,00</span></p>
+
+                <div class="bg-amber-50 p-3 rounded-lg border border-amber-200 text-amber-900 font-semibold text-center mt-2">
+                    Rumus Empiris = C<sub>2</sub>H<sub>6</sub>O
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- ================= 5. LATIHAN INTERAKTIF ================= -->
-    <section id="latihan" class="scroll-mt-20">
-      <h2 class="font-display text-2xl md:text-3xl text-indigo mb-2">5. Latihan Mandiri</h2>
-      <p class="text-ink/70 mb-6 text-sm">Ketik jawaban tanpa spasi, contoh format: <code class="font-mono bg-ink/5 px-1.5 py-0.5 rounded">C2H4O2</code>. Jawaban dicek otomatis 2 detik setelah kamu berhenti mengetik.</p>
+    <hr class="my-6 border-slate-100">
 
-      <div class="space-y-5">
+    <!-- 4. KE RUMUS MOLEKUL -->
+    <section id="rumus-molekul" class="mb-8 scroll-mt-24">
+        <h2 class="text-xl font-bold text-slate-900 mb-3">
+            4. Dari Rumus Empiris ke Rumus Molekul
+        </h2>
+        <p class="text-slate-600 leading-relaxed mb-4 text-justify">
+            Rumus molekul selalu kelipatan bulat dari rumus empiris. Jika Mr senyawa
+            sesungguhnya sudah diketahui (biasanya dari spektrometri massa), bilangan pengali
+            <em>n</em> dicari dengan:
+        </p>
 
-        <!-- Soal 1 -->
-        <div class="rounded-xl border border-ink/10 bg-white p-5 md:p-6" data-soal>
-          <p class="text-sm font-mono text-teal mb-1">Soal 1</p>
-          <p class="text-ink/85 mb-4">Suatu senyawa mengandung 85,7% karbon dan 14,3% hidrogen menurut massa. Tentukan rumus empirisnya.</p>
-          <div class="flex items-center gap-3 flex-wrap">
-            <input type="text" class="jawaban border border-ink/20 rounded-md px-3 py-2 font-mono text-sm w-40" data-jawaban="CH2" placeholder="Rumus empiris">
-            <span class="hasil text-sm font-medium"></span>
-          </div>
-          <details class="mt-3 text-sm text-ink/70">
-            <summary class="cursor-pointer text-teal">Lihat pembahasan</summary>
-            <div class="mt-2 pl-4 font-mono">
-              n<sub>C</sub> = 85,7 / 12,01 = 7,14 mol &nbsp;&middot;&nbsp; n<sub>H</sub> = 14,3 / 1,008 = 14,19 mol<br>
-              Bagi 7,14 &rarr; C : H = 1,00 : 1,99 &asymp; 1 : 2 &rarr; <strong>CH<sub>2</sub></strong>
+        <div class="bg-teal-50 border-l-4 border-teal-600 p-4 rounded-r-lg my-4 text-center">
+            <div class="inline-flex items-center gap-2 text-lg font-bold text-slate-800">
+                <span>n =</span>
+                <div class="inline-flex flex-col items-center">
+                    <span class="px-2 pb-1">Mr Molekul</span>
+                    <div class="w-full border-b-2 border-slate-800"></div>
+                    <span class="px-2 pt-1">Mr Empiris</span>
+                </div>
             </div>
-          </details>
         </div>
 
-        <!-- Soal 2 -->
-        <div class="rounded-xl border border-ink/10 bg-white p-5 md:p-6" data-soal>
-          <p class="text-sm font-mono text-teal mb-1">Soal 2</p>
-          <p class="text-ink/85 mb-4">Rumus empiris suatu senyawa adalah C<sub>2</sub>H<sub>4</sub>O, dengan Mr &asymp; 88 g/mol. Tentukan rumus molekulnya.</p>
-          <div class="flex items-center gap-3 flex-wrap">
-            <input type="text" class="jawaban border border-ink/20 rounded-md px-3 py-2 font-mono text-sm w-40" data-jawaban="C4H8O2" placeholder="Rumus molekul">
-            <span class="hasil text-sm font-medium"></span>
-          </div>
-          <details class="mt-3 text-sm text-ink/70">
-            <summary class="cursor-pointer text-teal">Lihat pembahasan</summary>
-            <div class="mt-2 pl-4 font-mono">
-              Mr empiris = 2(12,01) + 4(1,008) + 16,00 = 44,05 g/mol<br>
-              n = 88 / 44,05 &asymp; 2 &rarr; <strong>C<sub>4</sub>H<sub>8</sub>O<sub>2</sub></strong>
+        <!-- CONTOH SOAL 3 -->
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 my-6">
+            <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                ✏️ Contoh Soal: Melanjutkan Data Pembakaran
+            </h3>
+            <p class="text-sm text-slate-700 mb-4 text-justify">
+                Senyawa dengan rumus empiris C<sub>2</sub>H<sub>6</sub>O (dari contoh sebelumnya) diketahui memiliki <strong>Mr &asymp; 46 g/mol</strong>. Tentukan rumus molekulnya.
+            </p>
+            <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm space-y-3">
+                <p class="text-slate-700"><strong>1. Mr rumus empiris:</strong><br>
+                <span class="pl-3 text-xs text-slate-600 block mt-1 font-mono">Mr (C<sub>2</sub>H<sub>6</sub>O) = 2(12) + 6(1) + 16 = <strong>46 gram/mol</strong></span></p>
+
+                <div class="flex items-center gap-2 text-slate-700">
+                    <span><strong>2. n =</strong></span>
+                    <div class="inline-flex flex-col items-center leading-none text-xs">
+                        <span class="border-b border-slate-400 pb-0.5 px-1">46</span>
+                        <span class="pt-0.5 px-1">46</span>
+                    </div>
+                    <span>= <strong class="text-teal-600">1</strong></span>
+                </div>
+
+                <div class="bg-amber-50 p-3 rounded-lg border border-amber-200 text-amber-900 font-semibold text-center mt-2">
+                    Rumus Molekul = C<sub>2</sub>H<sub>6</sub>O (etanol)
+                </div>
             </div>
-          </details>
         </div>
 
-        <!-- Soal 3 -->
-        <div class="rounded-xl border border-ink/10 bg-white p-5 md:p-6" data-soal>
-          <p class="text-sm font-mono text-teal mb-1">Soal 3</p>
-          <p class="text-ink/85 mb-4">Sampel seberat 3,00 gram senyawa organik (C, H, N) mengandung 1,60 gram C dan 0,470 gram H; sisanya nitrogen. Tentukan rumus empirisnya.</p>
-          <div class="flex items-center gap-3 flex-wrap">
-            <input type="text" class="jawaban border border-ink/20 rounded-md px-3 py-2 font-mono text-sm w-40" data-jawaban="C2H7N" placeholder="Rumus empiris">
-            <span class="hasil text-sm font-medium"></span>
-          </div>
-          <details class="mt-3 text-sm text-ink/70">
-            <summary class="cursor-pointer text-teal">Lihat pembahasan</summary>
-            <div class="mt-2 pl-4 font-mono">
-              Massa N = 3,00 &minus; (1,60 + 0,470) = 0,930 g<br>
-              n<sub>C</sub> = 0,133 mol &middot; n<sub>H</sub> = 0,466 mol &middot; n<sub>N</sub> = 0,0664 mol<br>
-              Bagi 0,0664 &rarr; C : H : N &asymp; 2 : 7 : 1 &rarr; <strong>C<sub>2</sub>H<sub>7</sub>N</strong>
+        <!-- CONTOH SOAL 4 -->
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 my-6">
+            <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                ✏️ Contoh Soal Cepat
+            </h3>
+            <p class="text-sm text-slate-700 mb-4 text-justify">
+                Rumus empiris suatu senyawa adalah CH<sub>2</sub>, dengan Mr &asymp; 56 g/mol. Tentukan rumus molekulnya.
+            </p>
+            <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm space-y-3">
+                <p class="text-slate-700"><strong>1. Mr empiris</strong> = 12 + 2(1) = <strong>14 gram/mol</strong></p>
+                <div class="flex items-center gap-2 text-slate-700">
+                    <span><strong>2. n =</strong></span>
+                    <div class="inline-flex flex-col items-center leading-none text-xs">
+                        <span class="border-b border-slate-400 pb-0.5 px-1">56</span>
+                        <span class="pt-0.5 px-1">14</span>
+                    </div>
+                    <span>= <strong class="text-teal-600">4</strong></span>
+                </div>
+                <div class="bg-amber-50 p-3 rounded-lg border border-amber-200 text-amber-900 font-semibold text-center mt-2">
+                    Rumus Molekul = C<sub>4</sub>H<sub>8</sub>
+                </div>
             </div>
-          </details>
         </div>
-
-      </div>
     </section>
 
-    <!-- ================= RANGKUMAN ================= -->
-    <section id="rangkuman" class="scroll-mt-20">
-      <div class="bg-indigo text-white rounded-xl p-6 md:p-8">
-        <h2 class="font-display text-xl md:text-2xl mb-4">Rangkuman Rumus Penting</h2>
-        <div class="grid sm:grid-cols-2 gap-4 font-mono text-sm">
-          <div class="bg-white/10 rounded-lg px-4 py-3">% unsur = (n &times; Ar unsur &divide; Mr senyawa) &times; 100%</div>
-          <div class="bg-white/10 rounded-lg px-4 py-3">mol unsur = massa unsur &divide; Ar unsur</div>
-          <div class="bg-white/10 rounded-lg px-4 py-3">rasio mol = mol unsur &divide; mol terkecil</div>
-          <div class="bg-white/10 rounded-lg px-4 py-3">n = Mr molekul &divide; Mr empiris</div>
+    <hr class="my-6 border-slate-100">
+
+    <!-- 5. LATIHAN MANDIRI -->
+    <section id="latihan" class="space-y-6 my-6 scroll-mt-24">
+        <h2 class="text-xl font-bold text-slate-900 mb-1">5. Latihan Mandiri</h2>
+        <p class="text-xs text-slate-500 mb-4">Ketik jawaban tanpa spasi, contoh format: <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded">C2H4O2</code>. Jawaban diperiksa otomatis 2 detik setelah kamu berhenti mengetik.</p>
+
+        <!-- SOAL 1 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-slate-900 flex items-center gap-2">🧪 Latihan 1: Rumus Empiris</h3>
+                <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full font-medium">Auto-Koreksi</span>
+            </div>
+            <p class="text-sm text-slate-700 mb-3 text-justify">
+                Suatu senyawa mengandung <strong>85,7% karbon</strong> dan <strong>14,3% hidrogen</strong> menurut massa. Tentukan rumus empirisnya. <br>
+                <span class="text-xs text-slate-500">(Diketahui Ar C = 12, H = 1)</span>
+            </p>
+            <div class="my-4">
+                <label for="input-re1" class="block text-xs font-semibold text-slate-600 mb-1">Rumus Empiris:</label>
+                <div class="flex items-center gap-2 max-w-xs">
+                    <input type="text" id="input-re1" oninput="autoCheckRE(1)" placeholder="Contoh: CH2" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 transition">
+                </div>
+                <p id="status-re1" class="text-xs mt-2 min-h-[20px] font-medium text-slate-400 italic"></p>
+            </div>
+            <div id="feedback-re1" class="hidden opacity-0 -translate-y-1 transition-all duration-300 ease-out text-xs p-2.5 rounded-lg font-medium"></div>
         </div>
-      </div>
+
+        <!-- SOAL 2 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-slate-900 flex items-center gap-2">🧪 Latihan 2: Rumus Molekul</h3>
+                <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full font-medium">Auto-Koreksi</span>
+            </div>
+            <p class="text-sm text-slate-700 mb-3 text-justify">
+                Rumus empiris suatu senyawa adalah <strong>C<sub>2</sub>H<sub>4</sub>O</strong>, dengan Mr &asymp; 88 g/mol. Tentukan rumus molekulnya. <br>
+                <span class="text-xs text-slate-500">(Diketahui Ar C = 12, H = 1, O = 16)</span>
+            </p>
+            <div class="my-4">
+                <label for="input-re2" class="block text-xs font-semibold text-slate-600 mb-1">Rumus Molekul:</label>
+                <div class="flex items-center gap-2 max-w-xs">
+                    <input type="text" id="input-re2" oninput="autoCheckRE(2)" placeholder="Contoh: C4H8O2" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 transition">
+                </div>
+                <p id="status-re2" class="text-xs mt-2 min-h-[20px] font-medium text-slate-400 italic"></p>
+            </div>
+            <div id="feedback-re2" class="hidden opacity-0 -translate-y-1 transition-all duration-300 ease-out text-xs p-2.5 rounded-lg font-medium"></div>
+        </div>
+
+        <!-- SOAL 3 -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-slate-900 flex items-center gap-2">🧪 Latihan 3: Data Eksperimen</h3>
+                <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full font-medium">Auto-Koreksi</span>
+            </div>
+            <p class="text-sm text-slate-700 mb-3 text-justify">
+                Sampel seberat <strong>3,00 gram</strong> senyawa organik (C, H, N) mengandung <strong>1,60 gram C</strong> dan <strong>0,470 gram H</strong>; sisanya nitrogen. Tentukan rumus empirisnya. <br>
+                <span class="text-xs text-slate-500">(Diketahui Ar C = 12, H = 1, N = 14)</span>
+            </p>
+            <div class="my-4">
+                <label for="input-re3" class="block text-xs font-semibold text-slate-600 mb-1">Rumus Empiris:</label>
+                <div class="flex items-center gap-2 max-w-xs">
+                    <input type="text" id="input-re3" oninput="autoCheckRE(3)" placeholder="Contoh: C2H7N" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-teal-500 transition">
+                </div>
+                <p id="status-re3" class="text-xs mt-2 min-h-[20px] font-medium text-slate-400 italic"></p>
+            </div>
+            <div id="feedback-re3" class="hidden opacity-0 -translate-y-1 transition-all duration-300 ease-out text-xs p-2.5 rounded-lg font-medium"></div>
+        </div>
     </section>
 
-  </div>
-</main>
+    <!-- SCRIPT AUTO-KOREKSI LATIHAN (khusus jawaban berupa rumus kimia/teks,
+         mengikuti pola visual & interaksi yang sama dengan "Latihan Mandiri:
+         Hitung Mr Senyawa" di konsep-mol.html. Karena js/quiz.js saat ini
+         hanya menangani pasangAutoKoreksi() untuk jawaban ANGKA tunggal,
+         soal berbasis rumus kimia di bawah ini pakai skrip lokal sendiri -
+         pertimbangkan menambah varian teks ke js/quiz.js agar bisa dipakai bersama. -->
+    <script>
+        const jawabanRE = { 1: 'CH2', 2: 'C4H8O2', 3: 'C2H7N' };
+        const timerRE = {};
 
-<!-- FOOTER PLACEHOLDER: ganti dengan <div data-include="/partials/footer.html"></div> -->
-<footer class="border-t border-ink/10 mt-16">
-  <div class="max-w-5xl mx-auto px-5 py-8 text-sm text-ink/50 flex flex-wrap items-center justify-between gap-3">
-    <span>KimiaInteraktif &middot; Kelas XI &middot; Stoikiometri</span>
-    <a href="/kelas-11/stoikiometri/index.html" class="text-teal hover:underline">&larr; Kembali ke daftar sub-bab</a>
-  </div>
-</footer>
-<!-- END FOOTER PLACEHOLDER -->
+        function autoCheckRE(nomor) {
+            const input = document.getElementById(`input-re${nomor}`);
+            const statusEl = document.getElementById(`status-re${nomor}`);
+            const fbEl = document.getElementById(`feedback-re${nomor}`);
 
-<script>
-  // Pola auto-koreksi ini meniru konvensi js/quiz.js (pasangAutoKoreksi
-  // dengan debounce 2 detik). Ganti dengan import js/quiz.js asli saat
-  // file ini diintegrasikan ke proyek utama.
-  function pasangAutoKoreksi() {
-    document.querySelectorAll('[data-soal]').forEach(function (soal) {
-      var input = soal.querySelector('.jawaban');
-      var hasil = soal.querySelector('.hasil');
-      var timer = null;
+            if (input.value.trim() === "") {
+                statusEl.innerText = "";
+                fbEl.classList.add('hidden', 'opacity-0', '-translate-y-1');
+                fbEl.classList.remove('opacity-100', 'translate-y-0');
+                clearTimeout(timerRE[nomor]);
+                return;
+            }
 
-      input.addEventListener('input', function () {
-        clearTimeout(timer);
-        hasil.textContent = '';
-        input.classList.remove('fb-correct', 'fb-wrong');
-        timer = setTimeout(function () {
-          if (!input.value.trim()) return;
-          var jawabanUser = input.value.replace(/\s+/g, '').toUpperCase();
-          var jawabanBenar = input.dataset.jawaban.toUpperCase();
-          if (jawabanUser === jawabanBenar) {
-            input.classList.add('fb-correct');
-            hasil.textContent = 'Benar!';
-            hasil.className = 'hasil text-sm font-medium text-teal-dark';
-          } else {
-            input.classList.add('fb-wrong');
-            hasil.textContent = 'Coba lagi.';
-            hasil.className = 'hasil text-sm font-medium text-clay';
-          }
-        }, 2000);
-      });
-    });
-  }
-  pasangAutoKoreksi();
-</script>
+            statusEl.innerText = "Memeriksa dalam 2 detik...";
+            clearTimeout(timerRE[nomor]);
+            timerRE[nomor] = setTimeout(() => {
+                checkRE(nomor);
+                statusEl.innerText = "";
+            }, 2000);
+        }
 
+        function checkRE(nomor) {
+            const input = document.getElementById(`input-re${nomor}`);
+            const fb = document.getElementById(`feedback-re${nomor}`);
+            const userVal = input.value.replace(/\s+/g, '').toUpperCase();
+            const benar = jawabanRE[nomor].toUpperCase();
+
+            fb.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800', 'opacity-100', 'translate-y-0');
+            fb.classList.add('opacity-0', '-translate-y-1');
+
+            if (userVal === benar) {
+                fb.classList.add('bg-emerald-100', 'text-emerald-800');
+                fb.innerHTML = `🎉 <strong>Tepat sekali!</strong> Jawaban yang benar adalah ${jawabanRE[nomor]}.`;
+            } else {
+                fb.classList.add('bg-rose-100', 'text-rose-800');
+                fb.innerHTML = `❌ <strong>Masih belum tepat.</strong> Coba periksa kembali langkah perhitungan mol dan pembulatan rasionya.`;
+            }
+
+            setTimeout(() => {
+                fb.classList.remove('opacity-0', '-translate-y-1');
+                fb.classList.add('opacity-100', 'translate-y-0');
+            }, 20);
+        }
+    </script>
+
+    <!-- NAVIGASI LANJUT -->
+    <div class="flex justify-between items-center mt-8 pt-6 border-t border-slate-100">
+        <span class="text-sm text-slate-500">Sub-Materi 3 dari 5</span>
+        <a href="pereaksi-pembatas.html" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+            Lanjut ke Pereaksi Pembatas &rarr;
+        </a>
+    </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER (dimuat otomatis dari partials/footer.html) -->
+    <div id="footer-placeholder"></div>
+
+    <!-- SPU MODAL + TOMBOL (dimuat otomatis dari partials/spu-modal.html) -->
+    <div id="spu-placeholder"></div>
+
+    <!-- SCRIPT BERSAMA: Data Unsur SPU & Loader Komponen (header, footer, sidebar, modal) -->
+    <script src="/js/spu.js"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/include.js"></script>
 </body>
 </html>
