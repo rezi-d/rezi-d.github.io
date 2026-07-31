@@ -89,7 +89,19 @@ function bangunModulLainNav() {
         <a href="${m.path}" class="hover:text-teal-600 transition">${m.title}</a>
     `).join('');
 }
+// Menyembunyikan tombol "Kembali ke Beranda" ketika user memang sedang
+// berada di halaman beranda itu sendiri (path "/" atau "/index.html")
+function aturTombolBeranda() {
+    const btn = document.getElementById('btn-kembali-beranda');
+    if (!btn) return;
 
+    const path = location.pathname;
+    const diBeranda = path === '/' || path === '/index.html';
+
+    if (diBeranda) {
+        btn.remove();
+    }
+}
 // Membangun grid kartu Kelas & Modul di halaman BERANDA (index.html),
 // dibaca otomatis dari js/curriculum.js. Aman dipanggil di halaman
 // manapun — tidak melakukan apa-apa jika elemen #menu-beranda tidak ada.
@@ -135,7 +147,10 @@ function bangunMenuBeranda() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadPartial('/partials/header.html', 'header-placeholder', bangunModulLainNav);
+    loadPartial('/partials/header.html', 'header-placeholder', () => {
+        bangunModulLainNav();
+        aturTombolBeranda();
+    });
     loadPartial('/partials/footer.html', 'footer-placeholder');
     loadPartial('/partials/spu-modal.html', 'spu-placeholder', () => {
         if (typeof initSpu === 'function') initSpu();
