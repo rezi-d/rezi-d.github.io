@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes Evaluasi Bab 1: Stoikiometri - KimiaInteraktif</title>
+    <link rel="icon" href="data:,">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- TOP BAR SEDERHANA (tanpa sidebar/menu navigasi agar fokus mengerjakan tes) -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <a href="/index.html" class="flex items-center gap-2">
+                <span class="text-2xl">🧪</span>
+                <span class="text-lg font-bold text-teal-600 tracking-tight">KimiaInteraktif</span>
+            </a>
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Tes Evaluasi &middot; Bab 1 Stoikiometri</span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+
+        <!-- =================================================== -->
+        <!-- LAYAR 1: FORM DATA PESERTA                            -->
+        <!-- =================================================== -->
+        <section id="layar-identitas" class="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm">
+            <span class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold uppercase mb-3">
+                Bab 1: Stoikiometri
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2 tracking-tight">
+                Tes Evaluasi Akhir Bab
+            </h1>
+            <p class="text-slate-600 mb-6 text-justify leading-relaxed">
+                Tes ini terdiri dari <strong>20 soal pilihan ganda</strong> yang mencakup seluruh materi Bab 1 Stoikiometri: Konsep Mol, Volume Gas &amp; Molaritas, Rumus Empiris, Pereaksi Pembatas, hingga Kadar Kemurnian &amp; Air Kristal. Soal dipilih secara <strong>acak dari bank soal yang lebih besar</strong> dengan komposisi materi yang tetap seimbang setiap sesi, dan urutan tampilnya pun diacak. Kerjakan secara mandiri dan jujur.
+            </p>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-sm text-amber-800 space-y-1">
+                <p>⏱️ <strong>Waktu pengerjaan: 40 menit</strong>, dimulai sejak tombol "Mulai Tes" ditekan. Timer akan otomatis mengumpulkan jawaban Anda saat waktu habis.</p>
+                <p>💡 Skor dan pembahasan lengkap akan langsung ditampilkan begitu Anda menekan tombol <strong>Kumpulkan Jawaban</strong> (atau saat waktu habis).</p>
+            </div>
+
+            <form id="form-identitas" class="space-y-4" onsubmit="return false;">
+                <div>
+                    <label for="input-nama" class="block text-sm font-semibold text-slate-700 mb-1">
+                        Nama Lengkap <span class="text-rose-500">*</span>
+                    </label>
+                    <input type="text" id="input-nama" required placeholder="Contoh: Siti Nurhaliza"
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none transition">
+                </div>
+                <div>
+                    <label for="input-kelas" class="block text-sm font-semibold text-slate-700 mb-1">
+                        Kelas / No. Absen <span class="text-rose-500">*</span>
+                    </label>
+                    <input type="text" id="input-kelas" required placeholder="Contoh: XI IPA 2 / No. 17"
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:outline-none transition">
+                </div>
+                <p id="error-identitas" class="text-sm text-rose-600 font-medium hidden">
+                    ⚠️ Nama Lengkap dan Kelas/No. Absen wajib diisi terlebih dahulu.
+                </p>
+                <button id="btn-mulai" type="button"
+                    class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-lg transition text-base">
+                    Mulai Tes &rarr;
+                </button>
+            </form>
+        </section>
+
+        <!-- =================================================== -->
+        <!-- LAYAR 2: SOAL TES (disembunyikan di awal)             -->
+        <!-- =================================================== -->
+        <section id="layar-tes" class="hidden">
+            <div class="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm mb-6 sticky top-[73px] z-30">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">⏱️</span>
+                        <span id="timer-display" class="font-mono font-extrabold text-xl text-teal-700 transition-colors">40:00</span>
+                    </div>
+                    <span id="progress-text" class="text-sm font-semibold text-slate-500">0 / 20 terjawab</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                    <div id="progress-bar" class="bg-teal-600 h-2 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+            </div>
+
+            <div id="daftar-soal" class="space-y-5"></div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mt-6 text-center">
+                <p class="text-sm text-slate-500 mb-4">Pastikan seluruh soal sudah dijawab sebelum mengumpulkan.</p>
+                <button id="btn-submit" type="button"
+                    class="bg-teal-600 hover:bg-teal-700 text-white font-bold px-8 py-3 rounded-lg transition text-base">
+                    Kumpulkan Jawaban
+                </button>
+            </div>
+        </section>
+
+        <!-- =================================================== -->
+        <!-- LAYAR 3: HASIL TES (disembunyikan di awal)            -->
+        <!-- =================================================== -->
+        <section id="layar-hasil" class="hidden">
+            <div class="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm mb-6 text-center">
+                <span class="text-5xl" id="hasil-emoji">🎉</span>
+                <p class="text-sm text-slate-500 mt-3">Hasil Tes untuk</p>
+                <p id="hasil-nama" class="text-xl font-bold text-slate-900"></p>
+                <p id="hasil-kelas" class="text-sm text-slate-500 mb-6"></p>
+
+                <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-4">
+                    <div class="bg-teal-50 border border-teal-200 rounded-xl p-4">
+                        <p class="text-3xl font-extrabold text-teal-700" id="hasil-benar">0</p>
+                        <p class="text-xs text-teal-800 font-semibold mt-1">Jawaban Benar (dari 20)</p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                        <p class="text-3xl font-extrabold text-slate-800" id="hasil-nilai">0</p>
+                        <p class="text-xs text-slate-500 font-semibold mt-1">Nilai (Skala 100)</p>
+                    </div>
+                </div>
+                <p id="hasil-predikat" class="inline-block px-4 py-1.5 rounded-full text-sm font-semibold"></p>
+            </div>
+
+            <h3 class="font-bold text-slate-900 text-lg mb-4 px-1">📖 Kunci Jawaban &amp; Pembahasan</h3>
+            <div id="daftar-pembahasan" class="space-y-4"></div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-3 mt-8">
+                <button id="btn-ulangi" type="button"
+                    class="bg-white border border-slate-300 hover:border-teal-500 hover:text-teal-600 text-slate-600 font-semibold px-6 py-2.5 rounded-lg transition">
+                    &#8635; Ulangi Tes (Soal Akan Diacak Ulang)
+                </button>
+                <a href="/index.html"
+                    class="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-2.5 rounded-lg transition text-center">
+                    🏠 Kembali ke Beranda
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center text-xs text-slate-400 py-8">
+        KimiaInteraktif &middot; Tes Evaluasi Bab 1: Stoikiometri
+    </footer>
+
+<script>
+// =========================================================
+// BANK SOAL — 20 soal, disimpan sebagai data (tidak ditampilkan
+// label MOTS/HOTS ke siswa; label hanya untuk dokumentasi guru).
+// =========================================================
+const bankSoal = [
+    // ==================== TOPIK: MOL (pool MOTS 6, pool HOTS 2) ====================
+    {
+        id: 1, topik: "mol", tingkat: "MOTS",
+        soal: "Jumlah partikel yang terdapat dalam 2 mol gas nitrogen (N<sub>2</sub>) adalah ...",
+        opsi: { A: "1,2044 × 10²⁴", B: "6,022 × 10²³", C: "3,011 × 10²³", D: "2,4088 × 10²⁴", E: "6,022 × 10²²" },
+        kunci: "A",
+        pembahasan: "X = n × N<sub>A</sub> = 2 × 6,022×10²³ = <strong>1,2044×10²⁴ partikel</strong>."
+    },
+    {
+        id: 2, topik: "mol", tingkat: "MOTS",
+        soal: "Massa dari 0,25 mol gas SO<sub>3</sub> (Mr = 80) adalah ...",
+        opsi: { A: "10 gram", B: "20 gram", C: "15 gram", D: "25 gram", E: "32 gram" },
+        kunci: "B",
+        pembahasan: "massa = n × Mr = 0,25 × 80 = <strong>20 gram</strong>."
+    },
+    {
+        id: 3, topik: "mol", tingkat: "MOTS",
+        soal: "Sebanyak 9,2 gram logam natrium (A<sub>r</sub> Na = 23) mengandung ... mol atom Na.",
+        opsi: { A: "0,2 mol", B: "0,3 mol", C: "0,4 mol", D: "0,5 mol", E: "0,6 mol" },
+        kunci: "C",
+        pembahasan: "n = massa ÷ A<sub>r</sub> = 9,2 ÷ 23 = <strong>0,4 mol</strong>."
+    },
+    {
+        id: 5, topik: "mol", tingkat: "MOTS",
+        soal: "Massa dari 3 mol gas CO<sub>2</sub> (Mr = 44) adalah ...",
+        opsi: { A: "132 gram", B: "44 gram", C: "88 gram", D: "100 gram", E: "120 gram" },
+        kunci: "A",
+        pembahasan: "massa = n × Mr = 3 × 44 = <strong>132 gram</strong>."
+    },
+    {
+        id: 6, topik: "mol", tingkat: "MOTS",
+        soal: "Jika suatu sampel mengandung 3,011×10²³ partikel gas Cl<sub>2</sub>, maka jumlah mol gas tersebut adalah ...",
+        opsi: { A: "0,25 mol", B: "0,5 mol", C: "1 mol", D: "1,5 mol", E: "2 mol" },
+        kunci: "B",
+        pembahasan: "mol = X ÷ N<sub>A</sub> = 3,011×10²³ ÷ 6,022×10²³ = <strong>0,5 mol</strong>."
+    },
+    {
+        id: 7, topik: "mol", tingkat: "MOTS",
+        soal: "Massa dari 0,5 mol unsur besi (Fe), jika A<sub>r</sub> Fe=56, adalah ...",
+        opsi: { A: "14 gram", B: "21 gram", C: "28 gram", D: "42 gram", E: "56 gram" },
+        kunci: "C",
+        pembahasan: "massa = n × A<sub>r</sub> = 0,5 × 56 = <strong>28 gram</strong>."
+    },
+    {
+        id: 4, topik: "mol", tingkat: "HOTS",
+        soal: "Perhatikan pernyataan berikut mengenai 4 gram gas metana (CH<sub>4</sub>, Mr = 16):<br>(1) jumlah mol CH<sub>4</sub> adalah 0,25 mol<br>(2) jumlah molekul CH<sub>4</sub> adalah 1,5055 × 10²³<br>(3) jumlah atom H total dalam sampel tersebut adalah 6,022 × 10²³<br><br>Pernyataan yang benar adalah ...",
+        opsi: { A: "(1) saja", B: "(2) saja", C: "(1) dan (2) saja", D: "(1), (2), dan (3) benar semua", E: "(3) saja" },
+        kunci: "D",
+        pembahasan: "(1) n = 4÷16 = 0,25 mol ✓. (2) jumlah molekul = 0,25 × 6,022×10²³ = 1,5055×10²³ ✓. (3) tiap molekul CH<sub>4</sub> punya 4 atom H, mol atom H = 4×0,25 = 1 mol → jumlah atom H = 6,022×10²³ ✓. <strong>Ketiga pernyataan benar.</strong>"
+    },
+    {
+        id: 8, topik: "mol", tingkat: "HOTS",
+        soal: "Perhatikan pernyataan berikut mengenai 22 gram gas CO<sub>2</sub> (Mr=44):<br>(1) jumlah mol CO<sub>2</sub> adalah 0,5 mol<br>(2) jumlah molekul CO<sub>2</sub> adalah 3,011×10²³<br>(3) jumlah atom oksigen total dalam sampel tersebut adalah 3,011×10²³<br><br>Pernyataan yang benar adalah ...",
+        opsi: { A: "(1) saja", B: "(1) dan (2) saja", C: "(1), (2), dan (3) benar semua", D: "(2) dan (3) saja", E: "(3) saja" },
+        kunci: "B",
+        pembahasan: "(1) mol=22÷44=0,5mol ✓. (2) jumlah molekul=0,5×6,022×10²³=3,011×10²³ ✓. (3) tiap molekul CO<sub>2</sub> punya 2 atom O, mol atom O=0,5×2=1mol → jumlah atom O=1×6,022×10²³=6,022×10²³, <strong>BUKAN</strong> 3,011×10²³ seperti pernyataan (3) → (3) SALAH. Jadi hanya <strong>(1) dan (2) yang benar</strong>."
+    },
+
+    // ==================== TOPIK: GAS (Volume Gas & Molaritas) — pool MOTS 6, pool HOTS 2 ====================
+    {
+        id: 9, topik: "gas", tingkat: "MOTS",
+        soal: "Volume yang ditempati oleh 0,4 mol gas oksigen (O<sub>2</sub>) pada keadaan STP adalah ...",
+        opsi: { A: "4,48 L", B: "6,72 L", C: "11,2 L", D: "22,4 L", E: "8,96 L" },
+        kunci: "E",
+        pembahasan: "V = n × 22,4 L = 0,4 × 22,4 = <strong>8,96 liter</strong>."
+    },
+    {
+        id: 10, topik: "gas", tingkat: "MOTS",
+        soal: "Pada keadaan RTP (25°C, 1 atm), sebanyak 12,2 liter gas CO<sub>2</sub> memiliki jumlah mol sebesar ...",
+        opsi: { A: "0,5 mol", B: "0,25 mol", C: "0,75 mol", D: "1,0 mol", E: "1,25 mol" },
+        kunci: "A",
+        pembahasan: "n = V ÷ 24,4 = 12,2 ÷ 24,4 = <strong>0,5 mol</strong>."
+    },
+    {
+        id: 11, topik: "gas", tingkat: "MOTS",
+        soal: "Sebanyak 4 gram NaOH (Mr = 40) dilarutkan dalam air hingga volume larutan menjadi 500 mL. Molaritas larutan tersebut adalah ...",
+        opsi: { A: "0,1 M", B: "0,2 M", C: "0,4 M", D: "0,5 M", E: "1,0 M" },
+        kunci: "B",
+        pembahasan: "n = 4÷40 = 0,1 mol. M = n÷V = 0,1÷0,5 = <strong>0,2 M</strong>."
+    },
+    {
+        id: 12, topik: "gas", tingkat: "MOTS",
+        soal: "Volume 0,75 mol gas CO<sub>2</sub> pada keadaan STP adalah ...",
+        opsi: { A: "11,2 L", B: "14 L", C: "15,4 L", D: "18,4 L", E: "16,8 L" },
+        kunci: "E",
+        pembahasan: "V = n × 22,4 L = 0,75 × 22,4 = <strong>16,8 liter</strong>."
+    },
+    {
+        id: 13, topik: "gas", tingkat: "MOTS",
+        soal: "Jumlah mol zat terlarut dalam 250 mL larutan H<sub>2</sub>SO<sub>4</sub> 0,4 M adalah ...",
+        opsi: { A: "0,1 mol", B: "0,05 mol", C: "0,2 mol", D: "0,4 mol", E: "1 mol" },
+        kunci: "A",
+        pembahasan: "mol = M × V = 0,4 × 0,25 = <strong>0,1 mol</strong>."
+    },
+    {
+        id: 14, topik: "gas", tingkat: "MOTS",
+        soal: "Volume larutan yang dibutuhkan untuk melarutkan 0,2 mol NaCl agar diperoleh larutan 0,5 M adalah ...",
+        opsi: { A: "200 mL", B: "400 mL", C: "500 mL", D: "600 mL", E: "800 mL" },
+        kunci: "B",
+        pembahasan: "V = n ÷ M = 0,2 ÷ 0,5 = 0,4 L = <strong>400 mL</strong>."
+    },
+    {
+        id: 15, topik: "gas", tingkat: "HOTS",
+        soal: "Perhatikan data volume gas H<sub>2</sub> dari reaksi Mg(s) + 2HCl(aq) &rarr; MgCl<sub>2</sub>(aq) + H<sub>2</sub>(g), pada berbagai massa Mg (A<sub>r</sub> Mg=24) dengan HCl berlebih, diukur pada STP:<br><br>" +
+            "<table class='w-full text-xs text-center border-collapse my-2'><thead><tr class='bg-slate-800 text-white'><th class='p-2'>Massa Mg (gram)</th><th class='p-2'>Volume H₂ (L, STP)</th></tr></thead>" +
+            "<tbody><tr class='border-b border-slate-200'><td class='p-2 bg-slate-50'>0,6</td><td class='p-2 bg-slate-50'>0,56</td></tr>" +
+            "<tr class='border-b border-slate-200'><td class='p-2'>1,2</td><td class='p-2'>1,12</td></tr>" +
+            "<tr><td class='p-2 bg-slate-50'>2,4</td><td class='p-2 bg-slate-50'>2,24</td></tr></tbody></table>" +
+            "Berdasarkan data tersebut, pernyataan yang paling tepat adalah ...",
+        opsi: {
+            A: "Volume gas berbanding terbalik dengan massa Mg",
+            B: "Reaksi ini melanggar hukum kekekalan massa",
+            C: "Setiap 0,6 gram Mg menghasilkan 0,025 mol gas H₂ — sesuai hukum perbandingan tetap",
+            D: "Jumlah mol H₂ yang dihasilkan tidak sebanding dengan massa Mg yang bereaksi",
+            E: "Volume gas tidak dipengaruhi oleh massa logam Mg yang digunakan"
+        },
+        kunci: "C",
+        pembahasan: "mol Mg = 0,6÷24 = 0,025 mol → (rasio Mg:H<sub>2</sub>=1:1) → mol H<sub>2</sub> = 0,025 mol → V = 0,025×22,4 = 0,56 L ✓ sesuai data. Pola ini konsisten (berbanding lurus) di semua baris data, sesuai <strong>hukum perbandingan tetap</strong>."
+    },
+    {
+        id: 16, topik: "gas", tingkat: "HOTS",
+        soal: "Seorang siswa memiliki 2 liter larutan HCl 3 M. Larutan tersebut ingin diencerkan menjadi larutan HCl 0,5 M. Volume air yang harus ditambahkan adalah ...",
+        opsi: { A: "4 liter", B: "6 liter", C: "10 liter", D: "8 liter", E: "12 liter" },
+        kunci: "C",
+        pembahasan: "M<sub>1</sub>V<sub>1</sub>=M<sub>2</sub>V<sub>2</sub> → 3×2=0,5×V<sub>2</sub> → V<sub>2</sub>=12 liter (volume akhir larutan). Volume air yang <strong>ditambahkan</strong> = V<sub>2</sub>−V<sub>1</sub> = 12−2 = <strong>10 liter</strong> (bukan 12 liter — itu volume akhir, bukan volume air yang ditambahkan)."
+    },
+
+    // ==================== TOPIK: EMPIRIS (Rumus Empiris & Molekul) — pool MOTS 6, pool HOTS 2 ====================
+    {
+        id: 17, topik: "empiris", tingkat: "MOTS",
+        soal: "Suatu senyawa hidrokarbon tersusun dari 75% karbon dan 25% hidrogen berdasarkan massa (A<sub>r</sub> C=12, H=1). Rumus empiris senyawa tersebut adalah ...",
+        opsi: { A: "CH", B: "CH2", C: "CH3", D: "CH4", E: "C2H6" },
+        kunci: "D",
+        pembahasan: "Misal 100 g sampel: mol C = 75÷12 = 6,25 mol; mol H = 25÷1 = 25 mol. Rasio C:H = 1:4 → rumus empiris <strong>CH₄</strong>."
+    },
+    {
+        id: 18, topik: "empiris", tingkat: "MOTS",
+        soal: "Suatu senyawa memiliki rumus empiris CH<sub>2</sub>O dan massa molar (Mr) sebesar 180 g/mol (A<sub>r</sub> C=12, H=1, O=16). Rumus molekul senyawa tersebut adalah ...",
+        opsi: { A: "CH2O", B: "C2H4O2", C: "C3H6O3", D: "C4H8O4", E: "C6H12O6" },
+        kunci: "E",
+        pembahasan: "Mr empiris CH<sub>2</sub>O = 12+2+16 = 30. Faktor pengali n = 180÷30 = 6. Rumus molekul = (CH<sub>2</sub>O)₆ = <strong>C₆H₁₂O₆</strong> (glukosa)."
+    },
+    {
+        id: 19, topik: "empiris", tingkat: "MOTS",
+        soal: "Persentase massa unsur oksigen (O) dalam senyawa CaCO<sub>3</sub> (A<sub>r</sub> Ca=40, C=12, O=16) adalah ...",
+        opsi: { A: "48%", B: "40%", C: "36%", D: "24%", E: "12%" },
+        kunci: "A",
+        pembahasan: "Mr CaCO<sub>3</sub> = 40+12+(3×16) = 100. %O = (48÷100)×100% = <strong>48%</strong>."
+    },
+    {
+        id: 21, topik: "empiris", tingkat: "MOTS",
+        soal: "Persentase massa unsur nitrogen (N) dalam senyawa urea CO(NH<sub>2</sub>)<sub>2</sub> (A<sub>r</sub> C=12, O=16, N=14, H=1; Mr=60) adalah ...",
+        opsi: { A: "23,3%", B: "33,3%", C: "40%", D: "46,7%", E: "53,3%" },
+        kunci: "D",
+        pembahasan: "Mr urea = 12+16+2(14+2) = 60. Massa N total = 2×14 = 28. %N = (28÷60)×100% &asymp; <strong>46,7%</strong>."
+    },
+    {
+        id: 22, topik: "empiris", tingkat: "MOTS",
+        soal: "Rumus empiris suatu senyawa adalah C<sub>2</sub>H<sub>4</sub>O dan Mr-nya = 88 (A<sub>r</sub> C=12, H=1, O=16). Rumus molekulnya adalah ...",
+        opsi: { A: "C2H4O", B: "C6H12O3", C: "C8H16O4", D: "C2H8O4", E: "C4H8O2" },
+        kunci: "E",
+        pembahasan: "Mr empiris C<sub>2</sub>H<sub>4</sub>O = 24+4+16 = 44. Faktor = 88÷44 = 2. Rumus molekul = (C<sub>2</sub>H<sub>4</sub>O)₂ = <strong>C₄H₈O₂</strong>."
+    },
+    {
+        id: 23, topik: "empiris", tingkat: "MOTS",
+        soal: "Suatu senyawa mengandung unsur P dan O dengan perbandingan mol P:O = 2:5. Rumus empiris senyawa tersebut adalah ...",
+        opsi: { A: "P2O5", B: "PO2", C: "PO5", D: "P5O2", E: "P2O3" },
+        kunci: "A",
+        pembahasan: "Rasio mol P:O = 2:5 sudah dalam bentuk paling sederhana → rumus empiris langsung <strong>P₂O₅</strong>."
+    },
+    {
+        id: 20, topik: "empiris", tingkat: "HOTS",
+        soal: "Sebanyak 6 gram senyawa hidrokarbon (hanya mengandung C dan H) dibakar sempurna dan menghasilkan 17,6 gram CO<sub>2</sub> dan 10,8 gram H<sub>2</sub>O (A<sub>r</sub> C=12, H=1, O=16). Rumus empiris senyawa tersebut adalah ...",
+        opsi: { A: "CH2", B: "CH3", C: "CH4", D: "C2H5", E: "C3H8" },
+        kunci: "B",
+        pembahasan: "mol CO<sub>2</sub>=17,6÷44=0,4mol → massa C=4,8g. mol H<sub>2</sub>O=10,8÷18=0,6mol → massa H=1,2g. Cek: 4,8+1,2=6,0g = massa sampel (murni hidrokarbon). Rasio C:H=0,4:1,2=1:3 → rumus empiris <strong>CH₃</strong>."
+    },
+    {
+        id: 24, topik: "empiris", tingkat: "HOTS",
+        soal: "Suatu senyawa memiliki rumus empiris CH<sub>2</sub> dan massa 1 mol senyawa tersebut adalah 42 gram (A<sub>r</sub> C=12, H=1). Manakah simpulan yang paling tepat?",
+        opsi: {
+            A: "Rumus molekulnya C2H4, karena rumus empiris tidak boleh dikalikan",
+            B: "Rumus molekulnya C3H6, sesuai deret alkena CnH2n",
+            C: "Data tersebut tidak cukup untuk menentukan rumus molekul",
+            D: "Rumus molekulnya C6H12, karena massa molar harus dibulatkan ke atas",
+            E: "Senyawa tersebut pasti mengandung unsur oksigen tambahan yang belum diketahui"
+        },
+        kunci: "B",
+        pembahasan: "Mr empiris CH<sub>2</sub> = 14. Faktor = 42÷14 = 3. Rumus molekul = (CH<sub>2</sub>)₃ = <strong>C₃H₆</strong>, sesuai deret alkena C<sub>n</sub>H<sub>2n</sub> (n=3). Opsi lain mengandung kesalahan konsep: rumus empiris justru BOLEH dikalikan, data sudah cukup untuk menentukan rumus molekul, dan tidak ada dasar untuk unsur tambahan."
+    },
+
+    // ==================== TOPIK: PEMBATAS (Pereaksi Pembatas) — pool MOTS 7, HOTS wajib (kontekstual, selalu tampil) ====================
+    {
+        id: 25, topik: "pembatas", tingkat: "MOTS",
+        soal: "Pada reaksi N<sub>2</sub>(g) + 3H<sub>2</sub>(g) &rarr; 2NH<sub>3</sub>(g), jika direaksikan 6 mol N<sub>2</sub> dengan 12 mol H<sub>2</sub>, maka pereaksi pembatasnya adalah ...",
+        opsi: {
+            A: "N₂, karena jumlah molnya lebih sedikit",
+            B: "H₂, karena jumlah molnya lebih banyak",
+            C: "H₂, karena hasil bagi mol/koefisiennya lebih kecil",
+            D: "N₂, karena hasil bagi mol/koefisiennya lebih kecil",
+            E: "Tidak ada pereaksi pembatas, keduanya habis bereaksi"
+        },
+        kunci: "C",
+        pembahasan: "N<sub>2</sub>: 6÷1=6. H<sub>2</sub>: 12÷3=4 (lebih kecil). Karena hasil bagi H<sub>2</sub> lebih kecil, <strong>H₂ adalah pereaksi pembatas</strong>."
+    },
+    {
+        id: 26, topik: "pembatas", tingkat: "MOTS",
+        soal: "Sebanyak 5 mol gas H<sub>2</sub> direaksikan dengan 3 mol gas O<sub>2</sub> menurut reaksi 2H<sub>2</sub>(g)+O<sub>2</sub>(g)&rarr;2H<sub>2</sub>O(g). Pereaksi yang tersisa (berlebih) setelah reaksi adalah ...",
+        opsi: { A: "H₂ sisa 1 mol", B: "H₂ sisa 2 mol", C: "O₂ sisa 1 mol", D: "O₂ sisa 0,5 mol", E: "O₂ sisa 1,5 mol" },
+        kunci: "D",
+        pembahasan: "H<sub>2</sub>: 5÷2=2,5; O<sub>2</sub>: 3÷1=3 → H<sub>2</sub> pembatas (habis, 5 mol bereaksi). O<sub>2</sub> bereaksi = (1/2)×5 = 2,5 mol. O<sub>2</sub> sisa = 3−2,5 = <strong>0,5 mol</strong>."
+    },
+    {
+        id: 27, topik: "pembatas", tingkat: "MOTS",
+        soal: "Reaksi 2Mg(s)+O<sub>2</sub>(g)&rarr;2MgO(s). Jika direaksikan 4,8 gram Mg (A<sub>r</sub> Mg=24) dengan 4,8 gram O<sub>2</sub> (Mr O<sub>2</sub>=32), massa MgO yang dapat terbentuk adalah ... (Mr MgO=40)",
+        opsi: { A: "4 gram", B: "6 gram", C: "10 gram", D: "12 gram", E: "8 gram" },
+        kunci: "E",
+        pembahasan: "mol Mg=4,8÷24=0,2mol; mol O<sub>2</sub>=4,8÷32=0,15mol. Rasio Mg:0,1; O<sub>2</sub>:0,15 → Mg pembatas. mol MgO=0,2mol. Massa MgO=0,2×40=<strong>8 gram</strong>."
+    },
+    {
+        id: 28, topik: "pembatas", tingkat: "MOTS",
+        soal: "Pada reaksi 2Al(s)+3Cl<sub>2</sub>(g)&rarr;2AlCl<sub>3</sub>(s), jika direaksikan 4 mol Al dengan 9 mol Cl<sub>2</sub>, pereaksi pembatasnya adalah ...",
+        opsi: {
+            A: "Al, karena hasil bagi mol/koefisiennya lebih kecil",
+            B: "Cl₂, karena hasil bagi mol/koefisiennya lebih kecil",
+            C: "Al, karena jumlah mol lebih sedikit",
+            D: "Cl₂, karena jumlah mol lebih banyak",
+            E: "Tidak ada pereaksi pembatas"
+        },
+        kunci: "A",
+        pembahasan: "Al: 4÷2=2. Cl<sub>2</sub>: 9÷3=3. Hasil bagi Al lebih kecil (2<3) → <strong>Al adalah pereaksi pembatas</strong>."
+    },
+    {
+        id: 29, topik: "pembatas", tingkat: "MOTS",
+        soal: "Reaksi C(s)+O<sub>2</sub>(g)&rarr;CO<sub>2</sub>(g). Jika 3 mol karbon direaksikan dengan 5 mol O<sub>2</sub>, berapa mol gas O<sub>2</sub> yang tersisa setelah reaksi?",
+        opsi: { A: "1 mol", B: "3 mol", C: "4 mol", D: "2 mol", E: "5 mol" },
+        kunci: "D",
+        pembahasan: "C: 3÷1=3; O<sub>2</sub>: 5÷1=5 → C pembatas (habis, 3 mol bereaksi). O<sub>2</sub> bereaksi = 3 mol (rasio 1:1). O<sub>2</sub> sisa = 5−3 = <strong>2 mol</strong>."
+    },
+    {
+        id: 30, topik: "pembatas", tingkat: "MOTS",
+        soal: "Reaksi Ca(s)+2HCl(aq)&rarr;CaCl<sub>2</sub>(aq)+H<sub>2</sub>(g). Sebanyak 4 gram logam Ca (A<sub>r</sub> Ca=40) direaksikan dengan larutan yang mengandung 0,3 mol HCl. Massa CaCl<sub>2</sub> yang terbentuk adalah ... (Mr CaCl<sub>2</sub>=111)",
+        opsi: { A: "5,55 gram", B: "16,65 gram", C: "22,2 gram", D: "33,3 gram", E: "11,1 gram" },
+        kunci: "E",
+        pembahasan: "mol Ca=4÷40=0,1mol. Rasio Ca:0,1; HCl:0,3÷2=0,15 → Ca pembatas. mol CaCl<sub>2</sub>=0,1mol (rasio 1:1). Massa=0,1×111=<strong>11,1 gram</strong>."
+    },
+    {
+        id: 31, topik: "pembatas", tingkat: "MOTS",
+        soal: "Reaksi S(s)+O<sub>2</sub>(g)&rarr;SO<sub>2</sub>(g). Direaksikan 6,4 gram S (A<sub>r</sub> S=32) dengan 4,8 gram O<sub>2</sub> (Mr O<sub>2</sub>=32). Pereaksi pembatasnya adalah ...",
+        opsi: {
+            A: "S, karena molnya lebih besar",
+            B: "O₂, karena massanya lebih kecil",
+            C: "O₂, karena molnya lebih kecil",
+            D: "Tidak ada pereaksi pembatas karena rasio molnya 1:1",
+            E: "S, karena massanya lebih besar"
+        },
+        kunci: "C",
+        pembahasan: "mol S=6,4÷32=0,2mol. mol O<sub>2</sub>=4,8÷32=0,15mol. Rasio S:0,2; O<sub>2</sub>:0,15 → <strong>O₂ pembatas</strong> (dilihat dari perbandingan mol, bukan massa)."
+    },
+    {
+        id: 32, topik: "pembatas", tingkat: "HOTS", wajib: true,
+        soal: "<strong>[Konteks Pupuk]</strong> Pupuk ZA [(NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub>] diproduksi melalui reaksi: 2NH<sub>3</sub>(g) + H<sub>2</sub>SO<sub>4</sub>(aq) &rarr; (NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub>(aq). Dalam simulasi skala laboratorium, 8,5 gram gas NH<sub>3</sub> direaksikan dengan 49 gram larutan H<sub>2</sub>SO<sub>4</sub> murni (Mr NH<sub>3</sub>=17, Mr H<sub>2</sub>SO<sub>4</sub>=98, Mr (NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub>=132). Massa maksimum pupuk ZA yang terbentuk adalah ...",
+        opsi: { A: "33 gram", B: "16,5 gram", C: "49 gram", D: "66 gram", E: "98 gram" },
+        kunci: "A",
+        pembahasan: "mol NH<sub>3</sub>=8,5÷17=0,5mol; mol H<sub>2</sub>SO<sub>4</sub>=49÷98=0,5mol. Rasio NH<sub>3</sub>:0,25; H<sub>2</sub>SO<sub>4</sub>:0,5 → NH<sub>3</sub> pembatas. mol produk=(1/2)×0,5=0,25mol. Massa=0,25×132=<strong>33 gram</strong>."
+    },
+
+    // ==================== TOPIK: KEMURNIAN (Kadar Kemurnian & Air Kristal) — pool MOTS 7, HOTS wajib (kontekstual, selalu tampil) ====================
+    {
+        id: 33, topik: "kemurnian", tingkat: "MOTS",
+        soal: "Sebanyak 50 gram bijih perak diketahui mengandung 42,5 gram perak murni. Kadar kemurnian bijih perak tersebut adalah ...",
+        opsi: { A: "75%", B: "85%", C: "80%", D: "90%", E: "95%" },
+        kunci: "B",
+        pembahasan: "Kadar = (42,5÷50)×100% = <strong>85%</strong>."
+    },
+    {
+        id: 34, topik: "kemurnian", tingkat: "MOTS",
+        soal: "Sebanyak 3,22 gram kristal Na<sub>2</sub>SO<sub>4</sub>&middot;xH<sub>2</sub>O dipanaskan hingga air kristalnya menguap seluruhnya, tersisa 1,42 gram Na<sub>2</sub>SO<sub>4</sub> anhidrat (Mr Na<sub>2</sub>SO<sub>4</sub>=142, Mr H<sub>2</sub>O=18). Nilai x adalah ...",
+        opsi: { A: "5", B: "6", C: "10", D: "8", E: "12" },
+        kunci: "C",
+        pembahasan: "massa air=3,22−1,42=1,80g. mol Na<sub>2</sub>SO<sub>4</sub>=1,42÷142=0,01mol. mol H<sub>2</sub>O=1,80÷18=0,1mol. x=0,1÷0,01=<strong>10</strong>."
+    },
+    {
+        id: 35, topik: "kemurnian", tingkat: "MOTS",
+        soal: "Persentase massa air kristal dalam senyawa MgSO<sub>4</sub>&middot;7H<sub>2</sub>O (Mr MgSO<sub>4</sub>=120, Mr H<sub>2</sub>O=18) adalah ... (dibulatkan satu angka desimal)",
+        opsi: { A: "42,3%", B: "45,3%", C: "48,3%", D: "51,2%", E: "54,4%" },
+        kunci: "D",
+        pembahasan: "Mr total=120+(7×18)=246. %air=(126÷246)×100% &asymp; <strong>51,2%</strong>."
+    },
+    {
+        id: 36, topik: "kemurnian", tingkat: "MOTS",
+        soal: "Sebanyak 20 gram sampel garam dapur (NaCl) mengandung 18 gram NaCl murni. Kadar kemurnian sampel tersebut adalah ...",
+        opsi: { A: "80%", B: "95%", C: "85%", D: "90%", E: "99%" },
+        kunci: "D",
+        pembahasan: "Kadar = (18÷20)×100% = <strong>90%</strong>."
+    },
+    {
+        id: 37, topik: "kemurnian", tingkat: "MOTS",
+        soal: "Sebanyak 14 gram sampel besi (Fe) tidak murni direaksikan dengan H<sub>2</sub>SO<sub>4</sub> berlebih sesuai reaksi Fe(s)+H<sub>2</sub>SO<sub>4</sub>(aq)&rarr;FeSO<sub>4</sub>(aq)+H<sub>2</sub>(g), menghasilkan 2,24 liter gas H<sub>2</sub> (STP). Jika A<sub>r</sub> Fe=56, kadar kemurnian sampel besi tersebut adalah ...",
+        opsi: { A: "30%", B: "35%", C: "40%", D: "50%", E: "60%" },
+        kunci: "C",
+        pembahasan: "mol H<sub>2</sub>=2,24÷22,4=0,1mol=mol Fe (rasio 1:1). massa Fe murni=0,1×56=5,6gram. Kadar=(5,6÷14)×100%=<strong>40%</strong>."
+    },
+    {
+        id: 38, topik: "kemurnian", tingkat: "MOTS",
+        soal: "Sebanyak 4,5 gram kristal CuSO<sub>4</sub>&middot;xH<sub>2</sub>O dipanaskan hingga air kristalnya menguap seluruhnya, tersisa 2,88 gram CuSO<sub>4</sub> anhidrat (Mr CuSO<sub>4</sub>=160, Mr H<sub>2</sub>O=18). Nilai x adalah ...",
+        opsi: { A: "3", B: "4", C: "6", D: "5", E: "7" },
+        kunci: "D",
+        pembahasan: "massa air=4,5−2,88=1,62g. mol CuSO<sub>4</sub>=2,88÷160=0,018mol. mol H<sub>2</sub>O=1,62÷18=0,09mol. x=0,09÷0,018=<strong>5</strong>."
+    },
+    {
+        id: 39, topik: "kemurnian", tingkat: "MOTS",
+        soal: "Persentase massa air kristal dalam senyawa Na<sub>2</sub>CO<sub>3</sub>&middot;10H<sub>2</sub>O (Mr Na<sub>2</sub>CO<sub>3</sub>=106, Mr H<sub>2</sub>O=18) adalah ... (dibulatkan satu angka desimal)",
+        opsi: { A: "55,2%", B: "58,7%", C: "66,4%", D: "70,1%", E: "62,9%" },
+        kunci: "E",
+        pembahasan: "Mr total=106+(10×18)=286. %air=(180÷286)×100% &asymp; <strong>62,9%</strong>."
+    },
+    {
+        id: 40, topik: "kemurnian", tingkat: "HOTS", wajib: true,
+        soal: "<strong>[Konteks Korosi]</strong> Pagar besi rumah Pak Budi mengalami korosi setelah terpapar udara lembap: 4Fe(s) + 3O<sub>2</sub>(g) &rarr; 2Fe<sub>2</sub>O<sub>3</sub>(s). Jika komponen pagar bermassa 112 gram (A<sub>r</sub> Fe=56) mengalami korosi total (seluruh Fe berubah menjadi Fe<sub>2</sub>O<sub>3</sub>, Mr Fe<sub>2</sub>O<sub>3</sub>=160), massa karat yang terbentuk adalah ...",
+        opsi: { A: "80 gram", B: "120 gram", C: "180 gram", D: "200 gram", E: "160 gram" },
+        kunci: "E",
+        pembahasan: "mol Fe=112÷56=2mol. Rasio Fe:Fe<sub>2</sub>O<sub>3</sub>=4:2=2:1, mol Fe<sub>2</sub>O<sub>3</sub>=2÷2=1mol. Massa Fe<sub>2</sub>O<sub>3</sub>=1×160=<strong>160 gram</strong>."
+    }
+];
+
+// =========================================================
+// STATE
+// =========================================================
+let soalTeracak = [];
+let jawabanSiswa = {};
+
+const DURASI_TES_DETIK = 40 * 60; // 40 menit
+const BATAS_PERINGATAN_DETIK = 5 * 60; // warna merah di 5 menit terakhir
+let waktuTersisa = DURASI_TES_DETIK;
+let timerInterval = null;
+
+// =========================================================
+// UTIL: Fisher-Yates shuffle
+// =========================================================
+function acakArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+// =========================================================
+// SELEKSI SOAL: 3 MOTS + 1 HOTS acak per topik (5 topik x 4 = 20 soal)
+// Soal HOTS kontekstual (wajib:true) SELALU disertakan agar syarat
+// "2 soal kontekstual per sesi" tetap terpenuhi di setiap pengacakan.
+// =========================================================
+const DAFTAR_TOPIK = ["mol", "gas", "empiris", "pembatas", "kemurnian"];
+
+function pilihSoalUjian() {
+    let hasil = [];
+
+    DAFTAR_TOPIK.forEach(topik => {
+        const soalTopik = bankSoal.filter(s => s.topik === topik);
+        const poolMots = soalTopik.filter(s => s.tingkat === "MOTS");
+        const poolHots = soalTopik.filter(s => s.tingkat === "HOTS");
+        const hotsWajib = poolHots.filter(s => s.wajib);
+        const poolHotsAcak = poolHots.filter(s => !s.wajib);
+
+        // Selalu ambil 3 soal MOTS acak dari pool topik ini
+        hasil.push(...acakArray(poolMots).slice(0, 3));
+
+        if (hotsWajib.length > 0) {
+            // Topik dengan soal kontekstual wajib (Pereaksi Pembatas & Kadar Kemurnian)
+            hasil.push(...hotsWajib);
+        } else {
+            // Topik lain: pilih 1 soal HOTS acak dari pool
+            hasil.push(...acakArray(poolHotsAcak).slice(0, 1));
+        }
+    });
+
+    return acakArray(hasil); // acak urutan tampil akhir dari 20 soal terpilih
+}
+
+// =========================================================
+// TIMER MUNDUR
+// =========================================================
+function formatWaktu(detik) {
+    const m = Math.floor(detik / 60).toString().padStart(2, '0');
+    const s = Math.floor(detik % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+}
+
+function perbaruiTampilanTimer() {
+    const el = document.getElementById('timer-display');
+    el.textContent = formatWaktu(waktuTersisa);
+
+    if (waktuTersisa <= BATAS_PERINGATAN_DETIK) {
+        el.classList.remove('text-teal-700');
+        el.classList.add('text-rose-600', 'animate-pulse');
+    } else {
+        el.classList.add('text-teal-700');
+        el.classList.remove('text-rose-600', 'animate-pulse');
+    }
+}
+
+function mulaiTimer() {
+    clearInterval(timerInterval); // jaga-jaga kalau ada interval lama yang masih jalan
+    waktuTersisa = DURASI_TES_DETIK;
+    perbaruiTampilanTimer();
+
+    timerInterval = setInterval(() => {
+        waktuTersisa--;
+        perbaruiTampilanTimer();
+
+        if (waktuTersisa <= 0) {
+            clearInterval(timerInterval);
+            alert('⏰ Waktu 40 menit telah habis! Jawaban Anda akan otomatis dikumpulkan.');
+            tampilkanHasil();
+        }
+    }, 1000);
+}
+
+// =========================================================
+// LAYAR 1 -> LAYAR 2: Mulai Tes
+// =========================================================
+document.getElementById('btn-mulai').addEventListener('click', () => {
+    const nama = document.getElementById('input-nama').value.trim();
+    const kelas = document.getElementById('input-kelas').value.trim();
+    const errorEl = document.getElementById('error-identitas');
+
+    if (!nama || !kelas) {
+        errorEl.classList.remove('hidden');
+        return;
+    }
+    errorEl.classList.add('hidden');
+
+    soalTeracak = pilihSoalUjian();
+    jawabanSiswa = {};
+    renderSoal();
+    mulaiTimer();
+
+    document.getElementById('layar-identitas').classList.add('hidden');
+    document.getElementById('layar-tes').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// =========================================================
+// RENDER DAFTAR SOAL
+// =========================================================
+function renderSoal() {
+    const kontainer = document.getElementById('daftar-soal');
+    kontainer.innerHTML = '';
+
+    soalTeracak.forEach((s, idx) => {
+        const nomor = idx + 1;
+        const card = document.createElement('div');
+        card.className = 'bg-white p-5 rounded-xl border border-slate-200 shadow-sm';
+
+        let opsiHTML = '';
+        for (const huruf of ['A', 'B', 'C', 'D', 'E']) {
+            opsiHTML += `
+                <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer transition has-[:checked]:bg-teal-50 has-[:checked]:border-teal-400">
+                    <input type="radio" name="soal-${s.id}" value="${huruf}" class="mt-1 accent-teal-600" onchange="pilihJawaban(${s.id}, '${huruf}')">
+                    <span class="text-sm text-slate-700"><strong>${huruf}.</strong> ${s.opsi[huruf]}</span>
+                </label>`;
+        }
+
+        card.innerHTML = `
+            <p class="font-semibold text-slate-900 mb-3 leading-relaxed">
+                <span class="text-teal-600">${nomor}.</span> ${s.soal}
+            </p>
+            <div class="space-y-2">${opsiHTML}</div>
+        `;
+        kontainer.appendChild(card);
+    });
+}
+
+// =========================================================
+// PILIH JAWABAN + UPDATE PROGRESS BAR
+// =========================================================
+function pilihJawaban(id, huruf) {
+    jawabanSiswa[id] = huruf;
+    const terjawab = Object.keys(jawabanSiswa).length;
+    document.getElementById('progress-text').textContent = `${terjawab} / 20 terjawab`;
+    document.getElementById('progress-bar').style.width = `${(terjawab / 20) * 100}%`;
+}
+
+// =========================================================
+// SUBMIT TES
+// =========================================================
+document.getElementById('btn-submit').addEventListener('click', () => {
+    const terjawab = Object.keys(jawabanSiswa).length;
+    if (terjawab < 20) {
+        const lanjut = confirm(`Baru ${terjawab} dari 20 soal terjawab. Soal yang belum dijawab akan dianggap salah. Tetap kumpulkan?`);
+        if (!lanjut) return;
+    }
+    tampilkanHasil();
+});
+
+// =========================================================
+// HITUNG & TAMPILKAN HASIL
+// =========================================================
+function tampilkanHasil() {
+    clearInterval(timerInterval); // hentikan timer begitu hasil ditampilkan (submit manual maupun otomatis)
+
+    let jumlahBenar = 0;
+    soalTeracak.forEach(s => {
+        if (jawabanSiswa[s.id] === s.kunci) jumlahBenar++;
+    });
+    const nilai = jumlahBenar * 5;
+
+    document.getElementById('hasil-nama').textContent = document.getElementById('input-nama').value.trim();
+    document.getElementById('hasil-kelas').textContent = document.getElementById('input-kelas').value.trim();
+    document.getElementById('hasil-benar').textContent = jumlahBenar;
+    document.getElementById('hasil-nilai').textContent = nilai;
+
+    const predikatEl = document.getElementById('hasil-predikat');
+    const emojiEl = document.getElementById('hasil-emoji');
+    if (nilai >= 85) {
+        predikatEl.textContent = 'Sangat Baik 🌟';
+        predikatEl.className = 'inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-teal-100 text-teal-800';
+        emojiEl.textContent = '🎉';
+    } else if (nilai >= 70) {
+        predikatEl.textContent = 'Baik 👍';
+        predikatEl.className = 'inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-emerald-100 text-emerald-800';
+        emojiEl.textContent = '😊';
+    } else if (nilai >= 55) {
+        predikatEl.textContent = 'Cukup, Perlu Latihan Lagi 📘';
+        predikatEl.className = 'inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-amber-100 text-amber-800';
+        emojiEl.textContent = '💪';
+    } else {
+        predikatEl.textContent = 'Perlu Belajar Lagi 📚';
+        predikatEl.className = 'inline-block px-4 py-1.5 rounded-full text-sm font-semibold bg-rose-100 text-rose-800';
+        emojiEl.textContent = '🙌';
+    }
+
+    // Render pembahasan tiap soal
+    const kontainer = document.getElementById('daftar-pembahasan');
+    kontainer.innerHTML = '';
+    soalTeracak.forEach((s, idx) => {
+        const nomor = idx + 1;
+        const jawabSiswa = jawabanSiswa[s.id] || null;
+        const benar = jawabSiswa === s.kunci;
+
+        const card = document.createElement('div');
+        card.className = `bg-white p-5 rounded-xl border shadow-sm ${benar ? 'border-teal-200' : 'border-rose-200'}`;
+
+        let opsiHTML = '';
+        for (const huruf of ['A', 'B', 'C', 'D', 'E']) {
+            let kelasOpsi = 'border-slate-200 text-slate-600';
+            let tanda = '';
+            if (huruf === s.kunci) {
+                kelasOpsi = 'border-teal-400 bg-teal-50 text-teal-900 font-semibold';
+                tanda = ' ✅';
+            }
+            if (huruf === jawabSiswa && !benar) {
+                kelasOpsi = 'border-rose-400 bg-rose-50 text-rose-900 font-semibold';
+                tanda = ' ❌ (Jawaban Anda)';
+            }
+            opsiHTML += `<div class="p-2 rounded-lg border text-sm ${kelasOpsi}"><strong>${huruf}.</strong> ${s.opsi[huruf]}${tanda}</div>`;
+        }
+
+        card.innerHTML = `
+            <div class="flex items-start justify-between gap-3 mb-3">
+                <p class="font-semibold text-slate-900 leading-relaxed">
+                    <span class="text-teal-600">${nomor}.</span> ${s.soal}
+                </p>
+                <span class="shrink-0 text-xs font-bold px-2.5 py-1 rounded-full ${benar ? 'bg-teal-100 text-teal-800' : 'bg-rose-100 text-rose-800'}">
+                    ${benar ? 'BENAR' : (jawabSiswa ? 'SALAH' : 'KOSONG')}
+                </span>
+            </div>
+            <div class="space-y-1.5 mb-3">${opsiHTML}</div>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-600">
+                <strong class="text-slate-800">💡 Pembahasan:</strong> ${s.pembahasan}
+            </div>
+        `;
+        kontainer.appendChild(card);
+    });
+
+    document.getElementById('layar-tes').classList.add('hidden');
+    document.getElementById('layar-hasil').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// =========================================================
+// ULANGI TES
+// =========================================================
+document.getElementById('btn-ulangi').addEventListener('click', () => {
+    clearInterval(timerInterval);
+    waktuTersisa = DURASI_TES_DETIK;
+    const timerEl = document.getElementById('timer-display');
+    timerEl.textContent = formatWaktu(DURASI_TES_DETIK);
+    timerEl.classList.add('text-teal-700');
+    timerEl.classList.remove('text-rose-600', 'animate-pulse');
+
+    jawabanSiswa = {};
+    document.getElementById('layar-hasil').classList.add('hidden');
+    document.getElementById('layar-identitas').classList.remove('hidden');
+    document.getElementById('input-nama').value = '';
+    document.getElementById('input-kelas').value = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+</body>
+</html>
