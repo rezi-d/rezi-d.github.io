@@ -34,13 +34,15 @@ const kurikulum = {
             {
                 slug: "ikatan-kimia",
                 title: "Ikatan Kimia",
-                deskripsi: "Kestabilan atom & struktur Lewis, ikatan ion, ikatan kovalen, ikatan logam, bentuk molekul (VSEPR).",
+                deskripsi: "Kestabilan atom & struktur Lewis, ikatan ion, ikatan kovalen, ikatan logam, bentuk molekul (VSEPR), kepolaran molekul, teori hibridisasi.",
                 subbab: [
                     { file: "kestabilan-atom-struktur-lewis.html", title: "Kestabilan Atom & Struktur Lewis" },
                     { file: "ikatan-ion.html", title: "Ikatan Ion" },
                     { file: "ikatan-kovalen.html", title: "Ikatan Kovalen" },
                     { file: "ikatan-logam.html", title: "Ikatan Logam" },
-                    { file: "bentuk-molekul-vsepr.html", title: "Bentuk Molekul (VSEPR)" }
+                    { file: "bentuk-molekul-vsepr.html", title: "Bentuk Molekul (VSEPR)" },
+                    { file: "kepolaran-molekul.html", title: "Kepolaran Molekul & Momen Dipol" },
+                    { file: "teori-hibridisasi.html", title: "Teori Hibridisasi" }
                 ]
             },
             {
