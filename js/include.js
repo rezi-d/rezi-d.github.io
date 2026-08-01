@@ -114,9 +114,10 @@ function bangunMenuBeranda() {
     for (const [kelasId, dataKelas] of Object.entries(kurikulum)) {
         const adaIsi = dataKelas.bab && dataKelas.bab.length > 0;
         if (adaIsi) {
-            const babPertama = dataKelas.bab[0];
-            const subbabPertama = babPertama.subbab[0];
-            const url = `/kelas-${kelasId}/${babPertama.slug}/${subbabPertama.file}`;
+            // Arahkan ke halaman HUB kelas (menampilkan semua bab), bukan
+            // langsung lompat ke sub-bab pertama — konsisten dengan link
+            // "Kelas XI" dkk. di dropdown header.
+            const url = `/kelas-${kelasId}/index.html`;
             html += `
                 <a href="${url}" class="block bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-teal-300 transition group">
                     <span class="text-3xl mb-3 block">🧪</span>
