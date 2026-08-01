@@ -22,6 +22,7 @@ const kurikulum = {
             {
                 slug: "stoikiometri",
                 title: "Stoikiometri",
+                deskripsi: "Konsep mol & massa molar, volume gas & molaritas, rumus empiris, pereaksi pembatas, kadar kemurnian.",
                 subbab: [
                     { file: "konsep-mol.html", title: "Konsep Mol & Massa Molar" },
                     { file: "volume-gas-molaritas.html", title: "Volume Gas & Molaritas" },
@@ -29,6 +30,25 @@ const kurikulum = {
                     { file: "pereaksi-pembatas.html", title: "Pereaksi Pembatas (M-R-S)" },
                     { file: "kadar-kemurnian.html", title: "Kadar Kemurnian & Air Kristal" }
                 ]
+            },
+            {
+                slug: "ikatan-kimia",
+                title: "Ikatan Kimia",
+                deskripsi: "Kestabilan atom & struktur Lewis, ikatan ion, ikatan kovalen, ikatan logam, bentuk molekul (VSEPR).",
+                subbab: [
+                    { file: "kestabilan-atom-struktur-lewis.html", title: "Kestabilan Atom & Struktur Lewis" },
+                    { file: "ikatan-ion.html", title: "Ikatan Ion" },
+                    { file: "ikatan-kovalen.html", title: "Ikatan Kovalen" },
+                    { file: "ikatan-logam.html", title: "Ikatan Logam" },
+                    { file: "bentuk-molekul-vsepr.html", title: "Bentuk Molekul (VSEPR)" }
+                ]
+            },
+            {
+                slug: "termokimia",
+                title: "Termokimia",
+                subbab: []   // <- kosong dulu (placeholder), isi nanti begitu sub-babnya digarap.
+                             //    Selama kosong, halaman hub otomatis menampilkannya sebagai
+                             //    kartu "Segera Hadir" (lihat logic render di js/render-hub.js).
             }
         ]
     },
