@@ -101,10 +101,102 @@
                             </label>
                             <textarea id="refleksi-2" rows="2" class="w-full text-xs p-3 rounded-lg border border-slate-300 focus:outline-none focus:border-teal-500 bg-white" placeholder="Misal: Mengumpulkan minyak jelantah sisa masak agar tidak dibuang ke saluran air/got..."></textarea>
                         </div>
-                        <button type="button" onclick="alert('Terima kasih telah merefleksikan pembelajaran! Simpan poin-poin refleksi ini untuk dimasukkan ke dalam tugas proyek di bawah.')" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs rounded-lg transition active:scale-95 cursor-pointer">
-                            💾 Simpan Refleksi Sementara
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <button type="button" id="btn-simpan-refleksi" class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs rounded-lg transition active:scale-95 cursor-pointer flex items-center gap-1.5">
+                                <span>💾 Simpan & Tampilkan Hasil Refleksi</span>
+                            </button>
+                            <button type="button" id="btn-reset-refleksi" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-lg transition active:scale-95 cursor-pointer">
+                                🔄 Reset
+                            </button>
+                        </div>
+
+                        <!-- KARTU HASIL REFLEKSI YANG TERSIMPAN -->
+                        <div id="kotak-hasil-refleksi" class="hidden mt-4 p-4 rounded-xl bg-teal-50/80 border-2 border-teal-200 transition">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-teal-800 uppercase tracking-wider flex items-center gap-1.5">
+                                    ✨ Rangkuman Refleksi Pribadimu (Tersimpan)
+                                </span>
+                                <button type="button" id="btn-salin-refleksi" class="px-2.5 py-1 bg-white hover:bg-teal-100 border border-teal-300 rounded text-[11px] font-semibold text-teal-800 transition active:scale-95 cursor-pointer">
+                                    📋 Salin untuk Freeform/Pages
+                                </button>
+                            </div>
+                            <div class="space-y-2 text-xs text-slate-700" id="isi-hasil-refleksi">
+                                <!-- Diisi via JS -->
+                            </div>
+                            <p class="text-[10px] text-teal-600 mt-2 italic">
+                                *Tersimpan aman di peramban ini. Kamu bisa menyalin teks di atas untuk ditempelkan ke dalam tugas Freeform/Pages.
+                            </p>
+                        </div>
                     </div>
+
+                    <script>
+                    (function() {
+                        const ref1 = document.getElementById('refleksi-1');
+                        const ref2 = document.getElementById('refleksi-2');
+                        const btnSimpan = document.getElementById('btn-simpan-refleksi');
+                        const btnReset = document.getElementById('btn-reset-refleksi');
+                        const btnSalin = document.getElementById('btn-salin-refleksi');
+                        const kotakHasil = document.getElementById('kotak-hasil-refleksi');
+                        const isiHasil = document.getElementById('isi-hasil-refleksi');
+
+                        // Muat data dari localStorage jika ada
+                        const savedRef = localStorage.getItem('kimia_refleksi_kelas10');
+                        if (savedRef) {
+                            try {
+                                const data = JSON.parse(savedRef);
+                                ref1.value = data.q1 || '';
+                                ref2.value = data.q2 || '';
+                                tampilkanHasil(data.q1, data.q2);
+                            } catch(e) {}
+                        }
+
+                        btnSimpan.addEventListener('click', () => {
+                            const q1 = ref1.value.trim();
+                            const q2 = ref2.value.trim();
+
+                            if (!q1 && !q2) {
+                                alert('Silakan isi salah satu jawaban refleksi terlebih dahulu sebelum menyimpan!');
+                                return;
+                            }
+
+                            localStorage.setItem('kimia_refleksi_kelas10', JSON.stringify({ q1, q2 }));
+                            tampilkanHasil(q1, q2);
+                        });
+
+                        btnReset.addEventListener('click', () => {
+                            if (confirm('Apakah kamu yakin ingin mengosongkan lembar refleksi ini?')) {
+                                ref1.value = '';
+                                ref2.value = '';
+                                localStorage.removeItem('kimia_refleksi_kelas10');
+                                kotakHasil.classList.add('hidden');
+                            }
+                        });
+
+                        btnSalin.addEventListener('click', () => {
+                            const teks = `[REFLEKSI KIMIA KELAS X]\n1. Cara pandang baru: ${ref1.value.trim()}\n2. Komitmen aksi nyata: ${ref2.value.trim()}`;
+                            navigator.clipboard.writeText(teks).then(() => {
+                                btnSalin.textContent = '✅ Berhasil Disalin!';
+                                setTimeout(() => {
+                                    btnSalin.textContent = '📋 Salin untuk Freeform/Pages';
+                                }, 2000);
+                            });
+                        });
+
+                        function tampilkanHasil(q1, q2) {
+                            isiHasil.innerHTML = `
+                                <div class="bg-white p-3 rounded-lg border border-teal-100">
+                                    <p class="font-bold text-teal-900 mb-1">1. Pandangan baru tentang kimia:</p>
+                                    <p class="text-slate-600 italic">"${q1 || '(belum diisi)'}"</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-teal-100">
+                                    <p class="font-bold text-teal-900 mb-1">2. Komitmen aksi nyata di rumah:</p>
+                                    <p class="text-slate-600 italic">"${q2 || '(belum diisi)'}"</p>
+                                </div>
+                            `;
+                            kotakHasil.classList.remove('hidden');
+                        }
+                    })();
+                    </script>
                 </section>
 
                 <!-- 3. TUGAS PROYEK PJJ APPLE iWORK -->

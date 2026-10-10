@@ -59,11 +59,12 @@ const kurikulum = {
             {
                 slug: "termokimia",
                 title: "Termokimia",
-                deskripsi: "Sistem & lingkungan, reaksi eksoterm & endoterm, perubahan entalpi standar, simulasi kalorimeter virtual, dan proyek spreadsheet Numbers.",
+                deskripsi: "Sistem & lingkungan, reaksi eksoterm & endoterm, perubahan entalpi standar, simulasi kalorimeter virtual, dan simulator Hukum Hess.",
                 subbab: [
                     { file: "konsep-dasar-termokimia.html", title: "Konsep Dasar & Reaksi Eksoterm/Endoterm" },
                     { file: "perubahan-entalpi-standar.html", title: "Kondisi Standar & Persamaan Termokimia" },
-                    { file: "kalorimetri-dan-proyek.html", title: "Kalorimeter Virtual & Proyek (Numbers)" }
+                    { file: "kalorimetri-dan-proyek.html", title: "Kalorimeter Virtual & Proyek (Numbers)" },
+                    { file: "hukum-hess.html", title: "Hukum Hess & Simulator Model Tabel" }
                 ]
             }
         ]

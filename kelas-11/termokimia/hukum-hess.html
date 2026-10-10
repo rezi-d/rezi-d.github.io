@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hukum Hess: Konsep & Simulator Kalkulator - Kelas XI</title>
+    <link rel="icon" href="data:,">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen" data-kelas="11" data-bab="termokimia">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-8">
+            <article class="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm">
+
+                <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-semibold uppercase mb-3">
+                    Bab 3: Termokimia
+                </span>
+                <h1 class="text-3xl font-bold text-slate-900 mb-6 tracking-tight">
+                    4. Hukum Hess: Konsep Penjumlahan Kalor & Simulator Interaktif
+                </h1>
+
+                <!-- 1. HUKUM HESS & FUNGSI KEADAAN -->
+                <section class="mb-8">
+                    <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        📜 1. Konsep Dasar Hukum Hess (Germain Henri Hess, 1840)
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
+                        Tidak semua reaksi kimia dapat ditentukan nilai perubahan entalpinya secara langsung melalui kalorimeter laboratorium. Contohnya reaksi pembentukan karbon monoksida (CO) dari grafit dan oksigen. Reaksi tersebut sulit dihentikan hanya pada tahap CO karena sebagian besar karbon akan langsung terbakar sempurna menjadi karbon dioksida (CO₂).
+                    </p>
+                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
+                        Untuk memecahkan kendala ini, seorang kimiawan Rusia-Swiss bernama <strong>Germain Henri Hess</strong> merumuskan hukum penjumlahan kalor:
+                    </p>
+
+                    <!-- Quote Hukum Hess -->
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl my-4 text-amber-950 text-sm leading-relaxed">
+                        <p class="font-bold mb-1">Bunyi Hukum Hess:</p>
+                        <p class="italic">
+                            "Perubahan entalpi suatu reaksi kimia hanya bergantung pada keadaan awal (pereaksi) dan keadaan akhir (hasil reaksi), serta <strong>tidak bergantung pada jalannya reaksi</strong> (tahapan reaksi)."
+                        </p>
+                    </div>
+
+                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
+                        Mengapa demikian? Karena entalpi ($H$) adalah <strong>fungsi keadaan (state function)</strong>. Seperti halnya mendaki puncak gunung, berapa pun jalur berliku yang Anda tempuh, selisih ketinggian antara kaki gunung dan puncak tetaplah sama!
+                    </p>
+
+                    <!-- Aturan Manipulasi Reaksi -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 my-6">
+                        <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
+                            ⚙️ 3 Aturan Emas Manipulasi Persamaan Termokimia:
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+                                <span class="font-bold text-amber-800 block mb-1">1. Reaksi Dibalik</span>
+                                <p class="text-slate-600">Jika arah persamaan reaksi dibalik (pereaksi menjadi produk), maka tanda $\Delta H$ harus dibalik (+ menjadi &minus;, atau sebaliknya).</p>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+                                <span class="font-bold text-amber-800 block mb-1">2. Koefisien Dikalikan ($n$)</span>
+                                <p class="text-slate-600">Jika koefisien reaksi dikalikan dengan faktor $n$, maka nilai $\Delta H$ juga harus dikalikan dengan faktor $n$ yang sama.</p>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+                                <span class="font-bold text-amber-800 block mb-1">3. Reaksi Dijumlahkan</span>
+                                <p class="text-slate-600">Jika dua atau lebih persamaan dijumlahkan, maka nilai $\Delta H$ reaksi target adalah jumlah aljabar dari $\Delta H$ tahapan-tahapannya ($\Delta H_{\text{total}} = \sum \Delta H$).</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-6 border-slate-100">
+
+                <!-- 2. SIMULATOR INTERAKTIF HUKUM HESS MODEL TABEL -->
+                <section class="mb-10" id="simulator-hukum-hess">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-1 bg-amber-100 text-amber-800 rounded text-xs font-semibold uppercase tracking-wider mb-1">
+                                Laboratorium Virtual
+                            </span>
+                            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                                🧪 2. Kalkulator-Simulator Hukum Hess (Model Tabel)
+                            </h2>
+                        </div>
+                        <span class="text-xs text-slate-500 font-mono bg-slate-100 px-2.5 py-1 rounded">Interactive Solver</span>
+                    </div>
+
+                    <p class="text-sm text-slate-600 mb-4 text-justify">
+                        Gunakan simulator interaktif berikut untuk memecahkan soal Hukum Hess! Masukkan reaksi-reaksi pembantu dan reaksi target. Klik tombol <strong>"Balik"</strong> (hijau = reaksi dibalik; merah = arah tetap), lalu klik <strong>"Hitung &Delta;H"</strong> untuk melihat langkah kalkulasi otomatis dan tabel hasil penjumlahannya.
+                    </p>
+
+                    <!-- WADAH SIMULATOR HUKUM HESS -->
+                    <div class="bg-slate-900 text-slate-100 p-5 sm:p-6 rounded-2xl shadow-xl border border-slate-800">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-700">
+                            <div>
+                                <h3 class="text-base font-bold text-amber-300">Tabel Persamaan Reaksi Termokimia</h3>
+                                <p class="text-xs text-slate-400">Gunakan format rumus seperti <code class="text-amber-200">H2(g) + F2(g)</code> atau <code class="text-amber-200">2C(s)</code></p>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs">
+                                <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-rose-950 text-rose-300 border border-rose-800">
+                                    <span class="w-2 h-2 rounded-full bg-rose-500"></span> Merah: Tetap
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Hijau: Dibalik
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- TABEL INPUT REAKSI -->
+                        <div class="overflow-x-auto my-3">
+                            <table id="tabel-reaksi-hess" class="w-full text-xs text-center border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-800 text-slate-300 border-b border-slate-700">
+                                        <th class="p-2.5 text-left pl-3">Pereaksi (Reaktan)</th>
+                                        <th class="p-2.5 w-8"></th>
+                                        <th class="p-2.5 text-left pl-3">Hasil Reaksi (Produk)</th>
+                                        <th class="p-2.5 w-28 text-right pr-3">&Delta;H (kJ)</th>
+                                        <th class="p-2.5 w-32 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800 font-mono" id="tbody-hess">
+                                    <!-- Baris 1 -->
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-2"><input type="text" value="H2(g) + F2(g)" class="w-full bg-slate-800 text-slate-100 px-2.5 py-1.5 rounded border border-slate-700 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2 text-amber-400 font-bold">&rarr;</td>
+                                        <td class="p-2"><input type="text" value="2HF(g)" class="w-full bg-slate-800 text-slate-100 px-2.5 py-1.5 rounded border border-slate-700 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2"><input type="number" step="any" value="-537" class="w-full bg-slate-800 text-slate-100 px-2 py-1.5 rounded border border-slate-700 text-right focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2 text-center whitespace-nowrap">
+                                            <button type="button" onclick="toggleBalikHess(this)" class="btn-balik-hess px-2.5 py-1 rounded text-[11px] font-sans font-semibold bg-rose-600 hover:bg-rose-500 text-white transition mr-1">Tetap</button>
+                                            <button type="button" onclick="hapusBarisHess(this)" class="px-2 py-1 rounded text-[11px] font-sans bg-slate-700 hover:bg-slate-600 text-slate-300 transition">Hapus</button>
+                                        </td>
+                                    </tr>
+                                    <!-- Baris 2 -->
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-2"><input type="text" value="C(s) + 2F2(g)" class="w-full bg-slate-800 text-slate-100 px-2.5 py-1.5 rounded border border-slate-700 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2 text-amber-400 font-bold">&rarr;</td>
+                                        <td class="p-2"><input type="text" value="CF4(g)" class="w-full bg-slate-800 text-slate-100 px-2.5 py-1.5 rounded border border-slate-700 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2"><input type="number" step="any" value="-680" class="w-full bg-slate-800 text-slate-100 px-2 py-1.5 rounded border border-slate-700 text-right focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2 text-center whitespace-nowrap">
+                                            <button type="button" onclick="toggleBalikHess(this)" class="btn-balik-hess px-2.5 py-1 rounded text-[11px] font-sans font-semibold bg-rose-600 hover:bg-rose-500 text-white transition mr-1">Tetap</button>
+                                            <button type="button" onclick="hapusBarisHess(this)" class="px-2 py-1 rounded text-[11px] font-sans bg-slate-700 hover:bg-slate-600 text-slate-300 transition">Hapus</button>
+                                        </td>
+                                    </tr>
+                                    <!-- Baris 3 -->
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-2"><input type="text" value="2C(s) + 2H2(g)" class="w-full bg-slate-800 text-slate-100 px-2.5 py-1.5 rounded border border-slate-700 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2 text-amber-400 font-bold">&rarr;</td>
+                                        <td class="p-2"><input type="text" value="C2H4(g)" class="w-full bg-slate-800 text-slate-100 px-2.5 py-1.5 rounded border border-slate-700 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2"><input type="number" step="any" value="52.3" class="w-full bg-slate-800 text-slate-100 px-2 py-1.5 rounded border border-slate-700 text-right focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2 text-center whitespace-nowrap">
+                                            <button type="button" onclick="toggleBalikHess(this)" class="btn-balik-hess px-2.5 py-1 rounded text-[11px] font-sans font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition mr-1">Dibalik</button>
+                                            <button type="button" onclick="hapusBarisHess(this)" class="px-2 py-1 rounded text-[11px] font-sans bg-slate-700 hover:bg-slate-600 text-slate-300 transition">Hapus</button>
+                                        </td>
+                                    </tr>
+                                    <!-- Baris Target -->
+                                    <tr class="bg-amber-950/40 border-t-2 border-amber-600/80 font-bold">
+                                        <td class="p-2"><input type="text" id="target-reaktan-hess" value="C2H4(g) + 6F2(g)" class="w-full bg-slate-900 text-amber-200 px-2.5 py-1.5 rounded border border-amber-500/50 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2 text-amber-400">&rarr;</td>
+                                        <td class="p-2"><input type="text" id="target-produk-hess" value="2CF4(g) + 4HF(g)" class="w-full bg-slate-900 text-amber-200 px-2.5 py-1.5 rounded border border-amber-500/50 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                        <td class="p-2"><input type="text" readonly value="...?" class="w-full bg-amber-900/60 text-amber-300 px-2 py-1.5 rounded border border-amber-500/50 text-center font-mono text-xs cursor-not-allowed"></td>
+                                        <td class="p-2 text-center text-amber-400 text-[11px] font-sans font-bold">🎯 Reaksi Target</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- TOMBOL KONTROL -->
+                        <div class="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-slate-800">
+                            <button type="button" onclick="tambahBarisHess()" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition">
+                                <span>➕ Tambah Baris Reaksi</span>
+                            </button>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="resetFormHess()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition">
+                                    Reset
+                                </button>
+                                <button type="button" onclick="hitungHukumHess()" class="px-5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition active:scale-95">
+                                    ⚡ Hitung &Delta;H Reaksi Target
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- HASIL KALKULASI & LANGKAH -->
+                        <div id="kotak-hasil-hess" class="hidden mt-6 pt-5 border-t border-slate-700 space-y-4">
+                            <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700">
+                                <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">📋 Langkah Perhitungan (Eliminasi & Penjumlahan):</h4>
+                                <div id="langkah-teks-hess" class="space-y-1.5 text-xs text-slate-300 font-mono leading-relaxed"></div>
+                                <div class="mt-3 pt-3 border-t border-slate-700 flex items-center justify-between">
+                                    <span class="text-xs text-slate-300 font-medium font-sans">Total Perubahan Entalpi Reaksi Target (&Delta;H):</span>
+                                    <span id="nilai-akhir-hess" class="text-base font-bold font-mono text-amber-300 bg-amber-950/80 px-3 py-1 rounded border border-amber-600/50"></span>
+                                </div>
+                            </div>
+
+                            <!-- TABEL SETELAH DIPROSES -->
+                            <div class="overflow-x-auto">
+                                <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Persamaan Kimia Setelah Disesuaikan:</h4>
+                                <table id="tabel-output-hess" class="w-full text-xs text-center border-collapse bg-slate-950 rounded-lg overflow-hidden border border-slate-800">
+                                    <thead>
+                                        <tr class="bg-slate-800 text-slate-300">
+                                            <th class="p-2 text-left pl-3">Pereaksi</th>
+                                            <th class="p-2 w-8"></th>
+                                            <th class="p-2 text-left pl-3">Hasil Reaksi</th>
+                                            <th class="p-2 w-28 text-right pr-3">&Delta;H (kJ)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-output-hess" class="divide-y divide-slate-800/80 font-mono"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- PESAN STATUS / ERROR -->
+                        <div id="status-error-hess" class="hidden mt-4 p-3 bg-rose-950/80 border border-rose-700 text-rose-200 text-xs rounded-lg"></div>
+                    </div>
+
+                    <!-- SCRIPT LOGIKA SIMULATOR HUKUM HESS -->
+                    <script>
+                        function toggleBalikHess(btn) {
+                            if (btn.classList.contains('bg-rose-600')) {
+                                btn.classList.remove('bg-rose-600', 'hover:bg-rose-500');
+                                btn.classList.add('bg-emerald-600', 'hover:bg-emerald-500');
+                                btn.textContent = 'Dibalik';
+                            } else {
+                                btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500');
+                                btn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+                                btn.textContent = 'Tetap';
+                            }
+                        }
+
+                        function tambahBarisHess() {
+                            const tbody = document.getElementById('tbody-hess');
+                            const rows = tbody.rows;
+                            const targetRow = rows[rows.length - 1];
+                            const newRow = document.createElement('tr');
+                            newRow.className = 'hover:bg-slate-800/40';
+                            newRow.innerHTML = `
+                                <td class="p-2"><input type="text" placeholder="Contoh: 2H2(g) + O2(g)" class="w-full bg-slate-800 text-slate-100 px-2.5 py-1.5 rounded border border-slate-700 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                <td class="p-2 text-amber-400 font-bold">&rarr;</td>
+                                <td class="p-2"><input type="text" placeholder="Contoh: 2H2O(l)" class="w-full bg-slate-800 text-slate-100 px-2.5 py-1.5 rounded border border-slate-700 focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                <td class="p-2"><input type="number" step="any" placeholder="0" class="w-full bg-slate-800 text-slate-100 px-2 py-1.5 rounded border border-slate-700 text-right focus:border-amber-400 focus:outline-hidden font-mono text-xs"></td>
+                                <td class="p-2 text-center whitespace-nowrap">
+                                    <button type="button" onclick="toggleBalikHess(this)" class="btn-balik-hess px-2.5 py-1 rounded text-[11px] font-sans font-semibold bg-rose-600 hover:bg-rose-500 text-white transition mr-1">Tetap</button>
+                                    <button type="button" onclick="hapusBarisHess(this)" class="px-2 py-1 rounded text-[11px] font-sans bg-slate-700 hover:bg-slate-600 text-slate-300 transition">Hapus</button>
+                                </td>
+                            `;
+                            tbody.insertBefore(newRow, targetRow);
+                        }
+
+                        function hapusBarisHess(btn) {
+                            const tbody = document.getElementById('tbody-hess');
+                            if (tbody.rows.length > 2) {
+                                btn.closest('tr').remove();
+                            } else {
+                                alert('Minimal harus ada 1 reaksi pembantu dan 1 reaksi target!');
+                            }
+                        }
+
+                        function resetFormHess() {
+                            const tbody = document.getElementById('tbody-hess');
+                            const rows = tbody.rows;
+                            for (let i = 0; i < rows.length - 1; i++) {
+                                const inputs = rows[i].querySelectorAll('input');
+                                inputs.forEach(inp => inp.value = '');
+                                const btn = rows[i].querySelector('.btn-balik-hess');
+                                if (btn) {
+                                    btn.className = 'btn-balik-hess px-2.5 py-1 rounded text-[11px] font-sans font-semibold bg-rose-600 hover:bg-rose-500 text-white transition mr-1';
+                                    btn.textContent = 'Tetap';
+                                }
+                            }
+                            document.getElementById('target-reaktan-hess').value = '';
+                            document.getElementById('target-produk-hess').value = '';
+                            document.getElementById('kotak-hasil-hess').classList.add('hidden');
+                            document.getElementById('status-error-hess').classList.add('hidden');
+                        }
+
+                        function parseSpesiKimia(str) {
+                            const spesiList = [];
+                            str.split('+').forEach(s => {
+                                s = s.trim();
+                                if (!s) return;
+                                let coef = 1, name = s;
+                                const m = s.match(/^(\d+)/);
+                                if (m) {
+                                    coef = parseInt(m[1], 10);
+                                    name = s.replace(/^\d+/, '').trim();
+                                }
+                                spesiList.push({ name, coef });
+                            });
+                            return spesiList;
+                        }
+
+                        function formatSubscriptKimia(nama) {
+                            return nama.replace(/(\d+)/g, '<sub>$1</sub>');
+                        }
+
+                        function hitungHukumHess() {
+                            const errBox = document.getElementById('status-error-hess');
+                            const resBox = document.getElementById('kotak-hasil-hess');
+                            errBox.classList.add('hidden');
+                            resBox.classList.add('hidden');
+
+                            const tbody = document.getElementById('tbody-hess');
+                            const rows = tbody.rows;
+                            const helperReactions = [];
+
+                            for (let i = 0; i < rows.length - 1; i++) {
+                                const rInp = rows[i].cells[0].querySelector('input').value.trim();
+                                const pInp = rows[i].cells[2].querySelector('input').value.trim();
+                                const dInp = rows[i].cells[3].querySelector('input').value.trim();
+                                const isReversed = rows[i].cells[4].querySelector('.btn-balik-hess')?.textContent === 'Dibalik';
+
+                                if (!rInp || !pInp || dInp === '') {
+                                    errBox.textContent = `Peringatan: Baris ${i + 1} belum terisi lengkap (pereaksi, produk, atau nilai \u0394H).`;
+                                    errBox.classList.remove('hidden');
+                                    return;
+                                }
+
+                                const reactants = parseSpesiKimia(rInp);
+                                const products = parseSpesiKimia(pInp);
+                                let dH = parseFloat(dInp);
+
+                                if (isReversed) {
+                                    helperReactions.push({
+                                        reactants: products,
+                                        products: reactants,
+                                        deltaH: -dH,
+                                        reversed: true,
+                                        origIdx: i + 1
+                                    });
+                                } else {
+                                    helperReactions.push({
+                                        reactants: reactants,
+                                        products: products,
+                                        deltaH: dH,
+                                        reversed: false,
+                                        origIdx: i + 1
+                                    });
+                                }
+                            }
+
+                            const tRInp = document.getElementById('target-reaktan-hess').value.trim();
+                            const tPInp = document.getElementById('target-produk-hess').value.trim();
+
+                            if (!tRInp || !tPInp) {
+                                errBox.textContent = 'Peringatan: Persamaan Reaksi Target belum diisi!';
+                                errBox.classList.remove('hidden');
+                                return;
+                            }
+
+                            const targetReactants = parseSpesiKimia(tRInp);
+                            const targetProducts = parseSpesiKimia(tPInp);
+
+                            // Hitung net net species target (reaktan: negatif, produk: positif)
+                            const targetNet = {};
+                            targetReactants.forEach(s => targetNet[s.name] = (targetNet[s.name] || 0) - s.coef);
+                            targetProducts.forEach(s => targetNet[s.name] = (targetNet[s.name] || 0) + s.coef);
+
+                            // Cocokkan faktor pengali untuk masing-masing reaksi pembantu
+                            const adjustedReactions = [];
+                            let canSolve = true;
+
+                            helperReactions.forEach((r) => {
+                                const rNet = {};
+                                r.reactants.forEach(s => rNet[s.name] = (rNet[s.name] || 0) - s.coef);
+                                r.products.forEach(s => rNet[s.name] = (rNet[s.name] || 0) + s.coef);
+
+                                let factor = 1;
+                                let foundKey = false;
+
+                                Object.keys(targetNet).forEach(sp => {
+                                    if (rNet[sp] && targetNet[sp] * rNet[sp] > 0) {
+                                        factor = Math.abs(targetNet[sp] / rNet[sp]);
+                                        foundKey = true;
+                                    }
+                                });
+
+                                if (!foundKey) {
+                                    factor = 1;
+                                }
+
+                                factor = Math.round(factor * 100) / 100;
+                                const finalR = {
+                                    reactants: r.reactants.map(s => ({ name: s.name, coef: s.coef * factor })),
+                                    products: r.products.map(s => ({ name: s.name, coef: s.coef * factor })),
+                                    deltaH: r.deltaH * factor,
+                                    factor: factor,
+                                    reversed: r.reversed,
+                                    origIdx: r.origIdx
+                                };
+                                adjustedReactions.push(finalR);
+                            });
+
+                            let totalDeltaH = 0;
+                            const langkahTeks = document.getElementById('langkah-teks-hess');
+                            langkahTeks.innerHTML = '';
+
+                            adjustedReactions.forEach(r => {
+                                totalDeltaH += r.deltaH;
+                                let catatan = `Reaksi ${r.origIdx}`;
+                                if (r.reversed) catatan += ' (dibalik)';
+                                if (r.factor !== 1) catatan += `, dikalikan ${r.factor}`;
+                                langkahTeks.innerHTML += `<div>&bull; ${catatan} &rarr; &Delta;H = ${r.deltaH.toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} kJ</div>`;
+                            });
+
+                            const valBox = document.getElementById('nilai-akhir-hess');
+                            const formattedTotal = totalDeltaH.toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 });
+                            valBox.textContent = `${totalDeltaH > 0 ? '+' : ''}${formattedTotal} kJ`;
+
+                            // Render tabel output setelah diproses
+                            const tbodyOut = document.getElementById('tbody-output-hess');
+                            tbodyOut.innerHTML = '';
+
+                            adjustedReactions.forEach(r => {
+                                const rStr = r.reactants.map(s => `${s.coef === 1 ? '' : s.coef}${formatSubscriptKimia(s.name)}`).join(' + ');
+                                const pStr = r.products.map(s => `${s.coef === 1 ? '' : s.coef}${formatSubscriptKimia(s.name)}`).join(' + ');
+                                tbodyOut.innerHTML += `
+                                    <tr class="hover:bg-slate-900/60">
+                                        <td class="p-2 text-left pl-3 text-slate-300">${rStr}</td>
+                                        <td class="p-2 text-amber-400 font-bold">&rarr;</td>
+                                        <td class="p-2 text-left pl-3 text-slate-300">${pStr}</td>
+                                        <td class="p-2 text-right pr-3 font-mono font-medium ${r.deltaH < 0 ? 'text-rose-400' : 'text-sky-400'}">${r.deltaH.toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}</td>
+                                    </tr>
+                                `;
+                            });
+
+                            // Tambah baris hasil target
+                            const tRStr = targetReactants.map(s => `${s.coef === 1 ? '' : s.coef}${formatSubscriptKimia(s.name)}`).join(' + ');
+                            const tPStr = targetProducts.map(s => `${s.coef === 1 ? '' : s.coef}${formatSubscriptKimia(s.name)}`).join(' + ');
+                            tbodyOut.innerHTML += `
+                                <tr class="bg-amber-950/40 border-t-2 border-amber-500 font-bold text-amber-200">
+                                    <td class="p-2 text-left pl-3">${tRStr}</td>
+                                    <td class="p-2 text-amber-400">&rarr;</td>
+                                    <td class="p-2 text-left pl-3">${tPStr}</td>
+                                    <td class="p-2 text-right pr-3 font-mono ${totalDeltaH < 0 ? 'text-rose-400' : 'text-sky-400'}">${formattedTotal}</td>
+                                </tr>
+                            `;
+
+                            resBox.classList.remove('hidden');
+                        }
+                    </script>
+                </section>
+
+                <hr class="my-6 border-slate-100">
+
+                <!-- 3. LATIHAN PEMAHAMAN (4 CONTOH SOAL MANDIRI) -->
+                <section class="space-y-6 my-8">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            ✍️ Latihan Soal Pemahaman: Hukum Hess (4 Soal Latihan Mandiri)
+                        </h2>
+                        <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full font-medium">Auto-Koreksi</span>
+                    </div>
+
+                    <!-- SOAL 1 -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+                        <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Konsep Fungsi Keadaan</span>
+                        <p class="text-sm text-slate-700 mb-3 text-justify">
+                            Pernyataan yang paling tepat mendasari prinsip <strong>Hukum Hess</strong> dalam termodinamika kimia adalah...
+                        </p>
+                        <div class="space-y-2 text-sm">
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-1" value="a" class="accent-teal-600">
+                                <span>A. Perubahan entalpi bergantung pada jumlah tahapan dan waktu reaksi</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-1" value="b" class="accent-teal-600">
+                                <span>B. Entalpi adalah fungsi keadaan sehingga nilai &Delta;H hanya ditentukan oleh keadaan awal dan keadaan akhir reaksi</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-1" value="c" class="accent-teal-600">
+                                <span>C. Nilai &Delta;H selalu sama dengan energi aktivasi yang dibutuhkan partikel</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-1" value="d" class="accent-teal-600">
+                                <span>D. Reaksi yang berlangsung lambat selalu memiliki &Delta;H lebih positif daripada reaksi cepat</span>
+                            </label>
+                        </div>
+                        <div id="feedback-hess-1" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 2 -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+                        <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Manipulasi Persamaan Termokimia</span>
+                        <p class="text-sm text-slate-700 mb-3 text-justify">
+                            Diketahui reaksi pembentukan gas belerang trioksida: <br>
+                            <code>2SO₂(g) + O₂(g) &rarr; 2SO₃(g) &nbsp;&nbsp; &Delta;H = &minus;198 kJ</code><br>
+                            Berapakah nilai perubahan entalpi untuk reaksi: <br>
+                            <code>SO₃(g) &rarr; SO₂(g) + &frac12; O₂(g) &nbsp;&nbsp; &Delta;H = ...?</code>
+                        </p>
+                        <div class="space-y-2 text-sm">
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-2" value="a" class="accent-teal-600">
+                                <span>A. &minus;99 kJ</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-2" value="b" class="accent-teal-600">
+                                <span>B. +99 kJ</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-2" value="c" class="accent-teal-600">
+                                <span>C. +198 kJ</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-2" value="d" class="accent-teal-600">
+                                <span>D. &minus;396 kJ</span>
+                            </label>
+                        </div>
+                        <div id="feedback-hess-2" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 3 -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+                        <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Penjumlahan Dua Tahap Reaksi (Eliminasi)</span>
+                        <p class="text-sm text-slate-700 mb-3 text-justify">
+                            Diketahui dua tahapan reaksi pembentukan CO₂: <br>
+                            (1) <code>C(s) + &frac12; O₂(g) &rarr; CO(g) &nbsp;&nbsp; &Delta;H = &minus;110,5 kJ</code><br>
+                            (2) <code>CO(g) + &frac12; O₂(g) &rarr; CO₂(g) &nbsp;&nbsp; &Delta;H = &minus;283,0 kJ</code><br>
+                            Berapa nilai &Delta;H untuk pembentukan langsung karbon dioksida: <code>C(s) + O₂(g) &rarr; CO₂(g)</code>?
+                        </p>
+                        <div class="space-y-2 text-sm">
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-3" value="a" class="accent-teal-600">
+                                <span>A. &minus;172,5 kJ</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-3" value="b" class="accent-teal-600">
+                                <span>B. +393,5 kJ</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-3" value="c" class="accent-teal-600">
+                                <span>C. &minus;393,5 kJ</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-3" value="d" class="accent-teal-600">
+                                <span>D. &minus;787,0 kJ</span>
+                            </label>
+                        </div>
+                        <div id="feedback-hess-3" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 4 -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+                        <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Siklus Kalor / Diagram Hess</span>
+                        <p class="text-sm text-slate-700 mb-3 text-justify">
+                            Jika suatu reaksi berlangsung melalui dua jalur yang berbeda dari zat A menuju zat C:<br>
+                            Jalur 1 langsung: $A \rightarrow C$ dengan $\Delta H_1$<br>
+                            Jalur 2 bertahap: $A \rightarrow B$ ($\Delta H_2$) lalu $B \rightarrow C$ ($\Delta H_3$)<br>
+                            Hubungan matematik yang benar menurut Hukum Hess adalah...
+                        </p>
+                        <div class="space-y-2 text-sm">
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-4" value="a" class="accent-teal-600">
+                                <span>A. &Delta;H₁ = &Delta;H₂ + &Delta;H₃</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-4" value="b" class="accent-teal-600">
+                                <span>B. &Delta;H₁ = &Delta;H₂ &minus; &Delta;H₃</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-4" value="c" class="accent-teal-600">
+                                <span>C. &Delta;H₁ = &Delta;H₃ &minus; &Delta;H₂</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 rounded hover:bg-slate-50 cursor-pointer">
+                                <input type="radio" name="kuis-hess-4" value="d" class="accent-teal-600">
+                                <span>D. &Delta;H₁ = &Delta;H₂ &times; &Delta;H₃</span>
+                            </label>
+                        </div>
+                        <div id="feedback-hess-4" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <script>
+                        const kuisKeysHess = {
+                            'kuis-hess-1': { ans: 'b', text: 'Entalpi adalah fungsi keadaan, sehingga perubahannya hanya bergantung pada kondisi awal (reaktan) dan akhir (produk), bukan pada lintasan jalannya reaksi.' },
+                            'kuis-hess-2': { ans: 'b', text: 'Reaksi dibalik (tanda berubah dari &minus; menjadi +) dan dibagi 2 (dikali 0,5): &minus;(&minus;198 kJ) / 2 = +99 kJ.' },
+                            'kuis-hess-3': { ans: 'c', text: 'Reaksi (1) dan (2) dijumlahkan langsung, gas CO saling menghilangkan di kedua ruas. &Delta;H = (&minus;110,5 kJ) + (&minus;283,0 kJ) = &minus;393,5 kJ.' },
+                            'kuis-hess-4': { ans: 'a', text: 'Karena keadaan awal (A) dan akhir (C) sama, maka &Delta;H jalur langsung sama dengan jumlah &Delta;H tahapan jalurnya: &Delta;H₁ = &Delta;H₂ + &Delta;H₃.' }
+                        };
+
+                        Object.keys(kuisKeysHess).forEach((name, idx) => {
+                            document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                radio.addEventListener('change', (e) => {
+                                    const fb = document.getElementById(`feedback-hess-${idx + 1}`);
+                                    const info = kuisKeysHess[name];
+                                    if (e.target.value === info.ans) {
+                                        fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                    } else {
+                                        fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Perhatikan aturan tanda saat dibalik dan dijumlahkan!</span>';
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                </section>
+
+                <!-- SUMBER REFERENSI -->
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs text-slate-500 mt-6">
+                    <p class="font-semibold text-slate-700 mb-1">📚 Sumber Referensi:</p>
+                    <p>Rukim, Urip. (2025). "Kalkulator-Simulator Hukum Hess Model Tabel." <em>Urip dot Info</em>. Diakses dari <a href="https://www.urip.info/2025/05/kalkulator-simulator-hukum-hess-model.html" target="_blank" rel="noopener" class="text-teal-600 hover:underline">https://www.urip.info/2025/05/kalkulator-simulator-hukum-hess-model.html</a></p>
+                </div>
+
+                <!-- NAVIGASI -->
+                <div class="flex justify-between items-center mt-8 pt-6 border-t border-slate-100">
+                    <a href="kalorimetri-dan-proyek.html" class="text-sm font-semibold text-slate-500 hover:text-teal-600 transition">
+                        &larr; Sub-Materi 3: Kalorimetri
+                    </a>
+                    <span class="text-sm text-slate-500 font-medium">Sub-Materi 4 dari 4</span>
+                    <a href="/kelas-11/index.html" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-xs">
+                        Selesai: Kembali ke Hub Kelas XI &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <script src="/js/spu.js"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/include.js"></script>
+</body>
+</html>
