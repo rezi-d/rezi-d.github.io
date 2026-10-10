@@ -14,7 +14,18 @@
 const kurikulum = {
     "10": {
         label: "Kelas X",
-        bab: []   // <- kosong dulu, isi nanti: { slug, title, subbab: [...] }
+        bab: [
+            {
+                slug: "kimia-disekitar-kita",
+                title: "Kimia di Sekitar Kita",
+                deskripsi: "Ruang lingkup kimia, metode ilmiah, 12 prinsip kimia hijau, refleksi pembelajaran, serta proyek PJJ infografis.",
+                subbab: [
+                    { file: "ruang-lingkup-kimia.html", title: "Ruang Lingkup Kimia & Metode Ilmiah" },
+                    { file: "kimia-hijau.html", title: "Prinsip Kimia Hijau dalam Kehidupan" },
+                    { file: "refleksi-dan-proyek.html", title: "Refleksi & Proyek PJJ (Freeform)" }
+                ]
+            }
+        ]
     },
     "11": {
         label: "Kelas XI",
@@ -48,15 +59,29 @@ const kurikulum = {
             {
                 slug: "termokimia",
                 title: "Termokimia",
-                subbab: []   // <- kosong dulu (placeholder), isi nanti begitu sub-babnya digarap.
-                             //    Selama kosong, halaman hub otomatis menampilkannya sebagai
-                             //    kartu "Segera Hadir" (lihat logic render di js/render-hub.js).
+                deskripsi: "Sistem & lingkungan, reaksi eksoterm & endoterm, perubahan entalpi standar, simulasi kalorimeter virtual, dan proyek spreadsheet Numbers.",
+                subbab: [
+                    { file: "konsep-dasar-termokimia.html", title: "Konsep Dasar & Reaksi Eksoterm/Endoterm" },
+                    { file: "perubahan-entalpi-standar.html", title: "Kondisi Standar & Persamaan Termokimia" },
+                    { file: "kalorimetri-dan-proyek.html", title: "Kalorimeter Virtual & Proyek (Numbers)" }
+                ]
             }
         ]
     },
     "12": {
         label: "Kelas XII",
-        bab: []   // <- kosong dulu
+        bab: [
+            {
+                slug: "sel-volta",
+                title: "Sel Volta & Elektrokimia",
+                deskripsi: "Reaksi redoks, penentuan anode-katode, deret Volta, potensial sel standar, notasi sel Galvani, dan proyek animasi Keynote.",
+                subbab: [
+                    { file: "dasar-redoks-elektrokimia.html", title: "Dasar Redoks & Sel Elektrokimia" },
+                    { file: "anode-katode-potensial-sel.html", title: "Anode, Katode, & Potensial Sel" },
+                    { file: "notasi-sel-dan-proyek.html", title: "Notasi Sel & Proyek Keynote" }
+                ]
+            }
+        ]
     }
 };
 
