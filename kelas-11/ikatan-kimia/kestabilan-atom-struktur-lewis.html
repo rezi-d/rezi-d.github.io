@@ -428,6 +428,439 @@
             </div>
         </div>
     </div>
+
+    <!-- SIMULATOR INTERAKTIF STRUKTUR LEWIS -->
+    <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-teal-950 text-white p-5 sm:p-7 rounded-2xl shadow-xl my-8 border border-slate-700/60">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-700/60">
+            <div>
+                <span class="inline-block px-2.5 py-0.5 bg-teal-500/20 text-teal-300 border border-teal-500/30 rounded-full text-[11px] font-bold tracking-wider uppercase mb-1">
+                    🔬 Laboratorium Virtual
+                </span>
+                <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                    Simulasi Interaktif: Merakit Struktur Lewis
+                </h3>
+            </div>
+            <span class="text-xs text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+                Pilih molekul & ikuti 4 langkah kaidah Lewis
+            </span>
+        </div>
+
+        <!-- Pilihan Molekul -->
+        <div class="mb-5">
+            <label class="block text-xs font-semibold text-teal-300 uppercase tracking-wider mb-2">
+                Pilih Target Molekul:
+            </label>
+            <div class="flex flex-wrap gap-2" id="sim-molecule-selector">
+                <!-- Diisi via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Info Card: Status Elektron & Panduan Langkah -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
+            <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700">
+                <span class="text-xs text-slate-400 block mb-1">Total Elektron Valensi</span>
+                <span class="text-2xl font-bold text-teal-400 font-mono" id="sim-val-total">0</span>
+                <span class="text-[11px] text-slate-400 block mt-1" id="sim-val-calc">-</span>
+            </div>
+            <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700">
+                <span class="text-xs text-slate-400 block mb-1">Elektron Terpakai</span>
+                <span class="text-2xl font-bold text-amber-400 font-mono" id="sim-used-electrons">0</span>
+                <span class="text-[11px] text-slate-400 block mt-1" id="sim-status-diff">Sisa: 0 e⁻</span>
+            </div>
+            <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700">
+                <span class="text-xs text-slate-400 block mb-1">Kaidah Oktet / Duplet</span>
+                <span class="text-lg font-bold text-slate-300 flex items-center gap-1.5 mt-1" id="sim-octet-badge">
+                    <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span> Belum Lengkap
+                </span>
+                <span class="text-[11px] text-slate-400 block mt-1" id="sim-octet-desc">Pasang ikatan & PEB</span>
+            </div>
+        </div>
+
+        <!-- Area Kanvas / Workspace Interaktif -->
+        <div class="relative bg-slate-950/70 rounded-xl p-4 sm:p-6 border border-slate-800 flex flex-col items-center justify-center min-h-[300px] overflow-hidden select-none">
+            <div class="text-[11px] text-slate-400 mb-3 text-center">
+                💡 <b>Petunjuk:</b> Klik tombol <b class="text-teal-300">Ikatan</b> untuk menaikkan orde ikatan (tunggal &rarr; rangkap 2 &rarr; rangkap 3 &rarr; lepas). Klik tombol <b class="text-amber-300">+ PEB</b> untuk memberi elektron bebas.
+            </div>
+
+            <!-- Wadah Molekul Interaktif -->
+            <div id="sim-workspace" class="relative w-full max-w-md h-64 flex items-center justify-center">
+                <!-- Elemen molekul dirender via JS -->
+            </div>
+        </div>
+
+        <!-- Kontrol Bawah & Feedback Evaluasi -->
+        <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <button type="button" id="btn-sim-reset" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-lg transition active:scale-95 cursor-pointer">
+                    🔄 Reset Molekul
+                </button>
+                <button type="button" id="btn-sim-solve" class="px-3.5 py-2 bg-teal-600/30 hover:bg-teal-600/50 text-teal-300 border border-teal-500/40 text-xs font-semibold rounded-lg transition active:scale-95 cursor-pointer">
+                    💡 Lihat Kunci Jawaban
+                </button>
+            </div>
+            <div id="sim-feedback" class="text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800/90 text-slate-300 border border-slate-700">
+                Pilih molekul untuk mulai merakit!
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIKA SIMULASI STRUKTUR LEWIS -->
+    <script>
+    (function() {
+        const MOLECULES = [
+            {
+                id: 'H2O',
+                name: 'Air (H₂O)',
+                center: { symbol: 'O', valency: 6, maxOctet: 8 },
+                ligands: [
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 135 },
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 225 }
+                ],
+                solution: { bonds: [1, 1], centerLp: 2, ligandLp: [0, 0] },
+                calcText: 'O(6) + 2×H(1) = 8 e⁻'
+            },
+            {
+                id: 'CO2',
+                name: 'Karbon Dioksida (CO₂)',
+                center: { symbol: 'C', valency: 4, maxOctet: 8 },
+                ligands: [
+                    { symbol: 'O', valency: 6, maxOctet: 8, angle: 180 },
+                    { symbol: 'O', valency: 6, maxOctet: 8, angle: 0 }
+                ],
+                solution: { bonds: [2, 2], centerLp: 0, ligandLp: [2, 2] },
+                calcText: 'C(4) + 2×O(6) = 16 e⁻'
+            },
+            {
+                id: 'NH3',
+                name: 'Amonia (NH₃)',
+                center: { symbol: 'N', valency: 5, maxOctet: 8 },
+                ligands: [
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 90 },
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 210 },
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 330 }
+                ],
+                solution: { bonds: [1, 1, 1], centerLp: 1, ligandLp: [0, 0, 0] },
+                calcText: 'N(5) + 3×H(1) = 8 e⁻'
+            },
+            {
+                id: 'CH4',
+                name: 'Metana (CH₄)',
+                center: { symbol: 'C', valency: 4, maxOctet: 8 },
+                ligands: [
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 90 },
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 0 },
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 270 },
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 180 }
+                ],
+                solution: { bonds: [1, 1, 1, 1], centerLp: 0, ligandLp: [0, 0, 0, 0] },
+                calcText: 'C(4) + 4×H(1) = 8 e⁻'
+            },
+            {
+                id: 'O2',
+                name: 'Oksigen (O₂)',
+                center: { symbol: 'O', valency: 6, maxOctet: 8 },
+                ligands: [
+                    { symbol: 'O', valency: 6, maxOctet: 8, angle: 0 }
+                ],
+                solution: { bonds: [2], centerLp: 2, ligandLp: [2] },
+                calcText: '2×O(6) = 12 e⁻'
+            },
+            {
+                id: 'N2',
+                name: 'Nitrogen (N₂)',
+                center: { symbol: 'N', valency: 5, maxOctet: 8 },
+                ligands: [
+                    { symbol: 'N', valency: 5, maxOctet: 8, angle: 0 }
+                ],
+                solution: { bonds: [3], centerLp: 1, ligandLp: [1] },
+                calcText: '2×N(5) = 10 e⁻'
+            },
+            {
+                id: 'HF',
+                name: 'Hidrogen Fluorida (HF)',
+                center: { symbol: 'F', valency: 7, maxOctet: 8 },
+                ligands: [
+                    { symbol: 'H', valency: 1, maxOctet: 2, angle: 180 }
+                ],
+                solution: { bonds: [1], centerLp: 3, ligandLp: [0] },
+                calcText: 'H(1) + F(7) = 8 e⁻'
+            }
+        ];
+
+        let curMol = MOLECULES[0];
+        let state = {
+            bonds: [1, 1], // orde ikatan per ligan
+            centerLp: 0,
+            ligandLp: [0, 0]
+        };
+
+        const selectorEl = document.getElementById('sim-molecule-selector');
+        const workspaceEl = document.getElementById('sim-workspace');
+        const valTotalEl = document.getElementById('sim-val-total');
+        const valCalcEl = document.getElementById('sim-val-calc');
+        const usedEl = document.getElementById('sim-used-electrons');
+        const diffEl = document.getElementById('sim-status-diff');
+        const octetBadgeEl = document.getElementById('sim-octet-badge');
+        const octetDescEl = document.getElementById('sim-octet-desc');
+        const feedbackEl = document.getElementById('sim-feedback');
+
+        function initSelector() {
+            selectorEl.innerHTML = MOLECULES.map((m, idx) => `
+                <button type="button" data-idx="${idx}" class="sim-mol-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    m.id === curMol.id 
+                    ? 'bg-teal-500 text-slate-950 shadow-sm shadow-teal-500/30' 
+                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                }">
+                    ${m.id}
+                </button>
+            `).join('');
+
+            selectorEl.querySelectorAll('.sim-mol-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    selectMolecule(MOLECULES[idx]);
+                });
+            });
+        }
+
+        function selectMolecule(mol) {
+            curMol = mol;
+            state = {
+                bonds: mol.ligands.map(() => 1), // default ikatan tunggal
+                centerLp: 0,
+                ligandLp: mol.ligands.map(() => 0)
+            };
+            initSelector();
+            render();
+        }
+
+        function calculatePool() {
+            let total = curMol.center.valency;
+            curMol.ligands.forEach(l => total += l.valency);
+            return total;
+        }
+
+        function calculateUsed() {
+            let used = 0;
+            state.bonds.forEach(b => used += b * 2);
+            used += state.centerLp * 2;
+            state.ligandLp.forEach(lp => used += lp * 2);
+            return used;
+        }
+
+        function checkOctets() {
+            let allOk = true;
+            let centerElectrons = state.centerLp * 2;
+            state.bonds.forEach(b => centerElectrons += b * 2);
+            const centerOk = centerElectrons === curMol.center.maxOctet;
+            if (!centerOk) allOk = false;
+
+            const ligandsOk = curMol.ligands.map((l, idx) => {
+                const elCount = (state.bonds[idx] * 2) + (state.ligandLp[idx] * 2);
+                const ok = elCount === l.maxOctet;
+                if (!ok) allOk = false;
+                return { count: elCount, ok };
+            });
+
+            return { allOk, centerOk, centerElectrons, ligandsOk };
+        }
+
+        function render() {
+            const total = calculatePool();
+            const used = calculateUsed();
+            const remaining = total - used;
+            const octets = checkOctets();
+
+            valTotalEl.textContent = total;
+            valCalcEl.textContent = curMol.calcText;
+            usedEl.textContent = used;
+
+            if (remaining === 0) {
+                diffEl.textContent = '✅ Semua elektron terpakai';
+                diffEl.className = 'text-[11px] text-emerald-400 block mt-1 font-semibold';
+            } else if (remaining > 0) {
+                diffEl.textContent = `Sisa: ${remaining} e⁻ (tambahkan PEB)`;
+                diffEl.className = 'text-[11px] text-amber-400 block mt-1 font-semibold';
+            } else {
+                diffEl.textContent = `⚠️ Berlebih ${Math.abs(remaining)} e⁻!`;
+                diffEl.className = 'text-[11px] text-rose-400 block mt-1 font-semibold';
+            }
+
+            if (octets.allOk && remaining === 0) {
+                octetBadgeEl.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Oktet & Duplet Terpenuhi!';
+                octetBadgeEl.className = 'text-sm font-bold text-emerald-400 flex items-center gap-1.5 mt-1';
+                octetDescEl.textContent = 'Struktur Lewis stabil & valid';
+                feedbackEl.innerHTML = '🎉 <b>Sempurna!</b> Struktur Lewis memenuhi kaidah oktet dengan jumlah elektron yang tepat.';
+                feedbackEl.className = 'text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-700/80';
+            } else {
+                octetBadgeEl.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Belum Lengkap';
+                octetBadgeEl.className = 'text-sm font-bold text-amber-400 flex items-center gap-1.5 mt-1';
+                octetDescEl.textContent = 'Periksa oktet tiap atom & sisa elektron';
+                feedbackEl.innerHTML = `⚙️ <b>Petunjuk:</b> ${
+                    remaining > 0 
+                        ? 'Masih ada sisa elektron, distribusikan sebagai PEB.' 
+                        : remaining < 0 
+                            ? 'Elektron melebihi pool valensi, kurangi ikatan atau PEB.' 
+                            : 'Elektron pas, tapi pastikan tiap atom genap 8 e⁻ (atau 2 e⁻ untuk H).'
+                }`;
+                feedbackEl.className = 'text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800/90 text-slate-300 border border-slate-700';
+            }
+
+            renderWorkspace(octets);
+        }
+
+        function renderWorkspace(octets) {
+            const centerX = 200;
+            const centerY = 130;
+            const radius = 80;
+
+            let html = `
+                <svg viewBox="0 0 400 260" class="w-full h-full max-w-sm max-h-64">
+            `;
+
+            // Gambar Garis Ikatan
+            curMol.ligands.forEach((ligand, idx) => {
+                const rad = ligand.angle * Math.PI / 180;
+                const lx = centerX + Math.cos(rad) * radius;
+                const ly = centerY - Math.sin(rad) * radius;
+                const bondOrder = state.bonds[idx];
+
+                if (bondOrder === 1) {
+                    html += `<line x1="${centerX}" y1="${centerY}" x2="${lx}" y2="${ly}" stroke="#5eead4" stroke-width="4" stroke-linecap="round"/>`;
+                } else if (bondOrder === 2) {
+                    const perpX = -Math.sin(rad) * 4;
+                    const perpY = -Math.cos(rad) * 4;
+                    html += `<line x1="${centerX + perpX}" y1="${centerY + perpY}" x2="${lx + perpX}" y2="${ly + perpY}" stroke="#5eead4" stroke-width="3" stroke-linecap="round"/>`;
+                    html += `<line x1="${centerX - perpX}" y1="${centerY - perpY}" x2="${lx - perpX}" y2="${ly - perpY}" stroke="#5eead4" stroke-width="3" stroke-linecap="round"/>`;
+                } else if (bondOrder === 3) {
+                    const perpX = -Math.sin(rad) * 6;
+                    const perpY = -Math.cos(rad) * 6;
+                    html += `<line x1="${centerX}" y1="${centerY}" x2="${lx}" y2="${ly}" stroke="#5eead4" stroke-width="2.5" stroke-linecap="round"/>`;
+                    html += `<line x1="${centerX + perpX}" y1="${centerY + perpY}" x2="${lx + perpX}" y2="${ly + perpY}" stroke="#5eead4" stroke-width="2.5" stroke-linecap="round"/>`;
+                    html += `<line x1="${centerX - perpX}" y1="${centerY - perpY}" x2="${lx - perpX}" y2="${ly - perpY}" stroke="#5eead4" stroke-width="2.5" stroke-linecap="round"/>`;
+                }
+            });
+
+            // Titik PEB Atom Pusat
+            for (let i = 0; i < state.centerLp; i++) {
+                const lpAngle = (90 + i * 90) * Math.PI / 180;
+                const dist = 24;
+                const px1 = centerX + Math.cos(lpAngle) * dist - 4;
+                const py1 = centerY - Math.sin(lpAngle) * dist;
+                const px2 = centerX + Math.cos(lpAngle) * dist + 4;
+                const py2 = centerY - Math.sin(lpAngle) * dist;
+                html += `<circle cx="${px1}" cy="${py1}" r="2.5" fill="#fde047"/>`;
+                html += `<circle cx="${px2}" cy="${py2}" r="2.5" fill="#fde047"/>`;
+            }
+
+            // Atom Pusat Lingkaran & Simbol
+            const centerBorderColor = octets.centerOk ? '#34d399' : '#f87171';
+            html += `
+                <circle cx="${centerX}" cy="${centerY}" r="20" fill="#0f172a" stroke="${centerBorderColor}" stroke-width="2.5"/>
+                <text x="${centerX}" y="${centerY + 6}" font-size="16" font-weight="bold" fill="#f8fafc" text-anchor="middle" font-family="Inter, sans-serif">${curMol.center.symbol}</text>
+                <text x="${centerX}" y="${centerY - 26}" font-size="10" font-weight="bold" fill="${octets.centerOk ? '#34d399' : '#f87171'}" text-anchor="middle" font-family="Inter, sans-serif">${octets.centerElectrons}e⁻</text>
+            `;
+
+            // Atom Ligan Lingkaran, Simbol, dan Titik PEB
+            curMol.ligands.forEach((ligand, idx) => {
+                const rad = ligand.angle * Math.PI / 180;
+                const lx = centerX + Math.cos(rad) * radius;
+                const ly = centerY - Math.sin(rad) * radius;
+                const lOct = octets.ligandsOk[idx];
+                const ligandBorderColor = lOct.ok ? '#34d399' : '#f87171';
+
+                // Titik PEB Ligan
+                for (let i = 0; i < state.ligandLp[idx]; i++) {
+                    const lpAngle = rad + ((i + 1) * 90) * Math.PI / 180;
+                    const dist = 22;
+                    const px1 = lx + Math.cos(lpAngle) * dist - 3;
+                    const py1 = ly - Math.sin(lpAngle) * dist;
+                    const px2 = lx + Math.cos(lpAngle) * dist + 3;
+                    const py2 = ly - Math.sin(lpAngle) * dist;
+                    html += `<circle cx="${px1}" cy="${py1}" r="2.5" fill="#fde047"/>`;
+                    html += `<circle cx="${px2}" cy="${py2}" r="2.5" fill="#fde047"/>`;
+                }
+
+                html += `
+                    <circle cx="${lx}" cy="${ly}" r="17" fill="#0f172a" stroke="${ligandBorderColor}" stroke-width="2.5"/>
+                    <text x="${lx}" y="${ly + 5}" font-size="14" font-weight="bold" fill="#f8fafc" text-anchor="middle" font-family="Inter, sans-serif">${ligand.symbol}</text>
+                    <text x="${lx}" y="${ly - 22}" font-size="10" font-weight="bold" fill="${lOct.ok ? '#34d399' : '#f87171'}" text-anchor="middle" font-family="Inter, sans-serif">${lOct.count}e⁻</text>
+                `;
+            });
+
+            html += `</svg>`;
+
+            // Tombol Interaktif di Sekitar Atom
+            html += `
+                <div class="absolute bottom-2 flex flex-wrap justify-center gap-2 w-full px-2">
+                    <button type="button" id="btn-toggle-center-lp" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded text-[11px] font-semibold text-amber-300 transition cursor-pointer">
+                        PEB ${curMol.center.symbol}: ${state.centerLp} pasang
+                    </button>
+            `;
+
+            curMol.ligands.forEach((ligand, idx) => {
+                html += `
+                    <div class="inline-flex items-center gap-1 bg-slate-900/90 border border-slate-700 p-1 rounded-md text-[11px]">
+                        <button type="button" data-idx="${idx}" class="btn-toggle-bond px-2 py-0.5 bg-teal-900/60 hover:bg-teal-800 border border-teal-500/40 rounded text-teal-300 font-semibold cursor-pointer">
+                            Ikatan ${idx + 1}: ${state.bonds[idx] === 0 ? 'Putus' : state.bonds[idx] === 1 ? 'Tunggal' : state.bonds[idx] === 2 ? 'Rangkap 2' : 'Rangkap 3'}
+                        </button>
+                        ${ligand.maxOctet > 2 ? `
+                            <button type="button" data-idx="${idx}" class="btn-toggle-ligand-lp px-2 py-0.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded text-amber-300 font-semibold cursor-pointer">
+                                PEB: ${state.ligandLp[idx]}
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+
+            workspaceEl.innerHTML = html;
+
+            // Pasang Event Listeners tombol interaktif
+            const centerLpBtn = document.getElementById('btn-toggle-center-lp');
+            if (centerLpBtn) {
+                centerLpBtn.addEventListener('click', () => {
+                    state.centerLp = (state.centerLp + 1) % 4; // siklus 0..3 pasang
+                    render();
+                });
+            }
+
+            workspaceEl.querySelectorAll('.btn-toggle-bond').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    state.bonds[idx] = (state.bonds[idx] % 3) + 1; // siklus 1 -> 2 -> 3 -> 1
+                    render();
+                });
+            });
+
+            workspaceEl.querySelectorAll('.btn-toggle-ligand-lp').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    state.ligandLp[idx] = (state.ligandLp[idx] + 1) % 4; // siklus 0..3 pasang
+                    render();
+                });
+            });
+        }
+
+        // Tombol Reset
+        document.getElementById('btn-sim-reset').addEventListener('click', () => {
+            selectMolecule(curMol);
+        });
+
+        // Tombol Lihat Kunci Jawaban
+        document.getElementById('btn-sim-solve').addEventListener('click', () => {
+            state.bonds = [...curMol.solution.bonds];
+            state.centerLp = curMol.solution.centerLp;
+            state.ligandLp = [...curMol.solution.ligandLp];
+            render();
+        });
+
+        // Jalankan inisialisasi awal
+        initSelector();
+        render();
+    })();
+    </script>
 </section>
 
     <!-- 7. MUATAN FORMAL -->
