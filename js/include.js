@@ -242,7 +242,29 @@ function initBackToTop() {
     });
 }
 
+// Otomatis memastikan Favicon 🧪 dan Judul Tab terisi rapi untuk halaman baru di masa depan
+function initSEO() {
+    const iconLink = document.querySelector('link[rel="icon"]');
+    const svgFavicon = 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>';
+    if (iconLink && iconLink.getAttribute('href') === 'data:,') {
+        iconLink.setAttribute('href', svgFavicon);
+    } else if (!iconLink) {
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = svgFavicon;
+        document.head.appendChild(link);
+    }
+
+    if (document.title.includes('Modul Materi')) {
+        const h1 = document.querySelector('main article h1, h1');
+        if (h1) {
+            document.title = `${h1.textContent.trim()} - KimiaInteraktif`;
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    initSEO();
     loadPartial('/partials/header.html', 'header-placeholder', () => {
         bangunModulLainNav();
         aturTombolBeranda();
@@ -256,3 +278,4 @@ document.addEventListener('DOMContentLoaded', () => {
     bangunDaftarIsi();
     initBackToTop();
 });
+
