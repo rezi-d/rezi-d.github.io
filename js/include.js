@@ -242,7 +242,7 @@ function initBackToTop() {
     });
 }
 
-// Otomatis memastikan Favicon 🧪 dan Judul Tab terisi rapi untuk halaman baru di masa depan
+// Otomatis memastikan Favicon 🧪, Judul Tab, dan Meta SEO/OpenGraph terisi rapi untuk halaman baru di masa depan
 function initSEO() {
     const iconLink = document.querySelector('link[rel="icon"]');
     const svgFavicon = 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>';
@@ -255,11 +255,43 @@ function initSEO() {
         document.head.appendChild(link);
     }
 
-    if (document.title.includes('Modul Materi')) {
-        const h1 = document.querySelector('main article h1, h1');
-        if (h1) {
-            document.title = `${h1.textContent.trim()} - KimiaInteraktif`;
+    const kelasId = document.body.dataset.kelas;
+    const babSlug = document.body.dataset.bab;
+    const halamanIni = location.pathname.split('/').pop();
+
+    let subTitle = '';
+    let babTitle = '';
+    let kelasLabel = '';
+    let babDesc = '';
+
+    if (kelasId && typeof kurikulum !== 'undefined' && kurikulum[kelasId]) {
+        kelasLabel = kurikulum[kelasId].label || `Kelas ${kelasId}`;
+        if (babSlug) {
+            const dataBab = kurikulum[kelasId].bab.find(b => b.slug === babSlug);
+            if (dataBab) {
+                babTitle = dataBab.title;
+                babDesc = dataBab.deskripsi || '';
+                const dataSub = dataBab.subbab.find(s => s.file === halamanIni);
+                if (dataSub) subTitle = dataSub.title;
+            }
         }
+    }
+
+    if (document.title.includes('Modul Materi')) {
+        if (subTitle && babTitle) {
+            document.title = `${subTitle} - ${babTitle} ${kelasLabel} | KimiaInteraktif`;
+        } else {
+            const h1 = document.querySelector('main article h1, h1');
+            if (h1) document.title = `${h1.textContent.trim()} - KimiaInteraktif`;
+        }
+    }
+
+    // Fallback dinamis jika halaman baru belum memiliki meta description / og:title
+    if (!document.querySelector('meta[name="description"]') && (subTitle || babDesc)) {
+        const metaDesc = document.createElement('meta');
+        metaDesc.name = 'description';
+        metaDesc.content = `Pelajari materi ${subTitle || babTitle} (${kelasLabel} SMA) lengkap dengan simulasi interaktif dan latihan soal. ${babDesc}`.trim();
+        document.head.appendChild(metaDesc);
     }
 }
 

@@ -1,0 +1,41 @@
+name: Auto-Generate SEO & Sitemap
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'js/curriculum.js'
+      - 'kelas-*/**/*.html'
+      - 'index.html'
+
+permissions:
+  contents: write
+
+jobs:
+  update-seo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Auto-SEO & Sitemap Generator
+        run: node scripts/generate-seo.js
+
+      - name: Commit & Push updated SEO tags and sitemap.xml
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add sitemap.xml kelas-*
+          if git diff --staged --quiet; then
+            echo "Tidak ada perubahan SEO baru."
+          else
+            git commit -m "Chore(auto-seo): Update otomatis sitemap.xml & tag SEO untuk bab/sub-bab baru [skip ci]"
+            git push
+          fi
