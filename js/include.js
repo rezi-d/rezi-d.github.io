@@ -312,7 +312,7 @@ function initBackToTop() {
     btn.id = 'btn-back-to-top';
     btn.innerHTML = '↑';
     btn.title = 'Kembali ke atas';
-    btn.className = 'fixed bottom-20 right-6 z-40 w-10 h-10 rounded-full bg-slate-800 hover:bg-teal-600 text-white font-bold shadow-lg border border-slate-700 active:scale-95 transition-all duration-300 flex items-center justify-center opacity-0 pointer-events-none translate-y-3 cursor-pointer';
+    btn.className = 'fixed bottom-14 right-4 z-40 w-8 h-8 rounded-full bg-slate-800/90 hover:bg-teal-600 text-white text-xs font-bold shadow-md border border-slate-700 active:scale-95 transition-all duration-300 flex items-center justify-center opacity-0 pointer-events-none translate-y-3 cursor-pointer';
     document.body.appendChild(btn);
 
     window.addEventListener('scroll', () => {

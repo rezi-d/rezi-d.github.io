@@ -36,7 +36,10 @@ if (!kurikulum) {
 
 // 2. Kumpulkan seluruh URL untuk sitemap.xml dan periksa file HTML sub-bab
 const urls = [
-    { loc: `${DOMAIN}/`, changefreq: 'weekly', priority: '1.0' }
+    { loc: `${DOMAIN}/`, changefreq: 'weekly', priority: '1.0' },
+    { loc: `${DOMAIN}/tentang.html`, changefreq: 'monthly', priority: '0.6' },
+    { loc: `${DOMAIN}/kontak.html`, changefreq: 'monthly', priority: '0.6' },
+    { loc: `${DOMAIN}/kebijakan-privasi.html`, changefreq: 'monthly', priority: '0.5' }
 ];
 
 let updatedHtmlCount = 0;
