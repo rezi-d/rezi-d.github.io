@@ -41,14 +41,18 @@ function renderHubKelas() {
         return;
     }
 
-    // KASUS 2: Ada bab -> render satu kartu per bab
+    // Ambil data progres dari localStorage
+    let progres = { completed: {}, scores: {} };
+    try {
+        const raw = localStorage.getItem('kimia_progres_v1');
+        if (raw) progres = JSON.parse(raw);
+    } catch (e) {}
+
+    // KASUS 2: Ada bab -> render satu kartu per bab lengkap dengan progress bar & daftar sub-bab
     gridEl.innerHTML = data.bab.map((bab, index) => {
         const nomorBab = index + 1;
         const punyaSubbab = Array.isArray(bab.subbab) && bab.subbab.length > 0;
 
-        // Bab sudah terdaftar di curriculum.js, tapi kontennya belum digarap
-        // (misalnya Termokimia yang subbab-nya masih array kosong).
-        // Kartu ini TIDAK lebar penuh -> tetap sejajar di grid dengan kartu bab aktif lainnya.
         if (!punyaSubbab) {
             return kartuSegeraHadir(
                 `Bab ${nomorBab}: ${bab.title}`,
@@ -57,21 +61,53 @@ function renderHubKelas() {
             );
         }
 
-        // Deskripsi: pakai teks kurasi manual (bab.deskripsi) kalau ada,
-        // kalau tidak, gabungkan otomatis dari judul semua sub-bab
         const deskripsi = bab.deskripsi || (bab.subbab.map(sb => sb.title).join(', ') + '.');
         const hrefPertama = `/kelas-${kelasKey}/${bab.slug}/${bab.subbab[0].file}`;
 
+        const totalSub = bab.subbab.length;
+        let doneSub = 0;
+        const listSubHtml = bab.subbab.map((sb, sIdx) => {
+            const key = `${kelasKey}/${bab.slug}/${sb.file}`;
+            const isDone = !!(progres.completed && progres.completed[key]);
+            if (isDone) doneSub++;
+            const scoreObj = progres.scores && progres.scores[key];
+            const scoreBadge = scoreObj ? `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 ml-auto shrink-0">Nilai ${scoreObj.pct}</span>` : '';
+            return `
+                <a href="/kelas-${kelasKey}/${bab.slug}/${sb.file}" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs ${isDone ? 'bg-emerald-50/70 text-emerald-900 font-medium' : 'text-slate-600 hover:bg-slate-50'} transition">
+                    <span class="shrink-0">${isDone ? '✅' : `<span class="inline-block w-4 text-slate-400 font-mono">${sIdx + 1}.</span>`}</span>
+                    <span class="truncate">${sb.title}</span>
+                    ${scoreBadge}
+                </a>`;
+        }).join('');
+
+        const pct = Math.round((doneSub / totalSub) * 100);
+
         return `
-            <a href="${hrefPertama}" class="block bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-teal-300 transition group">
-                <h2 class="text-lg font-bold text-slate-900 group-hover:text-teal-600 transition mb-2">
-                    Bab ${nomorBab}: ${bab.title}
-                </h2>
-                <p class="text-sm text-slate-500 leading-relaxed">
-                    ${deskripsi}
-                </p>
-                <p class="text-xs text-teal-600 font-semibold mt-3">${bab.subbab.length} sub-bab &rarr;</p>
-            </a>`;
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-teal-300 transition flex flex-col justify-between">
+                <div>
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <a href="${hrefPertama}" class="text-lg font-bold text-slate-900 hover:text-teal-600 transition">
+                            Bab ${nomorBab}: ${bab.title}
+                        </a>
+                        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full shrink-0 ${pct === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">
+                            ${doneSub}/${totalSub} Selesai
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-3">
+                        ${deskripsi}
+                    </p>
+                    <!-- Progress bar ala Zenius -->
+                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mb-4">
+                        <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+                    </div>
+                    <div class="space-y-1 border-t border-slate-100 pt-3 mb-4">
+                        ${listSubHtml}
+                    </div>
+                </div>
+                <a href="${hrefPertama}" class="inline-flex items-center justify-center w-full py-2 px-4 rounded-lg bg-teal-50 hover:bg-teal-600 text-teal-700 hover:text-white text-xs font-bold transition">
+                    ${doneSub > 0 ? 'Lanjutkan Belajar &rarr;' : 'Mulai Belajar Bab Ini &rarr;'}
+                </a>
+            </div>`;
     }).join('');
 }
 

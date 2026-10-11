@@ -255,6 +255,111 @@ function filterUnsur() {
     renderUnsur(filtered);
 }
 
+// Kalkulator Massa Molekul Relatif (Mr) Otomatis
+function parseFormulaSegmen(seg) {
+    let i = 0;
+    const stack = [{}];
+
+    while (i < seg.length) {
+        const ch = seg[i];
+        if (ch === '(' || ch === '[') {
+            stack.push({});
+            i++;
+        } else if (ch === ')' || ch === ']') {
+            i++;
+            let numStr = '';
+            while (i < seg.length && /\d/.test(seg[i])) {
+                numStr += seg[i++];
+            }
+            const mult = numStr ? parseInt(numStr, 10) : 1;
+            if (stack.length < 2) return null;
+            const popped = stack.pop();
+            const top = stack[stack.length - 1];
+            for (const [el, cnt] of Object.entries(popped)) {
+                top[el] = (top[el] || 0) + cnt * mult;
+            }
+        } else if (/[A-Z]/.test(ch)) {
+            let sym = ch;
+            i++;
+            while (i < seg.length && /[a-z]/.test(seg[i])) {
+                sym += seg[i++];
+            }
+            let numStr = '';
+            while (i < seg.length && /\d/.test(seg[i])) {
+                numStr += seg[i++];
+            }
+            const cnt = numStr ? parseInt(numStr, 10) : 1;
+            const top = stack[stack.length - 1];
+            top[sym] = (top[sym] || 0) + cnt;
+        } else {
+            return null;
+        }
+    }
+    if (stack.length !== 1) return null;
+    return stack[0];
+}
+
+function hitungMrOtomatis() {
+    const input = document.getElementById('inputRumusMr');
+    const out = document.getElementById('hasilHitungMr');
+    if (!input || !out) return;
+
+    const raw = input.value.trim().replace(/\s+/g, '');
+    if (!raw) {
+        out.classList.add('hidden');
+        out.innerHTML = '';
+        return;
+    }
+
+    out.classList.remove('hidden');
+
+    // Dukung senyawa hidrat dengan pemisah '.' atau '·' (misal CuSO4.5H2O)
+    const parts = raw.split(/[\.\u00B7]/);
+    const totalCounts = {};
+
+    for (const part of parts) {
+        if (!part) continue;
+        const m = part.match(/^(\d+)(.+)$/);
+        const coef = m ? parseInt(m[1], 10) : 1;
+        const formula = m ? m[2] : part;
+        const parsed = parseFormulaSegmen(formula);
+        if (!parsed || Object.keys(parsed).length === 0) {
+            out.innerHTML = `<span class="text-rose-700 font-semibold">⚠️ Format rumus belum dikenali. Gunakan huruf besar/kecil yang tepat (contoh: <code>NaOH</code>, <code>H2SO4</code>, <code>Al2(SO4)3</code>).</span>`;
+            return;
+        }
+        for (const [el, cnt] of Object.entries(parsed)) {
+            totalCounts[el] = (totalCounts[el] || 0) + cnt * coef;
+        }
+    }
+
+    let totalMr = 0;
+    const rincian = [];
+    for (const [sym, cnt] of Object.entries(totalCounts)) {
+        const unsur = dataUnsur.find(u => u.s === sym);
+        if (!unsur) {
+            out.innerHTML = `<span class="text-rose-700 font-semibold">⚠️ Lambang unsur <b>"${sym}"</b> tidak ditemukan di Tabel Periodik. Periksa huruf besar/kecilnya!</span>`;
+            return;
+        }
+        const subTotal = +(cnt * unsur.ar).toFixed(2);
+        totalMr += subTotal;
+        rincian.push(`<span class="inline-block bg-white px-2 py-0.5 rounded border border-teal-200 font-mono">${cnt} &times; ${sym} (${unsur.ar}) = <b>${subTotal}</b></span>`);
+    }
+
+    totalMr = +totalMr.toFixed(2);
+    const formattedFormula = raw.replace(/(\d+)/g, '<sub>$1</sub>').replace(/\./g, ' &middot; ');
+
+    out.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="font-bold text-teal-900 text-sm">
+                M<sub>r</sub> ${formattedFormula} = <span class="text-base text-teal-700 bg-white px-2.5 py-0.5 rounded-lg border border-teal-300 font-mono">${totalMr} g/mol</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 text-[11px] text-slate-700">
+                ${rincian.join(' + ')}
+            </div>
+        </div>
+    `;
+}
+
 // Dipanggil oleh js/include.js setelah partials/spu-modal.html selesai dimuat
 function initSpu() {
     renderLegenda();
@@ -267,3 +372,4 @@ document.addEventListener('keydown', function(e) {
         toggleSpuModal(false);
     }
 });
+
