@@ -140,38 +140,217 @@
                         Sebuah sel Volta standar (misalnya Sel Daniell pasangan Seng-Tembaga) terdiri dari 4 komponen pokok:
                     </p>
 
-                    <!-- Diagram Visual Sel Daniell SVG -->
-                    <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 text-center text-white my-6">
-                        <p class="text-xs font-bold text-indigo-300 uppercase tracking-wide mb-3">Diagram Rangkaian Sel Daniell (Zn - Cu)</p>
-                        <svg viewBox="0 0 320 180" class="w-full max-w-sm mx-auto">
+                    <!-- Simulator Animasi Visual Sel Daniell SVG (Elektrode Menipis & Menebal) -->
+                    <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 text-center text-white my-6 shadow-lg">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2.5 border-b border-slate-800">
+                            <div class="text-left">
+                                <span class="text-[10px] font-bold text-teal-400 uppercase tracking-wider block">Simulasi Visual Perubahan Elektrode</span>
+                                <p class="text-xs sm:text-sm font-bold text-indigo-200">Diagram Interaktif Sel Daniell (Zn &minus; Cu)</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button id="volta-play-btn" type="button" class="px-3 py-1.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow">
+                                    <span id="volta-play-icon">&#9654;</span> <span id="volta-play-text">Jalankan Reaksi</span>
+                                </button>
+                                <button id="volta-reset-btn" type="button" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs border border-slate-700 transition cursor-pointer">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <svg viewBox="0 0 350 205" class="w-full max-w-md mx-auto">
                             <!-- Kawat & Voltmeter -->
-                            <line x1="60" y1="40" x2="140" y2="40" stroke="#fde047" stroke-width="2.5"/>
-                            <circle cx="160" cy="40" r="16" fill="#1e293b" stroke="#fde047" stroke-width="2"/>
-                            <text x="160" y="45" font-size="11" font-weight="bold" fill="#fde047" text-anchor="middle">V 1.10V</text>
-                            <line x1="180" y1="40" x2="260" y2="40" stroke="#fde047" stroke-width="2.5"/>
-                            
-                            <!-- Panah Aliran Elektron e- -->
-                            <text x="110" y="30" font-size="9" font-weight="bold" fill="#38bdf8">&rarr; e⁻ mengalir &rarr;</text>
+                            <polyline points="68,42 68,26 152,26" fill="none" stroke="#fde047" stroke-width="2.5"/>
+                            <polyline points="198,26 282,26 282,42" fill="none" stroke="#fde047" stroke-width="2.5"/>
+                            <circle cx="175" cy="26" r="17" fill="#1e293b" stroke="#fde047" stroke-width="2"/>
+                            <text id="volta-volt-txt" x="175" y="30" font-size="9.5" font-weight="bold" fill="#fde047" text-anchor="middle">1,10 V</text>
+
+                            <!-- Partikel Elektron Mengalir -->
+                            <text x="110" y="18" font-size="8.5" font-weight="bold" fill="#38bdf8" text-anchor="middle">e⁻ &rarr;</text>
+                            <text x="240" y="18" font-size="8.5" font-weight="bold" fill="#38bdf8" text-anchor="middle">e⁻ &rarr;</text>
+                            <circle id="volta-e1" cx="105" cy="26" r="3.5" fill="#38bdf8"/>
+                            <circle id="volta-e2" cx="235" cy="26" r="3.5" fill="#38bdf8"/>
 
                             <!-- Bejana Kiri (Anode Zn) -->
-                            <rect x="30" y="70" width="80" height="95" rx="4" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
-                            <rect x="32" y="100" width="76" height="63" fill="#38bdf8" opacity="0.3"/>
-                            <rect x="55" y="40" width="16" height="90" fill="#94a3b8" stroke="#cbd5e1" stroke-width="1.5"/>
-                            <text x="63" y="145" font-size="10" font-weight="bold" fill="#cbd5e1" text-anchor="middle">Zn (-)</text>
-                            <text x="70" y="175" font-size="9" fill="#94a3b8" text-anchor="middle">ZnSO₄(aq)</text>
+                            <rect x="25" y="72" width="92" height="104" rx="5" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+                            <rect id="volta-zn-liq" x="27" y="102" width="88" height="72" rx="3" fill="#38bdf8" opacity="0.22"/>
+
+                            <!-- Garis Batas Awal Elektrode Zn (Referensi Sebelum Menipis) -->
+                            <rect x="56" y="102" width="24" height="54" rx="2" fill="none" stroke="#f43f5e" stroke-width="1" stroke-dasharray="2,2" opacity="0.75"/>
+                            <!-- Bagian Atas Zn (Tidak Tercelup - Tetap) -->
+                            <rect x="56" y="42" width="24" height="60" rx="2" fill="#94a3b8" stroke="#cbd5e1" stroke-width="1.5"/>
+                            <!-- Bagian Tercelup Zn (Menipis Saat Reaksi Berjalan) -->
+                            <rect id="volta-zn-sub" x="56" y="102" width="24" height="54" rx="2" fill="#94a3b8" stroke="#cbd5e1" stroke-width="1.5"/>
+                            <text x="68" y="75" font-size="9" font-weight="bold" fill="#0f172a" text-anchor="middle">Zn</text>
+
+                            <!-- Ion Zn2+ Terlepas dari Anode -->
+                            <g id="volta-zn-ion-grp" opacity="0.35">
+                                <circle id="volta-zn-ion" cx="92" cy="130" r="9" fill="#1e293b" stroke="#fb7185" stroke-width="1.2"/>
+                                <text id="volta-zn-ion-txt" x="92" y="133" font-size="6.5" font-weight="bold" fill="#fda4af" text-anchor="middle">Zn²⁺</text>
+                            </g>
+
+                            <text x="68" y="168" font-size="8.5" font-weight="bold" fill="#fda4af" text-anchor="middle" id="volta-zn-status">Anode (&minus;): Utuh</text>
+                            <text x="71" y="190" font-size="8.5" fill="#94a3b8" text-anchor="middle">Larutan ZnSO₄(aq)</text>
 
                             <!-- Bejana Kanan (Katode Cu) -->
-                            <rect x="210" y="70" width="80" height="95" rx="4" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
-                            <rect x="212" y="100" width="76" height="63" fill="#0284c7" opacity="0.4"/>
-                            <rect x="249" y="40" width="16" height="90" fill="#f97316" stroke="#fdba74" stroke-width="1.5"/>
-                            <text x="257" y="145" font-size="10" font-weight="bold" fill="#fdba74" text-anchor="middle">Cu (+)</text>
-                            <text x="250" y="175" font-size="9" fill="#94a3b8" text-anchor="middle">CuSO₄(aq)</text>
+                            <rect x="233" y="72" width="92" height="104" rx="5" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+                            <rect id="volta-cu-liq" x="235" y="102" width="88" height="72" rx="3" fill="#0284c7" opacity="0.45"/>
+
+                            <!-- Lapisan Endapan Baru Cu (Menebal Saat Reaksi Berjalan) -->
+                            <rect id="volta-cu-deposit" x="270" y="102" width="24" height="54" rx="4" fill="#ea580c" stroke="#fdba74" stroke-width="1.5"/>
+                            <!-- Batang Inti Elektrode Cu -->
+                            <rect x="270" y="42" width="24" height="114" rx="2" fill="#f97316" stroke="#fed7aa" stroke-width="1.2"/>
+                            <!-- Garis Batas Awal Elektrode Cu -->
+                            <rect x="270" y="102" width="24" height="54" rx="2" fill="none" stroke="#fef08a" stroke-width="1" stroke-dasharray="2,2" opacity="0.7"/>
+                            <text x="282" y="75" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">Cu</text>
+
+                            <!-- Ion Cu2+ Menempel ke Katode -->
+                            <g id="volta-cu-ion-grp" opacity="0.85">
+                                <circle id="volta-cu-ion" cx="252" cy="130" r="9" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2"/>
+                                <text id="volta-cu-ion-txt" x="252" y="133" font-size="6.5" font-weight="bold" fill="#bae6fd" text-anchor="middle">Cu²⁺</text>
+                            </g>
+
+                            <text x="282" y="168" font-size="8.5" font-weight="bold" fill="#6ee7b7" text-anchor="middle" id="volta-cu-status">Katode (+): Utuh</text>
+                            <text x="279" y="190" font-size="8.5" fill="#94a3b8" text-anchor="middle">Larutan CuSO₄(aq)</text>
 
                             <!-- Jembatan Garam U terbalik -->
-                            <path d="M 95 125 L 95 70 Q 95 55, 120 55 L 200 55 Q 225 55, 225 70 L 225 125" fill="none" stroke="#22c55e" stroke-width="10" stroke-linecap="round"/>
-                            <text x="160" y="73" font-size="8" font-weight="bold" fill="#86efac" text-anchor="middle">Jembatan Garam (KNO₃)</text>
+                            <path d="M 103 125 L 103 68 Q 103 54, 125 54 L 225 54 Q 247 54, 247 68 L 247 125" fill="none" stroke="#22c55e" stroke-width="11" stroke-linecap="round" opacity="0.85"/>
+                            <text x="175" y="57" font-size="7.5" font-weight="bold" fill="#052e16" text-anchor="middle">&larr; NO₃⁻ &nbsp;|&nbsp; K⁺ &rarr;</text>
+                            <text x="175" y="72" font-size="8" font-weight="bold" fill="#86efac" text-anchor="middle">Jembatan Garam (KNO₃)</text>
                         </svg>
-                        <p class="text-[11px] text-slate-400 mt-2">Elektron mengalir secara spontan dari elektrode Zn (anode) menuju elektrode Cu (katode) melalui kawat luar.</p>
+
+                        <!-- Kontrol Slider Waktu & Indikator Massa Elektrode -->
+                        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 mt-3 text-left">
+                            <div class="flex justify-between items-center text-xs mb-1.5">
+                                <span class="text-slate-300 font-semibold">⏱️ Progres Waktu Reaksi Sel Volta:</span>
+                                <span id="volta-progress-lbl" class="font-mono font-bold text-teal-300">0% (Kondisi Awal)</span>
+                            </div>
+                            <input type="range" id="volta-progress" min="0" max="100" value="0" class="w-full accent-teal-400 cursor-pointer mb-3">
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                                <div class="bg-slate-900 p-2.5 rounded-lg border border-rose-500/30 flex items-center justify-between">
+                                    <div>
+                                        <span class="text-[10px] font-bold text-rose-400 uppercase block">Anode Zn (&minus;) &middot; Menipis</span>
+                                        <span class="text-slate-300 text-[11px]">Zn(s) &rarr; Zn²⁺(aq) + 2e⁻</span>
+                                    </div>
+                                    <span id="volta-zn-mass" class="font-mono font-bold text-rose-300 text-xs bg-rose-950/60 px-2 py-1 rounded border border-rose-500/30">0,00 g</span>
+                                </div>
+                                <div class="bg-slate-900 p-2.5 rounded-lg border border-emerald-500/30 flex items-center justify-between">
+                                    <div>
+                                        <span class="text-[10px] font-bold text-emerald-400 uppercase block">Katode Cu (+) &middot; Menebal</span>
+                                        <span class="text-slate-300 text-[11px]">Cu²⁺(aq) + 2e⁻ &rarr; Cu(s)</span>
+                                    </div>
+                                    <span id="volta-cu-mass" class="font-mono font-bold text-emerald-300 text-xs bg-emerald-950/60 px-2 py-1 rounded border border-emerald-500/30">+0,00 g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-2.5">
+                            💡 <em>Garis putus-putus menunjukkan ukuran awal elektrode. Saat reaksi berlangsung, batang <strong>Anode Zn menipis</strong> (larut menjadi ion Zn²⁺) dan batang <strong>Katode Cu menebal</strong> (ketambahan endapan Cu).</em>
+                        </p>
+
+                        <script>
+                            (function() {
+                                const slider = document.getElementById('volta-progress');
+                                const playBtn = document.getElementById('volta-play-btn');
+                                const resetBtn = document.getElementById('volta-reset-btn');
+                                const playIcon = document.getElementById('volta-play-icon');
+                                const playText = document.getElementById('volta-play-text');
+                                let timer = null;
+
+                                function renderVolta(p) {
+                                    const frac = p / 100;
+                                    // Anode Zn shrinks from width 24 to width 10 (centered at x=68)
+                                    const znW = 24 - (14 * frac);
+                                    const znX = 68 - (znW / 2);
+                                    const znSub = document.getElementById('volta-zn-sub');
+                                    znSub.setAttribute('x', znX.toFixed(1));
+                                    znSub.setAttribute('width', znW.toFixed(1));
+
+                                    // Cathode Cu deposit grows from width 24 to width 38 (centered at x=282)
+                                    const cuW = 24 + (14 * frac);
+                                    const cuX = 282 - (cuW / 2);
+                                    const cuDep = document.getElementById('volta-cu-deposit');
+                                    cuDep.setAttribute('x', cuX.toFixed(1));
+                                    cuDep.setAttribute('width', cuW.toFixed(1));
+
+                                    // Solution CuSO4 blue color slowly fades as Cu2+ ions deposit
+                                    const cuLiqOpacity = 0.48 - (0.24 * frac);
+                                    document.getElementById('volta-cu-liq').setAttribute('opacity', cuLiqOpacity.toFixed(2));
+
+                                    // Ion positions animation
+                                    const znIonX = 78 + (22 * ((p % 25) / 25));
+                                    document.getElementById('volta-zn-ion').setAttribute('cx', znIonX.toFixed(1));
+                                    document.getElementById('volta-zn-ion-txt').setAttribute('x', znIonX.toFixed(1));
+                                    document.getElementById('volta-zn-ion-grp').setAttribute('opacity', p > 0 ? '0.9' : '0.35');
+
+                                    const cuIonX = 246 + (18 * ((p % 25) / 25));
+                                    document.getElementById('volta-cu-ion').setAttribute('cx', cuIonX.toFixed(1));
+                                    document.getElementById('volta-cu-ion-txt').setAttribute('x', cuIonX.toFixed(1));
+
+                                    // Electrons moving on wire
+                                    const eOffset = (p % 20) / 20;
+                                    document.getElementById('volta-e1').setAttribute('cx', (75 + eOffset * 70).toFixed(1));
+                                    document.getElementById('volta-e2').setAttribute('cx', (200 + eOffset * 75).toFixed(1));
+
+                                    // Mass changes (for 0.05 mol reaction at 100%: Zn = 65 * 0.05 = 3.25g, Cu = 64 * 0.05 = 3.20g)
+                                    const mZn = (3.25 * frac).toFixed(2).replace('.', ',');
+                                    const mCu = (3.20 * frac).toFixed(2).replace('.', ',');
+                                    document.getElementById('volta-zn-mass').textContent = (p === 0 ? '0,00 g' : `\u2212${mZn} g`);
+                                    document.getElementById('volta-cu-mass').textContent = `+${mCu} g`;
+
+                                    document.getElementById('volta-progress-lbl').textContent = p === 0
+                                        ? '0% (Kondisi Awal)'
+                                        : `${p}% (Anode Menipis, Katode Menebal)`;
+                                    document.getElementById('volta-zn-status').textContent = p === 0 ? 'Anode (\u2212): Utuh' : 'Anode (\u2212): Menipis!';
+                                    document.getElementById('volta-cu-status').textContent = p === 0 ? 'Katode (+): Utuh' : 'Katode (+): Menebal!';
+                                }
+
+                                function stopAnim() {
+                                    if (timer) {
+                                        clearInterval(timer);
+                                        timer = null;
+                                    }
+                                    playIcon.innerHTML = '&#9654;';
+                                    playText.textContent = 'Jalankan Reaksi';
+                                }
+
+                                playBtn.addEventListener('click', function() {
+                                    if (timer) {
+                                        stopAnim();
+                                        return;
+                                    }
+                                    if (parseInt(slider.value, 10) >= 100) {
+                                        slider.value = 0;
+                                    }
+                                    playIcon.innerHTML = '&#9208;';
+                                    playText.textContent = 'Jeda';
+                                    timer = setInterval(function() {
+                                        let v = parseInt(slider.value, 10) + 2;
+                                        if (v >= 100) {
+                                            v = 100;
+                                            slider.value = v;
+                                            renderVolta(v);
+                                            stopAnim();
+                                        } else {
+                                            slider.value = v;
+                                            renderVolta(v);
+                                        }
+                                    }, 80);
+                                });
+
+                                resetBtn.addEventListener('click', function() {
+                                    stopAnim();
+                                    slider.value = 0;
+                                    renderVolta(0);
+                                });
+
+                                slider.addEventListener('input', function() {
+                                    stopAnim();
+                                    renderVolta(parseInt(slider.value, 10));
+                                });
+
+                                renderVolta(0);
+                            })();
+                        </script>
                     </div>
 
                     <div class="space-y-3 my-4">

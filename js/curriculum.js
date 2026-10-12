@@ -81,6 +81,16 @@ const kurikulum = {
                     { file: "anode-katode-potensial-sel.html", title: "Anode, Katode, & Potensial Sel" },
                     { file: "notasi-sel-dan-proyek.html", title: "Notasi Sel & Proyek Keynote" }
                 ]
+            },
+            {
+                slug: "elektrolisis",
+                title: "Sel Elektrolisis & Hukum Faraday",
+                deskripsi: "Konsep sel elektrolisis (KNAP), aturan reaksi katode-anode, simulator Hukum Faraday I & II, serta aplikasi penyepuhan logam (electroplating).",
+                subbab: [
+                    { file: "konsep-dan-aturan-elektrolisis.html", title: "Konsep Dasar & Aturan Reaksi Elektrolisis" },
+                    { file: "hukum-faraday.html", title: "Hukum Faraday I & II (Lab Virtual)" },
+                    { file: "aplikasi-dan-proyek-penyepuhan.html", title: "Aplikasi Industri & Proyek Penyepuhan" }
+                ]
             }
         ]
     }
