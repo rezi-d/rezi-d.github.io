@@ -788,6 +788,25 @@ function unduhKartuSkorPNG(info) {
     link.click();
 }
 
+// Otomatis memuat Google Analytics 4 (G-Z11XQXB5L7) di seluruh halaman web jika belum ada di <head>
+function initGoogleAnalytics() {
+    const GA_ID = 'G-Z11XQXB5L7';
+    if (document.querySelector(`script[src*="${GA_ID}"]`)) return;
+
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(gaScript);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = window.gtag || gtag;
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID);
+}
+
+initGoogleAnalytics();
+
 document.addEventListener('DOMContentLoaded', () => {
     initSEO();
     loadPartial('/partials/header.html', 'header-placeholder', () => {
