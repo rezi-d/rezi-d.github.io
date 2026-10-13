@@ -40,6 +40,18 @@ const kurikulum = {
                     { file: "nomor-atom-nomor-massa-dan-muatan-netto.html", title: "Karakteristik Atom: Nomor Atom, Nomor Massa & Muatan Netto" },
                     { file: "isotop-versi-berbeda-suatu-unsur.html", title: "Isotop: Memahami Versi Berbeda dari Suatu Unsur" }
                 ]
+            },
+            {
+                slug: "reaksi-redoks",
+                title: "Reaksi Reduksi-Oksidasi (Redoks)",
+                deskripsi: "Konsep dasar redoks, transfer elektron, kriteria reaksi redoks vs non-redoks, aturan lengkap bilangan oksidasi, oksidator & reduktor, serta metode penyetaraan setengah reaksi larutan asam.",
+                subbab: [
+                    { file: "pengantar-reaksi-redoks-dan-transfer-elektron.html", title: "Pengantar Reaksi Redoks & Transfer Elektron" },
+                    { file: "kriteria-redoks-dan-analisis-reaksi.html", title: "Kriteria Redoks: Membedakan Redoks vs Non-Redoks" },
+                    { file: "aturan-dan-penentuan-bilangan-oksidasi.html", title: "Aturan & Penentuan Bilangan Oksidasi" },
+                    { file: "oksidator-dan-reduktor.html", title: "Oksidator (Agen Pengoksidasi) & Reduktor (Agen Pereduksi)" },
+                    { file: "penyetaraan-redoks-metode-setengah-reaksi.html", title: "Penyetaraan Redoks Metode Setengah Reaksi (Asam)" }
+                ]
             }
         ]
     },
