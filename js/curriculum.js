@@ -24,6 +24,18 @@ const kurikulum = {
                     { file: "kimia-hijau.html", title: "Prinsip Kimia Hijau dalam Kehidupan" },
                     { file: "refleksi-dan-proyek.html", title: "Refleksi & Proyek PJJ (Freeform)" }
                 ]
+            },
+            {
+                slug: "struktur-atom",
+                title: "Struktur Atom & Model Atom",
+                deskripsi: "Sejarah perkembangan model atom dari Democritus & Aristoteles, bola pejal Dalton, tabung sinar katode Thomson, eksperimen Gold Foil Rutherford, tetes minyak Millikan, hingga penemuan neutron Chadwick.",
+                subbab: [
+                    { file: "sejarah-perkembangan-model-atom.html", title: "Sejarah Perkembangan Model Atom" },
+                    { file: "penemuan-elektron-dan-model-thomson.html", title: "Penemuan Elektron & Model Plum Pudding Thomson" },
+                    { file: "eksperimen-gold-foil-rutherford.html", title: "Eksperimen Gold Foil Rutherford & Penemuan Inti Atom" },
+                    { file: "percobaan-tetes-minyak-millikan.html", title: "Percobaan Tetes Minyak Millikan (Muatan Elektron)" },
+                    { file: "penemuan-neutron-chadwick.html", title: "Penemuan Neutron (James Chadwick 1932)" }
+                ]
             }
         ]
     },
