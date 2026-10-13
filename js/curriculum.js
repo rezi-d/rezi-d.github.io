@@ -28,13 +28,16 @@ const kurikulum = {
             {
                 slug: "struktur-atom",
                 title: "Struktur Atom & Model Atom",
-                deskripsi: "Sejarah perkembangan model atom dari Democritus & Aristoteles, bola pejal Dalton, tabung sinar katode Thomson, eksperimen Gold Foil Rutherford, tetes minyak Millikan, hingga penemuan neutron Chadwick.",
+                deskripsi: "Sejarah perkembangan model atom dari Democritus & Aristoteles, bola pejal Dalton, tabung sinar katode Thomson, eksperimen Gold Foil Rutherford, tetes minyak Millikan, penemuan neutron Chadwick, perbedaan atom & molekul, konfigurasi elektron, hingga nomor atom, nomor massa & muatan netto.",
                 subbab: [
                     { file: "sejarah-perkembangan-model-atom.html", title: "Sejarah Perkembangan Model Atom" },
                     { file: "penemuan-elektron-dan-model-thomson.html", title: "Penemuan Elektron & Model Plum Pudding Thomson" },
                     { file: "eksperimen-gold-foil-rutherford.html", title: "Eksperimen Gold Foil Rutherford & Penemuan Inti Atom" },
                     { file: "percobaan-tetes-minyak-millikan.html", title: "Percobaan Tetes Minyak Millikan (Muatan Elektron)" },
-                    { file: "penemuan-neutron-chadwick.html", title: "Penemuan Neutron (James Chadwick 1932)" }
+                    { file: "penemuan-neutron-chadwick.html", title: "Penemuan Neutron (James Chadwick 1932)" },
+                    { file: "perbedaan-atom-dan-molekul.html", title: "Perbedaan Atom dan Molekul (Panduan Kimia Dasar)" },
+                    { file: "konfigurasi-elektron-dan-diagram-orbital.html", title: "Konfigurasi Elektron & Diagram Orbital (C, Si, Cl, Ca)" },
+                    { file: "nomor-atom-nomor-massa-dan-muatan-netto.html", title: "Karakteristik Atom: Nomor Atom, Nomor Massa & Muatan Netto" }
                 ]
             }
         ]
