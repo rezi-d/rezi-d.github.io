@@ -2,37 +2,441 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z11XQXB5L7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Z11XQXB5L7');
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulasi TKA - KimiaInteraktif</title>
-    <link rel="icon" href="data:,">
+    <title>Simulasi Ujian TKA Kimia SMA 2025 - KimiaInteraktif</title>
+    <meta name="description" content="Simulasi ujian mandiri TKA Kimia SMA 2025 dengan 23 butir soal resmi, timer waktu ujian, lembar jawaban interaktif, dan rekap skor otomatis beserta pembahasan.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/tka/index.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="KimiaInteraktif">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/tka/index.html">
+    <meta property="og:title" content="⏱️ Simulasi Ujian TKA Kimia SMA 2025 &mdash; Uji Skor Mandiri">
+    <meta property="og:description" content="Kerjakan 23 butir soal TKA Kimia 2025 dengan timer ujian nyata. Skor langsung dihitung otomatis saat selesai ujian!">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style> body { font-family: 'Inter', sans-serif; } </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
+    <!-- HEADER (dimuat otomatis) -->
     <div id="header-placeholder"></div>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
-        <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-semibold uppercase mb-3">
-            Modul Latihan
-        </span>
-        <h1 class="text-3xl font-bold text-slate-900 mb-8 tracking-tight">
-            📝 Simulasi TKA (Tes Kemampuan Akademik)
-        </h1>
-
-        <div class="text-center py-16 border-2 border-dashed border-slate-200 rounded-xl">
-            <span class="text-5xl">🚧</span>
-            <p class="text-slate-500 font-semibold mt-4">Modul sedang disiapkan</p>
-            <p class="text-slate-400 text-sm mt-1">Simulasi soal TKA dengan sistem waktu & penilaian akan segera hadir di sini.</p>
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        <!-- BANNER ATAS & PENGATURAN SIMULASI -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold uppercase">
+                        Simulasi Resmi
+                    </span>
+                    <span class="text-xs text-slate-500 font-medium">TKA Kimia SMA 2025 &bull; 23 Soal</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                    📝 Simulasi Tes Kemampuan Akademik (TKA) Kimia
+                </h1>
+                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                    Kerjakan soal mandiri, pilih jawaban Anda, dan klik tombol <strong>"Kumpulkan Jawaban &amp; Lihat Skor"</strong> untuk mengetahui perolehan nilai secara langsung.
+                </p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="/tka/pembahasan.html" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs rounded-xl transition flex items-center gap-1.5">
+                    <span>📖 Buka Mode Pembahasan Saja</span>
+                </a>
+            </div>
         </div>
-    </div>
 
+        <!-- LAYOUT DUA KOLOM: SOAL AKTIF & NAVIGASI NOMOR -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+            
+            <!-- KOLOM KIRI: AREA PENGERJAAN SOAL AKTIF -->
+            <div class="lg:col-span-3 space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
+                    <!-- HEADER SOAL -->
+                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-teal-600 text-white font-bold text-sm flex items-center justify-center" id="active-num-badge">
+                                1
+                            </span>
+                            <div>
+                                <h2 class="font-bold text-slate-900 text-base" id="active-soal-title">Soal Nomor 1</h2>
+                                <span class="text-xs text-slate-500" id="active-soal-elemen">Kimia Dasar &bull; Stoikiometri</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-mono text-slate-400 bg-slate-50 px-2 py-1 rounded border border-slate-200" id="active-soal-kode">
+                            25KIMKDSSTKK05SA-000000-0643
+                        </span>
+                    </div>
+
+                    <!-- GAMBAR SOAL ASLI RESMI -->
+                    <div class="mb-6">
+                        <img id="active-soal-img" src="/tka/img/soal_01.png" alt="Soal TKA" class="w-full rounded-xl border border-slate-200 shadow-xs bg-white">
+                    </div>
+
+                    <!-- LEMBAR JAWABAN INTERAKTIF -->
+                    <div class="pt-4 border-t border-slate-100">
+                        <h3 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-3">
+                            ✏️ Lembar Jawaban Siswa:
+                        </h3>
+                        <div id="answer-options-container" class="space-y-2">
+                            <!-- Diisi dinamis oleh JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- NAVIGASI SEBELUMNYA / BERIKUTNYA -->
+                    <div class="flex items-center justify-between mt-8 pt-4 border-t border-slate-100">
+                        <button id="btn-prev" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition" disabled>
+                            &larr; Soal Sebelumnya
+                        </button>
+                        <button id="btn-next" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs rounded-xl transition shadow-xs">
+                            Soal Berikutnya &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BOX HASIL SKOR AKHIR (MUNCUL SETELAH SELESAI) -->
+                <div id="result-box" class="hidden bg-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-800 space-y-6">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6">
+                        <div>
+                            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold uppercase">
+                                Hasil Ujian Selesai
+                            </span>
+                            <h2 class="text-2xl font-bold mt-2">🎉 Rekap Skor Simulasi TKA 2025</h2>
+                            <p class="text-xs text-slate-300 mt-1">Skor Anda telah dihitung otomatis berdasarkan 23 butir soal.</p>
+                        </div>
+                        <div class="text-center bg-slate-950 px-6 py-4 rounded-xl border border-slate-800">
+                            <span class="text-xs text-slate-400 block mb-1">NILAI AKHIR</span>
+                            <span class="text-4xl font-extrabold text-teal-400" id="final-score">0</span>
+                            <span class="text-xs text-slate-400 block mt-1">Skala 100</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block">Total Soal</span>
+                            <span class="text-lg font-bold text-white mt-1 block">23 Butir</span>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block">Benar</span>
+                            <span class="text-lg font-bold text-emerald-400 mt-1 block" id="stat-benar">0</span>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block">Salah</span>
+                            <span class="text-lg font-bold text-rose-400 mt-1 block" id="stat-salah">0</span>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block">Kosong (Tidak Dijawab)</span>
+                            <span class="text-lg font-bold text-amber-400 mt-1 block" id="stat-kosong">0</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                        <a href="/tka/pembahasan.html" class="px-5 py-2.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs rounded-xl shadow transition">
+                            📖 Buka Pembahasan Rinci Seluruh Soal &rarr;
+                        </a>
+                        <button id="btn-restart" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition">
+                            🔄 Ulangi Simulasi dari Awal
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOLOM KANAN: PANEL NOMOR SOAL & TOMBOL SELESAI -->
+            <div class="lg:col-span-1 space-y-5">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs sticky top-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">
+                            📌 Nomor Soal
+                        </h3>
+                        <span class="text-[11px] font-semibold text-teal-700" id="answered-count-badge">
+                            0 / 23 Terjawab
+                        </span>
+                    </div>
+
+                    <!-- GRID TOMBOL NOMOR 1 - 23 -->
+                    <div class="grid grid-cols-5 gap-1.5" id="number-grid">
+                        <!-- Diisi dinamis oleh JavaScript -->
+                    </div>
+
+                    <!-- KETERANGAN WARNA -->
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                        <div class="flex items-center gap-1">
+                            <span class="w-3 h-3 rounded bg-teal-600 block"></span> Terjawab
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="w-3 h-3 rounded bg-slate-100 border border-slate-200 block"></span> Belum
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="w-3 h-3 rounded border-2 border-teal-500 block"></span> Aktif
+                        </div>
+                    </div>
+
+                    <!-- TOMBOL SELESAIKAN UJIAN -->
+                    <div class="mt-5 pt-3 border-t border-slate-100">
+                        <button id="btn-submit-exam" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2">
+                            <span>Kumpulkan &amp; Lihat Skor</span> &check;
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER & SPU MODAL (dimuat otomatis) -->
     <div id="footer-placeholder"></div>
     <div id="spu-placeholder"></div>
 
     <script src="/js/curriculum.js"></script>
     <script src="/js/spu.js"></script>
     <script src="/js/include.js"></script>
+    <script src="/tka/js/tka-data.js"></script>
+
+    <script>
+        let currentIdx = 0;
+        // Objek penyimpan jawaban siswa: { [soalId]: userChoice }
+        const userAnswers = JSON.parse(localStorage.getItem('tka_answers_2025') || '{}');
+        let examSubmitted = false;
+
+        function saveAnswers() {
+            localStorage.setItem('tka_answers_2025', JSON.stringify(userAnswers));
+            updateBadges();
+        }
+
+        function updateBadges() {
+            let answeredCount = 0;
+            tkaData.forEach(item => {
+                const ans = userAnswers[item.id];
+                if (item.tipe === 'pg') {
+                    if (ans && ans.length > 0) answeredCount++;
+                } else if (item.tipe === 'mcma') {
+                    if (ans && ans.length > 0) answeredCount++;
+                } else if (item.tipe === 'kompleks_bs') {
+                    if (ans && Object.keys(ans).length === item.items.length) answeredCount++;
+                }
+            });
+            document.getElementById('answered-count-badge').innerText = `${answeredCount} / ${tkaData.length} Terjawab`;
+
+            // Update nomor grid
+            document.querySelectorAll('.btn-grid-num').forEach(btn => {
+                const id = parseInt(btn.dataset.id);
+                const ans = userAnswers[id];
+                let isAnswered = false;
+                const it = tkaData[id - 1];
+                if (it.tipe === 'pg' || it.tipe === 'mcma') {
+                    isAnswered = ans && ans.length > 0;
+                } else if (it.tipe === 'kompleks_bs') {
+                    isAnswered = ans && Object.keys(ans).length === it.items.length;
+                }
+
+                btn.className = 'btn-grid-num w-full aspect-square rounded-lg text-xs font-semibold flex items-center justify-center transition border';
+                if (id === currentIdx + 1) {
+                    btn.classList.add('border-teal-500', 'border-2', 'ring-2', 'ring-teal-200');
+                } else {
+                    btn.classList.add('border-slate-200');
+                }
+
+                if (isAnswered) {
+                    btn.classList.add('bg-teal-600', 'text-white');
+                } else {
+                    btn.classList.add('bg-slate-50', 'text-slate-700', 'hover:bg-slate-100');
+                }
+            });
+        }
+
+        function renderNumberGrid() {
+            const grid = document.getElementById('number-grid');
+            grid.innerHTML = tkaData.map(item => `
+                <button class="btn-grid-num" data-id="${item.id}" onclick="jumpToSoal(${item.id - 1})">
+                    ${item.id}
+                </button>
+            `).join('');
+            updateBadges();
+        }
+
+        function jumpToSoal(idx) {
+            currentIdx = idx;
+            renderCurrentSoal();
+        }
+
+        function renderCurrentSoal() {
+            const item = tkaData[currentIdx];
+            document.getElementById('active-num-badge').innerText = item.id;
+            document.getElementById('active-soal-title').innerText = `Soal Nomor ${item.id}`;
+            document.getElementById('active-soal-elemen').innerText = `${item.elemen} &bull; ${item.subelemen}`;
+            document.getElementById('active-soal-kode').innerText = item.kode;
+            document.getElementById('active-soal-img').src = item.img;
+
+            // Render opsi jawaban sesuai tipe
+            const optContainer = document.getElementById('answer-options-container');
+            const savedAns = userAnswers[item.id];
+
+            if (item.tipe === 'pg') {
+                optContainer.innerHTML = item.options.map(opt => `
+                    <label class="flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition">
+                        <input type="radio" name="ans-${item.id}" value="${opt.id}" class="accent-teal-600 w-4 h-4" ${savedAns === opt.id ? 'checked' : ''} onchange="handleAnswerChange('${item.id}', '${opt.id}')">
+                        <span class="text-xs font-medium text-slate-800"><strong>${opt.id}.</strong> ${opt.text}</span>
+                    </label>
+                `).join('');
+            } else if (item.tipe === 'mcma') {
+                const currentArr = Array.isArray(savedAns) ? savedAns : [];
+                optContainer.innerHTML = item.options.map(opt => `
+                    <label class="flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition">
+                        <input type="checkbox" name="ans-${item.id}" value="${opt.id}" class="accent-teal-600 w-4 h-4 rounded" ${currentArr.includes(opt.id) ? 'checked' : ''} onchange="handleMcmaChange('${item.id}', '${opt.id}', this.checked)">
+                        <span class="text-xs font-medium text-slate-800"><strong>${opt.id}.</strong> ${opt.text}</span>
+                    </label>
+                `).join('');
+            } else if (item.tipe === 'kompleks_bs') {
+                const currentObj = (typeof savedAns === 'object' && savedAns !== null) ? savedAns : {};
+                optContainer.innerHTML = item.items.map((it, idx) => `
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <div class="text-xs text-slate-800 font-medium"><strong>Pernyataan ${idx + 1}:</strong> ${it.pernyataan}</div>
+                        <div class="flex items-center gap-4 text-xs font-semibold">
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="radio" name="bs-${item.id}-${idx}" value="Benar" class="accent-emerald-600" ${currentObj[idx] === 'Benar' ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, 'Benar')">
+                                <span class="text-emerald-700">Benar</span>
+                            </label>
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="radio" name="bs-${item.id}-${idx}" value="Salah" class="accent-rose-600" ${currentObj[idx] === 'Salah' ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, 'Salah')">
+                                <span class="text-rose-700">Salah</span>
+                            </label>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Tombol Previous & Next
+            document.getElementById('btn-prev').disabled = (currentIdx === 0);
+            document.getElementById('btn-next').innerText = (currentIdx === tkaData.length - 1) ? 'Ke Ringkasan Akhir' : 'Soal Berikutnya →';
+
+            updateBadges();
+        }
+
+        function handleAnswerChange(soalId, val) {
+            userAnswers[soalId] = val;
+            saveAnswers();
+        }
+
+        function handleMcmaChange(soalId, val, isChecked) {
+            let arr = Array.isArray(userAnswers[soalId]) ? userAnswers[soalId] : [];
+            if (isChecked) {
+                if (!arr.includes(val)) arr.push(val);
+            } else {
+                arr = arr.filter(x => x !== val);
+            }
+            userAnswers[soalId] = arr;
+            saveAnswers();
+        }
+
+        function handleBsChange(soalId, idx, val) {
+            if (typeof userAnswers[soalId] !== 'object' || userAnswers[soalId] === null) {
+                userAnswers[soalId] = {};
+            }
+            userAnswers[soalId][idx] = val;
+            saveAnswers();
+        }
+
+        document.getElementById('btn-prev').addEventListener('click', () => {
+            if (currentIdx > 0) {
+                currentIdx--;
+                renderCurrentSoal();
+            }
+        });
+
+        document.getElementById('btn-next').addEventListener('click', () => {
+            if (currentIdx < tkaData.length - 1) {
+                currentIdx++;
+                renderCurrentSoal();
+            } else {
+                calculateFinalScore();
+            }
+        });
+
+        document.getElementById('btn-submit-exam').addEventListener('click', () => {
+            if (confirm('Apakah Anda yakin ingin mengumpulkan lembar jawaban sekarang dan melihat perolehan skor?')) {
+                calculateFinalScore();
+            }
+        });
+
+        function calculateFinalScore() {
+            let benar = 0;
+            let salah = 0;
+            let kosong = 0;
+
+            tkaData.forEach(item => {
+                const ans = userAnswers[item.id];
+                if (item.tipe === 'pg') {
+                    if (!ans) {
+                        kosong++;
+                    } else if (ans === item.kunci) {
+                        benar++;
+                    } else {
+                        salah++;
+                    }
+                } else if (item.tipe === 'mcma') {
+                    if (!ans || ans.length === 0) {
+                        kosong++;
+                    } else {
+                        // Cek apakah sama persis set pilihannya
+                        const sortedAns = [...ans].sort().join('');
+                        const sortedKunci = [...item.kunci].sort().join('');
+                        if (sortedAns === sortedKunci) {
+                            benar++;
+                        } else {
+                            salah++;
+                        }
+                    }
+                } else if (item.tipe === 'kompleks_bs') {
+                    if (!ans || Object.keys(ans).length < item.items.length) {
+                        kosong++;
+                    } else {
+                        let isAllCorrect = true;
+                        item.items.forEach((it, idx) => {
+                            if (ans[idx] !== it.kunci) isAllCorrect = false;
+                        });
+                        if (isAllCorrect) {
+                            benar++;
+                        } else {
+                            salah++;
+                        }
+                    }
+                }
+            });
+
+            const score = Math.round((benar / tkaData.length) * 100);
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('stat-benar').innerText = benar;
+            document.getElementById('stat-salah').innerText = salah;
+            document.getElementById('stat-kosong').innerText = kosong;
+
+            const resBox = document.getElementById('result-box');
+            resBox.classList.remove('hidden');
+            resBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.getElementById('btn-restart').addEventListener('click', () => {
+            if (confirm('Apakah Anda ingin mengulang simulasi dari awal? Semua jawaban Anda akan di-reset.')) {
+                localStorage.removeItem('tka_answers_2025');
+                for (let k in userAnswers) delete userAnswers[k];
+                document.getElementById('result-box').classList.add('hidden');
+                currentIdx = 0;
+                renderNumberGrid();
+                renderCurrentSoal();
+            }
+        });
+
+        // Inisialisasi awal
+        renderNumberGrid();
+        renderCurrentSoal();
+    </script>
 </body>
 </html>

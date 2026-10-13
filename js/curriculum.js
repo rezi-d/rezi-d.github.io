@@ -128,6 +128,7 @@ const kurikulum = {
 
 // Modul di luar struktur Kelas/Bab (tampil sebagai menu terpisah di header)
 const modulLain = [
-    { slug: "tka",  title: "Simulasi TKA",    path: "/tka/index.html",  icon: "📝", status: "segera" },
+    { slug: "tka",  title: "Simulasi TKA",    path: "/tka/index.html",  icon: "📝", status: "aktif" },
     { slug: "anbk", title: "Persiapan ANBK",  path: "/anbk/index.html", icon: "🎯", status: "segera" }
 ];
+
