@@ -28,7 +28,7 @@ const kurikulum = {
             {
                 slug: "struktur-atom",
                 title: "Struktur Atom & Model Atom",
-                deskripsi: "Sejarah perkembangan model atom dari Democritus & Aristoteles, bola pejal Dalton, tabung sinar katode Thomson, eksperimen Gold Foil Rutherford, tetes minyak Millikan, penemuan neutron Chadwick, perbedaan atom & molekul, konfigurasi elektron, hingga nomor atom, nomor massa & muatan netto.",
+                deskripsi: "Sejarah perkembangan model atom dari Democritus & Aristoteles, bola pejal Dalton, tabung sinar katode Thomson, eksperimen Gold Foil Rutherford, tetes minyak Millikan, penemuan neutron Chadwick, perbedaan atom & molekul, konfigurasi elektron, nomor atom & massa, hingga konsep isotop.",
                 subbab: [
                     { file: "sejarah-perkembangan-model-atom.html", title: "Sejarah Perkembangan Model Atom" },
                     { file: "penemuan-elektron-dan-model-thomson.html", title: "Penemuan Elektron & Model Plum Pudding Thomson" },
@@ -37,7 +37,8 @@ const kurikulum = {
                     { file: "penemuan-neutron-chadwick.html", title: "Penemuan Neutron (James Chadwick 1932)" },
                     { file: "perbedaan-atom-dan-molekul.html", title: "Perbedaan Atom dan Molekul (Panduan Kimia Dasar)" },
                     { file: "konfigurasi-elektron-dan-diagram-orbital.html", title: "Konfigurasi Elektron & Diagram Orbital (C, Si, Cl, Ca)" },
-                    { file: "nomor-atom-nomor-massa-dan-muatan-netto.html", title: "Karakteristik Atom: Nomor Atom, Nomor Massa & Muatan Netto" }
+                    { file: "nomor-atom-nomor-massa-dan-muatan-netto.html", title: "Karakteristik Atom: Nomor Atom, Nomor Massa & Muatan Netto" },
+                    { file: "isotop-versi-berbeda-suatu-unsur.html", title: "Isotop: Memahami Versi Berbeda dari Suatu Unsur" }
                 ]
             }
         ]
@@ -45,18 +46,6 @@ const kurikulum = {
     "11": {
         label: "Kelas XI",
         bab: [
-            {
-                slug: "stoikiometri",
-                title: "Stoikiometri",
-                deskripsi: "Konsep mol & massa molar, volume gas & molaritas, rumus empiris, pereaksi pembatas, kadar kemurnian.",
-                subbab: [
-                    { file: "konsep-mol.html", title: "Konsep Mol & Massa Molar" },
-                    { file: "volume-gas-molaritas.html", title: "Volume Gas & Molaritas" },
-                    { file: "rumus-empiris.html", title: "Rumus Empiris & Molekul" },
-                    { file: "pereaksi-pembatas.html", title: "Pereaksi Pembatas (M-R-S)" },
-                    { file: "kadar-kemurnian.html", title: "Kadar Kemurnian & Air Kristal" }
-                ]
-            },
             {
                 slug: "ikatan-kimia",
                 title: "Ikatan Kimia",
@@ -69,6 +58,20 @@ const kurikulum = {
                     { file: "bentuk-molekul-vsepr.html", title: "Bentuk Molekul (VSEPR)" },
                     { file: "kepolaran-molekul.html", title: "Kepolaran Molekul & Momen Dipol" },
                     { file: "teori-hibridisasi.html", title: "Teori Hibridisasi" }
+                ]
+            },
+            {
+                slug: "stoikiometri",
+                title: "Stoikiometri",
+                deskripsi: "Pengantar konsep mol & Bilangan Avogadro, menghitung massa molar senyawa (sederhana, tanda kurung & hidrat), konversi mol, volume gas & molaritas, rumus empiris, pereaksi pembatas, kadar kemurnian.",
+                subbab: [
+                    { file: "pengantar-konsep-mol.html", title: "Pengantar Konsep Mol & Bilangan Avogadro" },
+                    { file: "menghitung-massa-molar-senyawa.html", title: "Menghitung Massa Molar Senyawa Kimia" },
+                    { file: "konsep-mol.html", title: "Konversi Mol, Massa & Jumlah Partikel" },
+                    { file: "volume-gas-molaritas.html", title: "Volume Gas & Molaritas" },
+                    { file: "rumus-empiris.html", title: "Rumus Empiris & Molekul" },
+                    { file: "pereaksi-pembatas.html", title: "Pereaksi Pembatas (M-R-S)" },
+                    { file: "kadar-kemurnian.html", title: "Kadar Kemurnian & Air Kristal" }
                 ]
             },
             {

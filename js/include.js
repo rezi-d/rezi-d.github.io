@@ -58,21 +58,33 @@ function saveProgres(data) {
 }
 
 function getCurrentSubbabKey() {
-    const kelasId = document.body.dataset.kelas;
-    const babSlug = document.body.dataset.bab;
-    const halamanIni = location.pathname.split('/').pop();
+    let kelasId = document.body.dataset.kelas;
+    let babSlug = document.body.dataset.bab;
+    const parts = location.pathname.split('/').filter(Boolean);
+    const halamanIni = parts[parts.length - 1];
+    if ((!kelasId || !babSlug) && parts.length >= 3 && parts[0].startsWith('kelas-')) {
+        kelasId = kelasId || parts[0].replace('kelas-', '');
+        babSlug = babSlug || parts[1];
+    }
     if (!kelasId || !babSlug || !halamanIni) return null;
     return `${kelasId}/${babSlug}/${halamanIni}`;
 }
 
 // Membangun SIDEBAR sub-bab secara otomatis berdasarkan
-// data-kelas & data-bab yang ditulis di tag <body> halaman ini.
+// data-kelas & data-bab yang ditulis di tag <body> (atau dari URL path).
 function bangunSidebar() {
-    const container = document.getElementById('sidebar-placeholder');
+    const container = document.getElementById('sidebar-placeholder') || document.getElementById('sidebar-materi');
     if (!container) return;
 
-    const kelasId = document.body.dataset.kelas;
-    const babSlug = document.body.dataset.bab;
+    let kelasId = document.body.dataset.kelas;
+    let babSlug = document.body.dataset.bab;
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    if ((!kelasId || !babSlug) && pathParts.length >= 3 && pathParts[0].startsWith('kelas-')) {
+        kelasId = kelasId || pathParts[0].replace('kelas-', '');
+        babSlug = babSlug || pathParts[1];
+        document.body.dataset.kelas = kelasId;
+        document.body.dataset.bab = babSlug;
+    }
 
     // Halaman tanpa data-kelas/data-bab (mis. halaman hub) tidak butuh sidebar sub-bab
     if (!kelasId || !babSlug || typeof kurikulum === 'undefined') {
@@ -92,28 +104,33 @@ function bangunSidebar() {
     const progres = getProgres();
     const totalSub = dataBab.subbab.length;
     let doneCount = 0;
+    let activeIdx = -1;
+
+    const isCompact = totalSub > 5;
+    const itemPadding = isCompact ? 'px-2.5 py-1.5 text-xs' : 'px-3 py-2 text-sm';
 
     const daftarSubbab = dataBab.subbab.map((item, idx) => {
         const aktif = item.file === halamanIni;
+        if (aktif) activeIdx = idx;
         const subKey = `${kelasId}/${babSlug}/${item.file}`;
         const isDone = !!progres.completed[subKey];
         if (isDone) doneCount++;
         const scoreInfo = progres.scores[subKey];
 
         const kelasCSS = aktif
-            ? 'bg-teal-50 text-teal-700 font-semibold border border-teal-200/80'
+            ? 'bg-teal-50 text-teal-700 font-semibold border border-teal-200/80 shadow-2xs'
             : (isDone ? 'text-slate-700 hover:bg-emerald-50/50' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900');
 
         const iconStatus = isDone
             ? `<span class="shrink-0 text-xs" title="Selesai dipelajari">✅</span>`
-            : `<span class="shrink-0 text-xs text-slate-400 font-mono">${idx + 1}.</span>`;
+            : `<span class="shrink-0 text-xs ${aktif ? 'text-teal-600 font-bold' : 'text-slate-400'} font-mono">${idx + 1}.</span>`;
 
         const scorePill = scoreInfo
             ? `<span class="ml-auto shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded ${scoreInfo.pct >= 75 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${scoreInfo.pct}</span>`
             : '';
 
         return `
-            <a href="${item.file}" class="flex items-center gap-2 px-3 py-2 rounded-lg transition ${kelasCSS}">
+            <a href="${item.file}" data-active="${aktif ? 'true' : 'false'}" class="flex items-center gap-2 ${itemPadding} rounded-lg transition ${kelasCSS}">
                 ${iconStatus}
                 <span class="leading-snug">${item.title}</span>
                 ${scorePill}
@@ -122,29 +139,78 @@ function bangunSidebar() {
 
     const pctBab = totalSub > 0 ? Math.round((doneCount / totalSub) * 100) : 0;
 
+    // Tombol pintas Prev / Next langsung di footer sidebar agar tidak perlu scroll ke bawah halaman
+    const prevItem = activeIdx > 0 ? dataBab.subbab[activeIdx - 1] : null;
+    const nextItem = (activeIdx >= 0 && activeIdx < totalSub - 1) ? dataBab.subbab[activeIdx + 1] : null;
+
+    const quickNavFooter = activeIdx >= 0 ? `
+        <div class="pt-3 mt-2 border-t border-slate-100 shrink-0">
+            <div class="flex items-center justify-between gap-1.5">
+                ${prevItem
+                    ? `<a href="${prevItem.file}" title="Sebelumnya: ${prevItem.title}" class="flex-1 text-center py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition truncate">&larr; Sebelumnya</a>`
+                    : `<span class="flex-1 text-center py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-slate-50 text-slate-300 select-none">&larr; Awal</span>`
+                }
+                <span class="text-[11px] font-mono font-bold text-slate-500 px-1.5 shrink-0">${activeIdx + 1}/${totalSub}</span>
+                ${nextItem
+                    ? `<a href="${nextItem.file}" title="Lanjut: ${nextItem.title}" class="flex-1 text-center py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-teal-600 hover:bg-teal-700 text-white transition shadow-2xs truncate">Lanjut &rarr;</a>`
+                    : `<a href="/kelas-${kelasId}/index.html" class="flex-1 text-center py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-teal-600 hover:bg-teal-700 text-white transition shadow-2xs truncate">Hub Kelas &rarr;</a>`
+                }
+            </div>
+        </div>
+    ` : '';
+
     container.innerHTML = `
-        <aside class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm h-fit sticky top-24 w-full">
-            <div class="flex items-center justify-between mb-1">
-                <p class="text-xs font-semibold text-teal-600 uppercase tracking-wide">${dataKelas.label}</p>
-                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${pctBab === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${doneCount}/${totalSub} Selesai</span>
-            </div>
-            <h2 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
-                📖 ${dataBab.title}
-            </h2>
-            <!-- Progress Bar Bab ala Zenius -->
-            <div class="mb-4 pb-3 border-b border-slate-100">
-                <div class="flex justify-between text-[11px] text-slate-500 mb-1">
-                    <span>Progres Bab</span>
-                    <span class="font-bold text-teal-700">${pctBab}%</span>
+        <aside class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm sticky top-20 w-full flex flex-col lg:max-h-[calc(100vh-6rem)]">
+            <div class="shrink-0">
+                <div class="flex items-center justify-between mb-1">
+                    <p class="text-xs font-semibold text-teal-600 uppercase tracking-wide">${dataKelas.label}</p>
+                    <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${pctBab === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${doneCount}/${totalSub} Selesai</span>
                 </div>
-                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: ${pctBab}%"></div>
+                <h2 class="text-sm sm:text-base font-bold text-slate-900 mb-2.5 flex items-center gap-1.5 leading-snug">
+                    <span>📖</span> <span>${dataBab.title}</span>
+                </h2>
+                <!-- Progress Bar Bab -->
+                <div class="mb-3 pb-2.5 border-b border-slate-100">
+                    <div class="flex justify-between text-[11px] text-slate-500 mb-1">
+                        <span>Progres Bab</span>
+                        <span class="font-bold text-teal-700">${pctBab}%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: ${pctBab}%"></div>
+                    </div>
                 </div>
             </div>
-            <nav class="space-y-1 text-sm font-medium">
+            <nav id="sidebar-subbab-nav" class="space-y-1 font-medium overflow-y-auto pr-1 flex-1 max-h-[48vh] lg:max-h-none" style="scrollbar-width: thin;">
                 ${daftarSubbab}
             </nav>
+            ${quickNavFooter}
         </aside>`;
+
+    // Otomatis gulir (auto-scroll) daftar di dalam sidebar agar sub-bab yang sedang aktif langsung terlihat di tengah
+    const navEl = container.querySelector('#sidebar-subbab-nav');
+    const activeLink = navEl ? navEl.querySelector('a[data-active="true"]') : null;
+    if (navEl && activeLink) {
+        const offset = activeLink.offsetTop - navEl.offsetTop - (navEl.clientHeight / 2) + (activeLink.clientHeight / 2);
+        navEl.scrollTop = Math.max(0, offset);
+    }
+
+    // Sinkronisasi otomatis badge "Bab X: ...", nomor urut H1, dan indikator "Sub-Materi X dari Y" di dalam artikel
+    const babIdx = dataKelas ? dataKelas.bab.findIndex(b => b.slug === babSlug) : -1;
+    const articleEl = document.querySelector('main article');
+    if (articleEl && babIdx >= 0) {
+        articleEl.querySelectorAll('span').forEach(sp => {
+            const txt = sp.textContent.trim();
+            if (/^Bab\s+\d+\s*:/i.test(txt)) {
+                sp.textContent = txt.replace(/^Bab\s+\d+/i, `Bab ${babIdx + 1}`);
+            } else if (activeIdx >= 0 && /^Sub-Materi\s+\d+\s+dari\s+\d+$/i.test(txt)) {
+                sp.textContent = `Sub-Materi ${activeIdx + 1} dari ${totalSub}`;
+            }
+        });
+        const h1El = articleEl.querySelector('h1');
+        if (h1El && activeIdx >= 0 && /^\s*\d+\.\s+/.test(h1El.textContent)) {
+            h1El.textContent = h1El.textContent.trim().replace(/^\d+\./, `${activeIdx + 1}.`);
+        }
+    }
 }
 
 // Menyisipkan link modul lain (Simulasi TKA, Persiapan ANBK, dst) ke header,
