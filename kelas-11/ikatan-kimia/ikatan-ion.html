@@ -95,6 +95,376 @@
         tampilAtomIon('dot-cl', 'Cl', 7);
         tampilAtomIon('dot-clminus', 'Cl', 8);
     </script>
+
+    <!-- SIMULATOR INTERAKTIF: VISUALISASI IKATAN IONIK NaCl (PERSIS SESUAI REFERENSI VIDEO) -->
+    <!-- SIMULATOR INTERAKTIF: VISUALISASI IKATAN IONIK NaCl (PERSIS SESUAI REFERENSI VIDEO) -->
+    <div class="my-8 bg-[#f8f9fa] rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm">
+        <!-- HEADER SIMULATOR & TOMBOL UTAMA ERGONOMIS -->
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></span>
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-800">
+                        Visualisasi Pembentukan Ikatan Ionik: Natrium Klorida (NaCl)
+                    </h3>
+                    <p class="text-xs text-slate-500">Model Atom Bohr Dinamis &middot; Transfer Elektron Realtime</p>
+                </div>
+            </div>
+
+            <!-- TOMBOL KONTROL UTAMA (LANGSUNG TERLIHAT DI ATAS) -->
+            <button id="btn-sim-action" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition active:scale-95 cursor-pointer flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                <span id="btn-icon">⚡</span>
+                <span id="btn-label">Mulai Simulasi</span>
+            </button>
+        </div>
+
+        <!-- AREA CANVAS / STAGE -->
+        <div class="relative bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden p-2 sm:p-4 flex flex-col items-center">
+            <canvas id="ionVideoCanvas" width="800" height="350" class="w-full max-w-[800px] h-auto block select-none"></canvas>
+
+            <!-- Status Info Bar (Terpusat di bawah canvas) -->
+            <div class="mt-2 mb-2 w-full flex items-center justify-center px-1 sm:px-2">
+                <!-- Status Pill -->
+                <div id="sim-pill-badge" class="px-5 py-2 bg-slate-50 rounded-xl border border-slate-200 shadow-2xs text-xs sm:text-sm font-semibold text-slate-700 text-center transition-all w-full sm:w-auto max-w-lg">
+                    Klik "Mulai Simulasi" untuk mengamati transfer elektron
+                </div>
+            </div>
+
+            <!-- Legenda Warna -->
+            <div class="flex items-center justify-center gap-4 text-[11px] text-slate-500 font-medium pb-1 pt-1">
+                <span class="inline-flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span> Elektron Asli Atom (Biru)
+                </span>
+                <span class="inline-flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block shadow-2xs"></span> Elektron Valensi yang Ditransfer (Oranye/Emas)
+                </span>
+            </div>
+        </div>
+
+        <!-- KARTU STATUS DUA ATOM (HASIL OBSERVASI) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-3">
+            <!-- Card Na -->
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs">
+                <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase block mb-0.5">
+                    NATRIUM (NA)
+                </span>
+                <div id="card-na-val" class="text-sm sm:text-base font-bold text-slate-800 font-mono">
+                    Na (Netral) &minus; 2, 8, 1
+                </div>
+            </div>
+
+            <!-- Card Cl -->
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs">
+                <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase block mb-0.5">
+                    KLORIN (CL)
+                </span>
+                <div id="card-cl-val" class="text-sm sm:text-base font-bold text-slate-800 font-mono">
+                    Cl (Netral) &minus; 2, 8, 7
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        const canvas = document.getElementById('ionVideoCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const pillBadge = document.getElementById('sim-pill-badge');
+        const cardNa = document.getElementById('card-na-val');
+        const cardCl = document.getElementById('card-cl-val');
+        const actionBtn = document.getElementById('btn-sim-action');
+        const btnLabel = document.getElementById('btn-label');
+        const btnIcon = document.getElementById('btn-icon');
+
+        function setBtnState(text, icon, disabled) {
+            if (!actionBtn) return;
+            actionBtn.disabled = disabled;
+            if (btnLabel) btnLabel.textContent = text;
+            if (btnIcon) btnIcon.textContent = icon;
+        }
+
+        let state = 0; // 0: Awal/Netral, 1: Animasi Transfer, 2: Selesai/Ion
+        let progress = 0;
+
+        // Sudut rotasi orbital kontinu untuk masing-masing kulit
+        let rot0 = 0; // Kulit 1 (K)
+        let rot1 = 0; // Kulit 2 (L)
+        let rot2 = 0; // Kulit 3 (M)
+
+        // Koordinat titik lepas elektron saat transfer dimulai
+        let startX = 0, startY = 0;
+
+        // Titik pusat kedua atom (dioptimalkan untuk height 350)
+        const naCenter = { x: 230, y: 155 };
+        const clCenter = { x: 570, y: 155 };
+        const orbitRadii = [36, 70, 105];
+
+        // Palet warna
+        const colorNucleusNa = "#2563eb"; // Royal Blue
+        const colorNucleusCl = "#10b981"; // Emerald Green
+        const colorElectron = "#2563eb";  // Elektron biru standar
+        const colorValenceSpecial = "#f59e0b"; // Oranye/Emas menyala untuk elektron yang ditransfer
+        const colorOrbit = "#cbd5e1";     // Garis orbit abu-abu
+
+        // Fungsi menggambar satu butir elektron
+        function drawElectron(x, y, isSpecial = false) {
+            ctx.beginPath();
+            ctx.arc(x, y, isSpecial ? 6.5 : 5.2, 0, Math.PI * 2);
+            if (isSpecial) {
+                ctx.fillStyle = colorValenceSpecial;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "#f59e0b";
+            } else {
+                ctx.fillStyle = colorElectron;
+                ctx.shadowBlur = 0;
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0; // reset shadow
+
+            // Pantulan kilau cahaya (specular highlight)
+            ctx.beginPath();
+            ctx.arc(x - 1.5, y - 1.5, 1.8, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+            ctx.fill();
+        }
+
+        // Fungsi menggambar atom lengkap dengan orbit dan elektron yang berputar
+        function drawAtom(center, label, isNa) {
+            // 1. Gambar Inti Atom
+            ctx.beginPath();
+            ctx.arc(center.x, center.y, 25, 0, Math.PI * 2);
+            ctx.fillStyle = isNa ? colorNucleusNa : colorNucleusCl;
+            ctx.fill();
+
+            // Label Teks Inti
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 16px 'Segoe UI', Arial, sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(label, center.x, center.y);
+
+            // 2. Gambar 3 Garis Orbit Lingkaran Putus-putus
+            for (let i = 0; i < 3; i++) {
+                const r = orbitRadii[i];
+                ctx.beginPath();
+                ctx.setLineDash([4, 4]);
+                ctx.arc(center.x, center.y, r, 0, Math.PI * 2);
+                if (isNa && i === 2 && state === 2) {
+                    ctx.strokeStyle = "rgba(203, 213, 225, 0.35)"; // Faint untuk kulit 3 Na yang kosong
+                } else {
+                    ctx.strokeStyle = colorOrbit;
+                }
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // 3. Gambar Elektron yang Berputar
+            // Kulit 1 (K, n=2): berputar dengan rot0 (searah jarum jam)
+            for (let j = 0; j < 2; j++) {
+                const angle = rot0 + (Math.PI * j);
+                const ex = center.x + Math.cos(angle) * orbitRadii[0];
+                const ey = center.y + Math.sin(angle) * orbitRadii[0];
+                drawElectron(ex, ey, false);
+            }
+
+            // Kulit 2 (L, n=8): berputar dengan rot1 (berlawanan jarum jam)
+            for (let j = 0; j < 8; j++) {
+                const angle = rot1 + (Math.PI * 2 / 8) * j;
+                const ex = center.x + Math.cos(angle) * orbitRadii[1];
+                const ey = center.y + Math.sin(angle) * orbitRadii[1];
+                drawElectron(ex, ey, false);
+            }
+
+            // Kulit 3 (M, n=8 max): berputar dengan rot2
+            if (isNa) {
+                // Pada kondisi awal (state 0), Na memiliki 1 elektron valensi yang berputar di kulit 3
+                // Diberi warna ORANYE/EMAS MENYALA agar siswa mudah melacaknya!
+                if (state === 0) {
+                    const ex = center.x + Math.cos(rot2) * orbitRadii[2];
+                    const ey = center.y + Math.sin(rot2) * orbitRadii[2];
+                    drawElectron(ex, ey, true);
+                }
+            } else {
+                // Cl memiliki 7 elektron biru pada slot 0 sampai 6
+                for (let j = 0; j < 7; j++) {
+                    const angle = rot2 + (Math.PI * 2 / 8) * j;
+                    const ex = center.x + Math.cos(angle) * orbitRadii[2];
+                    const ey = center.y + Math.sin(angle) * orbitRadii[2];
+                    drawElectron(ex, ey, false);
+                }
+                // Jika transfer telah selesai (state === 2), slot ke-8 terisi oleh elektron emas yang ditransfer!
+                // Elektron ini ikut berputar bersama 7 elektron Cl lainnya, tetap berwarna emas!
+                if (state === 2) {
+                    const slotAngle = rot2 + (Math.PI * 2 / 8) * 7;
+                    const ex = center.x + Math.cos(slotAngle) * orbitRadii[2];
+                    const ey = center.y + Math.sin(slotAngle) * orbitRadii[2];
+                    drawElectron(ex, ey, true);
+                }
+            }
+
+            // 4. Label Teks di Bawah Atom
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "#334155";
+            ctx.font = "bold 14px 'Segoe UI', Arial, sans-serif";
+
+            let titleTxt = "";
+            let configTxt = "";
+            if (isNa) {
+                titleTxt = state === 2 ? "Na⁺ (Kation)" : "Na (Netral)";
+                configTxt = state === 2 ? "[2, 8]" : "[2, 8, 1]";
+            } else {
+                titleTxt = state === 2 ? "Cl⁻ (Anion)" : "Cl (Netral)";
+                configTxt = state === 2 ? "[2, 8, 8]" : "[2, 8, 7]";
+            }
+
+            ctx.fillText(titleTxt, center.x, 288);
+            ctx.fillStyle = "#64748b";
+            ctx.font = "12px 'Segoe UI', Arial, sans-serif";
+            ctx.fillText(configTxt, center.x, 307);
+        }
+
+        // Fungsi menggambar badge muatan (+) dan (-)
+        function drawChargeBadge(center, sign, isPos) {
+            const bx = center.x + 85;
+            const by = center.y - 85;
+
+            ctx.beginPath();
+            ctx.arc(bx, by, 13, 0, Math.PI * 2);
+            ctx.fillStyle = isPos ? "#f0fdf4" : "#fef2f2";
+            ctx.fill();
+            ctx.strokeStyle = isPos ? "#22c55e" : "#ef4444";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.fillStyle = isPos ? "#16a34a" : "#dc2626";
+            ctx.font = "bold 16px 'Segoe UI', Arial, sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(sign, bx, by);
+        }
+
+        // Loop gambar frame utama (berjalan terus menerus)
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update sudut putaran orbital elektron kontinu
+            rot0 += 0.022; // Kulit 1 berputar cepat
+            rot1 -= 0.014; // Kulit 2 berputar arah berlawanan
+            rot2 += 0.008; // Kulit 3 berputar santai
+
+            // Gambar kedua atom
+            drawAtom(naCenter, "Na", true);
+            drawAtom(clCenter, "Cl", false);
+
+            if (state === 1) {
+                // Posisi target dinamis (ruang kosong slot ke-8 Cl yang sedang berputar di kulit 3)
+                const targetAngle = rot2 + (Math.PI * 2 / 8) * 7;
+                const targetX = clCenter.x + Math.cos(targetAngle) * orbitRadii[2];
+                const targetY = clCenter.y + Math.sin(targetAngle) * orbitRadii[2];
+
+                // Titik kontrol lengkung bezier ke atas
+                const ctrlX = (startX + targetX) / 2;
+                const ctrlY = Math.min(startY, targetY) - 45;
+
+                const inv = 1 - progress;
+                const curX = inv * inv * startX + 2 * inv * progress * ctrlX + progress * progress * targetX;
+                const curY = inv * inv * startY + 2 * inv * progress * ctrlY + progress * progress * targetY;
+
+                // Lintasan jejak transfer lengkung putus-putus
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.quadraticCurveTo(ctrlX, ctrlY, targetX, targetY);
+                ctx.strokeStyle = "rgba(245, 158, 11, 0.35)";
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Gambar elektron emas/amber yang sedang melayang berpindah
+                drawElectron(curX, curY, true);
+
+                // Kemajuan animasi
+                progress += 0.015;
+                if (progress >= 1) {
+                    progress = 1;
+                    state = 2;
+
+                    pillBadge.innerHTML = '<span class="text-slate-800 font-bold">Ikatan Ionik (Gaya Elektrostatik) Terbentuk!</span>';
+                    pillBadge.className = "px-6 py-2 bg-white rounded-full border border-blue-200 shadow-sm text-xs sm:text-sm font-semibold text-slate-800 text-center transition-all";
+
+                    cardNa.textContent = "Na⁺ (Kation) - 2, 8";
+                    cardCl.textContent = "Cl⁻ (Anion) - 2, 8, 8";
+
+                    setBtnState("Ulangi Simulasi", "↺", false);
+                }
+            } else if (state === 2) {
+                // Badge muatan (+) dan (-)
+                drawChargeBadge(naCenter, "+", true);
+                drawChargeBadge(clCenter, "−", false);
+
+                // Garis putus-putus gaya tarik elektrostatik
+                const lineX1 = naCenter.x + orbitRadii[1] + 15;
+                const lineX2 = clCenter.x - orbitRadii[2] - 15;
+                const lineY = naCenter.y;
+
+                ctx.beginPath();
+                ctx.setLineDash([6, 6]);
+                ctx.moveTo(lineX1, lineY);
+                ctx.lineTo(lineX2, lineY);
+                ctx.strokeStyle = "#2563eb";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Titik penanda gaya
+                ctx.beginPath();
+                ctx.arc(lineX1, lineY, 3, 0, Math.PI * 2);
+                ctx.arc(lineX2, lineY, 3, 0, Math.PI * 2);
+                ctx.fillStyle = "#2563eb";
+                ctx.fill();
+            }
+
+            // Loop terus berjalan kontinu
+            requestAnimationFrame(draw);
+        }
+
+        function startSim() {
+            if (state === 0) {
+                state = 1;
+                progress = 0;
+                setBtnState("Mentransfer...", "⏳", true);
+
+                // Rekam posisi awal elektron Na saat tombol diklik
+                startX = naCenter.x + Math.cos(rot2) * orbitRadii[2];
+                startY = naCenter.y + Math.sin(rot2) * orbitRadii[2];
+
+                pillBadge.innerHTML = '<span class="text-amber-600 font-semibold">Na melepaskan 1 e⁻ valensi (oranye) &rarr; diterima Cl...</span>';
+            } else if (state === 2) {
+                // Reset kembali ke status netral
+                state = 0;
+                progress = 0;
+
+                pillBadge.textContent = 'Klik "Mulai Simulasi" untuk mengamati transfer elektron';
+                pillBadge.className = "px-5 py-2 bg-white rounded-full border border-slate-200 shadow-xs text-xs sm:text-sm font-semibold text-slate-700 text-center transition-all";
+
+                cardNa.textContent = "Na (Netral) - 2, 8, 1";
+                cardCl.textContent = "Cl (Netral) - 2, 8, 7";
+
+                setBtnState("Mulai Simulasi", "⚡", false);
+            }
+        }
+
+        if (actionBtn) {
+            actionBtn.addEventListener('click', startSim);
+        }
+
+        // Mulai loop animasi kontinu
+        requestAnimationFrame(draw);
+    })();
+    </script>
 </section>
 
     <!-- 2. STRUKTUR KISI KRISTAL -->
