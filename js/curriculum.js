@@ -52,6 +52,25 @@ const kurikulum = {
                     { file: "oksidator-dan-reduktor.html", title: "Oksidator (Agen Pengoksidasi) & Reduktor (Agen Pereduksi)" },
                     { file: "penyetaraan-redoks-metode-setengah-reaksi.html", title: "Penyetaraan Redoks Metode Setengah Reaksi (Asam)" }
                 ]
+            },
+            {
+                slug: "tabel-periodik-unsur",
+                title: "Perkembangan Tabel Periodik & Prediksi Mendeleev",
+                deskripsi: "Kekacauan kimia pra-tabel periodik, Kongres Karlsruhe 1860, Triade Döbereiner, Oktaf Newlands, jalur penemuan Mendeleev vs Lothar Meyer, keberanian mengosongkan celah, serta konfirmasi brilian penemuan Gallium oleh Boisbaudran.",
+                subbab: [
+                    { file: "sejarah-dan-upaya-awal-tabel-periodik.html", title: "Sejarah & Upaya Awal Pengelompokan Unsur" },
+                    { file: "mendeleev-meyer-dan-prediksi-gallium.html", title: "Mendeleev, Meyer, & Penemuan Gallium" }
+                ]
+            },
+            {
+                slug: "hukum-dasar-kimia",
+                title: "Hukum-Hukum Dasar Kimia",
+                deskripsi: "Landasan memahami kimia pada tingkat atom dan molekul: Hukum Kekekalan Massa (Lavoisier), Hukum Perbandingan Tetap (Proust), serta Hukum Perbandingan Berganda (Dalton) dalam penentuan rumus kimia.",
+                subbab: [
+                    { file: "hukum-kekekalan-massa-lavoisier.html", title: "Hukum Kekekalan Massa (Lavoisier)" },
+                    { file: "hukum-perbandingan-tetap-proust.html", title: "Hukum Perbandingan Tetap (Proust)" },
+                    { file: "hukum-perbandingan-berganda-dalton.html", title: "Hukum Perbandingan Berganda (Dalton)" }
+                ]
             }
         ]
     },
