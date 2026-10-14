@@ -118,19 +118,19 @@ function bangunSidebar() {
         const scoreInfo = progres.scores[subKey];
 
         const kelasCSS = aktif
-            ? 'bg-teal-50 text-teal-700 font-semibold border border-teal-200/80 shadow-2xs'
-            : (isDone ? 'text-slate-700 hover:bg-emerald-50/50' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900');
+            ? 'bg-[#0071e3]/10 text-[#0071e3] font-semibold border border-[#0071e3]/20 shadow-2xs'
+            : (isDone ? 'text-slate-700 hover:bg-black/[0.03]' : 'text-slate-600 hover:bg-black/[0.03] hover:text-slate-950');
 
         const iconStatus = isDone
             ? `<span class="shrink-0 text-xs" title="Selesai dipelajari">✅</span>`
-            : `<span class="shrink-0 text-xs ${aktif ? 'text-teal-600 font-bold' : 'text-slate-400'} font-mono">${idx + 1}.</span>`;
+            : `<span class="shrink-0 text-xs ${aktif ? 'text-[#0071e3] font-bold' : 'text-slate-400'} font-mono">${idx + 1}.</span>`;
 
         const scorePill = scoreInfo
-            ? `<span class="ml-auto shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded ${scoreInfo.pct >= 75 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${scoreInfo.pct}</span>`
+            ? `<span class="ml-auto shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${scoreInfo.pct >= 75 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${scoreInfo.pct}</span>`
             : '';
 
         return `
-            <a href="${item.file}" data-active="${aktif ? 'true' : 'false'}" class="flex items-center gap-2 ${itemPadding} rounded-lg transition ${kelasCSS}">
+            <a href="${item.file}" data-active="${aktif ? 'true' : 'false'}" class="flex items-center gap-2 ${itemPadding} rounded-xl transition-all ${kelasCSS}">
                 ${iconStatus}
                 <span class="leading-snug">${item.title}</span>
                 ${scorePill}
@@ -144,38 +144,38 @@ function bangunSidebar() {
     const nextItem = (activeIdx >= 0 && activeIdx < totalSub - 1) ? dataBab.subbab[activeIdx + 1] : null;
 
     const quickNavFooter = activeIdx >= 0 ? `
-        <div class="pt-3 mt-2 border-t border-slate-100 shrink-0">
+        <div class="pt-3 mt-2 border-t border-black/[0.06] shrink-0">
             <div class="flex items-center justify-between gap-1.5">
                 ${prevItem
-                    ? `<a href="${prevItem.file}" title="Sebelumnya: ${prevItem.title}" class="flex-1 text-center py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition truncate">&larr; Sebelumnya</a>`
-                    : `<span class="flex-1 text-center py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-slate-50 text-slate-300 select-none">&larr; Awal</span>`
+                    ? `<a href="${prevItem.file}" title="Sebelumnya: ${prevItem.title}" class="flex-1 text-center py-1.5 px-2 rounded-full text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition truncate">&larr; Sebelumnya</a>`
+                    : `<span class="flex-1 text-center py-1.5 px-2 rounded-full text-[11px] font-semibold bg-slate-50 text-slate-300 select-none">&larr; Awal</span>`
                 }
                 <span class="text-[11px] font-mono font-bold text-slate-500 px-1.5 shrink-0">${activeIdx + 1}/${totalSub}</span>
                 ${nextItem
-                    ? `<a href="${nextItem.file}" title="Lanjut: ${nextItem.title}" class="flex-1 text-center py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-teal-600 hover:bg-teal-700 text-white transition shadow-2xs truncate">Lanjut &rarr;</a>`
-                    : `<a href="/kelas-${kelasId}/index.html" class="flex-1 text-center py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-teal-600 hover:bg-teal-700 text-white transition shadow-2xs truncate">Hub Kelas &rarr;</a>`
+                    ? `<a href="${nextItem.file}" title="Lanjut: ${nextItem.title}" class="flex-1 text-center py-1.5 px-2 rounded-full text-[11px] font-semibold bg-[#0071e3] hover:bg-[#0077ed] text-white transition shadow-2xs truncate">Lanjut &rarr;</a>`
+                    : `<a href="/kelas-${kelasId}/index.html" class="flex-1 text-center py-1.5 px-2 rounded-full text-[11px] font-semibold bg-[#0071e3] hover:bg-[#0077ed] text-white transition shadow-2xs truncate">Hub Kelas &rarr;</a>`
                 }
             </div>
         </div>
     ` : '';
 
     container.innerHTML = `
-        <aside class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm sticky top-20 w-full flex flex-col lg:max-h-[calc(100vh-6rem)]">
+        <aside class="bg-white p-5 rounded-2xl border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.04)] sticky top-20 w-full flex flex-col lg:max-h-[calc(100vh-6rem)]">
             <div class="shrink-0">
                 <div class="flex items-center justify-between mb-1">
-                    <p class="text-xs font-semibold text-teal-600 uppercase tracking-wide">${dataKelas.label}</p>
+                    <p class="text-xs font-semibold text-teal-600 uppercase tracking-wider">${dataKelas.label}</p>
                     <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${pctBab === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${doneCount}/${totalSub} Selesai</span>
                 </div>
                 <h2 class="text-sm sm:text-base font-bold text-slate-900 mb-2.5 flex items-center gap-1.5 leading-snug">
                     <span>📖</span> <span>${dataBab.title}</span>
                 </h2>
                 <!-- Progress Bar Bab -->
-                <div class="mb-3 pb-2.5 border-b border-slate-100">
+                <div class="mb-3 pb-2.5 border-b border-black/[0.05]">
                     <div class="flex justify-between text-[11px] text-slate-500 mb-1">
                         <span>Progres Bab</span>
                         <span class="font-bold text-teal-700">${pctBab}%</span>
                     </div>
-                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="w-full h-1.5 bg-black/[0.04] rounded-full overflow-hidden">
                         <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: ${pctBab}%"></div>
                     </div>
                 </div>
@@ -265,36 +265,56 @@ function bangunMenuBeranda() {
 
             const url = `/kelas-${kelasId}/index.html`;
             html += `
-                <a href="${url}" class="block bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-teal-300 transition group">
-                    <div class="flex items-start justify-between mb-3">
-                        <span class="text-3xl block">🧪</span>
-                        <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${pctKelas === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">
-                            ${doneSubKelas}/${totalSubKelas} Sub-bab
-                        </span>
+                <a href="${url}" class="block bg-white p-6 sm:p-7 rounded-2xl sm:rounded-3xl border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100/80 border border-black/[0.04] text-2xl select-none group-hover:scale-105 transition-transform">🧪</span>
+                            <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${pctKelas === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600 border border-black/[0.04]'}">
+                                ${doneSubKelas}/${totalSubKelas} Sub-bab
+                            </span>
+                        </div>
+                        <h2 class="text-xl font-bold tracking-tight text-slate-900 group-hover:text-teal-600 transition-colors mb-1.5">${dataKelas.label}</h2>
+                        <p class="text-xs text-slate-500 leading-relaxed mb-4">${dataKelas.bab.length} Bab &bull; ${totalSubKelas} Sub-materi interaktif terstruktur</p>
                     </div>
-                    <h2 class="text-lg font-bold text-slate-900 group-hover:text-teal-600 transition mb-1">${dataKelas.label}</h2>
-                    <p class="text-xs text-slate-500 leading-relaxed mb-3">${dataKelas.bab.length} Bab &bull; ${totalSubKelas} Sub-materi interaktif</p>
-                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mb-3">
-                        <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: ${pctKelas}%"></div>
+                    <div>
+                        <div class="w-full h-1.5 bg-black/[0.04] rounded-full overflow-hidden mb-3.5">
+                            <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: ${pctKelas}%"></div>
+                        </div>
+                        <p class="text-xs text-[#0071e3] font-semibold flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                            <span>${doneSubKelas > 0 ? `Lanjutkan belajar (${pctKelas}%)` : 'Mulai belajar materi'}</span>
+                            <span class="text-sm leading-none">&rsaquo;</span>
+                        </p>
                     </div>
-                    <p class="text-xs text-teal-600 font-semibold">${doneSubKelas > 0 ? `Lanjutkan belajar (${pctKelas}%) &rarr;` : 'Mulai belajar &rarr;'}</p>
                 </a>`;
         } else {
             html += `
-                <div class="bg-slate-100 p-6 rounded-xl border border-dashed border-slate-300 opacity-60">
-                    <span class="text-3xl mb-3 block">🧪</span>
-                    <h2 class="text-lg font-bold text-slate-500 mb-2">${dataKelas.label}</h2>
-                    <p class="text-sm text-slate-400 leading-relaxed">Materi segera hadir</p>
+                <div class="bg-white/60 p-6 sm:p-7 rounded-2xl sm:rounded-3xl border border-dashed border-black/[0.08] opacity-60">
+                    <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100 text-2xl mb-4 select-none">🧪</span>
+                    <h2 class="text-xl font-bold text-slate-400 mb-1.5">${dataKelas.label}</h2>
+                    <p class="text-xs text-slate-400 leading-relaxed">Materi sedang disiapkan sesuai silabus.</p>
                 </div>`;
         }
     }
 
     modulLain.forEach(m => {
         html += `
-            <a href="${m.path}" class="block bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-teal-300 transition group">
-                <span class="text-3xl mb-3 block">${m.icon}</span>
-                <h2 class="text-lg font-bold text-slate-900 group-hover:text-teal-600 transition mb-2">${m.title}</h2>
-                <p class="text-sm text-slate-500 leading-relaxed">${m.status === 'segera' ? 'Segera hadir' : 'Mulai berlatih'}</p>
+            <a href="${m.path}" class="block bg-white p-6 sm:p-7 rounded-2xl sm:rounded-3xl border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
+                <div>
+                    <div class="flex items-start justify-between mb-4">
+                        <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100/80 border border-black/[0.04] text-2xl select-none group-hover:scale-105 transition-transform">${m.icon}</span>
+                        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${m.status === 'segera' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'}">
+                            ${m.status === 'segera' ? 'Segera' : 'Tersedia'}
+                        </span>
+                    </div>
+                    <h2 class="text-xl font-bold tracking-tight text-slate-900 group-hover:text-teal-600 transition-colors mb-1.5">${m.title}</h2>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-4">Bank latihan soal interaktif dan simulasi ujian persiapan asesmen nasional.</p>
+                </div>
+                <div>
+                    <p class="text-xs text-[#0071e3] font-semibold flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                        <span>${m.status === 'segera' ? 'Segera hadir' : 'Mulai simulasi'}</span>
+                        <span class="text-sm leading-none">&rsaquo;</span>
+                    </p>
+                </div>
             </a>`;
     });
 
@@ -315,9 +335,9 @@ function bangunDaftarIsi() {
     const h1 = article.querySelector('h1');
     if (!h1) return;
 
-    // Buat wadah Navigasi Cepat
+    // Buat wadah Navigasi Cepat (Gaya Apple Minimalist)
     const tocBox = document.createElement('div');
-    tocBox.className = 'my-6 p-4 sm:p-5 bg-gradient-to-br from-slate-50 to-teal-50/30 rounded-xl border border-slate-200/80 shadow-xs';
+    tocBox.className = 'my-6 p-4 sm:p-5 bg-black/[0.02] rounded-2xl border border-black/[0.06] shadow-2xs';
     
     let pillsHtml = '';
     headings.forEach((h2, idx) => {
@@ -333,17 +353,17 @@ function bangunDaftarIsi() {
         const cleanTitle = h2.textContent.trim().replace(/\s+/g, ' ');
 
         pillsHtml += `
-            <a href="#${id}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-teal-50 hover:text-teal-700 hover:border-teal-300 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 transition shadow-2xs">
+            <a href="#${id}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-50 hover:text-slate-950 border border-black/[0.06] rounded-full text-xs font-medium text-slate-700 transition-all shadow-2xs">
                 <span>${cleanTitle}</span>
             </a>`;
     });
 
     tocBox.innerHTML = `
-        <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200/60">
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-black/[0.05]">
             <span class="text-xs font-bold uppercase tracking-wider text-teal-800 flex items-center gap-1.5">
                 🧭 Navigasi Cepat Materi
             </span>
-            <span class="text-[11px] text-slate-500">${headings.length} Topik</span>
+            <span class="text-[11px] font-medium text-slate-400 font-mono">${headings.length} Topik</span>
         </div>
         <div class="flex flex-wrap gap-2">
             ${pillsHtml}
@@ -372,13 +392,13 @@ function bangunDaftarIsi() {
     });
 }
 
-// Tombol "Kembali ke Atas" melayang (Floating Back to Top)
+// Tombol "Kembali ke Atas" melayang (Gaya Apple Frosted Glass)
 function initBackToTop() {
     const btn = document.createElement('button');
     btn.id = 'btn-back-to-top';
     btn.innerHTML = '↑';
     btn.title = 'Kembali ke atas';
-    btn.className = 'fixed bottom-14 right-4 z-40 w-8 h-8 rounded-full bg-slate-800/90 hover:bg-teal-600 text-white text-xs font-bold shadow-md border border-slate-700 active:scale-95 transition-all duration-300 flex items-center justify-center opacity-0 pointer-events-none translate-y-3 cursor-pointer';
+    btn.className = 'fixed bottom-14 right-4 z-40 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md hover:bg-white text-slate-900 text-sm font-semibold shadow-[0_4px_16px_rgba(0,0,0,0.1)] border border-black/[0.08] active:scale-90 transition-all duration-300 flex items-center justify-center opacity-0 pointer-events-none translate-y-3 cursor-pointer';
     document.body.appendChild(btn);
 
     window.addEventListener('scroll', () => {

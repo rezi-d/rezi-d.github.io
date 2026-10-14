@@ -71,10 +71,10 @@ function renderHubKelas() {
             const isDone = !!(progres.completed && progres.completed[key]);
             if (isDone) doneSub++;
             const scoreObj = progres.scores && progres.scores[key];
-            const scoreBadge = scoreObj ? `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 ml-auto shrink-0">Nilai ${scoreObj.pct}</span>` : '';
+            const scoreBadge = scoreObj ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 ml-auto shrink-0">Nilai ${scoreObj.pct}</span>` : '';
             return `
-                <a href="/kelas-${kelasKey}/${bab.slug}/${sb.file}" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs ${isDone ? 'bg-emerald-50/70 text-emerald-900 font-medium' : 'text-slate-600 hover:bg-slate-50'} transition">
-                    <span class="shrink-0">${isDone ? '✅' : `<span class="inline-block w-4 text-slate-400 font-mono">${sIdx + 1}.</span>`}</span>
+                <a href="/kelas-${kelasKey}/${bab.slug}/${sb.file}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs ${isDone ? 'bg-emerald-50/70 text-emerald-950 font-medium' : 'text-slate-600 hover:bg-black/[0.03] hover:text-slate-950'} transition-all">
+                    <span class="shrink-0">${isDone ? '✅' : `<span class="inline-block w-4 text-slate-400 font-mono text-center">${sIdx + 1}.</span>`}</span>
                     <span class="truncate">${sb.title}</span>
                     ${scoreBadge}
                 </a>`;
@@ -83,28 +83,28 @@ function renderHubKelas() {
         const pct = Math.round((doneSub / totalSub) * 100);
 
         return `
-            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-teal-300 transition flex flex-col justify-between">
+            <div class="bg-white p-6 sm:p-7 rounded-2xl sm:rounded-3xl border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between">
                 <div>
                     <div class="flex items-start justify-between gap-2 mb-2">
-                        <a href="${hrefPertama}" class="text-lg font-bold text-slate-900 hover:text-teal-600 transition">
+                        <a href="${hrefPertama}" class="text-xl font-bold tracking-tight text-slate-900 hover:text-teal-600 transition-colors">
                             Bab ${nomorBab}: ${bab.title}
                         </a>
-                        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full shrink-0 ${pct === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">
+                        <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full shrink-0 ${pct === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600 border border-black/[0.04]'}">
                             ${doneSub}/${totalSub} Selesai
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500 leading-relaxed mb-3">
+                    <p class="text-xs text-slate-500 leading-relaxed mb-4">
                         ${deskripsi}
                     </p>
-                    <!-- Progress bar ala Zenius -->
-                    <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mb-4">
+                    <!-- Progress Bar ala Apple -->
+                    <div class="w-full h-1.5 bg-black/[0.04] rounded-full overflow-hidden mb-4">
                         <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
                     </div>
-                    <div class="space-y-1 border-t border-slate-100 pt-3 mb-4">
+                    <div class="space-y-1 border-t border-black/[0.05] pt-3 mb-5">
                         ${listSubHtml}
                     </div>
                 </div>
-                <a href="${hrefPertama}" class="inline-flex items-center justify-center w-full py-2 px-4 rounded-lg bg-teal-50 hover:bg-teal-600 text-teal-700 hover:text-white text-xs font-bold transition">
+                <a href="${hrefPertama}" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold shadow-xs transition-all active:scale-[0.98]">
                     ${doneSub > 0 ? 'Lanjutkan Belajar &rarr;' : 'Mulai Belajar Bab Ini &rarr;'}
                 </a>
             </div>`;
@@ -116,8 +116,8 @@ function renderHubKelas() {
 function kartuSegeraHadir(judul, teks, lebarPenuh) {
     const spanClass = lebarPenuh ? 'col-span-full' : '';
     return `
-        <div class="${spanClass} bg-slate-100 p-6 rounded-xl border border-dashed border-slate-300 opacity-60">
-            <h2 class="text-lg font-bold text-slate-500 mb-2">${judul}</h2>
+        <div class="${spanClass} bg-white/60 p-6 sm:p-7 rounded-2xl sm:rounded-3xl border border-dashed border-black/[0.08] opacity-60">
+            <h2 class="text-lg font-bold text-slate-400 mb-2">${judul}</h2>
             <p class="text-sm text-slate-400 leading-relaxed">${teks}</p>
         </div>`;
 }
