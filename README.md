@@ -7,7 +7,7 @@
 ## ✨ Fitur Utama
 
 - 🔬 **Laboratorium & Simulator Virtual Interaktif**
-  - **Kelas XI:** Kalkulator Mol & Pereaksi Pembatas (M-R-S), Visualisasi Ikatan Ion/Kovalen/Logam, Simulator Bentuk Molekul 3D VSEPR, Kalorimeter Kopi Virtual, dan Simulator Hukum Hess Model Tabel.
+  - **Kelas XI:** Kalkulator Mol & Pereaksi Pembatas (M-R-S), Visualisasi Ikatan Ion/Kovalen/Logam, Simulator Bentuk Molekul 3D VSEPR, Kalorimeter Kopi Virtual, Simulator Hukum Hess Model Tabel, Simulator Dinamis Laju Reaksi & Partikel Bergerak, Lab Virtual Teori Tumbukan, serta Kalkulator Orde Terintegrasi & Waktu Paruh.
   - **Kelas XII:** Animasi Sel Volta (Sel Daniell $\text{Zn}-\text{Cu}$ dengan visualisasi elektrode menipis & menebal), Simulator Interaktif Deret Volta (4 Tab), Simulator Penentu Reaksi Katode-Anode Elektrolisis (Inert vs Logam Aktif), Lab Virtual Hukum Faraday I & II (Sel Seri), serta Studio Virtual *Electroplating* (Penyepuhan Sendok Besi).
 - ✅ **Kuis Mandiri Auto-Koreksi & Pembahasan Bertahap**
   - Setiap sub-bab dilengkapi latihan soal interaktif dengan umpan balik instan dan pembahasan langkah demi langkah.
@@ -54,6 +54,21 @@ Seluruh daftar materi dikelola secara terpusat melalui `js/curriculum.js`:
    - Kondisi Standar & Persamaan Termokimia (`perubahan-entalpi-standar.html`)
    - Kalorimeter Virtual & Proyek Numbers (`kalorimetri-dan-proyek.html`)
    - Hukum Hess & Simulator Model Tabel (`hukum-hess.html`)
+4. **Laju Reaksi** (`kelas-11/laju-reaksi/`)
+   - Konsep & Ungkapan Laju Reaksi (`konsep-laju-reaksi.html`)
+   - Teori Tumbukan & Faktor Laju Reaksi (`teori-tumbukan-faktor.html`)
+   - Hukum Laju & Penentuan Orde Reaksi (`hukum-laju-dan-orde.html`)
+   - Mekanisme Reaksi & Katalis (`mekanisme-reaksi-katalis.html`)
+5. **Kesetimbangan Kimia** (`kelas-11/kesetimbangan-kimia/`)
+   - Konsep Kesetimbangan Dinamis & Reversibilitas — *dilengkapi Simulator Konvergensi Laju & Partikel Canvas* (`konsep-kesetimbangan-dinamis.html`)
+   - Tetapan Kesetimbangan ($K_c$ & $K_p$) — *dilengkapi Kalkulator Konversi $K_p = K_c(RT)^{\Delta n}$* (`tetapan-kesetimbangan-kc-kp.html`)
+   - Pergeseran Kesetimbangan (Asas Le Châtelier) — *dilengkapi Lab Virtual Syringe Gas $\text{N}_2\text{O}_4 \rightleftharpoons 2\text{NO}_2$* (`pergeseran-kesetimbangan-le-chatelier.html`)
+   - Kuosien Reaksi ($Q$) & Perhitungan M-R-S — *dilengkapi Generator Otomatis ICE Table / Tabel M-R-S* (`perhitungan-kesetimbangan-kimia.html`)
+6. **Asam dan Basa** (`kelas-11/asam-basa/`)
+   - Teori Asam-Basa & Indikator — *dilengkapi Lab Virtual Pengujian Indikator Asam-Basa* (`teori-asam-basa-indikator.html`)
+   - Derajat Keasaman (pH & pOH) — *dilengkapi Simulator Spektrum pH Interaktif 0–14* (`derajat-keasaman-ph-poh.html`)
+   - Kekuatan Asam-Basa ($K_a$ & $K_b$) — *dilengkapi Simulator & Kalkulator Ionisasi Asam Lemah* (`kekuatan-asam-basa-ka-kb.html`)
+   - Titrasi Asam-Basa & Kurva Titrasi — *dilengkapi Simulator Buret & Grafik Titrasi Real-Time Canvas* (`titrasi-asam-basa.html`)
 
 ### 🟣 Kelas XII
 1. **Sel Volta & Elektrokimia** (`kelas-12/sel-volta/`)

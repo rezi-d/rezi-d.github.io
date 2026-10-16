@@ -126,6 +126,28 @@ const kurikulum = {
                     { file: "hukum-laju-dan-orde.html", title: "Hukum Laju & Penentuan Orde Reaksi" },
                     { file: "mekanisme-reaksi-katalis.html", title: "Mekanisme Reaksi & Katalis" }
                 ]
+            },
+            {
+                slug: "kesetimbangan-kimia",
+                title: "Kesetimbangan Kimia",
+                deskripsi: "Konsep kesetimbangan dinamis, tetapan kesetimbangan Kc & Kp, faktor pergeseran asas Le Châtelier, serta perhitungan kuosien reaksi Q dan tabel M-R-S (ICE).",
+                subbab: [
+                    { file: "konsep-kesetimbangan-dinamis.html", title: "Konsep Kesetimbangan Dinamis & Reversibilitas" },
+                    { file: "tetapan-kesetimbangan-kc-kp.html", title: "Tetapan Kesetimbangan (Kc & Kp)" },
+                    { file: "pergeseran-kesetimbangan-le-chatelier.html", title: "Pergeseran Kesetimbangan (Asas Le Châtelier)" },
+                    { file: "perhitungan-kesetimbangan-kimia.html", title: "Kuosien Reaksi (Q) & Perhitungan M-R-S" }
+                ]
+            },
+            {
+                slug: "asam-basa",
+                title: "Asam dan Basa",
+                deskripsi: "Teori asam-basa Arrhenius, Brønsted-Lowry & Lewis, autoionisasi air Kw, skala pH & pOH, tetapan Ka & Kb asam-basa lemah, serta analisis titrasi asam-basa.",
+                subbab: [
+                    { file: "teori-asam-basa-indikator.html", title: "Teori Asam Basa & Indikator Larutan" },
+                    { file: "derajat-keasaman-ph-poh.html", title: "Autoionisasi Air & Derajat Keasaman (pH & pOH)" },
+                    { file: "kekuatan-asam-basa-ka-kb.html", title: "Kekuatan Asam-Basa Lemah (Ka, Kb & α)" },
+                    { file: "titrasi-asam-basa.html", title: "Titrasi Asam-Basa & Analisis Volumetri" }
+                ]
             }
         ]
     },

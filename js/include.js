@@ -349,8 +349,10 @@ function bangunDaftarIsi() {
             section.id = id;
         }
 
-        // Ambil teks judul tanpa emotikon atau badge jika ada
-        const cleanTitle = h2.textContent.trim().replace(/\s+/g, ' ');
+        // Ambil teks judul tanpa emotikon atau badge jika ada, dan bersihkan duplikasi KaTeX
+        const clone = h2.cloneNode(true);
+        clone.querySelectorAll('.katex-mathml, annotation').forEach(el => el.remove());
+        const cleanTitle = clone.textContent.trim().replace(/\s+/g, ' ');
 
         pillsHtml += `
             <a href="#${id}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-slate-50 hover:text-slate-950 border border-black/[0.06] rounded-full text-xs font-medium text-slate-700 transition-all shadow-2xs">
@@ -372,6 +374,18 @@ function bangunDaftarIsi() {
 
     // Sisipkan tepat setelah judul h1 atau pengantar pertama
     h1.insertAdjacentElement('afterend', tocBox);
+
+    if (typeof renderMathInElement === 'function') {
+        try {
+            renderMathInElement(tocBox, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        } catch (e) {}
+    }
 
     // Aktifkan smooth scroll dengan offset agar tidak tertutup header sticky
     tocBox.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -909,6 +923,19 @@ document.addEventListener('DOMContentLoaded', () => {
     bangunDaftarIsi();
     initProgresDanKuis();
     initBackToTop();
+
+    // Re-render KaTeX untuk elemen yang dibuat dinamis (TOC, Sidebar, dll) jika KaTeX aktif
+    if (typeof renderMathInElement === 'function') {
+        try {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        } catch (e) {}
+    }
 });
 
 
