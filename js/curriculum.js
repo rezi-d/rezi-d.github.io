@@ -115,6 +115,17 @@ const kurikulum = {
                     { file: "kalorimetri-dan-proyek.html", title: "Kalorimeter Virtual & Proyek (Numbers)" },
                     { file: "hukum-hess.html", title: "Hukum Hess & Simulator Model Tabel" }
                 ]
+            },
+            {
+                slug: "laju-reaksi",
+                title: "Laju Reaksi",
+                deskripsi: "Konsep & ungkapan laju reaksi, teori tumbukan & faktor-faktor penentu laju, hukum laju & penentuan orde reaksi, serta mekanisme reaksi & katalis.",
+                subbab: [
+                    { file: "konsep-laju-reaksi.html", title: "Konsep & Ungkapan Laju Reaksi" },
+                    { file: "teori-tumbukan-faktor.html", title: "Teori Tumbukan & Faktor Laju Reaksi" },
+                    { file: "hukum-laju-dan-orde.html", title: "Hukum Laju & Penentuan Orde Reaksi" },
+                    { file: "mekanisme-reaksi-katalis.html", title: "Mekanisme Reaksi & Katalis" }
+                ]
             }
         ]
     },
