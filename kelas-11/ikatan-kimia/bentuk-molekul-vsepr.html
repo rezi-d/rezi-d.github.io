@@ -493,6 +493,410 @@
     </div>
 </section>
 
+    <hr class="my-6 border-slate-100">
+
+    <!-- SIMULASI 3D INTERAKTIF: BUILDER VSEPR -->
+    <section class="mb-8">
+        <div class="flex items-center gap-3 mb-3">
+            <span class="relative flex h-3.5 w-3.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-teal-500"></span>
+            </span>
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">
+                🎮 Laboratorium 3D: Builder Geometri Molekul VSEPR
+            </h2>
+        </div>
+        
+        <p class="text-slate-600 leading-relaxed mb-4 text-justify">
+            Gunakan simulator 3D interaktif di bawah ini untuk merakit bentuk molekul secara kustom. Atur jumlah <strong>PEI</strong> (ikatan &amp; atom terikat) dan <strong>PEB</strong> (awan elektron bebas). Putar molekul ke segala arah untuk mengamati simetri ruang 3 dimensi serta pengaruh desakan pasangan elektron bebas terhadap sudut ikatan.
+        </p>
+
+        <!-- CONTAINER VSEPR BUILDER 3D -->
+        <div class="my-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            
+            <!-- PANEL KONTROL & INFORMASI (KIRI) -->
+            <div class="lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between gap-5 bg-white border-b lg:border-b-0 lg:border-r border-slate-200">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-bold text-slate-900 text-base">Kontrol Pasangan Elektron</h3>
+                        <span class="text-[11px] font-semibold bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full border border-teal-200">Domain 2 &ndash; 6</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-4">
+                        Klik tombol (+) atau (&minus;) untuk mengubah jumlah domain elektron valensi atom pusat.
+                    </p>
+
+                    <!-- STEPPER PEI (X) -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs sm:text-sm font-bold text-slate-800">Pasangan Ikatan (PEI / X)</span>
+                            <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-700">Atom Merah</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button id="btn-pei-dec" type="button" onclick="updateVseprValues(-1, 0)" class="w-10 h-10 rounded-full bg-slate-200 hover:bg-slate-300 active:scale-95 text-slate-800 font-bold text-lg flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+                                &minus;
+                            </button>
+                            <div class="flex flex-col items-center">
+                                <span class="text-2xl font-mono font-extrabold text-slate-800" id="val-pei">4</span>
+                                <span class="text-[10px] text-slate-400 font-medium">pasang ikatan</span>
+                            </div>
+                            <button id="btn-pei-inc" type="button" onclick="updateVseprValues(1, 0)" class="w-10 h-10 rounded-full bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-bold text-lg flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed shadow-xs cursor-pointer">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEPPER PEB (E) -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-2">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs sm:text-sm font-bold text-slate-800">Pasangan Bebas (PEB / E)</span>
+                            <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Awan Kuning</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button id="btn-peb-dec" type="button" onclick="updateVseprValues(0, -1)" class="w-10 h-10 rounded-full bg-slate-200 hover:bg-slate-300 active:scale-95 text-slate-800 font-bold text-lg flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer">
+                                &minus;
+                            </button>
+                            <div class="flex flex-col items-center">
+                                <span class="text-2xl font-mono font-extrabold text-slate-800" id="val-peb">0</span>
+                                <span class="text-[10px] text-slate-400 font-medium">pasang bebas</span>
+                            </div>
+                            <button id="btn-peb-inc" type="button" onclick="updateVseprValues(0, 1)" class="w-10 h-10 rounded-full bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-bold text-lg flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed shadow-xs cursor-pointer">
+                                +
+                            </button>
+                        </div>
+                        <div class="text-[11px] font-bold text-rose-600 bg-rose-50 border border-rose-200 rounded-lg p-2 mt-2.5 text-center hidden" id="alert-limit">
+                            ⚠️ Total Domain Elektron (PEI + PEB) maksimal 6!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INFO BOX GEOMETRI HASIL (APPLE DARK CARD) -->
+                <div class="p-4 rounded-xl bg-slate-900 text-white shadow-inner space-y-2.5 mt-auto">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-400 font-medium">Notasi VSEPR:</span>
+                        <span id="info-notation" class="font-mono font-bold text-sm bg-slate-800 text-teal-300 px-2.5 py-0.5 rounded border border-slate-700">AX4</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-400 font-medium">Geometri Domain:</span>
+                        <span id="info-domain" class="font-semibold text-slate-200">Tetrahedral</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs pt-1.5 border-t border-slate-800">
+                        <span class="text-slate-400 font-medium">Bentuk Molekul:</span>
+                        <span id="info-shape" class="font-bold text-sm text-amber-400">Tetrahedral</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-400 font-medium">Sudut Ikatan Ideal:</span>
+                        <span id="info-angle" class="font-mono font-semibold text-teal-400">109.5°</span>
+                    </div>
+                </div>
+
+                <!-- LEGENDA WARNA 3D -->
+                <div class="pt-2 border-t border-slate-100 flex flex-wrap gap-3 text-[11px] text-slate-500">
+                    <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-700"></span> Atom Pusat</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Atom Terikat (PEI)</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 opacity-80"></span> Awan Bebas (PEB)</span>
+                </div>
+            </div>
+
+            <!-- STAGE 3D THREE.JS (KANAN) -->
+            <div class="lg:col-span-7 bg-slate-950 relative flex flex-col justify-center items-center overflow-hidden">
+                <div id="canvas-container" class="w-full h-[400px] sm:h-[480px] lg:h-[530px] block cursor-grab active:cursor-grabbing"></div>
+                
+                <!-- Overlay Kontrol Atas -->
+                <div class="absolute top-3 right-3 flex items-center gap-2">
+                    <button id="btn-toggle-rotate" type="button" class="px-2.5 py-1.5 bg-slate-900/85 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold rounded-lg border border-slate-700/80 shadow-sm backdrop-blur-sm transition flex items-center gap-1 active:scale-95 cursor-pointer">
+                        <span id="rotate-icon">⏸️</span> <span id="rotate-text">Jeda</span>
+                    </button>
+                    <button id="btn-reset-view" type="button" class="px-2.5 py-1.5 bg-slate-900/85 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold rounded-lg border border-slate-700/80 shadow-sm backdrop-blur-sm transition flex items-center gap-1 active:scale-95 cursor-pointer">
+                        <span>🎯</span> <span>Reset</span>
+                    </button>
+                </div>
+
+                <!-- Overlay Petunjuk Bawah -->
+                <div class="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur-xs px-3 py-1 rounded-full border border-slate-800 text-[11px] text-slate-400 pointer-events-none select-none">
+                    Seret untuk memutar 3D &middot; Scroll / Cubit untuk zoom
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Script Three.js dan OrbitControls untuk VSEPR 3D Builder -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        (function() {
+            // --- DATA KONFIGURASI VSEPR ---
+            const scale = 2.5;
+            const vTop = [0, scale, 0];
+            const vBot = [0, -scale, 0];
+            
+            // SN3 (Trigonal Planar: 3 arah bersudut 120° simetris pada bidang XY)
+            const vTrig1 = [0, scale, 0];                                   // Atas (90°)
+            const vTrig2 = [-scale * 0.866025, -scale * 0.5, 0];            // Kiri-Bawah (210°)
+            const vTrig3 = [scale * 0.866025, -scale * 0.5, 0];             // Kanan-Bawah (330°)
+            
+            // SN4
+            const vTet1 = [0, scale, 0];
+            const vTet2 = [scale * 0.943, -scale * 0.333, 0];
+            const vTet3 = [-scale * 0.471, -scale * 0.333, scale * 0.816];
+            const vTet4 = [-scale * 0.471, -scale * 0.333, -scale * 0.816];
+
+            // SN5 (Ekuatorial)
+            const vEq1 = [scale, 0, 0];
+            const vEq2 = [-scale * 0.5, 0, scale * 0.866];
+            const vEq3 = [-scale * 0.5, 0, -scale * 0.866];
+
+            // SN6 (Ekuatorial)
+            const vSq1 = [scale, 0, 0];
+            const vSq2 = [-scale, 0, 0];
+            const vSq3 = [0, 0, scale];
+            const vSq4 = [0, 0, -scale];
+
+            const VSEPR_CONFIGS = {
+                // SN = 2 (Linear)
+                '2,0': { domain: 'Linear', shape: 'Linear', angle: '180°', pei: [vTop, vBot], peb: [] },
+                '1,1': { domain: 'Linear', shape: 'Linear (Diatomik)', angle: '-', pei: [vTop], peb: [vBot] },
+                
+                // SN = 3 (Trigonal Planar)
+                '3,0': { domain: 'Trigonal Planar', shape: 'Trigonal Planar', angle: '120°', pei: [vTrig1, vTrig2, vTrig3], peb: [] },
+                '2,1': { domain: 'Trigonal Planar', shape: 'Bengkok (V-Shape)', angle: '< 120°', pei: [vTrig2, vTrig3], peb: [vTrig1] },
+                '1,2': { domain: 'Trigonal Planar', shape: 'Linear (Diatomik)', angle: '-', pei: [vTrig1], peb: [vTrig2, vTrig3] },
+
+                // SN = 4 (Tetrahedral)
+                '4,0': { domain: 'Tetrahedral', shape: 'Tetrahedral', angle: '109.5°', pei: [vTet1, vTet2, vTet3, vTet4], peb: [] },
+                '3,1': { domain: 'Tetrahedral', shape: 'Trigonal Piramidal', angle: '107°', pei: [vTet2, vTet3, vTet4], peb: [vTet1] },
+                '2,2': { domain: 'Tetrahedral', shape: 'Bengkok (V-Shape)', angle: '104.5°', pei: [vTet3, vTet4], peb: [vTet1, vTet2] },
+                '1,3': { domain: 'Tetrahedral', shape: 'Linear (Diatomik)', angle: '-', pei: [vTet1], peb: [vTet2, vTet3, vTet4] },
+
+                // SN = 5 (Trigonal Bipiramidal)
+                '5,0': { domain: 'Trigonal Bipiramidal', shape: 'Trigonal Bipiramidal', angle: '90°, 120°', pei: [vTop, vBot, vEq1, vEq2, vEq3], peb: [] },
+                '4,1': { domain: 'Trigonal Bipiramidal', shape: 'Jungkat-jungkit (Seesaw)', angle: '< 90°, < 120°', pei: [vTop, vBot, vEq2, vEq3], peb: [vEq1] },
+                '3,2': { domain: 'Trigonal Bipiramidal', shape: 'Bentuk T', angle: '< 90°', pei: [vTop, vBot, vEq1], peb: [vEq2, vEq3] },
+                '2,3': { domain: 'Trigonal Bipiramidal', shape: 'Linear', angle: '180°', pei: [vTop, vBot], peb: [vEq1, vEq2, vEq3] },
+                '1,4': { domain: 'Trigonal Bipiramidal', shape: 'Linear (Diatomik)', angle: '-', pei: [vTop], peb: [vBot, vEq1, vEq2, vEq3] },
+
+                // SN = 6 (Oktahedral)
+                '6,0': { domain: 'Oktahedral', shape: 'Oktahedral', angle: '90°', pei: [vTop, vBot, vSq1, vSq2, vSq3, vSq4], peb: [] },
+                '5,1': { domain: 'Oktahedral', shape: 'Piramida Persegi', angle: '< 90°', pei: [vTop, vSq1, vSq2, vSq3, vSq4], peb: [vBot] },
+                '4,2': { domain: 'Oktahedral', shape: 'Segiempat Datar (Sq. Planar)', angle: '90°', pei: [vSq1, vSq2, vSq3, vSq4], peb: [vTop, vBot] },
+                '3,3': { domain: 'Oktahedral', shape: 'Bentuk T', angle: '< 90°', pei: [vTop, vSq1, vSq2], peb: [vBot, vSq3, vSq4] },
+                '2,4': { domain: 'Oktahedral', shape: 'Linear', angle: '180°', pei: [vTop, vBot], peb: [vSq1, vSq2, vSq3, vSq4] },
+                '1,5': { domain: 'Oktahedral', shape: 'Linear (Diatomik)', angle: '-', pei: [vTop], peb: [vBot, vSq1, vSq2, vSq3, vSq4] }
+            };
+
+            let pei = 4;
+            let peb = 0;
+
+            const container = document.getElementById('canvas-container');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0f172a);
+
+            const width = container.clientWidth || 600;
+            const height = container.clientHeight || 500;
+
+            const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+            camera.position.set(6, 4, 8);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 1.2;
+            controls.enablePan = false;
+
+            // Pencahayaan
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+            dirLight.position.set(10, 20, 10);
+            scene.add(dirLight);
+            
+            const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 0.4);
+            dirLight2.position.set(-10, -10, -10);
+            scene.add(dirLight2);
+
+            // Material 3D
+            const matCenter = new THREE.MeshPhongMaterial({ color: 0x334155, shininess: 80 });
+            const matAtom = new THREE.MeshPhongMaterial({ color: 0xf43f5e, shininess: 80 });
+            const matBond = new THREE.MeshPhongMaterial({ color: 0x94a3b8, shininess: 60 });
+            const matLobe = new THREE.MeshPhongMaterial({ 
+                color: 0xfbbf24, 
+                transparent: true, 
+                opacity: 0.55, 
+                shininess: 90,
+                depthWrite: false
+            });
+
+            let moleculeGroup = new THREE.Group();
+            scene.add(moleculeGroup);
+
+            function buildMolecule() {
+                scene.remove(moleculeGroup);
+                moleculeGroup = new THREE.Group();
+
+                // Atom Pusat
+                const centerGeom = new THREE.SphereGeometry(0.8, 32, 32);
+                const centerMesh = new THREE.Mesh(centerGeom, matCenter);
+                moleculeGroup.add(centerMesh);
+
+                const key = pei + ',' + peb;
+                const config = VSEPR_CONFIGS[key];
+                if (!config) return;
+
+                // PEI (Ikatan + Atom Ujung)
+                config.pei.forEach(pos => {
+                    const vec = new THREE.Vector3(pos[0], pos[1], pos[2]);
+                    
+                    // Atom Ujung
+                    const atomGeom = new THREE.SphereGeometry(0.6, 32, 32);
+                    const atomMesh = new THREE.Mesh(atomGeom, matAtom);
+                    atomMesh.position.copy(vec);
+                    moleculeGroup.add(atomMesh);
+
+                    // Silinder Ikatan
+                    const distance = vec.length();
+                    const bondGeom = new THREE.CylinderGeometry(0.12, 0.12, distance, 16);
+                    const bondMesh = new THREE.Mesh(bondGeom, matBond);
+                    
+                    const midPoint = vec.clone().multiplyScalar(0.5);
+                    bondMesh.position.copy(midPoint);
+                    bondMesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vec.clone().normalize());
+                    moleculeGroup.add(bondMesh);
+                });
+
+                // PEB (Awan Elektron Bebas / Lobe)
+                config.peb.forEach(pos => {
+                    const vec = new THREE.Vector3(pos[0], pos[1], pos[2]);
+                    
+                    const lobeGeom = new THREE.SphereGeometry(0.85, 32, 32);
+                    const lobeMesh = new THREE.Mesh(lobeGeom, matLobe);
+                    
+                    lobeMesh.scale.set(0.75, 1.75, 0.75);
+                    const lobePos = vec.clone().normalize().multiplyScalar(1.5);
+                    lobeMesh.position.copy(lobePos);
+                    lobeMesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vec.clone().normalize());
+                    moleculeGroup.add(lobeMesh);
+                });
+
+                scene.add(moleculeGroup);
+            }
+
+            function updateUI() {
+                const elValPei = document.getElementById('val-pei');
+                const elValPeb = document.getElementById('val-peb');
+                if (elValPei) elValPei.innerText = pei;
+                if (elValPeb) elValPeb.innerText = peb;
+                
+                const total = pei + peb;
+                
+                const btnPeiDec = document.getElementById('btn-pei-dec');
+                const btnPeiInc = document.getElementById('btn-pei-inc');
+                const btnPebDec = document.getElementById('btn-peb-dec');
+                const btnPebInc = document.getElementById('btn-peb-inc');
+
+                if (btnPeiDec) btnPeiDec.disabled = (pei <= 1);
+                if (btnPeiInc) btnPeiInc.disabled = (total >= 6);
+                if (btnPebDec) btnPebDec.disabled = (peb <= 0);
+                if (btnPebInc) btnPebInc.disabled = (total >= 6);
+
+                const alertBox = document.getElementById('alert-limit');
+                if (alertBox) {
+                    if (total >= 6) {
+                        alertBox.classList.remove('hidden');
+                    } else {
+                        alertBox.classList.add('hidden');
+                    }
+                }
+
+                const key = pei + ',' + peb;
+                const config = VSEPR_CONFIGS[key];
+                if (config) {
+                    let notation = 'AX' + (pei > 1 ? pei : '');
+                    if (peb > 0) notation += 'E' + (peb > 1 ? peb : '');
+                    
+                    const elNotation = document.getElementById('info-notation');
+                    const elDomain = document.getElementById('info-domain');
+                    const elShape = document.getElementById('info-shape');
+                    const elAngle = document.getElementById('info-angle');
+
+                    if (elNotation) elNotation.innerText = notation;
+                    if (elDomain) elDomain.innerText = config.domain;
+                    if (elShape) elShape.innerText = config.shape;
+                    if (elAngle) elAngle.innerText = config.angle;
+                }
+
+                buildMolecule();
+            }
+
+            window.updateVseprValues = function(dPei, dPeb) {
+                const newPei = pei + dPei;
+                const newPeb = peb + dPeb;
+                const newTotal = newPei + newPeb;
+
+                if (newPei >= 1 && newPeb >= 0 && newTotal >= 2 && newTotal <= 6) {
+                    pei = newPei;
+                    peb = newPeb;
+                    updateUI();
+                }
+            };
+
+            // Toggle Rotasi Otomatis
+            let isAutoRotating = true;
+            const btnToggleRotate = document.getElementById('btn-toggle-rotate');
+            const rotateText = document.getElementById('rotate-text');
+            const rotateIcon = document.getElementById('rotate-icon');
+            if (btnToggleRotate) {
+                btnToggleRotate.addEventListener('click', () => {
+                    isAutoRotating = !isAutoRotating;
+                    controls.autoRotate = isAutoRotating;
+                    if (rotateText) rotateText.innerText = isAutoRotating ? 'Jeda' : 'Putar';
+                    if (rotateIcon) rotateIcon.innerText = isAutoRotating ? '⏸️' : '▶️';
+                });
+            }
+
+            // Reset Sudut Pandang Kamera
+            const btnResetView = document.getElementById('btn-reset-view');
+            if (btnResetView) {
+                btnResetView.addEventListener('click', () => {
+                    camera.position.set(6, 4, 8);
+                    controls.target.set(0, 0, 0);
+                    controls.update();
+                });
+            }
+
+            function onResize() {
+                if (!container || !renderer || !camera) return;
+                const w = container.clientWidth;
+                const h = container.clientHeight;
+                if (w === 0 || h === 0) return;
+                renderer.setSize(w, h);
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+            }
+            window.addEventListener('resize', onResize);
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+
+            updateUI();
+            animate();
+
+            setTimeout(onResize, 250);
+        })();
+    </script>
+
+    <hr class="my-6 border-slate-100">
+
     <!-- 6. URUTAN KEKUATAN TOLAKAN -->
     <section class="mb-8">
     <h2 class="text-xl font-bold text-slate-900 mb-3">
