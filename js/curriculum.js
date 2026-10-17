@@ -148,6 +148,47 @@ const kurikulum = {
                     { file: "kekuatan-asam-basa-ka-kb.html", title: "Kekuatan Asam-Basa Lemah (Ka, Kb & α)" },
                     { file: "titrasi-asam-basa.html", title: "Titrasi Asam-Basa & Analisis Volumetri" }
                 ]
+            },
+            {
+                slug: "larutan-penyangga",
+                title: "Larutan Penyangga (Buffer)",
+                deskripsi: "Efek ion sejenis, komponen & mekanisme kerja penyangga asam-basa, persamaan Henderson-Hasselbalch, kapasitas buffer, serta sistem penyangga dalam cairan tubuh.",
+                subbab: [
+                    { file: "efek-ion-sejenis.html", title: "Pengaruh Ion Sejenis (The Common Ion Effect)" },
+                    { file: "prinsip-kerja-larutan-penyangga.html", title: "Komponen & Prinsip Kerja Larutan Penyangga" },
+                    { file: "perhitungan-ph-penyangga.html", title: "Perhitungan pH Penyangga (Henderson-Hasselbalch)" },
+                    { file: "kapasitas-dan-fungsi-penyangga.html", title: "Kapasitas Penyangga & Sistem Buffer Tubuh" }
+                ]
+            },
+            {
+                slug: "hidrolisis-garam",
+                title: "Hidrolisis Garam",
+                deskripsi: "Konsep reaksi hidrolisis kation & anion dalam air, 4 kategori sifat asam-basa garam, hidrolisis ion logam terhidrasi, serta perhitungan tetapan Kh dan pH larutan garam.",
+                subbab: [
+                    { file: "konsep-dan-klasifikasi-hidrolisis.html", title: "Konsep Dasar & 4 Kategori Hidrolisis Garam" },
+                    { file: "reaksi-hidrolisis-dan-kation-logam.html", title: "Reaksi Hidrolisis Kation, Anion & Logam Terhidrasi" },
+                    { file: "perhitungan-ph-hidrolisis-garam.html", title: "Perhitungan Tetapan Kh & pH Larutan Garam" }
+                ]
+            },
+            {
+                slug: "kelarutan-dan-ksp",
+                title: "Kelarutan & Hasil Kali Kelarutan (Ksp)",
+                deskripsi: "Konsep kelarutan (s), tetapan hasil kali kelarutan (Ksp), prediksi pengendapan (Qsp vs Ksp), serta pengaruh ion sejenis dan pengaruh pH terhadap kelarutan.",
+                subbab: [
+                    { file: "konsep-kelarutan-dan-ksp.html", title: "Konsep Kelarutan (s) & Tetapan Ksp" },
+                    { file: "prediksi-pengendapan-qsp.html", title: "Prediksi Pengendapan (Qsp vs Ksp)" },
+                    { file: "faktor-ion-sejenis-dan-ph.html", title: "Pengaruh Ion Sejenis & Pengaruh pH" }
+                ]
+            },
+            {
+                slug: "sistem-koloid",
+                title: "Sistem Koloid",
+                deskripsi: "Perbedaan larutan, koloid, dan suspensi; pengelompokan 8 sistem koloid; sifat-sifat khas (Tyndall, Brown, adsorpsi, koagulasi, dialisis); serta metode pembuatan koloid (kondensasi dan dispersi).",
+                subbab: [
+                    { file: "konsep-dan-jenis-koloid.html", title: "Konsep Sistem Koloid & 8 Jenis Koloid" },
+                    { file: "sifat-khas-koloid.html", title: "Sifat-Sifat Khas Koloid" },
+                    { file: "pembuatan-dan-aplikasi-koloid.html", title: "Pembuatan & Penerapan Koloid" }
+                ]
             }
         ]
     },
