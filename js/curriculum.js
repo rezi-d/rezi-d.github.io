@@ -60,7 +60,8 @@ const kurikulum = {
                 deskripsi: "Kekacauan kimia pra-tabel periodik, Kongres Karlsruhe 1860, Triade Döbereiner, Oktaf Newlands, jalur penemuan Mendeleev vs Lothar Meyer, keberanian mengosongkan celah, serta konfirmasi brilian penemuan Gallium oleh Boisbaudran.",
                 subbab: [
                     { file: "sejarah-dan-upaya-awal-tabel-periodik.html", title: "Sejarah & Upaya Awal Pengelompokan Unsur" },
-                    { file: "mendeleev-meyer-dan-prediksi-gallium.html", title: "Mendeleev, Meyer, & Penemuan Gallium" }
+                    { file: "mendeleev-meyer-dan-prediksi-gallium.html", title: "Mendeleev, Meyer, & Penemuan Gallium" },
+                    { file: "struktur-tabel-periodik-modern-dan-latihan-chang.html", title: "Tabel Periodik Modern & Latihan Soal Chang" }
                 ]
             },
             {
@@ -70,7 +71,8 @@ const kurikulum = {
                 subbab: [
                     { file: "hukum-kekekalan-massa-lavoisier.html", title: "Hukum Kekekalan Massa (Lavoisier)" },
                     { file: "hukum-perbandingan-tetap-proust.html", title: "Hukum Perbandingan Tetap (Proust)" },
-                    { file: "hukum-perbandingan-berganda-dalton.html", title: "Hukum Perbandingan Berganda (Dalton)" }
+                    { file: "hukum-perbandingan-berganda-dalton.html", title: "Hukum Perbandingan Berganda (Dalton)" },
+                    { file: "latihan-pemecahan-masalah-hukum-dasar-kimia.html", title: "Latihan Pemecahan Masalah Hukum Dasar Kimia (Chang)" }
                 ]
             }
         ]
