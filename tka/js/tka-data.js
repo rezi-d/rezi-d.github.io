@@ -664,7 +664,7 @@ const tkaData = [
     kunci: "D",
     pembahasan: `
       <strong>Analisis Konsep: Identifikasi Oksidator pada Baterai Alkalin</strong><br>
-      Persamaan reaksi: <code>Zn(s) + 2 MnO₂(s) + H₂O(l) &rarr; ZnO(s) + Mn₂O₃(s) + 2 H₂O(l)</code><br><br>
+      Persamaan reaksi keseluruhan: <code>Zn(s) + 2 MnO₂(s) &rarr; ZnO(s) + Mn₂O₃(s)</code><br><br>
       1. <strong>Menentukan Bilangan Oksidasi Unsur:</strong><br>
       &bull; Zn: dari 0 (unsur bebas) menjadi +2 dalam ZnO &rarr; <em>mengalami Oksidasi (bertindak sebagai Reduktor)</em>.<br>
       &bull; Mn dalam MnO₂: Mn + 2(-2) = 0 &rarr; Biloks Mn = <strong>+4</strong>.<br>
