@@ -28,7 +28,7 @@ const kurikulum = {
             {
                 slug: "struktur-atom",
                 title: "Struktur Atom & Model Atom",
-                deskripsi: "Sejarah perkembangan model atom dari Democritus & Aristoteles, bola pejal Dalton, tabung sinar katode Thomson, eksperimen Gold Foil Rutherford, tetes minyak Millikan, penemuan neutron Chadwick, perbedaan atom & molekul, konfigurasi elektron, nomor atom & massa, konsep isotop, hingga evaluasi pemecahan masalah Chang dengan kanvas kerja iPad.",
+                deskripsi: "Sejarah perkembangan model atom dari Democritus & Aristoteles, bola pejal Dalton, tabung sinar katode Thomson, eksperimen Gold Foil Rutherford, tetes minyak Millikan, penemuan neutron Chadwick, perbedaan atom & molekul, konfigurasi elektron, nomor atom & massa, konsep isotop, hingga evaluasi pemecahan masalah Chang (atom, isotop, molekul & ion) dengan kanvas kerja iPad.",
                 subbab: [
                     { file: "sejarah-perkembangan-model-atom.html", title: "Sejarah Perkembangan Model Atom" },
                     { file: "penemuan-elektron-dan-model-thomson.html", title: "Penemuan Elektron & Model Plum Pudding Thomson" },
@@ -39,7 +39,7 @@ const kurikulum = {
                     { file: "konfigurasi-elektron-dan-diagram-orbital.html", title: "Konfigurasi Elektron & Diagram Orbital (C, Si, Cl, Ca)" },
                     { file: "nomor-atom-nomor-massa-dan-muatan-netto.html", title: "Karakteristik Atom: Nomor Atom, Nomor Massa & Muatan Netto" },
                     { file: "isotop-versi-berbeda-suatu-unsur.html", title: "Isotop: Memahami Versi Berbeda dari Suatu Unsur" },
-                    { file: "latihan-pemecahan-masalah-struktur-atom.html", title: "Latihan Pemecahan Masalah Struktur Atom (Chang Questions & Problems)" }
+                    { file: "latihan-pemecahan-masalah-struktur-atom.html", title: "Latihan Pemecahan Masalah Struktur Atom & Molekul-Ion (Chang)" }
                 ]
             },
             {
@@ -73,6 +73,16 @@ const kurikulum = {
                     { file: "hukum-perbandingan-tetap-proust.html", title: "Hukum Perbandingan Tetap (Proust)" },
                     { file: "hukum-perbandingan-berganda-dalton.html", title: "Hukum Perbandingan Berganda (Dalton)" },
                     { file: "latihan-pemecahan-masalah-hukum-dasar-kimia.html", title: "Latihan Pemecahan Masalah Hukum Dasar Kimia (Chang)" }
+                ]
+            },
+            {
+                slug: "tata-nama-senyawa",
+                title: "Rumus Kimia & Tata Nama Senyawa",
+                deskripsi: "Aturan penulisan rumus molekul vs empiris, netralitas muatan kisi senyawa ionik, prediksi ikatan ionik vs kovalen, tata nama senyawa biner ionik (kation tetap & logam transisi Stock), kovalen biner awalan Yunani, asam okso, basa, serta latihan pemecahan masalah Chang 2.35 – 2.50.",
+                subbab: [
+                    { file: "rumus-molekul-dan-rumus-empiris.html", title: "Rumus Molekul vs Rumus Empiris & Prediksi Senyawa" },
+                    { file: "aturan-tata-nama-senyawa-anorganik.html", title: "Aturan Tata Nama Senyawa Ionik, Kovalen, & Asam" },
+                    { file: "latihan-pemecahan-masalah-tata-nama-chang.html", title: "Latihan Pemecahan Masalah Rumus & Tata Nama (Chang 2.35 - 2.50)" }
                 ]
             }
         ]
