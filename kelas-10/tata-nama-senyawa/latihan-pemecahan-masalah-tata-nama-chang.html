@@ -745,6 +745,13 @@
 
                         <!-- Ukuran Garis & Aksi -->
                         <div class="flex items-center gap-2">
+                            <!-- Tombol Palm Rejection (Apple Pencil vs Mode Jari) -->
+                            <button type="button" id="btn-toggle-palm" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-xs" title="Beralih mode: Apple Pencil (abaikan telapak tangan/jari) vs Mode Sentuhan Jari">
+                                <span id="palm-icon">🛡️</span>
+                                <span id="palm-label" class="hidden sm:inline">Palm Rejection: <strong>AKTIF</strong></span>
+                                <span class="sm:hidden font-mono text-[10px]">Palm 🛡️</span>
+                            </button>
+
                             <span class="text-xs text-slate-300 hidden md:inline">Tebal:</span>
                             <input id="pen-size-slider" type="range" min="1" max="10" value="2" class="w-16 sm:w-20 accent-blue-500 cursor-pointer">
                             
@@ -762,8 +769,13 @@
 
                     <!-- AREA KANVAS BUKU TULIS BERGARIS -->
                     <div class="relative w-full border-x border-b border-slate-300 rounded-b-2xl overflow-hidden bg-white shadow-inner">
-                        <canvas id="handwriting-canvas" width="900" height="480" class="w-full h-[400px] sm:h-[480px] touch-none cursor-crosshair ruled-notebook-paper block"></canvas>
+                        <canvas id="handwriting-canvas" width="900" height="480" class="w-full h-[400px] sm:h-[480px] touch-none cursor-crosshair ruled-notebook-paper block" style="touch-action: none;"></canvas>
                         
+                        <!-- Toast Notifikasi Palm Rejection saat sentuhan jari terdeteksi -->
+                        <div id="palm-toast" class="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white text-[11px] font-semibold px-3.5 py-1.5 rounded-full shadow-lg transition-opacity duration-300 opacity-0 z-30 flex items-center gap-1.5 border border-slate-700 text-center">
+                            <span>🖐️</span> Sentuhan jari diabaikan (Palm Rejection Aktif). Gunakan Apple Pencil atau klik tombol Palm Rejection untuk Mode Jari.
+                        </div>
+
                         <!-- Watermark Lembar Tugas -->
                         <div class="absolute bottom-2 right-3 pointer-events-none text-[11px] font-mono text-slate-400 select-none bg-white/80 px-2 py-0.5 rounded">
                             KimiaInteraktif &bull; Chang Chapter 2 (2.35 - 2.50) &bull; Lembar Kerja Resmi
@@ -859,32 +871,89 @@
                 ctx.putImageData(tempState, 0, 0);
             });
 
-            function getCoordinates(e) {
-                const rect = canvas.getBoundingClientRect();
-                if (e.touches && e.touches.length > 0) {
-                    return {
-                        x: e.touches[0].clientX - rect.left,
-                        y: e.touches[0].clientY - rect.top
-                    };
+            // ==========================================
+            // PALM REJECTION & POINTER EVENTS ENGINE (IPAD / APPLE PENCIL)
+            // ==========================================
+            let palmRejection = true; // Default aktif: memprioritaskan Apple Pencil & menolak telapak tangan
+            let activePointerId = null;
+            let palmToastTimer = null;
+
+            function showPalmWarning() {
+                const toast = document.getElementById('palm-toast');
+                if (!toast) return;
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+                clearTimeout(palmToastTimer);
+                palmToastTimer = setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                }, 2200);
+            }
+
+            function setPalmRejection(active) {
+                palmRejection = active;
+                const btn = document.getElementById('btn-toggle-palm');
+                const icon = document.getElementById('palm-icon');
+                const label = document.getElementById('palm-label');
+                if (!btn) return;
+                if (active) {
+                    btn.className = 'px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-xs';
+                    if (icon) icon.textContent = '🛡️';
+                    if (label) label.innerHTML = 'Palm Rejection: <strong>AKTIF</strong>';
+                } else {
+                    btn.className = 'px-2.5 py-1 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-xs';
+                    if (icon) icon.textContent = '👆';
+                    if (label) label.innerHTML = 'Palm Rejection: <strong>NONAKTIF (Jari)</strong>';
                 }
+            }
+
+            const btnTogglePalm = document.getElementById('btn-toggle-palm');
+            if (btnTogglePalm) {
+                btnTogglePalm.addEventListener('click', () => {
+                    setPalmRejection(!palmRejection);
+                });
+            }
+
+            function getPointerPos(e) {
+                const rect = canvas.getBoundingClientRect();
                 return {
                     x: e.clientX - rect.left,
-                    y: e.clientY - rect.top
+                    y: e.clientY - rect.top,
+                    pressure: (e.pressure && e.pressure > 0) ? e.pressure : 0.5,
+                    pointerType: e.pointerType || 'mouse'
                 };
             }
 
-            function startDraw(e) {
+            function handlePointerDown(e) {
+                // Jika Palm Rejection aktif dan input berupa sentuhan jari/telapak tangan ('touch')
+                if (palmRejection && e.pointerType === 'touch') {
+                    showPalmWarning();
+                    return;
+                }
+
+                // Jika terdeteksi 'pen' (Apple Pencil), otomatis aktifkan proteksi jika belum aktif
+                if (e.pointerType === 'pen' && !palmRejection) {
+                    setPalmRejection(true);
+                }
+
                 e.preventDefault();
                 isDrawing = true;
-                const pos = getCoordinates(e);
+                activePointerId = e.pointerId;
+                try {
+                    canvas.setPointerCapture(e.pointerId);
+                } catch (err) {}
+
+                const pos = getPointerPos(e);
                 ctx.beginPath();
                 ctx.moveTo(pos.x, pos.y);
             }
 
-            function draw(e) {
-                if (!isDrawing) return;
+            function handlePointerMove(e) {
+                if (!isDrawing || e.pointerId !== activePointerId) return;
+                if (palmRejection && e.pointerType === 'touch') return;
+
                 e.preventDefault();
-                const pos = getCoordinates(e);
+                const pos = getPointerPos(e);
 
                 if (currentTool === 'eraser') {
                     ctx.globalCompositeOperation = 'destination-out';
@@ -892,29 +961,47 @@
                 } else {
                     ctx.globalCompositeOperation = 'source-over';
                     ctx.strokeStyle = penColor;
-                    ctx.lineWidth = penSize;
+                    // Dukungan variasi goresan alami Apple Pencil jika ada tekanan
+                    if (pos.pointerType === 'pen' && e.pressure > 0) {
+                        ctx.lineWidth = penSize * (0.6 + e.pressure * 0.8);
+                    } else {
+                        ctx.lineWidth = penSize;
+                    }
                 }
 
                 ctx.lineTo(pos.x, pos.y);
                 ctx.stroke();
             }
 
-            function stopDraw(e) {
-                if (!isDrawing) return;
+            function handlePointerUp(e) {
+                if (!isDrawing || e.pointerId !== activePointerId) return;
                 e.preventDefault();
                 isDrawing = false;
+                activePointerId = null;
+                try {
+                    canvas.releasePointerCapture(e.pointerId);
+                } catch (err) {}
                 ctx.closePath();
                 ctx.globalCompositeOperation = 'source-over';
                 saveState();
             }
 
-            canvas.addEventListener('mousedown', startDraw);
-            canvas.addEventListener('mousemove', draw);
-            window.addEventListener('mouseup', stopDraw);
+            function handlePointerCancel(e) {
+                if (isDrawing && e.pointerId === activePointerId) {
+                    isDrawing = false;
+                    activePointerId = null;
+                    try {
+                        canvas.releasePointerCapture(e.pointerId);
+                    } catch (err) {}
+                    ctx.closePath();
+                    ctx.globalCompositeOperation = 'source-over';
+                }
+            }
 
-            canvas.addEventListener('touchstart', startDraw, { passive: false });
-            canvas.addEventListener('touchmove', draw, { passive: false });
-            window.addEventListener('touchend', stopDraw, { passive: false });
+            canvas.addEventListener('pointerdown', handlePointerDown);
+            canvas.addEventListener('pointermove', handlePointerMove);
+            canvas.addEventListener('pointerup', handlePointerUp);
+            canvas.addEventListener('pointercancel', handlePointerCancel);
 
             // Pilihan Pena Warna
             document.querySelectorAll('.tool-btn').forEach(btn => {
