@@ -467,6 +467,484 @@
     </script>
 </section>
 
+    <!-- ============================================================== -->
+    <!-- SIMULASI PUZZLE DRAG & DROP & VIDEO PERAGAAN IKATAN IONIK -->
+    <!-- ============================================================== -->
+    <section class="my-10 bg-slate-900 text-white rounded-3xl p-5 sm:p-8 border border-slate-800 shadow-xl overflow-hidden relative">
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- HEADER SECTION -->
+        <div class="flex items-center justify-between flex-wrap gap-3 mb-6 border-b border-slate-800 pb-4 relative z-10">
+            <div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 text-teal-300 text-xs font-semibold mb-2 border border-teal-500/30">
+                    <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+                    Laboratorium Interaktif &middot; Analogi Fisik
+                </span>
+                <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                    🧩 Lab Puzzle Ionik: Prinsip Netralitas Muatan ($\sum q = 0$)
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                    Cocokkan tonjolan kation (+) dengan lekukan anion (&minus;) hingga seluruh keping terkunci rapat membentuk senyawa netral!
+                </p>
+            </div>
+
+            <!-- TANTANGAN CEPAT (CHALLENGE PRESETS) -->
+            <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="text-xs text-slate-400 font-semibold mr-1">Tantangan:</span>
+                <button onclick="muatTantanganPuzzle('CaS')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition">CaS</button>
+                <button onclick="muatTantanganPuzzle('AlN')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition">AlN</button>
+                <button onclick="muatTantanganPuzzle('CaCl2')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition">CaCl₂</button>
+                <button onclick="muatTantanganPuzzle('Al2O3')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition">Al₂O₃</button>
+                <button onclick="muatTantanganPuzzle('Ca3(PO4)2')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 hover:bg-slate-700 text-teal-300 border border-slate-700 transition">Ca₃(PO₄)₂</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+            <!-- KOLOM KIRI: VIDEO DEMONSTRASI (5 KOLOM) -->
+            <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 shadow-inner flex flex-col items-center">
+                    <div class="w-full flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-400 flex items-center gap-1.5">
+                            <span>📹</span> Video Demonstrasi Model Fisik
+                        </span>
+                        <span class="text-[11px] text-slate-500 font-mono">Format MP4 (2.7 MB)</span>
+                    </div>
+
+                    <!-- PEMUTAR VIDEO -->
+                    <div class="w-full rounded-xl overflow-hidden bg-black/90 border border-slate-800 shadow-md relative group">
+                        <video id="video-puzzle-ref" controls playsinline loop class="w-full h-auto max-h-[340px] object-contain mx-auto block">
+                            <source src="../../referensi/ikatan kimia simulasi.mp4" type="video/mp4">
+                            <source src="/referensi/ikatan kimia simulasi.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video HTML5.
+                        </video>
+                    </div>
+
+                    <!-- PENJELASAN ILMIAH VIDEO -->
+                    <div class="mt-3 text-xs text-slate-400 leading-relaxed text-justify space-y-1.5">
+                        <p>
+                            <strong class="text-slate-200">Konsep di Video:</strong> Tonjolan pada keping kation menunjukkan elektron valensi yang dilepas ($+1, +2, +3$), sedangkan lekukan pada keping anion menunjukkan elektron yang dibutuhkan untuk mencapai oktet ($-1, -2, -3$).
+                        </p>
+                        <p>
+                            Senyawa hanya dapat terbentuk bila <em>semua tonjolan kation masuk pas ke dalam lekukan anion</em> tanpa sisa &mdash; artinya muatan total kation tepat meniadakan muatan total anion ($\sum q = 0$).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- KARTU STATUS NETRALITAS REAL-TIME -->
+                <div id="puzzle-status-card" class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-semibold text-slate-400">Status Muatan Bersih:</span>
+                        <span id="badge-muatan-bersih" class="px-2.5 py-0.5 rounded-full text-xs font-bold font-mono bg-slate-700 text-slate-300">
+                            Kosong (0)
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-3 text-xs mb-3">
+                        <div class="flex-1 bg-slate-900 p-2 rounded-lg border border-slate-800 text-center">
+                            <span class="text-slate-400 block text-[10px]">Total Kation (+):</span>
+                            <span id="stat-total-plus" class="text-sm font-bold text-orange-400 font-mono">0</span>
+                        </div>
+                        <span class="text-slate-500 font-bold">+</span>
+                        <div class="flex-1 bg-slate-900 p-2 rounded-lg border border-slate-800 text-center">
+                            <span class="text-slate-400 block text-[10px]">Total Anion (&minus;):</span>
+                            <span id="stat-total-minus" class="text-sm font-bold text-teal-400 font-mono">0</span>
+                        </div>
+                        <span class="text-slate-500 font-bold">=</span>
+                        <div class="flex-1 bg-slate-900 p-2 rounded-lg border border-slate-800 text-center">
+                            <span class="text-slate-400 block text-[10px]">Netralitas:</span>
+                            <span id="stat-net-charge" class="text-sm font-bold text-slate-300 font-mono">0</span>
+                        </div>
+                    </div>
+
+                    <!-- HASIL RUMUS DAN NAMA -->
+                    <div id="hasil-senyawa-box" class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-center space-y-1 min-h-[68px] flex flex-col justify-center">
+                        <div id="hasil-rumus-text" class="text-base font-extrabold text-slate-400 font-mono">
+                            Belum ada ion di meja perakitan
+                        </div>
+                        <div id="hasil-nama-text" class="text-xs text-slate-500">
+                            Tarik kation &amp; anion atau klik keping di samping
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOLOM KANAN: PALET PUZZLE & MEJA DRAG-AND-DROP (7 KOLOM) -->
+            <div class="lg:col-span-7 flex flex-col space-y-4">
+                <!-- PALET ION: SUMBER KEPING (DRAGGABLE / KLIK UNTUK TAMBAH) -->
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 shadow-inner space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-300">
+                            Pilih Keping Puzzle Ion (Drag atau Klik untuk Menambahkan):
+                        </span>
+                        <span class="text-[11px] text-slate-500">Sentuh / Tarik ke Meja</span>
+                    </div>
+
+                    <!-- KATION -->
+                    <div>
+                        <span class="text-[11px] font-bold text-orange-400 block mb-1.5 flex items-center gap-1">
+                            <span>🟠</span> KATION (Muatan Positif &bull; Tonjolan Keluar):
+                        </span>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <!-- Na+ -->
+                            <button onclick="tambahIonKeMeja('Na', 1, 'kation')" draggable="true" ondragstart="handleDragStart(event, 'Na', 1, 'kation')" class="puzzle-chip-btn bg-orange-600 hover:bg-orange-500 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">Na⁺</span>
+                                <span class="text-[10px] bg-orange-800/80 px-1.5 py-0.5 rounded font-mono">+1 (1 凸)</span>
+                            </button>
+                            <!-- Ca2+ -->
+                            <button onclick="tambahIonKeMeja('Ca', 2, 'kation')" draggable="true" ondragstart="handleDragStart(event, 'Ca', 2, 'kation')" class="puzzle-chip-btn bg-rose-700 hover:bg-rose-600 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">Ca²⁺</span>
+                                <span class="text-[10px] bg-rose-900/80 px-1.5 py-0.5 rounded font-mono">+2 (2 凸)</span>
+                            </button>
+                            <!-- Mg2+ -->
+                            <button onclick="tambahIonKeMeja('Mg', 2, 'kation')" draggable="true" ondragstart="handleDragStart(event, 'Mg', 2, 'kation')" class="puzzle-chip-btn bg-purple-700 hover:bg-purple-600 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">Mg²⁺</span>
+                                <span class="text-[10px] bg-purple-900/80 px-1.5 py-0.5 rounded font-mono">+2 (2 凸)</span>
+                            </button>
+                            <!-- Al3+ -->
+                            <button onclick="tambahIonKeMeja('Al', 3, 'kation')" draggable="true" ondragstart="handleDragStart(event, 'Al', 3, 'kation')" class="puzzle-chip-btn bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">Al³⁺</span>
+                                <span class="text-[10px] bg-amber-800/80 px-1.5 py-0.5 rounded font-mono">+3 (3 凸)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ANION -->
+                    <div class="pt-2 border-t border-slate-800/80">
+                        <span class="text-[11px] font-bold text-teal-400 block mb-1.5 flex items-center gap-1">
+                            <span>🟢</span> ANION (Muatan Negatif &bull; Lekukan Masuk):
+                        </span>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <!-- Cl- -->
+                            <button onclick="tambahIonKeMeja('Cl', 1, 'anion')" draggable="true" ondragstart="handleDragStart(event, 'Cl', 1, 'anion')" class="puzzle-chip-btn bg-cyan-700 hover:bg-cyan-600 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">Cl⁻</span>
+                                <span class="text-[10px] bg-cyan-900/80 px-1.5 py-0.5 rounded font-mono">-1 (1 凹)</span>
+                            </button>
+                            <!-- S2- -->
+                            <button onclick="tambahIonKeMeja('S', 2, 'anion')" draggable="true" ondragstart="handleDragStart(event, 'S', 2, 'anion')" class="puzzle-chip-btn bg-teal-600 hover:bg-teal-500 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">S²⁻</span>
+                                <span class="text-[10px] bg-teal-900/80 px-1.5 py-0.5 rounded font-mono">-2 (2 凹)</span>
+                            </button>
+                            <!-- O2- -->
+                            <button onclick="tambahIonKeMeja('O', 2, 'anion')" draggable="true" ondragstart="handleDragStart(event, 'O', 2, 'anion')" class="puzzle-chip-btn bg-blue-700 hover:bg-blue-600 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">O²⁻</span>
+                                <span class="text-[10px] bg-blue-900/80 px-1.5 py-0.5 rounded font-mono">-2 (2 凹)</span>
+                            </button>
+                            <!-- N3- -->
+                            <button onclick="tambahIonKeMeja('N', 3, 'anion')" draggable="true" ondragstart="handleDragStart(event, 'N', 3, 'anion')" class="puzzle-chip-btn bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">N³⁻</span>
+                                <span class="text-[10px] bg-emerald-800/80 px-1.5 py-0.5 rounded font-mono">-3 (3 凹)</span>
+                            </button>
+                            <!-- SO4 2- -->
+                            <button onclick="tambahIonKeMeja('SO4', 2, 'anion')" draggable="true" ondragstart="handleDragStart(event, 'SO4', 2, 'anion')" class="puzzle-chip-btn bg-teal-700 hover:bg-teal-600 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">SO₄²⁻</span>
+                                <span class="text-[10px] bg-teal-950/80 px-1.5 py-0.5 rounded font-mono">-2 (2 凹)</span>
+                            </button>
+                            <!-- PO4 3- -->
+                            <button onclick="tambahIonKeMeja('PO4', 3, 'anion')" draggable="true" ondragstart="handleDragStart(event, 'PO4', 3, 'anion')" class="puzzle-chip-btn bg-green-700 hover:bg-green-600 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl flex items-center gap-2 shadow-xs transition cursor-grab">
+                                <span class="font-mono text-sm">PO₄³⁻</span>
+                                <span class="text-[10px] bg-green-950/80 px-1.5 py-0.5 rounded font-mono">-3 (3 凹)</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MEJA PERAKITAN PUZZLE (DROP ZONE) -->
+                <div id="puzzle-drop-zone" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" class="flex-grow bg-slate-950 p-5 rounded-2xl border-2 border-dashed border-slate-700 hover:border-teal-500/50 transition duration-200 min-h-[300px] flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+                        <span class="text-xs font-bold text-slate-300 flex items-center gap-2">
+                            <span>🎯</span> Meja Perakitan Puzzle Ionik (Drop Zone)
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] text-slate-500 italic">Klik keping di meja untuk menghapusnya</span>
+                            <button onclick="resetMejaPuzzle()" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg bg-slate-800 hover:bg-rose-900/60 hover:text-rose-200 text-slate-400 border border-slate-700 transition">
+                                🗑️ Kosongkan
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AREA KEPING TERSUSUN (RENDERED PUZZLE PIECES) -->
+                    <div id="assembly-container" class="flex-grow flex items-center justify-center gap-4 flex-wrap p-4 min-h-[180px]">
+                        <div id="placeholder-meja" class="text-center text-slate-600 text-xs py-8">
+                            <p class="text-3xl mb-2">📥</p>
+                            <p class="font-medium text-slate-400">Tarik keping ion dari palet di atas ke sini,</p>
+                            <p>atau cukup klik tombol ion untuk menambahkannya.</p>
+                        </div>
+                    </div>
+
+                    <!-- FOOTER KETERANGAN ILMIAH -->
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500 flex-wrap gap-2">
+                        <span>🧩 1 Tonjolan (凸) = 1 Elektron Dilepas (+1)</span>
+                        <span>🧩 1 Lekukan (凹) = 1 Elektron Diterima (&minus;1)</span>
+                        <span class="text-teal-400 font-semibold">Terkunci Rapat = Senyawa Stabil</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGIKA JAVASCRIPT SIMULATOR PUZZLE DRAG & DROP -->
+    <script>
+    (function() {
+        // State keping di meja perakitan
+        let mejaKation = []; // array of { id, name, charge, color }
+        let mejaAnion = [];  // array of { id, name, charge, color }
+        let counterId = 1;
+
+        // Data kamus ion
+        const ionProps = {
+            'Na': { name: 'Na', charge: 1, type: 'kation', color: '#ea580c', label: 'Na⁺', iupac: 'Natrium' },
+            'Ca': { name: 'Ca', charge: 2, type: 'kation', color: '#be123c', label: 'Ca²⁺', iupac: 'Kalsium' },
+            'Mg': { name: 'Mg', charge: 2, type: 'kation', color: '#6d28d9', label: 'Mg²⁺', iupac: 'Magnesium' },
+            'Al': { name: 'Al', charge: 3, type: 'kation', color: '#d97706', label: 'Al³⁺', iupac: 'Aluminium' },
+
+            'Cl': { name: 'Cl', charge: 1, type: 'anion', color: '#0369a1', label: 'Cl⁻', iupac: 'Klorida' },
+            'S': { name: 'S', charge: 2, type: 'anion', color: '#0f766e', label: 'S²⁻', iupac: 'Sulfida' },
+            'O': { name: 'O', charge: 2, type: 'anion', color: '#1d4ed8', label: 'O²⁻', iupac: 'Oksida' },
+            'N': { name: 'N', charge: 3, type: 'anion', color: '#15803d', label: 'N³⁻', iupac: 'Nitrida' },
+            'SO4': { name: 'SO4', charge: 2, type: 'anion', color: '#115e59', label: 'SO₄²⁻', iupac: 'Sulfat', isPoly: true },
+            'PO4': { name: 'PO4', charge: 3, type: 'anion', color: '#166534', label: 'PO₄³⁻', iupac: 'Fosfat', isPoly: true }
+        };
+
+        // Render keping SVG Puzzle realistis (seperti di video)
+        function generatePuzzleSVG(ionKey, id, isKation) {
+            const data = ionProps[ionKey];
+            const charge = data.charge;
+            const w = 90;
+            const h = 40 + (charge * 24); // tinggi proporsional dengan jumlah tonjolan/lekukan
+            const cColor = data.color;
+
+            // Generate Path SVG Puzzle
+            let pathD = '';
+            if (isKation) {
+                // Kation: Kotak dengan tonjolan (tabs) keluar di sisi kanan
+                pathD = `M 8,8 L 60,8 `;
+                // Tonjolan di sisi kanan
+                const stepY = (h - 16) / charge;
+                for (let i = 0; i < charge; i++) {
+                    const tabCenterY = 8 + stepY * (i + 0.5);
+                    const topY = tabCenterY - 9;
+                    const botY = tabCenterY + 9;
+                    pathD += `L 60,${topY} C 74,${topY - 3} 74,${botY + 3} 60,${botY} `;
+                }
+                pathD += `L 60,${h - 8} L 8,${h - 8} Z`;
+            } else {
+                // Anion: Kotak dengan lekukan (sockets) masuk di sisi kiri
+                pathD = `M 80,8 L 80,${h - 8} L 28,${h - 8} `;
+                // Lekukan di sisi kiri (dari bawah ke atas)
+                const stepY = (h - 16) / charge;
+                for (let i = charge - 1; i >= 0; i--) {
+                    const tabCenterY = 8 + stepY * (i + 0.5);
+                    const topY = tabCenterY - 9;
+                    const botY = tabCenterY + 9;
+                    pathD += `L 28,${botY} C 42,${botY + 3} 42,${topY - 3} 28,${topY} `;
+                }
+                pathD += `L 28,8 Z`;
+            }
+
+            const labelX = isKation ? 32 : 54;
+            const labelY = h / 2 + 5;
+
+            return `
+            <div id="piece-${id}" onclick="hapusIonDariMeja(${id}, '${isKation ? 'kation' : 'anion'}')" title="Klik untuk menghapus keping ini" class="inline-block cursor-pointer transition transform hover:scale-105 active:scale-95 animate-fade-in group select-none m-1">
+                <svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" class="drop-shadow-md">
+                    <path d="${pathD}" fill="${cColor}" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" class="transition group-hover:brightness-110"/>
+                    <text x="${labelX}" y="${labelY}" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-weight="bold" font-size="14" text-anchor="middle" dominant-baseline="middle">${data.label}</text>
+                </svg>
+            </div>`;
+        }
+
+        window.tambahIonKeMeja = function(ionKey, charge, type) {
+            const id = counterId++;
+            if (type === 'kation') {
+                mejaKation.push({ id, key: ionKey, charge });
+            } else {
+                mejaAnion.push({ id, key: ionKey, charge });
+            }
+            updateTampilanMeja();
+        };
+
+        window.hapusIonDariMeja = function(id, type) {
+            if (type === 'kation') {
+                mejaKation = mejaKation.filter(item => item.id !== id);
+            } else {
+                mejaAnion = mejaAnion.filter(item => item.id !== id);
+            }
+            updateTampilanMeja();
+        };
+
+        window.resetMejaPuzzle = function() {
+            mejaKation = [];
+            mejaAnion = [];
+            updateTampilanMeja();
+        };
+
+        // Drag and drop event handlers
+        window.handleDragStart = function(e, ionKey, charge, type) {
+            e.dataTransfer.setData('text/plain', JSON.stringify({ key: ionKey, charge, type }));
+            e.dataTransfer.effectAllowed = 'copy';
+        };
+
+        window.handleDragOver = function(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        };
+
+        window.handleDrop = function(e) {
+            e.preventDefault();
+            const dataStr = e.dataTransfer.getData('text/plain');
+            if (!dataStr) return;
+            try {
+                const data = JSON.parse(dataStr);
+                tambahIonKeMeja(data.key, data.charge, data.type);
+            } catch (err) {}
+        };
+
+        window.muatTantanganPuzzle = function(targetFormula) {
+            resetMejaPuzzle();
+            if (targetFormula === 'CaS') {
+                tambahIonKeMeja('Ca', 2, 'kation');
+                tambahIonKeMeja('S', 2, 'anion');
+            } else if (targetFormula === 'AlN') {
+                tambahIonKeMeja('Al', 3, 'kation');
+                tambahIonKeMeja('N', 3, 'anion');
+            } else if (targetFormula === 'CaCl2') {
+                tambahIonKeMeja('Ca', 2, 'kation');
+                tambahIonKeMeja('Cl', 1, 'anion');
+                tambahIonKeMeja('Cl', 1, 'anion');
+            } else if (targetFormula === 'Al2O3') {
+                tambahIonKeMeja('Al', 3, 'kation');
+                tambahIonKeMeja('Al', 3, 'kation');
+                tambahIonKeMeja('O', 2, 'anion');
+                tambahIonKeMeja('O', 2, 'anion');
+                tambahIonKeMeja('O', 2, 'anion');
+            } else if (targetFormula === 'Ca3(PO4)2') {
+                tambahIonKeMeja('Ca', 2, 'kation');
+                tambahIonKeMeja('Ca', 2, 'kation');
+                tambahIonKeMeja('Ca', 2, 'kation');
+                tambahIonKeMeja('PO4', 3, 'anion');
+                tambahIonKeMeja('PO4', 3, 'anion');
+            }
+        };
+
+        function updateTampilanMeja() {
+            const container = document.getElementById('assembly-container');
+            const placeholder = document.getElementById('placeholder-meja');
+            const statPlus = document.getElementById('stat-total-plus');
+            const statMinus = document.getElementById('stat-total-minus');
+            const statNet = document.getElementById('stat-net-charge');
+            const badgeNetral = document.getElementById('badge-muatan-bersih');
+            const cardStatus = document.getElementById('puzzle-status-card');
+            const rumusBox = document.getElementById('hasil-rumus-text');
+            const namaBox = document.getElementById('hasil-nama-text');
+
+            if (mejaKation.length === 0 && mejaAnion.length === 0) {
+                container.innerHTML = `
+                <div id="placeholder-meja" class="text-center text-slate-600 text-xs py-8">
+                    <p class="text-3xl mb-2">📥</p>
+                    <p class="font-medium text-slate-400">Tarik keping ion dari palet di atas ke sini,</p>
+                    <p>atau cukup klik tombol ion untuk menambahkannya.</p>
+                </div>`;
+                statPlus.textContent = '0';
+                statMinus.textContent = '0';
+                statNet.textContent = '0';
+                badgeNetral.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold font-mono bg-slate-700 text-slate-300';
+                badgeNetral.textContent = 'Kosong (0)';
+                cardStatus.className = 'p-4 rounded-2xl bg-slate-800/80 border border-slate-700 transition-all duration-300';
+                rumusBox.innerHTML = '<span class="text-slate-500 text-sm">Belum ada ion di meja perakitan</span>';
+                namaBox.textContent = 'Tarik kation & anion atau klik keping di atas';
+                return;
+            }
+
+            // Hitung total muatan
+            let totPlus = 0;
+            let totMinus = 0;
+            let htmlKation = '<div class="flex flex-col items-center gap-1.5 p-2 bg-slate-900/60 rounded-xl border border-slate-800/80">';
+            htmlKation += '<span class="text-[10px] font-bold text-orange-400 uppercase tracking-wider mb-1">Kation Terpilih</span>';
+            mejaKation.forEach(k => {
+                totPlus += k.charge;
+                htmlKation += generatePuzzleSVG(k.key, k.id, true);
+            });
+            htmlKation += '</div>';
+
+            let htmlAnion = '<div class="flex flex-col items-center gap-1.5 p-2 bg-slate-900/60 rounded-xl border border-slate-800/80">';
+            htmlAnion += '<span class="text-[10px] font-bold text-teal-400 uppercase tracking-wider mb-1">Anion Terpilih</span>';
+            mejaAnion.forEach(a => {
+                totMinus += a.charge;
+                htmlAnion += generatePuzzleSVG(a.key, a.id, false);
+            });
+            htmlAnion += '</div>';
+
+            container.innerHTML = `<div class="flex items-start justify-center gap-6 flex-wrap">${htmlKation} ${htmlAnion}</div>`;
+
+            const netCharge = totPlus - totMinus;
+            statPlus.textContent = '+' + totPlus;
+            statMinus.textContent = '-' + totMinus;
+            statNet.textContent = (netCharge > 0 ? '+' : '') + netCharge;
+
+            // Evaluasi Netralitas
+            if (totPlus > 0 && totMinus > 0 && netCharge === 0) {
+                // NETRAL SEMPURNA
+                badgeNetral.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold font-mono bg-emerald-500 text-emerald-950 shadow-sm';
+                badgeNetral.textContent = '✅ NETRAL (0)';
+                cardStatus.className = 'p-4 rounded-2xl bg-gradient-to-br from-emerald-950/40 via-slate-800 to-teal-950/40 border-2 border-emerald-500/80 shadow-lg shadow-emerald-500/10 transition-all duration-300';
+
+                // Tentukan Rumus Kimia
+                const countsKation = {};
+                mejaKation.forEach(k => { countsKation[k.key] = (countsKation[k.key] || 0) + 1; });
+                const countsAnion = {};
+                mejaAnion.forEach(a => { countsAnion[a.key] = (countsAnion[a.key] || 0) + 1; });
+
+                const katKeys = Object.keys(countsKation);
+                const anKeys = Object.keys(countsAnion);
+
+                if (katKeys.length === 1 && anKeys.length === 1) {
+                    const kKey = katKeys[0];
+                    const aKey = anKeys[0];
+                    const numK = countsKation[kKey];
+                    const numA = countsAnion[aKey];
+                    const kData = ionProps[kKey];
+                    const aData = ionProps[aKey];
+
+                    const subK = numK > 1 ? `<sub>${numK}</sub>` : '';
+                    let subA = '';
+                    let anSymbol = aData.name;
+                    if (aData.isPoly) {
+                        subA = numA > 1 ? `(SO<sub>4</sub>)<sub>${numA}</sub>` : 'SO<sub>4</sub>';
+                        if (aKey === 'PO4') subA = numA > 1 ? `(PO<sub>4</sub>)<sub>${numA}</sub>` : 'PO<sub>4</sub>';
+                        anSymbol = '';
+                    } else {
+                        subA = numA > 1 ? `<sub>${numA}</sub>` : '';
+                    }
+
+                    const formulaHTML = `${kData.name}${subK}${anSymbol}${subA}`;
+                    const iupacName = `${kData.iupac} ${aData.iupac}`;
+
+                    rumusBox.innerHTML = `<span class="text-xl sm:text-2xl font-extrabold text-teal-300 font-mono tracking-wide">${formulaHTML}</span>`;
+                    namaBox.innerHTML = `<span class="text-emerald-400 font-bold">${iupacName}</span> &middot; <span class="text-slate-300">Terkunci Rapat Sempurna!</span>`;
+                } else {
+                    rumusBox.innerHTML = '<span class="text-base font-bold text-teal-300 font-mono">Senyawa Campuran Netral</span>';
+                    namaBox.textContent = 'Seluruh muatan positif tepat seimbang dengan muatan negatif.';
+                }
+            } else if (netCharge > 0) {
+                // Kelebihan Muatan Positif
+                badgeNetral.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold font-mono bg-orange-500/20 text-orange-300 border border-orange-500/30';
+                badgeNetral.textContent = `⚠️ Kelebihan +${netCharge}`;
+                cardStatus.className = 'p-4 rounded-2xl bg-slate-800/80 border border-orange-500/40 transition-all duration-300';
+                rumusBox.innerHTML = `<span class="text-sm font-semibold text-orange-300">Belum Netral: Butuh ${netCharge} Lekukan Lagi</span>`;
+                namaBox.textContent = `Tambahkan anion dengan total muatan -${netCharge} untuk mengunci puzzle.`;
+            } else if (netCharge < 0) {
+                // Kelebihan Muatan Negatif
+                badgeNetral.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30';
+                badgeNetral.textContent = `⚠️ Kelebihan ${netCharge}`;
+                cardStatus.className = 'p-4 rounded-2xl bg-slate-800/80 border border-cyan-500/40 transition-all duration-300';
+                rumusBox.innerHTML = `<span class="text-sm font-semibold text-cyan-300">Belum Netral: Butuh ${Math.abs(netCharge)} Tonjolan Lagi</span>`;
+                namaBox.textContent = `Tambahkan kation dengan total muatan +${Math.abs(netCharge)} untuk mengunci puzzle.`;
+            }
+        }
+    })();
+    </script>
+
     <!-- 2. STRUKTUR KISI KRISTAL -->
     <section class="mb-8">
     <h2 class="text-xl font-bold text-slate-900 mb-3">
