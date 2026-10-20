@@ -107,7 +107,7 @@ const kurikulum = {
             {
                 slug: "stoikiometri",
                 title: "Stoikiometri",
-                deskripsi: "Pengantar konsep mol & Bilangan Avogadro, menghitung massa molar senyawa (sederhana, tanda kurung & hidrat), konversi mol, volume gas & molaritas, rumus empiris, pereaksi pembatas, kadar kemurnian.",
+                deskripsi: "Pengantar konsep mol & Bilangan Avogadro, menghitung massa molar senyawa, konversi mol, volume gas & molaritas, rumus empiris, pereaksi pembatas, kadar kemurnian, serta latihan pemecahan masalah Chang (pereaksi pembatas, rendemen, analisis campuran & hidrat) dengan kanvas iPad.",
                 subbab: [
                     { file: "pengantar-konsep-mol.html", title: "Pengantar Konsep Mol & Bilangan Avogadro" },
                     { file: "menghitung-massa-molar-senyawa.html", title: "Menghitung Massa Molar Senyawa Kimia" },
@@ -115,18 +115,20 @@ const kurikulum = {
                     { file: "volume-gas-molaritas.html", title: "Volume Gas & Molaritas" },
                     { file: "rumus-empiris.html", title: "Rumus Empiris & Molekul" },
                     { file: "pereaksi-pembatas.html", title: "Pereaksi Pembatas (M-R-S)" },
-                    { file: "kadar-kemurnian.html", title: "Kadar Kemurnian & Air Kristal" }
+                    { file: "kadar-kemurnian.html", title: "Kadar Kemurnian & Air Kristal" },
+                    { file: "latihan-pemecahan-masalah-stoikiometri-chang.html", title: "Latihan Pemecahan Masalah Stoikiometri (Chang Problems)" }
                 ]
             },
             {
                 slug: "termokimia",
                 title: "Termokimia",
-                deskripsi: "Sistem & lingkungan, reaksi eksoterm & endoterm, perubahan entalpi standar, simulasi kalorimeter virtual, dan simulator Hukum Hess.",
+                deskripsi: "Sistem & lingkungan, reaksi eksoterm & endoterm, perubahan entalpi standar, simulasi kalorimeter virtual, simulator Hukum Hess, serta latihan pemecahan masalah Chang (kalibrasi bom kalorimeter asam benzoat, termodinamika ΔE vs ΔH naftalena, kerja ekspansi gas Sn/Na, siklus Hess bertingkat & kemurnian glukosa) dengan kanvas iPad.",
                 subbab: [
                     { file: "konsep-dasar-termokimia.html", title: "Konsep Dasar & Reaksi Eksoterm/Endoterm" },
                     { file: "perubahan-entalpi-standar.html", title: "Kondisi Standar & Persamaan Termokimia" },
                     { file: "kalorimetri-dan-proyek.html", title: "Kalorimeter Virtual & Proyek (Numbers)" },
-                    { file: "hukum-hess.html", title: "Hukum Hess & Simulator Model Tabel" }
+                    { file: "hukum-hess.html", title: "Hukum Hess & Simulator Model Tabel" },
+                    { file: "latihan-pemecahan-masalah-termokimia-chang.html", title: "Latihan Pemecahan Masalah Termokimia (Chang Problems)" }
                 ]
             },
             {
@@ -143,23 +145,25 @@ const kurikulum = {
             {
                 slug: "kesetimbangan-kimia",
                 title: "Kesetimbangan Kimia",
-                deskripsi: "Konsep kesetimbangan dinamis, tetapan kesetimbangan Kc & Kp, faktor pergeseran asas Le Châtelier, serta perhitungan kuosien reaksi Q dan tabel M-R-S (ICE).",
+                deskripsi: "Konsep kesetimbangan dinamis, tetapan kesetimbangan Kc & Kp, faktor pergeseran asas Le Châtelier, perhitungan kuosien reaksi Q, tabel M-R-S (ICE), serta latihan pemecahan masalah Chang (disosiasi gas, penurunan alfa-Kp, efek gas inert & massa molar rata-rata) dengan kanvas iPad.",
                 subbab: [
                     { file: "konsep-kesetimbangan-dinamis.html", title: "Konsep Kesetimbangan Dinamis & Reversibilitas" },
                     { file: "tetapan-kesetimbangan-kc-kp.html", title: "Tetapan Kesetimbangan (Kc & Kp)" },
                     { file: "pergeseran-kesetimbangan-le-chatelier.html", title: "Pergeseran Kesetimbangan (Asas Le Châtelier)" },
-                    { file: "perhitungan-kesetimbangan-kimia.html", title: "Kuosien Reaksi (Q) & Perhitungan M-R-S" }
+                    { file: "perhitungan-kesetimbangan-kimia.html", title: "Kuosien Reaksi (Q) & Perhitungan M-R-S" },
+                    { file: "latihan-pemecahan-masalah-kesetimbangan-chang.html", title: "Latihan Pemecahan Masalah Kesetimbangan Kimia (Chang Problems)" }
                 ]
             },
             {
                 slug: "asam-basa",
                 title: "Asam dan Basa",
-                deskripsi: "Teori asam-basa Arrhenius, Brønsted-Lowry & Lewis, autoionisasi air Kw, skala pH & pOH, tetapan Ka & Kb asam-basa lemah, serta analisis titrasi asam-basa.",
+                deskripsi: "Teori asam-basa Arrhenius, Brønsted-Lowry & Lewis, autoionisasi air Kw, skala pH & pOH, tetapan Ka & Kb asam-basa lemah, analisis titrasi asam-basa, serta latihan pemecahan masalah Chang (aspirin lambung, hukum Ostwald, campuran pH, novokain & leveling effect) dengan kanvas iPad.",
                 subbab: [
                     { file: "teori-asam-basa-indikator.html", title: "Teori Asam Basa & Indikator Larutan" },
                     { file: "derajat-keasaman-ph-poh.html", title: "Autoionisasi Air & Derajat Keasaman (pH & pOH)" },
                     { file: "kekuatan-asam-basa-ka-kb.html", title: "Kekuatan Asam-Basa Lemah (Ka, Kb & α)" },
-                    { file: "titrasi-asam-basa.html", title: "Titrasi Asam-Basa & Analisis Volumetri" }
+                    { file: "titrasi-asam-basa.html", title: "Titrasi Asam-Basa & Analisis Volumetri" },
+                    { file: "latihan-pemecahan-masalah-asam-basa-chang.html", title: "Latihan Pemecahan Masalah Asam-Basa (Chang Problems)" }
                 ]
             },
             {
@@ -170,7 +174,8 @@ const kurikulum = {
                     { file: "efek-ion-sejenis.html", title: "Pengaruh Ion Sejenis (The Common Ion Effect)" },
                     { file: "prinsip-kerja-larutan-penyangga.html", title: "Komponen & Prinsip Kerja Larutan Penyangga" },
                     { file: "perhitungan-ph-penyangga.html", title: "Perhitungan pH Penyangga (Henderson-Hasselbalch)" },
-                    { file: "kapasitas-dan-fungsi-penyangga.html", title: "Kapasitas Penyangga & Sistem Buffer Tubuh" }
+                    { file: "kapasitas-dan-fungsi-penyangga.html", title: "Kapasitas Penyangga & Sistem Buffer Tubuh" },
+                    { file: "latihan-pemecahan-masalah-penyangga-chang.html", title: "Latihan Pemecahan Masalah Penyangga (Chang Problems)" }
                 ]
             },
             {
@@ -180,7 +185,8 @@ const kurikulum = {
                 subbab: [
                     { file: "konsep-dan-klasifikasi-hidrolisis.html", title: "Konsep Dasar & 4 Kategori Hidrolisis Garam" },
                     { file: "reaksi-hidrolisis-dan-kation-logam.html", title: "Reaksi Hidrolisis Kation, Anion & Logam Terhidrasi" },
-                    { file: "perhitungan-ph-hidrolisis-garam.html", title: "Perhitungan Tetapan Kh & pH Larutan Garam" }
+                    { file: "perhitungan-ph-hidrolisis-garam.html", title: "Perhitungan Tetapan Kh & pH Larutan Garam" },
+                    { file: "latihan-pemecahan-masalah-hidrolisis-chang.html", title: "Latihan Pemecahan Masalah Hidrolisis (Chang Problems)" }
                 ]
             },
             {
@@ -190,17 +196,19 @@ const kurikulum = {
                 subbab: [
                     { file: "konsep-kelarutan-dan-ksp.html", title: "Konsep Kelarutan (s) & Tetapan Ksp" },
                     { file: "prediksi-pengendapan-qsp.html", title: "Prediksi Pengendapan (Qsp vs Ksp)" },
-                    { file: "faktor-ion-sejenis-dan-ph.html", title: "Pengaruh Ion Sejenis & Pengaruh pH" }
+                    { file: "faktor-ion-sejenis-dan-ph.html", title: "Pengaruh Ion Sejenis & Pengaruh pH" },
+                    { file: "latihan-pemecahan-masalah-ksp-chang.html", title: "Latihan Pemecahan Masalah Kelarutan & Ksp (Chang Problems)" }
                 ]
             },
             {
                 slug: "sistem-koloid",
                 title: "Sistem Koloid",
-                deskripsi: "Perbedaan larutan, koloid, dan suspensi; pengelompokan 8 sistem koloid; sifat-sifat khas (Tyndall, Brown, adsorpsi, koagulasi, dialisis); serta metode pembuatan koloid (kondensasi dan dispersi).",
+                deskripsi: "Perbedaan larutan, koloid, dan suspensi; pengelompokan 8 sistem koloid; sifat-sifat khas (Tyndall, Brown, adsorpsi, koagulasi, dialisis); metode pembuatan koloid (kondensasi dan dispersi), serta latihan pemecahan masalah Chang (aturan Hardy-Schulze, adsorpsi AgI, termodinamika misel sabun, dialisis ginjal & elektrostatik Cottrell).",
                 subbab: [
                     { file: "konsep-dan-jenis-koloid.html", title: "Konsep Sistem Koloid & 8 Jenis Koloid" },
                     { file: "sifat-khas-koloid.html", title: "Sifat-Sifat Khas Koloid" },
-                    { file: "pembuatan-dan-aplikasi-koloid.html", title: "Pembuatan & Penerapan Koloid" }
+                    { file: "pembuatan-dan-aplikasi-koloid.html", title: "Pembuatan & Penerapan Koloid" },
+                    { file: "latihan-pemecahan-masalah-koloid-chang.html", title: "Latihan Pemecahan Masalah Koloid (Chang Problems)" }
                 ]
             }
         ]
