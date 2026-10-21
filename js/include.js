@@ -265,7 +265,7 @@ function bangunMenuBeranda() {
 
             const url = `/kelas-${kelasId}/index.html`;
             html += `
-                <a href="${url}" class="block bg-white p-6 sm:p-7 rounded-2xl sm:rounded-3xl border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
+                <a href="${url}" class="block bg-white p-7 sm:p-8 rounded-[28px] border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
                     <div>
                         <div class="flex items-start justify-between mb-4">
                             <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100/80 border border-black/[0.04] text-2xl select-none group-hover:scale-105 transition-transform">🧪</span>
@@ -298,7 +298,7 @@ function bangunMenuBeranda() {
 
     modulLain.forEach(m => {
         html += `
-            <a href="${m.path}" class="block bg-white p-6 sm:p-7 rounded-2xl sm:rounded-3xl border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
+            <a href="${m.path}" class="block bg-white p-7 sm:p-8 rounded-[28px] border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
                 <div>
                     <div class="flex items-start justify-between mb-4">
                         <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100/80 border border-black/[0.04] text-2xl select-none group-hover:scale-105 transition-transform">${m.icon}</span>
