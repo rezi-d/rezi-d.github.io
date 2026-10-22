@@ -41,7 +41,7 @@ const snbtSubtes = [
         icon: '🔍',
         warna: 'purple',
         paketList: [
-            { id: 1, judul: 'Paket 1: Analisis Tata Makna & Kosakata', status: 'segera', jumlahSoal: 15, durasiMenit: 15, tahun: '2025/2026' }
+            { id: 1, judul: 'Paket 1: Analisis Tata Makna & Kosakata', status: 'tersedia', jumlahSoal: 15, durasiMenit: 15, tahun: '2025/2026' }
         ]
     },
     {
@@ -53,7 +53,7 @@ const snbtSubtes = [
         icon: '📐',
         warna: 'amber',
         paketList: [
-            { id: 1, judul: 'Paket 1: Aljabar, Aritmetika & Kecukupan Data', status: 'segera', jumlahSoal: 15, durasiMenit: 20, tahun: '2025/2026' }
+            { id: 1, judul: 'Paket 1: Aljabar, Aritmetika & Kecukupan Data', status: 'tersedia', jumlahSoal: 10, durasiMenit: 20, tahun: '2025/2026' }
         ]
     },
     {
@@ -700,6 +700,779 @@ const snbtBankSoal = {
             `
         }
     ]
+,
+
+    // -----------------------------------------------------------------
+    // PENGETAHUAN KUANTITATIF (PK) - PAKET 1 (Sumber: Bank Soal UTBK 2021)
+    // -----------------------------------------------------------------
+    'pk_1': [
+        {
+                "id": 1,
+                "topik": "Aljabar Matriks",
+                "soal": "Nilai \\(k\\) yang memenuhi persamaan matriks berikut adalah ....<br><br><div class='p-3 bg-slate-50 border border-slate-200 rounded-xl text-center text-sm sm:text-base font-serif'>$$\\begin{pmatrix} 0 & k \\\\ 1 & 2 \\end{pmatrix} \\begin{pmatrix} 3 & 1 \\\\ 2 & 1 \\end{pmatrix} - \\begin{pmatrix} 3 & 3 \\\\ 5 & 1 \\end{pmatrix} = \\begin{pmatrix} 3 & 0 \\\\ 2 & 2 \\end{pmatrix}$$</div>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "0"
+                        },
+                        {
+                                "id": "B",
+                                "text": "2"
+                        },
+                        {
+                                "id": "C",
+                                "text": "3"
+                        },
+                        {
+                                "id": "D",
+                                "text": "6"
+                        },
+                        {
+                                "id": "E",
+                                "text": "7"
+                        }
+                ],
+                "kunci": "C",
+                "pembahasan": "<strong>Langkah 1: Lakukan Perkalian Matriks di Ruas Kiri</strong><br>$$\\begin{pmatrix} 0 & k \\\\ 1 & 2 \\end{pmatrix} \\begin{pmatrix} 3 & 1 \\\\ 2 & 1 \\end{pmatrix} = \\begin{pmatrix} (0)(3) + (k)(2) & (0)(1) + (k)(1) \\\\ (1)(3) + (2)(2) & (1)(1) + (2)(1) \\end{pmatrix} = \\begin{pmatrix} 2k & k \\\\ 7 & 3 \\end{pmatrix}$$<br><strong>Langkah 2: Kurangkan dengan Matriks Kedua</strong><br>$$\\begin{pmatrix} 2k & k \\\\ 7 & 3 \\end{pmatrix} - \\begin{pmatrix} 3 & 3 \\\\ 5 & 1 \\end{pmatrix} = \\begin{pmatrix} 2k - 3 & k - 3 \\\\ 7 - 5 & 3 - 1 \\end{pmatrix} = \\begin{pmatrix} 2k - 3 & k - 3 \\\\ 2 & 2 \\end{pmatrix}$$<br><strong>Langkah 3: Samakan dengan Matriks Ruas Kanan</strong><br>$$\\begin{pmatrix} 2k - 3 & k - 3 \\\\ 2 & 2 \\end{pmatrix} = \\begin{pmatrix} 3 & 0 \\\\ 2 & 2 \\end{pmatrix}$$<br>Dari kesamaan elemen baris ke-1 kolom ke-2:<br>\\(k - 3 = 0 \\implies k = 3\\)<br>Uji pada baris ke-1 kolom ke-1: \\(2(3) - 3 = 6 - 3 = 3\\) (Cocok).<br><br><strong>Kesimpulan:</strong> Nilai \\(k\\) yang memenuhi adalah <strong>3</strong> (Opsi C)."
+        },
+        {
+                "id": 2,
+                "topik": "Aritmetika Sosial & Optimasi Biaya",
+                "soal": "Seseorang merencanakan membeli minyak goreng secara langsung ke toko atau secara online. Tersedia dua ukuran kemasan dengan rincian biaya sebagai berikut:<br><br><div class='overflow-x-auto my-3'><table class='w-full text-xs sm:text-sm border border-slate-200 text-left'><tr class='bg-slate-100 font-bold border-b border-slate-200'><th class='p-2.5'>Pilihan Kemasan</th><th class='p-2.5'>Beli Langsung di Toko</th><th class='p-2.5'>Beli Online (Termasuk Ongkir)</th></tr><tr class='border-b border-slate-100'><td class='p-2.5 font-medium'>Kemasan 2 Liter</td><td class='p-2.5'>Rp30.000 / wadah</td><td class='p-2.5'>Rp40.000 / wadah</td></tr><tr class='border-b border-slate-100'><td class='p-2.5 font-medium'>Kemasan 5 Liter</td><td class='p-2.5'>Rp70.000 / wadah</td><td class='p-2.5'>Rp85.000 / wadah</td></tr></table></div>Jika membeli langsung ke toko, diperlukan biaya transportasi perjalanan sebesar <strong>Rp40.000</strong> (cukup dibayar sekali untuk seluruh belanjaan).<br><br>Total biaya minimal yang dibutuhkan untuk memenuhi kebutuhan <strong>10 liter minyak goreng</strong> adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "Rp200.000"
+                        },
+                        {
+                                "id": "B",
+                                "text": "Rp190.000"
+                        },
+                        {
+                                "id": "C",
+                                "text": "Rp180.000"
+                        },
+                        {
+                                "id": "D",
+                                "text": "Rp170.000"
+                        },
+                        {
+                                "id": "E",
+                                "text": "Rp160.000"
+                        }
+                ],
+                "kunci": "D",
+                "pembahasan": "<strong>Analisis Opsi Kombinasi untuk 10 Liter Minyak:</strong><br><br><strong>Opsi 1: Membeli Langsung ke Toko</strong><br>• Kemasan termurah adalah 2 wadah kemasan 5 Liter (2 × 5L = 10L):<br>  Harga minyak = \\(2 \\times \\text{Rp}70.000 = \\text{Rp}140.000\\)<br>  Biaya perjalanan = \\(\\text{Rp}40.000\\)<br>  Total Biaya = \\(140.000 + 40.000 = \\mathbf{Rp180.000}\\)<br><br><strong>Opsi 2: Membeli Secara Online (Tanpa Biaya Transport Tambahan)</strong><br>• Membeli 2 wadah kemasan 5 Liter:<br>  Total Biaya = \\(2 \\times \\text{Rp}85.000 = \\mathbf{Rp170.000}\\)<br>• Membeli 5 wadah kemasan 2 Liter:<br>  Total Biaya = \\(5 \\times \\text{Rp}40.000 = \\text{Rp}200.000\\)<br><br><strong>Bandingkan Biaya Minimal:</strong><br>Biaya minimal dari seluruh opsi yang tersedia adalah <strong>Rp170.000</strong> (membeli 2 kemasan 5 liter secara online).<br><br><strong>Kesimpulan:</strong> Jawaban yang benar adalah <strong>D</strong>."
+        },
+        {
+                "id": 3,
+                "topik": "Teori Bilangan & Faktor Persekutuan Terbesar (FPB)",
+                "soal": "Faktor persekutuan terbesar (FPB) dari setiap dua bilangan di antara bilangan asli \\(a, b,\\) dan \\(c\\) adalah 1 (ketiganya saling prima berpasangan).<br>Diketahui:<br><div class='p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm sm:text-base font-mono my-2 text-center'>\\(a(b - 1) = 24\\), &nbsp;&nbsp; \\(2a - c = 5\\), &nbsp;&nbsp; dan &nbsp;&nbsp; \\(a < 6\\)</div>Manakah pernyataan berikut yang bernilai benar?<br><ol class='list-decimal list-inside space-y-1 my-2 text-xs sm:text-sm text-slate-800'><li>Hasil kali ketiga bilangan adalah 84</li><li>Selisih dua bilangan terbesar adalah 3</li><li>Selisih bilangan terbesar dan terkecil adalah 4</li><li>Bilangan terkecil adalah 5</li></ol>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "(1), (2), dan (3) saja yang benar"
+                        },
+                        {
+                                "id": "B",
+                                "text": "(1) dan (3) saja yang benar"
+                        },
+                        {
+                                "id": "C",
+                                "text": "(2) dan (4) saja yang benar"
+                        },
+                        {
+                                "id": "D",
+                                "text": "Hanya (4) yang benar"
+                        },
+                        {
+                                "id": "E",
+                                "text": "Semua pilihan benar"
+                        }
+                ],
+                "kunci": "A",
+                "pembahasan": "<strong>Analisis Nilai a, b, dan c:</strong><br>1. \\(a\\) adalah bilangan asli faktor dari 24 dan \\(a < 6\\), sehingga \\(a \\in \\{1, 2, 3, 4\\}\\).<br>2. Dari \\(2a - c = 5 \\implies c = 2a - 5\\). Karena \\(c\\) bilangan asli (\\(c \\ge 1\\)), maka:<br>   \\(2a - 5 \\ge 1 \\implies 2a \\ge 6 \\implies a \\ge 3\\).<br>   Maka kemungkinan nilai \\(a\\) hanya <strong>3</strong> atau <strong>4</strong>.<br><br><strong>Uji Nilai a:</strong><br>• Jika \\(a = 3\\):<br>  \\(c = 2(3) - 5 = 1\\)<br>  \\(3(b - 1) = 24 \\implies b - 1 = 8 \\implies b = 9\\).<br>  Namun, \\(\\text{FPB}(a, b) = \\text{FPB}(3, 9) = 3 \\ne 1\\) (Gugur, karena syarat FPB harus 1).<br><br>• Jika \\(a = 4\\):<br>  \\(c = 2(4) - 5 = 3\\)<br>  \\(4(b - 1) = 24 \\implies b - 1 = 6 \\implies b = 7\\).<br>  Uji FPB berpasangan: \\(\\text{FPB}(4, 7) = 1\\), \\(\\text{FPB}(4, 3) = 1\\), \\(\\text{FPB}(7, 3) = 1\\). (Memenuhi semua syarat!).<br><br>Maka ketiga bilangan adalah: \\(c = 3\\) (terkecil), \\(a = 4\\) (tengah), \\(b = 7\\) (terbesar).<br><br><strong>Uji Pernyataan:</strong><br>(1) Hasil kali: \\(a \\times b \\times c = 4 \\times 7 \\times 3 = 84\\) (BENAR).<br>(2) Selisih dua terbesar: \\(7 - 4 = 3\\) (BENAR).<br>(3) Selisih terbesar dan terkecil: \\(7 - 3 = 4\\) (BENAR).<br>(4) Bilangan terkecil adalah 5 (SALAH, yang terkecil adalah 3).<br><br><strong>Kesimpulan:</strong> Pernyataan (1), (2), dan (3) benar (Opsi A)."
+        },
+        {
+                "id": 4,
+                "topik": "Barisan & Deret Aritmetika",
+                "soal": "Jika barisan \\(8, 13, 18, \\dots\\) merupakan barisan aritmetika, manakah pernyataan berikut yang bernilai benar?<br><ol class='list-decimal list-inside space-y-1 my-2 text-xs sm:text-sm text-slate-800'><li>Suku ke-10 lebih kecil daripada 55</li><li>Jumlah suku ke-3 dan ke-7 lebih besar daripada suku ke-10</li><li>Tidak ada suku yang merupakan kuadrat suatu bilangan bulat</li><li>Terdapat empat suku berturutan yang jumlahnya sama dengan suatu suku</li></ol>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "(1), (2), dan (3) saja yang benar"
+                        },
+                        {
+                                "id": "B",
+                                "text": "(1) dan (3) saja yang benar"
+                        },
+                        {
+                                "id": "C",
+                                "text": "(2) dan (4) saja yang benar"
+                        },
+                        {
+                                "id": "D",
+                                "text": "Hanya (4) yang benar"
+                        },
+                        {
+                                "id": "E",
+                                "text": "Semua pilihan benar"
+                        }
+                ],
+                "kunci": "A",
+                "pembahasan": "<strong>Analisis Rumus Barisan Aritmetika:</strong><br>Suku pertama \\(a = 8\\), beda \\(b = 13 - 8 = 5\\).<br>Rumus suku ke-\\(n\\): \\(U_n = 8 + (n - 1)5 = 5n + 3\\).<br><br><strong>Uji Pernyataan:</strong><br>1. Suku ke-10: \\(U_{10} = 5(10) + 3 = 53\\). Karena \\(53 < 55\\), pernyataan (1) <strong>BENAR</strong>.<br>2. \\(U_3 = 5(3) + 3 = 18\\)<br>   \\(U_7 = 5(7) + 3 = 38\\)<br>   \\(U_3 + U_7 = 18 + 38 = 56\\). Karena \\(56 > 53\\) (lebih besar dari \\(U_{10}\\)), pernyataan (2) <strong>BENAR</strong>.<br>3. Perhatikan bentuk suku: \\(U_n = 5n + 3 \\equiv 3 \\pmod 5\\).<br>   Kuadrat bilangan bulat jika dibagi 5 hanya mungkin bersisa 0, 1, atau 4 (tidak pernah bersisa 3). Oleh karena itu, <em>tidak ada suku yang merupakan kuadrat sempurna</em>. Pernyataan (3) <strong>BENAR</strong>.<br>4. Jumlah 4 suku berturutan selalu bernilai genap kelipatan yang jika dibagi 5 bersisa 2, sehingga tidak pernah sama dengan suku manapun yang bersisa 3 modulo 5. Pernyataan (4) <strong>SALAH</strong>.<br><br><strong>Kesimpulan:</strong> Pernyataan (1), (2), dan (3) benar (Opsi A)."
+        },
+        {
+                "id": 5,
+                "topik": "Logika Himpunan & Alur Pekerjaan (Dependency Graph)",
+                "soal": "Jika \\(X\\) adalah himpunan pekerjaan, notasi \\(X \\to y\\) diartikan bahwa pekerjaan \\(y\\) hanya dapat dilakukan secara langsung setelah menyelesaikan <strong>salah satu</strong> pekerjaan pada himpunan \\(X\\).<br><br>Diketahui aturan prasyarat:<br><div class='p-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs sm:text-sm my-2 space-y-1'><div>• \\(\\{\\} \\to P1\\) (P1 bisa dikerjakan langsung)</div><div>• \\(\\{\\} \\to P2\\) (P2 bisa dikerjakan langsung)</div><div>• \\(\\{P1, P2\\} \\to P3\\)</div><div>• \\(\\{P3\\} \\to P4\\)</div><div>• \\(\\{P2\\} \\to P5\\)</div><div>• \\(\\{P4, P5\\} \\to P6\\)</div></div>Manakah urutan penyelesaian pekerjaan yang valid agar dapat melakukan pekerjaan <strong>P6</strong>?<br><ol class='list-decimal list-inside space-y-1 my-2 text-xs sm:text-sm text-slate-800'><li>\\(P1 \\to P4 \\to P6\\)</li><li>\\(P2 \\to P5 \\to P6\\)</li><li>\\(P1 \\to P3 \\to P5 \\to P6\\)</li><li>\\(P1 \\to P3 \\to P4 \\to P6\\)</li></ol>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "(1), (2), dan (3) saja yang benar"
+                        },
+                        {
+                                "id": "B",
+                                "text": "(1) dan (3) saja yang benar"
+                        },
+                        {
+                                "id": "C",
+                                "text": "(2) dan (4) saja yang benar"
+                        },
+                        {
+                                "id": "D",
+                                "text": "Hanya (4) yang benar"
+                        },
+                        {
+                                "id": "E",
+                                "text": "Semua pilihan benar"
+                        }
+                ],
+                "kunci": "C",
+                "pembahasan": "<strong>Analisis Aturan Transisi:</strong><br>Untuk dapat mengerjakan \\(P6\\), syaratnya adalah menyelesaikan salah satu dari \\(\\{P4, P5\\}\\).<br><br>• <strong>Jalur 1 (\\(P1 \\to P4 \\to P6\\)):</strong> Tidak valid, karena \\(P4\\) hanya bisa dikerjakan setelah \\(P3\\), bukan langsung dari \\(P1\\).<br>• <strong>Jalur 2 (\\(P2 \\to P5 \\to P6\\)):</strong> <strong>Valid!</strong> Mulai dari \\(P2\\) &rarr; buka \\(P5\\) (karena \\(P2 \\in \\{P2\\}\\)) &rarr; buka \\(P6\\) (karena \\(P5 \\in \\{P4, P5\\}\\)).<br>• <strong>Jalur 3 (\\(P1 \\to P3 \\to P5 \\to P6\\)):</strong> Tidak valid, karena \\(P5\\) mensyaratkan \\(P2\\), bukan \\(P3\\).<br>• <strong>Jalur 4 (\\(P1 \\to P3 \\to P4 \\to P6\\)):</strong> <strong>Valid!</strong> Mulai dari \\(P1\\) &rarr; buka \\(P3\\) &rarr; buka \\(P4\\) &rarr; buka \\(P6\\).<br><br><strong>Kesimpulan:</strong> Urutan yang benar adalah (2) dan (4) (Opsi C)."
+        },
+        {
+                "id": 6,
+                "topik": "Kecukupan Data: Titik Potong Fungsi Kubik",
+                "soal": "Apakah grafik fungsi \\(f(x) = x^3 + bx + c\\) memotong sumbu-\\(x\\) di tepat satu titik?<br><br>Putuskan apakah pernyataan (1) dan (2) berikut cukup untuk menjawab pertanyaan tersebut:<br><div class='p-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs sm:text-sm my-2'>(1) \\(b > 0\\)<br>(2) \\(bc > 0\\)</div>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "Pernyataan (1) SAJA cukup untuk menjawab pertanyaan, tetapi pernyataan (2) SAJA tidak cukup."
+                        },
+                        {
+                                "id": "B",
+                                "text": "Pernyataan (2) SAJA cukup untuk menjawab pertanyaan, tetapi pernyataan (1) SAJA tidak cukup."
+                        },
+                        {
+                                "id": "C",
+                                "text": "Dua pernyataan BERSAMA-SAMA cukup untuk menjawab pertanyaan, tetapi SATU pernyataan SAJA tidak cukup."
+                        },
+                        {
+                                "id": "D",
+                                "text": "Salah satu pernyataan SAJA cukup untuk menjawab pertanyaan."
+                        },
+                        {
+                                "id": "E",
+                                "text": "Pernyataan (1) dan pernyataan (2) tidak cukup untuk menjawab pertanyaan."
+                        }
+                ],
+                "kunci": "A",
+                "pembahasan": "<strong>Analisis Turunan & Kemonotonan Fungsi:</strong><br>Turunan pertama fungsi adalah \\(f'(x) = 3x^2 + b\\).<br><br><strong>Uji Pernyataan (1): \\(b > 0\\)</strong><br>Karena \\(x^2 \\ge 0\\) untuk setiap \\(x \\in \\mathbb{R}\\) dan \\(b > 0\\), maka \\(f'(x) = 3x^2 + b > 0\\) selalu bernilai positif untuk semua nilai \\(x\\).<br>Artinya grafik fungsi \\(f(x)\\) adalah fungsi yang selalu <em>monoton naik murni</em> (strictly increasing) tanpa memiliki titik stasioner/balik.<br>Karena fungsi kubik kontinu dari \\(-\\infty\\) sampai \\(+\\infty\\) dan selalu naik, ia <strong>pasti memotong sumbu-x di tepat satu titik</strong>.<br>&rarr; <em>Pernyataan (1) SAJA CUKUP menjawab YA secara pasti.</em><br><br><strong>Uji Pernyataan (2): \\(bc > 0\\)</strong><br>Hanya menyatakan bahwa tanda \\(b\\) dan \\(c\\) sama. Jika \\(b < 0\\) dan \\(c < 0\\), kurva memiliki titik balik dan jumlah titik potong sumbu-x bisa 1 atau 3 bergantung pada nilai ekstrem lokal.<br>&rarr; <em>Pernyataan (2) SAJA TIDAK CUKUP.</em><br><br><strong>Kesimpulan:</strong> Pernyataan (1) SAJA cukup, tetapi pernyataan (2) SAJA tidak cukup (Opsi A)."
+        },
+        {
+                "id": 7,
+                "topik": "Kecukupan Data: Geometri Trapesium",
+                "soal": "Pada segi enam \\(KLMNOP\\), titik-titik \\(K, L, M,\\) dan \\(N\\) merupakan titik-titik sudut trapesium sama kaki dengan \\(KL = MN\\) dan sisi sejajar \\(LM \\parallel KN\\).<br>Berapakah besar sudut \\(\\angle KNO\\)?<br><br>Putuskan apakah pernyataan (1) dan (2) berikut cukup untuk menjawab pertanyaan tersebut:<br><div class='p-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs sm:text-sm my-2'>(1) Besar \\(\\angle MNO = 150^\\circ\\)<br>(2) \\(KN = 2LM\\)</div>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "Pernyataan (1) SAJA cukup untuk menjawab pertanyaan, tetapi pernyataan (2) SAJA tidak cukup."
+                        },
+                        {
+                                "id": "B",
+                                "text": "Pernyataan (2) SAJA cukup untuk menjawab pertanyaan, tetapi pernyataan (1) SAJA tidak cukup."
+                        },
+                        {
+                                "id": "C",
+                                "text": "Dua pernyataan BERSAMA-SAMA cukup untuk menjawab pertanyaan, tetapi SATU pernyataan SAJA tidak cukup."
+                        },
+                        {
+                                "id": "D",
+                                "text": "Salah satu pernyataan SAJA cukup untuk menjawab pertanyaan."
+                        },
+                        {
+                                "id": "E",
+                                "text": "Pernyataan (1) dan pernyataan (2) tidak cukup untuk menjawab pertanyaan."
+                        }
+                ],
+                "kunci": "E",
+                "pembahasan": "<strong>Analisis Geometri Sudut:</strong><br>Perhatikan bahwa \\(\\angle KNO = \\angle MNO - \\angle MNK\\).<br><br>• <strong>Pernyataan (1):</strong> Memberikan besar \\(\\angle MNO = 150^\\circ\\), tetapi sudut alas trapesium \\(\\angle MNK\\) belum diketahui karena tidak ada informasi kemiringan kaki trapesium.<br>• <strong>Pernyataan (2):</strong> Hanya memberikan perbandingan panjang sisi sejajar \\(KN = 2LM\\). Sudut \\(\\angle MNK\\) masih bergantung pada tinggi trapesium atau panjang kaki \\(MN\\).<br>• <strong>Gabungan (1) dan (2):</strong> Mengetahui perbandingan alas dan sudut luar tidak memberikan nilai tunggal bagi sudut dalam trapesium \\(\\angle MNK\\) karena trapesium masih dapat direnggangkan/ditinggikan secara fleksibel.<br><br><strong>Kesimpulan:</strong> Pernyataan (1) dan pernyataan (2) tidak cukup untuk menjawab pertanyaan (Opsi E)."
+        },
+        {
+                "id": 8,
+                "topik": "Kecukupan Data: Statistika Bilangan Bulat",
+                "soal": "Lima bilangan bulat positif memiliki rata-rata 6. Berapakah nilai dua bilangan terkecil?<br><br>Putuskan apakah pernyataan (1) dan (2) berikut cukup untuk menjawab pertanyaan tersebut:<br><div class='p-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs sm:text-sm my-2'>(1) Jangkauannya sama dengan 4<br>(2) Tidak ada bilangan yang bernilai sama</div>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "Pernyataan (1) SAJA cukup untuk menjawab pertanyaan, tetapi pernyataan (2) SAJA tidak cukup."
+                        },
+                        {
+                                "id": "B",
+                                "text": "Pernyataan (2) SAJA cukup untuk menjawab pertanyaan, tetapi pernyataan (1) SAJA tidak cukup."
+                        },
+                        {
+                                "id": "C",
+                                "text": "Dua pernyataan BERSAMA-SAMA cukup untuk menjawab pertanyaan, tetapi SATU pernyataan SAJA tidak cukup."
+                        },
+                        {
+                                "id": "D",
+                                "text": "Salah satu pernyataan SAJA cukup untuk menjawab pertanyaan."
+                        },
+                        {
+                                "id": "E",
+                                "text": "Pernyataan (1) dan pernyataan (2) tidak cukup untuk menjawab pertanyaan."
+                        }
+                ],
+                "kunci": "C",
+                "pembahasan": "<strong>Analisis Matematika:</strong><br>Misalkan kelima bilangan bulat positif terurut adalah \\(x_1 \\le x_2 \\le x_3 \\le x_4 \\le x_5\\).<br>Rata-rata = 6 &rarr; Jumlah kelima bilangan: \\(x_1 + x_2 + x_3 + x_4 + x_5 = 5 \\times 6 = 30\\).<br><br>• <strong>Pernyataan (1) SAJA:</strong> Jangkauan \\(x_5 - x_1 = 4\\). Banyak kemungkinan kombinasi bilangan (misal: 4, 6, 6, 6, 8 atau 5, 5, 5, 6, 9) sehingga dua nilai terkecil tidak unik. (Tidak cukup).<br>• <strong>Pernyataan (2) SAJA:</strong> Semua bilangan berbeda: \\(x_1 < x_2 < x_3 < x_4 < x_5\\). Masih tak terhingga kombinasi bilangan berbeda yang berjumlah 30. (Tidak cukup).<br><br>• <strong>Dua Pernyataan Bersama-sama:</strong><br>Karena semua 5 bilangan berbeda dan jangkauan \\(x_5 - x_1 = 4\\), kelima bilangan bulat tersebut <strong>harus merupakan 5 bilangan bulat berurutan</strong>:<br>\\(x, x+1, x+2, x+3, x+4\\).<br>Jumlah: \\(5x + 10 = 30 \\implies 5x = 20 \\implies x = 4\\).<br>Maka kelima bilangan pasti bernilai unik: <strong>4, 5, 6, 7, 8</strong>.<br>Dua bilangan terkecil dapat dipastikan secara tunggal, yaitu <strong>4 dan 5</strong>.<br><br><strong>Kesimpulan:</strong> Dua pernyataan BERSAMA-SAMA cukup, tetapi satu pernyataan saja tidak cukup (Opsi C)."
+        },
+        {
+                "id": 9,
+                "topik": "Aljabar & Limit Fungsi",
+                "soal": "Semua pasangan \\((a, b)\\) di mana \\(a\\) dan \\(b\\) merupakan anggota dari himpunan \\(\\{2, 3, 4, 5, 7\\}\\) memenuhi persamaan limit:<br><div class='p-3 bg-slate-50 border border-slate-200 rounded-xl text-center text-sm sm:text-base font-serif my-2'>$$\\lim_{x \\to 1} \\frac{x + b}{ax - 1} = 2$$</div>Berdasarkan informasi di atas, berapa banyakkah dari empat pernyataan berikut yang bernilai benar?<br><ol class='list-decimal list-inside space-y-1 my-2 text-xs sm:text-sm text-slate-800'><li>\\(a \\le b\\)</li><li>\\(a + b < ab\\)</li><li>\\(b - a = 1\\)</li><li>Terdapat dua pasangan nilai \\(a\\) dan \\(b\\) yang memenuhi</li></ol>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "0"
+                        },
+                        {
+                                "id": "B",
+                                "text": "1"
+                        },
+                        {
+                                "id": "C",
+                                "text": "2"
+                        },
+                        {
+                                "id": "D",
+                                "text": "3"
+                        },
+                        {
+                                "id": "E",
+                                "text": "4"
+                        }
+                ],
+                "kunci": "C",
+                "pembahasan": "<strong>Langkah Penyelesaian Persamaan Limit:</strong><br>Substitusikan \\(x = 1\\) ke dalam bentuk limit:<br>$$\\frac{1 + b}{a(1) - 1} = 2 \\implies \\frac{1 + b}{a - 1} = 2$$$$1 + b = 2(a - 1) = 2a - 2 \\implies b = 2a - 3$$<br>Kita uji nilai \\(a \\in \\{2, 3, 4, 5, 7\\}\\):<br>• Jika \\(a = 2 \\implies b = 2(2) - 3 = 1\\) (Tidak memenuhi, 1 bukan anggota himpunan).<br>• Jika \\(a = 3 \\implies b = 2(3) - 3 = 3\\) &rarr; Pasangan \\((3, 3)\\) [Memenuhi].<br>• Jika \\(a = 4 \\implies b = 2(4) - 3 = 5\\) &rarr; Pasangan \\((4, 5)\\) [Memenuhi].<br>• Jika \\(a = 5 \\implies b = 2(5) - 3 = 7\\) &rarr; Pasangan \\((5, 7)\\) [Memenuhi].<br>• Jika \\(a = 7 \\implies b = 2(7) - 3 = 11\\) (Tidak memenuhi, 11 bukan anggota himpunan).<br><br>Terdapat <strong>3 pasangan yang memenuhi</strong>: \\((3, 3), (4, 5), (5, 7)\\).<br><br><strong>Uji Keempat Pernyataan:</strong><br>1. \\(a \\le b\\): untuk \\((3, 3) \\implies 3 \\le 3\\), untuk \\((4, 5) \\implies 4 \\le 5\\), untuk \\((5, 7) \\implies 5 \\le 7\\). <strong>(BENAR)</strong>.<br>2. \\(a + b < ab\\): \\(3+3 < 3(3) \\implies 6 < 9\\); \\(4+5 < 4(5) \\implies 9 < 20\\); \\(5+7 < 5(7) \\implies 12 < 35\\). <strong>(BENAR)</strong>.<br>3. \\(b - a = 1\\): Pada pasangan \\((3, 3)\\), \\(3 - 3 = 0 \\ne 1\\). <strong>(SALAH)</strong>.<br>4. Terdapat dua pasangan nilai \\(a\\) dan \\(b\\): Faktanya ada 3 pasangan. <strong>(SALAH)</strong>.<br><br><strong>Kesimpulan:</strong> Pernyataan yang bernilai benar ada <strong>2</strong> (Pernyataan 1 dan 2) &rarr; Opsi C."
+        },
+        {
+                "id": 10,
+                "topik": "Operasi Hitung Khusus / Aljabar Simbolik",
+                "soal": "Operasi simbolik \\(::\\) didefinisikan dengan aturan:<br><div class='p-3 bg-slate-50 border border-slate-200 rounded-xl text-center text-sm sm:text-base font-serif my-2'>$$m \\mathbin{::} n = n(m - n) + n^2$$</div>dengan \\(m, n\\) adalah bilangan bulat.<br><br>Nilai dari \\(-4 \\mathbin{::} (1 \\mathbin{::} 2)\\) adalah ....<br><ol class='list-decimal list-inside space-y-1 my-2 text-xs sm:text-sm text-slate-800'><li>2</li><li>0</li><li>-6</li><li>-8</li></ol>",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "(1), (2), dan (3) saja yang benar"
+                        },
+                        {
+                                "id": "B",
+                                "text": "(1) dan (3) saja yang benar"
+                        },
+                        {
+                                "id": "C",
+                                "text": "(2) dan (4) saja yang benar"
+                        },
+                        {
+                                "id": "D",
+                                "text": "Hanya (4) yang benar"
+                        },
+                        {
+                                "id": "E",
+                                "text": "Semua pilihan benar"
+                        }
+                ],
+                "kunci": "D",
+                "pembahasan": "<strong>Penyederhanaan Operasi Simbolik:</strong><br>Jabarkan bentuk aljabar dari definisi:<br>$$m \\mathbin{::} n = n(m - n) + n^2 = mn - n^2 + n^2 = m \\cdot n$$<br>Ternyata operasi \\(m \\mathbin{::} n\\) setara dengan perkalian biasa \\(m \\cdot n\\)!<br><br><strong>Hitung Nilai Soal:</strong><br>1. Hitung dalam kurung terlebih dahulu:<br>   \\(1 \\mathbin{::} 2 = 1 \\cdot 2 = 2\\)<br>2. Hitung operasi berikutnya:<br>   \\(-4 \\mathbin{::} 2 = (-4) \\cdot 2 = -8\\)<br><br>Maka nilai akhirnya adalah <strong>-8</strong>.<br>Dari pilihan pernyataan yang diberikan, hanya pernyataan (4) yang bernilai benar.<br><br><strong>Kesimpulan:</strong> Hanya (4) yang benar (Opsi D)."
+        }
+    ],
+
+    // -----------------------------------------------------------------
+    // PENGETAHUAN & PEMAHAMAN UMUM (PPU) - PAKET 1 (Sumber: Bank Soal UTBK 2021)
+    // -----------------------------------------------------------------
+    'ppu_1': [
+        {
+                "id": 1,
+                "bacaanId": "ppu1_teks1",
+                "bacaanTitle": "Teks untuk Soal Nomor 1—3",
+                "bacaan": "<p class='mb-2'>(1) Puntung rokok adalah salah satu bentuk sampah yang paling umum di dunia yang menyebabkan kerusakan lingkungan yang parah. (2) Analisis distribusi sampah puntung rokok di lingkungan perkotaan dapat menghasilkan wawasan yang berguna untuk intervensi lebih lanjut mengurangi sampah ini. (3) Informasi tentang puntung rokok yang dibuang di ruang publik dikumpulkan melalui pengamatan sosial sistematis di berbagai sampel daerah di Madrid, Spanyol. [...]. (4) Analisis data dilakukan secara kualitatif dengan menggunakan lokasi sebagai parameter utama.</p><p class='mb-2'>(5) Ditemukan bahwa lokasi perhotelan dan perhentian angkutan umum merupakan tempat dengan konsentrasi puntung rokok tertinggi. (6) Lokasi selanjutnya adalah pintu masuk lokasi pendidikan dan taman bermain. (7) Daerah [...] kota menunjukkan jumlah puntung rokok tertinggi dibandingkan dengan daerah pinggiran kota. (8) Penelitian ini merupakan studi yang memperkirakan dan memetakan sampah puntung rokok di wilayah perkotaan besar. (9) Temuan dalam penelitian ini menunjukkan sifat puntung rokok yang ada di mana-mana di lingkungan perkotaan. (10) Oleh karena itu, diperlukan adanya intervensi untuk mengurangi dampaknya terhadap kesehatan masyarakat dan lingkungan.</p><p class='mt-2 text-xs text-slate-500 italic'>Diadaptasi dari: https://www.sciencedirect.com/</p>",
+                "topik": "Ketepatan Diksi & Kolokasi Kata",
+                "soal": "Kata yang tepat untuk mengisi rumpang pada frasa <em>... kota</em> dalam kalimat (7) adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "inti"
+                        },
+                        {
+                                "id": "B",
+                                "text": "sentral"
+                        },
+                        {
+                                "id": "C",
+                                "text": "fokus"
+                        },
+                        {
+                                "id": "D",
+                                "text": "induk"
+                        },
+                        {
+                                "id": "E",
+                                "text": "pusat"
+                        }
+                ],
+                "kunci": "E",
+                "pembahasan": "<strong>Analisis Kolokasi & Pasangan Kata:</strong><br>Dalam tata ruang perkotaan dan bahasa Indonesia baku, lawan kata dari <em>daerah pinggiran kota</em> (suburban/outskirts) adalah <strong>daerah pusat kota</strong> (city center / downtown).<br><br>Kolokasi kata yang lazim dan berterima secara semantis adalah <em>pusat kota</em>.<br><br><strong>Kesimpulan:</strong> Kata yang tepat adalah <strong>pusat</strong> (Opsi E)."
+        },
+        {
+                "id": 2,
+                "bacaanId": "ppu1_teks1",
+                "bacaanTitle": "Teks untuk Soal Nomor 1—3",
+                "topik": "Parafrase & Restrukturisasi Kalimat",
+                "soal": "Gagasan pada kalimat (5) <em>\"Ditemukan bahwa lokasi perhotelan dan perhentian angkutan umum merupakan tempat dengan konsentrasi puntung rokok tertinggi\"</em> dapat diungkapkan kembali secara efektif melalui kalimat ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "Konsentrasi puntung rokok tertinggi membuat lokasi perhotelan dan perhentian angkutan umum menjadi pusat temuan penelitian"
+                        },
+                        {
+                                "id": "B",
+                                "text": "Jumlah puntung rokok terkonsentrasi di tempat-tempat tertentu, misalnya lokasi perhotelan dan perhentian angkutan umum"
+                        },
+                        {
+                                "id": "C",
+                                "text": "Para ahli menemukan bahwa hotel dan perhentian angkutan umum adalah tempat favorit para perokok"
+                        },
+                        {
+                                "id": "D",
+                                "text": "Penelitian ini dilakukan khusus terkonsentrasi pada lokasi perhotelan dan perhentian angkutan umum yang banyak dikunjungi orang"
+                        },
+                        {
+                                "id": "E",
+                                "text": "Hasil penelitian menunjukkan bahwa konsentrasi puntung rokok tertinggi terdapat di lokasi perhotelan dan terminal angkutan umum"
+                        }
+                ],
+                "kunci": "E",
+                "pembahasan": "<strong>Analisis Parafrase Kalimat Ilmiah:</strong><br>Kalimat (5) menyampaikan inti hasil temuan studi mengenai sebaran konsentrasi sampah puntung rokok tertinggi.<br><br>Kalimat pada opsi <strong>E</strong> menyampaikan seluruh komponen esensial kalimat asli secara akurat tanpa menambah asumsi subjektif yang tidak ada di teks (seperti 'tempat favorit perokok' pada opsi C atau 'khusus terkonsentrasi' pada opsi D).<br><br><strong>Kesimpulan:</strong> Parafrase yang paling tepat adalah <strong>Opsi E</strong>."
+        },
+        {
+                "id": 3,
+                "bacaanId": "ppu1_teks1",
+                "bacaanTitle": "Teks untuk Soal Nomor 1—3",
+                "topik": "Kepaduan Paragraf & Kalimat Pasif",
+                "soal": "Kalimat pasif yang tepat untuk mengisi rumpang pada paragraf 1 [...] setelah kalimat (3) adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "Diperkirakan kepadatan puntung rokok di ruang publik di seluruh kota mudah terkumpul"
+                        },
+                        {
+                                "id": "B",
+                                "text": "Perkiraan kepadatan puntung rokok di ruang publik di seluruh kota adalah data yang harus dikumpulkan"
+                        },
+                        {
+                                "id": "C",
+                                "text": "Data yang terkumpul digunakan untuk memperkirakan kepadatan puntung rokok di ruang publik di seluruh kota"
+                        },
+                        {
+                                "id": "D",
+                                "text": "Pengumpulan data dilakukan untuk mengukur kepadatan puntung rokok di ruang publik di seluruh kota"
+                        },
+                        {
+                                "id": "E",
+                                "text": "Informasi tentang kepadatan puntung rokok di ruang publik terkumpul sebagai data primer"
+                        }
+                ],
+                "kunci": "C",
+                "pembahasan": "<strong>Analisis Alur Logika & Bentuk Pasif:</strong><br>Kalimat (3) menyatakan: <em>\"Informasi tentang puntung rokok... <strong>dikumpulkan</strong> melalui pengamatan sosial sistematis...\"</em><br>Kalimat rumpang harus menjembatani data yang baru saja dikumpulkan dengan analisis data pada kalimat (4): <em>\"Analisis data dilakukan secara kualitatif...\"</em>.<br><br>Kalimat pasif pada opsi <strong>C</strong>: <em>\"Data yang terkumpul digunakan untuk memperkirakan kepadatan puntung rokok...\"</em> menyambung kohesi leksikal 'dikumpulkan' &rarr; 'data yang terkumpul' dan memberikan tujuan fungsi data tersebut.<br><br><strong>Kesimpulan:</strong> Jawaban yang benar adalah <strong>C</strong>."
+        },
+        {
+                "id": 4,
+                "bacaanId": "ppu1_teks2",
+                "bacaanTitle": "Teks untuk Soal Nomor 4—6",
+                "bacaan": "<p class='mb-2'>(1) Kebudayaan yang dimiliki suatu kelompok tidak akan terhindar dari pengaruh kebudayaan kelompok lain dengan adanya kontak antarkelompok atau melalui proses difusi. (2) Suatu kelompok sosial akan mengadopsi suatu kebudayaan tertentu apabila kebudayaan tersebut berguna untuk mengatasi atau memenuhi tuntutan yang dihadapinya. (3) Adopsi tersebut dipengaruhi oleh faktor-faktor fisikal, seperti iklim, topografi, sumber daya alam, dan sejenisnya.</p><p class='mb-2'>(4) Perkembangan zaman juga mendorong terjadinya perubahan-perubahan di segala bidang termasuk dalam kebudayaan. (5) Mau tidak mau kebudayaan yang dianut semua kelompok sosial akan bergeser, baik secara lambat maupun cepat, yang akan menimbulkan konflik antara kelompok yang menghendaki perubahan dan yang tidak menghendaki perubahan. (6) Hal yang terpenting dalam proses pengembangan suatu kebudayaan adalah adanya kontrol atau kendali terhadap perilaku reguler yang ditampilkan oleh para penganutnya.</p><p>(7) Tidak jarang perilaku yang ditampilkan kelompok tertentu bertolak belakang dengan perilaku yang dianut di dalam kelompok sosialnya. (8) Oleh karena itu, kontrol sosial diperlukan untuk memfilter nilai-nilai yang sesuai dengan kebudayaan suatu kelompok.</p><p class='mt-2 text-xs text-slate-500 italic'>Diadaptasi dari: https://arinaadjer.blogspot.com/</p>",
+                "topik": "Semantik: Sinonim Kata",
+                "soal": "Sinonim kata <strong>difusi</strong> dalam kalimat (1) adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "pertukaran"
+                        },
+                        {
+                                "id": "B",
+                                "text": "penyatuan"
+                        },
+                        {
+                                "id": "C",
+                                "text": "pembauran"
+                        },
+                        {
+                                "id": "D",
+                                "text": "pemerataan"
+                        },
+                        {
+                                "id": "E",
+                                "text": "pemanfaatan"
+                        }
+                ],
+                "kunci": "C",
+                "pembahasan": "<strong>Analisis Makna Kata Difusi:</strong><br>Dalam sosiologi dan antropologi budaya, <strong>difusi kebudayaan</strong> adalah proses penyebaran, penjalaran, dan percampuran unsur-unsur kebudayaan dari suatu masyarakat ke masyarakat lain.<br><br>Sinonim kontekstual yang paling tepat untuk difusi kebudayaan antarpopulasi adalah <strong>pembauran</strong>.<br><br><strong>Kesimpulan:</strong> Sinonim kata difusi adalah <strong>pembauran</strong> (Opsi C)."
+        },
+        {
+                "id": 5,
+                "bacaanId": "ppu1_teks2",
+                "bacaanTitle": "Teks untuk Soal Nomor 4—6",
+                "topik": "Makna Asosiatif & Leksikal",
+                "soal": "Frasa <em>yang tidak menghendaki perubahan</em> pada kalimat (5) memiliki makna asosiatif dengan kata ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "tradisional"
+                        },
+                        {
+                                "id": "B",
+                                "text": "fanatik"
+                        },
+                        {
+                                "id": "C",
+                                "text": "ortodoks"
+                        },
+                        {
+                                "id": "D",
+                                "text": "konservatif"
+                        },
+                        {
+                                "id": "E",
+                                "text": "apatis"
+                        }
+                ],
+                "kunci": "D",
+                "pembahasan": "<strong>Analisis Makna Asosiatif:</strong><br>Dalam diskursus sosiologi dan politik kebudayaan:<br>• <strong>Konservatif:</strong> Sikap yang berpegang teguh pada keadaan yang sudah mapan dan cenderung menolak atau tidak menghendaki perubahan sosial baru.<br>• Tradisional: Berkaitan dengan tradisi turun-temurun.<br>• Ortodoks: Berpandangan teguh pada doktrin agama/ajaran murni.<br>• Apatis: Tidak peduli / acuh tak acuh.<br><br>Oleh sebab itu, sikap yang secara spesifik 'tidak menghendaki perubahan' berasoisasi langsung dengan paham <strong>konservatif</strong>.<br><br><strong>Kesimpulan:</strong> Jawaban yang benar adalah <strong>konservatif</strong> (Opsi D)."
+        },
+        {
+                "id": 6,
+                "bacaanId": "ppu1_teks2",
+                "bacaanTitle": "Teks untuk Soal Nomor 4—6",
+                "topik": "Gaya Bahasa: Perumpamaan (Metafora)",
+                "soal": "Perumpamaan (analogi / metafora) pada teks di atas dapat ditemukan pada ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "kalimat (1)"
+                        },
+                        {
+                                "id": "B",
+                                "text": "kalimat (4)"
+                        },
+                        {
+                                "id": "C",
+                                "text": "kalimat (5)"
+                        },
+                        {
+                                "id": "D",
+                                "text": "kalimat (6)"
+                        },
+                        {
+                                "id": "E",
+                                "text": "kalimat (8)"
+                        }
+                ],
+                "kunci": "E",
+                "pembahasan": "<strong>Analisis Majas & Perumpamaan:</strong><br>Perhatikan kalimat (8): <em>\"Oleh karena itu, kontrol sosial diperlukan untuk <strong>memfilter</strong> nilai-nilai yang sesuai dengan kebudayaan suatu kelompok.\"</em><br><br>Kata <em>memfilter</em> (menyaring) secara harfiah merupakan tindakan fisik menggunakan alat saringan/penyaring pada zat cair/padat. Di sini kata tersebut digunakan secara kiasan (metaforis) untuk mengumpamakan proses penyeleksian nilai-nilai abstrak oleh masyarakat.<br><br><strong>Kesimpulan:</strong> Perumpamaan terdapat pada <strong>kalimat (8)</strong> (Opsi E)."
+        },
+        {
+                "id": 7,
+                "bacaanId": "ppu1_teks3",
+                "bacaanTitle": "Teks untuk Soal Nomor 7—9",
+                "bacaan": "<p class='mb-2'>(1) Kota-kota besar di Indonesia saat ini telah mengembangkan diri untuk lebih ramah terhadap lingkungan serta berupaya untuk menjaga keberlanjutan lingkungan. (2) Di Yogyakarta, upaya mewujudkan nuansa kota yang ramah lingkungan dibentuk oleh kalangan pemuda yang melakukan kampanye tentang perlunya menanam tumbuhan rindang di perkotaan, juga mengajari tata cara berkebun di lahan sempit. (3) Aksi kolektif yang dibangun oleh masyarakat mulai menunjukkan perubahan sikap terhadap penyelesaian masalah lingkungan yang dimulai dari skala individu. (4) Mereka bergabung untuk mewujudkan cita-cita yang dapat mengatasi permasalahan lingkungan akibat sampah yang dibuang sembarangan, menurunnya kualitas kota, dan kurangnya ruang hijau. (5) Kegiatan ini dikenal dengan Jogja Berkebun yang terdiri atas berbagai macam latar belakang profesi yang berbeda, mulai dari profesional, wiraswasta, pelajar, hingga ibu rumah tangga.</p><p>(6) Komunitas-komunitas masyarakat perkotaan secara rutin menggelar kegiatan gotong royong untuk meningkatkan kualitas lingkungan dari infrastruktur fisik atau nonfisik kampung hingga ruang publik. (7) Di Jakarta, upaya penyelamatan lingkungan ada di sekitar area kampung di mana masyarakatnya berusaha untuk menyelesaikan masalah lingkungan di kampungnya. (8) Didorong oleh pendampingan beberapa universitas di Jakarta, masyarakat kemudian mulai mengembangkan program kampung hijau sebagai kampanye menjaga kebersihan dan penghijauan lingkungan di kampung-kampung padat penduduk ibu kota.</p><p class='mt-2 text-xs text-slate-500 italic'>Diadaptasi dari: https://repository.unair.ac.id/</p>",
+                "topik": "Paralelisme Bentuk Frasa (Kalimat Efektif)",
+                "soal": "Frasa <em>sampah yang dibuang sembarangan, menurunnya kualitas kota, dan kurangnya ruang hijau</em> pada kalimat (4) akan menjadi benar bila susunannya diubah secara paralel menjadi ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "sampah yang dibuang sembarangan, menurunnya kualitas kota, dan ruang hijau yang berkurang"
+                        },
+                        {
+                                "id": "B",
+                                "text": "sampah yang dibuang secara sembarangan, kualitas kota yang menurun, dan kurangnya ruang hijau"
+                        },
+                        {
+                                "id": "C",
+                                "text": "pembuangan sampah yang sembarangan, menurunnya kualitas kota, dan berkurangnya ruang hijau"
+                        },
+                        {
+                                "id": "D",
+                                "text": "pembuangan sampah yang sembarangan, kualitas kota yang menurun, dan berkurangnya ruang hijau"
+                        },
+                        {
+                                "id": "E",
+                                "text": "dibuangnya sampah secara sembarangan, turunnya kualitas kota, dan kekurangan ruang hijau"
+                        }
+                ],
+                "kunci": "C",
+                "pembahasan": "<strong>Prinsip Keparalelan Bentuk (Paralelisme):</strong><br>Dalam rincian konjungtif koordinatif, bentuk satuan kata yang sejajar harus menggunakan pola bentukan kata yang sejenis.<br><br>Pada opsi <strong>C</strong>, ketiganya memiliki bentuk nomina tindakan berimbuhan sejajar (pe-an / me-...-nya / ber-...-nya):<br>1. <em>pembuangan sampah yang sembarangan</em> (nomina pe-an)<br>2. <em>menurunnya kualitas kota</em> (nomina me-...-nya)<br>3. <em>berkurangnya ruang hijau</em> (nomina ber-...-nya)<br><br><strong>Kesimpulan:</strong> Susunan yang benar dan sejajar adalah <strong>Opsi C</strong>."
+        },
+        {
+                "id": 8,
+                "bacaanId": "ppu1_teks3",
+                "bacaanTitle": "Teks untuk Soal Nomor 7—9",
+                "topik": "Koherensi & Urutan Logis Paragraf",
+                "soal": "Gagasan pada paragraf pertama akan menjadi lebih mudah dipahami dan mengalir logis apabila urutan kalimatnya adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "3-2-1-5-4"
+                        },
+                        {
+                                "id": "B",
+                                "text": "3-1-2-4-5"
+                        },
+                        {
+                                "id": "C",
+                                "text": "1-3-2-5-4"
+                        },
+                        {
+                                "id": "D",
+                                "text": "1-3-4-2-5"
+                        },
+                        {
+                                "id": "E",
+                                "text": "3-2-5-4-1"
+                        }
+                ],
+                "kunci": "D",
+                "pembahasan": "<strong>Analisis Alur Ide Pokok Paragraf:</strong><br>• Kalimat (1): Pernyataan umum tentang komitmen kota-kota besar di Indonesia terhadap lingkungan.<br>• Kalimat (3): Munculnya aksi kolektif masyarakat dari skala individu.<br>• Kalimat (4): <em>Mereka</em> (merujuk pada masyarakat di kalimat 3) bergabung untuk mewujudkan cita-cita mengatasi sampah.<br>• Kalimat (2): Contoh konkrit perwujudan nuansa kota ramah lingkungan di Yogyakarta oleh pemuda.<br>• Kalimat (5): Kegiatan ini dikenal dengan nama <em>Jogja Berkebun</em>.<br><br>Urutan <strong>1 - 3 - 4 - 2 - 5</strong> menyajikan alur dari gagasan umum nasional &rarr; kesadaran kolektif masyarakat &rarr; gerakan spesifik pemuda Jogja Berkebun.<br><br><strong>Kesimpulan:</strong> Urutan yang paling padu adalah <strong>Opsi D</strong>."
+        },
+        {
+                "id": 9,
+                "bacaanId": "ppu1_teks3",
+                "bacaanTitle": "Teks untuk Soal Nomor 7—9",
+                "topik": "Hubungan Antarkalimat Paragraf",
+                "soal": "Kalimat (6) dan kalimat (7) dalam bacaan di atas mengandung hubungan ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "pemaparan"
+                        },
+                        {
+                                "id": "B",
+                                "text": "pertentangan"
+                        },
+                        {
+                                "id": "C",
+                                "text": "penambahan"
+                        },
+                        {
+                                "id": "D",
+                                "text": "pemerian"
+                        },
+                        {
+                                "id": "E",
+                                "text": "penekanan"
+                        }
+                ],
+                "kunci": "D",
+                "pembahasan": "<strong>Analisis Hubungan Semantik Antarkalimat:</strong><br>• Kalimat (6) menyatakan pernyataan umum: <em>\"Komunitas-komunitas masyarakat perkotaan secara rutin menggelar kegiatan gotong royong...\"</em><br>• Kalimat (7) memberikan rincian kasus konkrit: <em>\"Di Jakarta, upaya penyelamatan lingkungan ada di sekitar area kampung...\"</em><br><br>Hubungan penjelasan dari hal umum ke rincian penggambaran kasus nyata disebut <strong>pemerian (elaborasi deskriptif rincian)</strong>.<br><br><strong>Kesimpulan:</strong> Hubungan antarkalimat tersebut adalah <strong>pemerian</strong> (Opsi D)."
+        },
+        {
+                "id": 10,
+                "bacaanId": "ppu1_teks4",
+                "bacaanTitle": "Teks untuk Soal Nomor 10—12",
+                "bacaan": "<p class='mb-2'>(1) Saat ini internet menggunakan kode kompleks untuk melindungi kerahasiaan informasi. (2) Akan tetapi, peretas semakin mahir mencari segala cara untuk mengalahkan sistem itu. (3) Hal ini tidak hanya menyebabkan pelanggaran privasi besar, tetapi juga menyebabkan penipuan yang mencapai triliunan dolar setiap tahun.</p><p class='mb-2'>(4) Namun sekarang, dunia lebih dekat dengan internet yang benar-benar aman dari ancaman serangan dunia maya yang semakin meningkat. (5) Hal ini berkat diciptakannya prototipe unik oleh tim ilmuwan internasional yang dapat mengubah cara berkomunikasi secara daring. (6) Penelitian yang dipimpin oleh University of Bristol memiliki potensi untuk melayani jutaan pengguna.</p><p>(7) Temuan ini berupa jaringan kuantum terbesar yang pernah ada dari jenisnya dan dapat digunakan untuk mengamankan komunikasi daring. (8) Dengan menerapkan teknik baru yang memanfaatkan hukum fisika sederhana, prototipe yang dibuat para ilmuwan ini mampu melindungi pesan dari penyusup sehingga transaksi informasi lebih dari dua pihak dapat dilakukan tanpa rasa cemas. (9) Hal ini merupakan terobosan besar karena sejauh ini fisikawan hanya mampu mengembangkan bentuk enkripsi yang aman bagi dua pengguna saja.</p><p class='mt-2 text-xs text-slate-500 italic'>Diadaptasi dari: https://www.sciencedaily.com/</p>",
+                "topik": "Segmentasi Paragraf / Pemisahan Ide",
+                "soal": "Apabila gagasan pada bacaan di atas dipisahkan menjadi dua paragraf, pengelompokan kalimat-kalimatnya agar gagasan pada masing-masing paragraf padu dan utuh adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "(1-2-3) dan (4-5-6-7-8-9)"
+                        },
+                        {
+                                "id": "B",
+                                "text": "(1-2-3-4) dan (5-6-7-8-9)"
+                        },
+                        {
+                                "id": "C",
+                                "text": "(1-2-3-4-5) dan (6-7-8-9)"
+                        },
+                        {
+                                "id": "D",
+                                "text": "(1-2-3-4-5-6) dan (7-8-9)"
+                        },
+                        {
+                                "id": "E",
+                                "text": "(1-2-3-4-5-6-7) dan (8-9)"
+                        }
+                ],
+                "kunci": "A",
+                "pembahasan": "<strong>Analisis Kesatuan Gagasan Pokok (Kohesi & Koherensi):</strong><br>• Kalimat (1) s.d. (3) fokus membahas <strong>masalah kerentanan internet konvensional</strong> terhadap aksi peretasan dan kerugian finansial.<br>• Kalimat (4) diawali dengan konjungsi pertentangan <em>\"Namun sekarang...\"</em> dan mulai membahas <strong>solusi baru berupa prototipe jaringan kuantum</strong> yang aman hingga kalimat (9).<br><br>Maka titik pisah alami yang mempertahankan keutuhan tema berada di antara kalimat (3) dan (4).<br><br><strong>Kesimpulan:</strong> Pengelompokan yang tepat adalah <strong>(1-2-3) dan (4-5-6-7-8-9)</strong> (Opsi A)."
+        },
+        {
+                "id": 11,
+                "bacaanId": "ppu1_teks4",
+                "bacaanTitle": "Teks untuk Soal Nomor 10—12",
+                "topik": "Sintaksis: Kalimat Efektif",
+                "soal": "Ungkapan <em>\"prototipe yang dibuat para ilmuwan ini mampu melindungi pesan dari penyusup sehingga transaksi informasi lebih dari dua pihak dapat dilakukan tanpa rasa cemas\"</em> pada kalimat (8) dapat disempurnakan menjadi ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "pesan dari penyusup mampu dilindungi para ilmuwan melalui prototipe sehingga transisi informasi lebih dari dua pihak dapat dilakukan tanpa rasa cemas"
+                        },
+                        {
+                                "id": "B",
+                                "text": "prototipe mampu melindungi pesan para ilmuwan dari penyusup sehingga transaksi informasi lebih dari dua pihak dapat dilakukan tanpa rasa cemas"
+                        },
+                        {
+                                "id": "C",
+                                "text": "para ilmuwan membuat prototipe yang mampu melindungi pesan dari penyusup sehingga transaksi informasi lebih dari dua pihak dapat dilakukan tanpa rasa cemas"
+                        },
+                        {
+                                "id": "D",
+                                "text": "prototipe mampu membuat pesan dari ilmuwan sehingga transaksi informasi lebih dari dua pihak dapat terlindungi dari penyusup tanpa rasa cemas"
+                        },
+                        {
+                                "id": "E",
+                                "text": "transaksi informasi lebih dari dua pihak dapat dilakukan para ilmuwan tanpa rasa cemas sehingga mereka mampu membuat prototipe yang melindungi pesan dari penyusup"
+                        }
+                ],
+                "kunci": "C",
+                "pembahasan": "<strong>Analisis Efektivitas Kalimat:</strong><br>Struktur pada opsi <strong>C</strong> menempatkan subjek pelaku secara lugas dan aktif: <em>\"para ilmuwan (S) membuat (P) prototipe yang mampu melindungi pesan dari penyusup (O)...\"</em>.<br><br>Bentuk ini menghilangkan konstruksi pasif ganda yang berbelit-belit dan menjaga kelogisan makna secara utuh.<br><br><strong>Kesimpulan:</strong> Kalimat penyempurnaan yang tepat adalah <strong>Opsi C</strong>."
+        },
+        {
+                "id": 12,
+                "bacaanId": "ppu1_teks4",
+                "bacaanTitle": "Teks untuk Soal Nomor 10—12",
+                "topik": "Pola Dasar Kalimat Majemuk",
+                "soal": "Dari bacaan di atas, kalimat yang berpola dasar sama dengan pola dasar kalimat <em>\"Masalah tersebut memengaruhi bukan hanya kondisi finansial, melainkan juga memengaruhi kondisi emosi anggota keluarga sepanjang periode.\"</em> adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "kalimat (2)"
+                        },
+                        {
+                                "id": "B",
+                                "text": "kalimat (3)"
+                        },
+                        {
+                                "id": "C",
+                                "text": "kalimat (4)"
+                        },
+                        {
+                                "id": "D",
+                                "text": "kalimat (8)"
+                        },
+                        {
+                                "id": "E",
+                                "text": "kalimat (9)"
+                        }
+                ],
+                "kunci": "B",
+                "pembahasan": "<strong>Analisis Pola Dasar Sintaksis:</strong><br>Kalimat acuan:<br>• <em>Masalah tersebut</em> = Subjek (S)<br>• <em>memengaruhi</em> = Predikat (P)<br>• <em>bukan hanya kondisi finansial, melainkan juga memengaruhi kondisi emosi...</em> = Objek / Pelengkap majemuk korelatif.<br><br>Perhatikan kalimat (3):<br>• <em>Hal ini</em> = Subjek (S)<br>• <em>tidak hanya menyebabkan</em> = Predikat (P)<br>• <em>pelanggaran privasi besar</em> = Objek 1 (O1)<br>• <em>tetapi juga menyebabkan penipuan...</em> = Objek 2 (O2)<br><br>Keduanya memiliki struktur dasar identik: <strong>Subjek + Predikat dengan konjungsi korelatif dua objek paralel</strong>.<br><br><strong>Kesimpulan:</strong> Kalimat yang berpola sama adalah <strong>kalimat (3)</strong> (Opsi B)."
+        },
+        {
+                "id": 13,
+                "bacaanId": "ppu1_teks5",
+                "bacaanTitle": "Teks untuk Soal Nomor 13—15",
+                "bacaan": "<p class='mb-2'>(1) Transformasi, kreativitas inovasi, dan produktivitas yang meningkat selama masa pandemi covid 19 ini menguatkan keyakinan kita bahwa perguruan tinggi di Indonesia mampu menghasilkan karya unggul. (2) Sinergi lintas disiplin keilmuan, lintas perguruan tinggi, dan lintas institusi terbukti mampu menghasilkan karya inovatif. (3) Transformasi digital harus diarahkan untuk meningkatkan mutu pendidikan tinggi dan menciptakan kolaborasi antarperguruan tinggi serta dunia industri. (4) Penguatan infrastruktur jaringan internet menjadi agenda yang harus segera dituntaskan. (5) Penguatan kemampuan dosen dalam pemanfaatan teknologi pembelajaran dan pengembangan platform pembelajaran menjadi tugas bersama.</p><p>(6) Program pemulihan ekonomi berbasis kekuatan kampus perlu dirancang dan diimplementasikan. (7) Berbagai program kampus merdeka dapat diimplementasikan untuk mewujudkan itu, baik melalui kegiatan KKN, mahasiswa membangun desa, mahasiswa penggerak UMKM, mahasiswa kerelawanan, maupun mahasiswa kewirausahaan. (8) Di dalam setiap kesulitan terkandung peluang melimpah. (9) Kreativitas dan semangatlah yang akan menemukan kemudahan dan peluang tersebut. (10) Saat ini bagi civitas akademika untuk bangkit menggali kreativitas dan energi positif demi membangun hari esok yang lebih baik, membangun Indonesia maju, Indonesia yang makmur sejahtera, dan berkeadilan.</p><p class='mt-2 text-xs text-slate-500 italic'>Diadaptasi dari: https://dikti.kemdikbud.go.id/</p>",
+                "topik": "Semantik: Pola Hubungan Makna Frasa",
+                "soal": "Dari bacaan di atas, frasa yang berpola makna sama dengan frasa <strong>perwira menengah</strong> adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "karya unggul (kalimat 1)"
+                        },
+                        {
+                                "id": "B",
+                                "text": "dunia industri (kalimat 3)"
+                        },
+                        {
+                                "id": "C",
+                                "text": "mutu pendidikan (kalimat 3)"
+                        },
+                        {
+                                "id": "D",
+                                "text": "pemulihan ekonomi (kalimat 6)"
+                        },
+                        {
+                                "id": "E",
+                                "text": "peluang melimpah (kalimat 8)"
+                        }
+                ],
+                "kunci": "A",
+                "pembahasan": "<strong>Analisis Pola Makna Frasa:</strong><br>Frasa <em>perwira menengah</em> memiliki susunan:<br>• <em>perwira</em> = Nomina (Kata Benda)<br>• <em>menengah</em> = Adjektiva (Kata Sifat / Tingkatan Kualitas)<br>Pola: <strong>Nomina + Adjektiva (kualitas/tingkatan)</strong>.<br><br>Bandingkan dengan frasa pada opsi:<br>• <strong>karya unggul:</strong> <em>karya</em> (Nomina) + <em>unggul</em> (Adjektiva mutu/kualitas). Polanya identik!<br>• dunia industri: Nomina + Nomina.<br>• mutu pendidikan: Nomina + Nomina.<br><br><strong>Kesimpulan:</strong> Frasa yang berpola makna sama adalah <strong>karya unggul</strong> (Opsi A)."
+        },
+        {
+                "id": 14,
+                "bacaanId": "ppu1_teks5",
+                "bacaanTitle": "Teks untuk Soal Nomor 13—15",
+                "topik": "Kelogisan & Ketatabahasaan Kalimat",
+                "soal": "Kalimat yang <strong>tidak logis / rancu secara ketatabahasaan</strong> dalam bacaan di atas adalah ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "kalimat (3)"
+                        },
+                        {
+                                "id": "B",
+                                "text": "kalimat (7)"
+                        },
+                        {
+                                "id": "C",
+                                "text": "kalimat (8)"
+                        },
+                        {
+                                "id": "D",
+                                "text": "kalimat (9)"
+                        },
+                        {
+                                "id": "E",
+                                "text": "kalimat (10)"
+                        }
+                ],
+                "kunci": "E",
+                "pembahasan": "<strong>Analisis Struktur Kalimat Baku:</strong><br>Perhatikan kalimat (10): <em>\"Saat ini bagi civitas akademika untuk bangkit menggali kreativitas dan energi positif...\"</em><br><br>Kalimat ini cacat struktur karena <strong>tidak memiliki Subjek dan Predikat utama</strong> yang jelas:<br>• <em>Saat ini</em> = Keterangan Waktu<br>• <em>bagi civitas akademika untuk bangkit...</em> = Frasa preposisional keterangan.<br>Tidak ada kata kerja verba inti yang berfungsi sebagai predikat klausa utama (kalimat buntung). Seharusnya: <em>\"Saat ini <strong>merupakan kesempatan</strong> bagi civitas akademika untuk bangkit...\"</em>.<br><br><strong>Kesimpulan:</strong> Kalimat yang tidak logis adalah <strong>kalimat (10)</strong> (Opsi E)."
+        },
+        {
+                "id": 15,
+                "bacaanId": "ppu1_teks5",
+                "bacaanTitle": "Teks untuk Soal Nomor 13—15",
+                "topik": "Morfologi: Makna Imbuhan per-an",
+                "soal": "Bentuk imbuhan <em>per-an</em> pada kata <strong>perguruan</strong> dalam kalimat (1) mempunyai kesamaan makna dengan bentuk <em>per-an</em> dalam kalimat ....",
+                "options": [
+                        {
+                                "id": "A",
+                                "text": "Kedua kata itu menunjukkan pertalian bentuk dan makna sehingga mempermudah penutur jati memahaminya."
+                        },
+                        {
+                                "id": "B",
+                                "text": "Halaman ini memuat pelajaran untuk siswa SD seperti matematika dan bahasa Indonesia."
+                        },
+                        {
+                                "id": "C",
+                                "text": "Sebanyak tiga kapal berbendera negara asing terpantau sedang melakukan aktivitas di perairan tersebut."
+                        },
+                        {
+                                "id": "D",
+                                "text": "Hasil penelitian menunjukkan bahwa persuratkabaran pada masa reformasi berbeda dengan masa sebelumnya."
+                        },
+                        {
+                                "id": "E",
+                                "text": "Setiap pelabuhan pasti dapat mendorong kemajuan di sektor maritim khususnya perkapalan."
+                        }
+                ],
+                "kunci": "E",
+                "pembahasan": "<strong>Analisis Makna Konfiks per-an:</strong><br>Kata <em>perguruan</em> dibentuk dari kata dasar <em>guru</em> dengan konfiks <em>per-an</em> yang menyatakan <strong>tempat/wahana kegiatan</strong> (tempat menuntut ilmu/berguru atau institusi pendidikan).<br><br>Pada opsi <strong>E</strong>, kata <em>pelabuhan</em> dibentuk dari kata dasar <em>labuh</em> dengan makna <strong>tempat berlabuh</strong> bagi kapal-kapal (menyatakan tempat/institusi fasilitas).<br><br><strong>Kesimpulan:</strong> Kesamaan makna konfiks terdapat pada kata <em>pelabuhan</em> (Opsi E)."
+        }
+],
 };
 
 // =================================================================

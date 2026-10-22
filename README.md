@@ -107,6 +107,81 @@ Seluruh daftar materi dikelola secara terpusat melalui `js/curriculum.js`:
 
 ---
 
+## 🎯 Modul Tambahan: Simulasi SNBT / UTBK & Prediksi PTN
+
+Selain materi kimia kurikulum nasional, platform ini dilengkapi dengan sistem simulasi ujian masuk PTN:
+
+- 📚 **Pusat Simulasi SNBT / UTBK CBT Interaktif (`/snbt/`)**
+  - **Universal CBT Engine (`snbt/simulasi.html`):** 1 file mesin ujian berbasis parameter URL (`?subtes=...&paket=...`) dengan *countdown timer*, kisi-kisi nomor (1–N), tombol ragu-ragu/yakin, pintasan keyboard (`A`–`E`), format KaTeX untuk rumus kuantitatif, dan *auto-scoring* skala UTBK (200–1000).
+  - **Mode Pembahasan Ilmiah (`snbt/pembahasan.html`):** Analisis konsep, bedah pilihan opsi, dan trik cepat dengan filter soal salah/benar.
+  - **Database Soal Terstruktur (`snbt/js/snbt-data.js`):** Single source of truth untuk seluruh paket soal SNBT.
+  - **Status Paket Aktif Saat Ini:**
+    1. 🧠 **Penalaran Umum (PU):** Paket 1 (10 Soal - Logika Argumen & Proposisi)
+    2. 📖 **Pemahaman Bacaan & Menulis (PBM):** Paket 1 (15 Soal - PUEBI & Koherensi Teks)
+    3. 📐 **Pengetahuan Kuantitatif (PK):** Paket 1 (10 Soal - Aljabar, Matriks, & Kecukupan Data)
+    4. 🔍 **Pengetahuan & Pemahaman Umum (PPU):** Paket 1 (15 Soal - Tata Makna & Kosakata)
+- 🎯 **Kalkulator Prediksi Peluang Lolos PTN (`/tka/prediksi-ptn.html`)**
+  - Database passing grade ribuan program studi PTN se-Indonesia lengkap dengan perhitungan keketatan dan peluang rasionalisasi nilai.
+- 💬 **Kontak & Konsultasi Belajar Admin:** WhatsApp `0852-6660-1477` (`https://wa.me/6285266601477`).
+
+---
+
+## 💻 Panduan Melanjutkan Pekerjaan di PC Rumah
+
+Jika Anda berpindah ke komputer atau laptop rumah, ikuti langkah berikut untuk langsung melanjutkan pengembangan:
+
+### 1. Sinkronisasi Repository Git
+Buka terminal di folder project pada PC rumah dan jalankan:
+```bash
+git pull origin main
+```
+Seluruh halaman web, mesin CBT, dan script terbaru akan langsung tersinkronisasi.
+
+### 2. Menjalankan Server Lokal (Preview)
+Gunakan ekstensi **Live Server** di VS Code:
+- Buka folder paling atas project (`WEB developer pembelajaran kimia`) di VS Code.
+- Klik kanan file `index.html` &rarr; pilih **"Open with Live Server"** (port default `http://localhost:5500`).
+- Akses portal SNBT: `http://localhost:5500/snbt/index.html`.
+
+### 3. Cara Menambahkan Paket Soal Baru (Sangat Mudah!)
+Anda **TIDAK PERLU** membuat file HTML baru atau mengubah CSS/layout. Cukup edit satu file: **`snbt/js/snbt-data.js`**:
+1. Buka `snbt/js/snbt-data.js`.
+2. Di objek `snbtSubtes`, cari subtes yang ingin ditambah (misal `pu` atau `pk`) dan ubah status paketnya dari `'segera'` menjadi `'tersedia'`.
+3. Di objek `snbtBankSoal`, tambahkan daftar soal baru dengan format:
+   ```javascript
+   'pu_2': [
+       {
+           id: 1,
+           topik: 'Topik Bahasan',
+           soal: 'Teks pertanyaan...',
+           options: [
+               { id: 'A', text: 'Pilihan A' },
+               { id: 'B', text: 'Pilihan B' },
+               ...
+           ],
+           kunci: 'A',
+           pembahasan: 'Penjelasan langkah demi langkah...'
+       },
+       ...
+   ]
+   ```
+4. **Selesai!** Mesin ujian (`simulasi.html?subtes=pu&paket=2`) dan mode pembahasan (`pembahasan.html?subtes=pu&paket=2`) otomatis aktif dan bisa dikerjakan langsung.
+
+### 4. Lokasi Arsip Bank Soal Mentah
+Seluruh bahan mentah (total 49 file) tersimpan rapi di folder lokal:
+`referensi/bank soal SNBT/`:
+- `01_Mega_Ebook_Wangsit/` &mdash; 4 Ebook Wangsit Jumbo (900+ halaman, ribuan soal)
+- `02_Seri_Latihan_Subjek_Zenius/` &mdash; 16 file latihan per topik (sumber Paket 1-3)
+- `03_Soal_Asli_UTBK_2024_2025_Per_Sesi/` &mdash; 19 file butir soal asli gelombang ujian (23 April, Sesi 1 Day 1, Sesi 9, dll)
+- `04_Try_Out_Pahamify_Sainsin/` &mdash; 3 paket TO Nasional berbobot HOTS
+- `05_Dokumen_Word_Soal_SNBT/` &mdash; 5 naskah ketikan Word (.docx) siap pakai
+- `06_Panduan_dan_Passing_Grade/` &mdash; Panduan resmi pendaftaran & skor passing grade PTN
+- 📄 Baca indeks lengkap di: `referensi/bank soal SNBT/KATALOG_BANK_SOAL.md`.
+
+*(Catatan: Folder `referensi/` sengaja dimasukkan ke `.gitignore` agar repository GitHub tetap berukuran kecil dan proses `git push/pull` selalu instan).*
+
+---
+
 ## 🛠️ Teknologi & Arsitektur
 
 - **Frontend:** HTML5, Tailwind CSS (CDN), Vanilla JavaScript (ES6+), SVG Interaktif, HTML5 Canvas

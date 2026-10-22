@@ -468,9 +468,24 @@
             updateNumberGridState();
 
             // Render Math jika KaTeX aktif
-            if (window.renderMathInElement) {
-                renderMathInElement(document.getElementById('soal-content'));
-                renderMathInElement(optContainer);
+            triggerMathRender();
+        }
+
+        function triggerMathRender() {
+            if (typeof renderMathInElement === 'function') {
+                const opts = {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                };
+                const sc = document.getElementById('soal-content');
+                const oc = document.getElementById('options-container');
+                if (sc) renderMathInElement(sc, opts);
+                if (oc) renderMathInElement(oc, opts);
             }
         }
 

@@ -174,9 +174,20 @@
 
             renderQuickJump();
             renderSoalList();
+            triggerMathRender();
+        }
 
-            if (window.renderMathInElement) {
-                renderMathInElement(document.body);
+        function triggerMathRender() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
             }
         }
 
@@ -350,6 +361,7 @@
             } else {
                 container.innerHTML = html;
             }
+            triggerMathRender();
         }
     </script>
 </body>
