@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z11XQXB5L7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Z11XQXB5L7');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Ujian CBT SNBT &mdash; KimiaInteraktif</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika / PK -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="if(window.renderMathInElement) renderMathInElement(document.body);"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono-timer { font-family: 'JetBrains Mono', monospace; }
+        .option-radio:checked + label {
+            border-color: #0d9488;
+            background-color: #f0fdfa;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen select-none antialiased">
+
+    <!-- TOPBAR KHUSUS UJIAN CBT (Apple Minimalist Sticky Header) -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-2xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            <!-- Info Subtes & Paket -->
+            <div class="flex items-center gap-3 min-w-0">
+                <a href="/snbt/index.html" class="p-2 -ml-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition shrink-0" title="Kembali ke Hub SNBT">
+                    <span class="text-base">&larr;</span>
+                </a>
+                <div class="truncate">
+                    <div class="flex items-center gap-2">
+                        <span id="badge-subtes-nama" class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-800 font-bold text-[11px] uppercase tracking-wider shrink-0">
+                            Subtes
+                        </span>
+                        <h1 id="header-paket-judul" class="font-bold text-sm sm:text-base text-slate-900 truncate">
+                            Memuat Paket Soal...
+                        </h1>
+                    </div>
+                    <span id="header-progres-text" class="text-xs text-slate-500 hidden sm:inline-block">
+                        Soal nomor 1 dari 10
+                    </span>
+                </div>
+            </div>
+
+            <!-- Countdown Timer & Tombol Kumpulkan -->
+            <div class="flex items-center gap-3 shrink-0">
+                <!-- Kotak Timer -->
+                <div id="timer-box" class="flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 transition-colors">
+                    <span class="text-sm">⏳</span>
+                    <span id="timer-display" class="font-mono-timer font-bold text-sm sm:text-base tracking-wider">
+                        00:00
+                    </span>
+                </div>
+
+                <!-- Tombol Akhiri / Kumpulkan -->
+                <button id="btn-selesai-header" class="px-3.5 sm:px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs sm:text-sm shadow-2xs transition">
+                    Selesai Ujian
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA CBT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+            
+            <!-- KOLOM KIRI (7/12 atau 8/12): SOAL & TEKS BACAAN -->
+            <div class="lg:col-span-8 space-y-6">
+                
+                <!-- KOTAK TEKS BACAAN (Jika ada stimulus bacaan) -->
+                <div id="stimulus-container" class="hidden bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs">
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">📄</span>
+                            <h2 id="stimulus-title" class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider">
+                                Teks Bacaan
+                            </h2>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                            <button id="btn-font-dec" class="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 font-bold" title="Perkecil Teks">A-</button>
+                            <button id="btn-font-inc" class="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 font-bold" title="Perbesar Teks">A+</button>
+                        </div>
+                    </div>
+                    <div id="stimulus-body" class="text-xs sm:text-sm text-slate-700 leading-relaxed max-h-80 overflow-y-auto pr-2 space-y-2">
+                        <!-- Konten teks bacaan dimuat di sini -->
+                    </div>
+                </div>
+
+                <!-- KARTU SOAL AKTIF -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
+                    
+                    <!-- Header Soal: Nomor & Topik -->
+                    <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
+                        <div class="flex items-center gap-3">
+                            <span id="active-num-badge" class="w-8 h-8 rounded-xl bg-teal-600 text-white font-bold text-sm flex items-center justify-center shrink-0">
+                                1
+                            </span>
+                            <div>
+                                <h3 id="active-soal-heading" class="font-bold text-slate-900 text-sm sm:text-base">
+                                    Soal Nomor 1
+                                </h3>
+                                <span id="active-soal-topik" class="text-xs text-slate-500 font-medium">
+                                    Topik Bahasan
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Checkbox Ragu-Ragu -->
+                        <label class="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-amber-200 bg-amber-50/70 text-amber-900 text-xs font-semibold cursor-pointer hover:bg-amber-100/70 transition">
+                            <input type="checkbox" id="check-ragu" class="rounded text-amber-500 focus:ring-amber-400 w-4 h-4 cursor-pointer">
+                            <span>Tandai Ragu-Ragu</span>
+                        </label>
+                    </div>
+
+                    <!-- Pertanyaan Soal -->
+                    <div id="soal-content" class="text-sm sm:text-base text-slate-800 leading-relaxed mb-6 font-normal">
+                        Memuat pertanyaan...
+                    </div>
+
+                    <!-- Pilihan Jawaban A, B, C, D, E -->
+                    <div class="space-y-3 pt-2" id="options-container">
+                        <!-- Diisi dinamis -->
+                    </div>
+
+                    <!-- Tombol Navigasi Bawah -->
+                    <div class="flex items-center justify-between mt-8 pt-5 border-t border-slate-100">
+                        <button id="btn-prev" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition flex items-center gap-1.5" disabled>
+                            <span>&larr;</span> Sebelumnya
+                        </button>
+
+                        <div class="flex items-center gap-2">
+                            <button id="btn-next" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs sm:text-sm transition flex items-center gap-1.5 shadow-2xs">
+                                Berikutnya <span>&rarr;</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- KOLOM KANAN (4/12): LEMBAR NAVIGASI NOMOR SOAL -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs">
+                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+                        <h4 class="font-bold text-slate-900 text-sm">Navigasi Nomor Soal</h4>
+                        <span id="nav-count-badge" class="text-xs text-slate-500 font-mono">0/10 Terjawab</span>
+                    </div>
+
+                    <!-- Kisi-kisi Nomor -->
+                    <div id="numbers-grid" class="grid grid-cols-5 gap-2.5 sm:gap-3">
+                        <!-- Nomor 1..N diisi dinamis -->
+                    </div>
+
+                    <!-- Legenda Warna -->
+                    <div class="mt-6 pt-4 border-t border-slate-100 space-y-2 text-xs text-slate-600">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-4 h-4 rounded bg-teal-600 shrink-0"></span>
+                            <span>Sudah Dijawab</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-4 h-4 rounded bg-amber-400 shrink-0"></span>
+                            <span>Ragu-Ragu</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-4 h-4 rounded bg-slate-100 border border-slate-300 shrink-0"></span>
+                            <span>Belum Dijawab</span>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Akhiri Ujian di Sidebar -->
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <button id="btn-selesai-side" class="w-full py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm transition shadow-xs">
+                            Kumpulkan Semua Jawaban
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bantuan Keyboard -->
+                <div class="p-4 rounded-xl bg-slate-100/80 border border-slate-200 text-xs text-slate-500 leading-relaxed">
+                    <span class="font-bold text-slate-700">💡 Tips Pintar:</span> Tekan tombol <kbd class="px-1.5 py-0.5 bg-white rounded border border-slate-300 font-mono text-[11px]">A</kbd> s.d. <kbd class="px-1.5 py-0.5 bg-white rounded border border-slate-300 font-mono text-[11px]">E</kbd> pada keyboard untuk memilih jawaban cepat!
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL KONFIRMASI SELESAI UJIAN -->
+    <div id="modal-confirm" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 transform transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl mx-auto mb-4">
+                📝
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 text-center mb-1">Kumpulkan Ujian?</h3>
+            <p class="text-xs sm:text-sm text-slate-600 text-center mb-6">
+                Periksa kembali ringkasan lembar pengerjaan Anda sebelum mengakhiri simulasi.
+            </p>
+
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2 mb-6 text-xs sm:text-sm">
+                <div class="flex justify-between text-slate-700">
+                    <span>Sudah Terjawab:</span>
+                    <strong id="modal-summary-answered" class="text-teal-700 font-bold">0 Soal</strong>
+                </div>
+                <div class="flex justify-between text-slate-700">
+                    <span>Ditandai Ragu-ragu:</span>
+                    <strong id="modal-summary-ragu" class="text-amber-700 font-bold">0 Soal</strong>
+                </div>
+                <div class="flex justify-between text-slate-700">
+                    <span>Belum Dijawab:</span>
+                    <strong id="modal-summary-empty" class="text-slate-700 font-bold">0 Soal</strong>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="modal-btn-cancel" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition">
+                    Lanjut Kerjakan
+                </button>
+                <button id="modal-btn-submit" class="flex-1 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm transition shadow-xs">
+                    Ya, Kumpulkan!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL HASIL & SKOR OTOMATIS -->
+    <div id="modal-result" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 transform transition-all">
+            <div class="text-center mb-6">
+                <span class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 text-3xl mb-3">
+                    🎉
+                </span>
+                <h3 class="text-2xl font-black text-slate-900 tracking-tight">Simulasi Selesai!</h3>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1" id="result-subtes-label">
+                    Hasil Ujian Penalaran Umum - Paket 1
+                </p>
+            </div>
+
+            <!-- Kartu Skor -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-inner mb-6 text-center">
+                <span class="text-xs uppercase tracking-widest text-teal-400 font-semibold">Skor Akhir Simulasi</span>
+                <div class="flex items-center justify-center gap-4 my-2">
+                    <div>
+                        <span id="result-score-percent" class="text-4xl sm:text-5xl font-black tracking-tight text-white">0%</span>
+                        <span class="block text-[11px] text-slate-400 mt-0.5">Akurasi Jawaban</span>
+                    </div>
+                    <div class="h-10 w-px bg-slate-700"></div>
+                    <div>
+                        <span id="result-score-utbk" class="text-4xl sm:text-5xl font-black tracking-tight text-amber-400">0</span>
+                        <span class="block text-[11px] text-slate-400 mt-0.5">Prediksi Skala UTBK</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rincian Benar / Salah / Kosong -->
+            <div class="grid grid-cols-3 gap-3 text-center mb-6 text-xs sm:text-sm">
+                <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
+                    <span class="block text-emerald-800 font-black text-lg" id="result-count-benar">0</span>
+                    <span class="text-emerald-700 text-xs font-semibold">Benar</span>
+                </div>
+                <div class="bg-rose-50 border border-rose-200 p-3 rounded-xl">
+                    <span class="block text-rose-800 font-black text-lg" id="result-count-salah">0</span>
+                    <span class="text-rose-700 text-xs font-semibold">Salah</span>
+                </div>
+                <div class="bg-slate-100 border border-slate-200 p-3 rounded-xl">
+                    <span class="block text-slate-800 font-black text-lg" id="result-count-kosong">0</span>
+                    <span class="text-slate-600 text-xs font-semibold">Kosong</span>
+                </div>
+            </div>
+
+            <!-- Aksi Tombol -->
+            <div class="space-y-2.5">
+                <a id="result-btn-pembahasan" href="#" class="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm transition shadow-xs flex items-center justify-center gap-2">
+                    <span>📖</span> Buka Mode Pembahasan Lengkap
+                </a>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="result-btn-ulang" class="py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition">
+                        🔄 Ulangi Ujian
+                    </button>
+                    <a href="/snbt/index.html" class="py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs text-center transition">
+                        📚 Hub SNBT
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SKRIP & DATA -->
+    <script src="/snbt/js/snbt-data.js"></script>
+    <script>
+        // =================================================================
+        // LOGIKA ENGINE CBT UNIVERSAL
+        // =================================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const subtesId = urlParams.get('subtes') || 'pu';
+        const paketId = parseInt(urlParams.get('paket')) || 1;
+
+        let subtesData = null;
+        let paketData = null;
+        let soalList = [];
+        let currentIndex = 0;
+
+        // State Jawaban Siswa
+        let userAnswers = {}; // { 0: 'A', 1: 'B', ... }
+        let userRagu = {};    // { 0: true, ... }
+        let timerInterval = null;
+        let timeLeftSeconds = 0;
+        let examFinished = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initExam();
+        });
+
+        function initExam() {
+            if (typeof getSnbtSubtes !== 'function') {
+                alert('Database soal tidak berhasil dimuat.');
+                return;
+            }
+
+            subtesData = getSnbtSubtes(subtesId);
+            paketData = getSnbtPaket(subtesId, paketId);
+            soalList = getSnbtSoalList(subtesId, paketId);
+
+            if (!subtesData || !paketData || soalList.length === 0) {
+                alert('Paket soal tidak ditemukan atau belum aktif.');
+                window.location.href = '/snbt/index.html';
+                return;
+            }
+
+            // Update Header
+            document.getElementById('badge-subtes-nama').textContent = subtesData.nama;
+            document.getElementById('header-paket-judul').textContent = paketData.judul;
+            document.title = `${paketData.judul} - CBT SNBT | KimiaInteraktif`;
+
+            // Setup Timer
+            timeLeftSeconds = paketData.durasiMenit * 60;
+            startTimer();
+
+            // Render Navigasi Nomor
+            renderNumberGrid();
+
+            // Tampilkan Soal Pertama
+            showQuestion(0);
+
+            // Setup Event Handlers
+            setupNavigationEvents();
+            setupKeyboardShortcuts();
+            setupFontSizeEvents();
+        }
+
+        // =================================================================
+        // TIMER ENGINE
+        // =================================================================
+        function startTimer() {
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                if (timeLeftSeconds > 0) {
+                    timeLeftSeconds--;
+                    updateTimerDisplay();
+
+                    if (timeLeftSeconds <= 120) {
+                        const box = document.getElementById('timer-box');
+                        box.classList.remove('bg-slate-100', 'text-slate-700');
+                        box.classList.add('bg-rose-50', 'text-rose-700', 'border-rose-300', 'animate-pulse');
+                    }
+                } else {
+                    clearInterval(timerInterval);
+                    autoSubmitOnTimeout();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeftSeconds / 60);
+            const seconds = timeLeftSeconds % 60;
+            const pad = (n) => n < 10 ? '0' + n : n;
+            document.getElementById('timer-display').textContent = `${pad(minutes)}:${pad(seconds)}`;
+        }
+
+        function autoSubmitOnTimeout() {
+            alert('Waktu ujian telah habis! Jawaban Anda akan langsung dikumpulkan.');
+            submitExam();
+        }
+
+        // =================================================================
+        // RENDER SOAL & OPSI
+        // =================================================================
+        function showQuestion(index) {
+            if (index < 0 || index >= soalList.length) return;
+            currentIndex = index;
+
+            const q = soalList[currentIndex];
+
+            // Update Badges
+            document.getElementById('active-num-badge').textContent = currentIndex + 1;
+            document.getElementById('active-soal-heading').textContent = `Soal Nomor ${currentIndex + 1}`;
+            document.getElementById('active-soal-topik').textContent = q.topik || subtesData.nama;
+            document.getElementById('header-progres-text').textContent = `Soal nomor ${currentIndex + 1} dari ${soalList.length}`;
+
+            // Handle Stimulus Bacaan (jika ada)
+            const stimulusBox = document.getElementById('stimulus-container');
+            if (q.bacaan) {
+                stimulusBox.classList.remove('hidden');
+                document.getElementById('stimulus-title').textContent = q.bacaanTitle || 'Teks Bacaan';
+                document.getElementById('stimulus-body').innerHTML = q.bacaan;
+            } else {
+                stimulusBox.classList.add('hidden');
+            }
+
+            // Soal Text
+            const soalContentEl = document.getElementById('soal-content');
+            soalContentEl.innerHTML = q.soal;
+
+            // Ragu-ragu Checkbox
+            const checkRagu = document.getElementById('check-ragu');
+            checkRagu.checked = !!userRagu[currentIndex];
+
+            // Render Options
+            const optContainer = document.getElementById('options-container');
+            optContainer.innerHTML = q.options.map(opt => {
+                const isSelected = userAnswers[currentIndex] === opt.id;
+                return `
+                    <div class="relative">
+                        <input type="radio" name="cbt_option" id="opt_${opt.id}" value="${opt.id}" class="option-radio sr-only" ${isSelected ? 'checked' : ''}>
+                        <label for="opt_${opt.id}" class="flex items-start gap-3 p-3.5 sm:p-4 rounded-xl border-2 ${isSelected ? 'border-teal-600 bg-teal-50/60' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/60'} cursor-pointer transition text-xs sm:text-sm text-slate-800">
+                            <span class="w-6 h-6 rounded-lg ${isSelected ? 'bg-teal-600 text-white' : 'bg-slate-100 text-slate-600'} font-bold flex items-center justify-center shrink-0 text-xs">
+                                ${opt.id}
+                            </span>
+                            <span class="leading-relaxed mt-0.5">${opt.text}</span>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+
+            // Bind change listener pada radio
+            optContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    selectAnswer(e.target.value);
+                });
+            });
+
+            // Update Navigasi Tombol Prev / Next
+            document.getElementById('btn-prev').disabled = (currentIndex === 0);
+            const btnNext = document.getElementById('btn-next');
+            if (currentIndex === soalList.length - 1) {
+                btnNext.innerHTML = 'Review Jawaban <span>&rarr;</span>';
+            } else {
+                btnNext.innerHTML = 'Berikutnya <span>&rarr;</span>';
+            }
+
+            // Update State Kisi-kisi Nomor
+            updateNumberGridState();
+
+            // Render Math jika KaTeX aktif
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('soal-content'));
+                renderMathInElement(optContainer);
+            }
+        }
+
+        function selectAnswer(optionId) {
+            userAnswers[currentIndex] = optionId;
+            showQuestion(currentIndex);
+            updateNavCountBadge();
+        }
+
+        // =================================================================
+        // KISI-KISI NOMOR SOAL
+        // =================================================================
+        function renderNumberGrid() {
+            const grid = document.getElementById('numbers-grid');
+            grid.innerHTML = soalList.map((_, idx) => {
+                return `
+                    <button id="num-btn-${idx}" onclick="showQuestion(${idx})" class="h-10 sm:h-11 rounded-xl font-bold text-xs sm:text-sm border transition flex items-center justify-center bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200">
+                        ${idx + 1}
+                    </button>
+                `;
+            }).join('');
+            updateNavCountBadge();
+        }
+
+        function updateNumberGridState() {
+            soalList.forEach((_, idx) => {
+                const btn = document.getElementById(`num-btn-${idx}`);
+                if (!btn) return;
+
+                btn.className = 'h-10 sm:h-11 rounded-xl font-bold text-xs sm:text-sm border transition flex items-center justify-center ';
+
+                const isCurrent = (idx === currentIndex);
+                const isAnswered = !!userAnswers[idx];
+                const isRagu = !!userRagu[idx];
+
+                if (isRagu) {
+                    btn.className += 'bg-amber-400 text-slate-900 border-amber-500 shadow-2xs ';
+                } else if (isAnswered) {
+                    btn.className += 'bg-teal-600 text-white border-teal-700 shadow-2xs ';
+                } else {
+                    btn.className += 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 ';
+                }
+
+                if (isCurrent) {
+                    btn.className += 'ring-2 ring-offset-2 ring-teal-500 scale-105 ';
+                }
+            });
+        }
+
+        function updateNavCountBadge() {
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById('nav-count-badge').textContent = `${answeredCount}/${soalList.length} Terjawab`;
+        }
+
+        // =================================================================
+        // EVENTS NAVIGATION
+        // =================================================================
+        function setupNavigationEvents() {
+            document.getElementById('btn-prev').addEventListener('click', () => {
+                if (currentIndex > 0) showQuestion(currentIndex - 1);
+            });
+
+            document.getElementById('btn-next').addEventListener('click', () => {
+                if (currentIndex < soalList.length - 1) {
+                    showQuestion(currentIndex + 1);
+                } else {
+                    openConfirmModal();
+                }
+            });
+
+            document.getElementById('check-ragu').addEventListener('change', (e) => {
+                userRagu[currentIndex] = e.target.checked;
+                updateNumberGridState();
+            });
+
+            // Modal Triggers
+            document.getElementById('btn-selesai-header').addEventListener('click', openConfirmModal);
+            document.getElementById('btn-selesai-side').addEventListener('click', openConfirmModal);
+
+            document.getElementById('modal-btn-cancel').addEventListener('click', () => {
+                document.getElementById('modal-confirm').classList.add('hidden');
+            });
+
+            document.getElementById('modal-btn-submit').addEventListener('click', () => {
+                document.getElementById('modal-confirm').classList.add('hidden');
+                submitExam();
+            });
+
+            document.getElementById('result-btn-ulang').addEventListener('click', () => {
+                window.location.reload();
+            });
+        }
+
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                if (examFinished) return;
+                const key = e.key.toUpperCase();
+                if (['A', 'B', 'C', 'D', 'E'].includes(key)) {
+                    const q = soalList[currentIndex];
+                    const exists = q.options.some(o => o.id === key);
+                    if (exists) selectAnswer(key);
+                } else if (e.key === 'ArrowRight' && currentIndex < soalList.length - 1) {
+                    showQuestion(currentIndex + 1);
+                } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    showQuestion(currentIndex - 1);
+                }
+            });
+        }
+
+        function setupFontSizeEvents() {
+            let currentFontSize = 13;
+            document.getElementById('btn-font-inc').addEventListener('click', () => {
+                if (currentFontSize < 18) {
+                    currentFontSize += 1;
+                    document.getElementById('stimulus-body').style.fontSize = `${currentFontSize}px`;
+                }
+            });
+            document.getElementById('btn-font-dec').addEventListener('click', () => {
+                if (currentFontSize > 11) {
+                    currentFontSize -= 1;
+                    document.getElementById('stimulus-body').style.fontSize = `${currentFontSize}px`;
+                }
+            });
+        }
+
+        // =================================================================
+        // SUBMIT & SCORING
+        // =================================================================
+        function openConfirmModal() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const raguCount = Object.values(userRagu).filter(v => v === true).length;
+            const emptyCount = soalList.length - answeredCount;
+
+            document.getElementById('modal-summary-answered').textContent = `${answeredCount} Soal`;
+            document.getElementById('modal-summary-ragu').textContent = `${raguCount} Soal`;
+            document.getElementById('modal-summary-empty').textContent = `${emptyCount} Soal`;
+
+            document.getElementById('modal-confirm').classList.remove('hidden');
+        }
+
+        function submitExam() {
+            examFinished = true;
+            clearInterval(timerInterval);
+
+            let benar = 0;
+            let salah = 0;
+            let kosong = 0;
+
+            soalList.forEach((q, idx) => {
+                const ans = userAnswers[idx];
+                if (!ans) {
+                    kosong++;
+                } else if (ans === q.kunci) {
+                    benar++;
+                } else {
+                    salah++;
+                }
+            });
+
+            const total = soalList.length;
+            const percent = Math.round((benar / total) * 100);
+            
+            // Prediksi Skor Skala UTBK (200 - 1000)
+            const skorUtbk = Math.round(200 + (percent * 8));
+
+            // Simpan riwayat jawaban di sessionStorage untuk review di pembahasan.html
+            const sessionData = {
+                subtesId,
+                paketId,
+                userAnswers,
+                benar,
+                salah,
+                kosong,
+                percent,
+                skorUtbk,
+                timestamp: new Date().toISOString()
+            };
+            sessionStorage.setItem(`snbt_result_${subtesId}_${paketId}`, JSON.stringify(sessionData));
+
+            // Tampilkan Modal Hasil
+            document.getElementById('result-subtes-label').textContent = `${subtesData.nama} - ${paketData.judul}`;
+            document.getElementById('result-score-percent').textContent = `${percent}%`;
+            document.getElementById('result-score-utbk').textContent = `${skorUtbk}`;
+            document.getElementById('result-count-benar').textContent = benar;
+            document.getElementById('result-count-salah').textContent = salah;
+            document.getElementById('result-count-kosong').textContent = kosong;
+
+            const btnPembahasan = document.getElementById('result-btn-pembahasan');
+            btnPembahasan.href = `/snbt/pembahasan.html?subtes=${subtesId}&paket=${paketId}`;
+
+            document.getElementById('modal-result').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
