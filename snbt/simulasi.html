@@ -303,6 +303,7 @@
 
     <!-- SKRIP & DATA -->
     <script src="/snbt/js/snbt-data.js"></script>
+    <script src="/snbt/js/snbt-license.js"></script>
     <script>
         // =================================================================
         // LOGIKA ENGINE CBT UNIVERSAL
@@ -340,6 +341,13 @@
             if (!subtesData || !paketData || soalList.length === 0) {
                 alert('Paket soal tidak ditemukan atau belum aktif.');
                 window.location.href = '/snbt/index.html';
+                return;
+            }
+
+            // Validasi Hak Akses Premium
+            if (paketData.status === 'premium' && typeof snbtIsPremiumActive === 'function' && !snbtIsPremiumActive()) {
+                alert('Paket ini khusus untuk pengguna Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
+                window.location.href = `/snbt/index.html?need_premium=true&subtes=${subtesId}&paket=${paketId}`;
                 return;
             }
 

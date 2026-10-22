@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Try Out Akbar SNBT 2026 | KimiaInteraktif</title>
+    
+    <!-- Tailwind CSS v4 via CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+    <!-- KaTeX untuk render rumus kimia & matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        .font-mono-timer {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col bg-slate-50">
+
+    <!-- HEADER CBT AKBAR (STICKY TOP) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 py-3 shadow-2xs">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Info TO Akbar & Sesi -->
+            <div class="flex items-center gap-3">
+                <a href="/snbt/index.html" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="Kembali ke Hub SNBT">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                </a>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[11px] border border-amber-300">
+                            👑 Try Out Akbar SNBT
+                        </span>
+                        <span id="badge-to-edisi" class="text-xs font-semibold text-slate-500 hidden sm:inline">Edisi 1</span>
+                    </div>
+                    <h1 id="header-to-judul" class="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[220px] sm:max-w-md">
+                        Simulasi Nasional 7 Subtes
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Countdown Timer & Tombol Selesai -->
+            <div class="flex items-center gap-3 shrink-0">
+                <div id="timer-box" class="flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 transition-colors">
+                    <span class="text-sm">⏳</span>
+                    <span id="timer-display" class="font-mono-timer font-bold text-sm sm:text-base tracking-wider">
+                        00:00:00
+                    </span>
+                </div>
+
+                <button id="btn-selesai-ujian" onclick="openConfirmModal()" class="px-3.5 sm:px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs sm:text-sm shadow-2xs transition">
+                    Kumpulkan Ujian
+                </button>
+            </div>
+        </div>
+
+        <!-- SUBTES TABS STRIP (7 SUBTES NAVIGATION) -->
+        <div class="max-w-7xl mx-auto mt-2 pt-2 border-t border-slate-100 overflow-x-auto scrollbar-none flex items-center gap-2 pb-1" id="subtes-nav-strip">
+            <!-- Diisi otomatis oleh JavaScript -->
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA CBT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+            
+            <!-- KOLOM KIRI (8/12): SOAL & TEKS BACAAN -->
+            <div class="lg:col-span-8 space-y-6">
+                
+                <!-- KOTAK STIMULUS BACAAN (Jika ada) -->
+                <div id="stimulus-container" class="hidden bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs">
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">📄</span>
+                            <h2 id="stimulus-title" class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider">
+                                Teks Bacaan
+                            </h2>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                            <button id="btn-font-dec" class="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 font-bold" title="Perkecil Teks">A-</button>
+                            <button id="btn-font-inc" class="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 font-bold" title="Perbesar Teks">A+</button>
+                        </div>
+                    </div>
+                    <div id="stimulus-body" class="text-xs sm:text-sm text-slate-700 leading-relaxed max-h-80 overflow-y-auto pr-2 space-y-2">
+                        <!-- Teks bacaan -->
+                    </div>
+                </div>
+
+                <!-- KARTU SOAL AKTIF -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
+                    
+                    <!-- Header Soal: Nomor & Subtes -->
+                    <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
+                        <div class="flex items-center gap-3">
+                            <span id="active-num-badge" class="w-8 h-8 rounded-xl bg-teal-600 text-white font-bold text-sm flex items-center justify-center shrink-0">
+                                1
+                            </span>
+                            <div>
+                                <h3 id="active-soal-heading" class="font-bold text-slate-900 text-sm sm:text-base">
+                                    Soal Nomor 1
+                                </h3>
+                                <span id="active-soal-topik" class="text-xs text-slate-500 font-medium">
+                                    Penalaran Umum (PU)
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Checkbox Ragu-ragu -->
+                        <label class="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-amber-300 bg-amber-50/80 hover:bg-amber-100/80 cursor-pointer transition select-none">
+                            <input type="checkbox" id="check-ragu" class="w-4 h-4 text-amber-600 rounded border-amber-400 focus:ring-amber-500">
+                            <span class="text-xs font-bold text-amber-900">Ragu-ragu</span>
+                        </label>
+                    </div>
+
+                    <!-- Teks Butir Soal -->
+                    <div id="soal-content" class="text-slate-800 text-sm sm:text-base leading-relaxed mb-6">
+                        <!-- Konten pertanyaan -->
+                    </div>
+
+                    <!-- Opsi Jawaban Radio -->
+                    <div id="options-container" class="space-y-3">
+                        <!-- Diisi radio options -->
+                    </div>
+
+                    <!-- Bottom Nav: Prev, Clear, Next -->
+                    <div class="mt-8 pt-5 border-t border-slate-100 flex items-center justify-between gap-3 flex-wrap">
+                        <button id="btn-prev" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <span>&larr;</span> Sebelumnya
+                        </button>
+                        
+                        <button id="btn-clear-answer" class="text-xs text-slate-400 hover:text-rose-600 font-medium transition">
+                            Hapus Pilihan
+                        </button>
+
+                        <button id="btn-next" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs sm:text-sm shadow-2xs transition flex items-center gap-1.5">
+                            Berikutnya <span>&rarr;</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- KOLOM KANAN (4/12): KISI-KISI NOMOR SOAL & STATUS -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs sticky top-28">
+                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Lembar Nomor Soal</h4>
+                            <p id="kisi-subtes-label" class="text-xs text-teal-700 font-medium">Penalaran Umum (PU)</p>
+                        </div>
+                        <span id="kisi-progres-count" class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">
+                            0/10 Terjawab
+                        </span>
+                    </div>
+
+                    <!-- Grid Nomor -->
+                    <div id="number-grid" class="grid grid-cols-5 gap-2 max-h-72 overflow-y-auto pr-1">
+                        <!-- Diisi tombol nomor -->
+                    </div>
+
+                    <!-- Legend Indikator -->
+                    <div class="mt-5 pt-4 border-t border-slate-100 grid grid-cols-3 gap-2 text-[11px] text-slate-500 font-medium">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded bg-teal-600"></span>
+                            <span>Sudah Dijawab</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded bg-amber-400"></span>
+                            <span>Ragu-ragu</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded border border-slate-300 bg-white"></span>
+                            <span>Belum Dijawab</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL KONFIRMASI KUMPULKAN -->
+    <div id="modal-confirm" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-center space-y-4">
+            <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-3xl mx-auto">
+                ⚠️
+            </div>
+            <h3 class="font-bold text-slate-900 text-lg sm:text-xl">
+                Selesaikan Try Out Akbar?
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Pastikan Anda telah memeriksa jawaban seluruh 7 subtes. Setelah dikumpulkan, hasil analisis skor UTBK dan rapor nilai akan langsung dihitung.
+            </p>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2">
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Total Soal Terjawab:</span>
+                    <strong id="modal-summary-answered" class="text-teal-700">0 Soal</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Soal Ragu-ragu:</span>
+                    <strong id="modal-summary-ragu" class="text-amber-700">0 Soal</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Soal Belum Terjawab:</span>
+                    <strong id="modal-summary-empty" class="text-rose-700">0 Soal</strong>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 pt-2">
+                <button onclick="closeConfirmModal()" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm hover:bg-slate-50 transition">
+                    Kembali Periksa
+                </button>
+                <button onclick="submitAkbarExam()" class="w-1/2 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md transition">
+                    Ya, Kumpulkan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL HASIL & RAPOR UTBK LENGKAP -->
+    <div id="modal-result" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 my-8">
+            <div class="text-center space-y-2">
+                <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-bold text-xs border border-amber-300">
+                    🏆 Rapor Hasil Try Out Akbar SNBT 2026
+                </span>
+                <h3 id="result-to-title" class="font-extrabold text-slate-900 text-lg sm:text-2xl">
+                    Simulasi Penuh 7 Subtes
+                </h3>
+                <p class="text-xs text-slate-500">Penilaian Berbasis Pembobotan Skala UTBK SNPMB Resmi (200 - 1000)</p>
+            </div>
+
+            <!-- Big Score Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-5 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white text-center shadow-md">
+                    <span class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Rata-Rata Skor UTBK</span>
+                    <div id="result-avg-score" class="text-4xl sm:text-5xl font-extrabold my-1">
+                        0
+                    </div>
+                    <p class="text-xs text-teal-100">Skala Standar Nasional (200 - 1000)</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-center gap-2 text-xs">
+                    <div class="flex justify-between items-center pb-1.5 border-b border-slate-200">
+                        <span class="text-slate-500">Total Benar:</span>
+                        <span id="result-count-benar" class="font-bold text-emerald-600">0 Soal</span>
+                    </div>
+                    <div class="flex justify-between items-center pb-1.5 border-b border-slate-200">
+                        <span class="text-slate-500">Total Salah:</span>
+                        <span id="result-count-salah" class="font-bold text-rose-600">0 Soal</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500">Tidak Dijawab:</span>
+                        <span id="result-count-kosong" class="font-bold text-slate-600">0 Soal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rapor Breakdown per Subtes -->
+            <div>
+                <h4 class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider mb-3">
+                    📊 Rincian Nilai per Subtes
+                </h4>
+                <div id="result-subtes-breakdown" class="space-y-2 text-xs">
+                    <!-- Diisi otomatis oleh JavaScript -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3 pt-3 flex-col sm:flex-row">
+                <a id="result-btn-pembahasan" href="#" class="w-full sm:w-1/2 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm text-center shadow-md transition">
+                    📖 Buka Pembahasan Lengkap
+                </a>
+                <a href="/snbt/index.html" class="w-full sm:w-1/2 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm text-center transition">
+                    Kembali ke Hub SNBT
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SKRIP & DATA -->
+    <script src="/snbt/js/snbt-license.js"></script>
+    <script src="/snbt/js/snbt-akbar-data.js"></script>
+    
+    <script>
+        // =================================================================
+        // ENGINE CBT TRY OUT AKBAR MULTI-SUBTES
+        // =================================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const toId = parseInt(urlParams.get('to')) || 1;
+
+        let toData = null;
+        let subtesOrder = ['pu', 'pbm', 'ppu', 'pk', 'lbi', 'lbe', 'pm'];
+        let activeSubtesId = 'pu';
+        let activeQuestionIndex = 0; // index di subtes aktif
+
+        // State Jawaban: { "pu": { 0: 'A', 1: 'C' }, "pk": { ... } }
+        let userAnswers = {};
+        let userRagu = {};
+
+        let timerInterval = null;
+        let timeLeftSeconds = 0;
+        let examFinished = false;
+        let currentFontSize = 14;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initAkbarExam();
+        });
+
+        function initAkbarExam() {
+            if (typeof getSnbtAkbar !== 'function') {
+                alert('Database Try Out Akbar tidak ditemukan.');
+                window.location.href = '/snbt/index.html';
+                return;
+            }
+
+            toData = getSnbtAkbar(toId);
+            if (!toData) {
+                alert('Paket Try Out Akbar tidak ditemukan.');
+                window.location.href = '/snbt/index.html';
+                return;
+            }
+
+            // Validasi Akses Premium
+            if (typeof snbtIsPremiumActive === 'function' && !snbtIsPremiumActive()) {
+                alert('Try Out Akbar SNBT merupakan fitur eksklusif Siswa Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
+                window.location.href = '/snbt/index.html?need_premium=true';
+                return;
+            }
+
+            // Inisialisasi State Jawaban per Subtes
+            subtesOrder.forEach(subId => {
+                userAnswers[subId] = {};
+                userRagu[subId] = {};
+            });
+
+            // Set Header
+            document.getElementById('badge-to-edisi').textContent = `Edisi ${toData.id}`;
+            document.getElementById('header-to-judul').textContent = toData.judul;
+            document.title = `${toData.judul} | KimiaInteraktif`;
+
+            // Setup Timer Global
+            timeLeftSeconds = toData.durasiTotalMenit * 60;
+            startTimer();
+
+            // Render Navigasi Subtes Tabs
+            renderSubtesTabs();
+
+            // Tampilkan Soal Pertama di Subtes Pertama (PU)
+            switchSubtes('pu', 0);
+
+            // Setup Events
+            setupNavEvents();
+            setupFontSizeEvents();
+        }
+
+        // =================================================================
+        // TIMER
+        // =================================================================
+        function startTimer() {
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                if (timeLeftSeconds > 0) {
+                    timeLeftSeconds--;
+                    updateTimerDisplay();
+
+                    if (timeLeftSeconds <= 300) { // 5 menit terakhir
+                        const box = document.getElementById('timer-box');
+                        box.classList.remove('bg-slate-100', 'text-slate-700');
+                        box.classList.add('bg-rose-50', 'text-rose-700', 'border-rose-300', 'animate-pulse');
+                    }
+                } else {
+                    clearInterval(timerInterval);
+                    alert('Waktu ujian Try Out Akbar telah habis! Jawaban Anda otomatis dikumpulkan.');
+                    submitAkbarExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const h = Math.floor(timeLeftSeconds / 3600);
+            const m = Math.floor((timeLeftSeconds % 3600) / 60);
+            const s = timeLeftSeconds % 60;
+            const pad = (n) => n < 10 ? '0' + n : n;
+            document.getElementById('timer-display').textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+        }
+
+        // =================================================================
+        // SUBTES TABS
+        // =================================================================
+        function renderSubtesTabs() {
+            const container = document.getElementById('subtes-nav-strip');
+            if (!container) return;
+
+            container.innerHTML = subtesOrder.map(subId => {
+                const subObj = toData.subtesData[subId];
+                const isActive = (subId === activeSubtesId);
+                const answeredCount = Object.keys(userAnswers[subId] || {}).length;
+                const totalSoal = (subObj.soal || []).length;
+
+                return `
+                    <button onclick="switchSubtes('${subId}', 0)" class="px-3.5 py-1.5 rounded-xl font-bold text-xs shrink-0 transition flex items-center gap-1.5 cursor-pointer ${isActive ? 'bg-teal-600 text-white shadow-2xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+                        <span>${subObj.nama.split(' ')[0]}</span>
+                        <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-teal-700 text-teal-100' : 'bg-slate-200 text-slate-600'}">
+                            ${answeredCount}/${totalSoal}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function switchSubtes(subId, questionIdx) {
+            if (!toData.subtesData[subId]) return;
+            activeSubtesId = subId;
+            renderSubtesTabs();
+            showQuestion(questionIdx || 0);
+        }
+
+        // =================================================================
+        // SHOW QUESTION
+        // =================================================================
+        function showQuestion(index) {
+            const currentSubObj = toData.subtesData[activeSubtesId];
+            const soalList = currentSubObj.soal;
+            if (index < 0 || index >= soalList.length) return;
+
+            activeQuestionIndex = index;
+            const q = soalList[activeQuestionIndex];
+
+            // Update Badges
+            document.getElementById('active-num-badge').textContent = activeQuestionIndex + 1;
+            document.getElementById('active-soal-heading').textContent = `Soal Nomor ${activeQuestionIndex + 1}`;
+            document.getElementById('active-soal-topik').textContent = `${currentSubObj.nama} • ${q.topik || ''}`;
+            document.getElementById('kisi-subtes-label').textContent = currentSubObj.nama;
+
+            // Stimulus Teks Bacaan
+            const stimulusBox = document.getElementById('stimulus-container');
+            if (q.bacaan) {
+                stimulusBox.classList.remove('hidden');
+                document.getElementById('stimulus-title').textContent = q.bacaanTitle || 'Teks Bacaan';
+                document.getElementById('stimulus-body').innerHTML = q.bacaan;
+            } else {
+                stimulusBox.classList.add('hidden');
+            }
+
+            // Teks Soal
+            document.getElementById('soal-content').innerHTML = q.soal;
+
+            // Ragu-ragu Checkbox
+            const checkRagu = document.getElementById('check-ragu');
+            checkRagu.checked = !!(userRagu[activeSubtesId] && userRagu[activeSubtesId][activeQuestionIndex]);
+
+            // Options Radio
+            const optContainer = document.getElementById('options-container');
+            const currentAnswer = userAnswers[activeSubtesId] ? userAnswers[activeSubtesId][activeQuestionIndex] : null;
+
+            optContainer.innerHTML = q.options.map(opt => {
+                const isSelected = (currentAnswer === opt.id);
+                return `
+                    <div class="relative">
+                        <input type="radio" name="akbar_option" id="opt_${opt.id}" value="${opt.id}" class="sr-only" ${isSelected ? 'checked' : ''}>
+                        <label for="opt_${opt.id}" class="flex items-start gap-3 p-3.5 sm:p-4 rounded-xl border-2 ${isSelected ? 'border-teal-600 bg-teal-50/60' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/60'} cursor-pointer transition text-xs sm:text-sm text-slate-800">
+                            <span class="w-6 h-6 rounded-lg ${isSelected ? 'bg-teal-600 text-white' : 'bg-slate-100 text-slate-600'} font-bold flex items-center justify-center shrink-0 text-xs">
+                                ${opt.id}
+                            </span>
+                            <span class="leading-relaxed mt-0.5">${opt.text}</span>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+
+            // Bind change listener
+            optContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    selectAnswer(e.target.value);
+                });
+            });
+
+            // Prev & Next Button Labels
+            const isFirst = (activeQuestionIndex === 0 && subtesOrder.indexOf(activeSubtesId) === 0);
+            document.getElementById('btn-prev').disabled = isFirst;
+
+            const isLastSubtes = (subtesOrder.indexOf(activeSubtesId) === subtesOrder.length - 1);
+            const isLastQuestion = (activeQuestionIndex === soalList.length - 1);
+            const btnNext = document.getElementById('btn-next');
+
+            if (isLastSubtes && isLastQuestion) {
+                btnNext.innerHTML = 'Review & Selesai <span>&rarr;</span>';
+            } else if (isLastQuestion) {
+                const nextSubtesName = toData.subtesData[subtesOrder[subtesOrder.indexOf(activeSubtesId) + 1]].nama.split(' ')[0];
+                btnNext.innerHTML = `Lanjut ke ${nextSubtesName} <span>&rarr;</span>`;
+            } else {
+                btnNext.innerHTML = 'Berikutnya <span>&rarr;</span>';
+            }
+
+            renderNumberGrid();
+
+            // Render KaTeX jika ada formula math
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('soal-content'), {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    throwOnError: false
+                });
+                renderMathInElement(optContainer, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        function selectAnswer(ansId) {
+            if (!userAnswers[activeSubtesId]) userAnswers[activeSubtesId] = {};
+            userAnswers[activeSubtesId][activeQuestionIndex] = ansId;
+            showQuestion(activeQuestionIndex);
+        }
+
+        function clearAnswer() {
+            if (userAnswers[activeSubtesId] && userAnswers[activeSubtesId][activeQuestionIndex]) {
+                delete userAnswers[activeSubtesId][activeQuestionIndex];
+                showQuestion(activeQuestionIndex);
+            }
+        }
+
+        // =================================================================
+        // NUMBER GRID
+        // =================================================================
+        function renderNumberGrid() {
+            const currentSubObj = toData.subtesData[activeSubtesId];
+            const soalList = currentSubObj.soal;
+            const container = document.getElementById('number-grid');
+            if (!container) return;
+
+            const answeredCount = Object.keys(userAnswers[activeSubtesId] || {}).length;
+            document.getElementById('kisi-progres-count').textContent = `${answeredCount}/${soalList.length} Terjawab`;
+
+            container.innerHTML = soalList.map((_, idx) => {
+                const isCurrent = (idx === activeQuestionIndex);
+                const isAnswered = !!(userAnswers[activeSubtesId] && userAnswers[activeSubtesId][idx]);
+                const isRagu = !!(userRagu[activeSubtesId] && userRagu[activeSubtesId][idx]);
+
+                let cls = 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100';
+                if (isRagu) {
+                    cls = 'bg-amber-400 text-amber-950 font-bold border-amber-500 shadow-2xs';
+                } else if (isAnswered) {
+                    cls = 'bg-teal-600 text-white font-bold border-teal-700 shadow-2xs';
+                }
+
+                if (isCurrent) {
+                    cls += ' ring-2 ring-teal-500 ring-offset-2';
+                }
+
+                return `
+                    <button onclick="showQuestion(${idx})" class="w-full aspect-square rounded-xl border text-xs flex items-center justify-center font-bold transition cursor-pointer ${cls}">
+                        ${idx + 1}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // =================================================================
+        // NAVIGATION EVENTS
+        // =================================================================
+        function setupNavEvents() {
+            document.getElementById('btn-prev').addEventListener('click', () => {
+                if (activeQuestionIndex > 0) {
+                    showQuestion(activeQuestionIndex - 1);
+                } else {
+                    // Pindah ke akhir subtes sebelumnya
+                    const currentSubIdx = subtesOrder.indexOf(activeSubtesId);
+                    if (currentSubIdx > 0) {
+                        const prevSubId = subtesOrder[currentSubIdx - 1];
+                        const prevSubLen = toData.subtesData[prevSubId].soal.length;
+                        switchSubtes(prevSubId, prevSubLen - 1);
+                    }
+                }
+            });
+
+            document.getElementById('btn-next').addEventListener('click', () => {
+                const currentSubObj = toData.subtesData[activeSubtesId];
+                if (activeQuestionIndex < currentSubObj.soal.length - 1) {
+                    showQuestion(activeQuestionIndex + 1);
+                } else {
+                    // Pindah ke awal subtes berikutnya
+                    const currentSubIdx = subtesOrder.indexOf(activeSubtesId);
+                    if (currentSubIdx < subtesOrder.length - 1) {
+                        const nextSubId = subtesOrder[currentSubIdx + 1];
+                        switchSubtes(nextSubId, 0);
+                    } else {
+                        // Selesai seluruh maraton
+                        openConfirmModal();
+                    }
+                }
+            });
+
+            document.getElementById('btn-clear-answer').addEventListener('click', clearAnswer);
+
+            document.getElementById('check-ragu').addEventListener('change', (e) => {
+                if (!userRagu[activeSubtesId]) userRagu[activeSubtesId] = {};
+                userRagu[activeSubtesId][activeQuestionIndex] = e.target.checked;
+                renderNumberGrid();
+            });
+        }
+
+        function setupFontSizeEvents() {
+            document.getElementById('btn-font-inc').addEventListener('click', () => {
+                if (currentFontSize < 18) {
+                    currentFontSize += 1;
+                    document.getElementById('stimulus-body').style.fontSize = `${currentFontSize}px`;
+                }
+            });
+            document.getElementById('btn-font-dec').addEventListener('click', () => {
+                if (currentFontSize > 11) {
+                    currentFontSize -= 1;
+                    document.getElementById('stimulus-body').style.fontSize = `${currentFontSize}px`;
+                }
+            });
+        }
+
+        // =================================================================
+        // SUBMIT EXAM & SCORING RAPOR
+        // =================================================================
+        function openConfirmModal() {
+            let totalAns = 0;
+            let totalRagu = 0;
+            let totalSoal = 0;
+
+            subtesOrder.forEach(subId => {
+                totalSoal += toData.subtesData[subId].soal.length;
+                totalAns += Object.keys(userAnswers[subId] || {}).length;
+                totalRagu += Object.values(userRagu[subId] || {}).filter(v => v === true).length;
+            });
+
+            const totalEmpty = totalSoal - totalAns;
+            document.getElementById('modal-summary-answered').textContent = `${totalAns} / ${totalSoal} Soal`;
+            document.getElementById('modal-summary-ragu').textContent = `${totalRagu} Soal`;
+            document.getElementById('modal-summary-empty').textContent = `${totalEmpty} Soal`;
+
+            document.getElementById('modal-confirm').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('modal-confirm').classList.add('hidden');
+        }
+
+        function submitAkbarExam() {
+            examFinished = true;
+            clearInterval(timerInterval);
+            closeConfirmModal();
+
+            let subtesScores = {};
+            let grandBenar = 0;
+            let grandSalah = 0;
+            let grandKosong = 0;
+            let grandTotalSoal = 0;
+
+            subtesOrder.forEach(subId => {
+                const subObj = toData.subtesData[subId];
+                let benar = 0;
+                let salah = 0;
+                let kosong = 0;
+
+                subObj.soal.forEach((q, idx) => {
+                    const ans = userAnswers[subId] ? userAnswers[subId][idx] : null;
+                    if (!ans) kosong++;
+                    else if (ans === q.kunci) benar++;
+                    else salah++;
+                });
+
+                const totalSub = subObj.soal.length;
+                const percent = Math.round((benar / totalSub) * 100);
+                const skorUtbk = Math.round(200 + (percent * 8)); // Skala 200 - 1000
+
+                subtesScores[subId] = {
+                    nama: subObj.nama,
+                    benar, salah, kosong, percent, skorUtbk
+                };
+
+                grandBenar += benar;
+                grandSalah += salah;
+                grandKosong += kosong;
+                grandTotalSoal += totalSub;
+            });
+
+            const grandPercent = Math.round((grandBenar / grandTotalSoal) * 100);
+            const grandSkorUtbk = Math.round(200 + (grandPercent * 8));
+
+            // Simpan riwayat di sessionStorage
+            const sessionData = {
+                toId,
+                subtesScores,
+                grandBenar,
+                grandSalah,
+                grandKosong,
+                grandSkorUtbk,
+                userAnswers,
+                timestamp: new Date().toISOString()
+            };
+            sessionStorage.setItem(`snbt_akbar_result_${toId}`, JSON.stringify(sessionData));
+
+            // Tampilkan Modal Hasil Rapor
+            document.getElementById('result-to-title').textContent = toData.judul;
+            document.getElementById('result-avg-score').textContent = grandSkorUtbk;
+            document.getElementById('result-count-benar').textContent = `${grandBenar} Soal`;
+            document.getElementById('result-count-salah').textContent = `${grandSalah} Soal`;
+            document.getElementById('result-count-kosong').textContent = `${grandKosong} Soal`;
+
+            // Breakdown Per Subtes
+            const breakdownEl = document.getElementById('result-subtes-breakdown');
+            breakdownEl.innerHTML = subtesOrder.map(subId => {
+                const s = subtesScores[subId];
+                return `
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+                        <div>
+                            <span class="font-bold text-slate-800 text-xs sm:text-sm">${s.nama}</span>
+                            <div class="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
+                                <span class="text-emerald-700 font-semibold">${s.benar} Benar</span>
+                                <span>•</span>
+                                <span class="text-rose-700 font-semibold">${s.salah} Salah</span>
+                                <span>•</span>
+                                <span>${s.kosong} Kosong</span>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <span class="font-mono-timer font-extrabold text-base sm:text-lg text-teal-700">${s.skorUtbk}</span>
+                            <span class="block text-[10px] text-slate-400">Skor UTBK</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Link Pembahasan Akbar
+            document.getElementById('result-btn-pembahasan').href = `/snbt/pembahasan-akbar.html?to=${toId}`;
+
+            document.getElementById('modal-result').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

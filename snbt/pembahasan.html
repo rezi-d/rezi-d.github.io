@@ -119,6 +119,7 @@
     <script src="/js/curriculum.js"></script>
     <script src="/js/include.js"></script>
     <script src="/snbt/js/snbt-data.js"></script>
+    <script src="/snbt/js/snbt-license.js"></script>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -150,6 +151,13 @@
             if (!subtesData || !paketData || soalList.length === 0) {
                 alert('Data pembahasan belum tersedia.');
                 window.location.href = '/snbt/index.html';
+                return;
+            }
+
+            // Validasi Hak Akses Premium
+            if (paketData.status === 'premium' && typeof snbtIsPremiumActive === 'function' && !snbtIsPremiumActive()) {
+                alert('Pembahasan paket ini khusus untuk pengguna Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
+                window.location.href = `/snbt/index.html?need_premium=true&subtes=${subtesId}&paket=${paketId}`;
                 return;
             }
 
