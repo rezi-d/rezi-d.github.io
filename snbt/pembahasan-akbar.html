@@ -150,19 +150,9 @@
     <script src="/snbt/js/snbt-akbar-data.js"></script>
     
     <script>
-        // Verifikasi Lisensi Premium
-        if (!snbtIsPremiumActive()) {
-            window.location.href = '/snbt/index.html?auth=required&target=pembahasan-akbar';
-        }
-
         const urlParams = new URLSearchParams(window.location.search);
         const toId = parseInt(urlParams.get('to')) || 1;
-        const toData = snbtTryOutAkbar.find(item => item.id === toId);
-
-        if (!toData) {
-            alert('Data Try Out Akbar tidak ditemukan.');
-            window.location.href = '/snbt/index.html';
-        }
+        let toData = snbtTryOutAkbar.find(item => item.id === toId) || { id: toId, judul: '', deskripsi: '', subtesList: ['pu', 'pbm', 'ppu', 'pk', 'lbi', 'lbe', 'pm'], subtesData: {} };
 
         // Ambil Hasil Siswa dari sessionStorage
         const studentResultRaw = sessionStorage.getItem(`snbt_akbar_result_${toId}`);
@@ -446,9 +436,19 @@
             triggerMathRender();
         }
 
-        // Inisialisasi
-        renderTabs();
-        renderPembahasan();
+        // Inisialisasi asinkron dari server Worker
+        (async () => {
+            try {
+                toData = await snbtLoadAkbar(toId);
+                document.getElementById('to-title').textContent = toData.judul;
+                document.getElementById('to-desc').textContent = toData.deskripsi;
+                renderTabs();
+                renderPembahasan();
+            } catch (err) {
+                alert(err.message || 'Pembahasan Try Out Akbar khusus untuk pengguna Premium.');
+                window.location.href = '/snbt/index.html?auth=required&target=pembahasan-akbar';
+            }
+        })();
     </script>
 </body>
 </html>

@@ -1,61 +1,72 @@
 // =================================================================
 // snbt/js/snbt-license.js
 // Sistem Lisensi Paket Premium SNBT 30 Hari (Rp 25.000)
-// Algoritma Token Unik Berbasis Nomor WhatsApp (Anti-Bagi-Pakai)
+// Validasi Server-Side via Cloudflare Worker + D1 (Anti-Bypass)
 // =================================================================
 
-const SNBT_SALT = "KIMIA_SNBT_2026_PREMIUM_AUTH_KEY";
+const SNBT_API_URL = "https://kimia-snbt-api.kimia-ajarkita.workers.dev";
 const SNBT_PRICE = "Rp 25.000";
 const SNBT_DURATION_DAYS = 30;
 const SNBT_WA_ADMIN = "6285266601477";
 
-// Algoritma Hashing Cepat & Deterministik
-function snbtHash(str) {
-    let hash = 5381;
-    for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) + hash) + str.charCodeAt(i);
-        hash = hash & hash;
+// Ambil atau buat ID perangkat unik (tersimpan di browser ini)
+function snbtGetDeviceId() {
+    const KEY = 'snbt_device_id';
+    try {
+        let id = localStorage.getItem(KEY);
+        if (id && /^[A-Za-z0-9_-]{16,64}$/.test(id)) return id;
+        const bytes = new Uint8Array(18);
+        crypto.getRandomValues(bytes);
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+        id = 'dev_' + Array.from(bytes, (b) => chars[b % chars.length]).join('');
+        localStorage.setItem(KEY, id);
+        return id;
+    } catch (e) {
+        return 'dev_fallback_' + Math.random().toString(36).slice(2, 18);
     }
-    const hex = Math.abs(hash).toString(16).toUpperCase().padStart(6, '0');
-    return hex.slice(0, 4);
 }
 
-// Generate Token dari Nomor WhatsApp
-function snbtGenerateToken(phone) {
-    if (!phone) return "";
-    const cleanPhone = phone.toString().replace(/\D/g, '');
-    if (cleanPhone.length < 8) return "";
-    const last4 = cleanPhone.slice(-4);
-    const code = snbtHash(cleanPhone + SNBT_SALT);
-    return `SNBT25-${last4}-${code}`;
+function snbtClearLocalLicense() {
+    try {
+        localStorage.removeItem('snbt_premium_token');
+        localStorage.removeItem('snbt_premium_expires_at');
+        localStorage.removeItem('snbt_premium_activated_at');
+    } catch (e) {}
 }
 
-// Validasi Token
-function snbtValidateToken(phone, token) {
-    if (!phone || !token) return false;
-    const expected = snbtGenerateToken(phone);
-    const cleanToken = token.trim().toUpperCase();
-    return expected !== "" && expected === cleanToken;
-}
-
-// Cek Apakah Akun Premium Sedang Aktif
+// Cek cepat untuk tampilan UI (kebenaran sesungguhnya diverifikasi di server saat ambil soal)
 function snbtIsPremiumActive() {
     try {
-        const phone = localStorage.getItem('snbt_premium_phone');
         const token = localStorage.getItem('snbt_premium_token');
         const expiresAt = parseInt(localStorage.getItem('snbt_premium_expires_at'), 10);
-
-        if (!phone || !token || !expiresAt) return false;
-
-        // Cek kedaluwarsa (30 hari)
-        if (Date.now() > expiresAt) {
-            return false;
-        }
-
-        // Cek keabsahan matematis token
-        return snbtValidateToken(phone, token);
+        if (!token || !expiresAt) return false;
+        if (!/^SNBT-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(token)) return false;
+        if (Date.now() > expiresAt) return false;
+        return true;
     } catch (e) {
         return false;
+    }
+}
+
+// Sinkronisasi status lisensi dengan server di latar belakang
+async function snbtVerifyWithServer() {
+    const token = localStorage.getItem('snbt_premium_token');
+    if (!token) return false;
+    try {
+        const res = await fetch(`${SNBT_API_URL}/activate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, deviceId: snbtGetDeviceId() })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+            snbtClearLocalLicense();
+            return false;
+        }
+        localStorage.setItem('snbt_premium_expires_at', String(data.expiresAt));
+        return true;
+    } catch (e) {
+        return snbtIsPremiumActive();
     }
 }
 
@@ -85,31 +96,127 @@ function snbtGetExpiryDateFormatted() {
     }
 }
 
-// Aktivasi Lisensi
-function snbtActivateLicense(phone, token) {
-    const cleanPhone = phone.toString().replace(/\D/g, '');
-    const cleanToken = token.trim().toUpperCase();
+// Aktivasi Lisensi ke Server Cloudflare Worker + D1
+async function snbtActivateLicense(phone, token) {
+    const cleanPhone = (phone || '').toString().replace(/\D/g, '');
+    const cleanToken = (token || '').trim().toUpperCase();
 
-    if (!snbtValidateToken(cleanPhone, cleanToken)) {
+    if (!/^SNBT-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(cleanToken)) {
         return {
             success: false,
-            message: "Nomor WhatsApp dan Kode Token tidak cocok! Pastikan nomor telepon yang dimasukkan sama persis dengan yang didaftarkan ke Admin."
+            message: "Format Kode Token tidak valid (contoh format: SNBT-XXXX-XXXX-XXXX)."
         };
     }
 
-    const now = Date.now();
-    const expiry = now + (SNBT_DURATION_DAYS * 24 * 60 * 60 * 1000);
+    try {
+        const res = await fetch(`${SNBT_API_URL}/activate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                token: cleanToken,
+                deviceId: snbtGetDeviceId()
+            })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+            return {
+                success: false,
+                message: data.error || "Kode token tidak valid atau sudah kedaluwarsa."
+            };
+        }
 
-    localStorage.setItem('snbt_premium_phone', cleanPhone);
-    localStorage.setItem('snbt_premium_token', cleanToken);
-    localStorage.setItem('snbt_premium_activated_at', now.toString());
-    localStorage.setItem('snbt_premium_expires_at', expiry.toString());
+        if (cleanPhone) localStorage.setItem('snbt_premium_phone', cleanPhone);
+        localStorage.setItem('snbt_premium_token', cleanToken);
+        localStorage.setItem('snbt_premium_activated_at', Date.now().toString());
+        localStorage.setItem('snbt_premium_expires_at', String(data.expiresAt));
 
-    return {
-        success: true,
-        remainingDays: SNBT_DURATION_DAYS,
-        expiryDate: snbtGetExpiryDateFormatted()
-    };
+        return {
+            success: true,
+            remainingDays: data.remainingDays,
+            expiryDate: snbtGetExpiryDateFormatted()
+        };
+    } catch (err) {
+        return {
+            success: false,
+            message: "Gagal menghubungi server lisensi. Periksa koneksi internet Anda lalu coba lagi."
+        };
+    }
+}
+
+// Ambil paket soal (paket gratis dari snbt-data.js, paket premium dari Worker)
+async function snbtLoadSoalList(subtesId, paketId) {
+    const paket = typeof getSnbtPaket === 'function' ? getSnbtPaket(subtesId, paketId) : null;
+    if (!paket) throw new Error('Paket soal tidak ditemukan.');
+
+    if (paket.status !== 'premium') {
+        const list = typeof getSnbtSoalList === 'function' ? getSnbtSoalList(subtesId, paketId) : [];
+        return list;
+    }
+
+    const token = localStorage.getItem('snbt_premium_token') || '';
+    if (!token) {
+        const err = new Error('Paket ini khusus untuk pengguna Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
+        err.needPremium = true;
+        throw err;
+    }
+
+    const res = await fetch(`${SNBT_API_URL}/paket/${encodeURIComponent(subtesId)}_${encodeURIComponent(paketId)}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'X-Device-Id': snbtGetDeviceId()
+        }
+    });
+
+    if (!res.ok) {
+        let msg = 'Lisensi tidak valid atau sudah kedaluwarsa.';
+        try {
+            const body = await res.json();
+            if (body && body.error) msg = body.error;
+        } catch (e) {}
+        if (res.status === 401 || res.status === 403) snbtClearLocalLicense();
+        const err = new Error(msg);
+        err.needPremium = true;
+        throw err;
+    }
+
+    return await res.json();
+}
+
+// Ambil data Try Out Akbar beserta seluruh butir soal dari Worker
+async function snbtLoadAkbar(toId) {
+    const meta = typeof getSnbtAkbar === 'function' ? getSnbtAkbar(toId) : null;
+    if (!meta) throw new Error('Paket Try Out Akbar tidak ditemukan.');
+
+    const token = localStorage.getItem('snbt_premium_token') || '';
+    if (!token) {
+        const err = new Error('Try Out Akbar SNBT merupakan fitur eksklusif Siswa Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
+        err.needPremium = true;
+        throw err;
+    }
+
+    const res = await fetch(`${SNBT_API_URL}/paket/akbar_${encodeURIComponent(toId)}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'X-Device-Id': snbtGetDeviceId()
+        }
+    });
+
+    if (!res.ok) {
+        let msg = 'Lisensi tidak valid atau sudah kedaluwarsa.';
+        try {
+            const body = await res.json();
+            if (body && body.error) msg = body.error;
+        } catch (e) {}
+        if (res.status === 401 || res.status === 403) snbtClearLocalLicense();
+        const err = new Error(msg);
+        err.needPremium = true;
+        throw err;
+    }
+
+    const payload = await res.json();
+    return Object.assign({}, meta, { subtesData: payload.subtesData });
 }
 
 // =================================================================
@@ -124,7 +231,7 @@ function snbtOpenPremiumModal(subtesNama = "", paketNomor = "") {
 
     const subtesSpan = document.getElementById('modal-subtes-info');
     if (subtesSpan && subtesNama) {
-        subtesSpan.textContent = `${subtesNama} - Paket ${paketNomor}`;
+        subtesSpan.textContent = `${subtesNama} - ${paketNomor}`;
         subtesSpan.parentElement.classList.remove('hidden');
     }
 
@@ -221,7 +328,7 @@ function snbtInjectPremiumModal() {
                                 <span>Konfirmasi Transfer ke WhatsApp Admin</span>
                             </a>
                             <p class="text-[11px] text-slate-400">
-                                Setelah kirim bukti transfer, Admin akan langsung membalas dengan Kode Token unik untuk nomor Anda.
+                                Setelah kirim bukti transfer, Admin akan langsung membalas dengan Kode Token unik Anda.
                             </p>
                         </div>
                     </div>
@@ -231,24 +338,23 @@ function snbtInjectPremiumModal() {
                         <div class="space-y-3">
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                                    Nomor WhatsApp Anda:
+                                    Nomor WhatsApp Anda (Opsional):
                                 </label>
                                 <input type="tel" id="input-license-phone" placeholder="Contoh: 081234567890" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono">
-                                <span class="text-[11px] text-slate-400">Masukkan nomor WA yang Anda daftarkan ke Admin.</span>
                             </div>
 
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
                                     Kode Token Lisensi:
                                 </label>
-                                <input type="text" id="input-license-token" placeholder="Contoh: SNBT25-7890-C4B1" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono uppercase tracking-wider">
-                                <span class="text-[11px] text-slate-400">Kode unik yang diberikan Admin via WhatsApp.</span>
+                                <input type="text" id="input-license-token" placeholder="Contoh: SNBT-XXXX-XXXX-XXXX" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono uppercase tracking-wider">
+                                <span class="text-[11px] text-slate-400">Kode unik yang diberikan Admin via WhatsApp (maks. 2 perangkat).</span>
                             </div>
                         </div>
 
                         <div id="license-feedback" class="text-xs min-h-[16px] font-semibold"></div>
 
-                        <button type="button" onclick="snbtSubmitActivation()" class="w-full py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xs transition">
+                        <button type="button" id="btn-submit-activation" onclick="snbtSubmitActivation()" class="w-full py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xs transition">
                             <span>🚀</span>
                             <span>Aktifkan Akses Premium (30 Hari)</span>
                         </button>
@@ -284,28 +390,40 @@ function snbtSwitchTab(tab) {
     }
 }
 
-function snbtSubmitActivation() {
+async function snbtSubmitActivation() {
     const elPhone = document.getElementById('input-license-phone');
     const elToken = document.getElementById('input-license-token');
     const elFb = document.getElementById('license-feedback');
+    const btn = document.getElementById('btn-submit-activation');
 
-    if (!elPhone || !elToken || !elFb) return;
+    if (!elToken || !elFb) return;
 
-    const phone = elPhone.value.trim();
+    const phone = elPhone ? elPhone.value.trim() : '';
     const token = elToken.value.trim();
 
-    if (!phone || !token) {
-        elFb.innerHTML = `<span class="text-rose-600">Harap isi nomor WhatsApp dan kode token lisensi!</span>`;
+    if (!token) {
+        elFb.innerHTML = `<span class="text-rose-600">Harap masukkan kode token lisensi!</span>`;
         return;
     }
 
-    const res = snbtActivateLicense(phone, token);
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span>⏳</span><span>Memverifikasi ke server...</span>`;
+    }
+
+    const res = await snbtActivateLicense(phone, token);
+
+    if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🚀</span><span>Aktifkan Akses Premium (30 Hari)</span>`;
+    }
+
     if (res.success) {
         elFb.innerHTML = `<span class="text-emerald-700 font-bold">🎉 Berhasil! Akun Premium Anda aktif selama 30 hari (hingga ${res.expiryDate}). Seluruh paket terbuka!</span>`;
         setTimeout(() => {
             snbtClosePremiumModal();
             location.reload();
-        }, 1500);
+        }, 1200);
     } else {
         elFb.innerHTML = `<span class="text-rose-600">${res.message}</span>`;
     }
@@ -315,6 +433,11 @@ function snbtSubmitActivation() {
 if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
         snbtInjectPremiumModal();
+        if (snbtIsPremiumActive()) {
+            snbtVerifyWithServer().then((stillValid) => {
+                if (!stillValid) location.reload();
+            });
+        }
     });
 }
 
@@ -323,4 +446,3 @@ if (typeof window !== 'undefined') {
     window.openSnbtPremiumModal = snbtOpenPremiumModal;
     window.closeSnbtPremiumModal = snbtClosePremiumModal;
 }
-

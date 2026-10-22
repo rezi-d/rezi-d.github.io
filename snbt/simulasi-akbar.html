@@ -320,23 +320,17 @@
             initAkbarExam();
         });
 
-        function initAkbarExam() {
+        async function initAkbarExam() {
             if (typeof getSnbtAkbar !== 'function') {
                 alert('Database Try Out Akbar tidak ditemukan.');
                 window.location.href = '/snbt/index.html';
                 return;
             }
 
-            toData = getSnbtAkbar(toId);
-            if (!toData) {
-                alert('Paket Try Out Akbar tidak ditemukan.');
-                window.location.href = '/snbt/index.html';
-                return;
-            }
-
-            // Validasi Akses Premium
-            if (typeof snbtIsPremiumActive === 'function' && !snbtIsPremiumActive()) {
-                alert('Try Out Akbar SNBT merupakan fitur eksklusif Siswa Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
+            try {
+                toData = await snbtLoadAkbar(toId);
+            } catch (err) {
+                alert(err.message || 'Try Out Akbar SNBT merupakan fitur eksklusif Siswa Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
                 window.location.href = '/snbt/index.html?need_premium=true';
                 return;
             }

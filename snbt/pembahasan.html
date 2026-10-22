@@ -141,23 +141,29 @@
             initPembahasan();
         });
 
-        function initPembahasan() {
+        async function initPembahasan() {
             if (typeof getSnbtSubtes !== 'function') return;
 
             subtesData = getSnbtSubtes(subtesId);
             paketData = getSnbtPaket(subtesId, paketId);
-            soalList = getSnbtSoalList(subtesId, paketId);
 
-            if (!subtesData || !paketData || soalList.length === 0) {
+            if (!subtesData || !paketData) {
                 alert('Data pembahasan belum tersedia.');
                 window.location.href = '/snbt/index.html';
                 return;
             }
 
-            // Validasi Hak Akses Premium
-            if (paketData.status === 'premium' && typeof snbtIsPremiumActive === 'function' && !snbtIsPremiumActive()) {
-                alert('Pembahasan paket ini khusus untuk pengguna Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
+            try {
+                soalList = await snbtLoadSoalList(subtesId, paketId);
+            } catch (err) {
+                alert(err.message || 'Pembahasan paket ini khusus untuk pengguna Premium. Silakan aktifkan lisensi Anda terlebih dahulu.');
                 window.location.href = `/snbt/index.html?need_premium=true&subtes=${subtesId}&paket=${paketId}`;
+                return;
+            }
+
+            if (!soalList || soalList.length === 0) {
+                alert('Data pembahasan belum tersedia.');
+                window.location.href = '/snbt/index.html';
                 return;
             }
 
