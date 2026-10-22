@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Panel Lisensi SNBT 2026 (Server D1)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 sm:p-6">
+
+    <div class="w-full max-w-3xl bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6">
+        
+        <!-- HEADER -->
+        <div class="border-b border-slate-700/80 pb-5 space-y-1">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <span>🔒 Dilindungi Server Cloudflare Worker + D1</span>
+            </div>
+            <h1 class="text-2xl font-black text-white tracking-tight">
+                Manajemen &amp; Generator Lisensi SNBT (Rp 25.000 / 30 Hari)
+            </h1>
+            <p class="text-xs text-slate-400">
+                Seluruh aksi pembuatan &amp; manajemen token memerlukan otorisasi <code>ADMIN_KEY</code> di server Cloudflare.
+            </p>
+        </div>
+
+        <!-- KUNCI RAHASIA ADMIN -->
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-amber-500/40 space-y-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-amber-300">
+                🔑 Kunci Rahasia Admin (X-Admin-Key) <span class="text-rose-400">*</span>:
+            </label>
+            <div class="flex gap-2">
+                <input type="password" id="admin-input-key" placeholder="Masukkan ADMIN_KEY rahasia Anda..." class="flex-grow px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white font-mono focus:outline-hidden focus:ring-2 focus:ring-amber-500">
+                <button type="button" id="btn-load-list" class="px-4 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs font-bold text-white transition cursor-pointer">
+                    Muat Daftar Lisensi
+                </button>
+            </div>
+            <span class="text-[11px] text-slate-400 block">Disimpan sementara di sesi tab browser ini saja. Tanpa kunci ini, server akan menolak semua request.</span>
+        </div>
+
+        <!-- FORM INPUT GENERATE TOKEN -->
+        <div class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                        Nama Siswa:
+                    </label>
+                    <input type="text" id="admin-input-nama" placeholder="Contoh: Rian Pratama" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-hidden focus:ring-2 focus:ring-amber-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                        Nomor WhatsApp Siswa <span class="text-rose-400">*</span>:
+                    </label>
+                    <input type="tel" id="admin-input-phone" placeholder="Contoh: 081234567890" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white font-mono focus:outline-hidden focus:ring-2 focus:ring-amber-500">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                        Masa Aktif (Hari):
+                    </label>
+                    <input type="number" id="admin-input-days" value="30" min="1" max="365" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                        Maks. Perangkat:
+                    </label>
+                    <input type="number" id="admin-input-devices" value="2" min="1" max="5" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white font-mono">
+                </div>
+            </div>
+
+            <div id="admin-error" class="text-xs text-rose-400 font-semibold min-h-[16px]"></div>
+
+            <button type="button" id="btn-generate" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm rounded-xl transition shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                <span>⚡</span> <span>Generate Token Baru di Server &amp; Format Pesan WA</span>
+            </button>
+        </div>
+
+        <!-- HASIL GENERATE (HIDDEN AWAL) -->
+        <div id="box-result" class="hidden space-y-4 pt-4 border-t border-slate-700">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-1">
+                    Kode Token Lisensi Siswa (Tersimpan di D1):
+                </span>
+                <div class="flex items-center gap-2">
+                    <input type="text" readonly id="res-token" class="flex-grow px-4 py-3 rounded-xl bg-slate-950 border border-teal-500/50 text-teal-300 font-mono text-lg font-black tracking-widest text-center">
+                    <button type="button" id="btn-copy-token" class="px-4 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs font-bold text-white transition cursor-pointer">
+                        Salin Token
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">
+                    Draf Pesan WhatsApp Siap Kirim ke Siswa:
+                </span>
+                <textarea id="res-message" rows="7" readonly class="w-full p-3.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono leading-relaxed resize-none"></textarea>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2">
+                <button type="button" id="btn-copy-all" class="flex-1 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs font-bold text-white transition cursor-pointer">
+                    📋 Salin Seluruh Pesan
+                </button>
+                <a id="btn-send-wa" href="#" target="_blank" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white text-center flex items-center justify-center gap-1.5 transition">
+                    <span>💬</span> <span>Kirim Langsung ke WA Siswa</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- DAFTAR LISENSI SERVER -->
+        <div id="box-list" class="hidden space-y-3 pt-4 border-t border-slate-700">
+            <div class="flex items-center justify-between">
+                <h2 class="text-sm font-black uppercase tracking-wider text-slate-200">📋 Daftar Lisensi di Database D1</h2>
+                <span id="list-count" class="text-xs text-slate-400"></span>
+            </div>
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-900 text-slate-400 uppercase">
+                        <tr>
+                            <th class="p-2.5">ID</th>
+                            <th class="p-2.5">Siswa / WA</th>
+                            <th class="p-2.5">Status</th>
+                            <th class="p-2.5">Perangkat</th>
+                            <th class="p-2.5 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list-tbody" class="divide-y divide-slate-700/60 bg-slate-900/40"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="text-center text-[11px] text-slate-500 pt-2 border-t border-slate-800">
+            <a href="index.html" class="text-teal-400 hover:underline">&larr; Kembali ke Portal SNBT Siswa</a>
+        </div>
+    </div>
+
+    <script>
+        const SNBT_API_URL = "https://kimia-snbt-api.kimia-ajarkita.workers.dev";
+
+        const inputKey = document.getElementById('admin-input-key');
+        const inputNama = document.getElementById('admin-input-nama');
+        const inputPhone = document.getElementById('admin-input-phone');
+        const inputDays = document.getElementById('admin-input-days');
+        const inputDevices = document.getElementById('admin-input-devices');
+        const btnGen = document.getElementById('btn-generate');
+        const btnLoadList = document.getElementById('btn-load-list');
+        const errEl = document.getElementById('admin-error');
+        const boxRes = document.getElementById('box-result');
+        const resToken = document.getElementById('res-token');
+        const resMessage = document.getElementById('res-message');
+        const btnCopyToken = document.getElementById('btn-copy-token');
+        const btnCopyAll = document.getElementById('btn-copy-all');
+        const btnSendWa = document.getElementById('btn-send-wa');
+        const boxList = document.getElementById('box-list');
+        const listTbody = document.getElementById('list-tbody');
+        const listCount = document.getElementById('list-count');
+
+        const savedKey = sessionStorage.getItem('snbt_admin_key');
+        if (savedKey) inputKey.value = savedKey;
+
+        function getAdminKey() {
+            const k = inputKey.value.trim();
+            if (k) sessionStorage.setItem('snbt_admin_key', k);
+            return k;
+        }
+
+        btnGen.addEventListener('click', async () => {
+            errEl.textContent = '';
+            const adminKey = getAdminKey();
+            if (!adminKey) {
+                errEl.textContent = 'Harap masukkan Kunci Rahasia Admin terlebih dahulu.';
+                return;
+            }
+
+            const rawPhone = inputPhone.value.trim();
+            const cleanPhone = rawPhone.replace(/\D/g, '');
+            if (cleanPhone.length < 9) {
+                errEl.textContent = 'Harap masukkan nomor WhatsApp siswa yang valid (minimal 9 digit).';
+                return;
+            }
+
+            const nama = inputNama.value.trim() || 'Siswa';
+            const days = parseInt(inputDays.value, 10) || 30;
+            const maxDevices = parseInt(inputDevices.value, 10) || 2;
+
+            btnGen.disabled = true;
+            btnGen.innerHTML = '<span>⏳</span> <span>Membuat token di server...</span>';
+
+            try {
+                const res = await fetch(`${SNBT_API_URL}/admin/token`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Key': adminKey
+                    },
+                    body: JSON.stringify({ nama, wa: cleanPhone, days, maxDevices })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    errEl.textContent = data.error || 'Gagal membuat token (periksa Kunci Rahasia Admin).';
+                    return;
+                }
+
+                const token = data.token;
+                let waTarget = cleanPhone.startsWith('0') ? '62' + cleanPhone.slice(1) : cleanPhone;
+
+                const pesan = `Halo ${nama}! Terima kasih sudah mengonfirmasi pembayaran Paket All-Access SNBT 2026 (Rp 25.000).
+
+Berikut adalah Kode Lisensi Premium Anda:
+🔑 Kode Token   : ${token}
+⏳ Masa Aktif   : ${days} Hari sejak diaktifkan (maks. ${maxDevices} perangkat)
+
+Cara Aktivasi di Web:
+1. Buka: https://kimia.ajarkita.my.id/snbt/index.html
+2. Klik tombol gembok 🔒 pada Paket Premium atau Try Out Akbar
+3. Pilih tab "2. Masukkan Kode Lisensi"
+4. Masukkan Kode Token: ${token}
+5. Klik "Aktifkan Akses Premium"
+
+Selamat belajar intensif dan semoga sukses meraih kursi PTN impian! 🎓✨`;
+
+                resToken.value = token;
+                resMessage.value = pesan;
+                btnSendWa.href = `https://wa.me/${waTarget}?text=${encodeURIComponent(pesan)}`;
+                boxRes.classList.remove('hidden');
+                loadLicenseList();
+            } catch (e) {
+                errEl.textContent = 'Gagal menghubungi server Worker.';
+            } finally {
+                btnGen.disabled = false;
+                btnGen.innerHTML = '<span>⚡</span> <span>Generate Token Baru di Server &amp; Format Pesan WA</span>';
+            }
+        });
+
+        async function loadLicenseList() {
+            const adminKey = getAdminKey();
+            if (!adminKey) {
+                errEl.textContent = 'Masukkan Kunci Rahasia Admin untuk memuat daftar lisensi.';
+                return;
+            }
+            errEl.textContent = '';
+            try {
+                const res = await fetch(`${SNBT_API_URL}/admin/list`, {
+                    headers: { 'X-Admin-Key': adminKey }
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    errEl.textContent = data.error || 'Kunci Admin salah.';
+                    return;
+                }
+                boxList.classList.remove('hidden');
+                const rows = data.licenses || [];
+                listCount.textContent = `${rows.length} lisensi`;
+                const now = Date.now();
+                listTbody.innerHTML = rows.map((r) => {
+                    let statusBadge = '<span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">Belum Aktif</span>';
+                    if (r.revoked) {
+                        statusBadge = '<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300">Dicabut</span>';
+                    } else if (r.expires_at && now > r.expires_at) {
+                        statusBadge = '<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Kedaluwarsa</span>';
+                    } else if (r.activated_at) {
+                        const sisa = Math.ceil((r.expires_at - now) / 86400000);
+                        statusBadge = `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Aktif (${sisa} hr)</span>`;
+                    }
+                    return `
+                        <tr>
+                            <td class="p-2.5 font-mono text-slate-400">#${r.id}</td>
+                            <td class="p-2.5">
+                                <div class="font-bold text-white">${r.nama || '-'}</div>
+                                <div class="font-mono text-slate-400">${r.wa || '-'}</div>
+                            </td>
+                            <td class="p-2.5">${statusBadge}</td>
+                            <td class="p-2.5 font-mono">${r.devices}/${r.max_devices}</td>
+                            <td class="p-2.5 text-right space-x-1">
+                                <button onclick="resetDevices(${r.id})" class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-[11px] cursor-pointer">Reset HP</button>
+                                ${!r.revoked ? `<button onclick="revokeLicense(${r.id})" class="px-2 py-1 rounded bg-rose-700/80 hover:bg-rose-600 text-[11px] cursor-pointer">Blokir</button>` : ''}
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (e) {
+                errEl.textContent = 'Gagal memuat daftar lisensi.';
+            }
+        }
+
+        window.resetDevices = async function(id) {
+            if (!confirm(`Reset perangkat terdaftar untuk lisensi #${id}?`)) return;
+            await fetch(`${SNBT_API_URL}/admin/reset-devices`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Admin-Key': getAdminKey() },
+                body: JSON.stringify({ id })
+            });
+            loadLicenseList();
+        };
+
+        window.revokeLicense = async function(id) {
+            if (!confirm(`Blokir permanen lisensi #${id}?`)) return;
+            await fetch(`${SNBT_API_URL}/admin/revoke`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Admin-Key': getAdminKey() },
+                body: JSON.stringify({ id })
+            });
+            loadLicenseList();
+        };
+
+        btnLoadList.addEventListener('click', loadLicenseList);
+
+        btnCopyToken.addEventListener('click', () => {
+            navigator.clipboard.writeText(resToken.value);
+            btnCopyToken.textContent = "Tersalin! ✓";
+            setTimeout(() => { btnCopyToken.textContent = "Salin Token"; }, 2000);
+        });
+
+        btnCopyAll.addEventListener('click', () => {
+            navigator.clipboard.writeText(resMessage.value);
+            btnCopyAll.textContent = "Pesan Tersalin! ✓";
+            setTimeout(() => { btnCopyAll.textContent = "📋 Salin Seluruh Pesan"; }, 2000);
+        });
+    </script>
+</body>
+</html>
