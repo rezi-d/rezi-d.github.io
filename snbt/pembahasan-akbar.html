@@ -103,9 +103,12 @@
         </div>
 
         <!-- BREAKDOWN PER SUBTES (CARD GRID) -->
-        <div id="subtes-card-summary" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2.5 mb-8">
+        <div id="subtes-card-summary" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2.5 mb-6">
             <!-- Diisi secara dinamis dengan card mini skor tiap subtes -->
         </div>
+
+        <!-- DIAGNOSIS KELEMAHAN TOPIK SISWA -->
+        <div id="pembahasan-weakness-diagnosis" class="hidden mb-8"></div>
 
         <!-- STRIP NAVIGASI FILTER SUBTES -->
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-3 mb-6 sticky top-4 z-20 backdrop-blur-md bg-white/95">
@@ -154,8 +157,8 @@
         const toId = parseInt(urlParams.get('to')) || 1;
         let toData = snbtTryOutAkbar.find(item => item.id === toId) || { id: toId, judul: '', deskripsi: '', subtesList: ['pu', 'pbm', 'ppu', 'pk', 'lbi', 'lbe', 'pm'], subtesData: {} };
 
-        // Ambil Hasil Siswa dari sessionStorage
-        const studentResultRaw = sessionStorage.getItem(`snbt_akbar_result_${toId}`);
+        // Ambil Hasil Siswa dari sessionStorage atau localStorage
+        const studentResultRaw = sessionStorage.getItem(`snbt_akbar_result_${toId}`) || localStorage.getItem(`snbt_akbar_result_${toId}`);
         const studentResult = studentResultRaw ? JSON.parse(studentResultRaw) : null;
 
         // Subtes Metadata
@@ -244,6 +247,104 @@
             currentSubtesFilter = subId;
             renderTabs();
             renderPembahasan();
+        }
+
+        function jumpToQuestion(subId, qNo) {
+            currentSubtesFilter = subId;
+            currentStatusFilter = 'all';
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = 'filter-btn px-3 py-1.5 rounded-lg font-semibold transition text-slate-600 hover:text-slate-800';
+            });
+            const allBtn = document.getElementById('flt-all');
+            if (allBtn) allBtn.className = 'filter-btn px-3 py-1.5 rounded-lg font-semibold transition bg-white text-slate-900 shadow-2xs font-bold';
+            renderTabs();
+            renderPembahasan();
+            setTimeout(() => {
+                const el = document.getElementById(`card-${subId}-${qNo}`);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 80);
+        }
+
+        function renderWeaknessDiagnosis() {
+            const diagContainer = document.getElementById('pembahasan-weakness-diagnosis');
+            if (!diagContainer || !studentResult || !toData || !toData.subtesData) return;
+
+            // Hitung atau ambil weakTopicsBySubtes
+            const weakBySub = {};
+            toData.subtesList.forEach(subId => {
+                const subObj = toData.subtesData[subId];
+                if (!subObj || !subObj.soal) return;
+                const list = [];
+                subObj.soal.forEach((q, idx) => {
+                    const ans = (studentResult.userAnswers && studentResult.userAnswers[subId]) ? studentResult.userAnswers[subId][idx] : null;
+                    if (!ans || ans !== q.kunci) {
+                        list.push({ no: idx + 1, topik: q.topik || subObj.nama, status: !ans ? 'kosong' : 'salah' });
+                    }
+                });
+                if (list.length > 0) weakBySub[subId] = list;
+            });
+
+            const weakSubIds = Object.keys(weakBySub).sort((a, b) => {
+                const sa = (studentResult.subtesScores && studentResult.subtesScores[a]) ? studentResult.subtesScores[a].skorUtbk : 500;
+                const sb = (studentResult.subtesScores && studentResult.subtesScores[b]) ? studentResult.subtesScores[b].skorUtbk : 500;
+                return sa - sb;
+            });
+
+            if (weakSubIds.length === 0) return;
+
+            const topWeak = weakSubIds.slice(0, 3);
+            const cardsHtml = topWeak.map(subId => {
+                const s = (studentResult.subtesScores && studentResult.subtesScores[subId]) || { nama: subtesLabels[subId], skorUtbk: '-' };
+                const items = weakBySub[subId];
+                const topicButtons = items.map(item => `
+                    <button onclick="jumpToQuestion('${subId}', ${item.no})" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-900 text-[11px] font-semibold transition cursor-pointer">
+                        <span class="font-black text-rose-600">#${item.no}</span>
+                        <span>${item.topik}</span>
+                    </button>
+                `).join('');
+
+                return `
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 flex flex-col justify-between gap-2.5">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded-md bg-rose-600 text-white font-black text-[10px] uppercase">${subtesShort[subId]}</span>
+                                <span class="font-bold text-slate-900 text-xs sm:text-sm">${s.nama}</span>
+                            </div>
+                            <span class="text-xs font-extrabold text-rose-700">Skor ${s.skorUtbk}</span>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-slate-500 mb-1.5">Klik topik di bawah untuk langsung melompat ke pembahasan soal:</div>
+                            <div class="flex flex-wrap gap-1.5">${topicButtons}</div>
+                        </div>
+                        <div class="pt-2 border-t border-slate-200/70 flex items-center justify-between text-[11px]">
+                            <span class="text-slate-500">${items.length} soal perlu evaluasi</span>
+                            <a href="/snbt/simulasi.html?subtes=${subId}&paket=1" class="font-bold text-indigo-600 hover:text-indigo-800">Latihan Subtes ${subtesShort[subId]} &rarr;</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            diagContainer.classList.remove('hidden');
+            diagContainer.innerHTML = `
+                <div class="bg-white rounded-3xl border border-rose-200 shadow-xs p-5 sm:p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
+                        <div>
+                            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2">
+                                <span>🩺</span> Diagnosis Kelemahan Topik & Peta Perbaikan Skor
+                            </h2>
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                Fokuskan waktu belajar Anda pada <strong>${topWeak.length} subtes terlemah</strong> berikut sebelum lanjut ke gelombang Try Out Akbar berikutnya.
+                            </p>
+                        </div>
+                        <button onclick="setFilter('salah')" class="self-start sm:self-auto shrink-0 px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs border border-rose-200 transition cursor-pointer">
+                            Filter Hanya Soal Salah ❌
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        ${cardsHtml}
+                    </div>
+                </div>
+            `;
         }
 
         function setFilter(status) {
@@ -443,6 +544,7 @@
                 document.getElementById('to-title').textContent = toData.judul;
                 document.getElementById('to-desc').textContent = toData.deskripsi;
                 renderTabs();
+                renderWeaknessDiagnosis();
                 renderPembahasan();
             } catch (err) {
                 alert(err.message || 'Pembahasan Try Out Akbar khusus untuk pengguna Premium.');

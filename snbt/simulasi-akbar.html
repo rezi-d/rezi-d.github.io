@@ -269,6 +269,9 @@
                 </div>
             </div>
 
+            <!-- Diagnosis Kelemahan Topik & Rekomendasi Belajar -->
+            <div id="result-weakness-diagnosis" class="hidden"></div>
+
             <!-- Rapor Breakdown per Subtes -->
             <div>
                 <h4 class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider mb-3">
@@ -661,6 +664,7 @@
             closeConfirmModal();
 
             let subtesScores = {};
+            let weakTopicsBySubtes = {};
             let grandBenar = 0;
             let grandSalah = 0;
             let grandKosong = 0;
@@ -671,12 +675,19 @@
                 let benar = 0;
                 let salah = 0;
                 let kosong = 0;
+                let weakTopics = [];
 
                 subObj.soal.forEach((q, idx) => {
                     const ans = userAnswers[subId] ? userAnswers[subId][idx] : null;
-                    if (!ans) kosong++;
-                    else if (ans === q.kunci) benar++;
-                    else salah++;
+                    if (!ans) {
+                        kosong++;
+                        weakTopics.push({ no: idx + 1, topik: q.topik || subObj.nama, status: 'kosong' });
+                    } else if (ans === q.kunci) {
+                        benar++;
+                    } else {
+                        salah++;
+                        weakTopics.push({ no: idx + 1, topik: q.topik || subObj.nama, status: 'salah' });
+                    }
                 });
 
                 const totalSub = subObj.soal.length;
@@ -685,8 +696,9 @@
 
                 subtesScores[subId] = {
                     nama: subObj.nama,
-                    benar, salah, kosong, percent, skorUtbk
+                    benar, salah, kosong, total: totalSub, percent, skorUtbk
                 };
+                weakTopicsBySubtes[subId] = weakTopics;
 
                 grandBenar += benar;
                 grandSalah += salah;
@@ -697,10 +709,11 @@
             const grandPercent = Math.round((grandBenar / grandTotalSoal) * 100);
             const grandSkorUtbk = Math.round(200 + (grandPercent * 8));
 
-            // Simpan riwayat di sessionStorage
+            // Simpan riwayat di sessionStorage & localStorage untuk evaluasi
             const sessionData = {
                 toId,
                 subtesScores,
+                weakTopicsBySubtes,
                 grandBenar,
                 grandSalah,
                 grandKosong,
@@ -709,6 +722,9 @@
                 timestamp: new Date().toISOString()
             };
             sessionStorage.setItem(`snbt_akbar_result_${toId}`, JSON.stringify(sessionData));
+            try {
+                localStorage.setItem(`snbt_akbar_result_${toId}`, JSON.stringify(sessionData));
+            } catch (e) {}
 
             // Tampilkan Modal Hasil Rapor
             document.getElementById('result-to-title').textContent = toData.judul;
@@ -716,6 +732,72 @@
             document.getElementById('result-count-benar').textContent = `${grandBenar} Soal`;
             document.getElementById('result-count-salah').textContent = `${grandSalah} Soal`;
             document.getElementById('result-count-kosong').textContent = `${grandKosong} Soal`;
+
+            // Render Diagnosis Kelemahan Topik & Prioritas Perbaikan
+            const diagEl = document.getElementById('result-weakness-diagnosis');
+            if (diagEl) {
+                const subtesShortMap = { pu: 'PU', pbm: 'PBM', ppu: 'PPU', pk: 'PK', lbi: 'LBI', lbe: 'LBE', pm: 'PM' };
+                const sortedWeakSubtes = [...subtesOrder]
+                    .filter(subId => (weakTopicsBySubtes[subId] || []).length > 0)
+                    .sort((a, b) => subtesScores[a].skorUtbk - subtesScores[b].skorUtbk);
+
+                if (sortedWeakSubtes.length === 0) {
+                    diagEl.className = 'p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900';
+                    diagEl.innerHTML = `
+                        <div class="font-extrabold text-sm text-emerald-800 mb-1">🎉 Sempurna! Tidak Ada Kelemahan Topik Terdeteksi</div>
+                        <p>Seluruh 70 soal berhasil Anda jawab dengan benar. Pertahankan konsistensi ini pada gelombang Try Out Akbar berikutnya!</p>
+                    `;
+                } else {
+                    const topWeakSubtes = sortedWeakSubtes.slice(0, 3);
+                    const weakCardsHtml = topWeakSubtes.map(subId => {
+                        const s = subtesScores[subId];
+                        const topics = weakTopicsBySubtes[subId] || [];
+                        const uniqueTopics = [...new Set(topics.map(t => t.topik))].slice(0, 4);
+                        const topicBadges = uniqueTopics.map(tp =>
+                            `<span class="inline-flex items-center px-2 py-0.5 rounded-md bg-white border border-rose-200 text-rose-800 text-[11px] font-medium">${tp}</span>`
+                        ).join('');
+
+                        return `
+                            <div class="p-3 rounded-xl bg-white border border-rose-200/80 shadow-2xs">
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-black text-[10px] uppercase">${subtesShortMap[subId] || subId.toUpperCase()}</span>
+                                        <span class="font-bold text-slate-900 text-xs">${s.nama}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <span class="text-[11px] font-extrabold text-rose-700">Skor ${s.skorUtbk}</span>
+                                        <a href="/snbt/simulasi.html?subtes=${subId}&paket=1" class="px-2 py-0.5 rounded-md bg-teal-50 hover:bg-teal-100 text-teal-700 font-bold text-[10px] border border-teal-200 transition">Latihan ${subtesShortMap[subId]} &rarr;</a>
+                                    </div>
+                                </div>
+                                <div class="text-[11px] text-slate-500 mb-1.5">Topik yang perlu diperkuat (${topics.length} soal belum tepat):</div>
+                                <div class="flex flex-wrap gap-1">${topicBadges}</div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    const nextToId = toId < 5 ? toId + 1 : 5;
+                    diagEl.className = 'p-4 sm:p-5 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-3';
+                    diagEl.innerHTML = `
+                        <div class="flex items-start justify-between gap-2">
+                            <div>
+                                <h4 class="font-extrabold text-rose-950 text-xs sm:text-sm flex items-center gap-1.5">
+                                    <span>🩺</span> Diagnosis Kelemahan Topik & Prioritas Belajar
+                                </h4>
+                                <p class="text-[11px] text-rose-800/90 mt-0.5">
+                                    Berdasarkan jawaban Anda, berikut <strong>${topWeakSubtes.length} subtes terlemah</strong> beserta topik spesifik yang wajib dipelajari sebelum lanjut ke <strong>Try Out Akbar Gelombang ${nextToId}</strong>:
+                                </p>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            ${weakCardsHtml}
+                        </div>
+                        <div class="pt-2 border-t border-rose-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-slate-700">
+                            <span>💡 <strong>Rekomendasi Bimbel:</strong> Pelajari pembahasan topik di atas, lalu uji kenaikan skor Anda di <strong>TO Akbar ${nextToId}</strong>.</span>
+                            <a href="/snbt/pembahasan-akbar.html?to=${toId}" class="shrink-0 font-bold text-rose-700 hover:text-rose-900 underline">Bedah Topik Salah &rarr;</a>
+                        </div>
+                    `;
+                }
+            }
 
             // Breakdown Per Subtes
             const breakdownEl = document.getElementById('result-subtes-breakdown');

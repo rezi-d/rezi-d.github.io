@@ -240,8 +240,26 @@
                     ? 'bg-emerald-100 text-emerald-800'
                     : (isPrem ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800');
                 const badgeText = isGratis
-                    ? '✨ Gratis (Terbuka)'
+                    ? '✨ Gratis (Diagnostic Test)'
                     : (isPrem ? '👑 Akses Terbuka' : '🔒 Khusus Premium');
+
+                let savedRes = null;
+                try {
+                    const raw = localStorage.getItem('snbt_akbar_result_' + to.id) || sessionStorage.getItem('snbt_akbar_result_' + to.id);
+                    if (raw) savedRes = JSON.parse(raw);
+                } catch (e) {}
+
+                let historyHtml = '';
+                if (savedRes && savedRes.grandSkorUtbk) {
+                    let weakestLabel = '';
+                    if (savedRes.subtesScores) {
+                        const entries = Object.entries(savedRes.subtesScores).sort((a, b) => a[1].skorUtbk - b[1].skorUtbk);
+                        if (entries.length > 0 && entries[0][1].skorUtbk < 800) {
+                            weakestLabel = ' • Perkuat: <strong class="text-rose-700 uppercase">' + entries[0][0] + '</strong>';
+                        }
+                    }
+                    historyHtml = '<div class="mb-3 px-3 py-2 rounded-xl bg-emerald-50/90 border border-emerald-200 flex items-center justify-between text-[11px] text-emerald-950"><span>📊 Skor: <strong class="font-black text-emerald-700">' + savedRes.grandSkorUtbk + '</strong>' + weakestLabel + '</span><a href="/snbt/pembahasan-akbar.html?to=' + to.id + '" class="font-bold text-teal-700 hover:underline">Diagnosis &rarr;</a></div>';
+                }
                 
                 return `
                     <div class="bg-white/95 rounded-2xl border ${canAccess ? 'border-indigo-200/90 shadow-md hover:border-indigo-400' : 'border-amber-200/80 shadow-xs'} p-5 sm:p-6 transition flex flex-col justify-between">
@@ -250,15 +268,17 @@
                                 <span class="px-2.5 py-0.5 rounded-full ${badgeClass} text-[11px] font-black uppercase tracking-wider">
                                     ${badgeText}
                                 </span>
-                                <span class="text-xs text-slate-500 font-semibold">Tahun ${to.tahun}</span>
+                                <span class="text-xs text-slate-500 font-semibold">Gelombang ${to.id} / 5</span>
                             </div>
 
                             <h3 class="text-base sm:text-lg font-extrabold text-slate-900 leading-snug mb-2">
                                 ${to.judul}
                             </h3>
-                            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            <p class="text-xs text-slate-600 leading-relaxed mb-3">
                                 ${to.deskripsi}
                             </p>
+
+                            ${historyHtml}
 
                             <!-- Spek Ujian -->
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 grid grid-cols-3 gap-2 text-center mb-5 text-xs">
