@@ -253,108 +253,97 @@ function snbtInjectPremiumModal() {
     if (document.getElementById('snbt-premium-modal')) return;
 
     const modalHtml = `
-    <div id="snbt-premium-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm overflow-y-auto">
-        <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
+    <div id="snbt-premium-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-2.5 sm:p-4 bg-slate-950/70 backdrop-blur-sm" onclick="if(event.target===this)snbtClosePremiumModal()">
+        <div class="relative w-full max-w-md max-h-[94vh] flex flex-col bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             
-            <!-- HEADER MODAL -->
-            <div class="relative bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 text-white p-6 sm:p-7">
-                <button type="button" onclick="snbtClosePremiumModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center transition">
+            <!-- HEADER MODAL RINGKAS (Tombol X selalu tampak jelas) -->
+            <div class="relative bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white px-4 py-3 shrink-0 flex items-center justify-between gap-2">
+                <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-sm">👑</span>
+                        <h3 class="text-sm sm:text-base font-black tracking-tight truncate">
+                            Akses Premium SNBT 2026
+                        </h3>
+                        <span class="hidden px-2 py-0.5 rounded bg-black/20 text-[10px] text-white font-semibold truncate">
+                            <span id="modal-subtes-info"></span>
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-amber-50/95 leading-tight mt-0.5">
+                        Buka semua 35+ paket soal, Try Out Akbar &amp; pembahasan lengkap
+                    </p>
+                </div>
+                <button type="button" onclick="snbtClosePremiumModal()" title="Tutup (Esc)" class="w-7 h-7 rounded-full bg-black/25 hover:bg-black/40 text-white text-xs font-bold flex items-center justify-center shrink-0 transition cursor-pointer">
                     ✕
                 </button>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-amber-100 text-xs font-bold uppercase tracking-wider mb-2">
-                    <span>⭐</span> <span>Akses Eksklusif SNBT 2026</span>
-                </div>
-                <h3 class="text-xl sm:text-2xl font-black tracking-tight">
-                    Buka Seluruh Paket Soal Premium
-                </h3>
-                <p class="text-xs sm:text-sm text-amber-100 mt-1 leading-relaxed">
-                    Tingkatkan peluang lolos PTN impian dengan akses tak terbatas ke seluruh paket soal prediksi &amp; pembahasan mendalam.
-                </p>
-                <div class="hidden mt-3 inline-block px-3 py-1 rounded-lg bg-black/20 text-xs text-white font-medium">
-                    Target: <span id="modal-subtes-info" class="font-bold"></span>
-                </div>
             </div>
 
             <!-- ISI MODAL -->
-            <div class="p-6 sm:p-7 space-y-6">
+            <div class="p-3.5 sm:p-4 space-y-2.5 overflow-y-auto">
                 
-                <!-- KARTU HARGA PROMO -->
-                <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex items-center justify-between">
-                    <div>
-                        <span class="text-xs text-slate-500 line-through">Harga Normal: Rp 75.000</span>
-                        <div class="flex items-baseline gap-1 mt-0.5">
-                            <span class="text-2xl sm:text-3xl font-black text-amber-900">${SNBT_PRICE}</span>
-                            <span class="text-xs text-slate-600 font-semibold">/ 30 Hari</span>
-                        </div>
-                        <span class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-200/70 text-amber-900">
-                            🔥 All-Access Lulus PTN &middot; Hemat 66%
-                        </span>
+                <!-- BAR HARGA PROMO RINGKAS -->
+                <div class="px-3 py-2 rounded-xl bg-amber-50/80 border border-amber-200/80 flex items-center justify-between gap-2">
+                    <div class="flex items-baseline gap-1.5 flex-wrap">
+                        <span class="text-lg sm:text-xl font-black text-amber-900">${SNBT_PRICE}</span>
+                        <span class="text-[11px] text-slate-600 font-semibold">/ 30 Hari</span>
+                        <span class="text-[10px] text-slate-400 line-through">Rp 75.000</span>
                     </div>
-                    <div class="text-right text-xs text-slate-600 space-y-1">
-                        <div class="flex items-center gap-1 text-emerald-700 font-semibold justify-end">
-                            <span>✓</span> Semua 35 Paket 7 Subtes
-                        </div>
-                        <div class="flex items-center gap-1 text-emerald-700 font-semibold justify-end">
-                            <span>✓</span> Try Out Akbar Maraton
-                        </div>
-                        <div class="flex items-center gap-1 text-emerald-700 font-semibold justify-end">
-                            <span>✓</span> Rapor Skor UTBK &amp; Pembahasan
-                        </div>
-                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 shrink-0">
+                        ✓ All-Access 35+ Paket &amp; TO Akbar
+                    </span>
                 </div>
 
                 <!-- TABS: CARA PEMBAYARAN vs AKTIVASI TOKEN -->
-                <div class="space-y-4">
+                <div class="space-y-2.5">
                     <div class="flex rounded-xl bg-slate-100 p-1 text-xs font-bold text-slate-600">
-                        <button type="button" id="tab-btn-pay" onclick="snbtSwitchTab('pay')" class="flex-1 py-2 rounded-lg bg-white text-slate-900 shadow-2xs transition">
-                            1. Bayar via QRIS (${SNBT_PRICE})
+                        <button type="button" id="tab-btn-pay" onclick="snbtSwitchTab('pay')" class="flex-1 py-1.5 rounded-lg bg-white text-slate-900 shadow-2xs transition cursor-pointer">
+                            1. Scan QRIS (${SNBT_PRICE})
                         </button>
-                        <button type="button" id="tab-btn-token" onclick="snbtSwitchTab('token')" class="flex-1 py-2 rounded-lg hover:text-slate-900 transition">
+                        <button type="button" id="tab-btn-token" onclick="snbtSwitchTab('token')" class="flex-1 py-1.5 rounded-lg hover:text-slate-900 transition cursor-pointer">
                             2. Masukkan Kode Lisensi
                         </button>
                     </div>
 
-                    <!-- KONTEN TAB 1: BAYAR QRIS -->
-                    <div id="tab-content-pay" class="space-y-4 text-center">
-                        <p class="text-xs text-slate-600">
-                            Scan QRIS di bawah menggunakan <strong>GoPay, OVO, Dana, ShopeePay, BCA, atau Mobile Banking</strong> apa saja:
+                    <!-- KONTEN TAB 1: BAYAR QRIS (QRIS DIPERBESAR) -->
+                    <div id="tab-content-pay" class="space-y-2 text-center">
+                        <p class="text-[11px] text-slate-600 leading-tight">
+                            Scan via <strong>GoPay, OVO, Dana, ShopeePay, BCA, atau M-Banking</strong>:
                         </p>
-                        <div class="p-3 bg-white border-2 border-dashed border-slate-200 rounded-2xl inline-block shadow-xs">
-                            <img src="/img/qris.png" alt="QRIS Pembayaran SNBT" class="w-48 h-auto mx-auto rounded-lg">
+                        <div class="p-2 bg-white border border-slate-200 rounded-2xl inline-block shadow-xs">
+                            <img src="/img/qris.png" alt="QRIS Pembayaran SNBT" class="w-56 sm:w-64 h-auto mx-auto rounded-lg">
                         </div>
-                        <div class="space-y-2 pt-1">
-                            <a href="https://wa.me/${SNBT_WA_ADMIN}?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp25.000%20via%20QRIS%20untuk%20Aktivasi%20Paket%20Premium%20SNBT%20(30%20Hari).%20Mohon%20kode%20lisensinya%20ya!" target="_blank" rel="noopener" class="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xs transition">
+                        <div class="space-y-1 pt-0.5">
+                            <a href="https://wa.me/${SNBT_WA_ADMIN}?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp25.000%20via%20QRIS%20untuk%20Aktivasi%20Paket%20Premium%20SNBT%20(30%20Hari).%20Mohon%20kode%20lisensinya%20ya!" target="_blank" rel="noopener" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition">
                                 <span>💬</span>
                                 <span>Konfirmasi Transfer ke WhatsApp Admin</span>
                             </a>
-                            <p class="text-[11px] text-slate-400">
-                                Setelah kirim bukti transfer, Admin akan langsung membalas dengan Kode Token unik Anda.
+                            <p class="text-[10px] text-slate-400 leading-tight">
+                                Kirim bukti transfer ke WA Admin untuk menerima Kode Token aktivasi.
                             </p>
                         </div>
                     </div>
 
                     <!-- KONTEN TAB 2: INPUT TOKEN AKTIVASI -->
-                    <div id="tab-content-token" class="hidden space-y-4">
-                        <div class="space-y-3">
+                    <div id="tab-content-token" class="hidden space-y-3 pt-1">
+                        <div class="space-y-2.5">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                                     Nomor WhatsApp Anda (Opsional):
                                 </label>
-                                <input type="tel" id="input-license-phone" placeholder="Contoh: 081234567890" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono">
+                                <input type="tel" id="input-license-phone" placeholder="Contoh: 081234567890" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono">
                             </div>
 
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                                     Kode Token Lisensi:
                                 </label>
-                                <input type="text" id="input-license-token" placeholder="Contoh: SNBT-XXXX-XXXX-XXXX" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono uppercase tracking-wider">
-                                <span class="text-[11px] text-slate-400">Kode unik yang diberikan Admin via WhatsApp (maks. 2 perangkat).</span>
+                                <input type="text" id="input-license-token" placeholder="Contoh: SNBT-XXXX-XXXX-XXXX" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono uppercase tracking-wider">
+                                <span class="text-[10px] text-slate-400">Kode unik yang diberikan Admin via WhatsApp (maks. 2 perangkat).</span>
                             </div>
                         </div>
 
                         <div id="license-feedback" class="text-xs min-h-[16px] font-semibold"></div>
 
-                        <button type="button" id="btn-submit-activation" onclick="snbtSubmitActivation()" class="w-full py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-xs transition">
+                        <button type="button" id="btn-submit-activation" onclick="snbtSubmitActivation()" class="w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition cursor-pointer">
                             <span>🚀</span>
                             <span>Aktifkan Akses Premium (30 Hari)</span>
                         </button>
@@ -369,6 +358,10 @@ function snbtInjectPremiumModal() {
     const div = document.createElement('div');
     div.innerHTML = modalHtml;
     document.body.appendChild(div.firstElementChild);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') snbtClosePremiumModal();
+    });
 }
 
 function snbtSwitchTab(tab) {
@@ -378,13 +371,13 @@ function snbtSwitchTab(tab) {
     const contentToken = document.getElementById('tab-content-token');
 
     if (tab === 'pay') {
-        btnPay.className = "flex-1 py-2 rounded-lg bg-white text-slate-900 shadow-2xs transition";
-        btnToken.className = "flex-1 py-2 rounded-lg hover:text-slate-900 transition";
+        btnPay.className = "flex-1 py-1.5 rounded-lg bg-white text-slate-900 shadow-2xs transition cursor-pointer";
+        btnToken.className = "flex-1 py-1.5 rounded-lg hover:text-slate-900 transition cursor-pointer";
         contentPay.classList.remove('hidden');
         contentToken.classList.add('hidden');
     } else {
-        btnToken.className = "flex-1 py-2 rounded-lg bg-white text-slate-900 shadow-2xs transition";
-        btnPay.className = "flex-1 py-2 rounded-lg hover:text-slate-900 transition";
+        btnToken.className = "flex-1 py-1.5 rounded-lg bg-white text-slate-900 shadow-2xs transition cursor-pointer";
+        btnPay.className = "flex-1 py-1.5 rounded-lg hover:text-slate-900 transition cursor-pointer";
         contentToken.classList.remove('hidden');
         contentPay.classList.add('hidden');
     }

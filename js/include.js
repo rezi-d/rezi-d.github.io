@@ -44,11 +44,21 @@ function getProgres() {
                 completed: parsed.completed || {},
                 scores: parsed.scores || {},
                 studentName: parsed.studentName || '',
-                studentClass: parsed.studentClass || ''
+                studentClass: parsed.studentClass || '',
+                lastVisited: parsed.lastVisited || null
             };
         }
     } catch (e) {}
-    return { completed: {}, scores: {}, studentName: '', studentClass: '' };
+    return { completed: {}, scores: {}, studentName: '', studentClass: '', lastVisited: null };
+}
+
+function getStudentLevel(progres) {
+    const count = Object.keys((progres && progres.completed) || {}).length;
+    if (count >= 30) return { icon: '🏆', title: 'Master Olimpiade', count };
+    if (count >= 15) return { icon: '⚛️', title: 'Riset Spesialis', count };
+    if (count >= 5)  return { icon: '🔬', title: 'Analis Kimia', count };
+    if (count >= 1)  return { icon: '🧪', title: 'Praktikan Muda', count };
+    return { icon: '🌱', title: 'Penjelajah Baru', count: 0 };
 }
 
 function saveProgres(data) {
@@ -159,8 +169,9 @@ function bangunSidebar() {
         </div>
     ` : '';
 
+    const levelInfo = getStudentLevel(progres);
     container.innerHTML = `
-        <aside class="bg-white p-5 rounded-2xl border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.04)] sticky top-20 w-full flex flex-col lg:max-h-[calc(100vh-6rem)]">
+        <aside class="bg-white p-5 rounded-2xl border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.04)] sticky top-16 w-full flex flex-col lg:max-h-[calc(100vh-5rem)]">
             <div class="shrink-0">
                 <div class="flex items-center justify-between mb-1">
                     <p class="text-xs font-semibold text-teal-600 uppercase tracking-wider">${dataKelas.label}</p>
@@ -169,14 +180,18 @@ function bangunSidebar() {
                 <h2 class="text-sm sm:text-base font-bold text-slate-900 mb-2.5 flex items-center gap-1.5 leading-snug">
                     <span>📖</span> <span>${dataBab.title}</span>
                 </h2>
-                <!-- Progress Bar Bab -->
+                <!-- Progress Bar Bab + Level -->
                 <div class="mb-3 pb-2.5 border-b border-black/[0.05]">
                     <div class="flex justify-between text-[11px] text-slate-500 mb-1">
                         <span>Progres Bab</span>
                         <span class="font-bold text-teal-700">${pctBab}%</span>
                     </div>
-                    <div class="w-full h-1.5 bg-black/[0.04] rounded-full overflow-hidden">
+                    <div class="w-full h-1.5 bg-black/[0.04] rounded-full overflow-hidden mb-2">
                         <div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: ${pctBab}%"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px] text-slate-500">
+                        <span class="font-medium text-slate-700">${levelInfo.icon} ${levelInfo.title}</span>
+                        <span>🔥 ${levelInfo.count} materi tuntas</span>
                     </div>
                 </div>
             </div>
@@ -246,7 +261,33 @@ function bangunMenuBeranda() {
     if (!slot || typeof kurikulum === 'undefined') return;
 
     const progres = getProgres();
+    const levelInfo = getStudentLevel(progres);
     let html = '';
+
+    // 1. Baris Kapsul Kontekstual: "Lanjutkan Belajar Terakhir" (Hanya muncul jika siswa sudah pernah membuka sub-materi)
+    if (progres.lastVisited && progres.lastVisited.url && progres.lastVisited.subTitle) {
+        const lv = progres.lastVisited;
+        html += `
+            <div class="col-span-full bg-[#f5f5f7] border border-black/[0.06] rounded-2xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <span class="w-8 h-8 rounded-xl bg-white border border-black/[0.06] flex items-center justify-center text-sm shrink-0 shadow-2xs">📌</span>
+                    <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-500 font-medium">
+                            <span>Terakhir dipelajari (${lv.kelasLabel || ''} &bull; ${lv.babTitle || ''})</span>
+                            <span class="hidden sm:inline">&bull;</span>
+                            <span class="text-teal-700 font-semibold">${levelInfo.icon} ${levelInfo.title} (${levelInfo.count} selesai)</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-bold text-slate-900 truncate">${lv.subTitle}</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <a href="${lv.url}" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold transition shadow-2xs">
+                        <span>Lanjutkan</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
+            </div>`;
+    }
 
     for (const [kelasId, dataKelas] of Object.entries(kurikulum)) {
         const adaIsi = dataKelas.bab && dataKelas.bab.length > 0;
@@ -318,7 +359,292 @@ function bangunMenuBeranda() {
             </a>`;
     });
 
+    // 2. Kartu Minimalis "Tantangan Kilat Hari Ini" (Smart Random 1-Question Challenge)
+    html += `
+        <div id="tantangan-kilat-card" class="col-span-full mt-2 bg-[#f5f5f7] border border-black/[0.06] rounded-[28px] p-6 sm:p-8 transition-all"></div>
+    `;
+
     slot.innerHTML = html;
+    initTantanganKilat();
+}
+
+// =================================================================
+// TANTANGAN KILAT HARI INI (Smart Non-Repeating Random Question)
+// =================================================================
+const BANK_TANTANGAN_KILAT = [
+    {
+        id: 'q1',
+        tag: 'Kelas X • Struktur Atom',
+        q: 'Dalam eksperimen lempeng emas tipis (Gold Foil), sebagian kecil partikel alfa memantul balik dengan sudut besar. Apa kesimpulan utama Rutherford dari fenomena ini?',
+        opts: [
+            'Atom merupakan bola pejal bermuatan positif merata',
+            'Massa dan muatan positif atom terpusat pada inti yang sangat kecil dan padat',
+            'Elektron bergerak mengelilingi inti pada lintasan stasioner',
+            'Neutron tidak memiliki muatan listrik'
+        ],
+        ans: 1,
+        exp: 'Pantulan partikel alfa bermuatan positif membuktikan adanya inti atom (nukleus) bermuatan positif yang sangat rapat di pusat ruang hampa atom.',
+        link: '/kelas-10/struktur-atom/eksperimen-gold-foil-rutherford.html',
+        linkLabel: 'Pelajari Eksperimen Rutherford'
+    },
+    {
+        id: 'q2',
+        tag: 'Kelas X • Struktur Atom',
+        q: 'Ion ²⁷₁₃Al³⁺ memiliki jumlah proton, elektron, dan neutron berturut-turut sebanyak...',
+        opts: [
+            '13 proton, 13 elektron, 14 neutron',
+            '13 proton, 10 elektron, 14 neutron',
+            '13 proton, 16 elektron, 14 neutron',
+            '14 proton, 10 elektron, 13 neutron'
+        ],
+        ans: 1,
+        exp: 'Nomor atom Z = 13 (13 proton). Muatan +3 berarti melepas 3 elektron (13 − 3 = 10 elektron). Neutron = 27 − 13 = 14.',
+        link: '/kelas-10/struktur-atom/nomor-atom-nomor-massa-dan-muatan-netto.html',
+        linkLabel: 'Pelajari Nomor Atom & Ion'
+    },
+    {
+        id: 'q3',
+        tag: 'Kelas X • Reaksi Redoks',
+        q: 'Berapakah bilangan oksidasi atom Mangan (Mn) di dalam ion permanganat (MnO₄⁻)?',
+        opts: ['+4', '+5', '+6', '+7'],
+        ans: 3,
+        exp: 'Biloks O = −2. Maka Mn + 4(−2) = −1, sehingga biloks Mn = +7.',
+        link: '/kelas-10/reaksi-redoks/aturan-dan-penentuan-bilangan-oksidasi.html',
+        linkLabel: 'Pelajari Aturan Bilangan Oksidasi'
+    },
+    {
+        id: 'q4',
+        tag: 'Kelas X • Hukum Dasar Kimia',
+        q: 'Karbon dan oksigen dapat membentuk dua senyawa berbeda: CO (perbandingan massa O = 1) dan CO₂ (perbandingan massa O = 2) untuk massa C yang tetap. Fakta ini membuktikan...',
+        opts: [
+            'Hukum Kekekalan Massa (Lavoisier)',
+            'Hukum Perbandingan Tetap (Proust)',
+            'Hukum Perbandingan Berganda (Dalton)',
+            'Hukum Perbandingan Volume (Gay-Lussac)'
+        ],
+        ans: 2,
+        exp: 'Dua unsur yang dapat membentuk lebih dari satu senyawa memiliki rasio massa unsur kedua berupa bilangan bulat sederhana (1 : 2) — inilah Hukum Dalton.',
+        link: '/kelas-10/hukum-dasar-kimia/hukum-perbandingan-berganda-dalton.html',
+        linkLabel: 'Pelajari Hukum Dalton'
+    },
+    {
+        id: 'q5',
+        tag: 'Kelas XI • Ikatan Kimia',
+        q: 'Molekul NH₃ memiliki 3 pasangan elektron ikatan (PEI) dan 1 pasangan elektron bebas (PEB) pada atom pusat N (AX₃E). Bentuk molekul NH₃ adalah...',
+        opts: [
+            'Segitiga datar (Trigonal planar)',
+            'Tetrahedral simetris',
+            'Piramida trigonal (Trigonal pyramidal)',
+            'Bentuk T (T-shaped)'
+        ],
+        ans: 2,
+        exp: 'Tipe AX₃E memiliki tolakan PEB yang menekan ketiga ikatan N–H membentuk geometri Piramida Trigonal dengan sudut ~107°.',
+        link: '/kelas-11/ikatan-kimia/bentuk-molekul-vsepr.html',
+        linkLabel: 'Buka Simulator VSEPR 3D'
+    },
+    {
+        id: 'q6',
+        tag: 'Kelas XI • Stoikiometri',
+        q: 'Pada reaksi 2H₂ + O₂ → 2H₂O, jika direaksikan 4 mol gas H₂ dengan 3 mol gas O₂, manakah yang bertindak sebagai pereaksi pembatas?',
+        opts: [
+            'Gas O₂ (bersisa 0 mol)',
+            'Gas H₂ (habis bereaksi lebih dulu)',
+            'Keduanya habis tepat bereaksi',
+            'Uap air H₂O'
+        ],
+        ans: 1,
+        exp: 'Bagi mol dengan koefisien: H₂ = 4/2 = 2, sedangkan O₂ = 3/1 = 3. Nilai terkecil (H₂) habis lebih dulu sebagai pereaksi pembatas.',
+        link: '/kelas-11/stoikiometri/pereaksi-pembatas.html',
+        linkLabel: 'Pelajari Pereaksi Pembatas'
+    },
+    {
+        id: 'q7',
+        tag: 'Kelas XI • Termokimia',
+        q: 'Ketika kristal urea dilarutkan ke dalam air di gelas kimia, dinding gelas terasa dingin saat disentuh. Pernyataan yang tepat adalah...',
+        opts: [
+            'Reaksi eksoterm, kalor berpindah dari sistem ke lingkungan (ΔH < 0)',
+            'Reaksi endoterm, sistem menyerap kalor dari lingkungan (ΔH > 0)',
+            'Reaksi eksoterm, entalpi produk lebih besar dari reaktan',
+            'Tidak terjadi perpindahan kalor (ΔH = 0)'
+        ],
+        ans: 1,
+        exp: 'Gelas terasa dingin karena sistem menyerap kalor dari lingkungan sekitarnya (reaksi endoterm, bertanda ΔH positif).',
+        link: '/kelas-11/termokimia/konsep-dasar-termokimia.html',
+        linkLabel: 'Pelajari Konsep Termokimia'
+    },
+    {
+        id: 'q8',
+        tag: 'Kelas XI • Kesetimbangan Kimia',
+        q: 'Untuk kesetimbangan eksoterm: N₂(g) + 3H₂(g) ⇌ 2NH₃(g) (ΔH = −92 kJ), langkah apa yang memaksimalkan pembentukan amonia (NH₃)?',
+        opts: [
+            'Menaikkan suhu dan memperbesar volume',
+            'Menurunkan suhu dan memperbesar tekanan (memperkecil volume)',
+            'Menambahkan gas inert pada volume tetap',
+            'Mengurangi konsentrasi gas N₂'
+        ],
+        ans: 1,
+        exp: 'Menurut Asas Le Châtelier, penurunan suhu menggeser kesetimbangan ke arah eksoterm (kanan), dan peningkatan tekanan menggeser ke koefisien gas yang lebih kecil (4 mol → 2 mol).',
+        link: '/kelas-11/kesetimbangan-kimia/pergeseran-kesetimbangan-le-chatelier.html',
+        linkLabel: 'Pelajari Asas Le Châtelier'
+    },
+    {
+        id: 'q9',
+        tag: 'Kelas XI • Asam & Basa',
+        q: 'Berapakah nilai pH dari larutan asam kuat H₂SO₄ 0,005 M (diasumsikan terionisasi sempurna 2 tahap pada konsentrasi encer)?',
+        opts: ['1', '2', '3 − log 5', '2 − log 5'],
+        ans: 1,
+        exp: '[H⁺] = a × M = 2 × 0,005 M = 0,01 M = 10⁻² M. Maka pH = −log(10⁻²) = 2.',
+        link: '/kelas-11/asam-basa/derajat-keasaman-ph-poh.html',
+        linkLabel: 'Pelajari Perhitungan pH & pOH'
+    },
+    {
+        id: 'q10',
+        tag: 'Kelas XII • Sel Volta',
+        q: 'Diketahui E° Zn²⁺/Zn = −0,76 V dan E° Cu²⁺/Cu = +0,34 V. Berapakah potensial sel standar (E°sel) dari sel Galvani Zn | Zn²⁺ || Cu²⁺ | Cu?',
+        opts: ['−1,10 V', '+0,42 V', '+1,10 V', '−0,42 V'],
+        ans: 2,
+        exp: 'E°sel = E°katode (Cu) − E°anode (Zn) = (+0,34) − (−0,76) = +1,10 V.',
+        link: '/kelas-12/sel-volta/anode-katode-potensial-sel.html',
+        linkLabel: 'Pelajari Potensial Sel Volta'
+    },
+    {
+        id: 'q11',
+        tag: 'Simulasi SNBT • Penalaran Kuantitatif',
+        q: 'Suatu larutan garam 200 mL memiliki kadar 15%. Berapa mL air murni yang harus ditambahkan agar kadarnya turun menjadi 10%?',
+        opts: ['50 mL', '80 mL', '100 mL', '150 mL'],
+        ans: 2,
+        exp: 'Jumlah zat terlarut tetap: 200 × 15% = (200 + V) × 10% → 3000 = 2000 + 10V → V = 100 mL air.',
+        link: '/snbt/index.html',
+        linkLabel: 'Coba Simulasi SNBT Gratis'
+    },
+    {
+        id: 'q12',
+        tag: 'Simulasi SNBT • Penalaran Umum',
+        q: 'Semua logam alkali sangat reaktif terhadap air. Natrium adalah logam alkali. Kesimpulan logis yang pasti benar adalah...',
+        opts: [
+            'Semua zat yang reaktif terhadap air adalah natrium',
+            'Natrium sangat reaktif terhadap air',
+            'Hanya natrium yang bereaksi dengan air',
+            'Logam selain alkali tidak bereaksi dengan air'
+        ],
+        ans: 1,
+        exp: 'Silogisme Modus Ponens: Karena semua anggota himpunan logam alkali reaktif terhadap air dan Natrium adalah anggotanya, maka Natrium pasti reaktif terhadap air.',
+        link: '/snbt/index.html',
+        linkLabel: 'Latihan Penalaran Umum SNBT'
+    }
+];
+
+function initTantanganKilat() {
+    const card = document.getElementById('tantangan-kilat-card');
+    if (!card) return;
+
+    const STORAGE_KEY = 'kimia_quick_quiz_v1';
+    function getQuizState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return { seen: [], correctCount: 0 };
+    }
+    function saveQuizState(st) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(st)); } catch (e) {}
+    }
+
+    function pickQuestion(excludeId) {
+        const st = getQuizState();
+        let pool = BANK_TANTANGAN_KILAT.filter(item => !st.seen.includes(item.id) && item.id !== excludeId);
+        if (pool.length === 0) {
+            st.seen = [];
+            saveQuizState(st);
+            pool = BANK_TANTANGAN_KILAT.filter(item => item.id !== excludeId);
+        }
+        const chosen = pool[Math.floor(Math.random() * pool.length)] || BANK_TANTANGAN_KILAT[0];
+        return chosen;
+    }
+
+    function renderQuestion(item) {
+        const st = getQuizState();
+        const letters = ['A', 'B', 'C', 'D'];
+        card.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-black/[0.06] text-[11px] font-bold text-[#0071e3] shadow-2xs">
+                        <span>⚡</span> <span>Tantangan Kilat 30 Detik</span>
+                    </span>
+                    <span class="text-xs font-semibold text-slate-500">${item.tag}</span>
+                </div>
+                <div class="flex items-center gap-3 text-xs">
+                    ${st.correctCount > 0 ? `<span class="font-semibold text-emerald-700">🎯 ${st.correctCount} Terjawab Benar</span>` : ''}
+                    <button type="button" id="btn-skip-kilat" class="text-slate-500 hover:text-slate-900 font-semibold transition cursor-pointer">
+                        ↻ Acak Soal Lain
+                    </button>
+                </div>
+            </div>
+            <p class="text-sm sm:text-base font-bold text-slate-900 leading-relaxed mb-4">${item.q}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="kilat-opts">
+                ${item.opts.map((opt, idx) => `
+                    <button type="button" data-idx="${idx}" class="kilat-opt-btn text-left px-4 py-3 rounded-2xl bg-white hover:bg-slate-50 border border-black/[0.07] text-xs sm:text-sm font-medium text-slate-800 transition-all flex items-center gap-2.5 cursor-pointer shadow-2xs">
+                        <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0">${letters[idx]}</span>
+                        <span>${opt}</span>
+                    </button>
+                `).join('')}
+            </div>
+            <div id="kilat-feedback" class="hidden mt-4 pt-4 border-t border-black/[0.06]"></div>
+        `;
+
+        card.querySelector('#btn-skip-kilat').addEventListener('click', () => {
+            renderQuestion(pickQuestion(item.id));
+        });
+
+        const buttons = card.querySelectorAll('.kilat-opt-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const chosenIdx = parseInt(btn.getAttribute('data-idx'), 10);
+                const isCorrect = chosenIdx === item.ans;
+
+                buttons.forEach((b, i) => {
+                    b.disabled = true;
+                    b.classList.remove('hover:bg-slate-50');
+                    if (i === item.ans) {
+                        b.className = 'kilat-opt-btn text-left px-4 py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-900 transition-all flex items-center gap-2.5';
+                    } else if (i === chosenIdx && !isCorrect) {
+                        b.className = 'kilat-opt-btn text-left px-4 py-3 rounded-2xl bg-rose-50 border-2 border-rose-400 text-xs sm:text-sm font-semibold text-rose-900 transition-all flex items-center gap-2.5';
+                    } else {
+                        b.classList.add('opacity-55');
+                    }
+                });
+
+                const cur = getQuizState();
+                if (!cur.seen.includes(item.id)) cur.seen.push(item.id);
+                if (isCorrect) cur.correctCount = (cur.correctCount || 0) + 1;
+                saveQuizState(cur);
+
+                const fb = card.querySelector('#kilat-feedback');
+                fb.classList.remove('hidden');
+                fb.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            <span class="font-bold ${isCorrect ? 'text-emerald-700' : 'text-rose-600'}">${isCorrect ? '✅ Tepat sekali!' : '💡 Kurang tepat.'}</span>
+                            ${item.exp}
+                        </p>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <a href="${item.link}" class="px-3.5 py-2 rounded-full bg-white hover:bg-slate-100 border border-black/[0.08] text-xs font-semibold text-slate-800 transition">
+                                📖 ${item.linkLabel} &rarr;
+                            </a>
+                            <button type="button" id="btn-next-kilat" class="px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold transition cursor-pointer">
+                                Soal Berikutnya ↻
+                            </button>
+                        </div>
+                    </div>
+                `;
+                fb.querySelector('#btn-next-kilat').addEventListener('click', () => {
+                    renderQuestion(pickQuestion(item.id));
+                });
+            });
+        });
+    }
+
+    renderQuestion(pickQuestion(null));
 }
 
 // Membangun DAFTAR ISI CEPAT (Table of Contents / Quick Jump) secara OTOMATIS
@@ -588,30 +914,69 @@ function initProgresDanKuis() {
     const babTitle = dataBab ? dataBab.title : 'Kimia SMA';
     const kelasLabel = dataKelas ? dataKelas.label : `Kelas ${kelasId}`;
 
-    // 1. Sisipkan Tombol "Tandai Selesai Dipelajari" di atas navigasi bawah
+    // Simpan otomatis sebagai "Terakhir Dipelajari" (lastVisited) agar siswa mudah melanjutkan
+    try {
+        const pInit = getProgres();
+        pInit.lastVisited = {
+            url: location.pathname,
+            subTitle,
+            babTitle,
+            kelasLabel,
+            kelasId,
+            timestamp: Date.now()
+        };
+        saveProgres(pInit);
+    } catch (e) {}
+
+    // Cari sub-bab berikutnya untuk tombol lanjut cepat
+    const curSubIdx = dataBab && Array.isArray(dataBab.subbab)
+        ? dataBab.subbab.findIndex(s => s.file === halamanIni)
+        : -1;
+    const nextSubItem = (curSubIdx >= 0 && curSubIdx < dataBab.subbab.length - 1)
+        ? dataBab.subbab[curSubIdx + 1]
+        : null;
+
+    // 1. Sisipkan Tombol "Tandai Selesai Dipelajari" + Rekomendasi Pintar dalam 1 kotak bersih di atas navigasi bawah
     const navBawah = Array.from(article.children).find(el => el.tagName === 'DIV' && el.className.includes('justify-between') && el.className.includes('border-t'));
     const doneBar = document.createElement('div');
-    doneBar.className = 'mt-8 p-4 rounded-xl border border-slate-200 bg-slate-50/80 flex flex-col sm:flex-row items-center justify-between gap-3';
+    doneBar.className = 'mt-8 p-4 sm:p-5 rounded-2xl border border-slate-200 bg-slate-50/80 space-y-3';
 
     function renderDoneBar() {
         const progres = getProgres();
         const isDone = !!progres.completed[subKey];
         const score = progres.scores[subKey];
+        const levelInfo = getStudentLevel(progres);
         doneBar.innerHTML = `
-            <div class="flex items-center gap-2.5 text-xs sm:text-sm">
-                <span class="text-xl">${isDone ? '✅' : '📖'}</span>
-                <div>
-                    <p class="font-bold ${isDone ? 'text-emerald-800' : 'text-slate-800'}">
-                        ${isDone ? 'Sub-Bab Ini Sudah Selesai Dipelajari!' : 'Sudah selesai membaca materi di halaman ini?'}
-                    </p>
-                    <p class="text-[11px] text-slate-500">
-                        ${score ? `Skor Latihan Mandiri Terakhir: <b>${score.correct}/${score.total} Benar (Nilai ${score.pct})</b>` : 'Tandai selesai atau kerjakan latihan soal di atas untuk menyimpan progresmu.'}
-                    </p>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 text-xs sm:text-sm">
+                    <span class="text-xl">${isDone ? '✅' : '📖'}</span>
+                    <div>
+                        <p class="font-bold ${isDone ? 'text-emerald-800' : 'text-slate-800'}">
+                            ${isDone ? 'Sub-Bab Ini Sudah Selesai Dipelajari!' : 'Sudah selesai membaca materi di halaman ini?'}
+                        </p>
+                        <p class="text-[11px] text-slate-500">
+                            ${score ? `Skor Latihan Mandiri: <b>${score.correct}/${score.total} Benar (Nilai ${score.pct})</b> &bull; ` : ''}${levelInfo.icon} ${levelInfo.title} (${levelInfo.count} materi tuntas)
+                        </p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 shrink-0">
+                    <button type="button" id="btn-toggle-selesai" class="px-3.5 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${isDone ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs' : 'bg-white hover:bg-teal-50 text-teal-700 border border-teal-300'}">
+                        ${isDone ? '✓ Selesai Dipelajari' : '☐ Tandai Selesai'}
+                    </button>
+                    ${nextSubItem ? `
+                        <a href="${nextSubItem.file}" class="px-3.5 py-2 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-bold transition shadow-2xs">
+                            Lanjut Berikutnya &rarr;
+                        </a>
+                    ` : ''}
                 </div>
             </div>
-            <button type="button" id="btn-toggle-selesai" class="px-4 py-2 rounded-lg text-xs font-bold transition shrink-0 cursor-pointer ${isDone ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs' : 'bg-white hover:bg-teal-50 text-teal-700 border border-teal-300'}">
-                ${isDone ? '✓ Selesai Dipelajari (Klik untuk Batal)' : '☐ Tandai Selesai Dipelajari'}
-            </button>
+            <div class="pt-2.5 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span class="text-slate-500 font-medium">🎯 Ingin uji kesiapan ujian &amp; peluang PTN impianmu?</span>
+                <div class="flex flex-wrap items-center gap-3 font-semibold">
+                    <a href="/snbt/index.html" class="text-teal-700 hover:text-teal-900 hover:underline">📚 Coba Simulasi SNBT Gratis &rarr;</a>
+                    <a href="/tka/prediksi-ptn.html" class="text-[#0071e3] hover:underline">🎯 Kalkulator Prediksi PTN &rarr;</a>
+                </div>
+            </div>
         `;
         const btn = doneBar.querySelector('#btn-toggle-selesai');
         if (btn) {
