@@ -909,6 +909,13 @@ initGoogleAnalytics();
 
 document.addEventListener('DOMContentLoaded', () => {
     initSEO();
+    const hp = document.getElementById('header-placeholder');
+    if (hp) {
+        hp.classList.add('sticky', 'top-0', 'z-50');
+        hp.style.position = 'sticky';
+        hp.style.top = '0';
+        hp.style.zIndex = '50';
+    }
     loadPartial('/partials/header.html', 'header-placeholder', () => {
         bangunModulLainNav();
         aturTombolBeranda();
