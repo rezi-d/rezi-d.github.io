@@ -183,10 +183,14 @@ async function snbtLoadSoalList(subtesId, paketId) {
     return await res.json();
 }
 
-// Ambil data Try Out Akbar beserta seluruh butir soal dari Worker
+// Ambil data Try Out Akbar beserta seluruh butir soal (Gratis dari snbt-akbar-data.js, Premium dari Worker)
 async function snbtLoadAkbar(toId) {
     const meta = typeof getSnbtAkbar === 'function' ? getSnbtAkbar(toId) : null;
     if (!meta) throw new Error('Paket Try Out Akbar tidak ditemukan.');
+
+    if (meta.status !== 'premium') {
+        return meta;
+    }
 
     const token = localStorage.getItem('snbt_premium_token') || '';
     if (!token) {

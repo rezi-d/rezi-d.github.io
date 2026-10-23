@@ -234,14 +234,21 @@
             const isPrem = typeof snbtIsPremiumActive === 'function' && snbtIsPremiumActive();
 
             const toCardsHtml = snbtTryOutAkbar.map(to => {
-                const canAccess = isPrem; // Try Out Akbar khusus siswa premium
+                const isGratis = to.status !== 'premium';
+                const canAccess = isGratis || isPrem;
+                const badgeClass = isGratis
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : (isPrem ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800');
+                const badgeText = isGratis
+                    ? '✨ Gratis (Terbuka)'
+                    : (isPrem ? '👑 Akses Terbuka' : '🔒 Khusus Premium');
                 
                 return `
                     <div class="bg-white/95 rounded-2xl border ${canAccess ? 'border-indigo-200/90 shadow-md hover:border-indigo-400' : 'border-amber-200/80 shadow-xs'} p-5 sm:p-6 transition flex flex-col justify-between">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-3">
-                                <span class="px-2.5 py-0.5 rounded-full ${canAccess ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'} text-[11px] font-black uppercase tracking-wider">
-                                    ${canAccess ? '👑 Akses Terbuka' : '🔒 Khusus Premium'}
+                                <span class="px-2.5 py-0.5 rounded-full ${badgeClass} text-[11px] font-black uppercase tracking-wider">
+                                    ${badgeText}
                                 </span>
                                 <span class="text-xs text-slate-500 font-semibold">Tahun ${to.tahun}</span>
                             </div>
@@ -320,7 +327,7 @@
                     </div>
 
                     <!-- Grid Card Edisi Try Out Akbar -->
-                    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4">
                         ${toCardsHtml}
                     </div>
                 </div>
