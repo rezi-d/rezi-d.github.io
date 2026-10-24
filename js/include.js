@@ -359,9 +359,47 @@ function bangunMenuBeranda() {
             </a>`;
     });
 
-    // 2. Kartu Minimalis "Tantangan Kilat Hari Ini" (Smart Random 1-Question Challenge)
+    // 2. Banner Elegan "Tantangan Kilat Hari Ini" (Pemicu Pop-Up & Statistik)
+    const quizState = (function() {
+        try {
+            const raw = localStorage.getItem('kimia_quick_quiz_v1');
+            if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return { seen: [], correctCount: 0 };
+    })();
+
+    const statLabel = quizState.correctCount > 0 
+        ? `🎯 ${quizState.correctCount} Terjawab` 
+        : `⚡ 30 Detik`;
+
     html += `
-        <div id="tantangan-kilat-card" class="col-span-full mt-2 bg-[#f5f5f7] border border-black/[0.06] rounded-[28px] p-6 sm:p-8 transition-all"></div>
+        <div class="col-span-full mt-2 bg-gradient-to-r from-amber-50 via-orange-50/50 to-amber-50/30 border border-amber-200/80 rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs hover:shadow-md transition-all">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center text-2xl shadow-sm shrink-0">
+                    ⚡
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Tantangan Harian</span>
+                        <span id="kilat-banner-stat" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-800 border border-amber-200">
+                            ${statLabel}
+                        </span>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mt-0.5">
+                        Tantangan Kilat Kimia Hari Ini
+                    </h3>
+                    <p class="text-xs text-slate-600 mt-0.5">
+                        Asah refleks konsep kimiamu dengan 1 soal acak cepat standar UTBK SNPMB &amp; Raymond Chang.
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <button type="button" onclick="bukaTantanganKilatModal()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition cursor-pointer">
+                    <span>⚡ Mainkan Tantangan</span>
+                    <span class="text-base leading-none">&rsaquo;</span>
+                </button>
+            </div>
+        </div>
     `;
 
     slot.innerHTML = html;
@@ -534,117 +572,227 @@ const BANK_TANTANGAN_KILAT = [
     }
 ];
 
-function initTantanganKilat() {
-    const card = document.getElementById('tantangan-kilat-card');
-    if (!card) return;
+// =================================================================
+// MODAL POP-UP & BANNER: TANTANGAN KILAT HARI INI
+// =================================================================
+const STORAGE_KILAT_KEY = 'kimia_quick_quiz_v1';
+const SESSION_KILAT_KEY = 'kimia_tantangan_kilat_session_shown';
 
-    const STORAGE_KEY = 'kimia_quick_quiz_v1';
-    function getQuizState() {
+function getKilatQuizState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KILAT_KEY);
+        if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return { seen: [], correctCount: 0 };
+}
+
+function saveKilatQuizState(st) {
+    try { localStorage.setItem(STORAGE_KILAT_KEY, JSON.stringify(st)); } catch (e) {}
+}
+
+function pickKilatQuestion(excludeId) {
+    const st = getKilatQuizState();
+    let pool = BANK_TANTANGAN_KILAT.filter(item => !st.seen.includes(item.id) && item.id !== excludeId);
+    if (pool.length === 0) {
+        st.seen = [];
+        saveKilatQuizState(st);
+        pool = BANK_TANTANGAN_KILAT.filter(item => item.id !== excludeId);
+    }
+    return pool[Math.floor(Math.random() * pool.length)] || BANK_TANTANGAN_KILAT[0];
+}
+
+let activeKilatQuestion = null;
+
+function renderTantanganQuestion(item) {
+    activeKilatQuestion = item;
+    const body = document.getElementById('tantangan-kilat-body');
+    if (!body) return;
+
+    const st = getKilatQuizState();
+    const letters = ['A', 'B', 'C', 'D'];
+
+    body.innerHTML = `
+        <div class="flex items-center justify-between gap-2 mb-2 pr-8">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 border border-amber-300/80 text-[11px] font-extrabold shadow-2xs">
+                <span>⚡</span> <span>Tantangan Kilat 30 Detik</span>
+            </span>
+            <span class="text-xs font-semibold text-slate-500 truncate max-w-[200px] text-right">${item.tag}</span>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-slate-500 mb-4 pb-2.5 border-b border-slate-100">
+            <div>
+                ${st.correctCount > 0 ? `<span class="font-bold text-emerald-700">🎯 ${st.correctCount} Soal Terjawab Benar</span>` : '<span class="text-slate-400">Pilih 1 jawaban yang paling tepat:</span>'}
+            </div>
+            <button type="button" id="btn-skip-kilat-modal" class="text-slate-500 hover:text-slate-900 font-semibold transition cursor-pointer flex items-center gap-1">
+                <span>↻</span> <span>Acak Soal</span>
+            </button>
+        </div>
+
+        <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug mb-5">
+            ${item.q}
+        </h3>
+
+        <div class="space-y-2.5" id="kilat-opts">
+            ${item.opts.map((opt, idx) => `
+                <button type="button" data-idx="${idx}" class="kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/90 text-xs sm:text-sm font-medium text-slate-800 transition-all flex items-center gap-3 cursor-pointer shadow-2xs">
+                    <span class="w-6 h-6 rounded-full bg-white border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">${letters[idx]}</span>
+                    <span class="leading-relaxed">${opt}</span>
+                </button>
+            `).join('')}
+        </div>
+
+        <div id="kilat-feedback" class="hidden mt-5 pt-4 border-t border-slate-100 space-y-3.5"></div>
+
+        <div id="kilat-footer-unanswered" class="mt-5 pt-3 flex items-center justify-between text-xs text-slate-400">
+            <span>Uji refleks kimia standar UTBK &amp; Raymond Chang</span>
+            <button type="button" onclick="closeTantanganKilatModal()" class="text-slate-500 hover:text-slate-900 font-semibold underline underline-offset-2 transition cursor-pointer">
+                Nanti Saja
+            </button>
+        </div>
+    `;
+
+    // Re-render KaTeX jika ada
+    if (typeof renderMathInElement === 'function') {
         try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (raw) return JSON.parse(raw);
+            renderMathInElement(body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
         } catch (e) {}
-        return { seen: [], correctCount: 0 };
-    }
-    function saveQuizState(st) {
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(st)); } catch (e) {}
     }
 
-    function pickQuestion(excludeId) {
-        const st = getQuizState();
-        let pool = BANK_TANTANGAN_KILAT.filter(item => !st.seen.includes(item.id) && item.id !== excludeId);
-        if (pool.length === 0) {
-            st.seen = [];
-            saveQuizState(st);
-            pool = BANK_TANTANGAN_KILAT.filter(item => item.id !== excludeId);
-        }
-        const chosen = pool[Math.floor(Math.random() * pool.length)] || BANK_TANTANGAN_KILAT[0];
-        return chosen;
-    }
+    body.querySelector('#btn-skip-kilat-modal').addEventListener('click', () => {
+        renderTantanganQuestion(pickKilatQuestion(item.id));
+    });
 
-    function renderQuestion(item) {
-        const st = getQuizState();
-        const letters = ['A', 'B', 'C', 'D'];
-        card.innerHTML = `
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-                <div class="flex items-center gap-2">
-                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-black/[0.06] text-[11px] font-bold text-[#0071e3] shadow-2xs">
-                        <span>⚡</span> <span>Tantangan Kilat 30 Detik</span>
-                    </span>
-                    <span class="text-xs font-semibold text-slate-500">${item.tag}</span>
-                </div>
-                <div class="flex items-center gap-3 text-xs">
-                    ${st.correctCount > 0 ? `<span class="font-semibold text-emerald-700">🎯 ${st.correctCount} Terjawab Benar</span>` : ''}
-                    <button type="button" id="btn-skip-kilat" class="text-slate-500 hover:text-slate-900 font-semibold transition cursor-pointer">
-                        ↻ Acak Soal Lain
-                    </button>
-                </div>
-            </div>
-            <p class="text-sm sm:text-base font-bold text-slate-900 leading-relaxed mb-4">${item.q}</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="kilat-opts">
-                ${item.opts.map((opt, idx) => `
-                    <button type="button" data-idx="${idx}" class="kilat-opt-btn text-left px-4 py-3 rounded-2xl bg-white hover:bg-slate-50 border border-black/[0.07] text-xs sm:text-sm font-medium text-slate-800 transition-all flex items-center gap-2.5 cursor-pointer shadow-2xs">
-                        <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0">${letters[idx]}</span>
-                        <span>${opt}</span>
-                    </button>
-                `).join('')}
-            </div>
-            <div id="kilat-feedback" class="hidden mt-4 pt-4 border-t border-black/[0.06]"></div>
-        `;
+    const buttons = body.querySelectorAll('.kilat-opt-btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const chosenIdx = parseInt(btn.getAttribute('data-idx'), 10);
+            const isCorrect = chosenIdx === item.ans;
 
-        card.querySelector('#btn-skip-kilat').addEventListener('click', () => {
-            renderQuestion(pickQuestion(item.id));
-        });
+            buttons.forEach((b, i) => {
+                b.disabled = true;
+                b.classList.remove('hover:bg-slate-100/80');
+                if (i === item.ans) {
+                    b.className = 'kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-950 transition-all flex items-center gap-3 shadow-xs';
+                } else if (i === chosenIdx && !isCorrect) {
+                    b.className = 'kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-rose-50 border-2 border-rose-400 text-xs sm:text-sm font-semibold text-rose-950 transition-all flex items-center gap-3 shadow-xs';
+                } else {
+                    b.classList.add('opacity-45');
+                }
+            });
 
-        const buttons = card.querySelectorAll('.kilat-opt-btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const chosenIdx = parseInt(btn.getAttribute('data-idx'), 10);
-                const isCorrect = chosenIdx === item.ans;
+            const cur = getKilatQuizState();
+            if (!cur.seen.includes(item.id)) cur.seen.push(item.id);
+            if (isCorrect) cur.correctCount = (cur.correctCount || 0) + 1;
+            saveKilatQuizState(cur);
 
-                buttons.forEach((b, i) => {
-                    b.disabled = true;
-                    b.classList.remove('hover:bg-slate-50');
-                    if (i === item.ans) {
-                        b.className = 'kilat-opt-btn text-left px-4 py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-900 transition-all flex items-center gap-2.5';
-                    } else if (i === chosenIdx && !isCorrect) {
-                        b.className = 'kilat-opt-btn text-left px-4 py-3 rounded-2xl bg-rose-50 border-2 border-rose-400 text-xs sm:text-sm font-semibold text-rose-900 transition-all flex items-center gap-2.5';
-                    } else {
-                        b.classList.add('opacity-55');
-                    }
-                });
+            // Update badge di banner beranda jika elemennya ada
+            const statBadge = document.getElementById('kilat-banner-stat');
+            if (statBadge && cur.correctCount > 0) {
+                statBadge.textContent = `🎯 ${cur.correctCount} Terjawab`;
+            }
 
-                const cur = getQuizState();
-                if (!cur.seen.includes(item.id)) cur.seen.push(item.id);
-                if (isCorrect) cur.correctCount = (cur.correctCount || 0) + 1;
-                saveQuizState(cur);
+            const unans = body.querySelector('#kilat-footer-unanswered');
+            if (unans) unans.classList.add('hidden');
 
-                const fb = card.querySelector('#kilat-feedback');
-                fb.classList.remove('hidden');
-                fb.innerHTML = `
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-                            <span class="font-bold ${isCorrect ? 'text-emerald-700' : 'text-rose-600'}">${isCorrect ? '✅ Tepat sekali!' : '💡 Kurang tepat.'}</span>
-                            ${item.exp}
-                        </p>
-                        <div class="flex items-center gap-2 shrink-0">
-                            <a href="${item.link}" class="px-3.5 py-2 rounded-full bg-white hover:bg-slate-100 border border-black/[0.08] text-xs font-semibold text-slate-800 transition">
-                                📖 ${item.linkLabel} &rarr;
-                            </a>
-                            <button type="button" id="btn-next-kilat" class="px-4 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-xs font-semibold transition cursor-pointer">
-                                Soal Berikutnya ↻
-                            </button>
-                        </div>
+            const fb = body.querySelector('#kilat-feedback');
+            fb.classList.remove('hidden');
+            fb.innerHTML = `
+                <div class="p-4 rounded-2xl ${isCorrect ? 'bg-emerald-50/90 border border-emerald-200/90 text-emerald-950' : 'bg-rose-50/90 border border-rose-200/90 text-rose-950'} text-xs sm:text-sm leading-relaxed space-y-1">
+                    <div class="font-bold flex items-center gap-1.5 ${isCorrect ? 'text-emerald-800' : 'text-rose-800'}">
+                        <span>${isCorrect ? '✅ Jawaban Anda Tepat Sekali!' : '💡 Pembahasan Singkat:'}</span>
                     </div>
-                `;
-                fb.querySelector('#btn-next-kilat').addEventListener('click', () => {
-                    renderQuestion(pickQuestion(item.id));
-                });
+                    <p class="text-slate-800">${item.exp}</p>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
+                    <a href="${item.link}" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition">
+                        <span>📖 ${item.linkLabel}</span>
+                        <span>&rarr;</span>
+                    </a>
+                    <div class="flex items-center gap-2">
+                        <button type="button" onclick="closeTantanganKilatModal()" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-semibold transition cursor-pointer">
+                            Tutup
+                        </button>
+                        <button type="button" id="btn-next-kilat-modal" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-bold transition shadow-xs cursor-pointer flex items-center justify-center gap-1">
+                            <span>Soal Berikutnya</span>
+                            <span>↻</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            fb.querySelector('#btn-next-kilat-modal').addEventListener('click', () => {
+                renderTantanganQuestion(pickKilatQuestion(item.id));
             });
         });
-    }
+    });
+}
 
-    renderQuestion(pickQuestion(null));
+function injectTantanganKilatModal() {
+    if (document.getElementById('tantangan-kilat-modal')) return;
+
+    const modalHtml = `
+        <div id="tantangan-kilat-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden overflow-y-auto" onclick="if(event.target===this)closeTantanganKilatModal()">
+            <div class="min-h-full flex items-start justify-center p-4 sm:p-6">
+                <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 transform transition-all my-auto relative animate-in fade-in zoom-in-95 duration-200">
+                    <button type="button" onclick="closeTantanganKilatModal()" title="Tutup (Esc)" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 text-sm font-bold flex items-center justify-center transition cursor-pointer">
+                        ✕
+                    </button>
+                    <div id="tantangan-kilat-body"></div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    // Global listener untuk tombol Escape
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const m = document.getElementById('tantangan-kilat-modal');
+            if (m && !m.classList.contains('hidden')) {
+                closeTantanganKilatModal();
+            }
+        }
+    });
+}
+
+window.bukaTantanganKilatModal = function() {
+    injectTantanganKilatModal();
+    const modal = document.getElementById('tantangan-kilat-modal');
+    if (!modal) return;
+
+    if (!activeKilatQuestion) {
+        renderTantanganQuestion(pickKilatQuestion(null));
+    }
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+};
+
+window.closeTantanganKilatModal = function() {
+    const modal = document.getElementById('tantangan-kilat-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+    document.body.classList.remove('overflow-hidden');
+};
+
+function initTantanganKilat() {
+    injectTantanganKilatModal();
+
+    // Auto pop-up 1x per sesi kunjungan di Beranda
+    const diBeranda = !!document.getElementById('menu-beranda');
+    if (diBeranda && !sessionStorage.getItem(SESSION_KILAT_KEY)) {
+        sessionStorage.setItem(SESSION_KILAT_KEY, 'true');
+        setTimeout(() => {
+            bukaTantanganKilatModal();
+        }, 700);
+    }
 }
 
 // Membangun DAFTAR ISI CEPAT (Table of Contents / Quick Jump) secara OTOMATIS
