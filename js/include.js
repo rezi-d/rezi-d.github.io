@@ -359,18 +359,36 @@ function bangunMenuBeranda() {
             </a>`;
     });
 
-    // 2. Banner Elegan "Tantangan Kilat Hari Ini" (Pemicu Pop-Up & Statistik)
-    const quizState = (function() {
+    // 2. Banner Elegan "Tantangan Kilat Hari Ini" (Murni 1 Soal Harian)
+    const dailyState = (function() {
         try {
-            const raw = localStorage.getItem('kimia_quick_quiz_v1');
-            if (raw) return JSON.parse(raw);
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = String(now.getMonth() + 1).padStart(2, '0');
+            const d = String(now.getDate()).padStart(2, '0');
+            const today = `${y}-${m}-${d}`;
+            const raw = localStorage.getItem('kimia_daily_challenge_v2');
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (parsed.date === today) return parsed;
+            }
         } catch (e) {}
-        return { seen: [], correctCount: 0 };
+        return null;
     })();
 
-    const statLabel = quizState.correctCount > 0 
-        ? `🎯 ${quizState.correctCount} Terjawab` 
-        : `⚡ 30 Detik`;
+    const isAlreadyDone = dailyState && dailyState.answered;
+    const bannerBadge = isAlreadyDone 
+        ? `✅ Selesai • 🔥 Streak ${dailyState.streak} Hari`
+        : `⚡ 1 Soal Harian`;
+    const bannerBadgeClass = isAlreadyDone
+        ? `bg-emerald-100 text-emerald-800 border border-emerald-300`
+        : `bg-white text-amber-800 border border-amber-200`;
+    const bannerSubtitle = isAlreadyDone
+        ? `Tantangan hari ini sudah tuntas. Kembali lagi besok untuk soal baru!`
+        : `Uji refleks konsep kimiamu dengan 1 soal cepat standar UTBK SNPMB &amp; Raymond Chang (30 detik).`;
+    const bannerBtnLabel = isAlreadyDone
+        ? `Lihat Pembahasan`
+        : `Mainkan Tantangan`;
 
     html += `
         <div class="col-span-full mt-2 bg-gradient-to-r from-amber-50 via-orange-50/50 to-amber-50/30 border border-amber-200/80 rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs hover:shadow-md transition-all">
@@ -381,21 +399,21 @@ function bangunMenuBeranda() {
                 <div>
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Tantangan Harian</span>
-                        <span id="kilat-banner-stat" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-800 border border-amber-200">
-                            ${statLabel}
+                        <span id="kilat-banner-stat" class="px-2 py-0.5 rounded-full text-[10px] font-bold ${bannerBadgeClass}">
+                            ${bannerBadge}
                         </span>
                     </div>
                     <h3 class="text-base sm:text-lg font-bold text-slate-900 mt-0.5">
                         Tantangan Kilat Kimia Hari Ini
                     </h3>
-                    <p class="text-xs text-slate-600 mt-0.5">
-                        Asah refleks konsep kimiamu dengan 1 soal acak cepat standar UTBK SNPMB &amp; Raymond Chang.
+                    <p id="kilat-banner-subtitle" class="text-xs text-slate-600 mt-0.5">
+                        ${bannerSubtitle}
                     </p>
                 </div>
             </div>
             <div class="flex items-center gap-2 shrink-0">
                 <button type="button" onclick="bukaTantanganKilatModal()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 active:scale-[0.98] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition cursor-pointer">
-                    <span>⚡ Mainkan Tantangan</span>
+                    <span id="kilat-banner-btn-text">${bannerBtnLabel}</span>
                     <span class="text-base leading-none">&rsaquo;</span>
                 </button>
             </div>
@@ -573,85 +591,295 @@ const BANK_TANTANGAN_KILAT = [
 ];
 
 // =================================================================
-// MODAL POP-UP & BANNER: TANTANGAN KILAT HARI INI
+// TANTANGAN KILAT HARI INI (MURNI 1 SOAL HARIAN / DAILY CHALLENGE)
 // =================================================================
-const STORAGE_KILAT_KEY = 'kimia_quick_quiz_v1';
+const STORAGE_DAILY_KEY = 'kimia_daily_challenge_v2';
 const SESSION_KILAT_KEY = 'kimia_tantangan_kilat_session_shown';
 
-function getKilatQuizState() {
+function getTodayDateString() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+
+function getDailyState() {
+    const today = getTodayDateString();
+    let state = null;
     try {
-        const raw = localStorage.getItem(STORAGE_KILAT_KEY);
-        if (raw) return JSON.parse(raw);
+        const raw = localStorage.getItem(STORAGE_DAILY_KEY);
+        if (raw) state = JSON.parse(raw);
     } catch (e) {}
-    return { seen: [], correctCount: 0 };
-}
 
-function saveKilatQuizState(st) {
-    try { localStorage.setItem(STORAGE_KILAT_KEY, JSON.stringify(st)); } catch (e) {}
-}
+    if (!state || state.date !== today) {
+        let currentStreak = 0;
+        if (state && state.answered) {
+            const prev = new Date(state.date);
+            const curr = new Date(today);
+            const diffDays = Math.round((curr - prev) / (1000 * 60 * 60 * 24));
+            if (diffDays === 1) {
+                currentStreak = (state.streak || 1);
+            } else if (diffDays === 0) {
+                currentStreak = (state.streak || 1);
+            } else {
+                currentStreak = 0;
+            }
+        }
 
-function pickKilatQuestion(excludeId) {
-    const st = getKilatQuizState();
-    let pool = BANK_TANTANGAN_KILAT.filter(item => !st.seen.includes(item.id) && item.id !== excludeId);
-    if (pool.length === 0) {
-        st.seen = [];
-        saveKilatQuizState(st);
-        pool = BANK_TANTANGAN_KILAT.filter(item => item.id !== excludeId);
+        const seen = (state && Array.isArray(state.seen)) ? state.seen : [];
+        let pool = BANK_TANTANGAN_KILAT.filter(q => !seen.includes(q.id));
+        if (pool.length === 0) {
+            pool = BANK_TANTANGAN_KILAT;
+        }
+        const chosen = pool[Math.floor(Math.random() * pool.length)] || BANK_TANTANGAN_KILAT[0];
+
+        state = {
+            date: today,
+            questionId: chosen.id,
+            answered: false,
+            chosenIdx: null,
+            isCorrect: null,
+            streak: currentStreak,
+            seen: seen
+        };
+        saveDailyState(state);
     }
-    return pool[Math.floor(Math.random() * pool.length)] || BANK_TANTANGAN_KILAT[0];
+    return state;
 }
 
-let activeKilatQuestion = null;
+function saveDailyState(st) {
+    try {
+        localStorage.setItem(STORAGE_DAILY_KEY, JSON.stringify(st));
+    } catch (e) {}
+}
 
-function renderTantanganQuestion(item) {
-    activeKilatQuestion = item;
+function updateBerandaBanner(st) {
+    const badge = document.getElementById('kilat-banner-stat');
+    const subtitle = document.getElementById('kilat-banner-subtitle');
+    const btnText = document.getElementById('kilat-banner-btn-text');
+
+    if (st.answered) {
+        if (badge) {
+            badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300';
+            badge.textContent = `✅ Selesai • 🔥 Streak ${st.streak} Hari`;
+        }
+        if (subtitle) {
+            subtitle.textContent = `Tantangan hari ini sudah tuntas. Kembali lagi besok untuk soal baru!`;
+        }
+        if (btnText) {
+            btnText.textContent = `Lihat Pembahasan`;
+        }
+    } else {
+        if (badge) {
+            badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-800 border border-amber-200';
+            badge.textContent = `⚡ 1 Soal Harian`;
+        }
+        if (subtitle) {
+            subtitle.textContent = `Uji refleks konsep kimiamu dengan 1 soal cepat standar UTBK SNPMB & Raymond Chang (30 detik).`;
+        }
+        if (btnText) {
+            btnText.textContent = `Mainkan Tantangan`;
+        }
+    }
+}
+
+function renderTantanganModal() {
     const body = document.getElementById('tantangan-kilat-body');
     if (!body) return;
 
-    const st = getKilatQuizState();
+    const st = getDailyState();
+    const item = BANK_TANTANGAN_KILAT.find(q => q.id === st.questionId) || BANK_TANTANGAN_KILAT[0];
     const letters = ['A', 'B', 'C', 'D'];
 
-    body.innerHTML = `
-        <div class="flex items-center justify-between gap-2 mb-2 pr-8">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 border border-amber-300/80 text-[11px] font-extrabold shadow-2xs">
-                <span>⚡</span> <span>Tantangan Kilat 30 Detik</span>
-            </span>
-            <span class="text-xs font-semibold text-slate-500 truncate max-w-[200px] text-right">${item.tag}</span>
-        </div>
-
-        <div class="flex items-center justify-between text-xs text-slate-500 mb-4 pb-2.5 border-b border-slate-100">
-            <div>
-                ${st.correctCount > 0 ? `<span class="font-bold text-emerald-700">🎯 ${st.correctCount} Soal Terjawab Benar</span>` : '<span class="text-slate-400">Pilih 1 jawaban yang paling tepat:</span>'}
+    if (!st.answered) {
+        // Mode 1: Soal Harian Belum Dijawab (Hanya 1 Soal Cepat)
+        body.innerHTML = `
+            <div class="flex items-center justify-between gap-2 mb-2 pr-8">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 border border-amber-300/80 text-[11px] font-extrabold shadow-2xs">
+                    <span>⚡</span> <span>Tantangan Harian (1 Soal)</span>
+                </span>
+                <span class="text-xs font-semibold text-slate-500 truncate max-w-[200px] text-right">${item.tag}</span>
             </div>
-            <button type="button" id="btn-skip-kilat-modal" class="text-slate-500 hover:text-slate-900 font-semibold transition cursor-pointer flex items-center gap-1">
-                <span>↻</span> <span>Acak Soal</span>
-            </button>
-        </div>
 
-        <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug mb-5">
-            ${item.q}
-        </h3>
+            <div class="flex items-center justify-between text-xs text-slate-500 mb-4 pb-2.5 border-b border-slate-100">
+                <span class="text-slate-600 font-medium">Uji refleks kimiamu hari ini dalam 30 detik:</span>
+                ${st.streak > 0 ? `<span class="font-bold text-amber-600 flex items-center gap-1"><span>🔥</span> <span>Streak ${st.streak} Hari</span></span>` : ''}
+            </div>
 
-        <div class="space-y-2.5" id="kilat-opts">
-            ${item.opts.map((opt, idx) => `
-                <button type="button" data-idx="${idx}" class="kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/90 text-xs sm:text-sm font-medium text-slate-800 transition-all flex items-center gap-3 cursor-pointer shadow-2xs">
-                    <span class="w-6 h-6 rounded-full bg-white border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">${letters[idx]}</span>
-                    <span class="leading-relaxed">${opt}</span>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug mb-5">
+                ${item.q}
+            </h3>
+
+            <div class="space-y-2.5" id="kilat-opts">
+                ${item.opts.map((opt, idx) => `
+                    <button type="button" data-idx="${idx}" class="kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/90 text-xs sm:text-sm font-medium text-slate-800 transition-all flex items-center gap-3 cursor-pointer shadow-2xs">
+                        <span class="w-6 h-6 rounded-full bg-white border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">${letters[idx]}</span>
+                        <span class="leading-relaxed">${opt}</span>
+                    </button>
+                `).join('')}
+            </div>
+
+            <div id="kilat-feedback" class="hidden mt-5 pt-4 border-t border-slate-100 space-y-3.5"></div>
+
+            <div id="kilat-footer-unanswered" class="mt-5 pt-3 flex items-center justify-between text-xs text-slate-400">
+                <span>Hanya 1 soal per hari</span>
+                <button type="button" onclick="closeTantanganKilatModal()" class="text-slate-500 hover:text-slate-900 font-semibold underline underline-offset-2 transition cursor-pointer">
+                    Nanti Saja
                 </button>
-            `).join('')}
-        </div>
+            </div>
+        `;
 
-        <div id="kilat-feedback" class="hidden mt-5 pt-4 border-t border-slate-100 space-y-3.5"></div>
+        const buttons = body.querySelectorAll('.kilat-opt-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const chosenIdx = parseInt(btn.getAttribute('data-idx'), 10);
+                const isCorrect = chosenIdx === item.ans;
 
-        <div id="kilat-footer-unanswered" class="mt-5 pt-3 flex items-center justify-between text-xs text-slate-400">
-            <span>Uji refleks kimia standar UTBK &amp; Raymond Chang</span>
-            <button type="button" onclick="closeTantanganKilatModal()" class="text-slate-500 hover:text-slate-900 font-semibold underline underline-offset-2 transition cursor-pointer">
-                Nanti Saja
-            </button>
-        </div>
-    `;
+                buttons.forEach((b, i) => {
+                    b.disabled = true;
+                    b.classList.remove('hover:bg-slate-100/80');
+                    if (i === item.ans) {
+                        b.className = 'kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-950 transition-all flex items-center gap-3 shadow-xs';
+                    } else if (i === chosenIdx && !isCorrect) {
+                        b.className = 'kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-rose-50 border-2 border-rose-400 text-xs sm:text-sm font-semibold text-rose-950 transition-all flex items-center gap-3 shadow-xs';
+                    } else {
+                        b.classList.add('opacity-45');
+                    }
+                });
 
-    // Re-render KaTeX jika ada
+                // Update state: selesai hari ini
+                st.answered = true;
+                st.chosenIdx = chosenIdx;
+                st.isCorrect = isCorrect;
+                st.streak = (st.streak || 0) + 1;
+                if (!st.seen.includes(item.id)) st.seen.push(item.id);
+                saveDailyState(st);
+
+                // Update banner di Beranda
+                updateBerandaBanner(st);
+
+                const unans = body.querySelector('#kilat-footer-unanswered');
+                if (unans) unans.classList.add('hidden');
+
+                const fb = body.querySelector('#kilat-feedback');
+                fb.classList.remove('hidden');
+                fb.innerHTML = `
+                    <div class="p-4 rounded-2xl ${isCorrect ? 'bg-emerald-50/90 border border-emerald-200/90 text-emerald-950' : 'bg-rose-50/90 border border-rose-200/90 text-rose-950'} text-xs sm:text-sm leading-relaxed space-y-1.5">
+                        <div class="font-bold flex items-center justify-between">
+                            <span class="${isCorrect ? 'text-emerald-800' : 'text-rose-800'} flex items-center gap-1.5">
+                                <span>${isCorrect ? '🎉 Jawaban Tepat Sekali!' : '💡 Kurang Tepat, Tapi Hebat Sudah Berani Mencoba!'}</span>
+                            </span>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-amber-700 font-extrabold text-xs shadow-2xs">
+                                <span>🔥</span> <span>Streak ${st.streak} Hari</span>
+                            </span>
+                        </div>
+                        <p class="text-slate-800">${item.exp}</p>
+                    </div>
+
+                    <div class="text-center py-1">
+                        <p class="text-xs font-semibold text-slate-500">
+                            ✨ <strong>Tantangan hari ini selesai!</strong> Kembali lagi besok untuk soal baru.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
+                        <a href="${item.link}" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition">
+                            <span>📖 ${item.linkLabel}</span>
+                            <span>&rarr;</span>
+                        </a>
+                        <button type="button" onclick="closeTantanganKilatModal()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white text-xs sm:text-sm font-bold transition shadow-md cursor-pointer text-center">
+                            Selesai &amp; Mulai Belajar &rarr;
+                        </button>
+                    </div>
+                `;
+            });
+        });
+
+    } else {
+        // Mode 2: Soal Hari Ini Sudah Diselesaikan (Tampilan Review)
+        body.innerHTML = `
+            <div class="flex items-center justify-between gap-2 mb-2 pr-8">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/90 text-emerald-900 border border-emerald-300/80 text-[11px] font-extrabold shadow-2xs">
+                    <span>✅</span> <span>Tantangan Hari Ini Sudah Selesai</span>
+                </span>
+                <span class="text-xs font-semibold text-slate-500 truncate max-w-[200px] text-right">${item.tag}</span>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-slate-500 mb-4 pb-2.5 border-b border-slate-100">
+                <span class="text-slate-600 font-medium">Rekap pengerjaan Anda hari ini:</span>
+                <span class="font-bold text-amber-600 flex items-center gap-1"><span>🔥</span> <span>Streak ${st.streak} Hari</span></span>
+            </div>
+
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug mb-5">
+                ${item.q}
+            </h3>
+
+            <div class="space-y-2.5" id="kilat-opts">
+                ${item.opts.map((opt, idx) => {
+                    let optClass = 'kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl text-xs sm:text-sm font-medium transition-all flex items-center gap-3 ';
+                    if (idx === item.ans) {
+                        optClass += 'bg-emerald-50 border-2 border-emerald-500 text-emerald-950 font-bold shadow-xs';
+                    } else if (idx === st.chosenIdx && !st.isCorrect) {
+                        optClass += 'bg-rose-50 border-2 border-rose-400 text-rose-950 font-semibold shadow-xs';
+                    } else {
+                        optClass += 'bg-slate-50 border border-slate-200/90 text-slate-800 opacity-45';
+                    }
+                    return `
+                        <div class="${optClass}">
+                            <span class="w-6 h-6 rounded-full bg-white border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">${letters[idx]}</span>
+                            <span class="leading-relaxed">${opt}</span>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-100 space-y-3.5">
+                <div class="p-4 rounded-2xl ${st.isCorrect ? 'bg-emerald-50/90 border border-emerald-200/90 text-emerald-950' : 'bg-rose-50/90 border border-rose-200/90 text-rose-950'} text-xs sm:text-sm leading-relaxed space-y-1">
+                    <div class="font-bold flex items-center gap-1.5 ${st.isCorrect ? 'text-emerald-800' : 'text-rose-800'}">
+                        <span>${st.isCorrect ? '✅ Jawaban Anda Tepat!' : '💡 Pembahasan Singkat:'}</span>
+                    </div>
+                    <p class="text-slate-800">${item.exp}</p>
+                </div>
+
+                <div class="text-center py-1">
+                    <p class="text-xs text-slate-500">
+                        Soal baru akan tersedia kembali besok. Semangat belajarnya! 🔥
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
+                    <a href="${item.link}" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition">
+                        <span>📖 ${item.linkLabel}</span>
+                        <span>&rarr;</span>
+                    </a>
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="btn-reset-kilat-test" class="text-xs text-slate-400 hover:text-slate-600 underline px-2 py-1 transition cursor-pointer" title="Hanya untuk pengujian">
+                            ↻ Reset Soal Uji
+                        </button>
+                        <button type="button" onclick="closeTantanganKilatModal()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold transition shadow-xs cursor-pointer text-center">
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const resetBtn = body.querySelector('#btn-reset-kilat-test');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                st.answered = false;
+                st.chosenIdx = null;
+                st.isCorrect = null;
+                const available = BANK_TANTANGAN_KILAT.filter(q => q.id !== item.id);
+                st.questionId = (available[Math.floor(Math.random() * available.length)] || BANK_TANTANGAN_KILAT[0]).id;
+                saveDailyState(st);
+                updateBerandaBanner(st);
+                renderTantanganModal();
+            });
+        }
+    }
+
     if (typeof renderMathInElement === 'function') {
         try {
             renderMathInElement(body, {
@@ -663,74 +891,6 @@ function renderTantanganQuestion(item) {
             });
         } catch (e) {}
     }
-
-    body.querySelector('#btn-skip-kilat-modal').addEventListener('click', () => {
-        renderTantanganQuestion(pickKilatQuestion(item.id));
-    });
-
-    const buttons = body.querySelectorAll('.kilat-opt-btn');
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const chosenIdx = parseInt(btn.getAttribute('data-idx'), 10);
-            const isCorrect = chosenIdx === item.ans;
-
-            buttons.forEach((b, i) => {
-                b.disabled = true;
-                b.classList.remove('hover:bg-slate-100/80');
-                if (i === item.ans) {
-                    b.className = 'kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-950 transition-all flex items-center gap-3 shadow-xs';
-                } else if (i === chosenIdx && !isCorrect) {
-                    b.className = 'kilat-opt-btn w-full text-left px-4 py-3 rounded-2xl bg-rose-50 border-2 border-rose-400 text-xs sm:text-sm font-semibold text-rose-950 transition-all flex items-center gap-3 shadow-xs';
-                } else {
-                    b.classList.add('opacity-45');
-                }
-            });
-
-            const cur = getKilatQuizState();
-            if (!cur.seen.includes(item.id)) cur.seen.push(item.id);
-            if (isCorrect) cur.correctCount = (cur.correctCount || 0) + 1;
-            saveKilatQuizState(cur);
-
-            // Update badge di banner beranda jika elemennya ada
-            const statBadge = document.getElementById('kilat-banner-stat');
-            if (statBadge && cur.correctCount > 0) {
-                statBadge.textContent = `🎯 ${cur.correctCount} Terjawab`;
-            }
-
-            const unans = body.querySelector('#kilat-footer-unanswered');
-            if (unans) unans.classList.add('hidden');
-
-            const fb = body.querySelector('#kilat-feedback');
-            fb.classList.remove('hidden');
-            fb.innerHTML = `
-                <div class="p-4 rounded-2xl ${isCorrect ? 'bg-emerald-50/90 border border-emerald-200/90 text-emerald-950' : 'bg-rose-50/90 border border-rose-200/90 text-rose-950'} text-xs sm:text-sm leading-relaxed space-y-1">
-                    <div class="font-bold flex items-center gap-1.5 ${isCorrect ? 'text-emerald-800' : 'text-rose-800'}">
-                        <span>${isCorrect ? '✅ Jawaban Anda Tepat Sekali!' : '💡 Pembahasan Singkat:'}</span>
-                    </div>
-                    <p class="text-slate-800">${item.exp}</p>
-                </div>
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
-                    <a href="${item.link}" class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition">
-                        <span>📖 ${item.linkLabel}</span>
-                        <span>&rarr;</span>
-                    </a>
-                    <div class="flex items-center gap-2">
-                        <button type="button" onclick="closeTantanganKilatModal()" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-semibold transition cursor-pointer">
-                            Tutup
-                        </button>
-                        <button type="button" id="btn-next-kilat-modal" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-bold transition shadow-xs cursor-pointer flex items-center justify-center gap-1">
-                            <span>Soal Berikutnya</span>
-                            <span>↻</span>
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            fb.querySelector('#btn-next-kilat-modal').addEventListener('click', () => {
-                renderTantanganQuestion(pickKilatQuestion(item.id));
-            });
-        });
-    });
 }
 
 function injectTantanganKilatModal() {
@@ -751,7 +911,6 @@ function injectTantanganKilatModal() {
 
     document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-    // Global listener untuk tombol Escape
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             const m = document.getElementById('tantangan-kilat-modal');
@@ -767,9 +926,7 @@ window.bukaTantanganKilatModal = function() {
     const modal = document.getElementById('tantangan-kilat-modal');
     if (!modal) return;
 
-    if (!activeKilatQuestion) {
-        renderTantanganQuestion(pickKilatQuestion(null));
-    }
+    renderTantanganModal();
     modal.classList.remove('hidden');
     document.body.classList.add('overflow-hidden');
 };
@@ -785,9 +942,12 @@ window.closeTantanganKilatModal = function() {
 function initTantanganKilat() {
     injectTantanganKilatModal();
 
-    // Auto pop-up 1x per sesi kunjungan di Beranda
     const diBeranda = !!document.getElementById('menu-beranda');
-    if (diBeranda && !sessionStorage.getItem(SESSION_KILAT_KEY)) {
+    if (!diBeranda) return;
+
+    const dailySt = getDailyState();
+    // Hanya auto-popup jika HARI INI BELUM DIJAWAB dan BELUM PERNAH POPUP di sesi tab ini
+    if (!dailySt.answered && !sessionStorage.getItem(SESSION_KILAT_KEY)) {
         sessionStorage.setItem(SESSION_KILAT_KEY, 'true');
         setTimeout(() => {
             bukaTantanganKilatModal();
