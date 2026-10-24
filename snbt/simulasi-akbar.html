@@ -193,103 +193,107 @@
     </main>
 
     <!-- MODAL KONFIRMASI KUMPULKAN -->
-    <div id="modal-confirm" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-center space-y-4">
-            <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-3xl mx-auto">
-                ⚠️
-            </div>
-            <h3 class="font-bold text-slate-900 text-lg sm:text-xl">
-                Selesaikan Try Out Akbar?
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Pastikan Anda telah memeriksa jawaban seluruh 7 subtes. Setelah dikumpulkan, hasil analisis skor UTBK dan rapor nilai akan langsung dihitung.
-            </p>
+    <div id="modal-confirm" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden overflow-y-auto">
+        <div class="min-h-full flex items-start justify-center p-4 sm:p-6">
+            <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-center space-y-4 my-auto">
+                <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-3xl mx-auto">
+                    ⚠️
+                </div>
+                <h3 class="font-bold text-slate-900 text-lg sm:text-xl">
+                    Selesaikan Try Out Akbar?
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Pastikan Anda telah memeriksa jawaban seluruh 7 subtes. Setelah dikumpulkan, hasil analisis skor UTBK dan rapor nilai akan langsung dihitung.
+                </p>
 
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2">
-                <div class="flex justify-between">
-                    <span class="text-slate-500">Total Soal Terjawab:</span>
-                    <strong id="modal-summary-answered" class="text-teal-700">0 Soal</strong>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Total Soal Terjawab:</span>
+                        <strong id="modal-summary-answered" class="text-teal-700">0 Soal</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Soal Ragu-ragu:</span>
+                        <strong id="modal-summary-ragu" class="text-amber-700">0 Soal</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">Soal Belum Terjawab:</span>
+                        <strong id="modal-summary-empty" class="text-rose-700">0 Soal</strong>
+                    </div>
                 </div>
-                <div class="flex justify-between">
-                    <span class="text-slate-500">Soal Ragu-ragu:</span>
-                    <strong id="modal-summary-ragu" class="text-amber-700">0 Soal</strong>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-slate-500">Soal Belum Terjawab:</span>
-                    <strong id="modal-summary-empty" class="text-rose-700">0 Soal</strong>
-                </div>
-            </div>
 
-            <div class="flex items-center gap-3 pt-2">
-                <button onclick="closeConfirmModal()" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm hover:bg-slate-50 transition">
-                    Kembali Periksa
-                </button>
-                <button onclick="submitAkbarExam()" class="w-1/2 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md transition">
-                    Ya, Kumpulkan
-                </button>
+                <div class="flex items-center gap-3 pt-2">
+                    <button onclick="closeConfirmModal()" class="w-1/2 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs sm:text-sm hover:bg-slate-50 transition">
+                        Kembali Periksa
+                    </button>
+                    <button onclick="submitAkbarExam()" class="w-1/2 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md transition">
+                        Ya, Kumpulkan
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- MODAL HASIL & RAPOR UTBK LENGKAP -->
-    <div id="modal-result" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 my-8">
-            <div class="text-center space-y-2">
-                <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-bold text-xs border border-amber-300">
-                    🏆 Rapor Hasil Try Out Akbar SNBT 2026
-                </span>
-                <h3 id="result-to-title" class="font-extrabold text-slate-900 text-lg sm:text-2xl">
-                    Simulasi Penuh 7 Subtes
-                </h3>
-                <p class="text-xs text-slate-500">Penilaian Berbasis Pembobotan Skala UTBK SNPMB Resmi (200 - 1000)</p>
-            </div>
-
-            <!-- Big Score Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="p-5 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white text-center shadow-md">
-                    <span class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Rata-Rata Skor UTBK</span>
-                    <div id="result-avg-score" class="text-4xl sm:text-5xl font-extrabold my-1">
-                        0
-                    </div>
-                    <p class="text-xs text-teal-100">Skala Standar Nasional (200 - 1000)</p>
+    <div id="modal-result" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden overflow-y-auto">
+        <div class="min-h-full flex items-start justify-center p-4 sm:p-6">
+            <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 my-auto">
+                <div class="text-center space-y-2">
+                    <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-bold text-xs border border-amber-300">
+                        🏆 Rapor Hasil Try Out Akbar SNBT 2026
+                    </span>
+                    <h3 id="result-to-title" class="font-extrabold text-slate-900 text-lg sm:text-2xl">
+                        Simulasi Penuh 7 Subtes
+                    </h3>
+                    <p class="text-xs text-slate-500">Penilaian Berbasis Pembobotan Skala UTBK SNPMB Resmi (200 - 1000)</p>
                 </div>
-                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-center gap-2 text-xs">
-                    <div class="flex justify-between items-center pb-1.5 border-b border-slate-200">
-                        <span class="text-slate-500">Total Benar:</span>
-                        <span id="result-count-benar" class="font-bold text-emerald-600">0 Soal</span>
+
+                <!-- Big Score Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-5 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white text-center shadow-md">
+                        <span class="text-xs font-semibold text-teal-100 uppercase tracking-wider">Rata-Rata Skor UTBK</span>
+                        <div id="result-avg-score" class="text-4xl sm:text-5xl font-extrabold my-1">
+                            0
+                        </div>
+                        <p class="text-xs text-teal-100">Skala Standar Nasional (200 - 1000)</p>
                     </div>
-                    <div class="flex justify-between items-center pb-1.5 border-b border-slate-200">
-                        <span class="text-slate-500">Total Salah:</span>
-                        <span id="result-count-salah" class="font-bold text-rose-600">0 Soal</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-500">Tidak Dijawab:</span>
-                        <span id="result-count-kosong" class="font-bold text-slate-600">0 Soal</span>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-center gap-2 text-xs">
+                        <div class="flex justify-between items-center pb-1.5 border-b border-slate-200">
+                            <span class="text-slate-500">Total Benar:</span>
+                            <span id="result-count-benar" class="font-bold text-emerald-600">0 Soal</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-1.5 border-b border-slate-200">
+                            <span class="text-slate-500">Total Salah:</span>
+                            <span id="result-count-salah" class="font-bold text-rose-600">0 Soal</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-500">Tidak Dijawab:</span>
+                            <span id="result-count-kosong" class="font-bold text-slate-600">0 Soal</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Diagnosis Kelemahan Topik & Rekomendasi Belajar -->
-            <div id="result-weakness-diagnosis" class="hidden"></div>
+                <!-- Diagnosis Kelemahan Topik & Rekomendasi Belajar -->
+                <div id="result-weakness-diagnosis" class="hidden"></div>
 
-            <!-- Rapor Breakdown per Subtes -->
-            <div>
-                <h4 class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider mb-3">
-                    📊 Rincian Nilai per Subtes
-                </h4>
-                <div id="result-subtes-breakdown" class="space-y-2 text-xs">
-                    <!-- Diisi otomatis oleh JavaScript -->
+                <!-- Rapor Breakdown per Subtes -->
+                <div>
+                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider mb-3">
+                        📊 Rincian Nilai per Subtes
+                    </h4>
+                    <div id="result-subtes-breakdown" class="space-y-2 text-xs">
+                        <!-- Diisi otomatis oleh JavaScript -->
+                    </div>
                 </div>
-            </div>
 
-            <!-- Action Buttons -->
-            <div class="flex items-center gap-3 pt-3 flex-col sm:flex-row">
-                <a id="result-btn-pembahasan" href="#" class="w-full sm:w-1/2 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm text-center shadow-md transition">
-                    📖 Buka Pembahasan Lengkap
-                </a>
-                <a href="/snbt/index.html" class="w-full sm:w-1/2 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm text-center transition">
-                    Kembali ke Hub SNBT
-                </a>
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-3 pt-3 flex-col sm:flex-row">
+                    <a id="result-btn-pembahasan" href="#" class="w-full sm:w-1/2 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm text-center shadow-md transition">
+                        📖 Buka Pembahasan Lengkap
+                    </a>
+                    <a href="/snbt/index.html" class="w-full sm:w-1/2 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm text-center transition">
+                        Kembali ke Hub SNBT
+                    </a>
+                </div>
             </div>
         </div>
     </div>
