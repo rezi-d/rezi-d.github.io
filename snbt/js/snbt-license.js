@@ -1,11 +1,11 @@
 // =================================================================
 // snbt/js/snbt-license.js
-// Sistem Lisensi Paket Premium SNBT 30 Hari (Rp 25.000)
+// Sistem Lisensi Paket Premium SNBT 30 Hari (Rp 35.000)
 // Validasi Server-Side via Cloudflare Worker + D1 (Anti-Bypass)
 // =================================================================
 
 const SNBT_API_URL = "https://kimia-snbt-api.kimia-ajarkita.workers.dev";
-const SNBT_PRICE = "Rp 25.000";
+const SNBT_PRICE = "Rp 35.000";
 const SNBT_DURATION_DAYS = 30;
 const SNBT_WA_ADMIN = "6285266601477";
 
@@ -310,13 +310,13 @@ function snbtInjectPremiumModal() {
                     <!-- KONTEN TAB 1: BAYAR QRIS (QRIS DIPERBESAR) -->
                     <div id="tab-content-pay" class="space-y-2 text-center">
                         <p class="text-[11px] text-slate-600 leading-tight">
-                            Scan via <strong>GoPay, OVO, Dana, ShopeePay, BCA, atau M-Banking</strong>:
+                            Scan via <strong>GoPay, OVO, Dana, ShopeePay, BCA, atau M-Banking</strong> (nominal <strong>Rp 35.000</strong> otomatis terisi):
                         </p>
                         <div class="p-2 bg-white border border-slate-200 rounded-2xl inline-block shadow-xs">
-                            <img src="/img/qris.png" alt="QRIS Pembayaran SNBT" class="w-56 sm:w-64 h-auto mx-auto rounded-lg">
+                            <img src="/img/qris-35rb.png" alt="QRIS Pembayaran SNBT Rp 35.000" class="w-56 sm:w-64 h-auto mx-auto rounded-lg">
                         </div>
                         <div class="space-y-1 pt-0.5">
-                            <a href="https://wa.me/${SNBT_WA_ADMIN}?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp25.000%20via%20QRIS%20untuk%20Aktivasi%20Paket%20Premium%20SNBT%20(30%20Hari).%20Mohon%20kode%20lisensinya%20ya!" target="_blank" rel="noopener" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition">
+                            <a href="https://wa.me/${SNBT_WA_ADMIN}?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp35.000%20via%20QRIS%20untuk%20Aktivasi%20Paket%20Premium%20SNBT%20(30%20Hari).%20Mohon%20kode%20lisensinya%20ya!" target="_blank" rel="noopener" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition">
                                 <span>💬</span>
                                 <span>Konfirmasi Transfer ke WhatsApp Admin</span>
                             </a>

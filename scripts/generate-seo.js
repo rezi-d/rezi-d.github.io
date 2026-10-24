@@ -37,6 +37,9 @@ if (!kurikulum) {
 // 2. Kumpulkan seluruh URL untuk sitemap.xml dan periksa file HTML sub-bab
 const urls = [
     { loc: `${DOMAIN}/`, changefreq: 'weekly', priority: '1.0' },
+    { loc: `${DOMAIN}/snbt/index.html`, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${DOMAIN}/tka/prediksi-ptn.html`, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${DOMAIN}/tka/index.html`, changefreq: 'weekly', priority: '0.8' },
     { loc: `${DOMAIN}/tentang.html`, changefreq: 'monthly', priority: '0.6' },
     { loc: `${DOMAIN}/kontak.html`, changefreq: 'monthly', priority: '0.6' },
     { loc: `${DOMAIN}/kebijakan-privasi.html`, changefreq: 'monthly', priority: '0.5' }

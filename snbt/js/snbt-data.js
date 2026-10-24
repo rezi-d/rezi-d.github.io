@@ -1,7 +1,7 @@
 // =================================================================
 // snbt/js/snbt-data.js
 // Single Source of Truth - Bank Soal SNBT / UTBK Terkurasi
-// 2 Paket Gratis per Subtes + 3 Paket Premium (Rp 25.000 / 30 Hari)
+// 2 Paket Gratis per Subtes + 3 Paket Premium (Rp 35.000 / 30 Hari)
 // Total 35 Paket Ujian (14 Gratis + 21 Premium)
 // =================================================================
 
