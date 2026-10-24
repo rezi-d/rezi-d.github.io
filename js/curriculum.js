@@ -217,6 +217,19 @@ const kurikulum = {
         label: "Kelas XII",
         bab: [
             {
+                slug: "sifat-koligatif-larutan",
+                title: "Sifat Koligatif Larutan",
+                deskripsi: "Satuan konsentrasi (molaritas, molalitas, fraksi mol, % massa), penurunan tekanan uap (Hukum Raoult), kenaikan titik didih, penurunan titik beku, tekanan osmotik (van 't Hoff), sifat koligatif larutan elektrolit, serta latihan pemecahan masalah Chang.",
+                subbab: [
+                    { file: "satuan-konsentrasi-larutan.html", title: "Satuan Konsentrasi: Molaritas, Molalitas & Fraksi Mol" },
+                    { file: "penurunan-tekanan-uap-hukum-raoult.html", title: "Penurunan Tekanan Uap & Hukum Raoult" },
+                    { file: "kenaikan-titik-didih-dan-penurunan-titik-beku.html", title: "Kenaikan Titik Didih & Penurunan Titik Beku" },
+                    { file: "tekanan-osmotik-larutan.html", title: "Tekanan Osmotik & Fenomena Osmosis" },
+                    { file: "sifat-koligatif-larutan-elektrolit.html", title: "Sifat Koligatif Larutan Elektrolit & Faktor van 't Hoff" },
+                    { file: "latihan-pemecahan-masalah-koligatif-chang.html", title: "Latihan Pemecahan Masalah Sifat Koligatif (Chang Problems)" }
+                ]
+            },
+            {
                 slug: "sel-volta",
                 title: "Sel Volta & Elektrokimia",
                 deskripsi: "Reaksi redoks, penentuan anode-katode, deret Volta, potensial sel standar, notasi sel Galvani, dan proyek animasi Keynote.",

@@ -116,8 +116,8 @@ function bangunSidebar() {
     let doneCount = 0;
     let activeIdx = -1;
 
-    const isCompact = totalSub > 5;
-    const itemPadding = isCompact ? 'px-2.5 py-1.5 text-xs' : 'px-3 py-2 text-sm';
+    const isCompact = totalSub > 6;
+    const itemPadding = isCompact ? 'px-2.5 py-1.5 text-[13px] leading-snug' : 'px-3 py-2 text-sm';
 
     const daftarSubbab = dataBab.subbab.map((item, idx) => {
         const aktif = item.file === halamanIni;
@@ -222,8 +222,8 @@ function bangunSidebar() {
             }
         });
         const h1El = articleEl.querySelector('h1');
-        if (h1El && activeIdx >= 0 && /^\s*\d+\.\s+/.test(h1El.textContent)) {
-            h1El.textContent = h1El.textContent.trim().replace(/^\d+\./, `${activeIdx + 1}.`);
+        if (h1El && activeIdx >= 0 && h1El.firstChild && h1El.firstChild.nodeType === 3 && /^\s*\d+\.\s+/.test(h1El.firstChild.textContent)) {
+            h1El.firstChild.textContent = h1El.firstChild.textContent.replace(/^\s*\d+\./, `${activeIdx + 1}.`);
         }
     }
 }
@@ -1605,6 +1605,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initBackToTop();
 
     // Re-render KaTeX untuk elemen yang dibuat dinamis (TOC, Sidebar, dll) jika KaTeX aktif
+    
+    // Proteksi global: Pastikan .katex-mathml tidak pernah tampil ganda di browser modern
+    if (!document.getElementById('katex-mathml-hide-style')) {
+        const kmStyle = document.createElement('style');
+        kmStyle.id = 'katex-mathml-hide-style';
+        kmStyle.textContent = '.katex-mathml { display: none !important; }';
+        document.head.appendChild(kmStyle);
+    }
+
     if (typeof renderMathInElement === 'function') {
         try {
             renderMathInElement(document.body, {
