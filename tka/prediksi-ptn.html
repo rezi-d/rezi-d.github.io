@@ -68,12 +68,234 @@
                     <span class="text-[#0071e3]">Masuk Kampus &amp; Kedinasan.</span>
                 </h1>
                 <p class="text-base sm:text-lg text-[#86868b] leading-relaxed font-normal">
-                    Database nasional mencakup PTN se-Indonesia, Sekolah Kedinasan (STIS, STAN, IPDN, Poltek SSN), UIN Islam Negeri, dan fitur tambah kampus mandiri.
+                    Simulasi Rasionalisasi Nilai Rapor &amp; TKA (Jalur SNBP) dan Estimasi Skor UTBK (Jalur SNBT) Terpadu &bull; 4.995 Program Studi se-Indonesia.
                 </p>
             </div>
 
             <!-- MAIN INTERACTIVE CALCULATOR CARD -->
             <div class="bg-white rounded-[32px] border border-black/[0.06] shadow-[0_20px_60px_rgba(0,0,0,0.04)] p-6 sm:p-10 mb-10">
+                
+                <!-- TAB PENGALIH JALUR (SNBP vs SNBT) -->
+                <div class="flex rounded-2xl bg-[#f5f5f7] p-1.5 text-xs sm:text-sm font-bold text-[#86868b] mb-8 max-w-lg mx-auto border border-black/[0.04]">
+                    <button type="button" id="tab-btn-snbp" onclick="switchJalur('snbp')" class="flex-1 py-3 px-4 rounded-xl bg-white text-[#1d1d1f] shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer font-bold">
+                        <span>📜</span>
+                        <span>Jalur SNBP (Rapor &amp; TKA)</span>
+                    </button>
+                    <button type="button" id="tab-btn-snbt" onclick="switchJalur('snbt')" class="flex-1 py-3 px-4 rounded-xl hover:text-[#1d1d1f] text-[#86868b] transition-all flex items-center justify-center gap-2 cursor-pointer font-bold">
+                        <span>🎯</span>
+                        <span>Jalur SNBT (UTBK)</span>
+                    </button>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- KONTEN JALUR SNBP (RAPOR & TKA) -->
+                <!-- ========================================== -->
+                <div id="container-jalur-snbp" class="space-y-8">
+                    
+                    <!-- LANGKAH 1: INPUT NILAI RAPOR -->
+                    <div id="snbp-card-grid" class="pb-8 border-b border-black/[0.06] space-y-5">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-[#0071e3]">Langkah 1 &bull; Jalur Prestasi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#1d1d1f]">Input Nilai Rapor (Semester 1 s.d. 5)</h2>
+                                <p class="text-xs sm:text-sm text-[#86868b] mt-0.5">Masukkan nilai rapor skala 0&ndash;100 untuk mengukur tren kelulusan SNBP</p>
+                            </div>
+
+                            <!-- TOMBOL CONTOH & TAMBAH MAPEL -->
+                            <div class="flex flex-wrap items-center gap-2 self-start sm:self-center">
+                                <button type="button" onclick="isiContohRaporCepat()" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#f5f5f7] hover:bg-slate-200 text-[#1d1d1f] border border-black/[0.04] transition cursor-pointer">
+                                    💡 Isi Contoh Nilai
+                                </button>
+                                <button type="button" onclick="tambahMapelKustom()" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-50 hover:bg-blue-100 text-[#0071e3] border border-blue-200 transition cursor-pointer">
+                                    + Tambah Mapel
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PILIHAN JURUSAN / KURIKULUM -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-xs font-semibold text-slate-500 mr-1">Peminatan:</span>
+                            <button type="button" id="btn-jurusan-mipa" onclick="gantiJurusanRapor('mipa')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#0071e3] text-white transition cursor-pointer">
+                                MIPA / Saintek
+                            </button>
+                            <button type="button" id="btn-jurusan-ips" onclick="gantiJurusanRapor('ips')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+                                IPS / Soshum
+                            </button>
+                            <button type="button" id="btn-jurusan-merdeka" onclick="gantiJurusanRapor('merdeka')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+                                Kurikulum Merdeka
+                            </button>
+                        </div>
+
+                        <div id="snbp-info-mapel-pendukung" class="pt-1"></div>
+
+                        <!-- TABEL GRID RAPOR INTERAKTIF -->
+                        <div class="overflow-x-auto rounded-2xl border border-slate-200/90 shadow-2xs">
+                            <table class="w-full text-left text-xs sm:text-sm">
+                                <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Mata Pelajaran</th>
+                                        <th class="p-3 text-center">Sem 1</th>
+                                        <th class="p-3 text-center">Sem 2</th>
+                                        <th class="p-3 text-center">Sem 3</th>
+                                        <th class="p-3 text-center">Sem 4</th>
+                                        <th class="p-3 text-center">Sem 5</th>
+                                        <th class="p-3 text-center bg-slate-200/60">Rata-rata</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="snbp-tbody-rapor" class="divide-y divide-slate-100">
+                                    <!-- Diisi dinamis oleh snbp-calculator.js -->
+                                </tbody>
+                                <tfoot class="bg-slate-100/80 font-bold text-slate-900 border-t-2 border-slate-300">
+                                    <tr>
+                                        <td class="p-3 text-xs sm:text-sm">
+                                            Rata-Rata Tiap Semester:
+                                        </td>
+                                        <td id="snbp-sem-avg-1" class="p-2 text-center font-mono">-</td>
+                                        <td id="snbp-sem-avg-2" class="p-2 text-center font-mono">-</td>
+                                        <td id="snbp-sem-avg-3" class="p-2 text-center font-mono">-</td>
+                                        <td id="snbp-sem-avg-4" class="p-2 text-center font-mono">-</td>
+                                        <td id="snbp-sem-avg-5" class="p-2 text-center font-mono">-</td>
+                                        <td class="p-2 text-center bg-blue-50 text-[#0071e3] font-mono text-sm sm:text-base">
+                                            <span id="snbp-overall-avg">0.00</span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- INDIKATOR TREN NILAI -->
+                        <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
+                            <div id="snbp-trend-badge" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                <span>↗️</span>
+                                <span>Tren Kenaikan Nilai Positif (+5% Bonus)</span>
+                            </div>
+                            <span class="text-[11px] text-slate-500 font-medium">
+                                *Sesuai Permendikbud No. 48/2022 (50% Seluruh Mapel + 50% Mapel Pendukung/TKA)
+                            </span>
+                        </div>
+
+                        <!-- 3 KOTAK PARAMETER TAMBAHAN (TKA, AKREDITASI, PRESTASI) -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-2">
+                            <!-- Kolom 1: Skor TKA -->
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+                                <label class="block text-xs font-bold text-slate-800 flex items-center justify-between">
+                                    <span>🎯 Skor TKA (Opsional):</span>
+                                    <span class="text-[10px] text-teal-700 font-semibold">Validasi SNBP</span>
+                                </label>
+                                <input type="number" id="snbp-input-tka" min="200" max="1000" step="5" value="680"
+                                       placeholder="Misal: 680"
+                                       class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 font-mono text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0071e3]">
+                                <span class="text-[10px] text-slate-500 block leading-tight">Alat standarisasi nasional nilai rapor (Permendikdasmen No. 9/2025).</span>
+                            </div>
+
+                            <!-- Kolom 2: Akreditasi Sekolah -->
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+                                <label class="block text-xs font-bold text-slate-800">
+                                    🏫 Akreditasi Sekolah:
+                                </label>
+                                <select id="snbp-select-akreditasi" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0071e3]">
+                                    <option value="A" selected>Akreditasi A (Kuota Eligible 40%)</option>
+                                    <option value="B">Akreditasi B (Kuota Eligible 25%)</option>
+                                    <option value="C">Akreditasi C (Kuota Eligible 5%)</option>
+                                </select>
+                                <span class="text-[10px] text-slate-500 block leading-tight">Mempengaruhi persentase kuota siswa yang berhak mendaftar SNBP.</span>
+                            </div>
+
+                            <!-- Kolom 3: Sertifikat Prestasi -->
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+                                <label class="block text-xs font-bold text-slate-800">
+                                    🏆 Piagam Prestasi Lomba:
+                                </label>
+                                <select id="snbp-select-prestasi" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0071e3]">
+                                    <option value="none">Tidak Ada Sertifikat</option>
+                                    <option value="kab" selected>Juara Kab / Kota (Poin +3)</option>
+                                    <option value="provinsi">Juara Provinsi (Poin +6)</option>
+                                    <option value="nasional">Juara Nasional OSN/FLS2N (Poin +10)</option>
+                                    <option value="internasional">Juara Internasional (Poin +15)</option>
+                                </select>
+                                <span class="text-[10px] text-slate-500 block leading-tight">Poin tambahan resmi portofolio prestasi non-akademik.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LANGKAH 2: PILIH TARGET KAMPUS & PROGRAM STUDI -->
+                    <div class="pb-8 border-b border-black/[0.06] space-y-5">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-[#0071e3]">Langkah 2 &bull; Target Kampus</span>
+                            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#1d1d1f]">Pilih Jurusan Impian (Pilihan 1 &amp; Pilihan 2)</h2>
+                            <p class="text-xs sm:text-sm text-[#86868b] mt-0.5">Cari dari 4.995 program studi di 143 PTN se-Indonesia</p>
+                        </div>
+
+                        <!-- GRID 2 PILIHAN -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            
+                            <!-- KOTAK PILIHAN 1 (PRIORITAS UTAMA) -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-blue-50/40 border border-blue-200/80 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-[#0071e3] flex items-center gap-1.5">
+                                        <span class="w-5 h-5 rounded-full bg-[#0071e3] text-white text-[11px] flex items-center justify-center font-bold">1</span>
+                                        <span>Pilihan 1 (Prioritas Utama)</span>
+                                    </span>
+                                    <span class="text-[10px] text-blue-900 font-bold bg-blue-100 px-2 py-0.5 rounded-full">Wajib</span>
+                                </div>
+
+                                <div class="relative">
+                                    <input type="text" id="snbp-search-input-1" oninput="cariProdiSnbp(this.value, 1)" onfocus="bukaPencarianProdiSnbp(1)" autocomplete="off"
+                                           placeholder="Ketik nama prodi / kampus... (mis. 'Farmasi Unja', 'Kedokteran UI')"
+                                           class="w-full px-3.5 py-2.5 bg-white rounded-xl border border-blue-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#0071e3] shadow-2xs">
+                                    <div id="snbp-search-box-1" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white border border-slate-200 rounded-xl shadow-lg max-h-64 overflow-y-auto z-30 divide-y divide-slate-100"></div>
+                                </div>
+
+                                <div id="snbp-selected-card-1">
+                                    <div class="p-3.5 rounded-xl border border-dashed border-blue-300 bg-white/70 text-center text-xs text-slate-500">
+                                        Pilihan 1 belum ditentukan. Cari jurusan di atas.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- KOTAK PILIHAN 2 (ALTERNATIF CADANGAN) -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+                                        <span class="w-5 h-5 rounded-full bg-slate-600 text-white text-[11px] flex items-center justify-center font-bold">2</span>
+                                        <span>Pilihan 2 (Alternatif Cadangan)</span>
+                                    </span>
+                                    <span class="text-[10px] text-slate-500 font-semibold bg-slate-200/80 px-2 py-0.5 rounded-full">Opsional</span>
+                                </div>
+
+                                <div class="relative">
+                                    <input type="text" id="snbp-search-input-2" oninput="cariProdiSnbp(this.value, 2)" onfocus="bukaPencarianProdiSnbp(2)" autocomplete="off"
+                                           placeholder="Ketik nama prodi / kampus alternatif..."
+                                           class="w-full px-3.5 py-2.5 bg-white rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#0071e3] shadow-2xs">
+                                    <div id="snbp-search-box-2" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white border border-slate-200 rounded-xl shadow-lg max-h-64 overflow-y-auto z-30 divide-y divide-slate-100"></div>
+                                </div>
+
+                                <div id="snbp-selected-card-2">
+                                    <div class="p-3.5 rounded-xl border border-dashed border-slate-300 bg-white/70 text-center text-xs text-slate-500">
+                                        Pilihan 2 belum ditentukan (opsional).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TOMBOL HITUNG PELUANG UTAMA -->
+                        <div class="pt-3 text-center">
+                            <button type="button" onclick="prosesAnalisisSnbp()" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#0071e3] hover:bg-blue-600 text-white text-sm sm:text-base font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 mx-auto cursor-pointer">
+                                <span>✨</span>
+                                <span>Hitung Peluang Kelulusan SNBP 2026</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- LANGKAH 3: CONTAINER HASIL ANALISIS (DIMUAT OTOMATIS) -->
+                    <div id="snbp-hasil-container" class="hidden"></div>
+
+                </div>
+
+                <!-- ========================================== -->
+                <!-- KONTEN JALUR SNBT (UTBK / TRYOUT) -->
+                <!-- ========================================== -->
+                <div id="container-jalur-snbt" class="hidden space-y-8">
                 
                 <!-- BAGIAN 1: INPUT SKOR -->
                 <div class="pb-8 border-b border-black/[0.06]">
@@ -209,7 +431,9 @@
                     <!-- DIRENDER OLEH JAVASCRIPT -->
                 </div>
 
-            </div>
+                </div> <!-- Tutup container-jalur-snbt -->
+
+            </div> <!-- Tutup Main Interactive Calculator Card -->
 
             <!-- FREEMIUM FEATURE: MULTI-PILIHAN (PILIHAN 1-4) & VOUCHER KELAS -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -228,21 +452,24 @@
                     </a>
                 </div>
 
-                <!-- KARTU 2: Analisis 4 Pilihan Prodi Sekaligus (Fitur Bimbel) -->
-                <div class="bg-white p-6 sm:p-7 rounded-[28px] border border-black/[0.06] shadow-xs flex flex-col justify-between relative overflow-hidden">
+                <!-- KARTU 2: Upgrade Akses Premium Mandiri (Self-Service) -->
+                <div id="card-fitur-premium" class="bg-white p-6 sm:p-7 rounded-[28px] border border-black/[0.06] shadow-xs flex flex-col justify-between relative overflow-hidden">
                     <div class="absolute top-4 right-4">
-                        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold uppercase tracking-wider">Premium Bimbel</span>
+                        <span id="badge-status-premium" class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold uppercase tracking-wider">Akses Premium</span>
                     </div>
                     <div>
-                        <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 text-xl mb-4 select-none">🎓</span>
-                        <h3 class="text-lg font-bold text-[#1d1d1f] mb-1.5">Rasionalisasi 4 Prodi</h3>
-                        <p class="text-xs text-[#86868b] leading-relaxed mb-4">
-                            Simulasikan formasi 4 pilihan prodi SNBT (Pilihan 1, 2, 3, dan Vokasi/D4) untuk menguji strategi portofolio kelolosan terbaik.
+                        <span class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 text-xl mb-4 select-none">👑</span>
+                        <h3 class="text-lg font-bold text-[#1d1d1f] mb-1.5">Akses Paket Premium</h3>
+                        <p id="desc-status-premium" class="text-xs text-[#86868b] leading-relaxed mb-4">
+                            Simulasikan formasi 4 pilihan prodi SNBT (Pilihan 1, 2, 3, dan Vokasi/D4), akses 35+ paket latihan CBT, Try Out Akbar &amp; pembahasan lengkap tanpa batas.
                         </p>
                     </div>
-                    <button type="button" onclick="bukaModalPremium()" class="inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-xs font-semibold text-white transition-all cursor-pointer">
-                        Buka Kunci Fitur 4 Prodi &rarr;
-                    </button>
+                    <div id="btn-container-premium">
+                        <button type="button" onclick="bukaModalPremium()" class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-xs font-bold text-slate-950 shadow-xs transition-all cursor-pointer">
+                            <span>👑</span>
+                            <span>Upgrade Premium (Rp 35.000 / 30 Hari) &rarr;</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- KARTU 3: Dukung Pengembang / Scan QRIS -->
@@ -382,31 +609,6 @@
         </div>
     </div>
 
-    <!-- MODAL PREMIUM BIMBEL (Freemium Gate) -->
-    <div id="modal-premium" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-white rounded-[28px] max-w-md w-full p-6 sm:p-8 text-center relative border border-black/[0.08] shadow-2xl">
-            <button type="button" onclick="tutupModalPremium()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-900 flex items-center justify-center text-sm font-bold cursor-pointer">
-                &times;
-            </button>
-            <span class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-50 text-[#0071e3] text-2xl mb-4">🎓</span>
-            <h3 class="text-2xl font-bold text-[#1d1d1f] mb-2">Paket Lengkap Bimbel PTN</h3>
-            <p class="text-sm text-[#86868b] leading-relaxed mb-6">
-                Dapatkan akses penuh ke fitur <strong>Rasionalisasi 4 Pilihan Prodi</strong>, unduh <strong>Rapor PDF Peluang Kelolosan</strong>, dan akses <strong>10+ Paket Tryout Prediksi</strong> intensif.
-            </p>
-            <div class="bg-[#f5f5f7] p-4 rounded-2xl border border-black/[0.04] mb-6 text-left">
-                <p class="text-xs font-semibold text-[#1d1d1f] mb-2">Keunggulan Paket Member:</p>
-                <ul class="text-xs text-[#86868b] space-y-1.5">
-                    <li>&check; Konsultasi pemilihan jurusan dengan mentor</li>
-                    <li>&check; Pembahasan video trik cepat &amp; smart solution</li>
-                    <li>&check; Lembar coretan digital dengan Palm Rejection</li>
-                </ul>
-            </div>
-            <a href="https://wa.me/6285266601477?text=Halo%20Admin%20KimiaInteraktif,%20saya%20tertarik%20dengan%20Program%20Bimbel%20Persiapan%20PTN" target="_blank" class="w-full py-3.5 px-6 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-sm font-semibold shadow-md flex items-center justify-center gap-2">
-                <span>💬 Hubungi Admin via WhatsApp</span>
-            </a>
-        </div>
-    </div>
-
     <!-- MODAL DONASI (QRIS Dinamis / Statis) -->
     <div id="modal-donasi" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="bg-white rounded-[32px] max-w-sm w-full p-6 sm:p-7 text-center relative border border-black/[0.08] shadow-2xl overflow-y-auto max-h-[90vh]">
@@ -450,6 +652,8 @@
     <script src="/js/spu.js"></script>
     <script src="/tka/js/sidata-ptn-nasional.js?v=1.0"></script>
     <script src="/tka/js/ptn-data.js?v=2.2"></script>
+    <script src="/tka/js/snbp-calculator.js?v=1.4"></script>
+    <script src="/snbt/js/snbt-license.js"></script>
     <script src="/js/include.js"></script>
 
     <!-- KALKULATOR, CUSTOM CAMPUS & SMART SEARCH ENGINE SCRIPT -->
@@ -509,6 +713,14 @@
         }
 
         function startApp() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const jalurParam = urlParams.get('jalur');
+            if (jalurParam === 'snbt') {
+                switchJalur('snbt');
+            } else {
+                switchJalur('snbp');
+            }
+
             const db = getDatabase();
             if (db.length === 0) {
                 muatDataNasionalAsync();
@@ -527,6 +739,7 @@
             renderProdiOptions();
             setupScoreSlider();
             hitungDanTampilkanHasil();
+            updateCardStatusPremium();
         }
 
         // Inisialisasi awal
@@ -567,11 +780,36 @@
             });
         }
 
+        
+        function switchJalur(jalur) {
+            const btnSnbp = document.getElementById('tab-btn-snbp');
+            const btnSnbt = document.getElementById('tab-btn-snbt');
+            const cSnbp = document.getElementById('container-jalur-snbp');
+            const cSnbt = document.getElementById('container-jalur-snbt');
+
+            if (!btnSnbp || !btnSnbt || !cSnbp || !cSnbt) return;
+
+            if (jalur === 'snbp') {
+                btnSnbp.className = "flex-1 py-3 px-4 rounded-xl bg-white text-[#1d1d1f] shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer font-bold";
+                btnSnbt.className = "flex-1 py-3 px-4 rounded-xl hover:text-[#1d1d1f] text-[#86868b] transition-all flex items-center justify-center gap-2 cursor-pointer font-bold";
+                cSnbp.classList.remove('hidden');
+                cSnbt.classList.add('hidden');
+                if (typeof renderTabelRapor === 'function') renderTabelRapor();
+            } else {
+                btnSnbt.className = "flex-1 py-3 px-4 rounded-xl bg-white text-[#1d1d1f] shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer font-bold";
+                btnSnbp.className = "flex-1 py-3 px-4 rounded-xl hover:text-[#1d1d1f] text-[#86868b] transition-all flex items-center justify-center gap-2 cursor-pointer font-bold";
+                cSnbt.classList.remove('hidden');
+                cSnbp.classList.add('hidden');
+            }
+        }
+    
+
         function setScorePreset(score) {
             currentScore = score;
             document.getElementById('score-slider').value = score;
             document.getElementById('score-display').textContent = score;
             hitungDanTampilkanHasil();
+            updateCardStatusPremium();
         }
 
         // PENCARIAN CERDAS DENGAN DEBOUNCE & SINONIM LENGKAP
@@ -767,6 +1005,7 @@
             initUnivDropdown();
             renderProdiOptions();
             hitungDanTampilkanHasil();
+            updateCardStatusPremium();
         }
 
         // FILTER KELOMPOK
@@ -784,6 +1023,7 @@
             initUnivDropdown();
             renderProdiOptions();
             hitungDanTampilkanHasil();
+            updateCardStatusPremium();
         }
 
         function getFilteredDatabase() {
@@ -881,6 +1121,7 @@
             selectProdi.value = selectedProdiId;
 
             hitungDanTampilkanHasil();
+            updateCardStatusPremium();
         }
 
         function hitungDanTampilkanHasil() {
@@ -930,7 +1171,7 @@
                                 <span>&bull;</span>
                                 <span>Peminat: <strong class="text-purple-700">${(prodi.peminat || 0).toLocaleString('id-ID')} orang</strong></span>
                                 <span>&bull;</span>
-                                <span>Keketatan: <strong class="text-rose-600">${prodi.keketatan ? prodi.keketatan + '%' : '~'}</strong></span>
+                                <span>Rasio Persaingan: <strong class="text-rose-600">${prodi.keketatan ? '1 : ' + prodi.keketatan : '~'}</strong></span>
                             </p>
                         </div>
                         
@@ -956,8 +1197,8 @@
                             <span class="text-lg sm:text-xl font-bold font-mono text-purple-700">${(prodi.peminat || 0).toLocaleString('id-ID')}</span>
                         </div>
                         <div class="bg-white p-3.5 rounded-2xl border border-black/[0.04]">
-                            <span class="block text-[11px] text-[#86868b] font-medium mb-0.5">Keketatan Lolos</span>
-                            <span class="text-lg sm:text-xl font-bold font-mono text-rose-600">${prodi.keketatan ? prodi.keketatan + '%' : '~'}</span>
+                            <span class="block text-[11px] text-[#86868b] font-medium mb-0.5">Rasio Persaingan</span>
+                            <span class="text-lg sm:text-xl font-bold font-mono text-rose-600">${prodi.keketatan ? '1 : ' + prodi.keketatan : '~'}</span>
                         </div>
                     </div>
 
@@ -1154,6 +1395,7 @@
             initUnivDropdown();
             renderProdiOptions();
             hitungDanTampilkanHasil();
+            updateCardStatusPremium();
         }
 
         function shareKeWhatsApp(univ, prodi, skor, peluang) {
@@ -1167,14 +1409,44 @@
             window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
         }
 
+        function updateCardStatusPremium() {
+            if (typeof snbtIsPremiumActive !== 'function') return;
+            const badge = document.getElementById('badge-status-premium');
+            const desc = document.getElementById('desc-status-premium');
+            const btnContainer = document.getElementById('btn-container-premium');
+
+            if (snbtIsPremiumActive()) {
+                const sisaHari = typeof snbtGetRemainingDays === 'function' ? snbtGetRemainingDays() : 30;
+                if (badge) {
+                    badge.className = "px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider";
+                    badge.textContent = "Premium Aktif";
+                }
+                if (desc) {
+                    desc.innerHTML = `Akun Premium Anda aktif (Sisa <strong>${sisaHari} hari</strong>). Anda memiliki akses tak terbatas ke seluruh paket Try Out, pembahasan ilmiah, dan seluruh fitur kalkulator.`;
+                }
+                if (btnContainer) {
+                    btnContainer.innerHTML = `
+                        <button type="button" onclick="bukaModalPremium()" class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-all cursor-pointer">
+                            <span>✓</span>
+                            <span>Status Premium Aktif (${sisaHari} Hari)</span>
+                        </button>
+                    `;
+                }
+            }
+        }
+
         function bukaModalPremium() {
-            document.getElementById('modal-premium').classList.remove('hidden');
-            document.getElementById('modal-premium').classList.add('flex');
+            if (typeof snbtOpenPremiumModal === 'function') {
+                snbtOpenPremiumModal();
+            } else {
+                alert('Sistem lisensi sedang dimuat, silakan coba beberapa saat lagi.');
+            }
         }
 
         function tutupModalPremium() {
-            document.getElementById('modal-premium').classList.remove('flex');
-            document.getElementById('modal-premium').classList.add('hidden');
+            if (typeof snbtClosePremiumModal === 'function') {
+                snbtClosePremiumModal();
+            }
         }
 
         function bukaModalDonasi() {
