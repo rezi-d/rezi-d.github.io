@@ -85,7 +85,9 @@ let snbpState = {
     akreditasi: 'A',
     prestasi: 'kab',
     pilihan1: null,
-    pilihan2: null
+    pilihan2: null,
+    pilihan3: null,
+    pilihan4: null
 };
 
 // Muat dari localStorage jika ada
@@ -95,7 +97,7 @@ function muatSnbpState() {
         if (saved) {
             const parsed = JSON.parse(saved);
             if (parsed && Array.isArray(parsed.mapelList)) {
-                snbpState = parsed;
+                snbpState = Object.assign({}, snbpState, parsed);
             }
         }
     } catch (e) {}
@@ -474,14 +476,18 @@ function prosesAnalisisSnbp() {
     const prestasiSelect = document.getElementById('snbp-select-prestasi');
     if (prestasiSelect) snbpState.prestasi = prestasiSelect.value;
 
+    const isPro = typeof snbtIsPremiumActive === 'function' && snbtIsPremiumActive();
+
     // Hitung Rasionalisasi
     const res1 = hitungRasionalisasiSnbp(snbpState.pilihan1, snbpState.mapelList, snbpState.tkaScore, snbpState.akreditasi, snbpState.prestasi);
     const res2 = snbpState.pilihan2 ? hitungRasionalisasiSnbp(snbpState.pilihan2, snbpState.mapelList, snbpState.tkaScore, snbpState.akreditasi, snbpState.prestasi) : null;
+    const res3 = (isPro && snbpState.pilihan3) ? hitungRasionalisasiSnbp(snbpState.pilihan3, snbpState.mapelList, snbpState.tkaScore, snbpState.akreditasi, snbpState.prestasi) : null;
+    const res4 = (isPro && snbpState.pilihan4) ? hitungRasionalisasiSnbp(snbpState.pilihan4, snbpState.mapelList, snbpState.tkaScore, snbpState.akreditasi, snbpState.prestasi) : null;
 
-    renderOutputSnbp(res1, res2);
+    renderOutputSnbp(res1, res2, res3, res4);
 }
 
-function renderOutputSnbp(res1, res2) {
+function renderOutputSnbp(res1, res2, res3, res4) {
     const container = document.getElementById('snbp-hasil-container');
     if (!container) return;
 
@@ -490,12 +496,14 @@ function renderOutputSnbp(res1, res2) {
     function buatKartuHasil(res, labelPilihan, nomorBadge) {
         if (!res) return '';
         const p = res.prodi;
+        const badgeBg = nomorBadge === '1' ? 'bg-[#0071e3]' : (nomorBadge === '2' ? 'bg-slate-700' : 'bg-amber-600');
+        const labelColor = nomorBadge === '1' ? 'text-[#0071e3]' : (nomorBadge === '2' ? 'text-slate-700' : 'text-amber-800');
         return `
         <div class="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-4">
             <div class="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-slate-100">
                 <div class="flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-[#0071e3] text-white text-xs font-bold flex items-center justify-center">${nomorBadge}</span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-[#0071e3]">${labelPilihan}</span>
+                    <span class="w-6 h-6 rounded-full ${badgeBg} text-white text-xs font-bold flex items-center justify-center">${nomorBadge}</span>
+                    <span class="text-xs font-bold uppercase tracking-wider ${labelColor}">${labelPilihan}</span>
                 </div>
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${res.warnaBadge}">
                     <span>${res.iconPeluang}</span>
@@ -548,10 +556,16 @@ function renderOutputSnbp(res1, res2) {
         </div>`;
     }
 
+    const cards = [
+        buatKartuHasil(res1, 'Pilihan 1 (Prioritas Utama)', '1'),
+        res2 ? buatKartuHasil(res2, 'Pilihan 2 (Alternatif Cadangan)', '2') : '',
+        res3 ? buatKartuHasil(res3, 'Pilihan 3 (Alternatif Tambahan)', '3') : '',
+        res4 ? buatKartuHasil(res4, 'Pilihan 4 (Alternatif Cadangan Akhir)', '4') : ''
+    ].filter(Boolean);
+
     let cardsHtml = `
-    <div class="grid grid-cols-1 ${res2 ? 'lg:grid-cols-2' : ''} gap-5">
-        ${buatKartuHasil(res1, 'Pilihan 1 (Prioritas Utama)', '1')}
-        ${res2 ? buatKartuHasil(res2, 'Pilihan 2 (Alternatif Cadangan)', '2') : ''}
+    <div class="grid grid-cols-1 ${cards.length > 1 ? 'md:grid-cols-2' : ''} gap-5">
+        ${cards.join('')}
     </div>`;
 
     // Render Grafik Tren SVG Sem 1 - 5
@@ -641,6 +655,7 @@ function renderOutputSnbp(res1, res2) {
 window.addEventListener('DOMContentLoaded', () => {
     muatSnbpState();
     updateTombolPeminatan(snbpState.jurusan || 'mipa');
+    sinkronisasiStatusLisensiSnbp();
 });
 
 
@@ -714,11 +729,7 @@ function pilihProdiSnbp(slot, prodiId) {
     const prodi = db.find(p => p.id === prodiId);
     if (!prodi) return;
 
-    if (slot === 1) {
-        snbpState.pilihan1 = prodi;
-    } else {
-        snbpState.pilihan2 = prodi;
-    }
+    snbpState[`pilihan${slot}`] = prodi;
 
     // Tutup popup search
     const box = document.getElementById(`snbp-search-box-${slot}`);
@@ -730,19 +741,20 @@ function pilihProdiSnbp(slot, prodiId) {
     // Render kartu pilihan
     renderKartuPilihanSlot(slot, prodi);
 
-    // Re-render tabel rapor untuk update highlight mapel pendukung Pilihan 1
-    renderTabelRapor();
+    // Re-render tabel rapor untuk update highlight mapel pendukung Pilihan 1 jika slot 1
+    if (slot === 1) renderTabelRapor();
+    simpanSnbpState();
 }
 
 function hapusPilihanSnbp(slot) {
-    if (slot === 1) snbpState.pilihan1 = null;
-    else snbpState.pilihan2 = null;
+    snbpState[`pilihan${slot}`] = null;
 
     const input = document.getElementById(`snbp-search-input-${slot}`);
     if (input) input.value = '';
 
     renderKartuPilihanSlot(slot, null);
-    renderTabelRapor();
+    if (slot === 1) renderTabelRapor();
+    simpanSnbpState();
 }
 
 function renderKartuPilihanSlot(slot, prodi) {
@@ -750,30 +762,98 @@ function renderKartuPilihanSlot(slot, prodi) {
     if (!card) return;
 
     if (!prodi) {
+        const placeholderText = slot === 1 
+            ? 'Pilihan 1 belum ditentukan. Cari jurusan di atas.'
+            : slot === 2 
+            ? 'Pilihan 2 belum ditentukan (opsional).'
+            : slot === 3 
+            ? 'Pilihan 3 belum ditentukan (khusus PRO).'
+            : 'Pilihan 4 belum ditentukan (khusus PRO).';
+
+        const borderClass = (slot === 1) 
+            ? 'border-blue-300 bg-white/70' 
+            : (slot >= 3) 
+            ? 'border-amber-300 bg-white/70' 
+            : 'border-slate-300 bg-white/70';
+
         card.innerHTML = `
-            <div class="p-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 text-center text-xs text-slate-500">
-                Belum ada program studi dipilih. Cari di kolom atas.
+            <div class="p-3.5 rounded-xl border border-dashed ${borderClass} text-center text-xs text-slate-500">
+                ${placeholderText}
             </div>`;
         return;
     }
 
     const mapel = cariMapelPendukung(prodi.prodi);
+    const badgeBg = slot === 1 ? 'bg-[#0071e3]' : (slot >= 3 ? 'bg-amber-600' : 'bg-slate-700');
+    const borderCard = slot === 1 ? 'border-blue-200' : (slot >= 3 ? 'border-amber-200' : 'border-slate-200');
+
     card.innerHTML = `
-        <div class="p-4 rounded-xl bg-white border border-[#0071e3]/20 shadow-xs flex items-center justify-between gap-3">
-            <div class="space-y-1">
-                <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 rounded-full bg-[#0071e3] text-white font-bold text-[10px]">Pilihan ${slot}</span>
+        <div class="p-4 rounded-xl bg-white border ${borderCard} shadow-xs flex items-center justify-between gap-3">
+            <div class="space-y-1 min-w-0 pr-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-full ${badgeBg} text-white font-bold text-[10px]">Pilihan ${slot}</span>
                     <span class="text-xs text-slate-500 font-semibold">${prodi.jenjang || 'S1'} &bull; ${prodi.kelompok || 'Saintek'}</span>
                 </div>
-                <h4 class="font-bold text-slate-900 text-sm sm:text-base">${prodi.prodi}</h4>
-                <p class="text-xs text-slate-600">${prodi.univ} &bull; ${prodi.wilayah || 'Indonesia'}</p>
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base truncate">${prodi.prodi}</h4>
+                <p class="text-xs text-slate-600 truncate">${prodi.univ} &bull; ${prodi.wilayah || 'Indonesia'}</p>
                 <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-900 border border-amber-200 text-xs font-semibold">
-                    <span>⭐ Mapel Pendukung Resmi:</span>
+                    <span>⭐ Mapel Pendukung:</span>
                     <strong>${mapel.join(', ')}</strong>
                 </div>
             </div>
-            <button type="button" onclick="hapusPilihanSnbp(${slot})" class="text-slate-400 hover:text-red-600 text-xs font-bold p-2 transition cursor-pointer" title="Hapus / Ganti Pilihan">
+            <button type="button" onclick="hapusPilihanSnbp(${slot})" class="text-slate-400 hover:text-red-600 text-xs font-bold p-2 transition cursor-pointer shrink-0" title="Hapus / Ganti Pilihan">
                 ✕ Ganti
             </button>
         </div>`;
+}
+
+function sinkronisasiStatusLisensiSnbp() {
+    const isPro = typeof snbtIsPremiumActive === 'function' && snbtIsPremiumActive();
+    const lockedBanner = document.getElementById('snbp-locked-banner');
+    const unlockedGrid = document.getElementById('snbp-unlocked-grid');
+    const badgePro = document.getElementById('badge-pro-unlocked');
+    const titleLangkah2 = document.getElementById('snbp-target-title');
+    const subtitleLangkah2 = document.getElementById('snbp-target-subtitle');
+
+    if (isPro) {
+        if (lockedBanner) lockedBanner.classList.add('hidden');
+        if (unlockedGrid) unlockedGrid.classList.remove('hidden');
+        if (badgePro) badgePro.classList.remove('hidden');
+        if (titleLangkah2) titleLangkah2.innerHTML = 'Pilih Jurusan Impian (Formasi 4 Pilihan Aktif 👑)';
+        if (subtitleLangkah2) subtitleLangkah2.textContent = 'Mode Lisensi PRO Aktif: Analisis hingga 4 pilihan jurusan sekaligus di 143 PTN se-Indonesia';
+
+        // Render input jika ada pilihan 3 & 4
+        if (snbpState.pilihan3) {
+            const input3 = document.getElementById('snbp-search-input-3');
+            if (input3 && !input3.value) input3.value = `${snbpState.pilihan3.prodi} - ${snbpState.pilihan3.univ}`;
+            renderKartuPilihanSlot(3, snbpState.pilihan3);
+        }
+        if (snbpState.pilihan4) {
+            const input4 = document.getElementById('snbp-search-input-4');
+            if (input4 && !input4.value) input4.value = `${snbpState.pilihan4.prodi} - ${snbpState.pilihan4.univ}`;
+            renderKartuPilihanSlot(4, snbpState.pilihan4);
+        }
+    } else {
+        if (lockedBanner) lockedBanner.classList.remove('hidden');
+        if (unlockedGrid) unlockedGrid.classList.add('hidden');
+        if (badgePro) badgePro.classList.add('hidden');
+        if (titleLangkah2) titleLangkah2.innerHTML = 'Pilih Jurusan Impian (Pilihan 1 &amp; Pilihan 2)';
+        if (subtitleLangkah2) subtitleLangkah2.textContent = 'Versi gratis: 2 pilihan jurusan. Upgrade ke PRO untuk membuka formasi 4 jurusan.';
+    }
+
+    // Render pilihan 1 & 2
+    if (snbpState.pilihan1) {
+        const input1 = document.getElementById('snbp-search-input-1');
+        if (input1 && !input1.value) input1.value = `${snbpState.pilihan1.prodi} - ${snbpState.pilihan1.univ}`;
+        renderKartuPilihanSlot(1, snbpState.pilihan1);
+    }
+    if (snbpState.pilihan2) {
+        const input2 = document.getElementById('snbp-search-input-2');
+        if (input2 && !input2.value) input2.value = `${snbpState.pilihan2.prodi} - ${snbpState.pilihan2.univ}`;
+        renderKartuPilihanSlot(2, snbpState.pilihan2);
+    }
+}
+
+if (typeof window !== 'undefined') {
+    window.sinkronisasiStatusLisensiSnbp = sinkronisasiStatusLisensiSnbp;
 }
