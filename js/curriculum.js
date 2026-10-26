@@ -56,22 +56,24 @@ const kurikulum = {
             },
             {
                 slug: "tabel-periodik-unsur",
-                title: "Perkembangan Tabel Periodik & Prediksi Mendeleev",
-                deskripsi: "Kekacauan kimia pra-tabel periodik, Kongres Karlsruhe 1860, Triade Döbereiner, Oktaf Newlands, jalur penemuan Mendeleev vs Lothar Meyer, keberanian mengosongkan celah, serta konfirmasi brilian penemuan Gallium oleh Boisbaudran.",
+                title: "Perkembangan Tabel Periodik & Sifat Keperiodikan Unsur",
+                deskripsi: "Kekacauan kimia pra-tabel periodik, Kongres Karlsruhe 1860, Triade Döbereiner, Oktaf Newlands, jalur penemuan Mendeleev vs Lothar Meyer, struktur tabel periodik modern, muatan inti efektif (Zeff), tren jari-jari atom & ion, energi ionisasi (anomali Be-B dan N-O), afinitas elektron, keelektronegatifan, serta problem solving Chang 8.37 - 8.64.",
                 subbab: [
                     { file: "sejarah-dan-upaya-awal-tabel-periodik.html", title: "Sejarah & Upaya Awal Pengelompokan Unsur" },
                     { file: "mendeleev-meyer-dan-prediksi-gallium.html", title: "Mendeleev, Meyer, & Penemuan Gallium" },
-                    { file: "struktur-tabel-periodik-modern-dan-latihan-chang.html", title: "Tabel Periodik Modern & Latihan Soal Chang" }
+                    { file: "struktur-tabel-periodik-modern-dan-latihan-chang.html", title: "Tabel Periodik Modern & Latihan Soal Chang (8.1 - 8.2)" },
+                    { file: "sifat-keperiodikan-unsur-dan-latihan-chang.html", title: "Sifat Keperiodikan Unsur & Latihan Soal Chang (8.3 - 8.5)" }
                 ]
             },
             {
                 slug: "hukum-dasar-kimia",
                 title: "Hukum-Hukum Dasar Kimia",
-                deskripsi: "Landasan memahami kimia pada tingkat atom dan molekul: Hukum Kekekalan Massa (Lavoisier), Hukum Perbandingan Tetap (Proust), serta Hukum Perbandingan Berganda (Dalton) dalam penentuan rumus kimia.",
+                deskripsi: "Landasan memahami kimia pada tingkat atom dan molekul: Hukum Kekekalan Massa (Lavoisier), Hukum Perbandingan Tetap (Proust), Hukum Perbandingan Berganda (Dalton), Hukum Perbandingan Volume (Gay-Lussac), serta Hipotesis Avogadro dalam penentuan rumus kimia dan stoikiometri gas.",
                 subbab: [
                     { file: "hukum-kekekalan-massa-lavoisier.html", title: "Hukum Kekekalan Massa (Lavoisier)" },
                     { file: "hukum-perbandingan-tetap-proust.html", title: "Hukum Perbandingan Tetap (Proust)" },
                     { file: "hukum-perbandingan-berganda-dalton.html", title: "Hukum Perbandingan Berganda (Dalton)" },
+                    { file: "hukum-gay-lussac-dan-hipotesis-avogadro.html", title: "Hukum Perbandingan Volume (Gay-Lussac) & Hipotesis Avogadro" },
                     { file: "latihan-pemecahan-masalah-hukum-dasar-kimia.html", title: "Latihan Pemecahan Masalah Hukum Dasar Kimia (Chang)" }
                 ]
             },
@@ -93,7 +95,7 @@ const kurikulum = {
             {
                 slug: "ikatan-kimia",
                 title: "Ikatan Kimia",
-                deskripsi: "Kestabilan atom & struktur Lewis, ikatan ion, ikatan kovalen, ikatan logam, bentuk molekul (VSEPR), kepolaran molekul, teori hibridisasi.",
+                deskripsi: "Kestabilan atom & struktur Lewis, ikatan ion, ikatan kovalen, ikatan logam, bentuk molekul (VSEPR), kepolaran molekul, teori hibridisasi, muatan formal, resonansi, pengecualian oktet, serta latihan pemecahan masalah Chang (Bab 9-10) dengan kanvas iPad.",
                 subbab: [
                     { file: "kestabilan-atom-struktur-lewis.html", title: "Kestabilan Atom & Struktur Lewis" },
                     { file: "ikatan-ion.html", title: "Ikatan Ion" },
@@ -101,7 +103,8 @@ const kurikulum = {
                     { file: "ikatan-logam.html", title: "Ikatan Logam" },
                     { file: "bentuk-molekul-vsepr.html", title: "Bentuk Molekul (VSEPR)" },
                     { file: "kepolaran-molekul.html", title: "Kepolaran Molekul & Momen Dipol" },
-                    { file: "teori-hibridisasi.html", title: "Teori Hibridisasi" }
+                    { file: "teori-hibridisasi.html", title: "Teori Hibridisasi" },
+                    { file: "latihan-pemecahan-masalah-ikatan-kimia-chang.html", title: "Latihan Pemecahan Masalah Ikatan Kimia (Chang Problems)" }
                 ]
             },
             {
@@ -122,24 +125,26 @@ const kurikulum = {
             {
                 slug: "termokimia",
                 title: "Termokimia",
-                deskripsi: "Sistem & lingkungan, reaksi eksoterm & endoterm, perubahan entalpi standar, simulasi kalorimeter virtual, simulator Hukum Hess, serta latihan pemecahan masalah Chang (kalibrasi bom kalorimeter asam benzoat, termodinamika ΔE vs ΔH naftalena, kerja ekspansi gas Sn/Na, siklus Hess bertingkat & kemurnian glukosa) dengan kanvas iPad.",
+                deskripsi: "Sistem & lingkungan, reaksi eksoterm & endoterm, perubahan entalpi standar, simulasi kalorimeter virtual, simulator Hukum Hess, energi ikatan rata-rata (Chang 9.10), serta latihan pemecahan masalah Chang (kalibrasi bom kalorimeter asam benzoat, termodinamika ΔE vs ΔH naftalena, kerja ekspansi gas Sn/Na, siklus Hess bertingkat & kemurnian glukosa) dengan kanvas iPad.",
                 subbab: [
                     { file: "konsep-dasar-termokimia.html", title: "Konsep Dasar & Reaksi Eksoterm/Endoterm" },
                     { file: "perubahan-entalpi-standar.html", title: "Kondisi Standar & Persamaan Termokimia" },
                     { file: "kalorimetri-dan-proyek.html", title: "Kalorimeter Virtual & Proyek (Numbers)" },
                     { file: "hukum-hess.html", title: "Hukum Hess & Simulator Model Tabel" },
+                    { file: "energi-ikatan-dan-penentuan-entalpi.html", title: "Energi Ikatan Rata-Rata & Penentuan Entalpi (Chang 9.10)" },
                     { file: "latihan-pemecahan-masalah-termokimia-chang.html", title: "Latihan Pemecahan Masalah Termokimia (Chang Problems)" }
                 ]
             },
             {
                 slug: "laju-reaksi",
                 title: "Laju Reaksi",
-                deskripsi: "Konsep & ungkapan laju reaksi, teori tumbukan & faktor-faktor penentu laju, hukum laju & penentuan orde reaksi, serta mekanisme reaksi & katalis.",
+                deskripsi: "Konsep & ungkapan laju reaksi, teori tumbukan & faktor-faktor penentu laju, hukum laju & penentuan orde reaksi, mekanisme reaksi & katalis, kinetika terintegrasi orde 1 & waktu paruh, persamaan Arrhenius energi aktivasi (Ea), serta pemecahan masalah Chang (Bab 14) dengan kanvas iPad.",
                 subbab: [
                     { file: "konsep-laju-reaksi.html", title: "Konsep & Ungkapan Laju Reaksi" },
                     { file: "teori-tumbukan-faktor.html", title: "Teori Tumbukan & Faktor Laju Reaksi" },
                     { file: "hukum-laju-dan-orde.html", title: "Hukum Laju & Penentuan Orde Reaksi" },
-                    { file: "mekanisme-reaksi-katalis.html", title: "Mekanisme Reaksi & Katalis" }
+                    { file: "mekanisme-reaksi-katalis.html", title: "Mekanisme Reaksi & Katalis" },
+                    { file: "latihan-pemecahan-masalah-laju-reaksi-chang.html", title: "Latihan Pemecahan Masalah Laju Reaksi (Chang Problems)" }
                 ]
             },
             {
