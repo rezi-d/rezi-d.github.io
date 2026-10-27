@@ -215,6 +215,18 @@ const kurikulum = {
                     { file: "pembuatan-dan-aplikasi-koloid.html", title: "Pembuatan & Penerapan Koloid" },
                     { file: "latihan-pemecahan-masalah-koloid-chang.html", title: "Latihan Pemecahan Masalah Koloid (Chang Problems)" }
                 ]
+            },
+            {
+                slug: "hidrokarbon",
+                title: "Hidrokarbon & Minyak Bumi",
+                deskripsi: "Kekhasan atom karbon (katenasi), deret homolog & tata nama resmi IUPAC alkana, alkena, alkuna; reaksi-reaksi fundamental (pembakaran, substitusi radikal bebas, adisi elektrofilik Markovnikov, eliminasi); keisomeran struktur dan stereoisomer geometri cis-trans beserta momen dipol; pembentukan, fraksinasi minyak bumi, mutu bensin, bilangan oktan isooktana vs n-heptana, dan evaluasi Raymond Chang.",
+                subbab: [
+                    { file: "kekhasan-atom-karbon-dan-alkana.html", title: "Kekhasan Atom Karbon & Struktur Alkana" },
+                    { file: "alkena-alkuna-dan-reaksi-hidrokarbon.html", title: "Alkena, Alkuna & Reaksi Hidrokarbon" },
+                    { file: "keisomeran-senyawa-hidrokarbon.html", title: "Keisomeran Senyawa Hidrokarbon" },
+                    { file: "minyak-bumi-dan-mutu-bensin.html", title: "Minyak Bumi & Mutu Bensin" },
+                    { file: "latihan-pemecahan-masalah-hidrokarbon-chang.html", title: "Latihan Pemecahan Masalah Hidrokarbon (Chang Problems)" }
+                ]
             }
         ]
     },
@@ -252,6 +264,53 @@ const kurikulum = {
                     { file: "konsep-dan-aturan-elektrolisis.html", title: "Konsep Dasar & Aturan Reaksi Elektrolisis" },
                     { file: "hukum-faraday.html", title: "Hukum Faraday I & II (Lab Virtual)" },
                     { file: "aplikasi-dan-proyek-penyepuhan.html", title: "Aplikasi Industri & Proyek Penyepuhan" }
+                ]
+            },
+            {
+                slug: "senyawa-turunan-alkana",
+                title: "Senyawa Karbon Turunan Alkana",
+                deskripsi: "Gugus fungsi senyawa organik (alkohol, eter, aldehid, keton, asam karboksilat, ester, haloalkana), isomer posisi dan fungsi, reaksi identifikasi pembeda laboratorium (Na, PCl5, Fehling, Tollens), mekanisme reaksi organik (SN1, SN2, Zaitsev, Markovnikov), serta latihan pemecahan masalah Chang.",
+                subbab: [
+                    { file: "alkohol-dan-eter.html", title: "Alkohol (Alkanol) & Eter (Alkoksi Alkana)" },
+                    { file: "aldehid-dan-keton.html", title: "Aldehid (Alkanal) & Keton (Alkanon)" },
+                    { file: "asam-karboksilat-dan-ester.html", title: "Asam Karboksilat (Alkanoat) & Ester (Alkil Alkanoat)" },
+                    { file: "haloalkana-dan-reaksi-organik.html", title: "Haloalkana & Mekanisme Reaksi Organik (SN, Eliminasi, Adisi)" },
+                    { file: "latihan-pemecahan-masalah-senyawa-karbon-chang.html", title: "Latihan Pemecahan Masalah Senyawa Karbon (Chang Problems)" }
+                ]
+            },
+            {
+                slug: "benzena-dan-turunannya",
+                title: "Benzena & Senyawa Turunannya",
+                deskripsi: "Struktur Kekulé, delokalisasi elektron pi, kestabilan aromatisitas (aturan Hückel), tata nama orto/meta/para, mekanisme reaksi substitusi elektrofilik aromatik (SEAr), sifat keasaman fenol, aplikasi farmasi (aspirin/parasetamol), bahan peledak TNT, serta latihan Chang.",
+                subbab: [
+                    { file: "struktur-dan-tata-nama-benzena.html", title: "Struktur & Tata Nama Benzena (Orto, Meta, Para)" },
+                    { file: "reaksi-substitusi-elektrofilik-benzena.html", title: "Reaksi Substitusi Elektrofilik Aromatik (SEAr)" },
+                    { file: "sifat-kegunaan-dan-dampak-turunan-benzena.html", title: "Sifat, Kegunaan & Dampak Turunan Benzena" },
+                    { file: "latihan-pemecahan-masalah-benzena-chang.html", title: "Latihan Pemecahan Masalah Benzena (Chang Problems)" }
+                ]
+            },
+            {
+                slug: "makromolekul",
+                title: "Makromolekul: Polimer & Biomolekul",
+                deskripsi: "Polimerisasi adisi vs kondensasi (HDPE, PVC, Teflon, Nilon 6,6, Dakron/PET), vulkanisasi karet, struktur karbohidrat (Fischer & Haworth, mutarotasi, gula pereduksi, amilum vs selulosa), protein dan asam amino (ion zwitter, pI, elektroforesis, 4 tingkat struktur protein, denaturasi), lipid dan lemak (trigliserida, saponifikasi sabun, angka penyabunan & angka iodin), serta simulator uji laboratorium.",
+                subbab: [
+                    { file: "polimer-sintetis-dan-reaksi-polimerisasi.html", title: "Polimer Sintetis & Reaksi Polimerisasi (Adisi vs Kondensasi)" },
+                    { file: "karbohidrat-dan-uji-laboratorium.html", title: "Karbohidrat: Struktur, Penggolongan & Uji Laboratorium" },
+                    { file: "protein-asam-amino-dan-uji-identifikasi.html", title: "Protein & Asam Amino: Struktur, Titik Isoelektrik & Uji Identifikasi" },
+                    { file: "lipid-lemak-minyak-dan-angka-analisis.html", title: "Lipid: Lemak, Minyak, Reaksi Saponifikasi & Angka Analisis" },
+                    { file: "latihan-pemecahan-masalah-makromolekul-chang.html", title: "Latihan Pemecahan Masalah Makromolekul (Chang Problems)" }
+                ]
+            },
+            {
+                slug: "kimia-unsur",
+                title: "Kimia Unsur & Senyawa Kompleks",
+                deskripsi: "Gas Mulia (kestabilan oktet & senyawa Xenon), Halogen (daya desak & uji AgX), Logam Alkali & Alkali Tanah (reaksi air, tren kelarutan sulfat/hidroksida, kesadahan air & uji nyala api), Unsur Periode 3 (titik leleh Si vs S8, anomali energi ionisasi & amfoter Al(OH)3), Logam Transisi Periode 4 (anomali Cr/Cu, kemagnetan, warna d-d splitting & tata nama senyawa kompleks IUPAC), serta proses industri metalurgi terkenal (Hall-Héroult, Tanur Tiup, Proses Kontak, Haber-Bosch).",
+                subbab: [
+                    { file: "gas-mulia-dan-halogen.html", title: "Gas Mulia & Halogen: Sifat, Daya Desak & Senyawa" },
+                    { file: "logam-alkali-dan-alkali-tanah.html", title: "Logam Alkali & Alkali Tanah: Sifat, Uji Nyala & Kesadahan Air" },
+                    { file: "unsur-unsur-periode-ketiga.html", title: "Unsur-Unsur Periode 3: Tren Sifat, Ikatan & Karakteristik Amfoter" },
+                    { file: "logam-transisi-periode-keempat-dan-senyawa-kompleks.html", title: "Logam Transisi Periode 4 & Senyawa Kompleks Koordinasi" },
+                    { file: "proses-pengolahan-industri-dan-latihan-chang.html", title: "Proses Metalurgi Industri & Latihan Pemecahan Masalah Chang" }
                 ]
             }
         ]
