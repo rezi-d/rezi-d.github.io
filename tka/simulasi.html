@@ -267,6 +267,7 @@
     <script src="/tka/data/mapel-matematika-umum.js"></script>
     <script src="/tka/data/mapel-sosiologi-paket2.js"></script>
     <script src="/tka/data/mapel-sosiologi.js"></script>
+    <script src="/tka/data/mapel-geografi.js"></script>
     <script src="/tka/js/tka-registry.js"></script>
 
     <script>
@@ -286,6 +287,8 @@
             activePackages = window.tkaMatematikaUmumPackages;
         } else if (currentMapelKey === 'sosiologi' && typeof window.tkaSosiologiPackages !== 'undefined') {
             activePackages = window.tkaSosiologiPackages;
+        } else if (currentMapelKey === 'geografi' && typeof window.tkaGeografiPackages !== 'undefined') {
+            activePackages = window.tkaGeografiPackages;
         }
 
         let currentPaketKey = urlParams.get('paket') || 'paket1';
@@ -346,6 +349,13 @@
                 if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=sosiologi`;
                 if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 30 Soal)</span>`;
                 if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal)</span>`;
+            } else if (currentMapelKey === 'geografi') {
+                document.title = "Simulasi CBT TKA Geografi SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🗺️ Simulasi Tes Kemampuan Akademik (TKA) Geografi";
+                if (subInfo) subInfo.innerText = "TKA Geografi SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=geografi`;
+                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 30 Soal)</span>`;
+                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else {
                 document.title = "Simulasi CBT TKA Kimia SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
                 if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Kimia";
@@ -533,17 +543,19 @@
                 `).join('');
             } else if (item.tipe === 'kompleks_bs') {
                 const currentObj = (typeof savedAns === 'object' && savedAns !== null) ? savedAns : {};
+                const optA = (item.kolom && item.kolom[0]) ? item.kolom[0] : 'Benar';
+                const optB = (item.kolom && item.kolom[1]) ? item.kolom[1] : 'Salah';
                 optContainer.innerHTML = item.items.map((it, idx) => `
                     <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                         <div class="text-xs sm:text-sm text-slate-800 font-medium"><strong>Pernyataan ${idx + 1}:</strong> ${it.pernyataan}</div>
                         <div class="flex items-center gap-4 text-xs font-semibold">
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="bs-${item.id}-${idx}" value="Benar" class="accent-emerald-600" ${currentObj[idx] === 'Benar' ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, 'Benar')">
-                                <span class="text-emerald-700">Benar</span>
+                                <input type="radio" name="bs-${item.id}-${idx}" value="${optA}" class="accent-emerald-600" ${currentObj[idx] === optA ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, '${optA}')">
+                                <span class="text-emerald-700">${optA}</span>
                             </label>
                             <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="bs-${item.id}-${idx}" value="Salah" class="accent-rose-600" ${currentObj[idx] === 'Salah' ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, 'Salah')">
-                                <span class="text-rose-700">Salah</span>
+                                <input type="radio" name="bs-${item.id}-${idx}" value="${optB}" class="accent-rose-600" ${currentObj[idx] === optB ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, '${optB}')">
+                                <span class="text-rose-700">${optB}</span>
                             </label>
                         </div>
                     </div>
