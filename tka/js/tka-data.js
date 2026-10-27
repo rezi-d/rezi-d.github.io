@@ -703,3 +703,33 @@ const tkaData = [
     `
   }
 ];
+
+
+// Registry Paket Soal TKA Kimia
+const tkaPackages = {
+  paket1: {
+    id: "paket1",
+    title: "Paket 1: Soal Resmi TKA Kimia 2025 (23 Soal)",
+    shortTitle: "Paket 1 (Resmi 2025)",
+    badge: "Resmi 2025",
+    total: 23,
+    get data() { return tkaData; }
+  },
+  paket2: {
+    id: "paket2",
+    title: "Paket 2: Try Out TKA Kimia 2025/2026 (25 Soal HOTS)",
+    shortTitle: "Paket 2 (Try Out 2025/2026)",
+    badge: "Try Out HOTS",
+    total: 25,
+    get data() { return (typeof tkaPaket2Data !== 'undefined') ? tkaPaket2Data : []; }
+  }
+};
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { tkaData, tkaPackages };
+}
+
+if (typeof window !== 'undefined') {
+    window.tkaData = tkaData;
+    window.tkaPackages = tkaPackages;
+}
