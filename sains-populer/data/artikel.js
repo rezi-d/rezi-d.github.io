@@ -6,6 +6,79 @@
 
 const DAFTAR_ARTIKEL_SAINS = [
     {
+        "id": "baterai-sodium-ion-garam",
+        "slug": "baterai-sodium-ion-garam",
+        "title": "Baterai Garam Sodium-Ion: Solusi Mobil Listrik Murah Pengganti Tambang Litium",
+        "subtitle": "Bagaimana natrium dari garam dapur merevolusi industri energi hijau dan mengapa potensial reduksinya menantang kimiawan dunia.",
+        "category": "Teknologi Masa Depan",
+        "categoryColor": "amber",
+        "icon": "🔋",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-amber-950 to-orange-950",
+            "badge": "Energi Hijau × Kimia Unsur",
+            "icon": "🧂"
+        },
+        "summary": "Kelangkaan dan lonjakan harga litium mendorong raksasa otomotif beralih ke baterai Sodium-Ion (Na-Ion). Berasal dari garam melimpah di kerak bumi, bagaimana kacamata kimia elektrokimia menjelaskan keunggulan dan tantangan ion Na+ yang lebih gemuk dibanding Li+?",
+        "tahukahKamu": "Natrium (Na) dan Litium (Li) sama-sama berada di Golongan 1 (Alkali) pada Tabel Periodik. Namun jari-jari ion Na⁺ (102 pm) sekitar 34% lebih besar daripada Li⁺ (76 pm), sehingga material katode membutuhkan 'terowongan kristal' berpori lebih longgar agar ion Na⁺ dapat keluar-masuk saat pengisian daya!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XII",
+                "bab": "Sel Volta & Elektrokimia Baterai",
+                "desc": "Reaksi redoks interkalasi ion dan potensial elektrode standar (E°).",
+                "url": "/kelas-12/sel-volta/anode-katode-potensial-sel.html"
+            },
+            {
+                "kelas": "Kelas X",
+                "bab": "Tabel Periodik & Keperiodikan Unsur",
+                "desc": "Jari-jari ion dan sifat kereaktifan unsur logam alkali Golongan 1.",
+                "url": "/kelas-10/tabel-periodik-unsur/jari-jari-atom-dan-energi-ionisasi.html"
+            }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Mobil listrik dan panel surya rumah kini sedang booming di seluruh dunia. Namun ada satu masalah besar: pasokan logam <strong>Litium (Li)</strong> sangat terbatas dan tambangnya memicu kekhawatiran lingkungan. Para ilmuwan kimia kini menemukan jalan keluar revolusioner: <strong>Baterai Sodium-Ion (Natrium)</strong> yang bahan bakunya berasal dari garam yang melimpah ruah!\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Duel Saudara Sekandung: Litium vs Natrium</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Pada Tabel Periodik Unsur, Litium (nomor atom 3) dan Natrium (nomor atom 11) adalah saudara sekandung di Golongan IA (Logam Alkali). Keduanya sama-sama memiliki 1 elektron valensi yang sangat mudah dilepaskan untuk membentuk kation bermuatan +1.\n            </p>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Namun, natrium memiliki massa atom lebih besar (23 g/mol vs 6,9 g/mol) dan potensial reduksi standar sedikit lebih tinggi (-2,71 V dibanding -3,04 V pada litium). Artinya, baterai sodium-ion memiliki tegangan sel yang sedikit lebih rendah, namun memiliki keunggulan luar biasa: <strong>tahan cuaca beku ekstrem hingga -20°C tanpa kehilangan daya drastis</strong>, serta tidak mudah meledak saat korsleting listrik.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Terowongan Kristal Prussian Blue</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Tantangan terbesar kimiawan adalah membuat struktur material anoda dan katoda yang cukup lapang untuk menampung ion Na⁺ yang berukuran lebih besar. Ilmuwan menggunakan senyawa kompleks berkerangka terbuka yang disebut <em>Prussian White</em> dan karbon keras (<em>hard carbon</em>), memungkinkan ion natrium meluncur keluar-masuk dengan mulus tanpa meretakkan kisi kristal baterai.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">Masa Depan Kendaraan Ramah Lingkungan</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Dengan biaya produksi yang 30-40% lebih murah dan ketersediaan garam yang praktis tak terbatas di lautan dunia, baterai sodium-ion siap menjadi motor penggerak sepeda motor dan mobil listrik terjangkau untuk seluruh masyarakat di masa depan!\n            </p>\n        ",
+        "diskusi": "Mengapa unsur Golongan 1 (Alkali) seperti Li dan Na sangat disukai untuk baterai isi ulang dibandingkan unsur Golongan 2 (Alkali Tanah) seperti Kalsium (Ca) atau Magnesium (Mg)?",
+        "publishDate": "28 Oktober 2026"
+    },
+
+    {
+        "id": "fusi-nuklir-matahari-buatan",
+        "slug": "fusi-nuklir-matahari-buatan",
+        "title": "Reaktor Fusi Nuklir Tokamak: Meniru Reaksi Kimia-Fisika Inti Matahari di Bumi",
+        "subtitle": "Menyingkap reaksi fusi isotop Deuterium dan Tritium bersuhu 100 juta derajat celcius untuk energi bersih tanpa limbah radioaktif.",
+        "category": "Nobel & Terobosan Sains",
+        "categoryColor": "teal",
+        "icon": "☀️",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-teal-950 to-sky-950",
+            "badge": "Fusi Nuklir × Kimia Isotop",
+            "icon": "🔬"
+        },
+        "summary": "Para ilmuwan di fasilitas reaktor ITER dan Tokamak dunia berhasil mencetak rekor mempertahankan plasma fusi bersuhu 100 juta derajat celcius. Reaksi fusi isotop hidrogen ini menjanjikan energi listrik tanpa batas dan bebas emisi karbon.",
+        "tahukahKamu": "Bahan bakar fusi nuklir berasal dari air laut! Dari setiap 1 liter air laut biasa, terkandung sekitar 33 miligram Deuterium (²H). Energi fusi yang dihasilkan dari 33 mg deuterium tersebut setara dengan membakar 300 liter bensin murni!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas X",
+                "bab": "Struktur Atom & Konfigurasi",
+                "desc": "Isotop hidrogen (Protium ¹H, Deuterium ²H, Tritium ³H) dan defek massa.",
+                "url": "/kelas-10/struktur-atom/konfigurasi-elektron-bohr-dan-mekanika-kuantum.html"
+            },
+            {
+                "kelas": "Kelas XI",
+                "bab": "Termokimia & Energi Ikatan",
+                "desc": "Perubahan entalpi raksasa pada reaksi penggabungan inti atom.",
+                "url": "/kelas-11/termokimia/energi-ikatan-dan-penentuan-entalpi.html"
+            }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Selama miliaran tahun, Matahari memancarkan cahaya dan panas yang menghidupi bumi tanpa pernah padam. Kunci rahasianya bukan pembakaran gas biasa, melainkan <strong>Reaksi Fusi Nuklir</strong>: penggabungan inti-inti atom hidrogen menjadi helium pada suhu dan tekanan gravitasi yang luar biasa tinggi.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Kimia Isotop: Mengapa Deuterium & Tritium?</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Di laboratorium bumi, para ilmuwan mereaksikan dua isotop istimewa dari hidrogen: <strong>Deuterium (²H)</strong> yang intinya memiliki 1 proton dan 1 neutron, serta <strong>Tritium (³H)</strong> dengan 1 proton dan 2 neutron.\n            </p>\n            <div class=\"p-4 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm font-mono mb-4 text-center\">\n                ²₁H + ³₁H &rarr; ⁴₂He (Partikel Alfa) + ¹₀n + Energi (17,6 MeV)\n            </div>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Ketika kedua inti ini bergabung membentuk inti Helium-4 (⁴He), ada sebagian kecil massa yang 'lenyap'. Sesuai persamaan kesetaraan massa-energi Einstein ($E = mc^2$), massa yang hilang tersebut (disebut *mass defect*) dikonversi menjadi energi kinetik luar biasa dahsyat!\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Mengapa Bebas Polusi & Risiko Ledakan Meltdown?</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Berbeda dengan reaktor fisi nuklir konvensional (PLTN berbasis Uranium) yang menghasilkan limbah radioaktif selama ribuan tahun, hasil samping fusi hidrogen hanyalah <strong>gas Helium</strong>—gas mulia yang sama persis dengan gas pengisi balon ulang tahun anak-anak yang tidak beracun dan tidak bisa terbakar!\n            </p>\n        ",
+        "diskusi": "Mengapa reaksi fusi nuklir membutuhkan suhu hingga lebih dari 100 juta derajat celcius agar bisa terjadi di bumi? Gaya apa yang harus dilawan oleh kedua inti atom agar dapat bersatu?",
+        "publishDate": "28 Oktober 2026"
+    },
+    {
         id: "tesla-roadster-terbang",
         slug: "tesla-roadster-terbang",
         title: "Mobil Terbang Tesla Roadster: Mengapa Elon Musk Pakai Gas Dingin & Bukan Api Roket?",
