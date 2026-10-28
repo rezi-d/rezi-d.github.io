@@ -37,7 +37,7 @@ const MATERI_VALID_SMA = [
     { kelas: "Kelas XII", bab: "Kimia Unsur Logam Transisi & Kompleks", url: "/kelas-12/kimia-unsur/logam-transisi-periode-keempat-dan-senyawa-kompleks.html" }
 ];
 
-async function callGemini(prompt, model = 'gemini-2.0-flash') {
+async function callGemini(prompt, model = 'gemini-3.8-flash') {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
     const payload = {
         contents: [
@@ -71,7 +71,15 @@ async function callGemini(prompt, model = 'gemini-2.0-flash') {
         throw new Error('Respon Gemini tidak memiliki konten valid.');
     }
 
-    const text = candidate.content.parts[0].text;
+    let text = candidate.content.parts[0].text.trim();
+    if (text.startsWith('```')) {
+        text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+    }
+    const firstBracket = text.indexOf('[');
+    const lastBracket = text.lastIndexOf(']');
+    if (firstBracket !== -1 && lastBracket !== -1) {
+        text = text.substring(firstBracket, lastBracket + 1);
+    }
     return JSON.parse(text);
 }
 
@@ -146,10 +154,10 @@ Kembalikan JSON array berisi 2 objek dengan struktur persis seperti berikut:
 
     let newArticles = [];
     try {
-        newArticles = await callGemini(prompt, 'gemini-2.0-flash');
+        newArticles = await callGemini(prompt, 'gemini-3.8-flash');
     } catch (err) {
-        console.warn('⚠️ Percobaan dengan gemini-2.0-flash gagal, mencoba fallback ke gemini-1.5-flash:', err.message);
-        newArticles = await callGemini(prompt, 'gemini-1.5-flash');
+        console.warn('⚠️ Percobaan dengan gemini-3.8-flash gagal, mencoba fallback ke gemini-3.8-flash-lite:', err.message);
+        newArticles = await callGemini(prompt, 'gemini-3.8-flash-lite');
     }
 
     if (!Array.isArray(newArticles) || newArticles.length === 0) {
