@@ -37,7 +37,36 @@ const MATERI_VALID_SMA = [
     { kelas: "Kelas XII", bab: "Kimia Unsur Logam Transisi & Kompleks", url: "/kelas-12/kimia-unsur/logam-transisi-periode-keempat-dan-senyawa-kompleks.html" }
 ];
 
-async function callGemini(prompt, model = 'gemini-3.8-flash') {
+async function getAvailableModel() {
+    console.log('🔍 Memeriksa daftar model yang aktif di akun Anda via ModelService...');
+    try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
+        if (res.ok) {
+            const data = await res.json();
+            if (data.models && Array.isArray(data.models)) {
+                const candidates = data.models.filter(m => 
+                    m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent')
+                );
+                const modelNames = candidates.map(c => c.name.replace('models/', ''));
+                console.log('📋 Model yang aktif dan mendukung generateContent:', modelNames.join(', '));
+                
+                // Cari model flash terbaru
+                const preferred = modelNames.find(n => n.includes('flash') && !n.includes('image') && !n.includes('tts'));
+                if (preferred) return preferred;
+                if (modelNames.length > 0) return modelNames[0];
+            }
+        } else {
+            const err = await res.text();
+            console.warn('⚠️ ListModels respon bukan 200:', err);
+        }
+    } catch (e) {
+        console.warn('⚠️ Gagal memanggil ListModels:', e.message);
+    }
+    return 'gemini-2.5-flash';
+}
+
+async function callGemini(prompt, modelName) {
+    const model = modelName || (await getAvailableModel());
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
     const payload = {
         contents: [
@@ -48,8 +77,7 @@ async function callGemini(prompt, model = 'gemini-3.8-flash') {
         ],
         generationConfig: {
             temperature: 0.7,
-            topP: 0.95,
-            responseMimeType: "application/json"
+            topP: 0.95
         }
     };
 
@@ -62,7 +90,7 @@ async function callGemini(prompt, model = 'gemini-3.8-flash') {
 
     if (!res.ok) {
         const errText = await res.text();
-        throw new Error(`Gemini API Error (status ${res.status}): ${errText}`);
+        throw new Error(`Gemini API Error (${model} - status ${res.status}): ${errText}`);
     }
 
     const data = await res.json();
@@ -152,12 +180,14 @@ Kembalikan JSON array berisi 2 objek dengan struktur persis seperti berikut:
 ]
 `;
 
+    const activeModel = await getAvailableModel();
     let newArticles = [];
     try {
-        newArticles = await callGemini(prompt, 'gemini-3.8-flash');
+        newArticles = await callGemini(prompt, activeModel);
     } catch (err) {
-        console.warn('⚠️ Percobaan dengan gemini-3.8-flash gagal, mencoba fallback ke gemini-3.8-flash-lite:', err.message);
-        newArticles = await callGemini(prompt, 'gemini-3.8-flash-lite');
+        console.warn(`⚠️ Percobaan dengan ${activeModel} gagal:`, err.message);
+        console.log('Mencoba fallback ke gemini-2.5-flash...');
+        newArticles = await callGemini(prompt, 'gemini-2.5-flash');
     }
 
     if (!Array.isArray(newArticles) || newArticles.length === 0) {
