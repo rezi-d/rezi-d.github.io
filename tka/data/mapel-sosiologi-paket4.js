@@ -66,7 +66,7 @@ const tkaSosiologiPaket4Data = [
   {
     "id": 3,
     "elemen": "Gejala Sosial & Patologi Digital",
-    "tipe": "kategori",
+    "tipe": "kompleks_bs",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nMaraknya aksi penipuan daring berbasis modul peretasan pesan singkat (phishing) telah meresahkan warga di berbagai daerah. Para pelaku memanfaatkan data pribadi korban untuk membobol rekening perbankan. Kepolisian mencatat kasus ini terjadi secara berulang dalam beberapa bulan terakhir dengan modus yang terorganisir dan korban dari pelbagai kalangan.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nTentukan apakah pernyataan berikut Benar atau Salah terkait alasan fenomena tersebut dikategorikan sebagai gejala sosial!\n</p>",
     "kunci": [
       "Benar",
@@ -74,18 +74,21 @@ const tkaSosiologiPaket4Data = [
       "Salah"
     ],
     "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Pernyataan 1 BENAR (berdampak luas dan meresahkan publik). Pernyataan 2 BENAR (pelanggaran norma hukum dan nilai sosial). Pernyataan 3 SALAH (dilakukan secara terorganisir dan berulang, bukan acak).<br><br><strong>Kunci Jawaban: ['Benar', 'Benar', 'Salah']</strong>",
-    "pernyataan": [
+    "items": [
       {
         "pernyataan": "Kasus tersebut merupakan gejala sosial karena berdampak luas dan menimbulkan keresahan publik.",
-        "kunci": "Benar"
+        "kunci": "Benar",
+        "penjelasan": "Fenomena ini berdampak besar pada masyarakat dan mengganggu ketenteraman umum, sehingga memenuhi kriteria gejala sosial."
       },
       {
         "pernyataan": "Fenomena ini termasuk gejala sosial akibat adanya penyimpangan norma hukum dan sosial di masyarakat.",
-        "kunci": "Benar"
+        "kunci": "Benar",
+        "penjelasan": "Penipuan dan pembobolan rekening merupakan tindakan kejahatan yang melanggar hukum dan norma sosial."
       },
       {
         "pernyataan": "Kejadian ini bukan gejala sosial karena dilakukan secara acak tanpa pola tindakan yang jelas.",
-        "kunci": "Salah"
+        "kunci": "Salah",
+        "penjelasan": "Teks secara eksplisit menyatakan bahwa modus pelaku dilakukan secara terorganisir dan berulang, bukan secara acak."
       }
     ]
   },
@@ -122,22 +125,22 @@ const tkaSosiologiPaket4Data = [
   {
     "id": 5,
     "elemen": "Penelitian Kualitatif",
-    "tipe": "pg_kompleks",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Sebuah penelitian kualitatif bertujuan menelaah peran penyandang disabilitas dalam sektor kerja</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">formal. Peneliti berfokus pada aksesibilitas fasilitas kerja, kesetaraan hak pengupahan, serta hambatan</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">sosial yang dihadapi para pekerja disabilitas di perusahaan swasta.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Manakah pernyataan yang menunjukkan tujuan penelitian kualitatif studi kasus berdasarkan ilustrasi</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">tersebut? (Jawaban benar lebih dari satu)</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">kerja formal.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">kerja.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">perusahaan.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">disabilitas.</p>",
+    "tipe": "mcma",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nSebuah penelitian kualitatif bertujuan menelaah peran penyandang disabilitas dalam sektor kerja formal. Peneliti berfokus pada aksesibilitas fasilitas kerja, kesetaraan hak pengupahan, serta hambatan sosial yang dihadapi para pekerja disabilitas di perusahaan swasta.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nManakah pernyataan yang menunjukkan tujuan penelitian kualitatif studi kasus berdasarkan ilustrasi tersebut?<br>\n<span class=\"text-xs font-normal text-slate-600\">Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.</span>\n</p>",
     "kunci": [
       "A",
       "B",
       "D"
     ],
-    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Tujuan penelitian kualitatif studi kasus mencakup eksplorasi mendalam mengenai peran kepemimpinan perempuan, hambatan kultural, dan pola interaksi dalam komunitas adat (bukan pengujian statistik kuantitatif).<br><br><strong>Kunci Jawaban: ['A', 'B', 'D']</strong>",
+    "pembahasan": "<strong>Tujuan Penelitian Kualitatif Studi Kasus:</strong><br>\nPenelitian kualitatif dengan pendekatan studi kasus berfokus pada pemahaman mendalam mengenai pengalaman subjektif, hambatan interaksi sosial, dan penerapan kebijakan inklusi di lingkungan kerja formal.<br>\n- <strong>Pilihan A & B & D (Benar):</strong> Mencerminkan eksplorasi mendalam atas realitas sosial pekerja disabilitas.<br>\n- <strong>Pilihan C (Salah):</strong> Frasa 'menghitung korelasi matematis' adalah ciri khas penelitian kuantitatif korelasional.<br>\n- <strong>Pilihan E (Salah):</strong> Penelitian akademik tidak bertindak sebagai lembaga penegak sanksi hukum.<br><br>\n<strong>Kunci Jawaban: A, B, D</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Untuk mengidentifikasi peluang dan hambatan yang dihadapi pekerja disabilitas di lingkungan"
+        "text": "Untuk mengidentifikasi peluang dan hambatan yang dihadapi pekerja disabilitas di lingkungan kerja formal."
       },
       {
         "id": "B",
-        "text": "Untuk memahami dinamika interaksi dan pengalaman adaptasi pekerja disabilitas dengan rekan"
+        "text": "Untuk memahami dinamika interaksi dan pengalaman adaptasi pekerja disabilitas dengan rekan kerja."
       },
       {
         "id": "C",
@@ -145,11 +148,11 @@ const tkaSosiologiPaket4Data = [
       },
       {
         "id": "D",
-        "text": "Untuk mengevaluasi sejauh mana prinsip inklusivitas diterapkan dalam kebijakan internal"
+        "text": "Untuk mengevaluasi sejauh mana prinsip inklusivitas diterapkan dalam kebijakan internal perusahaan."
       },
       {
         "id": "E",
-        "text": "Untuk memastikan seluruh perusahaan swasta dikenai sanksi jika tidak mempekerjakan"
+        "text": "Untuk memastikan seluruh perusahaan swasta dikenai sanksi jika tidak mempekerjakan disabilitas."
       }
     ]
   },
@@ -186,18 +189,18 @@ const tkaSosiologiPaket4Data = [
   {
     "id": 7,
     "elemen": "Manfaat Penelitian Sosial",
-    "tipe": "pg_kompleks",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Penelitian mengenai fenomena pekerja anak di sektor pertanian kelapa sawit berhasil mengidentifikasi</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">faktor kemiskinan struktural dan minimnya sekolah menengah di wilayah perkebunan. Laporan</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">penelitian ini diserahkan kepada dinas pendidikan dan dinas tenaga kerja setempat.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Manakah pernyataan yang paling tepat menggambarkan kontribusi manfaat hasil penelitian tersebut</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">bagi penyelesaian masalah? (Jawaban benar lebih dari satu)</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">pendidikan inklusif.</p>",
+    "tipe": "mcma",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nPenelitian mengenai fenomena pekerja anak di sektor pertanian kelapa sawit berhasil mengidentifikasi faktor kemiskinan struktural dan minimnya sekolah menengah di wilayah perkebunan. Laporan penelitian ini diserahkan kepada dinas pendidikan dan dinas tenaga kerja setempat.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nManakah pernyataan yang paling tepat menggambarkan kontribusi manfaat hasil penelitian tersebut bagi penyelesaian masalah?<br>\n<span class=\"text-xs font-normal text-slate-600\">Klik pada setiap pilihan jawaban benar! Jawaban benar lebih dari satu.</span>\n</p>",
     "kunci": [
       "A",
       "B",
-      "E"
+      "D"
     ],
-    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Penelitian pekerja anak memberikan sumbangan teoritis terhadap sosiologi keluarga dan kemiskinan, menyajikan rekomendasi kebijakan perlindungan anak, serta memetakan akar masalah struktural.<br><br><strong>Kunci Jawaban: ['A', 'B', 'E']</strong>",
+    "pembahasan": "<strong>Kontribusi & Manfaat Hasil Penelitian Sosial:</strong><br>\nHasil penelitian sosial memberikan kontribusi praktis berupa rekomendasi kebijakan berbasis data empiris bagi dinas terkait serta meningkatkan kesadaran masyarakat.<br>\n- <strong>Pilihan A, B, & D (Benar):</strong> Merupakan kontribusi nyata penelitian bagi perumusan kebijakan dan edukasi publik.<br>\n- <strong>Pilihan C (Salah):</strong> Penelitian tidak dapat menjamin penghapusan masalah kemiskinan secara instan.<br>\n- <strong>Pilihan E (Salah):</strong> Rekomendasi penelitian bertujuan menyelesaikan isu pekerja anak, bukan menutup seluruh operasional perkebunan.<br><br>\n<strong>Kunci Jawaban: A, B, D</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Memberikan bahan pertimbangan bagi pemerintah daerah untuk merumuskan kebijakan"
+        "text": "Memberikan bahan pertimbangan bagi pemerintah daerah untuk merumuskan kebijakan pendidikan inklusif."
       },
       {
         "id": "B",
@@ -213,7 +216,7 @@ const tkaSosiologiPaket4Data = [
       },
       {
         "id": "E",
-        "text": "Menghentikan seluruh aktivitas operasional perkebunan kelapa sawit di daerah tersebut"
+        "text": "Menghentikan seluruh aktivitas operasional perkebunan kelapa sawit di daerah tersebut."
       }
     ]
   },
@@ -250,15 +253,36 @@ const tkaSosiologiPaket4Data = [
   {
     "id": 9,
     "elemen": "Pemberdayaan Komunitas Berkelanjutan",
-    "tipe": "pg_kompleks",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi kasus. Desa Wisata Hijau Subur yang terletak di kawasan lereng gunung dahulu mengandalkan</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">sektor pertanian tradisional sebagai sumber pendapatan utama masyarakatnya. Namun, dalam lima</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">tahun terakhir, desa ini mengalami transformasi ekonomi dan sosial yang signifi kan seiring</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">berkembangnya sektor pariwisata berbasis komunitas. Masyarakat setempat, terutama generasi</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">muda, mulai memanfaatkan kemajuan teknologi informasi dan komunikasi untuk mendukung</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">perekonomian desa. Saat ini, warga terbiasa menggunakan dompet digital (e-wallet) dan transaksi</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">QRIS untuk melayani wisatawan. Selain itu, pemilik homestay tidak lagi bergantung pada pemasaran</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">konvensional, melainkan memasarkan layanan penginapan mereka secara mandiri melalui berbagai</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">platform pemesanan akomodasi internasional (online travel agent). Generasi muda di desa tersebut</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">juga melatih kemampuan bahasa asing mereka sehingga fasih berkomunikasi dan menjadi pemandu</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">bagi wisatawan mancanegara. Perubahan ini tidak hanya meningkatkan pendapatan warga, tetapi</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">juga mengintegrasikan perekonomian desa ke dalam rantai pasok pariwisata global tanpa</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">menghilangkan identitas lokal mereka.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Berdasarkan studi kasus di atas, manakah bentuk  dampak positif globalisasi dan modernisasi  yang</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">paling menonjol pada kehidupan ekonomi serta sosial masyarakat Desa Wisata Hijau Subur? (Pilihlah</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">lebih dari satu jawaban yang benar)</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] A. Peningkatan keterlibatan dan daya saing ekonomi lokal dalam jejaring pasar global</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">berbasis teknologi digital.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] B. Perluasan akses pasar bagi penyedia jasa lokal melalui platform pemesanan</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">internasional.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] C. Hilangnya penggunaan mata uang Rupiah secara total dalam seluruh bentuk transaksi di</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">area desa.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] D. Peningkatan kualitas sumber daya manusia lokal melalui penguasaan teknologi digital</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">dan komunikasi lintas budaya.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] E. Penghentian secara menyeluruh pada seluruh mata pencaharian di sektor pertanian</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">tradisional.</p>",
+    "tipe": "mcma",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\n<strong>Studi kasus:</strong><br>\nDesa Wisata Hijau Subur yang terletak di kawasan lereng gunung dahulu mengandalkan sektor pertanian tradisional sebagai sumber pendapatan utama masyarakatnya. Namun, dalam lima tahun terakhir, desa ini mengalami transformasi ekonomi dan sosial yang signifikan seiring berkembangnya sektor pariwisata berbasis komunitas. Masyarakat setempat, terutama generasi muda, mulai memanfaatkan kemajuan teknologi informasi dan komunikasi untuk mendukung perekonomian desa. Saat ini, warga terbiasa menggunakan dompet digital (e-wallet) dan transaksi QRIS untuk melayani wisatawan. Selain itu, pemilik homestay tidak lagi bergantung pada pemasaran konvensional, melainkan memasarkan layanan penginapan mereka secara mandiri melalui berbagai platform pemesanan akomodasi internasional (online travel agent). Generasi muda di desa tersebut juga melatih kemampuan bahasa asing mereka sehingga fasih berkomunikasi dan menjadi pemandu bagi wisatawan mancanegara. Perubahan ini tidak hanya meningkatkan pendapatan warga, tetapi juga mengintegrasikan perekonomian desa ke dalam rantai pasok pariwisata global tanpa menghilangkan identitas lokal mereka.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBerdasarkan studi kasus di atas, manakah bentuk dampak positif globalisasi dan modernisasi yang paling menonjol pada kehidupan ekonomi serta sosial masyarakat Desa Wisata Hijau Subur?<br>\n<span class=\"text-xs font-normal text-slate-600\">Klik pada setiap pilihan jawaban benar! Pilihlah lebih dari satu jawaban yang benar.</span>\n</p>",
     "kunci": [
       "A",
-      "C",
+      "B",
       "D"
     ],
-    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Pengembangan desa wisata berbasis komunitas (CBT) harus memprioritaskan keterlibatan aktif warga lokal, pelestarian ekosistem alam, serta pembagian keuntungan ekonomi yang berkeadilan.<br><br><strong>Kunci Jawaban: ['A', 'C', 'D']</strong>",
-    "options": []
+    "pembahasan": "<strong>Dampak Positif Globalisasi & Glokalisasi:</strong><br>\nPemanfaatan platform internasional, dompet digital/QRIS, dan kemampuan bahasa asing memperlihatkan keterlibatan aktif komunitas desa dalam pasar global tanpa meniadakan identitas lokal (glokalisasi).<br>\n- <strong>Pilihan A, B, & D (Benar):</strong> Menunjukkan peningkatan daya saing, akses pasar, dan kualitas SDM desa.<br>\n- <strong>Pilihan C (Salah):</strong> Transaksi digital QRIS tetap menggunakan denominasi mata uang Rupiah.<br>\n- <strong>Pilihan E (Salah):</strong> Teks menegaskan bahwa sektor pariwisata berkembang melengkapi perekonomian desa, bukan menghentikan seluruh mata pencaharian bertani.<br><br>\n<strong>Kunci Jawaban: A, B, D</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Peningkatan keterlibatan dan daya saing ekonomi lokal dalam jejaring pasar global berbasis teknologi digital."
+      },
+      {
+        "id": "B",
+        "text": "Perluasan akses pasar bagi penyedia jasa lokal melalui platform pemesanan internasional."
+      },
+      {
+        "id": "C",
+        "text": "Hilangnya penggunaan mata uang Rupiah secara total dalam seluruh bentuk transaksi di area desa."
+      },
+      {
+        "id": "D",
+        "text": "Peningkatan kualitas sumber daya manusia lokal melalui penguasaan teknologi digital dan komunikasi lintas budaya."
+      },
+      {
+        "id": "E",
+        "text": "Penghentian secara menyeluruh pada seluruh mata pencaharian di sektor pertanian tradisional."
+      }
+    ]
   },
   {
     "id": 10,
@@ -293,8 +317,8 @@ const tkaSosiologiPaket4Data = [
   {
     "id": 11,
     "elemen": "Dinamika Kelompok Sosial & Perubahan Spasial",
-    "tipe": "kategori",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\n<strong>Studi Kasus:</strong><br>\nPembangunan perumahan megah di sekitar kawasan perkampungan padat penduduk membawa perubahan fisik dan sosial yang signifikan. Hilangnya lapangan publik yang sebelumnya menjadi pusat kegiatan warga menyebabkan ruang untuk berkumpul dan berinteraksi secara tatap muka semakin terbatas. Komunikasi antarwarga yang dahulu terjalin hangat kini perlahan bergeser menjadi interaksi serba digital melalui grup perpesanan singkat (instant messaging).\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBerdasarkan studi kasus di atas, tentukan apakah pernyataan berikut Benar atau Salah mengenai dampak jangka panjang dari perubahan pola interaksi masyarakat tersebut!\n</p>",
+    "tipe": "kompleks_bs",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\n<strong>Studi Kasus:</strong><br>\nPembangunan perumahan megah di sekitar kawasan perkampungan padat penduduk membawa perubahan fisik dan sosial yang signifikan. Hilangnya lapangan publik yang sebelumnya menjadi pusat kegiatan warga menyebabkan ruang untuk berkumpul dan berinteraksi secara tatap muka semakin terbatas. Komunikasi antarwarga yang dahulu terjalin hangat kini perlahan bergeser menjadi interaksi serba digital melalui grup perpesanan singkat (instant messaging).\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBerdasarkan studi kasus di atas, tentukan apakah pernyataan berikut Benar atau Salah mengenai dampak jangka panjang dari perubahan pola interaksi masyarakat tersebut!<br>\n<span class=\"text-xs font-normal text-slate-600\">Tentukan Benar atau Salah untuk setiap pernyataan berdasarkan isi teks!</span>\n</p>",
     "kunci": [
       "Benar",
       "Benar",
@@ -302,27 +326,32 @@ const tkaSosiologiPaket4Data = [
       "Benar",
       "Salah"
     ],
-    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Hilangnya ruang publik fisik mengikis modal sosial dan keakraban emosional (Pernyataan 1 & 2 BENAR), meningkatkan segmentasi sosial (Pernyataan 4 BENAR). Namun perumahan megah tidak otomatis meningkatkan gotong royong dan tidak menghilangkan potensi konflik (Pernyataan 3 & 5 SALAH).<br><br><strong>Kunci Jawaban: ['Benar', 'Benar', 'Salah', 'Benar', 'Salah']</strong>",
-    "pernyataan": [
+    "pembahasan": "<strong>Analisis Sosiologis Dampak Perubahan Interaksi Sosial:</strong><br>\nPerubahan tata ruang dan modernisasi komunikasi memengaruhi struktur interaksi masyarakat secara fundamental:<br>\n1. <strong>Pernyataan 1 (Benar):</strong> Hilangnya ruang publik mereduksi modal sosial dan solidaritas organik komunitas.<br>\n2. <strong>Pernyataan 2 (Benar):</strong> Komunikasi daring tidak sepenuhnya menggantikan kehangatan hubungan afektif tatap muka.<br>\n3. <strong>Pernyataan 3 (Salah):</strong> Pembangunan perumahan mewah tidak meningkatkan gotong royong warga kampung.<br>\n4. <strong>Pernyataan 4 (Benar):</strong> Terjadi segmentasi sosial di mana warga semakin terpisah secara fisik dan sosial.<br>\n5. <strong>Pernyataan 5 (Salah):</strong> Disparitas sosial ekonomi dapat memicu kecemburuan dan potensi gesekan sosial baru.<br><br>\n<strong>Kunci Jawaban: Benar, Benar, Salah, Benar, Salah</strong>",
+    "items": [
       {
         "pernyataan": "Terkikisnya ikatan solidaritas sosial dan rasa kepemilikan komunitas secara bertahap akibat hilangnya ruang publik fisik.",
-        "kunci": "Benar"
+        "kunci": "Benar",
+        "penjelasan": "Hilangnya ruang publik mengurangi frekuensi perjumpaan tatap muka langsung, melemahkan modal sosial komunitas."
       },
       {
         "pernyataan": "Peralihan komunikasi ke grup perpesanan singkat berpotensi menurunkan kualitas hubungan emosional antarwarga secara langsung.",
-        "kunci": "Benar"
+        "kunci": "Benar",
+        "penjelasan": "Interaksi digital sering kali tereduksi menjadi komunikasi informatif tanpa kedalaman afektif seperti dialog tatap muka."
       },
       {
         "pernyataan": "Pembangunan perumahan megah secara otomatis meningkatkan semangat gotong royong dan ikatan kekeluargaan antarwarga.",
-        "kunci": "Salah"
+        "kunci": "Salah",
+        "penjelasan": "Pembangunan perumahan elit di dekat kampung justru cenderung menciptakan segregasi spasial dan sosial."
       },
       {
         "pernyataan": "Terjadinya segmentasi sosial yang mereduksi fungsi interaksi tatap muka di tengah masyarakat perkampungan.",
-        "kunci": "Benar"
+        "kunci": "Benar",
+        "penjelasan": "Warga terkotak-kotak dalam klaster atau kelompok maya masing-masing."
       },
       {
         "pernyataan": "Menurunnya angka kriminalitas secara drastis serta hilangnya seluruh potensi konflik di lingkungan permukiman.",
-        "kunci": "Salah"
+        "kunci": "Salah",
+        "penjelasan": "Kesenjangan sosial ekonomi antara perumahan mewah dan perkampungan justru berpotensi menimbulkan kecemburuan sosial dan kerawanan."
       }
     ]
   },
@@ -359,15 +388,36 @@ const tkaSosiologiPaket4Data = [
   {
     "id": 13,
     "elemen": "Penanganan Konflik Sosial",
-    "tipe": "pg_kompleks",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Fenomena di kalangan remaja menunjukkan adanya pergeseran gaya hidup, di mana</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">banyak generasi muda merasa lebih bangga mengonsumsi makanan cepat saji merek luar</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">negeri dan mengenakan pakaian bergaya Barat. Sebaliknya, kuliner dan busana lokal</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">sering kali dianggap kurang menarik atau terkesan kuno. Fenomena ini mencerminkan</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">tantangan dalam menjaga identitas budaya lokal di tengah arus globalisasi dan</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">modernisasi.Berdasarkan kasus di atas, manakah bentuk sikap kritis dan solusi yang</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">paling tepat untuk menumbuhkan rasa bangga berbudaya lokal tanpa harus</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">menolak arus modernisasi?(Pilihlah lebih dari satu jawaban yang benar)</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] A. Mengembangkan inovasi pengemasan serta penyesuaian tren modern pada</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">produk kuliner dan busana lokal agar relevan dengan selera generasi muda.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] B. Mengedukasi generasi muda mengenai nilai historis dan kualitas produk lokal</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">melalui media digital dan kampanye kreatif.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] C. Melarang masuknya seluruh produk, tren busana, dan budaya dari luar negeri</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">secara mutlak.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] D. Memanfaatkan platform media sosial untuk mempromosikan dan</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">mempopulerkan kembali warisan budaya lokal secara interaktif.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">• [ ] E. Mengganti seluruh musik dan lagu daerah dengan musik pop mancanegara agar</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">tidak ketinggalan zaman.</p>",
+    "tipe": "mcma",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\n<strong>Studi Kasus:</strong><br>\nFenomena di kalangan remaja menunjukkan adanya pergeseran gaya hidup, di mana banyak generasi muda merasa lebih bangga mengonsumsi makanan cepat saji merek luar negeri dan mengenakan pakaian bergaya Barat. Sebaliknya, kuliner dan busana lokal sering kali dianggap kurang menarik atau terkesan kuno. Fenomena ini mencerminkan tantangan dalam menjaga identitas budaya lokal di tengah arus globalisasi dan modernisasi.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBerdasarkan kasus di atas, manakah bentuk sikap kritis dan solusi yang paling tepat untuk menumbuhkan rasa bangga berbudaya lokal tanpa harus menolak arus modernisasi?<br>\n<span class=\"text-xs font-normal text-slate-600\">Klik pada setiap pilihan jawaban benar! Pilihlah lebih dari satu jawaban yang benar.</span>\n</p>",
     "kunci": [
       "A",
       "B",
-      "E"
+      "D"
     ],
-    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Penyelesaian konflik agraria membutuhkan pemetaan pemangku kepentingan yang transparan, dialog langsung yang setara, serta kepastian legalitas hak ulayat masyarakat adat.<br><br><strong>Kunci Jawaban: ['A', 'B', 'E']</strong>",
-    "options": []
+    "pembahasan": "<strong>Sikap Kritis Menghadapi Globalisasi (Glokalisasi & Revitalisasi Budaya):</strong><br>\nDi era modernisasi dan globalisasi, menjaga eksistensi budaya lokal tidak dilakukan dengan isolasi pasif, melainkan melalui revitalisasi kreatif dan adaptasi:<br>\n- <strong>Pilihan A (Benar):</strong> Melakukan inovasi kemasan dan sentuhan modern agar produk lokal digemari generasi muda (glokalisasi).<br>\n- <strong>Pilihan B (Benar):</strong> Edukasi nilai sejarah melalui konten media kreatif meningkatkan apresiasi dan kebanggaan kultural.<br>\n- <strong>Pilihan C (Salah):</strong> Pelarangan mutlak (chauvinisme/proteksionisme ekstrem) tidak realistis dan menutup kemajuan di era global.<br>\n- <strong>Pilihan D (Benar):</strong> Pemanfaatan media sosial merupakan strategi penyebaran nilai lokal yang relevan dengan ekosistem digital anak muda.<br>\n- <strong>Pilihan E (Salah):</strong> Mengganti total lagu daerah justru mempercepat kepunahan identitas budaya lokal.<br><br>\n<strong>Kunci Jawaban: A, B, D</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Mengembangkan inovasi pengemasan serta penyesuaian tren modern pada produk kuliner dan busana lokal agar relevan dengan selera generasi muda."
+      },
+      {
+        "id": "B",
+        "text": "Mengedukasi generasi muda mengenai nilai historis dan kualitas produk lokal melalui media digital dan kampanye kreatif."
+      },
+      {
+        "id": "C",
+        "text": "Melarang masuknya seluruh produk, tren busana, dan budaya dari luar negeri secara mutlak."
+      },
+      {
+        "id": "D",
+        "text": "Memanfaatkan platform media sosial untuk mempromosikan dan mempopulerkan kembali warisan budaya lokal secara interaktif."
+      },
+      {
+        "id": "E",
+        "text": "Mengganti seluruh musik dan lagu daerah dengan musik pop mancanegara agar tidak ketinggalan zaman."
+      }
+    ]
   },
   {
     "id": 14,
@@ -737,7 +787,7 @@ if (typeof window !== 'undefined') {
   window.tkaSosiologiPackages = window.tkaSosiologiPackages || {};
   window.tkaSosiologiPackages['paket4'] = {
     title: "Paket 4: Latihan Intensif TKA Sosiologi SMA 2026 (25 Soal Terprediksi)",
-    shortTitle: "Paket 4 (Latihan Intensif - 25 Soal)",
+    shortTitle: "Paket 4 (Latihan Intensif 2026 - 25 Soal)",
     data: tkaSosiologiPaket4Data
   };
 }

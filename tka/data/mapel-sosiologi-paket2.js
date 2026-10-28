@@ -126,18 +126,29 @@ const tkaSosiologiPaket2Data = [
   {
     "id": 5,
     "elemen": "Gejala Sosial & Perilaku Menyimpang",
-    "tipe": "kategori",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">STUDI KASUS (STIMULUS HOTS)Maraknya aksi cyberbullying dan penyebaran konten provokatif oleh sekelompok akun anonim di platform media sosial telah menimbulkan kepanikan dan perpecahan di kalangan remaja SMA di Kota Z. Penyelidikan pihak kepolisian bersama pakar siber menunjukkan bahwa tindakan ini bukan sekadar keisengan individu, melainkan dilakukan secara terstruktur dan berulang oleh sebuah kelompok terorganisir yang sengaja menargetkan siswa-siswa sekolah tertentu untuk memicu tawuran antarsekolah. Fenomena ini telah berlangsung selama kurun waktu tiga bulan dan menyebabkan munculnya rasa saling curiga serta gangguan kecemasan massal di lingkungan sekolah.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Benar</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Salah</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Kasus tersebut merupakan gejala sosial karena berdampak luas pada munculnya rasa ketakutan dan kecemasan psikologis di masyarakat.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Peristiwa ini merupakan gejala sosial karena bersumber dari penyimpangan norma sosial dan nilai keharmonisan yang berlaku di masyarakat.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Peristiwa tersebut bukan merupakan gejala sosial karena aksi dilakukan di dunia maya secara anonim dan tidak berpengaruh langsung pada dunia fisik.</p>",
+    "tipe": "kompleks_bs",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\n<strong>STUDI KASUS (STIMULUS HOTS):</strong><br>\nMaraknya aksi <em>cyberbullying</em> dan penyebaran konten provokatif oleh sekelompok akun anonim di platform media sosial telah menimbulkan kepanikan dan perpecahan di kalangan remaja SMA di Kota Z. Penyelidikan pihak kepolisian bersama pakar siber menunjukkan bahwa tindakan ini bukan sekadar keisengan individu, melainkan dilakukan secara terstruktur dan berulang oleh sebuah kelompok terorganisir yang sengaja menargetkan siswa-siswa sekolah tertentu untuk memicu tawuran antarsekolah. Fenomena ini telah berlangsung selama kurun waktu tiga bulan dan menyebabkan munculnya rasa saling curiga serta gangguan kecemasan massal di lingkungan sekolah.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nMengapa peristiwa yang terjadi dalam ilustrasi tersebut dianggap sebagai gejala sosial?<br>\n<span class=\"text-xs font-normal text-slate-600\">Tentukan Benar atau Salah untuk setiap pernyataan berdasarkan isi teks!</span>\n</p>",
     "kunci": [
       "Benar",
       "Benar",
       "Salah"
     ],
-    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Pernyataan 1 BENAR (berdampak luas secara psikologis), Pernyataan 2 BENAR (penyimpangan norma sosial dan keharmonisan), Pernyataan 3 SALAH (ruang siber tetap merupakan realitas sosiologis yang berdampak nyata pada kehidupan sosial fisik).<br><br><strong>Kunci Jawaban: ['Benar', 'Benar', 'Salah']</strong>",
-    "pernyataan": [
+    "pembahasan": "<strong>Analisis Sosiologis Objek Kajian Gejala Sosial:</strong><br>\nGejala sosial adalah seluruh fenomena atau peristiwa yang berakar dari hubungan dan perilaku timbal balik antarmanusia dalam masyarakat.<br>\n1. <strong>Pernyataan 1 (Benar):</strong> Fenomena cyberbullying berdampak luas terhadap tatanan psikososial komunitas sekolah, menciptakan kecemasan kolektif.<br>\n2. <strong>Pernyataan 2 (Benar):</strong> Tindakan provokatif dan perundungan merupakan bentuk perilaku menyimpang (<em>deviant behavior</em>) terhadap norma sosial dan hukum.<br>\n3. <strong>Pernyataan 3 (Salah):</strong> Fakta bahwa tindakan terjadi secara terstruktur, berulang selama tiga bulan, dan memicu ancaman tawuran di dunia nyata membuktikan fenomena siber ini merupakan gejala sosial riil.<br><br>\n<strong>Kunci Jawaban: Benar, Benar, Salah</strong>",
+    "items": [
       {
-        "pernyataan": "Mengapa peristiwa yang terjadi dalam ilustrasi tersebut dianggap sebagai gejala sosial? (Tentukan BENAR atau SALAH untuk setiap pernyataan):",
-        "kunci": "Benar"
+        "pernyataan": "Kasus tersebut merupakan gejala sosial karena berdampak luas pada munculnya rasa ketakutan dan kecemasan psikologis di masyarakat.",
+        "kunci": "Benar",
+        "penjelasan": "Gejala sosial memiliki karakteristik dampak kolektif yang memengaruhi tatanan ketenteraman hidup masyarakat luas."
+      },
+      {
+        "pernyataan": "Peristiwa ini merupakan gejala sosial karena bersumber dari penyimpangan norma sosial dan nilai keharmonisan yang berlaku di masyarakat.",
+        "kunci": "Benar",
+        "penjelasan": "Aksi provokasi terorganisir dan cyberbullying melanggar norma kesopanan, kesusilaan, dan hukum positif (UU ITE)."
+      },
+      {
+        "pernyataan": "Peristiwa tersebut bukan merupakan gejala sosial karena aksi dilakukan di dunia maya secara anonim dan tidak berpengaruh langsung pada dunia fisik.",
+        "kunci": "Salah",
+        "penjelasan": "Ruang siber merupakan arena interaksi sosial modern yang nyata, dan kepanikan serta ancaman tawuran berdampak langsung secara fisik."
       }
     ]
   },
@@ -174,7 +185,7 @@ const tkaSosiologiPaket2Data = [
   {
     "id": 7,
     "elemen": "Metodologi Penelitian Sosial",
-    "tipe": "pg_kompleks",
+    "tipe": "mcma",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Seorang peneliti sosiologi mengamati bahwa meskipun aturan kuota minimum 30% keterwakilan perempuan dalam kepengurusan partai politik telah diregulasi oleh undang-undang, keberadaan perempuan di posisi pengambilan keputusan kunci partai masih sangat minim. Peneliti merancang penelitian kualitatif dengan pendekatan studi kasus di tiga partai politik pemenang pemilu untuk memahami faktor struktural dan kultural yang membatasi kiprah politik perempuan.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Manakah pernyataan yang menunjukkan tujuan penelitian kualitatif studi kasus dari permasalahan sosial berdasarkan deskripsi di atas? (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "A",
@@ -268,7 +279,7 @@ const tkaSosiologiPaket2Data = [
   {
     "id": 10,
     "elemen": "Manfaat Penelitian Sosial",
-    "tipe": "pg_kompleks",
+    "tipe": "mcma",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Sebuah tim peneliti sosiologi urban melakukan studi komprehensif mengenai maraknya fenomena pekerja anak di sektor informal, khususnya pengamen dan pemulung anak di pusat perkotaan. Penelitian ini menggunakan teknik wawancara mendalam dan keterlibatan langsung di lapangan untuk mengidentifikasi akar masalah, seperti kemiskinan struktural, putus sekolah, hingga tekanan eksploitasi oleh sindikat dewasa. Hasil penelitian menyajikan peta kerentanan anak serta rekomendasi program penanganan berbasis intervensi sosial terpadu.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Manakah pernyataan yang menggambarkan manfaat dan kontribusi praktis serta akademis dari hasil penelitian sosial tersebut? (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "A",

@@ -1,1045 +1,1137 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z11XQXB5L7"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-Z11XQXB5L7');
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulasi CBT TKA Kimia SMA 2025/2026: Paket 1 &amp; Paket 2 HOTS — KimiaInteraktif</title>
-    <meta name="description" content="Simulasi ujian mandiri TKA Kimia SMA 2025/2026 dengan Paket 1 (Resmi 23 Soal) dan Paket 2 (Try Out HOTS 25 Soal KaTeX), timer ujian, lembar jawaban interaktif, dan rekap skor otomatis.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://kimia.ajarkita.my.id/tka/index.html">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="KimiaInteraktif">
-    <meta property="og:locale" content="id_ID">
-    <meta property="og:url" content="https://kimia.ajarkita.my.id/tka/index.html">
-    <meta property="og:title" content="⏱️ Simulasi Ujian TKA Kimia SMA 2025/2026 &mdash; Uji Skor Mandiri">
-    <meta property="og:description" content="Kerjakan Paket 1 & Paket 2 TKA Kimia 2025/2026 dengan timer ujian nyata, format PG, MCMA, dan Benar/Salah interaktif.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- KaTeX untuk Formula Matematika & Kimia -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-
-    <style> 
-        body { font-family: 'Plus Jakarta Sans', sans-serif; } 
-        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
-    </style>
-</head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
-
-    <!-- HEADER (dimuat otomatis) -->
-    <div id="header-placeholder"></div>
-
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-6">
-        <!-- BANNER ATAS & PENGATURAN PAKET SIMULASI -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-                <div class="flex items-center gap-2 mb-1 flex-wrap">
-                    <span class="px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold uppercase" id="badge-paket-label">
-                        Simulasi Resmi
-                    </span>
-                    <span class="text-xs text-slate-500 font-medium" id="header-paket-info">TKA Kimia SMA &bull; CBT Interaktif</span>
-                </div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="main-mapel-heading">
-                    📝 Simulasi Tes Kemampuan Akademik (TKA) Kimia
-                </h1>
-                <p class="text-xs sm:text-sm text-slate-600 mt-1">
-                    Pilih paket soal, kerjakan secara mandiri dengan lembar jawaban CBT, dan klik <strong>"Kumpulkan Jawaban &amp; Lihat Skor"</strong> untuk melihat perolehan nilai seketika.
-                </p>
-            </div>
-            <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-                <a href="/tka/prediksi-ptn.html" class="px-3.5 py-2 bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-xs rounded-xl transition flex items-center gap-1.5 shadow-xs">
-                    <span>🎯 Kalkulator PTN</span>
-                </a>
-                <a href="/tka/pembahasan.html" id="top-link-pembahasan" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs rounded-xl transition flex items-center gap-1.5">
-                    <span>📖 Bank Pembahasan</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- PAKET SELECTOR TABS & COUNTDOWN TIMER -->
-        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-3">
-            <div class="flex flex-wrap items-center gap-2" id="paket-tabs-container">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider px-2">Pilih Paket:</span>
-                <!-- Tab paket di-render secara dinamis oleh renderPaketTabs() -->
-            </div>
-            
-            <!-- HEADER TIMER BADGE -->
-            <div id="cbt-timer-badge" class="px-3.5 py-1.5 rounded-xl bg-slate-100 border border-slate-200 flex items-center gap-2.5 transition-all shadow-xs">
-                <span class="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
-                    <span id="timer-status-icon">⏱️</span> Sisa Waktu:
-                </span>
-                <span id="cbt-timer-text" class="font-mono text-sm font-extrabold text-slate-900 tracking-wider">50:00</span>
-                <div class="flex items-center gap-1 border-l border-slate-200 pl-2">
-                    <button type="button" id="btn-timer-pause" class="p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-200 text-xs transition" title="Jeda / Lanjutkan Timer">
-                        ⏸️
-                    </button>
-                    <button type="button" id="btn-timer-reset" class="p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-200 text-xs transition" title="Reset Waktu ke Durasi Awal">
-                        🔄
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- LAYOUT DUA KOLOM: SOAL AKTIF & NAVIGASI NOMOR -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-            
-            <!-- KOLOM KIRI: AREA PENGERJAAN SOAL AKTIF -->
-            <div class="lg:col-span-3 space-y-6">
-                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
-                    <!-- HEADER SOAL -->
-                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 flex-wrap gap-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-8 h-8 rounded-full bg-teal-600 text-white font-bold text-sm flex items-center justify-center shrink-0" id="active-num-badge">
-                                1
-                            </span>
-                            <div>
-                                <h2 class="font-bold text-slate-900 text-base" id="active-soal-title">Soal Nomor 1</h2>
-                                <span class="text-xs text-slate-500" id="active-soal-elemen">Kimia Dasar &bull; Stoikiometri</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold px-2 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200" id="active-soal-tipe">
-                                Pilihan Ganda
-                            </span>
-                            <span class="text-xs font-mono text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-200" id="active-soal-kode">
-                                25KIMKDSSTKK05SA-000000-0643
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- AREA TAMPILAN KONTEN SOAL (KATEX TEKS / GAMBAR RESMI) -->
-                    <div class="mb-6">
-                        <!-- Kontainer Teks Soal Native KaTeX (Paket 2 atau soal teks) -->
-                        <div id="active-soal-text-container" class="hidden p-5 bg-slate-50/70 rounded-xl border border-slate-200 text-sm text-slate-800 leading-relaxed space-y-2">
-                            <!-- Diisi dinamis -->
-                        </div>
-
-                        <!-- Gambar Soal Asli Resmi (Paket 1) -->
-                        <div id="active-soal-img-container" class="block">
-                            <img id="active-soal-img" src="/tka/img/soal_01.png" alt="Soal TKA" class="w-full rounded-xl border border-slate-200 shadow-xs bg-white">
-                        </div>
-                    </div>
-
-                    <!-- LEMBAR JAWABAN INTERAKTIF -->
-                    <div class="pt-4 border-t border-slate-100">
-                        <h3 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-3 flex items-center justify-between">
-                            <span>✏️ Lembar Jawaban Siswa:</span>
-                            <span class="text-[11px] font-normal text-slate-400" id="tipe-instruksi-text">Pilih satu jawaban yang paling tepat</span>
-                        </h3>
-                        <div id="answer-options-container" class="space-y-2">
-                            <!-- Diisi dinamis oleh JavaScript -->
-                        </div>
-                    </div>
-
-                    <!-- NAVIGASI SEBELUMNYA / BERIKUTNYA -->
-                    <div class="flex items-center justify-between mt-8 pt-4 border-t border-slate-100">
-                        <button id="btn-prev" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition" disabled onclick="navigatePrev()">
-                            &larr; Soal Sebelumnya
-                        </button>
-                        <button id="btn-next" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs rounded-xl transition shadow-xs" onclick="navigateNext()">
-                            Soal Berikutnya &rarr;
-                        </button>
-                    </div>
-                </div>
-
-                <!-- BOX HASIL SKOR AKHIR (MUNCUL SETELAH SELESAI) -->
-                <div id="result-box" class="hidden bg-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-800 space-y-6">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6">
-                        <div>
-                            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold uppercase">
-                                Hasil Ujian Selesai
-                            </span>
-                            <h2 class="text-2xl font-bold mt-2" id="result-exam-title">🎉 Rekap Skor Simulasi TKA Kimia</h2>
-                            <p class="text-xs text-slate-300 mt-1" id="result-exam-desc">Skor Anda telah dihitung otomatis berdasarkan butir soal.</p>
-                        </div>
-                        <div class="text-center bg-slate-950 px-6 py-4 rounded-xl border border-slate-800">
-                            <span class="text-xs text-slate-400 block mb-1">NILAI AKHIR</span>
-                            <span class="text-4xl font-extrabold text-teal-400" id="final-score">0</span>
-                            <span class="text-xs text-slate-400 block mt-1">Skala 100</span>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
-                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
-                            <span class="text-slate-400 block">Total Soal</span>
-                            <span class="text-lg font-bold text-white mt-1 block" id="stat-total">23 Butir</span>
-                        </div>
-                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
-                            <span class="text-slate-400 block">Benar</span>
-                            <span class="text-lg font-bold text-emerald-400 mt-1 block" id="stat-benar">0</span>
-                        </div>
-                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
-                            <span class="text-slate-400 block">Salah</span>
-                            <span class="text-lg font-bold text-rose-400 mt-1 block" id="stat-salah">0</span>
-                        </div>
-                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
-                            <span class="text-slate-400 block">Kosong (Tidak Dijawab)</span>
-                            <span class="text-lg font-bold text-amber-400 mt-1 block" id="stat-kosong">0</span>
-                        </div>
-                    </div>
-
-                    <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-2">
-                        <p class="font-semibold text-white">💡 Analisis &amp; Saran Penguasaan Materi:</p>
-                        <p id="feedback-analysis" class="leading-relaxed">
-                            Bagus! Anda telah menyelesaikan simulasi. Untuk memperkuat pemahaman konsep, buka halaman Pembahasan untuk mempelajari langkah demi langkah penyelesaian tiap soal.
-                        </p>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-                        <div class="flex items-center gap-2 w-full sm:w-auto">
-                            <a id="link-to-pembahasan-paket" href="/tka/pembahasan.html" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-1.5 w-full sm:w-auto">
-                                <span>📖 Buka Kunci &amp; Pembahasan Lengkap</span>
-                            </a>
-                            <a href="/tka/prediksi-ptn.html" class="px-5 py-2.5 bg-[#0071e3] hover:bg-[#0077ed] text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-1.5 w-full sm:w-auto">
-                                <span>🎯 Cek Peluang Kampus PTN &rarr;</span>
-                            </a>
-                        </div>
-                        <button id="btn-restart" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition w-full sm:w-auto">
-                            🔄 Ulangi Paket Ini dari Awal
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- KOLOM KANAN: PANEL NOMOR SOAL & TOMBOL SELESAI -->
-            <div class="lg:col-span-1 space-y-5">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs sticky top-6">
-                    <!-- STICKY COUNTDOWN TIMER CARD -->
-                    <div id="sidebar-timer-card" class="mb-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between transition-all">
-                        <div>
-                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">⏱️ Sisa Waktu Ujian</span>
-                            <span id="sidebar-timer-text" class="font-mono text-2xl font-extrabold text-slate-900 tracking-wider">50:00</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <button type="button" id="btn-sidebar-timer-pause" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-bold transition flex items-center gap-1 shadow-xs" title="Jeda / Lanjutkan Waktu">
-                                <span>⏸️</span> <span id="label-sidebar-pause" class="text-[11px]">Jeda</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-between mb-3">
-                        <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">
-                            📌 Nomor Soal
-                        </h3>
-                        <span class="text-[11px] font-semibold text-teal-700" id="answered-count-badge">
-                            0 / 23 Terjawab
-                        </span>
-                    </div>
-
-                    <!-- GRID TOMBOL NOMOR -->
-                    <div class="grid grid-cols-5 gap-1.5" id="number-grid">
-                        <!-- Diisi dinamis oleh JavaScript -->
-                    </div>
-
-                    <!-- KETERANGAN WARNA -->
-                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
-                        <div class="flex items-center gap-1">
-                            <span class="w-3 h-3 rounded bg-teal-600 block"></span> Terjawab
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="w-3 h-3 rounded bg-slate-100 border border-slate-200 block"></span> Belum
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <span class="w-3 h-3 rounded border-2 border-teal-500 block"></span> Aktif
-                        </div>
-                    </div>
-
-                    <!-- TOMBOL SELESAIKAN UJIAN -->
-                    <div class="mt-5 pt-3 border-t border-slate-100">
-                        <button id="btn-submit-exam" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2" onclick="submitExam()">
-                            <span>Kumpulkan &amp; Lihat Skor</span> &check;
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- FOOTER & SPU MODAL (dimuat otomatis) -->
-    <div id="footer-placeholder"></div>
-    <div id="spu-placeholder"></div>
-
-    <script src="/js/curriculum.js"></script>
-    <script src="/js/spu.js"></script>
-    <script src="/js/include.js"></script>
-    <script src="/tka/js/tka-paket2.js"></script>
-    <script src="/tka/js/tka-data.js"></script>
-    <script src="/tka/data/mapel-fisika-paket2.js"></script>
-    <script src="/tka/data/mapel-fisika.js"></script>
-    <script src="/tka/data/mapel-biologi-paket2.js"></script>
-    <script src="/tka/data/mapel-biologi.js"></script>
-    <script src="/tka/data/mapel-matematika-lanjut-paket2.js"></script>
-    <script src="/tka/data/mapel-matematika-lanjut.js"></script>
-    <script src="/tka/data/mapel-matematika-umum-paket2.js"></script>
-    <script src="/tka/data/mapel-matematika-umum.js"></script>
-    <script src="/tka/data/mapel-sosiologi.js"></script>
-    <script src="/tka/data/mapel-sosiologi-paket2.js"></script>
-    <script src="/tka/data/mapel-sosiologi-paket3.js"></script>
-    <script src="/tka/data/mapel-sosiologi-paket4.js"></script>
-    <script src="/tka/data/mapel-geografi.js"></script>
-    <script src="/tka/data/mapel-sejarah.js"></script>
-    <script src="/tka/data/mapel-ppkn.js"></script>
-    <script src="/tka/data/mapel-indonesia-wajib.js"></script>
-    <script src="/tka/data/mapel-indonesia-pilihan.js"></script>
-    <script src="/tka/data/mapel-inggris-wajib.js"></script>
-    <script src="/tka/data/mapel-inggris-pilihan.js"></script>
-    <script src="/tka/js/tka-registry.js"></script>
-
-    <script>
-        // Deteksi Parameter Mapel & Paket
-        const urlParams = new URLSearchParams(window.location.search);
-        let currentMapelKey = (urlParams.get('mapel') || 'kimia').toLowerCase();
-        
-        // Pilih Kumpulan Paket berdasarkan Mapel Aktif
-        let activePackages = window.tkaPackages;
-        if (currentMapelKey === 'fisika' && typeof window.tkaFisikaPackages !== 'undefined') {
-            activePackages = window.tkaFisikaPackages;
-        } else if (currentMapelKey === 'biologi' && typeof window.tkaBiologiPackages !== 'undefined') {
-            activePackages = window.tkaBiologiPackages;
-        } else if (currentMapelKey === 'matematika-lanjut' && typeof window.tkaMatematikaLanjutPackages !== 'undefined') {
-            activePackages = window.tkaMatematikaLanjutPackages;
-        } else if (currentMapelKey === 'matematika-umum' && typeof window.tkaMatematikaUmumPackages !== 'undefined') {
-            activePackages = window.tkaMatematikaUmumPackages;
-        } else if (currentMapelKey === 'sosiologi' && typeof window.tkaSosiologiPackages !== 'undefined') {
-            activePackages = window.tkaSosiologiPackages;
-        } else if (currentMapelKey === 'geografi' && typeof window.tkaGeografiPackages !== 'undefined') {
-            activePackages = window.tkaGeografiPackages;
-        } else if (currentMapelKey === 'sejarah' && typeof window.tkaSejarahPackages !== 'undefined') {
-            activePackages = window.tkaSejarahPackages;
-        } else if (currentMapelKey === 'ppkn' && typeof window.tkaPpknPackages !== 'undefined') {
-            activePackages = window.tkaPpknPackages;
-        } else if (currentMapelKey === 'indonesia-wajib' && typeof window.tkaIndoWajibPackages !== 'undefined') {
-            activePackages = window.tkaIndoWajibPackages;
-        } else if (currentMapelKey === 'indonesia-pilihan' && typeof window.tkaIndoPilihanPackages !== 'undefined') {
-            activePackages = window.tkaIndoPilihanPackages;
-        } else if (currentMapelKey === 'inggris-wajib' && typeof window.tkaInggrisWajibPackages !== 'undefined') {
-            activePackages = window.tkaInggrisWajibPackages;
-        } else if (currentMapelKey === 'inggris-pilihan' && typeof window.tkaInggrisPilihanPackages !== 'undefined') {
-            activePackages = window.tkaInggrisPilihanPackages;
-        }
-
-        let currentPaketKey = urlParams.get('paket') || 'paket1';
-        if (!activePackages[currentPaketKey]) currentPaketKey = 'paket1';
-
-        let currentIdx = 0;
-        let activeList = activePackages[currentPaketKey].data;
-        
-        function getStorageKey(mapel, paket) {
-            return `tka_answers_${mapel}_${paket}`;
-        }
-
-        let userAnswers = JSON.parse(
-            localStorage.getItem(getStorageKey(currentMapelKey, currentPaketKey)) ||
-            (currentMapelKey === 'kimia' ? localStorage.getItem(`tka_answers_${currentPaketKey}`) : null) ||
-            '{}'
-        );
-
-        function updateMapelUI() {
-            const heading = document.getElementById('main-mapel-heading');
-            const subInfo = document.getElementById('header-paket-info');
-            const topLinkPembahasan = document.getElementById('top-link-pembahasan');
-
-            if (currentMapelKey === 'fisika') {
-                document.title = "Simulasi CBT TKA Fisika SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
-                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Fisika";
-                if (subInfo) subInfo.innerText = "TKA Fisika SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=fisika`;
-            } else if (currentMapelKey === 'biologi') {
-                document.title = "Simulasi CBT TKA Biologi SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
-                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Biologi";
-                if (subInfo) subInfo.innerText = "TKA Biologi SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=biologi`;
-            } else if (currentMapelKey === 'matematika-lanjut') {
-                document.title = "Simulasi CBT TKA Matematika Tingkat Lanjut SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
-                if (heading) heading.innerHTML = "📐 Simulasi Tes Kemampuan Akademik (TKA) Matematika Tingkat Lanjut";
-                if (subInfo) subInfo.innerText = "TKA Matematika Tingkat Lanjut SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=matematika-lanjut`;
-            } else if (currentMapelKey === 'matematika-umum') {
-                document.title = "Simulasi CBT TKA Matematika Umum SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
-                if (heading) heading.innerHTML = "🔢 Simulasi Tes Kemampuan Akademik (TKA) Matematika Umum";
-                if (subInfo) subInfo.innerText = "TKA Matematika Umum SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=matematika-umum`;
-            } else if (currentMapelKey === 'sosiologi') {
-                document.title = "Simulasi CBT TKA Sosiologi SMA 2025/2026: 4 Paket Lengkap (115 Soal) — KimiaInteraktif";
-                if (heading) heading.innerHTML = "👥 Simulasi Tes Kemampuan Akademik (TKA) Sosiologi";
-                if (subInfo) subInfo.innerText = "TKA Sosiologi SMA • 4 Paket CBT Interaktif (115 Soal)";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=sosiologi`;
-            } else if (currentMapelKey === 'geografi') {
-                document.title = "Simulasi CBT TKA Geografi SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
-                if (heading) heading.innerHTML = "🗺️ Simulasi Tes Kemampuan Akademik (TKA) Geografi";
-                if (subInfo) subInfo.innerText = "TKA Geografi SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=geografi`;
-            } else if (currentMapelKey === 'sejarah') {
-                document.title = "Simulasi CBT TKA Sejarah SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
-                if (heading) heading.innerHTML = "🏛️ Simulasi Tes Kemampuan Akademik (TKA) Sejarah";
-                if (subInfo) subInfo.innerText = "TKA Sejarah SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=sejarah`;
-            } else if (currentMapelKey === 'ppkn') {
-                document.title = "Simulasi CBT TKA PPKn SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
-                if (heading) heading.innerHTML = "⚖️ Simulasi Tes Kemampuan Akademik (TKA) PPKn";
-                if (subInfo) subInfo.innerText = "TKA PPKn SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=ppkn`;
-            } else if (currentMapelKey === 'indonesia-wajib') {
-                document.title = "Simulasi CBT TKA Bahasa Indonesia (Wajib) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
-                if (heading) heading.innerHTML = "🇮🇩 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Indonesia (Wajib)";
-                if (subInfo) subInfo.innerText = "TKA Bahasa Indonesia Wajib SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=indonesia-wajib`;
-            } else if (currentMapelKey === 'indonesia-pilihan') {
-                document.title = "Simulasi CBT TKA Bahasa Indonesia (Pilihan) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
-                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Indonesia (Pilihan)";
-                if (subInfo) subInfo.innerText = "TKA Bahasa Indonesia Pilihan SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=indonesia-pilihan`;
-            } else if (currentMapelKey === 'inggris-wajib') {
-                document.title = "Simulasi CBT TKA Bahasa Inggris (Wajib) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
-                if (heading) heading.innerHTML = "🇬🇧 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Inggris (Wajib)";
-                if (subInfo) subInfo.innerText = "TKA Bahasa Inggris Wajib SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=inggris-wajib`;
-            } else if (currentMapelKey === 'inggris-pilihan') {
-                document.title = "Simulasi CBT TKA Bahasa Inggris (Pilihan) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
-                if (heading) heading.innerHTML = "🗣️ Simulasi Tes Kemampuan Akademik (TKA) Bahasa Inggris (Pilihan)";
-                if (subInfo) subInfo.innerText = "TKA Bahasa Inggris Pilihan SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=inggris-pilihan`;
-            } else {
-                document.title = "Simulasi CBT TKA Kimia SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
-                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Kimia";
-                if (subInfo) subInfo.innerText = "TKA Kimia SMA • CBT Interaktif";
-                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=kimia`;
-            }
-
-            renderPaketTabs();
-        }
-
-        function renderPaketTabs() {
-            const container = document.getElementById('paket-tabs-container');
-            if (!container) return;
-            const pkgKeys = Object.keys(activePackages || {});
-            if (pkgKeys.length === 0) return;
-
-            let html = `<span class="text-xs font-bold text-slate-500 uppercase tracking-wider px-2">Pilih Paket:</span>`;
-            pkgKeys.forEach((key, idx) => {
-                const pkg = activePackages[key];
-                const isActive = (key === currentPaketKey);
-                const count = (pkg && pkg.data) ? pkg.data.length : 0;
-                let label = (pkg && pkg.shortTitle) ? pkg.shortTitle : `Paket ${idx + 1} (${count} Soal)`;
-                const icons = ['📄', '✨', '🎯', '🔥', '💡'];
-                const icon = icons[idx % icons.length];
-                
-                let activeClass = "";
-                if (isActive) {
-                    activeClass = "px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 bg-teal-600 text-white";
-                } else {
-                    activeClass = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200";
-                }
-                
-                html += `<button type="button" class="${activeClass}" onclick="switchPaket('${key}')">
-                    <span>${icon} ${label}</span>
-                </button>`;
-            });
-
-            if (pkgKeys.length === 1) {
-                html += `<button type="button" disabled class="px-3.5 py-2 rounded-xl text-xs font-medium bg-slate-50 text-slate-400 border border-dashed border-slate-200 cursor-not-allowed flex items-center gap-1">
-                    <span>✨ Paket 2 (Segera Hadir)</span>
-                </button>`;
-            }
-
-            container.innerHTML = html;
-        }
-
-        function switchPaket(pkgKey) {
-            if (!activePackages[pkgKey]) return;
-            currentPaketKey = pkgKey;
-            activeList = activePackages[pkgKey].data;
-            userAnswers = JSON.parse(
-                localStorage.getItem(getStorageKey(currentMapelKey, currentPaketKey)) ||
-                (currentMapelKey === 'kimia' ? localStorage.getItem(`tka_answers_${currentPaketKey}`) : null) ||
-                '{}'
-            );
-            currentIdx = 0;
-
-            // Update URL query string tanpa reload
-            const newUrl = new URL(window.location);
-            newUrl.searchParams.set('mapel', currentMapelKey);
-            newUrl.searchParams.set('paket', pkgKey);
-            window.history.pushState({}, '', newUrl);
-
-            // Update Dynamic Tab UI
-            renderPaketTabs();
-
-            const badgeLabel = document.getElementById('badge-paket-label');
-            if (badgeLabel) {
-                const pkg = activePackages[pkgKey];
-                badgeLabel.innerText = pkg.shortTitle || (pkgKey === 'paket1' ? "Simulasi Resmi" : `Paket ${pkgKey.replace('paket', '')}`);
-                badgeLabel.className = pkgKey === 'paket1'
-                    ? "px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold uppercase"
-                    : "px-2.5 py-0.5 bg-indigo-100 text-indigo-800 rounded-full text-xs font-semibold uppercase";
-            }
-
-            document.getElementById('result-box').classList.add('hidden');
-            document.getElementById('link-to-pembahasan-paket').href = `/tka/pembahasan.html?mapel=${currentMapelKey}&paket=${pkgKey}`;
-
-            renderNumberGrid();
-            renderCurrentSoal();
-            initCountdownTimer();
-        }
-
-        // ==========================================
-        // FITUR CBT COUNTDOWN TIMER ENGINE TERPADU
-        // ==========================================
-        let timerInterval = null;
-        let remainingSeconds = 0;
-        let isTimerPaused = false;
-        let isExamSubmitted = false;
-
-        function getMapelDurationMinutes(mapelKey) {
-            if (typeof window.tkaRegistry !== 'undefined' && window.tkaRegistry.mapelList) {
-                const found = window.tkaRegistry.mapelList.find(m => m.id === mapelKey);
-                if (found && found.durasiMenit) return found.durasiMenit;
-            }
-            if (mapelKey === 'matematika-lanjut') return 60;
-            if (mapelKey === 'sejarah' || mapelKey === 'ppkn') return 45;
-            return 50;
-        }
-
-        function getTimerStorageKey(mapel, paket) {
-            return `tka_timer_${mapel}_${paket}`;
-        }
-
-        function initCountdownTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-
-            const durationMinutes = getMapelDurationMinutes(currentMapelKey);
-            const defaultTotalSeconds = durationMinutes * 60;
-            const storageKey = getTimerStorageKey(currentMapelKey, currentPaketKey);
-
-            let savedState = null;
-            try {
-                const raw = sessionStorage.getItem(storageKey);
-                if (raw) savedState = JSON.parse(raw);
-            } catch (e) {
-                savedState = null;
-            }
-
-            if (savedState && typeof savedState.remainingSeconds === 'number') {
-                if (savedState.isPaused) {
-                    remainingSeconds = savedState.remainingSeconds;
-                    isTimerPaused = true;
-                } else {
-                    const elapsed = Math.floor((Date.now() - savedState.timestamp) / 1000);
-                    remainingSeconds = Math.max(0, savedState.remainingSeconds - elapsed);
-                    isTimerPaused = false;
-                }
-            } else {
-                remainingSeconds = defaultTotalSeconds;
-                isTimerPaused = false;
-            }
-
-            updateTimerDisplay();
-            updatePauseButtonsUI();
-
-            if (remainingSeconds <= 0 && !isExamSubmitted) {
-                handleTimeExpired();
-                return;
-            }
-
-            timerInterval = setInterval(() => {
-                if (isTimerPaused || isExamSubmitted) return;
-
-                if (remainingSeconds > 0) {
-                    remainingSeconds--;
-                    updateTimerDisplay();
-                    saveTimerState();
-                } else {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                    handleTimeExpired();
-                }
-            }, 1000);
-        }
-
-        function saveTimerState() {
-            const storageKey = getTimerStorageKey(currentMapelKey, currentPaketKey);
-            try {
-                sessionStorage.setItem(storageKey, JSON.stringify({
-                    remainingSeconds: remainingSeconds,
-                    isPaused: isTimerPaused,
-                    timestamp: Date.now()
-                }));
-            } catch (e) {}
-        }
-
-        function toggleTimerPause() {
-            if (isExamSubmitted) return;
-            isTimerPaused = !isTimerPaused;
-            updatePauseButtonsUI();
-            saveTimerState();
-            if (!isTimerPaused && !timerInterval) {
-                initCountdownTimer();
-            }
-        }
-
-        function resetCountdownTimer() {
-            const durationMinutes = getMapelDurationMinutes(currentMapelKey);
-            remainingSeconds = durationMinutes * 60;
-            isTimerPaused = false;
-            saveTimerState();
-            initCountdownTimer();
-        }
-
-        function updatePauseButtonsUI() {
-            const btnTop = document.getElementById('btn-timer-pause');
-            const btnSide = document.getElementById('btn-sidebar-timer-pause');
-            const iconEl = document.getElementById('timer-status-icon');
-
-            if (isTimerPaused) {
-                if (btnTop) {
-                    btnTop.innerText = "▶️";
-                    btnTop.title = "Lanjutkan Timer";
-                }
-                if (btnSide) btnSide.innerHTML = `<span>▶️</span> <span id="label-sidebar-pause" class="text-[11px]">Lanjut</span>`;
-                if (iconEl) iconEl.innerText = "⏸️";
-            } else {
-                if (btnTop) {
-                    btnTop.innerText = "⏸️";
-                    btnTop.title = "Jeda Timer";
-                }
-                if (btnSide) btnSide.innerHTML = `<span>⏸️</span> <span id="label-sidebar-pause" class="text-[11px]">Jeda</span>`;
-                if (iconEl) iconEl.innerText = remainingSeconds <= 300 ? "⚠️" : (remainingSeconds <= 600 ? "⏳" : "⏱️");
-            }
-        }
-
-        function formatMMSS(sec) {
-            const m = Math.floor(sec / 60);
-            const s = sec % 60;
-            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-        }
-
-        function updateTimerDisplay() {
-            const textStr = formatMMSS(remainingSeconds);
-            const topText = document.getElementById('cbt-timer-text');
-            const sideText = document.getElementById('sidebar-timer-text');
-            const topBadge = document.getElementById('cbt-timer-badge');
-            const sideCard = document.getElementById('sidebar-timer-card');
-            const iconEl = document.getElementById('timer-status-icon');
-
-            if (topText) topText.innerText = textStr;
-            if (sideText) sideText.innerText = textStr;
-
-            // Visual styles based on remaining time
-            if (remainingSeconds <= 300) { // <= 5 menit: Bahaya (Merah berdenyut)
-                if (iconEl && !isTimerPaused) iconEl.innerText = "⚠️";
-                if (topBadge) {
-                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-rose-50 border border-rose-300 flex items-center gap-2.5 transition-all shadow-xs animate-pulse";
-                }
-                if (sideCard) {
-                    sideCard.className = "mb-4 p-3.5 bg-rose-50 rounded-xl border border-rose-300 flex items-center justify-between transition-all animate-pulse";
-                }
-                if (topText) topText.className = "font-mono text-sm font-extrabold text-rose-600 tracking-wider";
-                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-rose-600 tracking-wider";
-            } else if (remainingSeconds <= 600) { // <= 10 menit: Peringatan (Kuning/Oranye)
-                if (iconEl && !isTimerPaused) iconEl.innerText = "⏳";
-                if (topBadge) {
-                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-300 flex items-center gap-2.5 transition-all shadow-xs";
-                }
-                if (sideCard) {
-                    sideCard.className = "mb-4 p-3.5 bg-amber-50 rounded-xl border border-amber-300 flex items-center justify-between transition-all";
-                }
-                if (topText) topText.className = "font-mono text-sm font-extrabold text-amber-700 tracking-wider";
-                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-amber-700 tracking-wider";
-            } else { // Normal (Abu-abu / Slate Elegan)
-                if (iconEl && !isTimerPaused) iconEl.innerText = "⏱️";
-                if (topBadge) {
-                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-slate-100 border border-slate-200 flex items-center gap-2.5 transition-all shadow-xs";
-                }
-                if (sideCard) {
-                    sideCard.className = "mb-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between transition-all";
-                }
-                if (topText) topText.className = "font-mono text-sm font-extrabold text-slate-900 tracking-wider";
-                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-slate-900 tracking-wider";
-            }
-        }
-
-        function handleTimeExpired() {
-            if (isExamSubmitted) return;
-            alert("⏰ Waktu Ujian Telah Habis!\n\nDurasi pengerjaan simulasi telah berakhir. Lembar jawaban Anda dikumpulkan secara otomatis untuk penghitungan skor akhir.");
-            submitExam();
-        }
-
-        function saveAnswers() {
-            localStorage.setItem(getStorageKey(currentMapelKey, currentPaketKey), JSON.stringify(userAnswers));
-            updateBadges();
-        }
-
-        function updateBadges() {
-            let answeredCount = 0;
-            activeList.forEach(item => {
-                const ans = userAnswers[item.id];
-                if (item.tipe === 'pg') {
-                    if (ans && ans.length > 0) answeredCount++;
-                } else if (item.tipe === 'mcma') {
-                    if (ans && ans.length > 0) answeredCount++;
-                } else if (item.tipe === 'kompleks_bs') {
-                    if (ans && Object.keys(ans).length === item.items.length) answeredCount++;
-                }
-            });
-            document.getElementById('answered-count-badge').innerText = `${answeredCount} / ${activeList.length} Terjawab`;
-
-            // Update nomor grid
-            document.querySelectorAll('.btn-grid-num').forEach(btn => {
-                const id = parseInt(btn.dataset.id);
-                const ans = userAnswers[id];
-                let isAnswered = false;
-                const it = activeList[id - 1];
-                if (!it) return;
-
-                if (it.tipe === 'pg' || it.tipe === 'mcma') {
-                    isAnswered = ans && ans.length > 0;
-                } else if (it.tipe === 'kompleks_bs') {
-                    isAnswered = ans && Object.keys(ans).length === it.items.length;
-                }
-
-                btn.className = 'btn-grid-num w-full aspect-square rounded-lg text-xs font-semibold flex items-center justify-center transition border';
-                if (id === currentIdx + 1) {
-                    btn.classList.add('border-teal-500', 'border-2', 'ring-2', 'ring-teal-200');
-                } else {
-                    btn.classList.add('border-slate-200');
-                }
-
-                if (isAnswered) {
-                    btn.classList.add('bg-teal-600', 'text-white');
-                } else {
-                    btn.classList.add('bg-slate-50', 'text-slate-700', 'hover:bg-slate-100');
-                }
-            });
-        }
-
-        function renderNumberGrid() {
-            const grid = document.getElementById('number-grid');
-            grid.innerHTML = activeList.map(item => `
-                <button class="btn-grid-num" data-id="${item.id}" onclick="jumpToSoal(${item.id - 1})">
-                    ${item.id}
-                </button>
-            `).join('');
-            updateBadges();
-        }
-
-        function jumpToSoal(idx) {
-            currentIdx = idx;
-            renderCurrentSoal();
-        }
-
-        function navigatePrev() {
-            if (currentIdx > 0) {
-                currentIdx--;
-                renderCurrentSoal();
-            }
-        }
-
-        function navigateNext() {
-            if (currentIdx < activeList.length - 1) {
-                currentIdx++;
-                renderCurrentSoal();
-            } else {
-                document.getElementById('result-box').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function renderCurrentSoal() {
-            const item = activeList[currentIdx];
-            if (!item) return;
-
-            document.getElementById('active-num-badge').innerText = item.id;
-            document.getElementById('active-soal-title').innerText = `Soal Nomor ${item.id}`;
-            document.getElementById('active-soal-elemen').innerText = `${item.elemen} &bull; ${item.subelemen}`;
-            document.getElementById('active-soal-kode').innerText = item.kode;
-
-            // Tipe soal label & instruksi
-            const tipeBadge = document.getElementById('active-soal-tipe');
-            const instruksiText = document.getElementById('tipe-instruksi-text');
-            if (item.tipe === 'pg') {
-                tipeBadge.innerText = 'Pilihan Ganda';
-                instruksiText.innerText = 'Pilih satu jawaban yang paling tepat';
-            } else if (item.tipe === 'mcma') {
-                tipeBadge.innerText = 'Pilihan Ganda Kompleks (MCMA)';
-                instruksiText.innerText = 'Pilih satu atau lebih jawaban yang benar';
-            } else if (item.tipe === 'kompleks_bs') {
-                tipeBadge.innerText = 'Pernyataan Benar / Salah';
-                instruksiText.innerText = 'Tentukan kebenaran tiap pernyataan';
-            }
-
-            // Teks / Gambar Soal
-            const textContainer = document.getElementById('active-soal-text-container');
-            const imgContainer = document.getElementById('active-soal-img-container');
-            const imgEl = document.getElementById('active-soal-img');
-
-            if (item.soalHtml) {
-                textContainer.innerHTML = item.soalHtml;
-                textContainer.classList.remove('hidden');
-                imgContainer.classList.add('hidden');
-            } else if (item.img) {
-                imgEl.src = item.img;
-                imgContainer.classList.remove('hidden');
-                textContainer.classList.add('hidden');
-            }
-
-            // Render opsi jawaban sesuai tipe
-            const optContainer = document.getElementById('answer-options-container');
-            const savedAns = userAnswers[item.id];
-
-            if (item.tipe === 'pg') {
-                optContainer.innerHTML = item.options.map(opt => `
-                    <label class="flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition">
-                        <input type="radio" name="ans-${item.id}" value="${opt.id}" class="accent-teal-600 w-4 h-4" ${savedAns === opt.id ? 'checked' : ''} onchange="handleAnswerChange('${item.id}', '${opt.id}')">
-                        <span class="text-xs sm:text-sm font-medium text-slate-800"><strong>${opt.id}.</strong> ${opt.text}</span>
-                    </label>
-                `).join('');
-            } else if (item.tipe === 'mcma') {
-                const currentArr = Array.isArray(savedAns) ? savedAns : [];
-                optContainer.innerHTML = item.options.map(opt => `
-                    <label class="flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition">
-                        <input type="checkbox" name="ans-${item.id}" value="${opt.id}" class="accent-teal-600 w-4 h-4 rounded" ${currentArr.includes(opt.id) ? 'checked' : ''} onchange="handleMcmaChange('${item.id}', '${opt.id}', this.checked)">
-                        <span class="text-xs sm:text-sm font-medium text-slate-800"><strong>${opt.id}.</strong> ${opt.text}</span>
-                    </label>
-                `).join('');
-            } else if (item.tipe === 'kompleks_bs') {
-                const currentObj = (typeof savedAns === 'object' && savedAns !== null) ? savedAns : {};
-                const optA = (item.kolom && item.kolom[0]) ? item.kolom[0] : 'Benar';
-                const optB = (item.kolom && item.kolom[1]) ? item.kolom[1] : 'Salah';
-                optContainer.innerHTML = item.items.map((it, idx) => `
-                    <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                        <div class="text-xs sm:text-sm text-slate-800 font-medium"><strong>Pernyataan ${idx + 1}:</strong> ${it.pernyataan}</div>
-                        <div class="flex items-center gap-4 text-xs font-semibold">
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="bs-${item.id}-${idx}" value="${optA}" class="accent-emerald-600" ${currentObj[idx] === optA ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, '${optA}')">
-                                <span class="text-emerald-700">${optA}</span>
-                            </label>
-                            <label class="flex items-center gap-1.5 cursor-pointer">
-                                <input type="radio" name="bs-${item.id}-${idx}" value="${optB}" class="accent-rose-600" ${currentObj[idx] === optB ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, '${optB}')">
-                                <span class="text-rose-700">${optB}</span>
-                            </label>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // Tombol Previous & Next
-            document.getElementById('btn-prev').disabled = (currentIdx === 0);
-            document.getElementById('btn-next').innerText = (currentIdx === activeList.length - 1) ? 'Ke Ringkasan Akhir' : 'Soal Berikutnya →';
-
-            updateBadges();
-
-            // Render KaTeX secara menyeluruh (Mendukung $$, $, \[, \()
-            renderMathInDOM(document.getElementById('active-soal-text-container'));
-            renderMathInDOM(optContainer);
-        }
-
-        const KATEX_DELIMITERS = [
-            { left: '$$', right: '$$', display: true },
-            { left: '$', right: '$', display: false },
-            { left: '\\[', right: '\\]', display: true },
-            { left: '\\(', right: '\\)', display: false }
-        ];
-
-        function renderMathInDOM(root) {
-            const target = root || document.body;
-            const doRender = () => {
-                if (typeof renderMathInElement === 'function') {
-                    try {
-                        renderMathInElement(target, {
-                            delimiters: KATEX_DELIMITERS,
-                            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-                            throwOnError: false
-                        });
-                    } catch (e) {
-                        console.warn('KaTeX render warning:', e);
-                    }
-                }
-            };
-
-            if (typeof renderMathInElement === 'function') {
-                doRender();
-            } else {
-                let retries = 0;
-                const timer = setInterval(() => {
-                    retries++;
-                    if (typeof renderMathInElement === 'function') {
-                        clearInterval(timer);
-                        doRender();
-                    } else if (retries > 30) {
-                        clearInterval(timer);
-                    }
-                }, 100);
-            }
-        }
-
-        function handleAnswerChange(soalId, val) {
-            userAnswers[soalId] = val;
-            saveAnswers();
-        }
-
-        function handleMcmaChange(soalId, optId, isChecked) {
-            let arr = userAnswers[soalId] || [];
-            if (!Array.isArray(arr)) arr = [];
-            if (isChecked) {
-                if (!arr.includes(optId)) arr.push(optId);
-            } else {
-                arr = arr.filter(x => x !== optId);
-            }
-            userAnswers[soalId] = arr;
-            saveAnswers();
-        }
-
-        function handleBsChange(soalId, idx, val) {
-            let obj = userAnswers[soalId] || {};
-            if (typeof obj !== 'object' || Array.isArray(obj)) obj = {};
-            obj[idx] = val;
-            userAnswers[soalId] = obj;
-            saveAnswers();
-        }
-
-        function submitExam() {
-            let benar = 0;
-            let salah = 0;
-            let kosong = 0;
-
-            activeList.forEach(item => {
-                const ans = userAnswers[item.id];
-                if (item.tipe === 'pg') {
-                    if (!ans) {
-                        kosong++;
-                    } else if (ans === item.kunci) {
-                        benar++;
-                    } else {
-                        salah++;
-                    }
-                } else if (item.tipe === 'mcma') {
-                    if (!ans || ans.length === 0) {
-                        kosong++;
-                    } else {
-                        const sortedAns = [...ans].sort().join('');
-                        const sortedKunci = [...item.kunci].sort().join('');
-                        if (sortedAns === sortedKunci) {
-                            benar++;
-                        } else {
-                            salah++;
-                        }
-                    }
-                } else if (item.tipe === 'kompleks_bs') {
-                    if (!ans || Object.keys(ans).length < item.items.length) {
-                        kosong++;
-                    } else {
-                        let isAllCorrect = true;
-                        item.items.forEach((it, idx) => {
-                            if (ans[idx] !== it.kunci) isAllCorrect = false;
-                        });
-                        if (isAllCorrect) {
-                            benar++;
-                        } else {
-                            salah++;
-                        }
-                    }
-                }
-            });
-
-            const score = Math.round((benar / activeList.length) * 100);
-            document.getElementById('final-score').innerText = score;
-            document.getElementById('stat-total').innerText = `${activeList.length} Butir`;
-            document.getElementById('stat-benar').innerText = benar;
-            document.getElementById('stat-salah').innerText = salah;
-            document.getElementById('stat-kosong').innerText = kosong;
-
-            const resTitle = document.getElementById('result-exam-title');
-            const resDesc = document.getElementById('result-exam-desc');
-            const mapelNames = {
-                'kimia': 'Kimia',
-                'fisika': 'Fisika',
-                'biologi': 'Biologi',
-                'matematika-lanjut': 'Matematika Tingkat Lanjut',
-                'matematika-umum': 'Matematika Umum',
-                'sosiologi': 'Sosiologi',
-                'geografi': 'Geografi',
-                'sejarah': 'Sejarah',
-                'ppkn': 'PPKn',
-                'indonesia-wajib': 'Bahasa Indonesia (Wajib)',
-                'indonesia-pilihan': 'Bahasa Indonesia (Pilihan)',
-                'inggris-wajib': 'Bahasa Inggris (Wajib)',
-                'inggris-pilihan': 'Bahasa Inggris (Pilihan)'
-            };
-            const mapelName = mapelNames[currentMapelKey] || 'Kimia';
-            resTitle.innerText = `🎉 Rekap Skor: ${activePackages[currentPaketKey].title}`;
-            resDesc.innerText = `Skor Anda dihitung dari ${activeList.length} butir soal ${activePackages[currentPaketKey].shortTitle}.`;
-
-            const fb = document.getElementById('feedback-analysis');
-            if (score >= 80) {
-                fb.innerHTML = `<strong>Kinerja Luar Biasa! (Skor: ${score})</strong> Anda telah menguasai konsep-konsep fundamental dan analitis TKA ${mapelName} dengan sangat baik. Pertahankan kecepatan analisis untuk seleksi PTN impian Anda!`;
-            } else if (score >= 60) {
-                fb.innerHTML = `<strong>Hasil Cukup Baik! (Skor: ${score})</strong> Anda sudah memahami sebagian besar konsep TKA ${mapelName}. Pelajari pembahasan pada butir-butir yang salah untuk memantapkan pemahaman dan intuisi pemecahan masalah.`;
-            } else {
-                fb.innerHTML = `<strong>Tetap Semangat! (Skor: ${score})</strong> Jangan berkecil hati. Buka menu Pembahasan untuk mempelajari konsep dasar KaTeX dan trik pengerjaan tiap butir soal secara mendalam.`;
-            }
-
-            const resBox = document.getElementById('result-box');
-            resBox.classList.remove('hidden');
-            resBox.scrollIntoView({ behavior: 'smooth' });
-
-            // Hentikan timer dan hapus state waktu tersimpan setelah ujian diselesaikan
-            isExamSubmitted = true;
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-            try {
-                sessionStorage.removeItem(getTimerStorageKey(currentMapelKey, currentPaketKey));
-            } catch (e) {}
-        }
-
-        document.getElementById('btn-restart').addEventListener('click', () => {
-            if (confirm(`Apakah Anda ingin mengulang simulasi ${activePackages[currentPaketKey].shortTitle} dari awal? Jawaban dan sisa waktu Anda pada paket ini akan di-reset.`)) {
-                localStorage.removeItem(getStorageKey(currentMapelKey, currentPaketKey));
-                if (currentMapelKey === 'kimia') {
-                    localStorage.removeItem(`tka_answers_${currentPaketKey}`);
-                }
-                userAnswers = {};
-                isExamSubmitted = false;
-                document.getElementById('result-box').classList.add('hidden');
-                currentIdx = 0;
-                renderNumberGrid();
-                renderCurrentSoal();
-                resetCountdownTimer();
-            }
-        });
-
-        // Event listener kontrol timer
-        document.getElementById('btn-timer-pause')?.addEventListener('click', toggleTimerPause);
-        document.getElementById('btn-sidebar-timer-pause')?.addEventListener('click', toggleTimerPause);
-        document.getElementById('btn-timer-reset')?.addEventListener('click', () => {
-            if (confirm("Reset waktu ujian ke durasi awal untuk paket ini?")) {
-                resetCountdownTimer();
-            }
-        });
-
-        // Inisialisasi awal
-        window.addEventListener('load', () => {
-            updateMapelUI();
-            switchPaket(currentPaketKey);
-            renderMathInDOM(document.body);
-        });
-    </script>
-</body>
-</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z11XQXB5L7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Z11XQXB5L7');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi CBT TKA Kimia SMA 2025/2026: Paket 1 &amp; Paket 2 HOTS — KimiaInteraktif</title>
+    <meta name="description" content="Simulasi ujian mandiri TKA Kimia SMA 2025/2026 dengan Paket 1 (Resmi 23 Soal) dan Paket 2 (Try Out HOTS 25 Soal KaTeX), timer ujian, lembar jawaban interaktif, dan rekap skor otomatis.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/tka/index.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="KimiaInteraktif">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/tka/index.html">
+    <meta property="og:title" content="⏱️ Simulasi Ujian TKA Kimia SMA 2025/2026 &mdash; Uji Skor Mandiri">
+    <meta property="og:description" content="Kerjakan Paket 1 & Paket 2 TKA Kimia 2025/2026 dengan timer ujian nyata, format PG, MCMA, dan Benar/Salah interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika & Kimia -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style> 
+        body { font-family: 'Plus Jakarta Sans', sans-serif; } 
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Custom CBT Option Inputs - Ukuran Identik 20px (Lingkaran & Kotak Sama Persis) */
+        .cbt-option-input {
+            width: 1.25rem; /* 20px */
+            height: 1.25rem; /* 20px */
+            min-width: 1.25rem;
+            min-height: 1.25rem;
+            flex-shrink: 0;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            border: 2px solid #cbd5e1; /* slate-300 */
+            background-color: #ffffff;
+            transition: all 0.15s ease-in-out;
+            position: relative;
+            display: inline-grid;
+            place-content: center;
+            vertical-align: middle;
+            margin: 0;
+            outline: none;
+        }
+        .cbt-option-input:hover {
+            border-color: #0d9488; /* teal-600 */
+            background-color: #f0fdfa; /* teal-50 */
+        }
+        .cbt-option-input:focus-visible {
+            ring: 2px solid #99f6e4;
+        }
+
+        /* 1. Lingkaran Pilihan Ganda (PG) */
+        .cbt-radio {
+            border-radius: 9999px;
+        }
+        .cbt-radio:checked {
+            border-color: #0d9488;
+            background-color: #ffffff;
+        }
+        .cbt-radio:checked::after {
+            content: "";
+            width: 0.625rem; /* 10px titik lingkaran */
+            height: 0.625rem;
+            border-radius: 9999px;
+            background-color: #0d9488;
+        }
+
+        /* 2. Kotak Centang Pilihan Ganda Kompleks (MCMA) */
+        .cbt-checkbox {
+            border-radius: 5px;
+        }
+        .cbt-checkbox:checked {
+            border-color: #0d9488;
+            background-color: #0d9488;
+        }
+        .cbt-checkbox:checked::after {
+            content: "";
+            width: 5px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) translate(-0.5px, -1px);
+        }
+
+        /* 3. Benar / Salah Radio (Kompleks BS) */
+        .cbt-bs-benar {
+            border-radius: 9999px;
+        }
+        .cbt-bs-benar:checked {
+            border-color: #059669;
+            background-color: #ffffff;
+        }
+        .cbt-bs-benar:checked::after {
+            content: "";
+            width: 0.625rem;
+            height: 0.625rem;
+            border-radius: 9999px;
+            background-color: #059669;
+        }
+
+        .cbt-bs-salah {
+            border-radius: 9999px;
+        }
+        .cbt-bs-salah:checked {
+            border-color: #e11d48;
+            background-color: #ffffff;
+        }
+        .cbt-bs-salah:checked::after {
+            content: "";
+            width: 0.625rem;
+            height: 0.625rem;
+            border-radius: 9999px;
+            background-color: #e11d48;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-6">
+        <!-- BANNER ATAS & PENGATURAN PAKET SIMULASI -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                    <span class="px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold uppercase" id="badge-paket-label">
+                        Simulasi Resmi
+                    </span>
+                    <span class="text-xs text-slate-500 font-medium" id="header-paket-info">TKA Kimia SMA &bull; CBT Interaktif</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="main-mapel-heading">
+                    📝 Simulasi Tes Kemampuan Akademik (TKA) Kimia
+                </h1>
+                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                    Pilih paket soal, kerjakan secara mandiri dengan lembar jawaban CBT, dan klik <strong>"Kumpulkan Jawaban &amp; Lihat Skor"</strong> untuk melihat perolehan nilai seketika.
+                </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+                <a href="/tka/prediksi-ptn.html" class="px-3.5 py-2 bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold text-xs rounded-xl transition flex items-center gap-1.5 shadow-xs">
+                    <span>🎯 Kalkulator PTN</span>
+                </a>
+                <a href="/tka/pembahasan.html" id="top-link-pembahasan" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs rounded-xl transition flex items-center gap-1.5">
+                    <span>📖 Bank Pembahasan</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- PAKET SELECTOR TABS & COUNTDOWN TIMER -->
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-3">
+            <div class="flex flex-wrap items-center gap-2" id="paket-tabs-container">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider px-2">Pilih Paket:</span>
+                <!-- Tab paket di-render secara dinamis oleh renderPaketTabs() -->
+            </div>
+            
+            <!-- HEADER TIMER BADGE -->
+            <div id="cbt-timer-badge" class="px-3.5 py-1.5 rounded-xl bg-slate-100 border border-slate-200 flex items-center gap-2.5 transition-all shadow-xs">
+                <span class="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
+                    <span id="timer-status-icon">⏱️</span> Sisa Waktu:
+                </span>
+                <span id="cbt-timer-text" class="font-mono text-sm font-extrabold text-slate-900 tracking-wider">50:00</span>
+                <div class="flex items-center gap-1 border-l border-slate-200 pl-2">
+                    <button type="button" id="btn-timer-pause" class="p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-200 text-xs transition" title="Jeda / Lanjutkan Timer">
+                        ⏸️
+                    </button>
+                    <button type="button" id="btn-timer-reset" class="p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-200 text-xs transition" title="Reset Waktu ke Durasi Awal">
+                        🔄
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT DUA KOLOM: SOAL AKTIF & NAVIGASI NOMOR -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+            
+            <!-- KOLOM KIRI: AREA PENGERJAAN SOAL AKTIF -->
+            <div class="lg:col-span-3 space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
+                    <!-- HEADER SOAL -->
+                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 flex-wrap gap-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-full bg-teal-600 text-white font-bold text-sm flex items-center justify-center shrink-0" id="active-num-badge">
+                                1
+                            </span>
+                            <div>
+                                <h2 class="font-bold text-slate-900 text-base" id="active-soal-title">Soal Nomor 1</h2>
+                                <span class="text-xs text-slate-500" id="active-soal-elemen">Kimia Dasar &bull; Stoikiometri</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold px-2 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200" id="active-soal-tipe">
+                                Pilihan Ganda
+                            </span>
+                            <span class="text-xs font-mono text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-200" id="active-soal-kode">
+                                25KIMKDSSTKK05SA-000000-0643
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- AREA TAMPILAN KONTEN SOAL (KATEX TEKS / GAMBAR RESMI) -->
+                    <div class="mb-6">
+                        <!-- Kontainer Teks Soal Native KaTeX (Paket 2 atau soal teks) -->
+                        <div id="active-soal-text-container" class="hidden p-5 bg-slate-50/70 rounded-xl border border-slate-200 text-sm text-slate-800 leading-relaxed space-y-2">
+                            <!-- Diisi dinamis -->
+                        </div>
+
+                        <!-- Gambar Soal Asli Resmi (Paket 1) -->
+                        <div id="active-soal-img-container" class="block">
+                            <img id="active-soal-img" src="/tka/img/soal_01.png" alt="Soal TKA" class="w-full rounded-xl border border-slate-200 shadow-xs bg-white">
+                        </div>
+                    </div>
+
+                    <!-- LEMBAR JAWABAN INTERAKTIF -->
+                    <div class="pt-4 border-t border-slate-100">
+                        <h3 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-3 flex items-center justify-between">
+                            <span>✏️ Lembar Jawaban Siswa:</span>
+                            <span class="text-[11px] font-normal text-slate-400" id="tipe-instruksi-text">Pilih satu jawaban yang paling tepat</span>
+                        </h3>
+                        <div id="answer-options-container" class="space-y-2">
+                            <!-- Diisi dinamis oleh JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- NAVIGASI SEBELUMNYA / BERIKUTNYA -->
+                    <div class="flex items-center justify-between mt-8 pt-4 border-t border-slate-100">
+                        <button id="btn-prev" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition" disabled onclick="navigatePrev()">
+                            &larr; Soal Sebelumnya
+                        </button>
+                        <button id="btn-next" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs rounded-xl transition shadow-xs" onclick="navigateNext()">
+                            Soal Berikutnya &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BOX HASIL SKOR AKHIR (MUNCUL SETELAH SELESAI) -->
+                <div id="result-box" class="hidden bg-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-800 space-y-6">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6">
+                        <div>
+                            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold uppercase">
+                                Hasil Ujian Selesai
+                            </span>
+                            <h2 class="text-2xl font-bold mt-2" id="result-exam-title">🎉 Rekap Skor Simulasi TKA Kimia</h2>
+                            <p class="text-xs text-slate-300 mt-1" id="result-exam-desc">Skor Anda telah dihitung otomatis berdasarkan butir soal.</p>
+                        </div>
+                        <div class="text-center bg-slate-950 px-6 py-4 rounded-xl border border-slate-800">
+                            <span class="text-xs text-slate-400 block mb-1">NILAI AKHIR</span>
+                            <span class="text-4xl font-extrabold text-teal-400" id="final-score">0</span>
+                            <span class="text-xs text-slate-400 block mt-1">Skala 100</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block">Total Soal</span>
+                            <span class="text-lg font-bold text-white mt-1 block" id="stat-total">23 Butir</span>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block">Benar</span>
+                            <span class="text-lg font-bold text-emerald-400 mt-1 block" id="stat-benar">0</span>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block">Salah</span>
+                            <span class="text-lg font-bold text-rose-400 mt-1 block" id="stat-salah">0</span>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block">Kosong (Tidak Dijawab)</span>
+                            <span class="text-lg font-bold text-amber-400 mt-1 block" id="stat-kosong">0</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-800/80 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-2">
+                        <p class="font-semibold text-white">💡 Analisis &amp; Saran Penguasaan Materi:</p>
+                        <p id="feedback-analysis" class="leading-relaxed">
+                            Bagus! Anda telah menyelesaikan simulasi. Untuk memperkuat pemahaman konsep, buka halaman Pembahasan untuk mempelajari langkah demi langkah penyelesaian tiap soal.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <a id="link-to-pembahasan-paket" href="/tka/pembahasan.html" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-1.5 w-full sm:w-auto">
+                                <span>📖 Buka Kunci &amp; Pembahasan Lengkap</span>
+                            </a>
+                            <a href="/tka/prediksi-ptn.html" class="px-5 py-2.5 bg-[#0071e3] hover:bg-[#0077ed] text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-1.5 w-full sm:w-auto">
+                                <span>🎯 Cek Peluang Kampus PTN &rarr;</span>
+                            </a>
+                        </div>
+                        <button id="btn-restart" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition w-full sm:w-auto">
+                            🔄 Ulangi Paket Ini dari Awal
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOLOM KANAN: PANEL NOMOR SOAL & TOMBOL SELESAI -->
+            <div class="lg:col-span-1 space-y-5">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs sticky top-6">
+                    <!-- STICKY COUNTDOWN TIMER CARD -->
+                    <div id="sidebar-timer-card" class="mb-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between transition-all">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">⏱️ Sisa Waktu Ujian</span>
+                            <span id="sidebar-timer-text" class="font-mono text-2xl font-extrabold text-slate-900 tracking-wider">50:00</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <button type="button" id="btn-sidebar-timer-pause" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-bold transition flex items-center gap-1 shadow-xs" title="Jeda / Lanjutkan Waktu">
+                                <span>⏸️</span> <span id="label-sidebar-pause" class="text-[11px]">Jeda</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">
+                            📌 Nomor Soal
+                        </h3>
+                        <span class="text-[11px] font-semibold text-teal-700" id="answered-count-badge">
+                            0 / 23 Terjawab
+                        </span>
+                    </div>
+
+                    <!-- GRID TOMBOL NOMOR -->
+                    <div class="grid grid-cols-5 gap-1.5" id="number-grid">
+                        <!-- Diisi dinamis oleh JavaScript -->
+                    </div>
+
+                    <!-- KETERANGAN WARNA -->
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                        <div class="flex items-center gap-1">
+                            <span class="w-3 h-3 rounded bg-teal-600 block"></span> Terjawab
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="w-3 h-3 rounded bg-slate-100 border border-slate-200 block"></span> Belum
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="w-3 h-3 rounded border-2 border-teal-500 block"></span> Aktif
+                        </div>
+                    </div>
+
+                    <!-- TOMBOL SELESAIKAN UJIAN -->
+                    <div class="mt-5 pt-3 border-t border-slate-100">
+                        <button id="btn-submit-exam" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2" onclick="submitExam()">
+                            <span>Kumpulkan &amp; Lihat Skor</span> &check;
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER & SPU MODAL (dimuat otomatis) -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/tka/js/tka-paket2.js"></script>
+    <script src="/tka/js/tka-data.js"></script>
+    <script src="/tka/data/mapel-fisika-paket2.js"></script>
+    <script src="/tka/data/mapel-fisika.js"></script>
+    <script src="/tka/data/mapel-biologi-paket2.js"></script>
+    <script src="/tka/data/mapel-biologi.js"></script>
+    <script src="/tka/data/mapel-matematika-lanjut-paket2.js"></script>
+    <script src="/tka/data/mapel-matematika-lanjut.js"></script>
+    <script src="/tka/data/mapel-matematika-umum-paket2.js"></script>
+    <script src="/tka/data/mapel-matematika-umum.js"></script>
+    <script src="/tka/data/mapel-sosiologi.js"></script>
+    <script src="/tka/data/mapel-sosiologi-paket2.js"></script>
+    <script src="/tka/data/mapel-sosiologi-paket3.js"></script>
+    <script src="/tka/data/mapel-sosiologi-paket4.js"></script>
+    <script src="/tka/data/mapel-geografi.js"></script>
+    <script src="/tka/data/mapel-sejarah.js"></script>
+    <script src="/tka/data/mapel-ppkn.js"></script>
+    <script src="/tka/data/mapel-indonesia-wajib.js"></script>
+    <script src="/tka/data/mapel-indonesia-pilihan.js"></script>
+    <script src="/tka/data/mapel-inggris-wajib.js"></script>
+    <script src="/tka/data/mapel-inggris-pilihan.js"></script>
+    <script src="/tka/js/tka-registry.js"></script>
+
+    <script>
+        // Deteksi Parameter Mapel & Paket
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentMapelKey = (urlParams.get('mapel') || 'kimia').toLowerCase();
+        
+        // Pilih Kumpulan Paket berdasarkan Mapel Aktif
+        let activePackages = window.tkaPackages;
+        if (currentMapelKey === 'fisika' && typeof window.tkaFisikaPackages !== 'undefined') {
+            activePackages = window.tkaFisikaPackages;
+        } else if (currentMapelKey === 'biologi' && typeof window.tkaBiologiPackages !== 'undefined') {
+            activePackages = window.tkaBiologiPackages;
+        } else if (currentMapelKey === 'matematika-lanjut' && typeof window.tkaMatematikaLanjutPackages !== 'undefined') {
+            activePackages = window.tkaMatematikaLanjutPackages;
+        } else if (currentMapelKey === 'matematika-umum' && typeof window.tkaMatematikaUmumPackages !== 'undefined') {
+            activePackages = window.tkaMatematikaUmumPackages;
+        } else if (currentMapelKey === 'sosiologi' && typeof window.tkaSosiologiPackages !== 'undefined') {
+            activePackages = window.tkaSosiologiPackages;
+        } else if (currentMapelKey === 'geografi' && typeof window.tkaGeografiPackages !== 'undefined') {
+            activePackages = window.tkaGeografiPackages;
+        } else if (currentMapelKey === 'sejarah' && typeof window.tkaSejarahPackages !== 'undefined') {
+            activePackages = window.tkaSejarahPackages;
+        } else if (currentMapelKey === 'ppkn' && typeof window.tkaPpknPackages !== 'undefined') {
+            activePackages = window.tkaPpknPackages;
+        } else if (currentMapelKey === 'indonesia-wajib' && typeof window.tkaIndoWajibPackages !== 'undefined') {
+            activePackages = window.tkaIndoWajibPackages;
+        } else if (currentMapelKey === 'indonesia-pilihan' && typeof window.tkaIndoPilihanPackages !== 'undefined') {
+            activePackages = window.tkaIndoPilihanPackages;
+        } else if (currentMapelKey === 'inggris-wajib' && typeof window.tkaInggrisWajibPackages !== 'undefined') {
+            activePackages = window.tkaInggrisWajibPackages;
+        } else if (currentMapelKey === 'inggris-pilihan' && typeof window.tkaInggrisPilihanPackages !== 'undefined') {
+            activePackages = window.tkaInggrisPilihanPackages;
+        }
+
+        let currentPaketKey = urlParams.get('paket') || 'paket1';
+        if (!activePackages[currentPaketKey]) currentPaketKey = 'paket1';
+
+        let currentIdx = 0;
+        let activeList = activePackages[currentPaketKey].data;
+        
+        function getStorageKey(mapel, paket) {
+            return `tka_answers_${mapel}_${paket}`;
+        }
+
+        let userAnswers = JSON.parse(
+            localStorage.getItem(getStorageKey(currentMapelKey, currentPaketKey)) ||
+            (currentMapelKey === 'kimia' ? localStorage.getItem(`tka_answers_${currentPaketKey}`) : null) ||
+            '{}'
+        );
+
+        function updateMapelUI() {
+            const heading = document.getElementById('main-mapel-heading');
+            const subInfo = document.getElementById('header-paket-info');
+            const topLinkPembahasan = document.getElementById('top-link-pembahasan');
+
+            if (currentMapelKey === 'fisika') {
+                document.title = "Simulasi CBT TKA Fisika SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
+                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Fisika";
+                if (subInfo) subInfo.innerText = "TKA Fisika SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=fisika`;
+            } else if (currentMapelKey === 'biologi') {
+                document.title = "Simulasi CBT TKA Biologi SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
+                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Biologi";
+                if (subInfo) subInfo.innerText = "TKA Biologi SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=biologi`;
+            } else if (currentMapelKey === 'matematika-lanjut') {
+                document.title = "Simulasi CBT TKA Matematika Tingkat Lanjut SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
+                if (heading) heading.innerHTML = "📐 Simulasi Tes Kemampuan Akademik (TKA) Matematika Tingkat Lanjut";
+                if (subInfo) subInfo.innerText = "TKA Matematika Tingkat Lanjut SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=matematika-lanjut`;
+            } else if (currentMapelKey === 'matematika-umum') {
+                document.title = "Simulasi CBT TKA Matematika Umum SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🔢 Simulasi Tes Kemampuan Akademik (TKA) Matematika Umum";
+                if (subInfo) subInfo.innerText = "TKA Matematika Umum SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=matematika-umum`;
+            } else if (currentMapelKey === 'sosiologi') {
+                document.title = "Simulasi CBT TKA Sosiologi SMA 2025/2026: 4 Paket Lengkap (115 Soal) — KimiaInteraktif";
+                if (heading) heading.innerHTML = "👥 Simulasi Tes Kemampuan Akademik (TKA) Sosiologi";
+                if (subInfo) subInfo.innerText = "TKA Sosiologi SMA • 4 Paket CBT Interaktif (115 Soal)";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=sosiologi`;
+            } else if (currentMapelKey === 'geografi') {
+                document.title = "Simulasi CBT TKA Geografi SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🗺️ Simulasi Tes Kemampuan Akademik (TKA) Geografi";
+                if (subInfo) subInfo.innerText = "TKA Geografi SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=geografi`;
+            } else if (currentMapelKey === 'sejarah') {
+                document.title = "Simulasi CBT TKA Sejarah SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🏛️ Simulasi Tes Kemampuan Akademik (TKA) Sejarah";
+                if (subInfo) subInfo.innerText = "TKA Sejarah SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=sejarah`;
+            } else if (currentMapelKey === 'ppkn') {
+                document.title = "Simulasi CBT TKA PPKn SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "⚖️ Simulasi Tes Kemampuan Akademik (TKA) PPKn";
+                if (subInfo) subInfo.innerText = "TKA PPKn SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=ppkn`;
+            } else if (currentMapelKey === 'indonesia-wajib') {
+                document.title = "Simulasi CBT TKA Bahasa Indonesia (Wajib) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🇮🇩 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Indonesia (Wajib)";
+                if (subInfo) subInfo.innerText = "TKA Bahasa Indonesia Wajib SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=indonesia-wajib`;
+            } else if (currentMapelKey === 'indonesia-pilihan') {
+                document.title = "Simulasi CBT TKA Bahasa Indonesia (Pilihan) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Indonesia (Pilihan)";
+                if (subInfo) subInfo.innerText = "TKA Bahasa Indonesia Pilihan SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=indonesia-pilihan`;
+            } else if (currentMapelKey === 'inggris-wajib') {
+                document.title = "Simulasi CBT TKA Bahasa Inggris (Wajib) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🇬🇧 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Inggris (Wajib)";
+                if (subInfo) subInfo.innerText = "TKA Bahasa Inggris Wajib SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=inggris-wajib`;
+            } else if (currentMapelKey === 'inggris-pilihan') {
+                document.title = "Simulasi CBT TKA Bahasa Inggris (Pilihan) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🗣️ Simulasi Tes Kemampuan Akademik (TKA) Bahasa Inggris (Pilihan)";
+                if (subInfo) subInfo.innerText = "TKA Bahasa Inggris Pilihan SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=inggris-pilihan`;
+            } else {
+                document.title = "Simulasi CBT TKA Kimia SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
+                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Kimia";
+                if (subInfo) subInfo.innerText = "TKA Kimia SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=kimia`;
+            }
+
+            renderPaketTabs();
+        }
+
+        function renderPaketTabs() {
+            const container = document.getElementById('paket-tabs-container');
+            if (!container) return;
+            const pkgKeys = Object.keys(activePackages || {});
+            if (pkgKeys.length === 0) return;
+
+            let html = `<span class="text-xs font-bold text-slate-500 uppercase tracking-wider px-2">Pilih Paket:</span>`;
+            pkgKeys.forEach((key, idx) => {
+                const pkg = activePackages[key];
+                const isActive = (key === currentPaketKey);
+                const count = (pkg && pkg.data) ? pkg.data.length : 0;
+                let label = (pkg && pkg.shortTitle) ? pkg.shortTitle : `Paket ${idx + 1} (${count} Soal)`;
+                const icons = ['📄', '✨', '🎯', '🔥', '💡'];
+                const icon = icons[idx % icons.length];
+                
+                let activeClass = "";
+                if (isActive) {
+                    activeClass = "px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 bg-teal-600 text-white";
+                } else {
+                    activeClass = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200";
+                }
+                
+                html += `<button type="button" class="${activeClass}" onclick="switchPaket('${key}')">
+                    <span>${icon} ${label}</span>
+                </button>`;
+            });
+
+            if (pkgKeys.length === 1) {
+                html += `<button type="button" disabled class="px-3.5 py-2 rounded-xl text-xs font-medium bg-slate-50 text-slate-400 border border-dashed border-slate-200 cursor-not-allowed flex items-center gap-1">
+                    <span>✨ Paket 2 (Segera Hadir)</span>
+                </button>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function switchPaket(pkgKey) {
+            if (!activePackages[pkgKey]) return;
+            currentPaketKey = pkgKey;
+            activeList = activePackages[pkgKey].data;
+            userAnswers = JSON.parse(
+                localStorage.getItem(getStorageKey(currentMapelKey, currentPaketKey)) ||
+                (currentMapelKey === 'kimia' ? localStorage.getItem(`tka_answers_${currentPaketKey}`) : null) ||
+                '{}'
+            );
+            currentIdx = 0;
+
+            // Update URL query string tanpa reload
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('mapel', currentMapelKey);
+            newUrl.searchParams.set('paket', pkgKey);
+            window.history.pushState({}, '', newUrl);
+
+            // Update Dynamic Tab UI
+            renderPaketTabs();
+
+            const badgeLabel = document.getElementById('badge-paket-label');
+            if (badgeLabel) {
+                const pkg = activePackages[pkgKey];
+                badgeLabel.innerText = pkg.shortTitle || (pkgKey === 'paket1' ? "Simulasi Resmi" : `Paket ${pkgKey.replace('paket', '')}`);
+                badgeLabel.className = pkgKey === 'paket1'
+                    ? "px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold uppercase"
+                    : "px-2.5 py-0.5 bg-indigo-100 text-indigo-800 rounded-full text-xs font-semibold uppercase";
+            }
+
+            document.getElementById('result-box').classList.add('hidden');
+            document.getElementById('link-to-pembahasan-paket').href = `/tka/pembahasan.html?mapel=${currentMapelKey}&paket=${pkgKey}`;
+
+            renderNumberGrid();
+            renderCurrentSoal();
+            initCountdownTimer();
+        }
+
+        // ==========================================
+        // FITUR CBT COUNTDOWN TIMER ENGINE TERPADU
+        // ==========================================
+        let timerInterval = null;
+        let remainingSeconds = 0;
+        let isTimerPaused = false;
+        let isExamSubmitted = false;
+
+        function getMapelDurationMinutes(mapelKey) {
+            if (typeof window.tkaRegistry !== 'undefined' && window.tkaRegistry.mapelList) {
+                const found = window.tkaRegistry.mapelList.find(m => m.id === mapelKey);
+                if (found && found.durasiMenit) return found.durasiMenit;
+            }
+            if (mapelKey === 'matematika-lanjut') return 60;
+            if (mapelKey === 'sejarah' || mapelKey === 'ppkn') return 45;
+            return 50;
+        }
+
+        function getTimerStorageKey(mapel, paket) {
+            return `tka_timer_${mapel}_${paket}`;
+        }
+
+        function initCountdownTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+
+            const durationMinutes = getMapelDurationMinutes(currentMapelKey);
+            const defaultTotalSeconds = durationMinutes * 60;
+            const storageKey = getTimerStorageKey(currentMapelKey, currentPaketKey);
+
+            let savedState = null;
+            try {
+                const raw = sessionStorage.getItem(storageKey);
+                if (raw) savedState = JSON.parse(raw);
+            } catch (e) {
+                savedState = null;
+            }
+
+            if (savedState && typeof savedState.remainingSeconds === 'number') {
+                if (savedState.isPaused) {
+                    remainingSeconds = savedState.remainingSeconds;
+                    isTimerPaused = true;
+                } else {
+                    const elapsed = Math.floor((Date.now() - savedState.timestamp) / 1000);
+                    remainingSeconds = Math.max(0, savedState.remainingSeconds - elapsed);
+                    isTimerPaused = false;
+                }
+            } else {
+                remainingSeconds = defaultTotalSeconds;
+                isTimerPaused = false;
+            }
+
+            updateTimerDisplay();
+            updatePauseButtonsUI();
+
+            if (remainingSeconds <= 0 && !isExamSubmitted) {
+                handleTimeExpired();
+                return;
+            }
+
+            timerInterval = setInterval(() => {
+                if (isTimerPaused || isExamSubmitted) return;
+
+                if (remainingSeconds > 0) {
+                    remainingSeconds--;
+                    updateTimerDisplay();
+                    saveTimerState();
+                } else {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    handleTimeExpired();
+                }
+            }, 1000);
+        }
+
+        function saveTimerState() {
+            const storageKey = getTimerStorageKey(currentMapelKey, currentPaketKey);
+            try {
+                sessionStorage.setItem(storageKey, JSON.stringify({
+                    remainingSeconds: remainingSeconds,
+                    isPaused: isTimerPaused,
+                    timestamp: Date.now()
+                }));
+            } catch (e) {}
+        }
+
+        function toggleTimerPause() {
+            if (isExamSubmitted) return;
+            isTimerPaused = !isTimerPaused;
+            updatePauseButtonsUI();
+            saveTimerState();
+            if (!isTimerPaused && !timerInterval) {
+                initCountdownTimer();
+            }
+        }
+
+        function resetCountdownTimer() {
+            const durationMinutes = getMapelDurationMinutes(currentMapelKey);
+            remainingSeconds = durationMinutes * 60;
+            isTimerPaused = false;
+            saveTimerState();
+            initCountdownTimer();
+        }
+
+        function updatePauseButtonsUI() {
+            const btnTop = document.getElementById('btn-timer-pause');
+            const btnSide = document.getElementById('btn-sidebar-timer-pause');
+            const iconEl = document.getElementById('timer-status-icon');
+
+            if (isTimerPaused) {
+                if (btnTop) {
+                    btnTop.innerText = "▶️";
+                    btnTop.title = "Lanjutkan Timer";
+                }
+                if (btnSide) btnSide.innerHTML = `<span>▶️</span> <span id="label-sidebar-pause" class="text-[11px]">Lanjut</span>`;
+                if (iconEl) iconEl.innerText = "⏸️";
+            } else {
+                if (btnTop) {
+                    btnTop.innerText = "⏸️";
+                    btnTop.title = "Jeda Timer";
+                }
+                if (btnSide) btnSide.innerHTML = `<span>⏸️</span> <span id="label-sidebar-pause" class="text-[11px]">Jeda</span>`;
+                if (iconEl) iconEl.innerText = remainingSeconds <= 300 ? "⚠️" : (remainingSeconds <= 600 ? "⏳" : "⏱️");
+            }
+        }
+
+        function formatMMSS(sec) {
+            const m = Math.floor(sec / 60);
+            const s = sec % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function updateTimerDisplay() {
+            const textStr = formatMMSS(remainingSeconds);
+            const topText = document.getElementById('cbt-timer-text');
+            const sideText = document.getElementById('sidebar-timer-text');
+            const topBadge = document.getElementById('cbt-timer-badge');
+            const sideCard = document.getElementById('sidebar-timer-card');
+            const iconEl = document.getElementById('timer-status-icon');
+
+            if (topText) topText.innerText = textStr;
+            if (sideText) sideText.innerText = textStr;
+
+            // Visual styles based on remaining time
+            if (remainingSeconds <= 300) { // <= 5 menit: Bahaya (Merah berdenyut)
+                if (iconEl && !isTimerPaused) iconEl.innerText = "⚠️";
+                if (topBadge) {
+                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-rose-50 border border-rose-300 flex items-center gap-2.5 transition-all shadow-xs animate-pulse";
+                }
+                if (sideCard) {
+                    sideCard.className = "mb-4 p-3.5 bg-rose-50 rounded-xl border border-rose-300 flex items-center justify-between transition-all animate-pulse";
+                }
+                if (topText) topText.className = "font-mono text-sm font-extrabold text-rose-600 tracking-wider";
+                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-rose-600 tracking-wider";
+            } else if (remainingSeconds <= 600) { // <= 10 menit: Peringatan (Kuning/Oranye)
+                if (iconEl && !isTimerPaused) iconEl.innerText = "⏳";
+                if (topBadge) {
+                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-300 flex items-center gap-2.5 transition-all shadow-xs";
+                }
+                if (sideCard) {
+                    sideCard.className = "mb-4 p-3.5 bg-amber-50 rounded-xl border border-amber-300 flex items-center justify-between transition-all";
+                }
+                if (topText) topText.className = "font-mono text-sm font-extrabold text-amber-700 tracking-wider";
+                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-amber-700 tracking-wider";
+            } else { // Normal (Abu-abu / Slate Elegan)
+                if (iconEl && !isTimerPaused) iconEl.innerText = "⏱️";
+                if (topBadge) {
+                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-slate-100 border border-slate-200 flex items-center gap-2.5 transition-all shadow-xs";
+                }
+                if (sideCard) {
+                    sideCard.className = "mb-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between transition-all";
+                }
+                if (topText) topText.className = "font-mono text-sm font-extrabold text-slate-900 tracking-wider";
+                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-slate-900 tracking-wider";
+            }
+        }
+
+        function handleTimeExpired() {
+            if (isExamSubmitted) return;
+            alert("⏰ Waktu Ujian Telah Habis!\n\nDurasi pengerjaan simulasi telah berakhir. Lembar jawaban Anda dikumpulkan secara otomatis untuk penghitungan skor akhir.");
+            submitExam();
+        }
+
+        function saveAnswers() {
+            localStorage.setItem(getStorageKey(currentMapelKey, currentPaketKey), JSON.stringify(userAnswers));
+            updateBadges();
+        }
+
+        function updateBadges() {
+            let answeredCount = 0;
+            activeList.forEach(item => {
+                const ans = userAnswers[item.id];
+                if (item.tipe === 'pg') {
+                    if (ans && ans.length > 0) answeredCount++;
+                } else if (item.tipe === 'mcma') {
+                    if (ans && ans.length > 0) answeredCount++;
+                } else if (item.tipe === 'kompleks_bs') {
+                    if (ans && Object.keys(ans).length === item.items.length) answeredCount++;
+                }
+            });
+            document.getElementById('answered-count-badge').innerText = `${answeredCount} / ${activeList.length} Terjawab`;
+
+            // Update nomor grid
+            document.querySelectorAll('.btn-grid-num').forEach(btn => {
+                const id = parseInt(btn.dataset.id);
+                const ans = userAnswers[id];
+                let isAnswered = false;
+                const it = activeList[id - 1];
+                if (!it) return;
+
+                if (it.tipe === 'pg' || it.tipe === 'mcma') {
+                    isAnswered = ans && ans.length > 0;
+                } else if (it.tipe === 'kompleks_bs') {
+                    isAnswered = ans && Object.keys(ans).length === it.items.length;
+                }
+
+                btn.className = 'btn-grid-num w-full aspect-square rounded-lg text-xs font-semibold flex items-center justify-center transition border';
+                if (id === currentIdx + 1) {
+                    btn.classList.add('border-teal-500', 'border-2', 'ring-2', 'ring-teal-200');
+                } else {
+                    btn.classList.add('border-slate-200');
+                }
+
+                if (isAnswered) {
+                    btn.classList.add('bg-teal-600', 'text-white');
+                } else {
+                    btn.classList.add('bg-slate-50', 'text-slate-700', 'hover:bg-slate-100');
+                }
+            });
+        }
+
+        function renderNumberGrid() {
+            const grid = document.getElementById('number-grid');
+            grid.innerHTML = activeList.map(item => `
+                <button class="btn-grid-num" data-id="${item.id}" onclick="jumpToSoal(${item.id - 1})">
+                    ${item.id}
+                </button>
+            `).join('');
+            updateBadges();
+        }
+
+        function jumpToSoal(idx) {
+            currentIdx = idx;
+            renderCurrentSoal();
+        }
+
+        function navigatePrev() {
+            if (currentIdx > 0) {
+                currentIdx--;
+                renderCurrentSoal();
+            }
+        }
+
+        function navigateNext() {
+            if (currentIdx < activeList.length - 1) {
+                currentIdx++;
+                renderCurrentSoal();
+            } else {
+                document.getElementById('result-box').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function renderCurrentSoal() {
+            const item = activeList[currentIdx];
+            if (!item) return;
+
+            document.getElementById('active-num-badge').innerText = item.id;
+            document.getElementById('active-soal-title').innerText = `Soal Nomor ${item.id}`;
+            document.getElementById('active-soal-elemen').innerText = `${item.elemen} &bull; ${item.subelemen}`;
+            document.getElementById('active-soal-kode').innerText = item.kode;
+
+            // Tipe soal label & instruksi
+            const tipeBadge = document.getElementById('active-soal-tipe');
+            const instruksiText = document.getElementById('tipe-instruksi-text');
+            if (item.tipe === 'pg') {
+                tipeBadge.innerText = 'Pilihan Ganda';
+                instruksiText.innerText = 'Pilih satu jawaban yang paling tepat';
+            } else if (item.tipe === 'mcma') {
+                tipeBadge.innerText = 'Pilihan Ganda Kompleks (MCMA)';
+                instruksiText.innerText = 'Pilih satu atau lebih jawaban yang benar';
+            } else if (item.tipe === 'kompleks_bs') {
+                tipeBadge.innerText = 'Pernyataan Benar / Salah';
+                instruksiText.innerText = 'Tentukan kebenaran tiap pernyataan';
+            }
+
+            // Teks / Gambar Soal
+            const textContainer = document.getElementById('active-soal-text-container');
+            const imgContainer = document.getElementById('active-soal-img-container');
+            const imgEl = document.getElementById('active-soal-img');
+
+            if (item.soalHtml) {
+                textContainer.innerHTML = item.soalHtml;
+                textContainer.classList.remove('hidden');
+                imgContainer.classList.add('hidden');
+            } else if (item.img) {
+                imgEl.src = item.img;
+                imgContainer.classList.remove('hidden');
+                textContainer.classList.add('hidden');
+            }
+
+            // Render opsi jawaban sesuai tipe
+            const optContainer = document.getElementById('answer-options-container');
+            const savedAns = userAnswers[item.id];
+
+            if (item.tipe === 'pg') {
+                optContainer.innerHTML = item.options.map(opt => `
+                    <label class="flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition has-[:checked]:border-teal-500 has-[:checked]:bg-teal-50/40">
+                        <input type="radio" name="ans-${item.id}" value="${opt.id}" class="cbt-option-input cbt-radio" ${savedAns === opt.id ? 'checked' : ''} onchange="handleAnswerChange('${item.id}', '${opt.id}')">
+                        <span class="text-xs sm:text-sm font-medium text-slate-800 leading-snug"><strong>${opt.id}.</strong> ${opt.text}</span>
+                    </label>
+                `).join('');
+            } else if (item.tipe === 'mcma') {
+                const currentArr = Array.isArray(savedAns) ? savedAns : [];
+                optContainer.innerHTML = item.options.map(opt => `
+                    <label class="flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition has-[:checked]:border-teal-500 has-[:checked]:bg-teal-50/40">
+                        <input type="checkbox" name="ans-${item.id}" value="${opt.id}" class="cbt-option-input cbt-checkbox" ${currentArr.includes(opt.id) ? 'checked' : ''} onchange="handleMcmaChange('${item.id}', '${opt.id}', this.checked)">
+                        <span class="text-xs sm:text-sm font-medium text-slate-800 leading-snug"><strong>${opt.id}.</strong> ${opt.text}</span>
+                    </label>
+                `).join('');
+            } else if (item.tipe === 'kompleks_bs') {
+                const currentObj = (typeof savedAns === 'object' && savedAns !== null) ? savedAns : {};
+                const optA = (item.kolom && item.kolom[0]) ? item.kolom[0] : 'Benar';
+                const optB = (item.kolom && item.kolom[1]) ? item.kolom[1] : 'Salah';
+                optContainer.innerHTML = item.items.map((it, idx) => `
+                    <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <div class="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed"><strong>Pernyataan ${idx + 1}:</strong> ${it.pernyataan}</div>
+                        <div class="flex items-center gap-6 text-xs font-semibold">
+                            <label class="flex items-center gap-2 cursor-pointer py-1 px-2 rounded-lg hover:bg-slate-100 transition">
+                                <input type="radio" name="bs-${item.id}-${idx}" value="${optA}" class="cbt-option-input cbt-bs-benar" ${currentObj[idx] === optA ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, '${optA}')">
+                                <span class="text-emerald-700">${optA}</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer py-1 px-2 rounded-lg hover:bg-slate-100 transition">
+                                <input type="radio" name="bs-${item.id}-${idx}" value="${optB}" class="cbt-option-input cbt-bs-salah" ${currentObj[idx] === optB ? 'checked' : ''} onchange="handleBsChange('${item.id}', ${idx}, '${optB}')">
+                                <span class="text-rose-700">${optB}</span>
+                            </label>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Tombol Previous & Next
+            document.getElementById('btn-prev').disabled = (currentIdx === 0);
+            document.getElementById('btn-next').innerText = (currentIdx === activeList.length - 1) ? 'Ke Ringkasan Akhir' : 'Soal Berikutnya →';
+
+            updateBadges();
+
+            // Render KaTeX secara menyeluruh (Mendukung $$, $, \[, \()
+            renderMathInDOM(document.getElementById('active-soal-text-container'));
+            renderMathInDOM(optContainer);
+        }
+
+        const KATEX_DELIMITERS = [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\[', right: '\\]', display: true },
+            { left: '\\(', right: '\\)', display: false }
+        ];
+
+        function renderMathInDOM(root) {
+            const target = root || document.body;
+            const doRender = () => {
+                if (typeof renderMathInElement === 'function') {
+                    try {
+                        renderMathInElement(target, {
+                            delimiters: KATEX_DELIMITERS,
+                            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                            throwOnError: false
+                        });
+                    } catch (e) {
+                        console.warn('KaTeX render warning:', e);
+                    }
+                }
+            };
+
+            if (typeof renderMathInElement === 'function') {
+                doRender();
+            } else {
+                let retries = 0;
+                const timer = setInterval(() => {
+                    retries++;
+                    if (typeof renderMathInElement === 'function') {
+                        clearInterval(timer);
+                        doRender();
+                    } else if (retries > 30) {
+                        clearInterval(timer);
+                    }
+                }, 100);
+            }
+        }
+
+        function handleAnswerChange(soalId, val) {
+            userAnswers[soalId] = val;
+            saveAnswers();
+        }
+
+        function handleMcmaChange(soalId, optId, isChecked) {
+            let arr = userAnswers[soalId] || [];
+            if (!Array.isArray(arr)) arr = [];
+            if (isChecked) {
+                if (!arr.includes(optId)) arr.push(optId);
+            } else {
+                arr = arr.filter(x => x !== optId);
+            }
+            userAnswers[soalId] = arr;
+            saveAnswers();
+        }
+
+        function handleBsChange(soalId, idx, val) {
+            let obj = userAnswers[soalId] || {};
+            if (typeof obj !== 'object' || Array.isArray(obj)) obj = {};
+            obj[idx] = val;
+            userAnswers[soalId] = obj;
+            saveAnswers();
+        }
+
+        function submitExam() {
+            let benar = 0;
+            let salah = 0;
+            let kosong = 0;
+
+            activeList.forEach(item => {
+                const ans = userAnswers[item.id];
+                if (item.tipe === 'pg') {
+                    if (!ans) {
+                        kosong++;
+                    } else if (ans === item.kunci) {
+                        benar++;
+                    } else {
+                        salah++;
+                    }
+                } else if (item.tipe === 'mcma') {
+                    if (!ans || ans.length === 0) {
+                        kosong++;
+                    } else {
+                        const sortedAns = [...ans].sort().join('');
+                        const sortedKunci = [...item.kunci].sort().join('');
+                        if (sortedAns === sortedKunci) {
+                            benar++;
+                        } else {
+                            salah++;
+                        }
+                    }
+                } else if (item.tipe === 'kompleks_bs') {
+                    if (!ans || Object.keys(ans).length < item.items.length) {
+                        kosong++;
+                    } else {
+                        let isAllCorrect = true;
+                        item.items.forEach((it, idx) => {
+                            if (ans[idx] !== it.kunci) isAllCorrect = false;
+                        });
+                        if (isAllCorrect) {
+                            benar++;
+                        } else {
+                            salah++;
+                        }
+                    }
+                }
+            });
+
+            const score = Math.round((benar / activeList.length) * 100);
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('stat-total').innerText = `${activeList.length} Butir`;
+            document.getElementById('stat-benar').innerText = benar;
+            document.getElementById('stat-salah').innerText = salah;
+            document.getElementById('stat-kosong').innerText = kosong;
+
+            const resTitle = document.getElementById('result-exam-title');
+            const resDesc = document.getElementById('result-exam-desc');
+            const mapelNames = {
+                'kimia': 'Kimia',
+                'fisika': 'Fisika',
+                'biologi': 'Biologi',
+                'matematika-lanjut': 'Matematika Tingkat Lanjut',
+                'matematika-umum': 'Matematika Umum',
+                'sosiologi': 'Sosiologi',
+                'geografi': 'Geografi',
+                'sejarah': 'Sejarah',
+                'ppkn': 'PPKn',
+                'indonesia-wajib': 'Bahasa Indonesia (Wajib)',
+                'indonesia-pilihan': 'Bahasa Indonesia (Pilihan)',
+                'inggris-wajib': 'Bahasa Inggris (Wajib)',
+                'inggris-pilihan': 'Bahasa Inggris (Pilihan)'
+            };
+            const mapelName = mapelNames[currentMapelKey] || 'Kimia';
+            resTitle.innerText = `🎉 Rekap Skor: ${activePackages[currentPaketKey].title}`;
+            resDesc.innerText = `Skor Anda dihitung dari ${activeList.length} butir soal ${activePackages[currentPaketKey].shortTitle}.`;
+
+            const fb = document.getElementById('feedback-analysis');
+            if (score >= 80) {
+                fb.innerHTML = `<strong>Kinerja Luar Biasa! (Skor: ${score})</strong> Anda telah menguasai konsep-konsep fundamental dan analitis TKA ${mapelName} dengan sangat baik. Pertahankan kecepatan analisis untuk seleksi PTN impian Anda!`;
+            } else if (score >= 60) {
+                fb.innerHTML = `<strong>Hasil Cukup Baik! (Skor: ${score})</strong> Anda sudah memahami sebagian besar konsep TKA ${mapelName}. Pelajari pembahasan pada butir-butir yang salah untuk memantapkan pemahaman dan intuisi pemecahan masalah.`;
+            } else {
+                fb.innerHTML = `<strong>Tetap Semangat! (Skor: ${score})</strong> Jangan berkecil hati. Buka menu Pembahasan untuk mempelajari konsep dasar KaTeX dan trik pengerjaan tiap butir soal secara mendalam.`;
+            }
+
+            const resBox = document.getElementById('result-box');
+            resBox.classList.remove('hidden');
+            resBox.scrollIntoView({ behavior: 'smooth' });
+
+            // Hentikan timer dan hapus state waktu tersimpan setelah ujian diselesaikan
+            isExamSubmitted = true;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            try {
+                sessionStorage.removeItem(getTimerStorageKey(currentMapelKey, currentPaketKey));
+            } catch (e) {}
+        }
+
+        document.getElementById('btn-restart').addEventListener('click', () => {
+            if (confirm(`Apakah Anda ingin mengulang simulasi ${activePackages[currentPaketKey].shortTitle} dari awal? Jawaban dan sisa waktu Anda pada paket ini akan di-reset.`)) {
+                localStorage.removeItem(getStorageKey(currentMapelKey, currentPaketKey));
+                if (currentMapelKey === 'kimia') {
+                    localStorage.removeItem(`tka_answers_${currentPaketKey}`);
+                }
+                userAnswers = {};
+                isExamSubmitted = false;
+                document.getElementById('result-box').classList.add('hidden');
+                currentIdx = 0;
+                renderNumberGrid();
+                renderCurrentSoal();
+                resetCountdownTimer();
+            }
+        });
+
+        // Event listener kontrol timer
+        document.getElementById('btn-timer-pause')?.addEventListener('click', toggleTimerPause);
+        document.getElementById('btn-sidebar-timer-pause')?.addEventListener('click', toggleTimerPause);
+        document.getElementById('btn-timer-reset')?.addEventListener('click', () => {
+            if (confirm("Reset waktu ujian ke durasi awal untuk paket ini?")) {
+                resetCountdownTimer();
+            }
+        });
+
+        // Inisialisasi awal
+        window.addEventListener('load', () => {
+            updateMapelUI();
+            switchPaket(currentPaketKey);
+            renderMathInDOM(document.body);
+        });
+    </script>
+</body>
+</html>

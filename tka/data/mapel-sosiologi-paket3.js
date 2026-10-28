@@ -606,7 +606,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 21,
     "elemen": "Ciri & Fungsi Sosiologi",
-    "tipe": "pg_kompleks",
+    "tipe": "mcma",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Seorang sosiolog diminta oleh pemerintah daerah untuk mengkaji dampak penutupan tambang emas liar terhadap kehidupan masyarakat pedesaan. Peneliti tersebut melakukan pengamatan lapangan tanpa memberikan penilaian moral (judgement) apakah penambangan emas liar tersebut secara etis \"baik\" atau \"buruk\". Ia fokus mengumpulkan data empiris tentang perubahan pola kerja, kerusakan lingkungan, dan jaringan patron-klien yang terputus. Data tersebut kemudian disusun menjadi analisis teoritis yang digunakan pemerintah untuk merancang program alih profesi bagi mantan penambang agar tidak memicu gejolak konflik sosial.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Berdasarkan studi kasus di atas, manakah pernyataan yang mencerminkan ciri-ciri sosiologi sebagai ilmu dan fungsinya dalam masyarakat? (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "A",
@@ -640,7 +640,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 22,
     "elemen": "Multikulturalisme & Integrasi",
-    "tipe": "pg_kompleks",
+    "tipe": "mcma",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Seorang peneliti mengkaji resistensi masyarakat adat terhadap ekspansi perkebunan kelapa sawit. Untuk memahami makna simbolis tanah bagi warga lokal, peneliti tinggal bersama warga (participatory observation) dan melakukan wawancara mendalam. Peneliti menyamarkan identitas para informan menggunakan inisial demi melindungi mereka dari intimidasi oknum tertentu. Namun, peneliti menghadapi dilema etis ketika mendapati beberapa oknum warga lokal diam-diam menjual tanah adat secara sepihak demi keuntungan pribadi, yang bertolak belakang dengan narasi perlawanan komunal yang selama ini dipublikasikan.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Berdasarkan dinamika metodologi dan etika penelitian sosiologi tersebut, manakah analisis yang benar? (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "A",
@@ -674,7 +674,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 23,
     "elemen": "Stratifikasi & Mobilitas Sosial",
-    "tipe": "pg_kompleks",
+    "tipe": "mcma",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Sebuah kota metropolitan dihuni oleh berbagai etnis pendatang dan warga asli. Pemerintah kota mendirikan pusat kebudayaan bersama dan menerapkan sistem alokasi tempat tinggal yang mencampur berbagai etnis dalam satu lingkungan perumahan. Walaupun interaksi harian meningkat, persaingan ekonomi di sektor perdagangan sering kali memicu kecurigaan antarkelompok. Beberapa kelompok etnis pembentuk komunitas tertutup (exclusive enclave) untuk mengamankan jaringan bisnis mereka. Pemerintah berusaha memperkuat integrasi dengan membentuk dewan komunikasi lintas etnis yang berfungsi memediasi potensi potensi gesekan sosial.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Ditinjau dari konsep multikulturalisme dan relasi antarkelompok, analisis sosiologis yang tepat adalah... (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "B",
@@ -708,7 +708,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 24,
     "elemen": "Konflik & Perdamaian",
-    "tipe": "pg_kompleks",
+    "tipe": "mcma",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di sebuah kawasan industri, perusahaan teknologi menerapkan aturan bahwa seleksi promosi manajerial berbasis penilaian kinerja objektif (merit system). Namun, data internal menunjukkan hanya 10% posisi manajerial yang diisi oleh perempuan. Wawancara menunjukkan pekerja perempuan kerap dibebani oleh ekspektasi budaya ganda: wajib menunjukkan performa jam kerja panjang di kantor, sekaligus memikul tanggung jawab penuh atas pengasuhan anak dan pekerjaan rumah tangga di rumah. Hal ini menyebabkan pekerja perempuan sering menolak tawaran promosi karena kekhawatiran konflik peran.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Berdasarkan kasus tersebut, pernyataan yang benar mengenai kesetaraan sosial dan gender adalah... (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "A",
@@ -742,7 +742,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 25,
     "elemen": "Rancangan Penelitian Sosial",
-    "tipe": "pg_kompleks",
+    "tipe": "mcma",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Seorang peneliti ingin menguji hipotesis mengenai \"Dampak Intensitas Penggunaan Media Sosial dan Tingkat Kontrol Orang Tua terhadap Perilaku Konsumtif Remaja di Kota Besar\". Peneliti menyebarkan kuesioner terstruktur kepada 500 responden remaja yang dipilih menggunakan teknik stratified random sampling berdasarkan tingkat ekonomi keluarga. Hasil analisis statistik menunjukkan bahwa semakin tinggi intensitas penggunaan media sosial, semakin tinggi tingkat perilaku konsumtif. Namun, dampak media sosial tersebut melemah pada remaja yang memiliki tingkat kontrol orang tua yang tinggi dan komunikatif.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Manakah pernyataan berikut yang sesuai dengan struktur dan rancangan penelitian sosial di atas? (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "A",
@@ -777,7 +777,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 26,
     "elemen": "Hakikat Objek Sosiologi",
-    "tipe": "kategori",
+    "tipe": "kompleks_bs",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Ketika pemerintah merencanakan relokasi pedagang kaki lima (PKL) ke pasar terpadu, tim sosiolog diminta untuk meneliti struktur hubungan antara pedagang, koordinator lapak informal, dan pembeli. Tim sosiolog menyimpulkan bahwa pengusulan relokasi tanpa memindahkan jaringan sosial dan ikatan kebiasaan pelanggan akan memicu kegagalan ekonomi pedagang. Sosiolog tidak fokus memuat rekomendasi nilai mengenai siapakah yang paling \"berhak\" atas ruang publik, melainkan membedah pola interaksi sosial, mekanisme adaptasi, dan keteraturan sosial yang terbentuk di lokasi lama.</p>",
     "kunci": [
       "Benar",
@@ -785,17 +785,17 @@ const tkaSosiologiPaket3Data = [
       "Salah"
     ],
     "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>6A BENAR (objek material sosiologi adalah hubungan interaksi antarmanusia). 6B SALAH (sosiologi juga ilmu terapan). 6C SALAH (pendekatan objektif bukan berarti tanpa bukti empiris).<br><br><strong>Kunci Jawaban: ['Benar', 'Salah', 'Salah']</strong>",
-    "pernyataan": [
+    "items": [
       {
-        "pernyataan": "Pernyataan 6A: Objek kajian sosiologi dalam kasus relokasi PKL tersebut adalah interaksi sosial dan jaringan relasi antarmanusia, bukan bentuk fisik bangunan pasar atau aset barang dagangan.",
+        "pernyataan": "Objek kajian sosiologi dalam kasus relokasi PKL tersebut adalah interaksi sosial dan jaringan relasi antarmanusia, bukan bentuk fisik bangunan pasar atau aset barang dagangan.",
         "kunci": "Benar"
       },
       {
-        "pernyataan": "Pernyataan 6B: Sosiologi berfungsi sebagai ilmu murni (pure science) secara mutlak yang melarang pemanfaatan hasilnya untuk solusi teknis kebijakan penataan kota.",
+        "pernyataan": "Sosiologi berfungsi sebagai ilmu murni (pure science) secara mutlak yang melarang pemanfaatan hasilnya untuk solusi teknis kebijakan penataan kota.",
         "kunci": "Salah"
       },
       {
-        "pernyataan": "Pernyataan 6C: Pendekatan sosiolog yang tidak menilai etika \"berhak/tidaknya\" PKL menduduki ruang publik menunjukkan ciri sosiologi yang abstrak dan teoretis tanpa bukti empiris.",
+        "pernyataan": "Pendekatan sosiolog yang tidak menilai etika \"berhak/tidaknya\" PKL menduduki ruang publik menunjukkan ciri sosiologi yang abstrak dan teoretis tanpa bukti empiris.",
         "kunci": "Salah"
       }
     ]
@@ -803,7 +803,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 27,
     "elemen": "Multikulturalisme & Kearifan Lokal",
-    "tipe": "kategori",
+    "tipe": "kompleks_bs",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di suatu daerah tujuan wisata internasional, terjadi pertemuan antara kebudayaan lokal yang menjunjung nilai-nilai religius kolektif dengan kebudayaan wisatawan mancanegara yang bercorak individualis dan liberal. Masyarakat lokal membuka diri terhadap aktivitas ekonomi pariwisata, namun menetapkan regulasi adat yang melarang aktivitas hiburan malam di area sekitar tempat ibadah. Wisatawan diharuskan mematuhi norma tata busana saat memasuki kawasan sakral. Sebagian pemuda lokal mulai mengadopsi gaya berpakaian barat dalam kehidupan harian mereka tanpa meninggalkan ritual adat tahunan.</p>",
     "kunci": [
       "Benar",
@@ -811,17 +811,17 @@ const tkaSosiologiPaket3Data = [
       "Benar"
     ],
     "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>7A BENAR (multikulturalisme akomodatif adat). 7B SALAH (bukan anomi total). 7C BENAR (proteksi nilai kesakralan dari komodifikasi).<br><br><strong>Kunci Jawaban: ['Benar', 'Salah', 'Benar']</strong>",
-    "pernyataan": [
+    "items": [
       {
-        "pernyataan": "Pernyataan 7A: Sikap masyarakat lokal yang menerima pariwisata dengan batasan aturan adat mencerminkan bentuk multikulturalisme akomodatif berbasis kearifan lokal.",
+        "pernyataan": "Sikap masyarakat lokal yang menerima pariwisata dengan batasan aturan adat mencerminkan bentuk multikulturalisme akomodatif berbasis kearifan lokal.",
         "kunci": "Benar"
       },
       {
-        "pernyataan": "Pernyataan 7B: Pengadopsian gaya busana luar oleh pemuda lokal yang berdampingan dengan pelaksanaan ritual adat merupakan gejala cultural lag yang berujung pada anomi total.",
+        "pernyataan": "Pengadopsian gaya busana luar oleh pemuda lokal yang berdampingan dengan pelaksanaan ritual adat merupakan gejala cultural lag yang berujung pada anomi total.",
         "kunci": "Salah"
       },
       {
-        "pernyataan": "Pernyataan 7C: Keharusan wisatawan mematuhi norma lokal saat berada di kawasan sakral adalah bentuk upaya menjaga dominasi struktural budaya lokal atas penetrasi budaya asing.",
+        "pernyataan": "Keharusan wisatawan mematuhi norma lokal saat berada di kawasan sakral adalah bentuk upaya menjaga dominasi struktural budaya lokal atas penetrasi budaya asing.",
         "kunci": "Benar"
       }
     ]
@@ -829,7 +829,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 28,
     "elemen": "Interseksi & Diferensiasi Sosial",
-    "tipe": "kategori",
+    "tipe": "kompleks_bs",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Sebuah komunitas petani di pedesaan terbagi ke dalam beberapa kelompok sosial. Berdasarkan tingkat kepemilikan tanah, masyarakat terbagi menjadi petani pemilik lahan luas, petani penyewa, dan buruh tani. Di sisi lain, berdasarkan identitas keagamaan dan keanggotaan organisasi kemasyarakatan, para petani tersebut terdistribusi secara merata di berbagai organisasi tanpa memandang luas lahan yang dimiliki. Hubungan antaranggota organisasi tetap berjalan akrab dan saling bergotong royong saat perayaan hari besar agama.</p>",
     "kunci": [
       "Salah",
@@ -837,17 +837,17 @@ const tkaSosiologiPaket3Data = [
       "Benar"
     ],
     "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>8A SALAH (luas lahan adalah stratifikasi vertikal). 8B BENAR (interseksi silang). 8C BENAR (meredam polarisasi kelas).<br><br><strong>Kunci Jawaban: ['Salah', 'Benar', 'Benar']</strong>",
-    "pernyataan": [
+    "items": [
       {
-        "pernyataan": "Pernyataan 8A: Pembagian masyarakat berdasarkan luas kepemilikan tanah merupakan bentuk diferensiasi sosial horizontal yang tidak menimbulkan hierarki status sosial.",
+        "pernyataan": "Pembagian masyarakat berdasarkan luas kepemilikan tanah merupakan bentuk diferensiasi sosial horizontal yang tidak menimbulkan hierarki status sosial.",
         "kunci": "Salah"
       },
       {
-        "pernyataan": "Pernyataan 8B: Keanggotaan petani yang tersebar merata di berbagai organisasi keagamaan tanpa memandang strata ekonomi menunjukkan fenomena interseksi sosial.",
+        "pernyataan": "Keanggotaan petani yang tersebar merata di berbagai organisasi keagamaan tanpa memandang strata ekonomi menunjukkan fenomena interseksi sosial.",
         "kunci": "Benar"
       },
       {
-        "pernyataan": "Pernyataan 8C: Interseksi antara strata ekonomi dan keanggotaan organisasi keagamaan berpotensi meredam potensi konflik kelas antara pemilik tanah dan buruh tani.",
+        "pernyataan": "Interseksi antara strata ekonomi dan keanggotaan organisasi keagamaan berpotensi meredam potensi konflik kelas antara pemilik tanah dan buruh tani.",
         "kunci": "Benar"
       }
     ]
@@ -855,7 +855,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 29,
     "elemen": "Analisis Data Penelitian Sosial",
-    "tipe": "kategori",
+    "tipe": "kompleks_bs",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Dalam sebuah penelitian tentang \"Efektivitas Program Bantuan Sosial terhadap Tingkat Kesejahteraan Keluarga Miskin\", peneliti mengumpulkan data pendapatan bulanan 100 keluarga sebelum dan sesudah menerima bantuan. Data diolah menggunakan tabel distribusi frekuensi dan uji beda rata-rata (t-test). Selain itu, peneliti menyertakan kutipan narasi dari 5 kepala keluarga yang menceritakan pengalaman subjektif mereka mengenai rasa aman psikologis setelah mendapatkan bantuan pangan.</p>",
     "kunci": [
       "Benar",
@@ -863,17 +863,17 @@ const tkaSosiologiPaket3Data = [
       "Salah"
     ],
     "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>9A BENAR (kuantitatif inferensial t-test). 9B BENAR (mixed methods kuantitatif-kualitatif). 9C SALAH (narasi kualitatif untuk memperdalam pemahaman makna subjektif, bukan uji korelasi).<br><br><strong>Kunci Jawaban: ['Benar', 'Benar', 'Salah']</strong>",
-    "pernyataan": [
+    "items": [
       {
-        "pernyataan": "Pernyataan 9A: Penggunaan tabel distribusi frekuensi dan uji statistik t-test mengindikasikan bahwa data utama penelitian tersebut diolah secara kuantitatif deskriptif dan inferensial.",
+        "pernyataan": "Penggunaan tabel distribusi frekuensi dan uji statistik t-test mengindikasikan bahwa data utama penelitian tersebut diolah secara kuantitatif deskriptif dan inferensial.",
         "kunci": "Benar"
       },
       {
-        "pernyataan": "Pernyataan 9B: Penggabungan analisis data angka dengan kutipan narasi pengalaman subjektif menunjukkan penggunaan strategi mixed methods (metode campuran) dalam pengolahan data.",
+        "pernyataan": "Penggabungan analisis data angka dengan kutipan narasi pengalaman subjektif menunjukkan penggunaan strategi mixed methods (metode campuran) dalam pengolahan data.",
         "kunci": "Benar"
       },
       {
-        "pernyataan": "Pernyataan 9C: Kutipan narasi pengalaman subjektif warga dimasukkan dengan tujuan utama menguji validitas korelasi statistik antara dua variabel kuantitatif.",
+        "pernyataan": "Kutipan narasi pengalaman subjektif warga dimasukkan dengan tujuan utama menguji validitas korelasi statistik antara dua variabel kuantitatif.",
         "kunci": "Salah"
       }
     ]
@@ -881,7 +881,7 @@ const tkaSosiologiPaket3Data = [
   {
     "id": 30,
     "elemen": "Mobilitas Sosial & Hambatan Struktural",
-    "tipe": "kategori",
+    "tipe": "kompleks_bs",
     "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Studi Kasus:</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Pemerintah membuka program beasiswa kuliah gratis untuk anak-anak dari keluarga tidak mampu. Seorang anak buruh tani berhasil menyelesaikan pendidikan sarjana teknik di perguruan tinggi ternama dan kini bekerja sebagai manajer konstruksi di perusahaan BUMN. Namun, adiknya yang tidak lolos beasiswa terpaksa berhenti sekolah di tingkat SMA dan melanjutkan pekerjaan orang tuanya sebagai buruh tani karena pendapatan keluarga tidak cukup untuk membiayai kuliah secara mandiri.</p>",
     "kunci": [
       "Benar",
@@ -889,17 +889,17 @@ const tkaSosiologiPaket3Data = [
       "Salah"
     ],
     "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>10A BENAR (mobilitas vertikal naik). 10B BENAR (hambatan modal struktural kemiskinan). 10C SALAH (beasiswa tidak secara otomatis menghilangkan seluruh stratifikasi sosial di dunia).<br><br><strong>Kunci Jawaban: ['Benar', 'Benar', 'Salah']</strong>",
-    "pernyataan": [
+    "items": [
       {
-        "pernyataan": "Pernyataan 10A: Keberhasilan anak pertama menjadi manajer BUMN merupakan contoh mobilitas sosial vertikal naik intragenerasi sekaligus antargenerasi.",
+        "pernyataan": "Keberhasilan anak pertama menjadi manajer BUMN merupakan contoh mobilitas sosial vertikal naik intragenerasi sekaligus antargenerasi.",
         "kunci": "Benar"
       },
       {
-        "pernyataan": "Pernyataan 10B: Nasib anak kedua yang tetap menjadi buruh tani mengindikasikan masih beroperasinya hambatan struktural modal ekonomi dalam mobilitas sosial.",
+        "pernyataan": "Nasib anak kedua yang tetap menjadi buruh tani mengindikasikan masih beroperasinya hambatan struktural modal ekonomi dalam mobilitas sosial.",
         "kunci": "Benar"
       },
       {
-        "pernyataan": "Pernyataan 10C: Beasiswa pemerintah berfungsi sebagai saluran mobilitas sosial utama yang secara otomatis menghilangkan seluruh bentuk stratifikasi sosial di masyarakat.",
+        "pernyataan": "Beasiswa pemerintah berfungsi sebagai saluran mobilitas sosial utama yang secara otomatis menghilangkan seluruh bentuk stratifikasi sosial di masyarakat.",
         "kunci": "Salah"
       }
     ]
@@ -912,7 +912,7 @@ if (typeof window !== 'undefined') {
   window.tkaSosiologiPackages = window.tkaSosiologiPackages || {};
   window.tkaSosiologiPackages['paket3'] = {
     title: "Paket 3: Try Out 3 TKA Sosiologi SMA 2026 (30 Soal Terprediksi)",
-    shortTitle: "Paket 3 (Try Out 3 - 30 Soal)",
+    shortTitle: "Paket 3 (Try Out 3 2026 - 30 Soal)",
     data: tkaSosiologiPaket3Data
   };
 }
