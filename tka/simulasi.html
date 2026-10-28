@@ -368,7 +368,8 @@
     <script src="/js/curriculum.js"></script>
     <script src="/js/spu.js"></script>
     <script src="/js/include.js"></script>
-    <script src="/tka/js/tka-paket2.js"></script>
+    <script src="/tka/js/tka-paket2.js"></script>
+    <script src="/tka/js/tka-paket3.js"></script>
     <script src="/tka/js/tka-data.js"></script>
     <script src="/tka/data/mapel-fisika-paket2.js"></script>
     <script src="/tka/data/mapel-fisika.js"></script>
@@ -858,8 +859,17 @@
 
             document.getElementById('active-num-badge').innerText = item.id;
             document.getElementById('active-soal-title').innerText = `Soal Nomor ${item.id}`;
-            document.getElementById('active-soal-elemen').innerText = `${item.elemen} &bull; ${item.subelemen}`;
-            document.getElementById('active-soal-kode').innerText = item.kode;
+            document.getElementById('active-soal-elemen').innerHTML = `${item.elemen} &bull; ${item.subelemen}`;
+            const kodeEl = document.getElementById('active-soal-kode');
+            if (kodeEl) {
+                if (item.kode) {
+                    kodeEl.innerText = item.kode;
+                    kodeEl.style.display = '';
+                } else {
+                    kodeEl.innerText = '';
+                    kodeEl.style.display = 'none';
+                }
+            }
 
             // Tipe soal label & instruksi
             const tipeBadge = document.getElementById('active-soal-tipe');

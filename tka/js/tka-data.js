@@ -722,6 +722,14 @@ const tkaPackages = {
     badge: "Try Out HOTS",
     total: 25,
     get data() { return (typeof tkaPaket2Data !== 'undefined') ? tkaPaket2Data : []; }
+  },
+  paket3: {
+    id: "paket3",
+    title: "Paket 3: Prediksi Resmi TKA Kimia SMA 2025/2026 (40 Soal Variatif PG, MCMA & Benar/Salah)",
+    shortTitle: "Paket 3 (Prediksi 2025/2026 - 40 Soal)",
+    badge: "Prediksi 40 Soal",
+    total: 40,
+    get data() { return (typeof tkaPaket3Data !== 'undefined') ? tkaPaket3Data : []; }
   }
 };
 

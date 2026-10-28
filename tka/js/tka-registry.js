@@ -23,8 +23,8 @@ const tkaRegistry = {
       icon: "⚗️",
       color: "emerald",
       bgGradient: "from-emerald-500 to-teal-700",
-      totalSoal: 48,
-      paketTersedia: 2,
+      totalSoal: 88,
+      paketTersedia: 3,
       durasiMenit: 50,
       status: "tersedia", // "tersedia" | "proses"
       deskripsi: "Stoikiometri, struktur atom, termokimia, laju reaksi, kesetimbangan, asam-basa, elektrokimia, dan hidrokarbon.",
