@@ -319,10 +319,10 @@ const kurikulum = {
 
 // Modul di luar struktur Kelas/Bab (tampil sebagai menu terpisah di header)
 const modulLain = [
-    { slug: "snbt",         title: "Simulasi SNBT",   path: "/snbt/index.html",        icon: "📚", status: "aktif" },
-    { slug: "tka",          title: "Simulasi TKA",    path: "/tka/index.html",         icon: "📝", status: "aktif" },
-    { slug: "prediksi-ptn", title: "Prediksi PTN",    path: "/tka/prediksi-ptn.html",  icon: "🎯", status: "aktif" },
-    { slug: "anbk", title: "Persiapan ANBK",  path: "/anbk/index.html", icon: "🎯", status: "segera" }
+    { slug: "snbt",         title: "Simulasi SNBT",   path: "/snbt/index.html",        icon: "📚", status: "aktif", desc: "Simulasi Tes Potensi Skolastik (TPS) dan Literasi SNBT resmi interaktif.", action: "Mulai simulasi" },
+    { slug: "tka",          title: "Simulasi TKA",    path: "/tka/index.html",         icon: "📝", status: "aktif", desc: "Simulasi CBT 13 mata pelajaran TKA SMA resmi BPPP lengkap dengan timer.", action: "Mulai simulasi" },
+    { slug: "prediksi-ptn", title: "Prediksi PTN",    path: "/tka/prediksi-ptn.html",  icon: "🎯", status: "aktif", desc: "Rekomendasi jurusan PTN berdasarkan akumulasi nilai latihan Anda.", action: "Cek prediksi" },
+    { slug: "sains-populer", title: "Sains Populer",  path: "/sains-populer/index.html", icon: "🔬", status: "aktif", desc: "Warta sains mutakhir & teknologi viral dari sudut pandang kimia yang mudah dipahami.", action: "Jelajahi warta" }
 ];
 
 

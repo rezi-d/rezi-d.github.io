@@ -348,11 +348,11 @@ function bangunMenuBeranda() {
                         </span>
                     </div>
                     <h2 class="text-xl font-bold tracking-tight text-slate-900 group-hover:text-teal-600 transition-colors mb-1.5">${m.title}</h2>
-                    <p class="text-xs text-slate-500 leading-relaxed mb-4">Bank latihan soal interaktif dan simulasi ujian persiapan asesmen nasional.</p>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-4">${m.desc || 'Bank latihan soal interaktif dan simulasi ujian persiapan asesmen.'}</p>
                 </div>
                 <div>
                     <p class="text-xs text-[#0071e3] font-semibold flex items-center gap-1 group-hover:gap-1.5 transition-all">
-                        <span>${m.status === 'segera' ? 'Segera hadir' : 'Mulai simulasi'}</span>
+                        <span>${m.status === 'segera' ? 'Segera hadir' : (m.action || 'Buka modul')}</span>
                         <span class="text-sm leading-none">&rsaquo;</span>
                     </p>
                 </div>
