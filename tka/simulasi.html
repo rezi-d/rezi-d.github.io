@@ -69,8 +69,8 @@
             </div>
         </div>
 
-        <!-- PAKET SELECTOR TABS -->
-        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
+        <!-- PAKET SELECTOR TABS & COUNTDOWN TIMER -->
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-3">
             <div class="flex items-center gap-2">
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider px-2">Pilih Paket:</span>
                 <button type="button" id="tab-paket-1" class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-2 bg-teal-600 text-white" onclick="switchPaket('paket1')">
@@ -80,8 +80,21 @@
                     <span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal KaTeX)</span>
                 </button>
             </div>
-            <div class="text-xs text-slate-500 pr-2 font-medium" id="timer-info-text">
-                ⏱️ Waktu Mandiri: Direkomendasikan 45-50 Menit
+            
+            <!-- HEADER TIMER BADGE -->
+            <div id="cbt-timer-badge" class="px-3.5 py-1.5 rounded-xl bg-slate-100 border border-slate-200 flex items-center gap-2.5 transition-all shadow-xs">
+                <span class="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
+                    <span id="timer-status-icon">⏱️</span> Sisa Waktu:
+                </span>
+                <span id="cbt-timer-text" class="font-mono text-sm font-extrabold text-slate-900 tracking-wider">50:00</span>
+                <div class="flex items-center gap-1 border-l border-slate-200 pl-2">
+                    <button type="button" id="btn-timer-pause" class="p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-200 text-xs transition" title="Jeda / Lanjutkan Timer">
+                        ⏸️
+                    </button>
+                    <button type="button" id="btn-timer-reset" class="p-1 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-200 text-xs transition" title="Reset Waktu ke Durasi Awal">
+                        🔄
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -209,6 +222,19 @@
             <!-- KOLOM KANAN: PANEL NOMOR SOAL & TOMBOL SELESAI -->
             <div class="lg:col-span-1 space-y-5">
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs sticky top-6">
+                    <!-- STICKY COUNTDOWN TIMER CARD -->
+                    <div id="sidebar-timer-card" class="mb-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between transition-all">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">⏱️ Sisa Waktu Ujian</span>
+                            <span id="sidebar-timer-text" class="font-mono text-2xl font-extrabold text-slate-900 tracking-wider">50:00</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <button type="button" id="btn-sidebar-timer-pause" class="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-bold transition flex items-center gap-1 shadow-xs" title="Jeda / Lanjutkan Waktu">
+                                <span>⏸️</span> <span id="label-sidebar-pause" class="text-[11px]">Jeda</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="flex items-center justify-between mb-3">
                         <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">
                             📌 Nomor Soal
@@ -463,6 +489,192 @@
 
             renderNumberGrid();
             renderCurrentSoal();
+            initCountdownTimer();
+        }
+
+        // ==========================================
+        // FITUR CBT COUNTDOWN TIMER ENGINE TERPADU
+        // ==========================================
+        let timerInterval = null;
+        let remainingSeconds = 0;
+        let isTimerPaused = false;
+        let isExamSubmitted = false;
+
+        function getMapelDurationMinutes(mapelKey) {
+            if (typeof window.tkaRegistry !== 'undefined' && window.tkaRegistry.mapelList) {
+                const found = window.tkaRegistry.mapelList.find(m => m.id === mapelKey);
+                if (found && found.durasiMenit) return found.durasiMenit;
+            }
+            if (mapelKey === 'matematika-lanjut') return 60;
+            if (mapelKey === 'sejarah' || mapelKey === 'ppkn') return 45;
+            return 50;
+        }
+
+        function getTimerStorageKey(mapel, paket) {
+            return `tka_timer_${mapel}_${paket}`;
+        }
+
+        function initCountdownTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+
+            const durationMinutes = getMapelDurationMinutes(currentMapelKey);
+            const defaultTotalSeconds = durationMinutes * 60;
+            const storageKey = getTimerStorageKey(currentMapelKey, currentPaketKey);
+
+            let savedState = null;
+            try {
+                const raw = sessionStorage.getItem(storageKey);
+                if (raw) savedState = JSON.parse(raw);
+            } catch (e) {
+                savedState = null;
+            }
+
+            if (savedState && typeof savedState.remainingSeconds === 'number') {
+                if (savedState.isPaused) {
+                    remainingSeconds = savedState.remainingSeconds;
+                    isTimerPaused = true;
+                } else {
+                    const elapsed = Math.floor((Date.now() - savedState.timestamp) / 1000);
+                    remainingSeconds = Math.max(0, savedState.remainingSeconds - elapsed);
+                    isTimerPaused = false;
+                }
+            } else {
+                remainingSeconds = defaultTotalSeconds;
+                isTimerPaused = false;
+            }
+
+            updateTimerDisplay();
+            updatePauseButtonsUI();
+
+            if (remainingSeconds <= 0 && !isExamSubmitted) {
+                handleTimeExpired();
+                return;
+            }
+
+            timerInterval = setInterval(() => {
+                if (isTimerPaused || isExamSubmitted) return;
+
+                if (remainingSeconds > 0) {
+                    remainingSeconds--;
+                    updateTimerDisplay();
+                    saveTimerState();
+                } else {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    handleTimeExpired();
+                }
+            }, 1000);
+        }
+
+        function saveTimerState() {
+            const storageKey = getTimerStorageKey(currentMapelKey, currentPaketKey);
+            try {
+                sessionStorage.setItem(storageKey, JSON.stringify({
+                    remainingSeconds: remainingSeconds,
+                    isPaused: isTimerPaused,
+                    timestamp: Date.now()
+                }));
+            } catch (e) {}
+        }
+
+        function toggleTimerPause() {
+            if (isExamSubmitted) return;
+            isTimerPaused = !isTimerPaused;
+            updatePauseButtonsUI();
+            saveTimerState();
+            if (!isTimerPaused && !timerInterval) {
+                initCountdownTimer();
+            }
+        }
+
+        function resetCountdownTimer() {
+            const durationMinutes = getMapelDurationMinutes(currentMapelKey);
+            remainingSeconds = durationMinutes * 60;
+            isTimerPaused = false;
+            saveTimerState();
+            initCountdownTimer();
+        }
+
+        function updatePauseButtonsUI() {
+            const btnTop = document.getElementById('btn-timer-pause');
+            const btnSide = document.getElementById('btn-sidebar-timer-pause');
+            const iconEl = document.getElementById('timer-status-icon');
+
+            if (isTimerPaused) {
+                if (btnTop) {
+                    btnTop.innerText = "▶️";
+                    btnTop.title = "Lanjutkan Timer";
+                }
+                if (btnSide) btnSide.innerHTML = `<span>▶️</span> <span id="label-sidebar-pause" class="text-[11px]">Lanjut</span>`;
+                if (iconEl) iconEl.innerText = "⏸️";
+            } else {
+                if (btnTop) {
+                    btnTop.innerText = "⏸️";
+                    btnTop.title = "Jeda Timer";
+                }
+                if (btnSide) btnSide.innerHTML = `<span>⏸️</span> <span id="label-sidebar-pause" class="text-[11px]">Jeda</span>`;
+                if (iconEl) iconEl.innerText = remainingSeconds <= 300 ? "⚠️" : (remainingSeconds <= 600 ? "⏳" : "⏱️");
+            }
+        }
+
+        function formatMMSS(sec) {
+            const m = Math.floor(sec / 60);
+            const s = sec % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function updateTimerDisplay() {
+            const textStr = formatMMSS(remainingSeconds);
+            const topText = document.getElementById('cbt-timer-text');
+            const sideText = document.getElementById('sidebar-timer-text');
+            const topBadge = document.getElementById('cbt-timer-badge');
+            const sideCard = document.getElementById('sidebar-timer-card');
+            const iconEl = document.getElementById('timer-status-icon');
+
+            if (topText) topText.innerText = textStr;
+            if (sideText) sideText.innerText = textStr;
+
+            // Visual styles based on remaining time
+            if (remainingSeconds <= 300) { // <= 5 menit: Bahaya (Merah berdenyut)
+                if (iconEl && !isTimerPaused) iconEl.innerText = "⚠️";
+                if (topBadge) {
+                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-rose-50 border border-rose-300 flex items-center gap-2.5 transition-all shadow-xs animate-pulse";
+                }
+                if (sideCard) {
+                    sideCard.className = "mb-4 p-3.5 bg-rose-50 rounded-xl border border-rose-300 flex items-center justify-between transition-all animate-pulse";
+                }
+                if (topText) topText.className = "font-mono text-sm font-extrabold text-rose-600 tracking-wider";
+                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-rose-600 tracking-wider";
+            } else if (remainingSeconds <= 600) { // <= 10 menit: Peringatan (Kuning/Oranye)
+                if (iconEl && !isTimerPaused) iconEl.innerText = "⏳";
+                if (topBadge) {
+                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-300 flex items-center gap-2.5 transition-all shadow-xs";
+                }
+                if (sideCard) {
+                    sideCard.className = "mb-4 p-3.5 bg-amber-50 rounded-xl border border-amber-300 flex items-center justify-between transition-all";
+                }
+                if (topText) topText.className = "font-mono text-sm font-extrabold text-amber-700 tracking-wider";
+                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-amber-700 tracking-wider";
+            } else { // Normal (Abu-abu / Slate Elegan)
+                if (iconEl && !isTimerPaused) iconEl.innerText = "⏱️";
+                if (topBadge) {
+                    topBadge.className = "px-3.5 py-1.5 rounded-xl bg-slate-100 border border-slate-200 flex items-center gap-2.5 transition-all shadow-xs";
+                }
+                if (sideCard) {
+                    sideCard.className = "mb-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between transition-all";
+                }
+                if (topText) topText.className = "font-mono text-sm font-extrabold text-slate-900 tracking-wider";
+                if (sideText) sideText.className = "font-mono text-2xl font-extrabold text-slate-900 tracking-wider";
+            }
+        }
+
+        function handleTimeExpired() {
+            if (isExamSubmitted) return;
+            alert("⏰ Waktu Ujian Telah Habis!\n\nDurasi pengerjaan simulasi telah berakhir. Lembar jawaban Anda dikumpulkan secara otomatis untuk penghitungan skor akhir.");
+            submitExam();
         }
 
         function saveAnswers() {
@@ -781,19 +993,40 @@
             const resBox = document.getElementById('result-box');
             resBox.classList.remove('hidden');
             resBox.scrollIntoView({ behavior: 'smooth' });
+
+            // Hentikan timer dan hapus state waktu tersimpan setelah ujian diselesaikan
+            isExamSubmitted = true;
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            try {
+                sessionStorage.removeItem(getTimerStorageKey(currentMapelKey, currentPaketKey));
+            } catch (e) {}
         }
 
         document.getElementById('btn-restart').addEventListener('click', () => {
-            if (confirm(`Apakah Anda ingin mengulang simulasi ${activePackages[currentPaketKey].shortTitle} dari awal? Jawaban Anda pada paket ini akan di-reset.`)) {
+            if (confirm(`Apakah Anda ingin mengulang simulasi ${activePackages[currentPaketKey].shortTitle} dari awal? Jawaban dan sisa waktu Anda pada paket ini akan di-reset.`)) {
                 localStorage.removeItem(getStorageKey(currentMapelKey, currentPaketKey));
                 if (currentMapelKey === 'kimia') {
                     localStorage.removeItem(`tka_answers_${currentPaketKey}`);
                 }
                 userAnswers = {};
+                isExamSubmitted = false;
                 document.getElementById('result-box').classList.add('hidden');
                 currentIdx = 0;
                 renderNumberGrid();
                 renderCurrentSoal();
+                resetCountdownTimer();
+            }
+        });
+
+        // Event listener kontrol timer
+        document.getElementById('btn-timer-pause')?.addEventListener('click', toggleTimerPause);
+        document.getElementById('btn-sidebar-timer-pause')?.addEventListener('click', toggleTimerPause);
+        document.getElementById('btn-timer-reset')?.addEventListener('click', () => {
+            if (confirm("Reset waktu ujian ke durasi awal untuk paket ini?")) {
+                resetCountdownTimer();
             }
         });
 
