@@ -1,837 +1,904 @@
 // tka/data/mapel-sosiologi-paket2.js
-// Bank Soal & Pembahasan Try Out HOTS TKA Sosiologi SMA 2025/2026 (25 Butir Soal Terprediksi)
+// Bank Soal & Pembahasan Try Out HOTS TKA Sosiologi SMA 2026 (30 Butir Soal Terprediksi Lengkap)
 // Disusun berdasarkan kisi-kisi resmi BPPP Kemendikbudristek & Kurikulum Merdeka Terintegrasi
 
 const tkaSosiologiPaket2Data = [
   {
     "id": 1,
-    "elemen": "Sosiologi sebagai Ilmu",
-    "subelemen": "Ciri-ciri dan Hakikat Sosiologi",
-    "indikator": "Menganalisis ciri non-etis sosiologi dalam mengkaji fenomena sosial kontemporer.",
-    "kode": "26SOS-HOTS-ILM01",
+    "elemen": "Perubahan Sosial & Dinamika Masyarakat",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nSeorang peneliti sosiologi melakukan studi etnografi mendalam mengenai kehidupan komunitas pengamen jalanan di lampu merah perlintasan kota. Alih-alih melabeli atau menghakimi gaya hidup para pengamen tersebut sebagai tindakan malas atau mengganggu ketertiban umum, peneliti memfokuskan kajiannya pada struktur jaringan relasi antar-pengamen, pola bagi hasil setoran, serta strategi bertahan hidup (<em>coping mechanism</em>) di tengah himpitan ekonomi informal.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nSikap dan pendekatan peneliti tersebut mencerminkan ciri utama sosiologi sebagai ilmu, yaitu ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di sebuah kawasan pesisir yang mengalami pergeseran ekonomi dari sektor perikanan tradisional ke kawasan industri pariwisata modern, pola interaksi antarwarga mengalami transformasi yang signifikan. Dahulu, ketika terjadi musibah atau hajatan, warga nelayan secara spontaneous bahu-membahu tanpa memperhitungkan imbalan materi. Namun, seiring masuknya investor swasta dan maraknya usaha perhotelan, sebagian besar warga kini beralih profesi menjadi karyawan berpenghasilan tetap atau penyedia jasa sewa. Aktivitas gotong royong dan musyawarah di balai desa mulai ditinggalkan karena jadwal kerja shift yang ketat. Kebutuhan sarana publik dan kebersihan desa kini dialihkan melalui mekanisme pembayaran iuran ke pihak ketiga. Tetua adat mengkhawatirkan pudarnya spirit solidaritas, sementara generasi muda menganggap fenomena ini sebagai bentuk efisiensi dan profesionalisme kehidupan modern.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Apa makna sosiologis yang paling mendasar dari perubahan pola perilaku masyarakat pesisir tersebut?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Transformasi dari gotong royong sukarela tanpa pamrih menuju penggunaan jasa berbayar dan iuran merupakan pergeseran nilai sosial dari solidaritas mekanik (paguyuban/gemeinschaft) menuju solidaritas organik (patembayan/gesellschaft) yang mengubah struktur interaksi warga pesisir.<br><br><strong>Kunci Jawaban: B</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Empiris, karena data dikumpulkan melalui pengamatan langsung tanpa rekayasa laboratorium."
+        "text": "Peningkatan pendapatan masyarakat nelayan yang memicu gaya hidup konsumtif."
       },
       {
         "id": "B",
-        "text": "Teoretis, karena bertujuan menyusun abstraksi logis dari hasil-hasil observasi lapangan."
+        "text": "Pergeseran norma dan nilai sosial yang mengubah struktur serta bentuk interaksi sosial antarwarga."
       },
       {
         "id": "C",
-        "text": "Kumulatif, karena teori yang dibangun memperbaiki dan memperluas teori kelompok terdahulu."
+        "text": "Penurunan produktivitas kerja masyarakat pesisir akibat dampak negatif pembangunan industri pariwisata."
       },
       {
         "id": "D",
-        "text": "Non-etis, karena peneliti tidak menilai baik atau buruknya suatu fakta sosial, melainkan menjelaskan fakta secara objektif dan mendalam."
+        "text": "Keberhasilan masyarakat pesisir dalam melakukan adopsi teknologi dan manajemen modern."
       },
       {
         "id": "E",
-        "text": "Spekulatif, karena didasarkan pada perenungan filosofis abstrak mengenai nasib masyarakat tertindas."
+        "text": "Disorganisasi keluarga akibat ketidakmampuan warga menyesuaikan diri dengan jadwal kerja shift."
       }
-    ],
-    "kunci": "D",
-    "pembahasan": "<strong>Ciri-Ciri Sosiologi sebagai Ilmu Pengetahuan:</strong><br>\nSosiologi memiliki empat ciri keilmuan fundamental:\n<ol class=\"list-decimal list-inside space-y-1 my-2\">\n  <li><strong>Empiris:</strong> Didasarkan pada observasi realitas dan akal sehat, bukan spekulasi.</li>\n  <li><strong>Teoretis:</strong> Selalu berusaha menyusun abstraksi dari hasil observasi untuk menjelaskan hubungan kausal.</li>\n  <li><strong>Kumulatif:</strong> Teori-teori disusun atas dasar teori yang sudah ada, lalu diperluas dan diperbaiki.</li>\n  <li><strong>Non-etis:</strong> Tugas utama sosiologi bukanlah menentukan apakah suatu tindakan sosial itu secara moral dianggap 'baik' atau 'buruk', halal atau haram, pantas atau tidak pantas. Sosiologi bertugas menguraikan fakta sosial secara objektif, mendalam, dan ilmiah mengenai mengapa fenomena itu terjadi.</li>\n</ol>\nSikap peneliti yang menolak menghakimi pengamen jalanan dan fokus menjelaskan mekanisme bertahan hidupnya adalah manifestasi sempurna dari ciri <strong>non-etis</strong>.<br><br>\n<strong>Kunci Jawaban: D</strong>"
+    ]
   },
   {
     "id": 2,
-    "elemen": "Hubungan dan Gejala Sosial",
-    "subelemen": "Tindakan Sosial Max Weber",
-    "indikator": "Mengidentifikasi tipe tindakan sosial berdasarkan motif orientasi pelaku.",
-    "kode": "26SOS-HOTS-TND02",
+    "elemen": "Interaksi Sosial & Komunikasi Digital",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nMenjelang seleksi masuk perguruan tinggi negeri (SNBT), Bayu menyusun jadwal belajar harian secara terperinci. Ia menganalisis target skor <em>Passing Grade</em> program studi kedokteran impiannya, mendaftar bimbingan belajar intensif, dan mengalokasikan waktu 3 jam tiap malam untuk mengerjakan latihan soal TKA. Bayu memperhitungkan rasio efektivitas antara waktu yang ia investasikan dengan probabilitas kelulusannya.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBerdasarkan tipologi tindakan sosial Max Weber, tindakan yang dilakukan Bayu diklasifikasikan sebagai ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Pasca-kebijakan transisi menuju efisiensi energi nasional, sebuah instansi pemerintah menerapkan sistem kerja fleksibel (work from anywhere) secara penuh bagi para pegawainya yang tersebar di berbagai wilayah Indonesia. Meskipun berada di lokasi geografis yang saling berjauhan dan tidak pernah melakukan tatap muka fisik selama bertahun-tahun, seluruh tim kerja tetap dapat menyelesaikan proyek-proyek strategis negara secara presisi. Mereka memanfaatkan ekosistem digital terintegrasi yang mencakup aplikasi pengolah dokumen kolaboratif, ruang rapat virtual harian, serta platform manajemen tugas real-time. Koordinasi, negosiasi, hingga penyelesaian konflik internal pekerjaan tetap berjalan dinamis tanpa hambatan berarti.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Faktor utama apakah yang memungkinkan interaksi sosial dalam organisasi tersebut tetap berlangsung secara efektif meskipun tanpa interaksi fisik langsung?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Interaksi sosial memerlukan dua syarat utama: kontak sosial dan komunikasi. Meskipun tidak ada kontak fisik tatap muka secara langsung, ekosistem digital menyediakan saluran komunikasi simbolik yang efektif sehingga koordinasi dan negosiasi kerja tetap berjalan lancar.<br><br><strong>Kunci Jawaban: C</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Tindakan rasional berorientasi nilai (<em>Wertrational</em>), karena didorong oleh nilai kesalehan moral."
+        "text": "Setiap pegawai memiliki gawai berteknologi tinggi dan jaringan internet berkecepatan tinggi."
       },
       {
         "id": "B",
-        "text": "Tindakan rasional instrumental (<em>Zweckrational</em>), karena mempertimbangkan secara matang kesesuaian antara tujuan dan alat/cara untuk mencapainya."
+        "text": "Adanya komitmen pegawai dalam mematuhi seluruh peraturan jam kerja instansi."
       },
       {
         "id": "C",
-        "text": "Tindakan afektif, karena dipicu oleh luapan rasa cemas dan kegembiraan emosional sesaat."
+        "text": "Terjadinya proses komunikasi dan penyampaian pesan yang efektif melalui media digital."
       },
       {
         "id": "D",
-        "text": "Tindakan tradisional, karena meniru kebiasaan belajar kakak tingkat secara turun-temurun."
+        "text": "Keahlian individu dalam menguasai berbagai macam perangkat lunak perkantoran."
       },
       {
         "id": "E",
-        "text": "Tindakan koersif, karena dilakukan di bawah tekanan dan paksaan orang tua secara mutlak."
+        "text": "Ketersediaan infrastruktur jaringan telekomunikasi yang merata di setiap daerah."
       }
-    ],
-    "kunci": "B",
-    "pembahasan": "<strong>Tipologi Tindakan Sosial Max Weber:</strong><br>\nWeber membagi tindakan sosial ke dalam 4 kategori:\n<ol class=\"list-decimal list-inside space-y-1 my-2\">\n  <li><strong>Rasional Instrumental (<em>Zweckrationalität</em>):</strong> Tindakan yang ditentukan oleh harapan terhadap perilaku objek dalam lingkungan dan orang lain, di mana tujuan dan cara/sarana dipilih secara kalkulatif dan rasional. Bayu mengukur passing grade, waktu belajar, dan biaya bimbel untuk mencapai kelulusan.</li>\n  <li><strong>Rasional Berorientasi Nilai (<em>Wertrationalität</em>):</strong> Tindakan yang berakar pada keyakinan sadar akan nilai mutlak (etika, estetika, agama) tanpa memperhitungkan prospek keberhasilan lahiriah.</li>\n  <li><strong>Afektif:</strong> Tindakan yang ditentukan oleh kondisi emosional dan perasaan spontan pelaku.</li>\n  <li><strong>Tradisional:</strong> Tindakan yang dilakukan semata-mata karena kebiasaan yang mendarah daging (adat).</li>\n</ol>\nPerhitungan rasional efisiensi target Bayu merupakan contoh klasik <strong>tindakan rasional instrumental</strong>.<br><br>\n<strong>Kunci Jawaban: B</strong>"
+    ]
   },
   {
     "id": 3,
-    "elemen": "Hubungan dan Gejala Sosial",
-    "subelemen": "Sosialisasi dan Pembentukan Kepribadian",
-    "indikator": "Menganalisis tahapan sosialisasi diri menurut George Herbert Mead.",
-    "kode": "26SOS-HOTS-SOS03",
+    "elemen": "Integrasi Sosial & Multikulturalisme",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nDalam pertandingan final bola basket antarpelajar SMA, Kevin yang berperan sebagai <em>point guard</em> tidak hanya fokus mengoper bola, tetapi juga mampu mengantisipasi gerakan bertahan rekan setimnya, membaca strategi lawan, serta mematuhi keputusan wasit di lapangan tanpa emosi berlebihan. Kevin menyadari posisinya sebagai bagian integral dari sistem kerja tim yang terikat oleh aturan formal kompetisi.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nMenurut teori perkembangan kepribadian dan diri (<em>The Self</em>) George Herbert Mead, fase sosialisasi yang telah dicapai Kevin berada pada tahap ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Pada masa perjuangan mempertahankan kemerdekaan pasca-1945, terbentuk gerakan diplomasi kebudayaan dan perjuangan rakyat di wilayah Sumatra Utara yang melibatkan komunitas Tionghoa, Melayu, Batak, India Tamil, dan Jawa. Gerakan ini menyatukan berbagai latar belakang etnis, agama, dan bahasa dalam satu ikatan perjuangan bersama melalui Front Pemuda Lintas Etnis. Kelompok-kelompok ini menyepakati penggunaan bahasa Indonesia sebagai bahasa pengantar, tanpa mengharuskan setiap etnis meninggalkan tradisi, adat istiadat, maupun identitas keagamaan mereka masing-masing. Pembentukan gerakan ini murni dilandasi oleh kesadaran atas penderitaan bersama akibat kolonialisme serta cita-cita membangun kedaulatan bangsa Indonesia yang berkeadilan.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Mengapa konsolidasi lintas etnis dalam gerakan tersebut dapat dikategorikan sebagai wujud konkret multikulturalisme?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Multikulturalisme dicirikan oleh pengakuan, penghargaan, dan kesetaraan terhadap keragaman identitas budaya tanpa adanya pemaksaan asimilasi atau dominasi etnis tertentu demi mencapai integrasi kebangsaan.<br><br><strong>Kunci Jawaban: B</strong>",
     "options": [
       {
         "id": "A",
-        "text": "<em>Preparatory Stage</em> (tahap persiapan meniru tanpa makna)"
+        "text": "Mendorong dominasi nilai-nilai etnis mayoritas sebagai pijakan utama perjuangan bangsa."
       },
       {
         "id": "B",
-        "text": "<em>Play Stage</em> (tahap meniru peran orang tertentu yang terdekat)"
+        "text": "Memaksa setiap kelompok etnis untuk menghilangkan identitas aslinya agar tercipta keseragaman penuh."
       },
       {
         "id": "C",
-        "text": "<em>Game Stage</em> (tahap siap bertindak dalam sistem aturan bersama kelompok)"
+        "text": "Mengakomodasi keragaman etnis secara inklusif dan terbuka atas dasar kesetaraan tanpa menghapus identitas budaya asal."
       },
       {
         "id": "D",
-        "text": "<em>Generalized Other</em> (tahap penerimaan norma sosial kolektif masyarakat luas)"
+        "text": "Membentuk partai-partai politik lokal berorientasi kedaerahan untuk memperkuat kekuatan eksklusif etnis."
       },
       {
         "id": "E",
-        "text": "<em>Significant Other</em> (tahap meneladani tokoh panutan utama dalam keluarga)"
+        "text": "Mengembangkan proses asimilasi total sehingga seluruh kebudayaan lokal melebur menjadi satu kebudayaan tunggal baru."
       }
-    ],
-    "kunci": "C",
-    "pembahasan": "<strong>Tahapan Sosialisasi Diri (George Herbert Mead):</strong><br>\nMead merumuskan proses pembentukan diri (<em>The Genesis of Self</em>) melalui tahapan:\n<ol class=\"list-decimal list-inside space-y-1 my-2\">\n  <li><strong>Preparatory Stage:</strong> Anak meniru tindakan orang dewasa secara refleks tanpa memahami arti simbolik peran tersebut.</li>\n  <li><strong>Play Stage:</strong> Anak mulai meniru peran spesifik orang dewasa (misal bermain dokter-dokteran atau peran ayah/ibu), namun belum memahami keterkaitan jamak dengan peran-peran lain.</li>\n  <li><strong>Game Stage (Tahap Bertanding):</strong> Individu tidak hanya mengetahui perannya sendiri, tetapi juga memahami peran orang lain secara simultan, menyadari aturan main kolektif, dan mampu menempatkan diri dalam dinamika tim (contoh klasik Mead: permainan baseball/basket).</li>\n  <li><strong>Generalized Other:</strong> Tahap kematangan penuh di mana individu mampu memahami harapan, norma, dan nilai abstrak masyarakat secara menyeluruh.</li>\n</ol>\nKevin berada pada <strong>Game Stage</strong> karena aktif berkoordinasi dalam sistem aturan terpadu sebuah tim olahraga.<br><br>\n<strong>Kunci Jawaban: C</strong>"
+    ]
   },
   {
     "id": 4,
-    "elemen": "Hubungan dan Gejala Sosial",
-    "subelemen": "Nilai dan Norma Sosial",
-    "indikator": "Mengidentifikasi tingkatan daya ikat norma sosial dalam masyarakat.",
-    "kode": "26SOS-HOTS-NRM04",
-    "tipe": "kompleks_bs",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nNorma sosial berfungsi sebagai pedoman perilaku agar keteraturan dan ketertiban sosial terpelihara. Norma memiliki daya ikat yang bertingkat dari yang paling lemah hingga yang paling tegas sanksinya.\n<br>Tentukan <strong>Benar</strong> atau <strong>Salah</strong> untuk setiap analisis tingkatan norma berikut!\n</p>",
-    "items": [
+    "elemen": "Kelompok Sosial & Interaksi Asosiatif",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di kawasan permukiman Baru Asri, terjadi ketegangan sosial yang berkepanjangan antara kelompok warga lama (yang memegang teguh norma adat lokal) dengan kelompok warga baru perkotaan (yang terbiasa dengan gaya hidup individualis dan terbuka). Sering kali terjadi perselisihan pendapat mengenai aturan penggunaan fasilitas umum dan jam tenang malam. Menyadari potensi konflik yang makin meluas, kepala desa beserta fasilitator independen menggelar forum dialog terbuka. Kedua belah pihak diajak merumuskan 'Tata Tertib Lingkungan Bersama'. Dalam kesepakatan tersebut, warga lama menyetujui penyesuaian aturan acara malam, sementara warga baru bersedia berpartisipasi aktif dalam kegiatan pos ronda dan kerja bakti. Kedua pihak sepakat menurunkan ego masing-masing demi menjaga ketertiban umum tanpa menghilangkan kepribadian atau kebiasaan dasar masing-masing kelompok.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Berdasarkan ilustrasi tersebut, bentuk interaksi/hubungan sosial apakah yang berhasil diwujudkan oleh kedua kelompok warga?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Kerja sama dan akomodasi dalam bentuk koalisi lintas kelompok merupakan proses asosiatif yang memperkuat ikatan solidaritas antarkomunitas.<br><br><strong>Kunci Jawaban: C</strong>",
+    "options": [
       {
-        "pernyataan": "Seseorang yang bersendawa keras saat jamuan makan malam resmi melanggar kebiasaan (folkways) dan hanya mendapat teguran ringan atau celaan sopan santun (cara/usage).",
-        "kunci": "Benar",
-        "penjelasan": "Perilaku melanggar etiket makan termasuk tataran cara (usage) atau sopan santun yang sanksinya berupa teguran, cemoohan, atau sindiran."
+        "id": "A",
+        "text": "Asimilasi, karena terjadi peleburan dua kebudayaan menjadi satu kebudayaan baru yang membuang budaya lama."
       },
       {
-        "pernyataan": "Perbuatan mencuri uang kas desa secara diam-diam melanggar tata kelakuan (mores) dan norma hukum (laws) dengan ancaman sanksi pidana penjara berkekuatan hukum tetap.",
-        "kunci": "Benar",
-        "penjelasan": "Tindakan pencurian melanggar nilai integritas moral (mores) dan dikodifikasikan dalam hukum positif (laws)."
+        "id": "B",
+        "text": "Akomodasi, karena terdapat upaya meredakan ketegangan melalui kesepakatan bersama dan toleransi timbal balik."
       },
       {
-        "pernyataan": "Tradisi larangan perkawinan satu klan/marga pada suku Batak (exogami klan) termasuk norma cara (usage) sehingga pelanggar tidak mendapat sanksi adat apa pun.",
-        "kunci": "Salah",
-        "penjelasan": "Larangan perkawinan semarga merupakan adat istiadat (customs) berkekuatan sangat kuat; pelanggarnya dapat dikucilkan dari persekutuan adat."
+        "id": "C",
+        "text": "Koersi, karena penyelesaian konflik dilakukan melalui pemaksaan aturan oleh perangkat desa setempat."
+      },
+      {
+        "id": "D",
+        "text": "Kontravensi, karena terdapat rasa tidak suka yang disembunyikan di antara kedua kelompok warga."
+      },
+      {
+        "id": "E",
+        "text": "Persaingan, karena masing-masing kelompok berlomba-lomba membuktikan keunggulan gaya hidupnya."
       }
-    ],
+    ]
+  },
+  {
+    "id": 5,
+    "elemen": "Gejala Sosial & Perilaku Menyimpang",
+    "tipe": "kategori",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">STUDI KASUS (STIMULUS HOTS)Maraknya aksi cyberbullying dan penyebaran konten provokatif oleh sekelompok akun anonim di platform media sosial telah menimbulkan kepanikan dan perpecahan di kalangan remaja SMA di Kota Z. Penyelidikan pihak kepolisian bersama pakar siber menunjukkan bahwa tindakan ini bukan sekadar keisengan individu, melainkan dilakukan secara terstruktur dan berulang oleh sebuah kelompok terorganisir yang sengaja menargetkan siswa-siswa sekolah tertentu untuk memicu tawuran antarsekolah. Fenomena ini telah berlangsung selama kurun waktu tiga bulan dan menyebabkan munculnya rasa saling curiga serta gangguan kecemasan massal di lingkungan sekolah.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Benar</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Salah</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Kasus tersebut merupakan gejala sosial karena berdampak luas pada munculnya rasa ketakutan dan kecemasan psikologis di masyarakat.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Peristiwa ini merupakan gejala sosial karena bersumber dari penyimpangan norma sosial dan nilai keharmonisan yang berlaku di masyarakat.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Peristiwa tersebut bukan merupakan gejala sosial karena aksi dilakukan di dunia maya secara anonim dan tidak berpengaruh langsung pada dunia fisik.</p>",
     "kunci": [
       "Benar",
       "Benar",
       "Salah"
     ],
-    "pembahasan": "<strong>Tingkatan Norma Berdasarkan Daya Ikatnya:</strong><br>\nUrutan daya ikat norma dari terlemah ke terkuat:\n<ol class=\"list-decimal list-inside space-y-1 my-2\">\n  <li><strong>Cara (<em>Usage</em>):</strong> Sanksi sangat ringan (celaan/teguran).</li>\n  <li><strong>Kebiasaan (<em>Folkways</em>):</strong> Perbuatan berulang yang disukai; sanksi berupa sindiran atau cemoohan.</li>\n  <li><strong>Tata Kelakuan (<em>Mores</em>):</strong> Pengatur perbuatan yang mencerminkan sifat moral kelompok; sanksi berupa pengucilan atau rasa malu sosial.</li>\n  <li><strong>Adat Istiadat (<em>Customs</em>):</strong> Norma mengakar kuat dan mengikat; sanksi adat berat (dikeluarkan dari marga/kampung).</li>\n  <li><strong>Hukum (<em>Laws</em>):</strong> Norma tertulis formal oleh otoritas berwenang dengan sanksi tegas dan memaksa (denda, kurungan).</li>\n</ol>\n<strong>Kunci Jawaban: Benar, Benar, Salah</strong>"
-  },
-  {
-    "id": 5,
-    "elemen": "Kelompok Sosial, Kesetaraan, dan Konflik Sosial",
-    "subelemen": "Diferensiasi dan Stratifikasi Sosial",
-    "indikator": "Menganalisis konsep interseksi sosial dalam masyarakat multikultural.",
-    "kode": "26SOS-HOTS-STR05",
-    "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nDi sebuah kawasan industri terpadu, berdiri komunitas serikat pekerja logam. Anggota serikat tersebut berasal dari berbagai suku bangsa (Jawa, Sunda, Batak, Minang) dan memeluk agama yang beragam (Islam, Kristen, Hindu, Buddha). Namun, karena memiliki kesamaan profesi sebagai buruh pabrik perakitan dan kesamaan kepentingan upah layak, mereka bersatu solid dalam menyuarakan hak-hak ketenagakerjaan.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBerdasarkan sosiologi struktur sosial Peter M. Blau, fenomena bertemunya keanggotaan lintas etnis dan agama dalam satu profesi serikat buruh tersebut merupakan contoh dari ....\n</p>",
-    "options": [
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Pernyataan 1 BENAR (berdampak luas secara psikologis), Pernyataan 2 BENAR (penyimpangan norma sosial dan keharmonisan), Pernyataan 3 SALAH (ruang siber tetap merupakan realitas sosiologis yang berdampak nyata pada kehidupan sosial fisik).<br><br><strong>Kunci Jawaban: ['Benar', 'Benar', 'Salah']</strong>",
+    "pernyataan": [
       {
-        "id": "A",
-        "text": "Konsolidasi sosial, yang mempertajam polarisasi antarsuku dan agama."
-      },
-      {
-        "id": "B",
-        "text": "Interseksi sosial, yang meredakan potensi konflik etnis melalui ikatan silang keanggotaan profesi."
-      },
-      {
-        "id": "C",
-        "text": "Stratifikasi tertutup, karena membatasi mobilitas sosial buruh antarlevel manajemen."
-      },
-      {
-        "id": "D",
-        "text": "Etnosentrisme, karena serikat dipimpin oleh perwakilan suku mayoritas."
-      },
-      {
-        "id": "E",
-        "text": "Primordialisme, karena serikat berlandaskan pada kesamaan ikatan kedaerahan."
+        "pernyataan": "Mengapa peristiwa yang terjadi dalam ilustrasi tersebut dianggap sebagai gejala sosial? (Tentukan BENAR atau SALAH untuk setiap pernyataan):",
+        "kunci": "Benar"
       }
-    ],
-    "kunci": "B",
-    "pembahasan": "<strong>Interseksi vs Konsolidasi Sosial (Peter M. Blau):</strong><br>\n- <strong>Interseksi (Persilangan Keanggotaan):</strong> Terjadi pertemuan atau persilangan parameter diferensiasi sosial (misalnya suku yang berbeda bertemu dalam kesamaan agama, profesi, atau hobi). Interseksi menghasilkan <em>cross-cutting affiliations</em> dan <em>cross-cutting loyalties</em> yang berfungsi sebagai peredam konflik (<em>integrating force</em>).<br>\n- <strong>Konsolidasi (Tumpang Tindih / Penguatan Parameter):</strong> Terjadi penguatan parameter secara sejajar (misalnya suku tertentu semuanya memeluk agama tertentu dan bekerja di sektor tertentu). Hal ini mempertajam polarisasi in-group dan out-group.<br>\nPilihan B tepat mendeskripsikan <strong>interseksi sosial</strong> yang mereduksi ketegangan primordial.<br><br>\n<strong>Kunci Jawaban: B</strong>"
+    ]
   },
   {
     "id": 6,
-    "elemen": "Kelompok Sosial, Kesetaraan, dan Konflik Sosial",
-    "subelemen": "Mobilitas Sosial",
-    "indikator": "Menganalisis saluran mobilitas sosial vertikal naik antargenerasi.",
-    "kode": "26SOS-HOTS-MOB06",
+    "elemen": "Stratifikasi & Masalah Sosial Perkotaan",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nPak Joko adalah seorang buruh tani serabutan yang hidup di desa terpencil tanpa kepemilikan lahan sendiri. Namun, dengan kegigihan luar biasa, ia berhasil menyekolahkan putrinya, Anisa, hingga menyelesaikan pendidikan kedokteran spesialis di universitas negeri ternama melalui beasiswa penuh. Saat ini, Anisa bekerja sebagai dokter spesialis bedah saraf dan direktur sebuah rumah sakit swasta terkemuka.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBerdasarkan arah dan ruang lingkup pelakunya, bentuk mobilitas sosial yang dialami oleh keluarga Pak Joko dan saluran utama mobilitasnya adalah ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">[INFOGRAFIS / GRAFIK / GAMBAR ACUAN]Catatan Infografis: Infografis memuat materi URBANISASI (Perpindahan dari desa ke kota) dan 3 potensi desa yang terancam: (1) Pusat Pemeliharaan Keanekaragaman Hayati, (2) Penghasil Utama Pasokan Pangan, (3) Pengurangan Dampak Lingkungan.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di Kabupaten Makmur, arus migrasi pemuda usia produktif menuju kota-kota industri besar makin tidak terkendali. Lahan-lahan pertanian produktif dan sistem irigasi perdesaan kini sebagian besar terbengkalai atau hanya dikelola oleh penduduk lanjut usia. Pemerintah daerah cenderung membiarkan fenomena arus urbanisasi ini karena menganggap hal tersebut dapat mengurangi beban bantuan sosial di desa.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Jika pembiayaan dan pembiaran terhadap fenomena urbanisasi ini terus berlangsung, apa dampak negatif gejala sosial yang paling sistematis dan relevan dengan isi infografis?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Arus urbanisasi tanpa kualifikasi keterampilan memicu ledakan sektor informal, permukiman kumuh (slum area), dan memperdalam jurang ketimpangan sosial di perkotaan.<br><br><strong>Kunci Jawaban: B</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Mobilitas vertikal naik intragenerasi melalui saluran lembaga keagamaan."
+        "text": "Tingkat pengangguran di wilayah perdesaan akan melonjak tajam karena menghilangnya lapangan kerja industri."
       },
       {
         "id": "B",
-        "text": "Mobilitas horizontal antargenerasi melalui saluran partai politik."
+        "text": "Kerusakan ekosistem perdesaan akan terjadi secara masif akibat ekspansi kawasan pabrik dan industrialisasi di desa."
       },
       {
         "id": "C",
-        "text": "Mobilitas vertikal naik (social climbing) antargenerasi melalui saluran lembaga pendidikan."
+        "text": "Terjadinya krisis pasokan pangan masif dan lonjakan harga pangan akibat banyaknya lahan pertanian yang tidak tergarap."
       },
       {
         "id": "D",
-        "text": "Mobilitas vertikal turun (social sinking) intragenerasi melalui saluran organisasi profesi."
+        "text": "Peningkatan pemanasan global secara drastis hanya disebabkan oleh pembakaran sampah di area perdesaan."
       },
       {
         "id": "E",
-        "text": "Mobilitas lateral geografis melalui program transmigrasi nasional."
+        "text": "Menurunnya kualitas sumber daya manusia di perkotaan akibat masuknya pekerja dari desa."
       }
-    ],
-    "kunci": "C",
-    "pembahasan": "<strong>Bentuk Mobilitas Sosial:</strong><br>\n1. <strong>Antargenerasi vs Intragenerasi:</strong>\n- <em>Mobilitas Antargenerasi:</em> Melibatkan dua generasi atau lebih (ayah sebagai buruh tani vs anak sebagai dokter spesialis/direktur). Karena status sosial anak meningkat pesat melampaui orang tuanya, ini disebut <strong>mobilitas vertikal naik antargenerasi</strong>.<br>\n- <em>Mobilitas Intragenerasi:</em> Terjadi dalam satu rentang masa hidup individu yang sama (misal dari staf biasa naik jadi manajer).<br>\n2. <strong>Saluran Mobilitas (Social Elevator):</strong> Pitirim Sorokin menyebut lembaga pendidikan sekolah/universitas sebagai saluran eskalator sosial vertikal paling efektif dalam meritokrasi modern.<br><br>\n<strong>Kunci Jawaban: C</strong>"
+    ]
   },
   {
     "id": 7,
-    "elemen": "Kelompok Sosial, Kesetaraan, dan Konflik Sosial",
-    "subelemen": "Tipe Kelompok Sosial",
-    "indikator": "Mengidentifikasi karakteristik kelompok paguyuban (Gemeinschaft) dan patembayan (Gesellschaft).",
-    "kode": "26SOS-HOTS-KLP07",
-    "tipe": "mcma",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nFerdinand Tönnies membedakan kelompok sosial menjadi dua bentuk relasi fundamental: <em>Gemeinschaft</em> (Paguyuban) dan <em>Gesellschaft</em> (Patembayan).\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nManakah di antara pernyataan-pernyataan berikut yang BENAR mengenai ciri-ciri kelompok <em>Gemeinschaft</em>? Pilih semua jawaban yang benar!\n</p>",
-    "options": [
-      {
-        "id": "A",
-        "text": "Hubungan antaranggota bersifat intim, personal, dan mendalam (intimate)."
-      },
-      {
-        "id": "B",
-        "text": "Ikatan relasi bersifat eksklusif dan hanya diperuntukkan bagi kelompoknya sendiri (private)."
-      },
-      {
-        "id": "C",
-        "text": "Hubungan bersifat kontraktual, formal, dan berorientasi pada pencapaian profit ekonomi sesaat."
-      },
-      {
-        "id": "D",
-        "text": "Bersifat organis dan alami yang diikat oleh kemauan kodrati (wesenwille)."
-      },
-      {
-        "id": "E",
-        "text": "Struktur kelompok ditentukan oleh regulasi birokrasi tertulis dan pembagian kerja spesialis."
-      }
-    ],
+    "elemen": "Metodologi Penelitian Sosial",
+    "tipe": "pg_kompleks",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Seorang peneliti sosiologi mengamati bahwa meskipun aturan kuota minimum 30% keterwakilan perempuan dalam kepengurusan partai politik telah diregulasi oleh undang-undang, keberadaan perempuan di posisi pengambilan keputusan kunci partai masih sangat minim. Peneliti merancang penelitian kualitatif dengan pendekatan studi kasus di tiga partai politik pemenang pemilu untuk memahami faktor struktural dan kultural yang membatasi kiprah politik perempuan.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Manakah pernyataan yang menunjukkan tujuan penelitian kualitatif studi kasus dari permasalahan sosial berdasarkan deskripsi di atas? (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "A",
       "B",
       "D"
     ],
-    "pembahasan": "<strong>Ciri-Ciri Pokok Gemeinschaft (Ferdinand Tönnies):</strong><br>\nTönnies menegaskan tiga ciri utama paguyuban:\n<ol class=\"list-decimal list-inside space-y-1 my-2\">\n  <li><strong>Intimate:</strong> Hubungan batin yang intim, mesra, dan penuh kasih sayang personal.</li>\n  <li><strong>Private:</strong> Hubungan yang bersifat eksklusif dan khusus untuk 'kita' (in-group kekeluargaan).</li>\n  <li><strong>Exclusive:</strong> Keterikatan tidak dapat digantikan oleh orang luar begitu saja.</li>\n  <li><strong>Wesenwille (Kemauan Kodrati):</strong> Tumbuh secara alamiah dari hati sanubari (misal keluarga, paguyuban trah sedarah).</li>\n</ol>\nPilihan C dan E merupakan ciri khas dari <em>Gesellschaft</em> (patembayan: perseroan terbatas, birokrasi pabrik, kontrak dagang).<br><br>\n<strong>Kunci Jawaban: A, B, D</strong>"
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Penelitian kualitatif studi kasus bertujuan menggali pemahaman mendalam secara kontekstual (hambatan kultural, peran spesifik, dan kesetaraan gender), bukan menghitung korelasi statistik atau menguji hipotesis kuantitatif.<br><br><strong>Kunci Jawaban: ['A', 'B', 'D']</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Untuk mengidentifikasi kesempatan dan hambatan kultural yang dialami perempuan dalam menduduki posisi strategis partai."
+      },
+      {
+        "id": "B",
+        "text": "Untuk memahami secara mendalam kontribusi serta peran spesifik kader perempuan dalam proses formulasi kebijakan partai."
+      },
+      {
+        "id": "C",
+        "text": "Untuk menghitung persentase korelasi statistik antara jumlah anggota perempuan dengan kemenangan partai dalam pemilu."
+      },
+      {
+        "id": "D",
+        "text": "Untuk menganalisis sejauh mana kesetaraan gender telah terwujud dalam struktur kepemimpinan internal partai politik."
+      },
+      {
+        "id": "E",
+        "text": "Untuk menguji hipotesis kuantitatif mengenai pengaruh latar belakang pendidikan perempuan terhadap keterpilihan di parlemen."
+      }
+    ]
   },
   {
     "id": 8,
-    "elemen": "Kelompok Sosial, Kesetaraan, dan Konflik Sosial",
-    "subelemen": "Konflik dan Kekerasan Sosial",
-    "indikator": "Menganalisis fungsi positif konflik sosial menurut pandangan Lewis Coser.",
-    "kode": "26SOS-HOTS-KNF08",
+    "elemen": "Metodologi Penelitian Sosial",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nKetika sebuah desa terancam oleh rencana penggusuran paksa oleh korporasi properti raksasa, perselisihan internal antarwarga yang sebelumnya kerap terjadi (seperti sengketa batas tanah pekarangan antar-tetangga) mendadak mereda. Seluruh warga desa dari berbagai latar belakang etnis dan usia justru berhimpun, mendirikan posko bersama, dan bahu-membahu menyusun strategi perlawanan hukum.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nFenomena menguatnya kebersamaan warga di tengah ancaman eksternal tersebut memverifikasi tesis sosiologis Lewis A. Coser mengenai ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Seorang mahasiswa sosiologi ingin meneliti implementasi kebijakan afirmatif keterwakilan perempuan di lembaga legislatif daerah. Ia telah merumuskan latar belakang dan tinjauan pustaka. Langkah penelitian yang disusun meliputi:1. Mengumpulkan data melalui wawancara, observasi, dan dokumentasi.2. Menentukan landasan teori dan konsep yang relevan.3. Mengolah dan menganalisis data hasil penelitian.4. Menyusun latar belakang penelitian berdasarkan data resmi.5. Menarik kesimpulan dan memberikan rekomendasi kebijakan.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Urutan langkah manakah yang secara spesifik mencakup tahapan PELAKSANAAN dan PENGOLAHAN DATA dalam penelitian sosial tersebut?</p>",
+    "kunci": "A",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Tahap pelaksanaan penelitian kualitatif mencakup pengumpulan data lapangan melalui wawancara/observasi, transkripsi data, reduksi/koding data, hingga penyusunan matriks tema.<br><br><strong>Kunci Jawaban: A</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Konflik eksternal dapat meningkatkan kohesi internal (solidaritas in-group) anggota kelompok."
+        "text": "Mengumpulkan data melalui wawancara, observasi, dan dokumentasi DAN Menentukan landasan teori dan konsep yang relevan."
       },
       {
         "id": "B",
-        "text": "Konflik selalu berujung pada kehancuran struktur dan anomi total masyarakat."
+        "text": "Mengumpulkan data melalui wawancara, observasi, dan dokumentasi DAN Mengolah dan menganalisis data hasil penelitian."
       },
       {
         "id": "C",
-        "text": "Kekerasan struktural hanya dapat diselesaikan melalui mediasi aparat militer."
+        "text": "Mengumpulkan data melalui wawancara, observasi, dan dokumentasi DAN Menarik kesimpulan dan memberikan rekomendasi kebijakan."
       },
       {
         "id": "D",
-        "text": "Konflik antarkelas menghapuskan diferensiasi sosial secara permanen."
+        "text": "Menentukan landasan teori dan konsep yang relevan DAN Menyusun latar belakang penelitian berdasarkan data resmi."
       },
       {
         "id": "E",
-        "text": "Masyarakat tertutup lebih rentan terhadap disorganisasi keluarga batih."
+        "text": "Menyusun latar belakang penelitian berdasarkan data resmi DAN Menarik kesimpulan dan memberikan rekomendasi kebijakan."
       }
-    ],
-    "kunci": "A",
-    "pembahasan": "<strong>Fungsi Positif Konflik Sosial (The Functions of Social Conflict - Lewis A. Coser):</strong><br>\nCoser mengemukakan bahwa konflik tidak semata-mata bersifat destruktif. Konflik dengan kelompok luar (<em>out-group conflict</em>) dapat mempertegas batas-batas kelompok serta <strong>meningkatkan kohesi sosial, integrasi, dan solidaritas internal kelompok dalam (<em>in-group solidarity</em>)</strong>.<br>\nKetika warga desa menghadapi ancaman bersama dari korporasi luar, perselisihan remeh antarwarga lebur demi persatuan kelompok.<br><br>\n<strong>Kunci Jawaban: A</strong>"
+    ]
   },
   {
     "id": 9,
-    "elemen": "Kelompok Sosial, Kesetaraan, dan Konflik Sosial",
-    "subelemen": "Bentuk Akomodasi dan Resolusi Konflik",
-    "indikator": "Membedakan bentuk-bentuk akomodasi konflik sosial (mediasi, arbitrase, konsiliasi, ajudikasi).",
-    "kode": "26SOS-HOTS-AKM09",
+    "elemen": "Metodologi Penelitian Sosial",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nDua perusahaan teknologi bersengketa mengenai pelanggaran hak paten algoritma kecerdasan buatan. Karena perundingan bipartit menemui jalan buntu, kedua belah pihak sepakat membawa perkara tersebut ke Pengadilan Niaga. Setelah melalui serangkaian persidangan terbuka, majelis hakim menjatuhkan vonis yang berkekuatan hukum tetap dan mewajibkan pihak tergugat membayar ganti rugi royalti.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBentuk akomodasi konflik yang ditempuh oleh kedua perusahaan tersebut adalah ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Fenomena kecanduan gim online di kalangan pelajar sekolah menengah pertama (SMP) dikhawatirkan dapat memicu penurunan prestasi akademik dan munculnya perilaku agresif. Untuk membuktikan secara empiris hubungan antar-variabel tersebut, seorang peneliti menyebarkan angket (kuesioner) terstruktur berformat skala Likert kepada 200 siswa kelas VIII dan IX yang dipilih secara acak sistematis dari daftar induk siswa di lima sekolah. Data jawaban angka yang diperoleh kemudian diuji menggunakan teknik analisis statistik regresi linear untuk mengukur seberapa besar pengaruh intensitas bermain gim online terhadap variabel kecenderungan perilaku agresif.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Manakah pernyataan yang paling tepat mengenai metode penelitian dan teknik pengambilan sampel yang digunakan oleh peneliti tersebut?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Triangulasi data (menggabungkan observasi partisipatoris, wawancara mendalam, dan telaah dokumen) meningkatkan validitas dan reliabilitas temuan sosiologis.<br><br><strong>Kunci Jawaban: C</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Kompromi"
+        "text": "Penelitian eksperimen dengan teknik stratified sampling untuk membandingkan kelompok eksperimen dan kontrol."
       },
       {
         "id": "B",
-        "text": "Konsiliasi"
+        "text": "Penelitian eksploratif dengan teknik cluster sampling berbasis wilayah untuk menguraikan motif tersembunyi remaja."
       },
       {
         "id": "C",
-        "text": "Arbitrase"
+        "text": "Penelitian kuantitatif dengan teknik simple random sampling untuk menguji hubungan/pengaruh antarvariabel secara statistik."
       },
       {
         "id": "D",
-        "text": "Ajudikasi"
+        "text": "Penelitian kualitatif dengan teknik purposive sampling untuk memahami makna mendalam di balik fenomena kecanduan gim."
       },
       {
         "id": "E",
-        "text": "Stalemate"
+        "text": "Penelitian lapangan dengan teknik area sampling untuk mengobservasi secara langsung interaksi siswa di luar sekolah."
       }
-    ],
-    "kunci": "D",
-    "pembahasan": "<strong>Bentuk-Bentuk Akomodasi Konflik:</strong><br>\n- <strong>Ajudikasi (<em>Adjudication</em>):</strong> Penyelesaian sengketa melalui jalur meja hijau/lembaga peradilan negara yang dipimpin oleh majelis hakim.<br>\n- <strong>Arbitrase:</strong> Penyelesaian melalui pihak ketiga yang ditunjuk para pihak dan keputusannya mengikat, di luar peradilan formal (misal BANI - Badan Arbitrase Nasional Indonesia).<br>\n- <strong>Mediasi:</strong> Pihak ketiga netral bertindak sebagai penasihat tanpa hak memutuskan.<br>\n- <strong>Konsiliasi:</strong> Mempertemukan keinginan pihak yang berselisih melalui lembaga formal/komisi khusus.<br>\nKarena kasus dibawa ke Pengadilan Niaga dan diputuskan oleh majelis hakim, bentuk akomodasinya adalah <strong>ajudikasi</strong>.<br><br>\n<strong>Kunci Jawaban: D</strong>"
+    ]
   },
   {
     "id": 10,
-    "elemen": "Kelompok Sosial, Kesetaraan, dan Konflik Sosial",
-    "subelemen": "Integrasi Sosial",
-    "indikator": "Menganalisis faktor pendorong integrasi sosial dalam masyarakat majemuk.",
-    "kode": "26SOS-HOTS-INT10",
-    "tipe": "kompleks_bs",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nIntegrasi sosial merupakan proses penyesuaian unsur-unsur yang berbeda dalam masyarakat sehingga menjadi satu kesatuan yang utuh dan serasi. Menurut William F. Ogburn dan Meyer Nimkoff, integrasi sosial berhasil diciptakan jika memenuhi syarat-syarat tertentu.\n<br>Tentukan <strong>Benar</strong> atau <strong>Salah</strong> untuk setiap pernyataan mengenai integrasi sosial berikut!\n</p>",
-    "items": [
-      {
-        "pernyataan": "Integrasi normatif terbentuk karena adanya kesepakatan nilai dan norma bersama, seperti semboyan Bhinneka Tunggal Ika yang menyatukan bangsa Indonesia.",
-        "kunci": "Benar",
-        "penjelasan": "Integrasi normatif berakar pada konsensus nilai, norma, dan simbol pemersatu bangsa."
-      },
-      {
-        "pernyataan": "Integrasi fungsional terbentuk akibat ketergantungan fungsional antarwilayah yang saling melengkapi kebutuhan, seperti daerah pesisir memasok ikan ke daerah pegunungan yang memasok sayuran.",
-        "kunci": "Benar",
-        "penjelasan": "Integrasi fungsional tercipta karena adanya fungsi-fungsi komplementer yang saling melengkapi dalam masyarakat."
-      },
-      {
-        "pernyataan": "Integrasi koersif adalah integrasi yang berlangsung sukarela tanpa adanya unsur kekuasaan maupun ancaman sanksi hukum dari otoritas negara.",
-        "kunci": "Salah",
-        "penjelasan": "Integrasi koersif justru didasarkan pada kekuasaan yang memaksa (coercion) oleh penguasa/aparat menggunakan kekuatan hukum/represif."
-      }
-    ],
-    "kunci": [
-      "Benar",
-      "Benar",
-      "Salah"
-    ],
-    "pembahasan": "<strong>Tipologi Integrasi Sosial:</strong><br>\n1. <strong>Integrasi Normatif:</strong> Terjadi atas kesepakatan prinsip moral dan norma filosofis luhur.<br>\n2. <strong>Integrasi Fungsional:</strong> Terjadi karena saling ketergantungan pembagian kerja antarbagian masyarakat.<br>\n3. <strong>Integrasi Koersif:</strong> Terjadi atas dasar paksaan dan dominasi kekuasaan penguasa yang berwenang (misal penegakan ketertiban pasca-kerusuhan oleh aparat penegak hukum). Pernyataan 3 menyebut tanpa kekuasaan/paksaan, sehingga <strong>Salah</strong>.<br><br>\n<strong>Kunci Jawaban: Benar, Benar, Salah</strong>"
-  },
-  {
-    "id": 11,
-    "elemen": "Perubahan Sosial dan Globalisasi",
-    "subelemen": "Teori Perubahan Sosial",
-    "indikator": "Menganalisis konsep 'Cultural Lag' William F. Ogburn pada fenomena masyarakat digital.",
-    "kode": "26SOS-HOTS-PS01",
-    "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nPemerintah dan swasta gencar membangun infrastruktur telekomunikasi 5G dan membagikan gawai pintar (<em>smartphone</em>) murah ke seluruh pelosok tanah air. Namun, kecepatan adopsi gawai teknologi tinggi ini tidak diimbangi dengan tingkat literasi digital, etika berkomunikasi, dan kesadaran privasi data. Akibatnya, marak terjadi penipuan online, kebocoran data pribadi, serta penyebaran ujaran kebencian di ruang siber.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nKesenjangan antara kemajuan peranti teknologi materiil dengan kesiapan mentalitas/budaya non-materiil masyarakat tersebut merupakan ilustrasi dari konsep ....\n</p>",
-    "options": [
-      {
-        "id": "A",
-        "text": "<em>Cultural Shock</em>, yaitu kegoncangan jiwa saat individu pindah ke lingkungan asing."
-      },
-      {
-        "id": "B",
-        "text": "<em>Cultural Lag</em>, yaitu ketertinggalan unsur kebudayaan non-materiil dalam mengimbangi laju perkembangan kebudayaan materiil."
-      },
-      {
-        "id": "C",
-        "text": "<em>Cultural Animism</em>, yaitu pemujaan terhadap benda-benda teknologi masa depan."
-      },
-      {
-        "id": "D",
-        "text": "<em>Cultural Universal</em>, yaitu keberadaan unsur budaya yang ditemui di seluruh dunia."
-      },
-      {
-        "id": "E",
-        "text": "<em>Cultural Relativism</em>, yaitu pandangan bahwa semua nilai budaya bernilai setara."
-      }
-    ],
-    "kunci": "B",
-    "pembahasan": "<strong>Konsep Cultural Lag (William F. Ogburn):</strong><br>\nOgburn membedakan unsur kebudayaan menjadi:\n- <strong>Kebudayaan Materiil (<em>Material Culture</em>):</strong> Teknologi, mesin, perkakas, infrastruktur fisik yang berkembang sangat pesat.<br>\n- <strong>Kebudayaan Non-Materiil (<em>Non-Material / Immaterial Culture</em>):</strong> Nilai moral, etika, norma hukum, kebiasaan berpikir, dan literasi yang berubah lebih lambat.<br>\nKondisi di mana perkembangan teknologi fisik melesat mendahului kesiapan mentalitas dan regulasi moral masyarakat dinamakan <strong>ketertinggalan budaya (<em>cultural lag</em>)</strong>.<br><br>\n<strong>Kunci Jawaban: B</strong>"
-  },
-  {
-    "id": 12,
-    "elemen": "Perubahan Sosial dan Globalisasi",
-    "subelemen": "Teori Perubahan Sosial",
-    "indikator": "Mengidentifikasi pandangan Teori Siklus (Cyclical Theory) dalam perubahan sosial.",
-    "kode": "26SOS-HOTS-PS02",
-    "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nOswald Spengler dan Arnold Toynbee mengibaratkan peradaban manusia seperti organisme biologis yang lahir, tumbuh menjadi remaja yang kuat, mencapai puncak kejayaan kedewasaan, lalu mengalami penuaan (degenerasi moral), runtuh, dan kemudian digantikan oleh peradaban baru yang mengulang fase serupa secara berulang.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nPandangan tersebut berakar pada premis pokok ....\n</p>",
-    "options": [
-      {
-        "id": "A",
-        "text": "Teori Evolusi Unilinear, yang memandang perubahan selalu bergerak lurus maju menuju tahap akhir yang sempurna."
-      },
-      {
-        "id": "B",
-        "text": "Teori Siklus, yang memandang sejarah peradaban berputar dalam putaran berulang tanpa titik akhir mutlak."
-      },
-      {
-        "id": "C",
-        "text": "Teori Konflik Karl Marx, yang memandang kontradiksi borjuis-proletar sebagai pendorong sejarah."
-      },
-      {
-        "id": "D",
-        "text": "Teori Fungsionalis Talcott Parsons, yang memandang perubahan sebagai upaya adaptasi menjaga keseimbangan sistem."
-      },
-      {
-        "id": "E",
-        "text": "Teori Modernisasi Walt Rostow, yang membagi pembangunan ke dalam lima tahap linier pasti."
-      }
-    ],
-    "kunci": "B",
-    "pembahasan": "<strong>Teori Siklus Perubahan Sosial (Cyclical Theory):</strong><br>\nPara pemikir teori siklus (seperti Oswald Spengler dalam <em>The Decline of the West</em>, Arnold Toynbee dengan <em>Challenge and Response</em>, dan Pitirim Sorokin) menolak gagasan bahwa perubahan masyarakat selalu bergerak maju secara linier optimis.<br>\nMereka meyakini bahwa perubahan sosial bergerak laksana roda yang berputar: <strong>kelahiran, kejayaan, keruntuhan, dan kembali berulang</strong> tanpa ada arah akhir yang definitif.<br><br>\n<strong>Kunci Jawaban: B</strong>"
-  },
-  {
-    "id": 13,
-    "elemen": "Perubahan Sosial dan Globalisasi",
-    "subelemen": "Globalisasi dan Dampaknya",
-    "indikator": "Menganalisis fenomena konsumerisme dan gaya hidup hedonis di era digital.",
-    "kode": "26SOS-HOTS-GLO01",
-    "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nMaraknya promosi <em>flash sale</em>, fasilitas cicilan instan <em>paylater</em>, dan tren pamer kemewahan (<em>flexing</em>) oleh para pemengaruh (<em>influencer</em>) di media sosial mendorong generasi muda membeli barang-barang bermerek bukan atas dasar kebutuhan fungsional (<em>utility</em>), melainkan demi prestise sosial, gengsi, dan pengakuan status semu di dunia maya.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nDitinjau dari konsep sosiologi Jean Baudrillard mengenai masyarakat konsumsi, perilaku tersebut menunjukkan dominasi ....\n</p>",
-    "options": [
-      {
-        "id": "A",
-        "text": "Nilai guna (<em>use-value</em>) bahan komoditas yang tinggi"
-      },
-      {
-        "id": "B",
-        "text": "Nilai tukar (<em>exchange-value</em>) yang menguntungkan efisiensi produksi"
-      },
-      {
-        "id": "C",
-        "text": "Nilai tanda (<em>sign-value</em>) dan nilai simbolik prestise yang mengalahkan nilai guna esensial"
-      },
-      {
-        "id": "D",
-        "text": "Solidaritas mekanik yang memperkokoh kekerabatan tradisional"
-      },
-      {
-        "id": "E",
-        "text": "Rasionalitas asketisme yang menekankan penghematan ketat"
-      }
-    ],
-    "kunci": "C",
-    "pembahasan": "<strong>Konsumerisme dan Nilai Tanda (Jean Baudrillard):</strong><br>\nBaudrillard dalam <em>The Consumer Society</em> menyatakan bahwa dalam masyarakat kapitalisme lanjut:\n- Orang tidak lagi mengonsumsi objek berdasarkan nilai guna murni (kebutuhan biologis riil).\n- Barang dikonsumsi sebagai <strong>tanda (<em>sign-value</em>)</strong> yang melambangkan gengsi, kelas sosial, citra gaya hidup, dan diferensiasi status.<br>\nHal ini memicu perilaku konsumerisme kompulsif.<br><br>\n<strong>Kunci Jawaban: C</strong>"
-  },
-  {
-    "id": 14,
-    "elemen": "Perubahan Sosial dan Globalisasi",
-    "subelemen": "Glokalisasi dan Kearifan Lokal",
-    "indikator": "Mengidentifikasi konsep glokalisasi sebagai respon kreatif terhadap globalisasi.",
-    "kode": "26SOS-HOTS-GLO02",
-    "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nSebuah waralaba makanan cepat saji internasional terkemuka asal Amerika Serikat meluncurkan menu burger rendang dan es krim rasa cendol khusus untuk gerai-gerai yang beroperasi di Indonesia. Langkah ini diambil untuk menyesuaikan cita rasa kuliner global dengan preferensi lidah dan tradisi kuliner lokal masyarakat nusantara.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nDalam sosiologi globalisasi Roland Robertson, proses adaptasi produk global terhadap konteks lokal tersebut dikenal sebagai ....\n</p>",
-    "options": [
-      {
-        "id": "A",
-        "text": "Westernisasi"
-      },
-      {
-        "id": "B",
-        "text": "Homogenisasi budaya"
-      },
-      {
-        "id": "C",
-        "text": "Glokalisasi"
-      },
-      {
-        "id": "D",
-        "text": "Imperialisme kultural"
-      },
-      {
-        "id": "E",
-        "text": "Eksploitasi sumber daya"
-      }
-    ],
-    "kunci": "C",
-    "pembahasan": "<strong>Konsep Glokalisasi (Roland Robertson):</strong><br>\nGlokalisasi (<em>glocalization</em>) merupakan perpaduan antara kata <em>globalization</em> dan <em>localization</em>.<br>\nKonsep ini merujuk pada penyesuaian atau adaptasi produk, layanan, atau ide global agar selaras dengan norma, selera, kebiasaan, dan kearifan lokal setempat.<br>\nAlih-alih terjadi penyeragaman total (homogenisasi mutlak), tercipta perkawinan kultural yang kontekstual.<br><br>\n<strong>Kunci Jawaban: C</strong>"
-  },
-  {
-    "id": 15,
-    "elemen": "Kearifan Lokal dan Pemberdayaan Komunitas",
-    "subelemen": "Pelestarian Kearifan Lokal",
-    "indikator": "Menganalisis nilai kearifan lokal dalam menjaga keseimbangan ekologis.",
-    "kode": "26SOS-HOTS-KRF01",
-    "tipe": "mcma",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nMasyarakat adat di berbagai penjuru nusantara mewarisi sistem kearifan lokal yang terbukti ampuh mengelola sumber daya alam secara berkelanjutan selama ratusan tahun.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nManakah pasangan antara bentuk kearifan lokal dengan fungsi konservasi ekologisnya yang BENAR? Pilih semua jawaban yang benar!\n</p>",
-    "options": [
-      {
-        "id": "A",
-        "text": "Sistem <em>Subak</em> di Bali: Pengelolaan irigasi persawahan berbasis filosofi Tri Hita Karana yang adil dan demokratis."
-      },
-      {
-        "id": "B",
-        "text": "Tradisi <em>Sasi</em> di Maluku dan Papua: Larangan memanen sumber daya laut/hutan tertentu selama periode waktu tertentu demi menjaga regenerasi stok hayati."
-      },
-      {
-        "id": "C",
-        "text": "Zonasi <em>Leuweung Titipan</em> pada masyarakat Baduy: Kawasan hutan lindung keramat yang sama sekali tidak boleh dijamah manusia demi konservasi tangkapan air."
-      },
-      {
-        "id": "D",
-        "text": "Tradisi <em>Potlatch</em> di pedalaman: Pembakaran lahan gambut secara massal untuk membuka perkebunan kelapa sawit skala besar."
-      },
-      {
-        "id": "E",
-        "text": "Tradisi <em>Nyabuk Gunung</em> di lereng Jawa: Pembuatan terasering searah garis kontur lereng untuk mencegah erosi dan tanah longsor."
-      }
-    ],
+    "elemen": "Manfaat Penelitian Sosial",
+    "tipe": "pg_kompleks",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Sebuah tim peneliti sosiologi urban melakukan studi komprehensif mengenai maraknya fenomena pekerja anak di sektor informal, khususnya pengamen dan pemulung anak di pusat perkotaan. Penelitian ini menggunakan teknik wawancara mendalam dan keterlibatan langsung di lapangan untuk mengidentifikasi akar masalah, seperti kemiskinan struktural, putus sekolah, hingga tekanan eksploitasi oleh sindikat dewasa. Hasil penelitian menyajikan peta kerentanan anak serta rekomendasi program penanganan berbasis intervensi sosial terpadu.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Manakah pernyataan yang menggambarkan manfaat dan kontribusi praktis serta akademis dari hasil penelitian sosial tersebut? (Pilihan jawaban benar lebih dari satu)</p>",
     "kunci": [
       "A",
       "B",
-      "C",
+      "D",
       "E"
     ],
-    "pembahasan": "<strong>Kearifan Lokal Konservasi Lingkungan Nusantara:</strong><br>\n- <strong>Subak (Bali):</strong> Organisasi pengairan sawah berbasis filosofi keharmonisan Tri Hita Karana (Benar).<br>\n- <strong>Sasi (Maluku/Papua):</strong> Hukum adat larangan eksploitasi biota laut tertentu selama rentang waktu tertentu agar populasi pulih (Benar).<br>\n- <strong>Leuweung Titipan (Baduy):</strong> Hutan larangan suci yang dijaga keutuhannya sebagai penjaga keseimbangan ekosistem (Benar).<br>\n- <strong>Nyabuk Gunung (Jawa):</strong> Sistem terasering kontur tanah mencegah longsor di lereng bukit (Benar).<br>\n- Pilihan D keliru; Potlatch adalah upacara pembagian kekayaan suku asli Pasifik Barat Laut Amerika Utara, bukan tradisi bakar gambut nusantara.<br><br>\n<strong>Kunci Jawaban: A, B, C, E</strong>"
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Penelitian sosial memberikan kontribusi teoritis (khazanah wawasan dan rujukan akademis) serta praktis (data empiris kebijakan publik dan penyadaran masyarakat). Penelitian ilmiah tidak dapat menjamin masalah hilang secara otomatis seketika.<br><br><strong>Kunci Jawaban: ['A', 'B', 'D', 'E']</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Menambah khazanah wawasan ilmiah mengenai dampak psikososial dan eksploitasi yang dialami anak-anak jalanan."
+      },
+      {
+        "id": "B",
+        "text": "Menyediakan data empiris dan rekomendasi konkrit bagi pemerintah daerah dalam merumuskan kebijakan perlindungan anak."
+      },
+      {
+        "id": "C",
+        "text": "Menjamin secara otomatis bahwa seluruh kasus eksploitasi anak di jalanan akan langsung hilang seketika."
+      },
+      {
+        "id": "D",
+        "text": "Meningkatkan kesadaran serta kepedulian publik mengenai kompleksitas akar masalah anak jalanan."
+      },
+      {
+        "id": "E",
+        "text": "Menjadi rujukan referensi akademis bagi peneliti lain yang hendak mengkaji masalah sosial kesejahteraan anak."
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "elemen": "Analisis Data Penelitian Sosial",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">[INFOGRAFIS / GRAFIK / GAMBAR ACUAN]Catatan Grafik: Tingkat Partisipasi Komunitas dalam Kegiatan Lingkungan per Jenis Kegiatan -> Daur Ulang Sampah = 50, Penanaman Pohon = 80, Bersih Sungai = 120.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Peneliti mengumpulkan data jumlah partisipan warga dalam tiga bentuk kegiatan pelestarian lingkungan di wilayah perkotaan.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Berdasarkan data grafik hasil penelitian di atas, kesimpulan manakah yang paling akurat mengenai tren partisipasi masyarakat dalam gerakan lingkungan?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Interpretasi data empiris menunjukkan hubungan linier antara peningkatan akses pendidikan dengan mobilitas sosial vertikal naik anggota masyarakat.<br><br><strong>Kunci Jawaban: C</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Partisipasi warga terdistribusi secara merata di seluruh jenis program pemulihan lingkungan."
+      },
+      {
+        "id": "B",
+        "text": "Kegiatan 'Bersih Sungai' menjadi jenis aksi lingkungan yang paling tinggi tingkat partisipasi dan keterlibatan komunitasnya."
+      },
+      {
+        "id": "C",
+        "text": "Komunitas warga memperlihatkan resistensi total terhadap program berbasis konservasi fisik seperti penanaman pohon."
+      },
+      {
+        "id": "D",
+        "text": "Program 'Daur Ulang Sampah' mencatatkan jumlah peminat terbanyak dibandingkan kegiatan pembersihan lingkungan lainnya."
+      },
+      {
+        "id": "E",
+        "text": "Tidak ada perbedaan kuantitatif yang berarti antara jumlah partisipan program penanaman pohon dengan daur ulang sampah."
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "elemen": "Kelompok Sosial & Jaringan Digital",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di sebuah SMA Negeri, beberapa siswa dari jenjang kelas dan jurusan yang berbeda secara konsisten berkumpul karena sama-sama menyukai isu pelestarian satwa langka. Mereka kemudian mendirikan komunitas 'Wildlife Protector'. Komunitas ini rutin mengadakan diskusi mingguan, penggalangan dana konservasi, serta kampanye perlindungan hewan di media sosial. Walaupun latar belakang sosial-ekonomi anggota beragam, keterikatan di antara mereka makin kuat karena kesamaan visi, intensitas komunikasi yang tinggi, serta komitmen bersama terhadap kelestarian lingkungan.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Jika ditinjau berdasarkan konsep sosiologis tentang kelompok sosial, bagaimana analisis terbentuknya komunitas 'Wildlife Protector' tersebut?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Komunitas virtual merupakan bentuk kelompok sekunder dengan relasi instrumental yang disatukan oleh kepentingan bersama melalui mediasi teknologi komunikasi.<br><br><strong>Kunci Jawaban: B</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Kelompok terbentuk secara tidak sengaja (crowd) akibat pengaruh emosional sesaat tanpa ada cita-cita bersama."
+      },
+      {
+        "id": "B",
+        "text": "Komunitas tersebut merupakan kelompok semu karena para anggotanya tidak pernah bertemu secara langsung."
+      },
+      {
+        "id": "C",
+        "text": "Kelompok terbentuk melalui interaksi sosial yang teratur dan berkelanjutan atas dasar kesamaan kepedulian dan tujuan bersama."
+      },
+      {
+        "id": "D",
+        "text": "Kelompok tersebut terbentuk akibat paksaan dan instruksi formal dari pihak manajemen sekolah."
+      },
+      {
+        "id": "E",
+        "text": "Komunitas tersebut bukan kelompok sosial karena keanggotaannya bersifat heterogen dari berbagai kelas."
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "elemen": "Metodologi Penelitian Sosial",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">[INFOGRAFIS / GRAFIK / GAMBAR ACUAN]Catatan Matriks Tabel: Tabel Kualitatif Persepsi (Ketepatan waktu, Keramahan), Hambatan (Antrean manual, Kurang petunjuk), Harapan (Digitalisasi, Pelatihan SDM).</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Peneliti hendak menyusun kategorisasi data wawancara (koding) mengenai kualitas pelayanan publik berdasarkan jawaban para informan.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Prosedur metodologis penelitian kualitatif manakah yang tepat dijalankan oleh peneliti hingga berhasil menyusun tabel kategorisasi data wawancara seperti di atas?</p>",
+    "kunci": "A",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Etika penelitian sosiologi mewajibkan persetujuan atas dasar kesadaran (informed consent), perlindungan kerahasiaan identitas informan (anonimitas), dan keterbukaan tujuan riset.<br><br><strong>Kunci Jawaban: A</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Peneliti menyusun panduan wawancara mendalam berdasarkan rumusan masalah, mengumpulkan data lapangan, memeriksa transkrip, mengidentifikasi kata kunci, lalu mengelompokkannya ke dalam matriks kategori tema yang relevan."
+      },
+      {
+        "id": "B",
+        "text": "Peneliti membagikan kuesioner tertutup berisikan opsi 'Ya/Tidak', melakukan analisis regresi kuantitatif, lalu mengelompokkan frekuensi angka jawaban responden."
+      },
+      {
+        "id": "C",
+        "text": "Peneliti menyusun angket campuran, menguji validitas instrumen dengan uji kuantitatif, mengklasifikasikan angka, lalu menampilkan tabel deskriptif."
+      },
+      {
+        "id": "D",
+        "text": "Peneliti merumuskan hipotesis, melakukan eksperimen lab, mengecek variabel kontrol, lalu menyajikan data hasil eksperimen."
+      },
+      {
+        "id": "E",
+        "text": "Peneliti menentukan indikator kuantitatif variabel, merumuskan butir skala Likert, melakukan uji reliabilitas, lalu menampilkan statistik deskriptif."
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "elemen": "Konflik Sosial & Dinamika Kekuasaan",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di sebuah kota kabupaten, muncul penolakan keras dari perhimpunan pedagang kaki lima (PKL) dan pedagang pasar tradisional terhadap keputusan pemerintah daerah yang menerbitkan izin pembangunan superblok ritel modern berjarak sangat dekat dengan lokasi pasar tradisional. Pedagang tradisional menilai keberadaan ritel modern akan mematikan mata pencaharian usaha kecil. Di sisi lain, pengembang dan pihak berwenang berargumen bahwa investasi ritel modern diperlukan untuk modernisasi kota dan meningkatkan pendapatan asli daerah (PAD). Aksi unjuk rasa dan penutupan jalan sempat terjadi.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Berdasarkan sosiologi konflik, bentuk konflik sosial apakah yang digambarkan dalam kasus tersebut?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Konflik vertikal antara masyarakat adat/lokal dengan korporasi/pemerintah terkait perebutan sumber daya alam mencerminkan pertentangan kepentingan struktural.<br><br><strong>Kunci Jawaban: B</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Konflik antarkelas sosial, yaitu benturan ideologis antara pemilik modal besar dan kaum buruh pabrik."
+      },
+      {
+        "id": "B",
+        "text": "Konflik antarkelompok kepentingan, yaitu perselisihan akibat perbedaan kepentingan ekonomi-sosial dalam memperebutkan akses pasar."
+      },
+      {
+        "id": "C",
+        "text": "Konflik rasial, yaitu pertentangan yang bersumber dari perbedaan ciri-ciri fisik dan latar belakang kebudayaan."
+      },
+      {
+        "id": "D",
+        "text": "Konflik budaya, yaitu penolakan total terhadap kemajuan teknologi digital dalam sistem perdagangan."
+      },
+      {
+        "id": "E",
+        "text": "Konflik antarpribadi, yaitu perselisihan individual antara pimpinan ritel modern dengan ketua paguyuban pedagang."
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "elemen": "Resolusi Konflik & Perdamaian",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Sengketa pemanfaatan mata air alami terjadi antara masyarakat adat di lereng gunung dengan perusahaan produsen air minum dalam kemasan (AMDK). Pihak perusahaan mengantongi lisensi eksplorasi dari instansi pusat, sedangkan warga merasa pasokan air untuk irigasi sawah mereka drastis berkurang sejak pabrik beroperasi. Terjadi ketegangan fisik seperti pengrusakan pipa dan aksi pemblokiran operasional pabrik. Usaha negosiasi langsung antara direksi dan tokoh warga menemui jalan buntu (deadlock) karena tingkat saling percaya (mutual trust) telah hancur.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Rekomendasi strategi pemulihan dan penanganan konflik manakah yang paling legal dan memiliki kepastian hukum terkuat untuk menyelesaikan perselisihan tersebut secara mengikat?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Transformasi konflik berkelanjutan membutuhkan dialog multipihak yang setara, mediasi netral, serta pengakuan terhadap hak-hak dasar komunitas terdampak.<br><br><strong>Kunci Jawaban: B</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Membiarkan kedua pihak melakukan negosiasi ulang tanpa perlu melibatkan pihak ketiga."
+      },
+      {
+        "id": "B",
+        "text": "Melakukan penekanan keamanan oleh aparat untuk membebaskan jalur operasional pabrik secara sepihak."
+      },
+      {
+        "id": "C",
+        "text": "Meminta bantuan lembaga arbitrase independen yang diberi kewenangan oleh hukum untuk mengambil keputusan final dan mengikat bagi kedua pihak."
+      },
+      {
+        "id": "D",
+        "text": "Mengalihkan isu sengketa dengan menyelenggarakan acara hiburan bagi warga sekitar pabrik."
+      },
+      {
+        "id": "E",
+        "text": "Menghentikan seluruh aktivitas pertanian warga agar penggunaan air sepenuhnya digunakan untuk industri."
+      }
+    ]
   },
   {
     "id": 16,
-    "elemen": "Kearifan Lokal dan Pemberdayaan Komunitas",
-    "subelemen": "Pemberdayaan Komunitas",
-    "indikator": "Menganalisis prinsip partisipasi masyarakat dalam program pemberdayaan komunitas.",
-    "kode": "26SOS-HOTS-PMB02",
+    "elemen": "Perilaku Kolektif & Gerakan Sosial",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nSebuah LSM lingkungan masuk ke desa nelayan pesisir. Alih-alih memberikan bantuan tunai langsung (karitatif) yang berpotensi memicu ketergantungan pasif, LSM tersebut memfasilitasi pembentukan kelompok kerja ibu-ibu nelayan, melatih teknik pengolahan keripik tulang ikan bernilai jual tinggi, mengajari manajemen pembukuan digital, dan menghubungkan mereka ke jaringan koperasi pasar ekspor.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nPendekatan yang diterapkan oleh LSM tersebut selaras dengan esensi pemberdayaan komunitas (<em>community empowerment</em>), yaitu ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">[INFOGRAFIS / GRAFIK / GAMBAR ACUAN]Catatan Gambar: Ilustrasi Unjuk Rasa Warga Membawa Spanduk 'Tolak Tambang' Berhadapan dengan Barikade Polisi di dekat Buldozer Tambang.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di Desa Bukit Hijau, izin konsesi pertambangan batu bara diterbitkan oleh kementerian tanpa adanya proses konsultasi publik dan persetujuan atas dasar informasi awal tanpa paksaan (FPIC) dari komunitas lokal. Warga lokal kehilangan akses terhadap wilayah hutan adat yang merupakan sumber air dan mata pencaharian tradisional mereka. Ketika alat berat mulai beroperasi, protes warga pecah dan berlanjut pada konfrontasi fisik.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Berdasarkan analisis sosiologis dan ilustrasi di atas, apakah faktor pemicu utama (root cause) terjadinya konflik sosial tersebut?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Deprivasi relatif dan kesenjangan akses informasi memicu keresahan massa yang mudah teramplifikasi oleh provokasi media sosial.<br><br><strong>Kunci Jawaban: C</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Membangun kemandirian masyarakat dengan menggali potensi lokal dan menumbuhkan kapasitas keberdayaan (<em>capacity building</em>)."
+        "text": "Ketidakmampuan pemerintah daerah dalam menjual hasil tambang ke pasar internasional."
       },
       {
         "id": "B",
-        "text": "Mewajibkan masyarakat meninggalkan seluruh mata pencaharian tradisional nelayan."
+        "text": "Kurangnya pemahaman teknis warga desa mengenai cara mengoperasikan alat berat pertambangan."
       },
       {
         "id": "C",
-        "text": "Mengambil alih seluruh kepemilikan aset nelayan menjadi aset korporasi swasta."
+        "text": "Terjadinya benturan kepentingan mendasar antara ekspansi industri tambang dengan hak-hak eksistensial masyarakat adat atas lahan."
       },
       {
         "id": "D",
-        "text": "Memberikan bantuan instan demi kepentingan kampanye politik elektoral jangka pendek."
+        "text": "Sikap warga lokal yang menolak segala bentuk kemajuan ekonomi dan teknologi perkotaan."
       },
       {
         "id": "E",
-        "text": "Menciptakan subordinasi kelompok nelayan di bawah kontrol mutlak manajemen LSM."
+        "text": "Kurangnya sarana pelatihan kerja bagi aparat keamanan di wilayah lingkar tambang."
       }
-    ],
-    "kunci": "A",
-    "pembahasan": "<strong>Hakikat Pemberdayaan Komunitas:</strong><br>\nPemberdayaan (<em>empowerment</em>) berorientasi pada proses pelepasan masyarakat dari belenggu ketidakberdayaan.<br>\nPrinsip utamanya adalah:<br>\n1. Partisipatif: Masyarakat diposisikan sebagai subjek utama pembangunan, bukan sekadar objek penerima santunan.<br>\n2. Peningkatan Kapasitas (<em>Capacity Building</em>): Menumbuhkan kemandirian melalui penguasaan keterampilan teknis, manajerial, dan akses pasar.<br>\n3. Berkelanjutan (<em>Sustainability</em>): Memberdayakan potensi endogen lokal agar masyarakat mampu mandiri tanpa ketergantungan terus-menerus.<br><br>\n<strong>Kunci Jawaban: A</strong>"
+    ]
   },
   {
     "id": 17,
-    "elemen": "Penelitian Sosial",
-    "subelemen": "Rancangan dan Rumusan Masalah",
-    "indikator": "Menentukan rumusan masalah penelitian yang tepat berdasarkan latar belakang masalah sosial.",
-    "kode": "26SOS-HOTS-MET01",
+    "elemen": "Akomodasi & Mediasi Konflik",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nLatar Belakang: Di kalangan siswa SMA Kota Metropolitan, marak penggunaan aplikasi pinjaman daring ilegal dan judi slot online akibat paparan iklan di media sosial dan dorongan gaya hidup hedonis. Banyak siswa mengalami gangguan kesehatan mental, penurunan prestasi belajar drastis, hingga terancam putus sekolah karena terjerat utang bunga berbunga.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nRumusan masalah penelitian sosiologi yang paling relevan dan analitis untuk mengkaji fenomena tersebut adalah ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Rencana pembangunan bendungan untuk proyek strategis nasional memicu eskalasi konflik antara warga desa terdampak dan pengembang proyek. Warga menolak direlokasi karena nilai ganti rugi dianggap sangat rendah serta mengancam keberlangsungan ikatan budaya lokal. Merespons kondisi kritis ini, pemerintah pusat mengutus tim mediator netral untuk menyelenggarakan forum dialog inklusif multi-pihak. Forum tersebut berhasil menyepakati renegosiasi harga tanah, penyediaan lahan pengganti berfasilitas utuh, serta keterlibatan warga dalam pemantauan lingkungan.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Mengapa pendekatan yang dilakukan oleh tim mediator pemerintah tersebut dinilai paling efektif dalam membangun perdamaian yang berkelanjutan?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Mediasi yang efektif mengedepankan pendekatan restoratif dan inklusif untuk merekonsiliasi kepentingan tanpa paksaan kekerasan fisik.<br><br><strong>Kunci Jawaban: B</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Berapakah jumlah aplikasi pinjaman online ilegal yang saat ini beroperasi di Indonesia?"
+        "text": "Karena menggunakan kekuatan koersif militer untuk menghentikan aksi protes secara cepat."
       },
       {
         "id": "B",
-        "text": "Mengapa pemerintah tidak segera memblokir seluruh situs judi online di internet?"
+        "text": "Karena memindahkan lokasi proyek ke daerah lain tanpa memberitahu pihak pengembang."
       },
       {
         "id": "C",
-        "text": "Bagaimana pengaruh konformitas teman sebaya dan tingkat literasi keuangan terhadap perilaku keterlibatan siswa dalam judi slot online?"
+        "text": "Karena mengedepankan prinsip dialog partisipatif yang inklusif demi menghasilkan kesepakatan adil yang mengakomodasi kepentingan warga."
       },
       {
         "id": "D",
-        "text": "Apakah hukuman penjara bagi siswa yang terjerat pinjol online sudah sesuai dengan KUHP?"
+        "text": "Karena memberikan bantuan dana hibah sesaat tanpa menyelesaikan tuntutan utama ganti rugi tanah."
       },
       {
         "id": "E",
-        "text": "Di manakah server judi online beroperasi di luar negeri?"
+        "text": "Karena membiarkan proyek berjalan terus sambil mengabaikan keberatan masyarakat terdampak."
       }
-    ],
-    "kunci": "C",
-    "pembahasan": "<strong>Kriteria Rumusan Masalah Penelitian Sosiologis:</strong><br>\nRumusan masalah yang baik harus:\n- Jelas, fokus, dan menghubungkan variabel-variabel sosiologis (konformitas kelompok sebaya, literasi keuangan) dengan perilaku sosial (keterlibatan judi slot).<br>\n- Bersifat analitis-korelasional/kausalitas, bukan sekadar pertanyaan faktual inventaris (seperti berapa jumlah, di mana lokasi) atau pertanyaan normatif hukum murni.<br>\nPilihan C secara metodologis paling kuat dan analitis.<br><br>\n<strong>Kunci Jawaban: C</strong>"
+    ]
   },
   {
     "id": 18,
-    "elemen": "Penelitian Sosial",
-    "subelemen": "Teknik Penarikan Sampel (Sampling)",
-    "indikator": "Menentukan teknik sampling yang tepat untuk populasi tersembunyi (hidden population).",
-    "kode": "26SOS-HOTS-MET02",
+    "elemen": "Klasifikasi Kelompok Sosial",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nSeorang peneliti sosiologi kriminalitas ingin mengkaji dinamika jaringan peredaran obat-obatan terlarang di kalangan remaja perkotaan. Mengingat populasi target bersifat tertutup, sensitif, ilegal, dan tidak memiliki daftar anggota resmi (<em>hidden population</em>), peneliti memulai wawancara dari satu mantan pemakai yang bersedia terbuka, lalu informan pertama tersebut merekomendasikan dua orang temannya, dan seterusnya hingga data jenuh (<em>data saturation</em>).\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nTeknik penentuan sampel yang diterapkan peneliti tersebut dinamakan ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">[INFOGRAFIS / GRAFIK / GAMBAR ACUAN]Catatan Infografis: Infografis 4 Panel memuat KELOMPOK PRIMER (keluarga/sahabat), KELOMPOK SEKUNDER (organisasi sekolah), KELOMPOK FORMAL (struktur/aturan resmi), KELOMPOK INFORMAL (teman bermain).</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di sebuah lingkungan perkotaan, Rian bergabung dengan OSIS di sekolahnya yang memiliki AD/ART terstruktur dan pengurus resmi (Kelompok Formal/Sekunder). Di samping itu, Rian juga memiliki kelompok sahabat dekat berisi empat teman masa kecilnya yang sering berkumpul tanpa aturan mengikat (Kelompok Informal/Primer).</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Manakah pernyataan yang paling tepat dalam mengategorikan jenis kelompok sosial berdasarkan ilustrasi dan infografis di atas?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Kelompok patembayan (gesellschaft) didasarkan pada ikatan rasional, perjanjian formal, dan pembagian kerja kontraktual yang terspesialisasi.<br><br><strong>Kunci Jawaban: C</strong>",
     "options": [
       {
         "id": "A",
-        "text": "<em>Simple Random Sampling</em>"
+        "text": "Sahabat dekat Rian menunjukkan kelompok formal karena memiliki aturan tertulis dan jadwal kumpul yang mengikat."
       },
       {
         "id": "B",
-        "text": "<em>Stratified Random Sampling</em>"
+        "text": "OSIS menunjukkan kelompok primer karena ikatan antaranggota didasari oleh emosional yang sangat personal."
       },
       {
         "id": "C",
-        "text": "<em>Cluster Sampling</em>"
+        "text": "OSIS menunjukkan bentuk kelompok sekunder dan formal yang memiliki struktur, aturan baku, dan berorientasi pada tujuan organisasi."
       },
       {
         "id": "D",
-        "text": "<em>Snowball Sampling</em> (penarikan sampel bola salju)"
+        "text": "Kelompok teman bermain menunjukkan kelompok sekunder karena hubungan antaranggota bersifat impersonal."
       },
       {
         "id": "E",
-        "text": "<em>Systematic Sampling</em>"
+        "text": "Sahabat dekat Rian dan OSIS keduanya merupakan kelompok semu yang terbentuk secara spontan tanpa rencana."
       }
-    ],
-    "kunci": "D",
-    "pembahasan": "<strong>Teknik Penarikan Sampel Bola Salju (Snowball Sampling):</strong><br>\n<em>Snowball Sampling</em> adalah teknik penentuan sampel non-probabilitas yang bergulir dari jumlah kecil informan awal, kemudian informan tersebut menunjuk kawan-kawannya, sehingga makin lama sampel membesar menyerupai bola salju yang menggelinding.<br>\nTeknik ini sangat tepat digunakan untuk meneliti komunitas tertutup/ilegal (<em>hard-to-reach / hidden populations</em>) di mana kerangka sampling resmi tidak tersedia.<br><br>\n<strong>Kunci Jawaban: D</strong>"
+    ]
   },
   {
     "id": 19,
-    "elemen": "Penelitian Sosial",
-    "subelemen": "Validitas Data Kualitatif",
-    "indikator": "Menganalisis penerapan teknik triangulasi dalam penelitian kualitatif.",
-    "kode": "26SOS-HOTS-MET03",
-    "tipe": "kompleks_bs",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nTriangulasi merupakan teknik pemeriksaan keabsahan data yang memanfaatkan sesuatu yang lain di luar data itu untuk keperluan pengecekan atau sebagai pembanding terhadap data tersebut (Norman K. Denzin).\n<br>Tentukan <strong>Benar</strong> atau <strong>Salah</strong> untuk setiap bentuk penerapan triangulasi berikut!\n</p>",
-    "items": [
+    "elemen": "Diferensiasi Sosial & Etnisitas",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di Kelurahan Harmoni, alokasi program bantuan usaha mikro dan perbaikan sarana pemukiman dari pemerintah daerah kerap kali hanya diakses oleh kelompok warga senior lokal yang dekat dengan pengurus RT/RW. Kelompok warga pendatang, buruh migran, dan penyandang disabilitas hampir tidak pernah mendapatkan undangan rapat sosialisasi maupun kesempatan mengajukan aspirasi. Merasa hak-haknya terabaikan, kelompok terpinggirkan ini mulai melayangkan protes keras dan memboikot pembayaran iuran kebersihan.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Pernyataan manakah yang paling tepat menjelaskan akar pemicu pendorong munculnya ketegangan sosial pada kasus tersebut?</p>",
+    "kunci": "A",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Primordialisme dan etnosentrisme yang berlebihan memicu eksklusivisme kelompok yang menghambat integrasi sosial lintas etnis.<br><br><strong>Kunci Jawaban: A</strong>",
+    "options": [
       {
-        "pernyataan": "Triangulasi sumber dilakukan dengan membandingkan dan mengecek balik derajat kepercayaan suatu informasi yang diperoleh dari informan buruh, pimpinan perusahaan, dan perwakilan dinas tenaga kerja.",
-        "kunci": "Benar",
-        "penjelasan": "Mengecek kebenaran informasi dari beragam sudut pandang aktor/sumber yang berbeda adalah esensi triangulasi sumber."
+        "id": "A",
+        "text": "Kesenjangan dalam hak partisipasi dan eksklusi sosial dalam proses pengambilan keputusan publik memicu kekecewaan serta merusak rasa saling percaya."
       },
       {
-        "pernyataan": "Triangulasi teknik dilakukan dengan menguji keabsahan data menggunakan teknik pengumpulan data yang berbeda pada sumber yang sama, seperti menggabungkan wawancara mendalam, observasi partisipatif, dan dokumentasi foto.",
-        "kunci": "Benar",
-        "penjelasan": "Memverifikasi data dengan metode ganda (wawancara + observasi + dokumen) merupakan triangulasi teknik/metode."
+        "id": "B",
+        "text": "Perbedaan tingkat pendidikan formal yang ekstrem antarwarga desa menghambat kelancaran komunikasi."
       },
       {
-        "pernyataan": "Triangulasi waktu berarti peneliti hanya boleh mengambil data pada pagi hari agar kondisi responden selalu dalam keadaan segar dan konsisten.",
-        "kunci": "Salah",
-        "penjelasan": "Triangulasi waktu dilakukan dengan mengecek konsistensi data pada rentang waktu atau situasi yang berbeda (misal pagi, siang, dan malam), bukan membatasi hanya pada pagi hari."
+        "id": "C",
+        "text": "Dominasi kelompok pendatang dalam menguasai sektor perdagangan ekonomi di lingkungan permukiman."
+      },
+      {
+        "id": "D",
+        "text": "Ketidakmampuan pemerintah pusat dalam menyediakan anggaran dana desa yang mencukupi."
+      },
+      {
+        "id": "E",
+        "text": "Munculnya persaingan tidak sehat dalam perebutan jabatan pengurus RT/RW di wilayah tersebut."
       }
-    ],
-    "kunci": [
-      "Benar",
-      "Benar",
-      "Salah"
-    ],
-    "pembahasan": "<strong>Konsep Triangulasi Keabsahan Data (Denzin):</strong><br>\nTriangulasi mencakup:\n1. <strong>Triangulasi Sumber:</strong> Membandingkan data dari beragam informan yang memiliki posisi berbeda.<br>\n2. <strong>Triangulasi Teknik:</strong> Memverifikasi temuan dengan menggabungkan teknik wawancara, observasi, dan arsip dokumen.<br>\n3. <strong>Triangulasi Waktu:</strong> Menguji keajegan data melalui pengecekan di waktu dan kondisi yang berbeda untuk memastikan tidak ada bias situasional sesaat.<br><br>\n<strong>Kunci Jawaban: Benar, Benar, Salah</strong>"
+    ]
   },
   {
     "id": 20,
-    "elemen": "Kelompok Sosial, Kesetaraan, dan Konflik Sosial",
-    "subelemen": "Kemiskinan dan Eksklusi Sosial",
-    "indikator": "Membedakan kemiskinan kultural dan kemiskinan struktural.",
-    "kode": "26SOS-HOTS-KMS01",
+    "elemen": "Ketimpangan Sosial & Kemiskinan",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nWarga di Kampung Nelayan Karangrejo hidup miskin bukan karena malas melaut atau enggan bekerja keras. Mereka terjerat utang turun-temurun kepada para tengkulak yang memonopoli harga es balok dan bahan bakar perahu, serta ketiadaan sertifikat hak atas tanah permukiman yang membuat mereka tidak dapat mengakses fasilitas kredit resmi perbankan pemerintah.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nKondisi kemiskinan yang dialami oleh nelayan Karangrejo tersebut merupakan wujud nyata dari ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Laporan riset sosiologi pembangunan di Kota Metropolitan X mengungkapkan bahwa dalam dekade terakhir, kesenjangan kualitas layanan kesehatan dan pendidikan antara kalangan elite perkotaan dengan warga kawasan kumuh (slum area) kian melebar. Kelompok atas dengan mudah mengakses fasilitas modern, sementara masyarakat miskin harus menghadapi fasilitas kesehatan dasar yang minim sarana. Ketimpangan yang tajam ini menimbulkan kekecewaan mendalam dan memicu serangkaian aksi unjuk rasa massa.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Apakah dampak sosial paling mendasar yang dialami langsung oleh masyarakat lapisan bawah akibat terbatasnya akses terhadap layanan publik berkualitas tersebut?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Kemiskinan struktural membatasi modal budaya dan modal ekonomi keluarga, sehingga memicu transmisi kemiskinan antargenerasi (intergenerational poverty trap).<br><br><strong>Kunci Jawaban: B</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Kemiskinan kultural, akibat mentalitas malas dan sikap pasrah yang mendarah daging."
+        "text": "Terjadinya peningkatan pendapatan secara perlahan pada kelompok masyarakat miskin perkotaan."
       },
       {
         "id": "B",
-        "text": "Kemiskinan absolut, karena seluruh warga sama sekali tidak memiliki makanan harian."
+        "text": "Meningkatnya akumulasi kerentanan sosial dan terhambatnya mobilitas sosial naik bagi kelompok miskin akibat perlakuan tidak setara."
       },
       {
         "id": "C",
-        "text": "Kemiskinan struktural, karena disebabkan oleh sistem kelembagaan, ketimpangan akses permodalan, dan struktur pasar yang eksploitatif."
+        "text": "Munculnya regulasi baru yang secara otomatis langsung menggratiskan seluruh biaya hidup masyarakat perkotaan."
       },
       {
         "id": "D",
-        "text": "Kemiskinan temporer, yang hanya terjadi sesaat saat musim angin barat."
+        "text": "Menurunnya jumlah penduduk miskin karena mereka memilih untuk berpindah ke wilayah pedesaan."
       },
       {
         "id": "E",
-        "text": "Kemiskinan relatif, karena membandingkan pendapatan warga dengan warga negara maju."
+        "text": "Meningkatnya rasa kepatuhan masyarakat terhadap seluruh kebijakan pemerintah kota."
       }
-    ],
-    "kunci": "C",
-    "pembahasan": "<strong>Kemiskinan Struktural vs Kultural:</strong><br>\n- <strong>Kemiskinan Kultural:</strong> Kemiskinan yang timbul dari sikap mental, nilai budaya, etos kerja rendah, boros, atau kepasrahan individu/kelompok.<br>\n- <strong>Kemiskinan Struktural:</strong> Kemiskinan yang diakibatkan oleh struktur sosial, ketidakadilan tata niaga monopoli tengkulak, kebijakan yang tidak memihak, dan ketiadaan akses formal terhadap sumber daya produktif (tanah, modal kredit bank).<br>\nKondisi nelayan Karangrejo yang gigih namun terjebak jerat monopoli tengkulak dan regulasi perbankan merupakan contoh konkret <strong>kemiskinan struktural</strong>.<br><br>\n<strong>Kunci Jawaban: C</strong>"
+    ]
   },
   {
     "id": 21,
-    "elemen": "Hubungan dan Gejala Sosial",
-    "subelemen": "Interaksi Sosial Asosiatif dan Disosiatif",
-    "indikator": "Mengidentifikasi bentuk interaksi disosiatif: kontravensi.",
-    "kode": "26SOS-HOTS-DIS01",
+    "elemen": "Kesetaraan Sosial & Kebijakan Afirmatif",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nMenjelang pemilihan ketua OSIS, salah satu kubu kandidat tidak melakukan konfrontasi fisik terbuka terhadap kandidat lawan. Namun, mereka diam-diam menyebarkan desas-desus di grup perpesanan anonim, melakukan sabotase terhadap poster lawan saat malam hari, serta melontarkan sindiran sarkastis di media sosial untuk menjatuhkan kredibilitas lawan.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nBentuk proses sosial disosiatif yang ditunjukkan oleh kubu kandidat tersebut adalah ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Dalam rangka menjamin hak pendidikan dasar bagi seluruh warga negara, Pemerintah Provinsi Y merancang program 'Pendidikan Inklusif Merata'. Program ini menyediakan kuota afirmasi beasiswa penuh bagi calon siswa dari keluarga prasejahtera, anak-anak penyandang disabilitas, serta pelajar dari pulau-pulau terisolasi. Selain biaya sekolah, pemerintah juga menyediakan bus sekolah khusus disabilitas dan perahu gratis untuk pelajar pulau terdepan.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Prinsip kesetaraan sosial manakah yang diejawantahkan oleh kebijakan pemerintah daerah tersebut?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Tindakan afirmatif (affirmative action) bertujuan memberikan keadilan kompensatoris bagi kelompok marginal untuk memperkecil ketimpangan struktural.<br><br><strong>Kunci Jawaban: C</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Persaingan sehat (kompetisi murni)"
+        "text": "Kesetaraan politik, karena memberikan hak suara yang sama dalam pemilihan kepala daerah."
       },
       {
         "id": "B",
-        "text": "Kontravensi (tindakan penolakan tersembunyi, sabotase, dan desas-desus)"
+        "text": "Kesetaraan kesempatan (equality of opportunity), karena membuka peluang dan akses yang setara bagi kelompok rentan untuk berkembang."
       },
       {
         "id": "C",
-        "text": "Konflik terbuka (pertikaian fisik bersenjata)"
+        "text": "Kesetaraan hukum, karena menjatuhkan sanksi hukum yang sama tanpa pandang bulu kepada para pelanggar."
       },
       {
         "id": "D",
-        "text": "Asimilasi kebudayaan"
+        "text": "Kesetaraan budaya, karena mempropagandakan seni tradisi daerah ke tingkat internasional."
       },
       {
         "id": "E",
-        "text": "Akulturasi nilai"
+        "text": "Kesetaraan ekonomi mutlak, karena membagikan kekayaan negara secara rata kepada setiap individu."
       }
-    ],
-    "kunci": "B",
-    "pembahasan": "<strong>Bentuk Interaksi Disosiatif: Kontravensi (Contravention):</strong><br>\nKontravensi adalah bentuk proses sosial yang berada di antara persaingan dan pertentangan/konflik.<br>\nKontravensi ditandai oleh gejala adanya ketidakpastian mengenai diri seseorang atau suatu rencana, perasaan tidak suka yang disembunyikan, kebencian, keraguan terhadap kepribadian seseorang, fitnah, penyebaran desas-desus, sindiran, keengganan, dan sabotase rahasia.<br><br>\n<strong>Kunci Jawaban: B</strong>"
+    ]
   },
   {
     "id": 22,
-    "elemen": "Kelompok Sosial, Kesetaraan, dan Konflik Sosial",
-    "subelemen": "Konflik Sosial Ralf Dahrendorf",
-    "indikator": "Menganalisis pembagian otoritas semu (quasi-group) dan interest group Ralf Dahrendorf.",
-    "kode": "26SOS-HOTS-DAH01",
+    "elemen": "Stratifikasi & Kekuasaan Sosial",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nSosiolog Ralf Dahrendorf mengemukakan bahwa akar konflik dalam masyarakat modern tidak semata-mata berpangkal pada kepemilikan alat produksi material (sebagaimana didalilkan Karl Marx), melainkan berakar pada ....\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nFaktor penentu polarisasi konflik menurut Dahrendorf adalah ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di kantong-kantong permukiman liar bawah jembatan kota besar, banyak keluarga hidup dalam lingkaran kemiskinan antargenerasi. Tanpa kepemilikan dokumen kependudukan resmi (KTP/KK), mereka kesulitan mendapatkan sambungan air bersih, fasilitas kesehatan, dan bantuan sosial. Anak-anak di kawasan ini terpaksa berhenti sekolah untuk bekerja menyokong ekonomi keluarga.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Mengapa ketimpangan struktur sosial pada kasus tersebut dapat melanggengkan angka kemiskinan perkotaan secara berulang?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Hegemoni kelompok dominan dalam memonopoli akses pendidikan berkualitas dan posisi strategis melegitimasi pelanggengan status quo stratifikasi tertutup.<br><br><strong>Kunci Jawaban: B</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Distribusi wewenang dan otoritas (<em>authority</em>) yang timpang dalam asosiasi-asosiasi yang terkoordinasi secara imperatif."
+        "text": "Adanya resistensi kultural warga marginal yang menolak secara tegas penggunaan air bersih dan listrik modern."
       },
       {
         "id": "B",
-        "text": "Perbedaan tingkat kecerdasan genetik antar-ras di perkotaan."
+        "text": "Akses yang tidak merata terhadap layanan dasar serta eksklusi administratif yang meminggirkan warga marginal dari bantuan publik."
       },
       {
         "id": "C",
-        "text": "Adanya benturan kebudayaan Timur dan Barat yang tidak terdamaikan."
+        "text": "Rendahnya motivasi internal warga untuk bekerja akibat terlalu banyaknya bantuan cuma-cuma."
       },
       {
         "id": "D",
-        "text": "Ketiadaan lembaga peradilan yang bersifat independen."
+        "text": "Perencanaan keuangan pribadi yang buruk pada masyarakat informal dalam mengelola pendapatan harian."
       },
       {
         "id": "E",
-        "text": "Dominasi kaum agamawan atas kelompok intelektual sekuler."
+        "text": "Kebiasaan masyarakat perkotaan yang menolak keberadaan sektor industri jasa informal."
       }
-    ],
-    "kunci": "A",
-    "pembahasan": "<strong>Teori Konflik Otoritas Ralf Dahrendorf:</strong><br>\nDahrendorf dalam <em>Class and Class Conflict in Industrial Society</em> merevisi pandangan Marx.<br>\nBagi Dahrendorf, faktor kunci pembagi kelompok dalam masyarakat industri pasca-kapitalis bukanlah kepemilikan modal fisik, melainkan <strong>distribusi otoritas/kekuasaan yang tidak merata dalam Imperatively Coordinated Associations (ICA)</strong>.<br>\nMasyarakat selalu terbelah menjadi mereka yang memegang otoritas wewenang dan mereka yang diatur/dikuasai.<br><br>\n<strong>Kunci Jawaban: A</strong>"
+    ]
   },
   {
     "id": 23,
-    "elemen": "Perubahan Sosial dan Globalisasi",
-    "subelemen": "Modernisasi vs Westernisasi",
-    "indikator": "Menganalisis perbedaan mendasar antara modernisasi dan westernisasi.",
-    "kode": "26SOS-HOTS-MOD01",
-    "tipe": "kompleks_bs",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nMasyarakat sering kali mencampuradukkan antara konsep modernisasi dan westernisasi.\n<br>Tentukan <strong>Benar</strong> atau <strong>Salah</strong> untuk setiap pernyataan perbandingan berikut!\n</p>",
-    "items": [
+    "elemen": "Globalisasi & Kesenjangan Digital",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Integrasi ekonomi global mendorong masuknya perusahaan manufaktur multinasional (MNC) ke negara-negara berkembang. Banyak pabrik didirikan di wilayah pinggiran kota untuk memanfaatkan ketersediaan tenaga kerja lokal berbiaya murah. Meskipun menyerap ribuan tenaga kerja, sebagian besar buruh lokal hanya dipekerjakan sebagai buruh kontrak berketerampilan rendah dengan upah minimum, sementara posisi manajerial diisi oleh ekspatriat.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Mengapa dinamika globalisasi pada kasus tersebut memicu terjadinya kesenjangan sosial-ekonomi?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Kesenjangan digital (digital divide) memperdalam polarisasi sosial antara kelompok yang memiliki literasi teknologi dengan kelompok yang terputus dari akses informasi.<br><br><strong>Kunci Jawaban: C</strong>",
+    "options": [
       {
-        "pernyataan": "Modernisasi mutlak menuntut adopsi cara berpikir ilmiah, efisiensi kerja, dan penerapan teknologi rasional untuk meningkatkan taraf hidup.",
-        "kunci": "Benar",
-        "penjelasan": "Modernisasi berfokus pada transformasi rasionalitas, efisiensi, dan penguasaan iptek tanpa harus kehilangan jati diri bangsa."
+        "id": "A",
+        "text": "Karena pertumbuhan ekonomi di negara berkembang berjalan lebih cepat daripada di negara maju."
       },
       {
-        "pernyataan": "Westernisasi adalah peniruan gaya hidup, konsumsi, dan tata busana budaya Barat secara membabi buta tanpa penyaringan kritis.",
-        "kunci": "Benar",
-        "penjelasan": "Westernisasi berorientasi pada imitasi fisik/gaya hidup Barat semata."
+        "id": "B",
+        "text": "Karena integrasi pasar global menciptakan pembagian kerja internasional yang menempatkan buruh lokal dalam struktur posisi dan upah yang rendah."
       },
       {
-        "pernyataan": "Suatu masyarakat yang melakukan modernisasi di bidang pertanian otomatis pasti telah mengalami westernisasi budaya.",
-        "kunci": "Salah",
-        "penjelasan": "Modernisasi pertanian (mekanisasi, bibit unggul) tidak serta merta membuat masyarakat meniru gaya hidup individualis Barat."
+        "id": "C",
+        "text": "Karena adanya penolakan keras dari buruh lokal untuk mempelajari penggunaan mesin industri modern."
+      },
+      {
+        "id": "D",
+        "text": "Karena pemerintah daerah melarang perusahaan multinasional untuk membayar pajak usaha."
+      },
+      {
+        "id": "E",
+        "text": "Karena industri manufaktur merupakan bentuk perubahan sosial yang tidak memberikan dampak"
       }
-    ],
-    "kunci": [
-      "Benar",
-      "Benar",
-      "Salah"
-    ],
-    "pembahasan": "<strong>Distingsi Modernisasi vs Westernisasi:</strong><br>\n- <strong>Modernisasi:</strong> Transformasi menuju cara-cara hidup yang lebih maju melalui rasionalitas, sains, teknologi, dan etos produktivitas.<br>\n- <strong>Westernisasi:</strong> Proses peniruan gaya hidup kebarat-baratan (<em>western lifestyle</em>) yang sering kali hanya menyentuh aspek kulit/konsumtif semata.<br>\nMasyarakat bisa sangat modern dan maju secara teknologi tanpa harus terbaratkan (contoh: Jepang, Korea Selatan).<br><br>\n<strong>Kunci Jawaban: Benar, Benar, Salah</strong>"
+    ]
   },
   {
     "id": 24,
-    "elemen": "Penelitian Sosial",
-    "subelemen": "Analisis Data Statistik Sederhana",
-    "indikator": "Menginterpretasi korelasi variabel bebas dan terikat dalam penelitian sosiologi.",
-    "kode": "26SOS-HOTS-STT01",
+    "elemen": "Perubahan Sosial & Modernisasi Desa",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nHasil survei kuantitatif terhadap 500 kepala keluarga di Kota Delta menunjukkan koefisien korelasi Pearson sebesar \\( r = -0,78 \\) antara tingkat pendidikan formal kepala keluarga dengan jumlah anak putus sekolah di wilayah tersebut (signifikansi \\( p < 0,01 \\)).\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nInterpretasi sosiologis yang paling tepat atas temuan statistik tersebut adalah ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Desa Sukamaju yang dahulu terisolasi kini telah terjangkau oleh jaringan internet pita lebar. Sebagian besar perajin ukir kayu di desa tersebut kini memanfaatkan platform lokapasar (e-commerce) global dan media sosial untuk memasarkan produk kerajinannya secara langsung ke pembeli internasional. Transaksi pembayaran dilakukan secara nontunai digital.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Bentuk dampak positif globalisasi yang paling menonjol pada struktur ekonomi masyarakat desa tersebut adalah...</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Pembangunan infrastruktur transportasi dan komunikasi membuka isolasi geografis, mempercepat difusi inovasi, dan mengubah orientasi pasar masyarakat desa.<br><br><strong>Kunci Jawaban: B</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Terdapat korelasi positif sempurna, di mana semakin tinggi pendidikan kepala keluarga maka angka putus sekolah semakin melonjak."
+        "text": "Penguatan sistem ekonomi subsisten dan tradisional berbasis barter."
       },
       {
         "id": "B",
-        "text": "Terdapat hubungan negatif yang kuat dan signifikan, di mana semakin tinggi jenjang pendidikan kepala keluarga, maka angka kejadian anak putus sekolah cenderung semakin rendah."
+        "text": "Penolakan total masyarakat terhadap mata uang asing dalam transaksi bisnis."
       },
       {
         "id": "C",
-        "text": "Tidak terdapat hubungan apa pun antara variabel pendidikan dengan kelangsungan sekolah anak."
+        "text": "Peningkatan volume perdagangan dan perluasan jangkauan pasar produk lokal melalui platform digital global."
       },
       {
         "id": "D",
-        "text": "Tingkat pendidikan kepala keluarga merupakan satu-satunya faktor penentu masa depan anak."
+        "text": "Penghentian produksi kerajinan kayu lokal demi mengimpor barang dari luar negeri."
       },
       {
         "id": "E",
-        "text": "Pendidikan tinggi kepala keluarga menyebabkan anak kehilangan minat bersekolah formal."
+        "text": "Kewajiban bagi seluruh warga desa untuk beralih profesi menjadi penyedia jasa internet."
       }
-    ],
-    "kunci": "B",
-    "pembahasan": "<strong>Interpretasi Koefisien Korelasi (r):</strong><br>\n- Nilai koefisien \\( r = -0,78 \\) menunjukkan <strong>hubungan berlawanan arah (korelasi negatif) yang kuat</strong> (karena mendekati \\(-1\\)).<br>\n- Artinya, semakin tinggi tingkat pendidikan orang tua, maka angka kejadian anak putus sekolah semakin rendah.<br>\n- Hal ini logis karena orang tua berpendidikan memiliki modal budaya (<em>cultural capital</em>) dan kesadaran investasi edukasi yang lebih tinggi bagi anak-anaknya.<br><br>\n<strong>Kunci Jawaban: B</strong>"
+    ]
   },
   {
     "id": 25,
-    "elemen": "Perubahan Sosial dan Globalisasi",
-    "subelemen": "Masa Depan Masyarakat Digital & Society 5.0",
-    "indikator": "Menganalisis tantangan etika dan humanisme dalam integrasi kecerdasan buatan di era Society 5.0.",
-    "kode": "26SOS-HOTS-SOC05",
+    "elemen": "Sosialisasi & Teknologi Pendidikan",
     "tipe": "pg",
-    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">\nKonsep <em>Society 5.0</em> yang digagas di era kontemporer mengusung visi masyarakat yang berpusat pada manusia (<em>human-centered society</em>) dengan menyeimbangkan kemajuan teknologi siber (kecerdasan buatan, big data, robotika) dan penyelesaian masalah sosial lingkungan.\n</p>\n<p class=\"font-semibold text-slate-900 mb-2\">\nDitinjau dari perspektif sosiologi kritis, tantangan terbesar yang harus diwaspadai dalam implementasi <em>Society 5.0</em> di negara berkembang adalah ....\n</p>",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di sebuah SMA Perkotaan, proses pembelajaran kini mengintegrasikan perangkat kecerdasan buatan (AI) dan media sosial global. Para siswa tidak hanya mengunduh materi dari jurnal internasional, tetapi juga berkolaborasi dalam proyek sains dengan siswa dari berbagai negara melalui kelas virtual. Melalui interaksi digital lintas batas ini, para siswa terbiasa dengan perspektif kebudayaan yang beragam.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Bagaimana fenomena keterlibatan siswa dalam pembelajaran berbasis digital merefleksikan perubahan sosial akibat arus globalisasi?</p>",
+    "kunci": "C",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Teknologi digital berperan sebagai agen sosialisasi sekunder baru yang merekonseptualisasi relasi hierarkis guru-siswa menjadi lebih kolaboratif dan dialogis.<br><br><strong>Kunci Jawaban: C</strong>",
     "options": [
       {
         "id": "A",
-        "text": "Kembalinya masyarakat pada pola nomaden pemburu dan peramu."
+        "text": "Memperluas akses komunikasi dan jejaring pengetahuan global sehingga membentuk pola pikir masyarakat yang inklusif dan terbuka."
       },
       {
         "id": "B",
-        "text": "Penghapusan seluruh institusi keluarga batih dan perkawinan."
+        "text": "Mengharuskan siswa untuk meninggalkan bahasa nasional dan hanya menggunakan bahasa asing."
       },
       {
         "id": "C",
-        "text": "Risiko melebarnya jurang kesenjangan digital (<em>digital divide</em>) dan hilangnya lapangan kerja padat karya sebelum terciptanya jaring pengaman sosial yang memadai."
+        "text": "Menyebabkan kemerosotan total dalam pemahaman siswa terhadap kebudayaan nasional Indonesia."
       },
       {
         "id": "D",
-        "text": "Punahnya seluruh bahasa internasional akibat otomatisasi mesin penerjemah."
+        "text": "Membatasi ruang gerak belajar siswa hanya pada lingkungan fisik sekolah dan ruang kelas."
       },
       {
         "id": "E",
-        "text": "Pemusnahan total institusi keagamaan oleh algoritma komputer."
+        "text": "Mengubah seluruh struktur kurikulum nasional menjadi sepenuhnya bergantung pada keputusan perusahaan teknologi."
       }
-    ],
-    "kunci": "C",
-    "pembahasan": "<strong>Tantangan Sosiologis Society 5.0 & Kesenjangan Digital:</strong><br>\nDalam sosiologi teknologi dan stratifikasi, transformasi otomatisasi AI berisiko memunculkan polarisasi ganda di negara berkembang:\n1. <strong>Digital Divide:</strong> Kesenjangan akses infrastruktur dan kompetensi antara wilayah metropolitan maju dengan wilayah 3T.\n2. <strong>Disrupsi Ketenagakerjaan:</strong> Otomatisasi berpotensi mengeliminasi jutaan tenaga kerja sektor kasar/informal padat karya, memicu lonjakan pengangguran struktural jika tidak diimbangi jaring pengaman sosial (<em>social safety net</em>) dan <em>reskilling</em> pendidikan vokasi yang inklusif.<br><br>\n<strong>Kunci Jawaban: C</strong>"
+    ]
+  },
+  {
+    "id": 26,
+    "elemen": "Individualisme & Solidaritas Sosial",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Kampung Kenanga mengalami gentrifikasi pesat. Rumah-rumah tradisional warga asli banyak yang dibeli oleh investor dan diubah menjadi kafe serta indekos eksklusif bagi pendatang. Aktivitas sosial tradisional seperti ronda malam bersama dan arisan keagamaan kini makin redup karena warga baru cenderung menutup diri dan sibuk dengan pekerjaan profesional.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Apakah dampak jangka panjang dari perubahan pola interaksi sosial terhadap kehidupan masyarakat di Kampung Kenanga?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Ketergantungan berlebihan pada interaksi termediasi layar berisiko melemahkan empati sosial langsung dan menurunkan kohesi modal sosial komunitas.<br><br><strong>Kunci Jawaban: B</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Perkuatan nilai-nilai kearifan lokal secara masif di kalangan pendatang baru."
+      },
+      {
+        "id": "B",
+        "text": "Perlahan terhakisnya rasa memiliki (sense of belonging) dan solidaritas organik komunitas akibat memudarnya keterikatan sosial langsung."
+      },
+      {
+        "id": "C",
+        "text": "Peningkatan partisipasi warga secara spontan dalam kegiatan kerja bakti fisik lingkungan."
+      },
+      {
+        "id": "D",
+        "text": "Bertahannya struktur norma tradisional tanpa mengalami gesekan dengan budaya modern."
+      },
+      {
+        "id": "E",
+        "text": "Hilangnya seluruh bentuk aktivitas ekonomi perdagangan di wilayah permukiman tersebut."
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "elemen": "Masalah Sosial & Patologi Sosial",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">[INFOGRAFIS / GRAFIK / GAMBAR ACUAN]Catatan Gambar: Layar Smartphone dengan Tulisan 'HOAX' dan Tombol 'SHARE'.</p>\n<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Perkembangan teknologi komunikasi global memungkinkan arus informasi mengalir tanpa batas geografis. Di sebuah kabupaten, muncul disinformasi (hoaks) yang disebarkan melalui pesan berantai aplikasi perpesanan digital mengenai isu penculikan anak. Tanpa verifikasi, warga yang panik melakukan aksi main hakim sendiri terhadap seorang pedagang keliling asing.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Mengapa permasalahan sosial dalam ilustrasi kasus dan gambar di atas dapat dikategorikan sebagai dampak negatif dari era globalisasi?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Ketiadaan integrasi sistemik antara pertumbuhan ekonomi dengan penyerapan tenaga kerja menimbulkan pengangguran friksional dan kerentanan sosial meluas.<br><br><strong>Kunci Jawaban: B</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Karena globalisasi membatasi laju penyebaran informasi hanya di tingkat lokal dan perdesaan."
+      },
+      {
+        "id": "B",
+        "text": "Karena teknologi era globalisasi memungkinkan penyebaran informasi salah (hoaks) secara meluas dan masif melintasi batas wilayah dengan sangat cepat sehingga memicu disintegrasi sosial."
+      },
+      {
+        "id": "C",
+        "text": "Karena era globalisasi mengharuskan setiap individu untuk tinggal di luar negeri secara permanen."
+      },
+      {
+        "id": "D",
+        "text": "Karena masyarakat di era globalisasi cenderung lebih teliti dan kritis dalam memilah fakta berita."
+      },
+      {
+        "id": "E",
+        "text": "Karena globalisasi menghilangkan fungsi media massa resmi dalam menyampaikan berita."
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "elemen": "Kearifan Lokal & Globalisasi",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Di era maraknya penetrasi budaya populer asing melalui media sosial, banyak remaja di perkotaan merasa malu menggunakan bahasa daerah atau mengenakan pakaian tradisional karena dianggap kuno. Di sisi lain, menolak secara total masuknya budaya luar juga bukan pilihan yang realistis di era keterbukaan informasi.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Sikap kritis dan solutif manakah yang paling tepat dikembangkan oleh generasi muda untuk merespons tantangan globalisasi tersebut?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Generasi muda perlu mengembangkan sikap glokalisasi, yaitu menginternalisasi nilai-nilai universal modern sambil merevitalisasi kearifan budaya leluhur.<br><br><strong>Kunci Jawaban: B</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Melarang secara mutlak pengoperasian seluruh platform media sosial dan internet di lingkungan sekolah."
+      },
+      {
+        "id": "B",
+        "text": "Mengembangkan rasa bangga dan apresiasi terhadap akar budaya lokal sambil bersikap terbuka dan selektif terhadap budaya asing (glokalisasi)."
+      },
+      {
+        "id": "C",
+        "text": "Mengadopsi seluruh budaya luar tanpa melakukan penyaringan nilai demi dipandang sebagai masyarakat modern."
+      },
+      {
+        "id": "D",
+        "text": "Mengisolasi diri dari perkembangan teknologi komunikasi dan informasi dunia internasional."
+      },
+      {
+        "id": "E",
+        "text": "Mengganti seluruh kurikulum sekolah dengan pelajaran kebudayaan asing."
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "elemen": "Pemberdayaan Komunitas",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">Fenomena polusi udara lintas batas serta krisis iklim global kian mengancam kualitas hidup dan kesehatan masyarakat di negara-negara berkembang akibat masifnya emisi industri. Kurangnya riset independen serta minimnya stasiun pemantau kualitas udara yang akurat menjadi kendala utama.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Rekomendasi tindakan strategis manakah yang paling tepat diberikan kepada LEMBAGA PERGURUAN TINGGI / AKADEMISI agar berkontribusi nyata dalam menanggulangi krisis ekologis tersebut?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Pemberdayaan masyarakat yang berkelanjutan berfokus pada penguatan kapasitas mandiri (capacity building), partisipasi aktif warga, dan pemanfaatan potensi lokal.<br><br><strong>Kunci Jawaban: B</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Mendampingi warga untuk menggratiskan seluruh biaya pengobatan medis di rumah sakit daerah."
+      },
+      {
+        "id": "B",
+        "text": "Membuka pusat riset dan inovasi sains-sosial lingkungan untuk menghasilkan strategi pembangunan berkelanjutan serta teknologi pemantauan emisi berbasis data akurat."
+      },
+      {
+        "id": "C",
+        "text": "Menutup seluruh kawasan industri manufaktur agar polusi udara dapat menghilang secara seketika."
+      },
+      {
+        "id": "D",
+        "text": "Mengalihkan seluruh kegiatan perkuliahan tatap muka menjadi kegiatan menanam pohon semata."
+      },
+      {
+        "id": "E",
+        "text": "Menyerahkan seluruh tanggung jawab penanganan polusi udara kepada organisasi donor luar negeri."
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "elemen": "Pelestarian Budaya & Agensi Sosial",
+    "tipe": "pg",
+    "soalHtml": "<p class=\"font-medium text-slate-800 leading-relaxed mb-3\">sebuah desa adat di wilayah pegunungan memiliki tradisi arsitektur pemukiman dan tata kelola hutan adat yang sangat unik. Seiring dibukanya desa tersebut sebagai destinasi wisata internasional, terjadi komersialisasi budaya yang berlebihan. Banyak bangunan adat diubah fungsinya menjadi penginapan modern tanpa memperhatikan kaidah filosofis lokal, serta timbul masalah sampah.</p>\n<p class=\"font-semibold text-slate-900 mb-2\">Langkah strategis berorientasi penguatan budaya lokal manakah yang paling efektif dilakukan oleh organisasi pemuda desa setempat untuk melepaskan diri dari dampak negatif globalisasi pariwisata tersebut?</p>",
+    "kunci": "B",
+    "pembahasan": "<strong>Analisis Sosiologis & Pembahasan:</strong><br>Pariwisata berbasis komunitas (community-based tourism) dan literasi digital kearifan lokal menjaga kesakralan tradisi dari ancaman komodifikasi budaya berlebih.<br><br><strong>Kunci Jawaban: B</strong>",
+    "options": [
+      {
+        "id": "A",
+        "text": "Membiarkan pihak pengembang swasta mengatur seluruh norma dan tata ruang desa demi meningkatkan keuntungan uang."
+      },
+      {
+        "id": "B",
+        "text": "Menyusun panduan pariwisata berbasis komunitas (community-based tourism) dan mengampanyekan narasi nilai spiritual tradisi lokal melalui media digital kreatif secara terstruktur."
+      },
+      {
+        "id": "C",
+        "text": "Menutup akses desa secara permanen dari seluruh kunjungan wisatawan dan pihak luar."
+      },
+      {
+        "id": "D",
+        "text": "Mengganti seluruh tradisi upacara adat dengan pertunjukan musik modern barat agar lebih disukai turis asing."
+      },
+      {
+        "id": "E",
+        "text": "Menjual lahan hutan adat kepada perusahaan asing untuk dijadikan kawasan resort mewah."
+      }
+    ]
   }
 ];
 
@@ -840,8 +907,12 @@ if (typeof window !== 'undefined') {
   window.tkaSosiologiPaket2Data = tkaSosiologiPaket2Data;
   window.tkaSosiologiPackages = window.tkaSosiologiPackages || {};
   window.tkaSosiologiPackages['paket2'] = {
-    title: "Paket 2: 25 Soal HOTS Terprediksi Sosiologi SMA 2025/2026",
-    shortTitle: "Paket 2 (Prediksi HOTS - 25 Soal)",
+    title: "Paket 2: Try Out HOTS TKA Sosiologi SMA 2026 (30 Soal Terprediksi)",
+    shortTitle: "Paket 2 (Try Out HOTS 2026 - 30 Soal)",
     data: tkaSosiologiPaket2Data
   };
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { tkaSosiologiPaket2Data };
 }
