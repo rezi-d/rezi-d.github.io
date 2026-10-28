@@ -270,6 +270,10 @@
     <script src="/tka/data/mapel-geografi.js"></script>
     <script src="/tka/data/mapel-sejarah.js"></script>
     <script src="/tka/data/mapel-ppkn.js"></script>
+    <script src="/tka/data/mapel-indonesia-wajib.js"></script>
+    <script src="/tka/data/mapel-indonesia-pilihan.js"></script>
+    <script src="/tka/data/mapel-inggris-wajib.js"></script>
+    <script src="/tka/data/mapel-inggris-pilihan.js"></script>
     <script src="/tka/js/tka-registry.js"></script>
 
     <script>
@@ -295,6 +299,14 @@
             activePackages = window.tkaSejarahPackages;
         } else if (currentMapelKey === 'ppkn' && typeof window.tkaPpknPackages !== 'undefined') {
             activePackages = window.tkaPpknPackages;
+        } else if (currentMapelKey === 'indonesia-wajib' && typeof window.tkaIndoWajibPackages !== 'undefined') {
+            activePackages = window.tkaIndoWajibPackages;
+        } else if (currentMapelKey === 'indonesia-pilihan' && typeof window.tkaIndoPilihanPackages !== 'undefined') {
+            activePackages = window.tkaIndoPilihanPackages;
+        } else if (currentMapelKey === 'inggris-wajib' && typeof window.tkaInggrisWajibPackages !== 'undefined') {
+            activePackages = window.tkaInggrisWajibPackages;
+        } else if (currentMapelKey === 'inggris-pilihan' && typeof window.tkaInggrisPilihanPackages !== 'undefined') {
+            activePackages = window.tkaInggrisPilihanPackages;
         }
 
         let currentPaketKey = urlParams.get('paket') || 'paket1';
@@ -375,6 +387,34 @@
                 if (subInfo) subInfo.innerText = "TKA PPKn SMA • CBT Interaktif";
                 if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=ppkn`;
                 if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 28 Soal)</span>`;
+                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
+            } else if (currentMapelKey === 'indonesia-wajib') {
+                document.title = "Simulasi CBT TKA Bahasa Indonesia (Wajib) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🇮🇩 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Indonesia (Wajib)";
+                if (subInfo) subInfo.innerText = "TKA Bahasa Indonesia Wajib SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=indonesia-wajib`;
+                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 33 Soal)</span>`;
+                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
+            } else if (currentMapelKey === 'indonesia-pilihan') {
+                document.title = "Simulasi CBT TKA Bahasa Indonesia (Pilihan) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "📝 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Indonesia (Pilihan)";
+                if (subInfo) subInfo.innerText = "TKA Bahasa Indonesia Pilihan SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=indonesia-pilihan`;
+                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 29 Soal)</span>`;
+                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
+            } else if (currentMapelKey === 'inggris-wajib') {
+                document.title = "Simulasi CBT TKA Bahasa Inggris (Wajib) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🇬🇧 Simulasi Tes Kemampuan Akademik (TKA) Bahasa Inggris (Wajib)";
+                if (subInfo) subInfo.innerText = "TKA Bahasa Inggris Wajib SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=inggris-wajib`;
+                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 25 Soal)</span>`;
+                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
+            } else if (currentMapelKey === 'inggris-pilihan') {
+                document.title = "Simulasi CBT TKA Bahasa Inggris (Pilihan) SMA 2025/2026: Paket 1 Resmi — KimiaInteraktif";
+                if (heading) heading.innerHTML = "🗣️ Simulasi Tes Kemampuan Akademik (TKA) Bahasa Inggris (Pilihan)";
+                if (subInfo) subInfo.innerText = "TKA Bahasa Inggris Pilihan SMA • CBT Interaktif";
+                if (topLinkPembahasan) topLinkPembahasan.href = `/tka/pembahasan.html?mapel=inggris-pilihan`;
+                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 30 Soal)</span>`;
                 if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else {
                 document.title = "Simulasi CBT TKA Kimia SMA 2025/2026: Paket 1 & Paket 2 HOTS — KimiaInteraktif";
@@ -710,7 +750,22 @@
 
             const resTitle = document.getElementById('result-exam-title');
             const resDesc = document.getElementById('result-exam-desc');
-            const mapelName = (currentMapelKey === 'fisika') ? 'Fisika' : ((currentMapelKey === 'biologi') ? 'Biologi' : ((currentMapelKey === 'matematika-lanjut') ? 'Matematika Tingkat Lanjut' : ((currentMapelKey === 'matematika-umum') ? 'Matematika Umum' : ((currentMapelKey === 'sosiologi') ? 'Sosiologi' : 'Kimia'))));
+            const mapelNames = {
+                'kimia': 'Kimia',
+                'fisika': 'Fisika',
+                'biologi': 'Biologi',
+                'matematika-lanjut': 'Matematika Tingkat Lanjut',
+                'matematika-umum': 'Matematika Umum',
+                'sosiologi': 'Sosiologi',
+                'geografi': 'Geografi',
+                'sejarah': 'Sejarah',
+                'ppkn': 'PPKn',
+                'indonesia-wajib': 'Bahasa Indonesia (Wajib)',
+                'indonesia-pilihan': 'Bahasa Indonesia (Pilihan)',
+                'inggris-wajib': 'Bahasa Inggris (Wajib)',
+                'inggris-pilihan': 'Bahasa Inggris (Pilihan)'
+            };
+            const mapelName = mapelNames[currentMapelKey] || 'Kimia';
             resTitle.innerText = `🎉 Rekap Skor: ${activePackages[currentPaketKey].title}`;
             resDesc.innerText = `Skor Anda dihitung dari ${activeList.length} butir soal ${activePackages[currentPaketKey].shortTitle}.`;
 
