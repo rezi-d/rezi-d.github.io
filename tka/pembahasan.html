@@ -65,14 +65,9 @@
 
         <!-- PAKET SELECTOR TABS -->
         <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
-            <div class="flex items-center gap-2 flex-wrap">
+            <div class="flex items-center gap-2 flex-wrap" id="paket-tabs-container">
                 <span class="text-xs font-bold text-slate-500 uppercase tracking-wider px-2">Pilih Paket:</span>
-                <button type="button" id="tab-paket-1" class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-2 bg-teal-600 text-white" onclick="switchPaket('paket1')">
-                    <span>📄 Paket 1 (Resmi 2025 &bull; 23 Soal)</span>
-                </button>
-                <button type="button" id="tab-paket-2" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200" onclick="switchPaket('paket2')">
-                    <span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal KaTeX)</span>
-                </button>
+                <!-- Tab paket di-render secara dinamis oleh renderPaketTabs() -->
             </div>
             <div class="text-xs text-slate-500 pr-2 font-medium" id="total-soal-info">
                 Menampilkan 23 Butir Soal
@@ -165,88 +160,98 @@
         function updateMapelUI() {
             const titleEl = document.getElementById('pembahasan-title');
             const subtitleEl = document.getElementById('pembahasan-subtitle');
-            const tab1 = document.getElementById('tab-paket-1');
-            const tab2 = document.getElementById('tab-paket-2');
 
             if (currentMapelKey === 'fisika') {
                 document.title = "Bank Soal & Pembahasan TKA Fisika SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "📖 Soal & Pembahasan TKA Fisika SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 47 butir soal resmi & try out TKA Fisika SMA 2025/2026 (Paket 1 & Paket 2) beserta kunci jawaban dan pembahasan ilmiah KaTeX mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 22 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal KaTeX)</span>`;
             } else if (currentMapelKey === 'biologi') {
                 document.title = "Bank Soal & Pembahasan TKA Biologi SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "📖 Soal & Pembahasan TKA Biologi SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 52 butir soal resmi & try out TKA Biologi SMA 2025/2026 (Paket 1 & Paket 2) beserta kunci jawaban dan pembahasan ilmiah mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 27 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal KaTeX)</span>`;
             } else if (currentMapelKey === 'matematika-lanjut') {
                 document.title = "Bank Soal & Pembahasan TKA Matematika Tingkat Lanjut SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "📐 Soal & Pembahasan TKA Matematika Tingkat Lanjut SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 50 butir soal resmi & try out TKA Matematika Tingkat Lanjut SMA 2025/2026 (Paket 1 & Paket 2) beserta kunci jawaban dan pembahasan analitis KaTeX mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 25 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal KaTeX)</span>`;
             } else if (currentMapelKey === 'matematika-umum') {
                 document.title = "Bank Soal & Pembahasan TKA Matematika Umum SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "🔢 Soal & Pembahasan TKA Matematika Umum SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 50 butir soal resmi & try out TKA Matematika Umum SMA 2025/2026 (Paket 1 & Paket 2) beserta kunci jawaban dan pembahasan analitis KaTeX mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 25 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal KaTeX)</span>`;
             } else if (currentMapelKey === 'sosiologi') {
-                document.title = "Bank Soal & Pembahasan TKA Sosiologi SMA 2025/2026 - KimiaInteraktif";
+                document.title = "Bank Soal & Pembahasan TKA Sosiologi SMA 2025/2026: 4 Paket Lengkap — KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "👥 Soal & Pembahasan TKA Sosiologi SMA 2025/2026";
-                if (subtitleEl) subtitleEl.innerText = "Koleksi 55 butir soal resmi & try out TKA Sosiologi SMA 2025/2026 (Paket 1 & Paket 2) beserta kunci jawaban dan analisis sosiologis mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 30 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal)</span>`;
+                if (subtitleEl) subtitleEl.innerText = "Koleksi lengkap 115 butir soal resmi & try out TKA Sosiologi SMA 2025/2026 (4 Paket Lengkap) beserta kunci jawaban dan analisis sosiologis mendalam step-by-step.";
             } else if (currentMapelKey === 'geografi') {
                 document.title = "Bank Soal & Pembahasan TKA Geografi SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "🗺️ Soal & Pembahasan TKA Geografi SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 30 butir soal resmi TKA Geografi SMA 2025 beserta kunci jawaban dan analisis geospasial ilmiah mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 30 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else if (currentMapelKey === 'sejarah') {
                 document.title = "Bank Soal & Pembahasan TKA Sejarah SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "🏛️ Soal & Pembahasan TKA Sejarah SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 30 butir soal resmi TKA Sejarah SMA 2025 beserta kunci jawaban dan analisis historis ilmiah mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 30 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else if (currentMapelKey === 'ppkn') {
                 document.title = "Bank Soal & Pembahasan TKA PPKn SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "⚖️ Soal & Pembahasan TKA PPKn SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 28 butir soal resmi TKA PPKn SMA 2025 beserta kunci jawaban dan analisis konstitusi serta wawasan kebangsaan mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 28 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else if (currentMapelKey === 'indonesia-wajib') {
                 document.title = "Bank Soal & Pembahasan TKA Bahasa Indonesia (Wajib) SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "🇮🇩 Soal & Pembahasan TKA Bahasa Indonesia (Wajib) SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 33 butir soal resmi TKA Bahasa Indonesia (Wajib) SMA 2025 beserta kunci jawaban dan analisis literasi teks mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 33 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else if (currentMapelKey === 'indonesia-pilihan') {
                 document.title = "Bank Soal & Pembahasan TKA Bahasa Indonesia (Pilihan) SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "📝 Soal & Pembahasan TKA Bahasa Indonesia (Pilihan) SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 29 butir soal resmi TKA Bahasa Indonesia (Pilihan) SMA 2025 beserta kunci jawaban, analisis karya sastra, dan kaidah kebahasaan mendalam.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 29 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else if (currentMapelKey === 'inggris-wajib') {
                 document.title = "Bank Soal & Pembahasan TKA Bahasa Inggris (Wajib) SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "🇬🇧 Soal & Pembahasan TKA Bahasa Inggris (Wajib) SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 25 butir soal resmi TKA Bahasa Inggris (Wajib) SMA 2025 beserta kunci jawaban dan analisis wacana bahasa Inggris mendalam.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 25 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else if (currentMapelKey === 'inggris-pilihan') {
                 document.title = "Bank Soal & Pembahasan TKA Bahasa Inggris (Pilihan) SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "🗣️ Soal & Pembahasan TKA Bahasa Inggris (Pilihan) SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi 30 butir soal resmi TKA Bahasa Inggris (Pilihan) SMA 2025 beserta kunci jawaban dan analisis wacana akademik berbobot tinggi.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 30 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Segera Hadir)</span>`;
             } else {
                 document.title = "Bank Soal & Pembahasan TKA Kimia SMA 2025/2026 - KimiaInteraktif";
                 if (titleEl) titleEl.innerText = "📖 Soal & Pembahasan TKA Kimia SMA 2025/2026";
                 if (subtitleEl) subtitleEl.innerText = "Koleksi lengkap 48 soal resmi & try out TKA Kimia SMA 2025/2026 (Paket 1 & Paket 2) beserta kunci jawaban dan pembahasan ilmiah KaTeX mendalam step-by-step.";
-                if (tab1) tab1.innerHTML = `<span>📄 Paket 1 (Resmi 2025 &bull; 23 Soal)</span>`;
-                if (tab2) tab2.innerHTML = `<span>✨ Paket 2 (Try Out HOTS 2025/2026 &bull; 25 Soal KaTeX)</span>`;
             }
+
+            renderPaketTabs();
+        }
+
+        function renderPaketTabs() {
+            const container = document.getElementById('paket-tabs-container');
+            if (!container) return;
+            const pkgKeys = Object.keys(activePackages || {});
+            if (pkgKeys.length === 0) return;
+
+            let html = `<span class="text-xs font-bold text-slate-500 uppercase tracking-wider px-2">Pilih Paket:</span>`;
+            pkgKeys.forEach((key, idx) => {
+                const pkg = activePackages[key];
+                const isActive = (key === currentPaketKey);
+                const count = (pkg && pkg.data) ? pkg.data.length : 0;
+                let label = (pkg && pkg.shortTitle) ? pkg.shortTitle : `Paket ${idx + 1} (${count} Soal)`;
+                const icons = ['📄', '✨', '🎯', '🔥', '💡'];
+                const icon = icons[idx % icons.length];
+                
+                let activeClass = "";
+                if (isActive) {
+                    activeClass = "px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 bg-teal-600 text-white";
+                } else {
+                    activeClass = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200";
+                }
+                
+                html += `<button type="button" class="${activeClass}" onclick="switchPaket('${key}')">
+                    <span>${icon} ${label}</span>
+                </button>`;
+            });
+
+            if (pkgKeys.length === 1) {
+                html += `<button type="button" disabled class="px-3.5 py-2 rounded-xl text-xs font-medium bg-slate-50 text-slate-400 border border-dashed border-slate-200 cursor-not-allowed flex items-center gap-1">
+                    <span>✨ Paket 2 (Segera Hadir)</span>
+                </button>`;
+            }
+
+            container.innerHTML = html;
         }
 
         function switchPaket(pkgKey) {
@@ -258,15 +263,8 @@
             newUrl.searchParams.set('paket', pkgKey);
             window.history.pushState({}, '', newUrl);
 
-            const tab1 = document.getElementById('tab-paket-1');
-            const tab2 = document.getElementById('tab-paket-2');
-            if (pkgKey === 'paket1') {
-                tab1.className = "px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-2 bg-teal-600 text-white";
-                tab2.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200";
-            } else {
-                tab2.className = "px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-2 bg-indigo-600 text-white";
-                tab1.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200";
-            }
+            // Re-render Dynamic Paket Tabs
+            renderPaketTabs();
 
             document.getElementById('btn-to-simulasi').href = `/tka/simulasi.html?mapel=${currentMapelKey}&paket=${pkgKey}`;
             buildFilterOptions();
