@@ -387,17 +387,21 @@
         // =================================================================
         function startTimer() {
             updateTimerDisplay();
+            const targetEndTime = Date.now() + (timeLeftSeconds * 1000);
             timerInterval = setInterval(() => {
-                if (timeLeftSeconds > 0) {
-                    timeLeftSeconds--;
-                    updateTimerDisplay();
+                const now = Date.now();
+                timeLeftSeconds = Math.max(0, Math.round((targetEndTime - now) / 1000));
+                updateTimerDisplay();
 
-                    if (timeLeftSeconds <= 120) {
-                        const box = document.getElementById('timer-box');
+                if (timeLeftSeconds <= 120 && timeLeftSeconds > 0) {
+                    const box = document.getElementById('timer-box');
+                    if (box) {
                         box.classList.remove('bg-slate-100', 'text-slate-700');
                         box.classList.add('bg-rose-50', 'text-rose-700', 'border-rose-300', 'animate-pulse');
                     }
-                } else {
+                }
+
+                if (timeLeftSeconds <= 0) {
                     clearInterval(timerInterval);
                     autoSubmitOnTimeout();
                 }
