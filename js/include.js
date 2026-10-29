@@ -234,7 +234,7 @@ function bangunModulLainNav() {
     const slot = document.getElementById('modul-lain-nav');
     if (!slot || typeof modulLain === 'undefined') return;
 
-    slot.innerHTML = modulLain.filter(m => m.slug !== 'prediksi-ptn').map(m => `
+    slot.innerHTML = modulLain.filter(m => m.slug !== 'prediksi-ptn' && m.slug !== 'tracker-snbt').map(m => `
         <a href="${m.path}" class="hover:text-teal-600 transition">${m.title}</a>
     `).join('');
 }
