@@ -163,6 +163,24 @@ const tkaRegistry = {
       urlPembahasan: "/tka/pembahasan.html?mapel=sejarah"
     },
     {
+      id: "antropologi",
+      rumpun: "soshum",
+      kategori: "Pilihan",
+      nama: "Antropologi",
+      subjudul: "Antropologi Budaya & Sosial SMA",
+      icon: "🗿",
+      color: "rose",
+      bgGradient: "from-rose-500 to-amber-700",
+      totalSoal: 25,
+      paketTersedia: 1,
+      durasiMenit: 50,
+      status: "tersedia",
+      deskripsi: "Etnografi Nusantara, dinamika kebudayaan, etnolinguistik, relativisme budaya, folklor, dan antropologi terapan.",
+      pdfSource: "Soal-soal TKA Mata Pilihan 2025.pdf",
+      urlSimulasi: "/tka/simulasi.html?mapel=antropologi",
+      urlPembahasan: "/tka/pembahasan.html?mapel=antropologi"
+    },
+    {
       id: "ppkn",
       rumpun: "soshum",
       kategori: "Pilihan",
