@@ -202,48 +202,46 @@
 
     <script src="/js/include.js"></script>
 
+    <!-- Mapel Data Scripts (Urutan Rapi Paket 1, 2, 3...) -->
+    <!-- Kimia -->
+    <script src="/tka/js/tka-data.js"></script>
     <script src="/tka/js/tka-paket2.js"></script>
     <script src="/tka/js/tka-paket3.js"></script>
 
-    <script src="/tka/js/tka-data.js"></script>
-
+    <!-- Fisika -->
+    <script src="/tka/data/mapel-fisika.js"></script>
     <script src="/tka/data/mapel-fisika-paket2.js"></script>
     <script src="/tka/data/mapel-fisika-paket3.js"></script>
 
-    <script src="/tka/data/mapel-fisika.js"></script>
-
+    <!-- Biologi -->
+    <script src="/tka/data/mapel-biologi.js"></script>
     <script src="/tka/data/mapel-biologi-paket2.js"></script>
 
-    <script src="/tka/data/mapel-biologi.js"></script>
-
+    <!-- Matematika Tingkat Lanjut -->
+    <script src="/tka/data/mapel-matematika-lanjut.js"></script>
     <script src="/tka/data/mapel-matematika-lanjut-paket2.js"></script>
 
-    <script src="/tka/data/mapel-matematika-lanjut.js"></script>
-
+    <!-- Matematika Umum -->
+    <script src="/tka/data/mapel-matematika-umum.js"></script>
     <script src="/tka/data/mapel-matematika-umum-paket2.js"></script>
 
-    <script src="/tka/data/mapel-matematika-umum.js"></script>
-
+    <!-- Sosiologi -->
     <script src="/tka/data/mapel-sosiologi.js"></script>
-
     <script src="/tka/data/mapel-sosiologi-paket2.js"></script>
-
     <script src="/tka/data/mapel-sosiologi-paket3.js"></script>
-
     <script src="/tka/data/mapel-sosiologi-paket4.js"></script>
 
+    <!-- Geografi, Sejarah, PPKn -->
     <script src="/tka/data/mapel-geografi.js"></script>
-
     <script src="/tka/data/mapel-sejarah.js"></script>
-
     <script src="/tka/data/mapel-ppkn.js"></script>
 
+    <!-- Bahasa Indonesia -->
     <script src="/tka/data/mapel-indonesia-wajib.js"></script>
-
     <script src="/tka/data/mapel-indonesia-pilihan.js"></script>
 
+    <!-- Bahasa Inggris -->
     <script src="/tka/data/mapel-inggris-wajib.js"></script>
-
     <script src="/tka/data/mapel-inggris-pilihan.js"></script>
 
     <script src="/tka/js/tka-registry.js"></script>
@@ -443,7 +441,11 @@
 
             if (!container) return;
 
-            const pkgKeys = Object.keys(activePackages || {});
+            const pkgKeys = Object.keys(activePackages || {}).sort((a, b) => {
+                const numA = parseInt(a.replace(/\D/g, ''), 10) || 0;
+                const numB = parseInt(b.replace(/\D/g, ''), 10) || 0;
+                return numA - numB;
+            });
 
             if (pkgKeys.length === 0) return;
 
@@ -459,11 +461,10 @@
 
                 const count = (pkg && pkg.data) ? pkg.data.length : 0;
 
-                let label = (pkg && pkg.shortTitle) ? pkg.shortTitle : `Paket ${idx + 1} (${count} Soal)`;
-
+                const pNum = parseInt(key.replace(/\D/g, ''), 10) || (idx + 1);
+                let label = (pkg && pkg.shortTitle) ? pkg.shortTitle : `Paket ${pNum} (${count} Soal)`;
                 const icons = ['📄', '✨', '🎯', '🔥', '💡'];
-
-                const icon = icons[idx % icons.length];
+                const icon = icons[(pNum - 1) % icons.length];
 
                 
 
