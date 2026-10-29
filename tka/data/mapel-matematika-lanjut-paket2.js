@@ -845,3 +845,8 @@ if (typeof window !== 'undefined') {
     data: tkaMatematikaLanjutPaket2Data
   };
 }
+
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { tkaMatematikaLanjutPaket2Data };
+}
