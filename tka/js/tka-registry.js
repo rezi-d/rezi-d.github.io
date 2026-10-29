@@ -91,6 +91,24 @@ const tkaRegistry = {
     // 2. RUMPUN SOSHUM (IPS)
     // ----------------------------------------------------
     {
+      id: "ekonomi",
+      rumpun: "soshum",
+      kategori: "Pilihan",
+      nama: "Ekonomi",
+      subjudul: "Ekonomi SMA / MA / SMK",
+      icon: "📊",
+      color: "amber",
+      bgGradient: "from-amber-500 to-orange-600",
+      totalSoal: 25,
+      paketTersedia: 1,
+      durasiMenit: 50,
+      status: "tersedia",
+      deskripsi: "Konsep kelangkaan, biaya peluang, mekanisme pasar, pendapatan nasional, kebijakan moneter & fiskal, serta akuntansi dasar.",
+      pdfSource: "SOAL TKA Ekonomi SMA 2025 Pilihan.pdf",
+      urlSimulasi: "/tka/simulasi.html?mapel=ekonomi",
+      urlPembahasan: "/tka/pembahasan.html?mapel=ekonomi"
+    },
+    {
       id: "sosiologi",
       rumpun: "soshum",
       kategori: "Pilihan",
