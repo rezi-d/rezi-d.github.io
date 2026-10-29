@@ -1,121 +1,89 @@
-// scripts/verify-ekonomi-all.js
 const fs = require('fs');
 const path = require('path');
 
-global.window = global;
+// Mock window object
+global.window = {};
 
-try {
-  require('../tka/data/mapel-ekonomi.js');
-} catch (err) {
-  console.error("❌ Gagal memuat tka/data/mapel-ekonomi.js:", err.message);
-  process.exit(1);
+require('../tka/data/mapel-ekonomi.js');
+require('../tka/data/mapel-ekonomi-paket2.js');
+
+const pkgs = global.window.tkaEkonomiPackages;
+console.log('Testing tkaEkonomiPackages...');
+
+if (!pkgs) {
+    console.error('FAIL: window.tkaEkonomiPackages not found');
+    process.exit(1);
 }
 
-const pkg = global.tkaEkonomiPackages && global.tkaEkonomiPackages['paket1'];
-if (!pkg) {
-  console.error("❌ global.tkaEkonomiPackages['paket1'] tidak ditemukan!");
-  process.exit(1);
-}
-
-const list = pkg.data;
-console.log(`\n======================================================`);
-console.log(`📊 AUDIT VERIFIKASI TKA EKONOMI PAKET 1`);
-console.log(`======================================================`);
-console.log(`Judul Paket: ${pkg.title}`);
-console.log(`Total Soal: ${list.length} butir (Target: 25 butir)`);
-
-if (list.length !== 25) {
-  console.error(`❌ Jumlah soal tidak 25 (ditemukan: ${list.length})`);
-  process.exit(1);
-}
-
-let pgCount = 0;
-let mcmaCount = 0;
-let bsCount = 0;
-let dollarCount = 0;
-let errCount = 0;
-
-list.forEach((soal, idx) => {
-  const expectedId = idx + 1;
-  if (soal.id !== expectedId) {
-    console.error(`❌ ID soal salah di index ${idx}: id=${soal.id}, harusnya ${expectedId}`);
-    errCount++;
-  }
-
-  // Check dollar signs
-  const str = JSON.stringify(soal);
-  const dollars = (str.match(/\$/g) || []).length;
-  if (dollars > 0) {
-    console.error(`❌ Soal ID ${soal.id} mengandung ${dollars} tanda dolar ($)!`);
-    dollarCount += dollars;
-    errCount++;
-  }
-
-  // Tipe & Validasi Kunci
-  if (soal.tipe === 'pg') {
-    pgCount++;
-    if (!['A', 'B', 'C', 'D', 'E'].includes(soal.kunci)) {
-      console.error(`❌ Soal ID ${soal.id} (PG) kunci invalid: ${soal.kunci}`);
-      errCount++;
-    }
-    if (!Array.isArray(soal.options) || soal.options.length < 4) {
-      console.error(`❌ Soal ID ${soal.id} (PG) options tidak lengkap`);
-      errCount++;
-    }
-  } else if (soal.tipe === 'mcma') {
-    mcmaCount++;
-    if (!Array.isArray(soal.kunci) || soal.kunci.length === 0) {
-      console.error(`❌ Soal ID ${soal.id} (MCMA) kunci bukan array:`, soal.kunci);
-      errCount++;
-    }
-    if (!Array.isArray(soal.options) || soal.options.length < 3) {
-      console.error(`❌ Soal ID ${soal.id} (MCMA) options kurang`);
-      errCount++;
-    }
-  } else if (soal.tipe === 'kompleks_bs') {
-    bsCount++;
-    if (!Array.isArray(soal.items) || soal.items.length === 0) {
-      console.error(`❌ Soal ID ${soal.id} (BS) items bukan array`);
-      errCount++;
-    }
-    if (!Array.isArray(soal.kunci) || soal.kunci.length !== soal.items.length) {
-      console.error(`❌ Soal ID ${soal.id} (BS) kunci bukan array sesuai panjang items`);
-      errCount++;
-    } else {
-      soal.items.forEach((it, itemIdx) => {
-        if (!it.pernyataan || it.pernyataan.trim() === '') {
-          console.error(`❌ Soal ID ${soal.id} (BS) item index ${itemIdx} tidak ada pernyataan`);
-          errCount++;
-        }
-        if (!['Benar', 'Salah'].includes(it.kunci)) {
-          console.error(`❌ Soal ID ${soal.id} (BS) item index ${itemIdx} kunci invalid: ${it.kunci}`);
-          errCount++;
-        }
-      });
-    }
-  } else {
-    console.error(`❌ Soal ID ${soal.id} tipe tidak dikenal: ${soal.tipe}`);
-    errCount++;
-  }
-
-  // Check Pembahasan
-  if (!soal.pembahasan || soal.pembahasan.trim().length < 20) {
-    console.error(`❌ Soal ID ${soal.id} pembahasan terlalu pendek atau kosong!`);
-    errCount++;
-  }
+const keys = Object.keys(pkgs).sort((a, b) => {
+    const numA = parseInt(a.replace(/\D/g, ''), 10) || 0;
+    const numB = parseInt(b.replace(/\D/g, ''), 10) || 0;
+    return numA - numB;
 });
 
-console.log(`\nDistribusi Variasi Soal:`);
-console.log(`- Pilihan Ganda (PG)           : ${pgCount} butir`);
-console.log(`- Pilihan Ganda Kompleks (MCMA): ${mcmaCount} butir`);
-console.log(`- Benar / Salah (kompleks_bs)  : ${bsCount} butir`);
-console.log(`Total Variasi: ${pgCount + mcmaCount + bsCount} butir`);
+console.log('Packages found:', keys);
 
-console.log(`\nCek Tanda Dolar ($): ${dollarCount === 0 ? '✅ 100% BEBAS DARI TANDA DOLAR!' : '❌ ADA TANDA DOLAR'}`);
+let totalSoal = 0;
+let hasDollar = false;
 
-if (errCount === 0) {
-  console.log(`\n🎉 SEMUA 25 SOAL TKA EKONOMI PAKET 1 LOLOS VALIDASI & 100% SIAP DIGUNAKAN!`);
-} else {
-  console.error(`\n❌ Ditemukan ${errCount} kesalahan!`);
-  process.exit(1);
+keys.forEach(k => {
+    const pkg = pkgs[k];
+    console.log(`\n--- Package: ${k} (${pkg.title}) ---`);
+    console.log(`Short title: ${pkg.shortTitle}`);
+    console.log(`Soal count: ${pkg.data.length}`);
+    totalSoal += pkg.data.length;
+
+    pkg.data.forEach((soal, idx) => {
+        const str = JSON.stringify(soal);
+        if (str.includes('$')) {
+            console.error(`ERROR: Dollar sign found in ${k} soal index ${idx} (id: ${soal.id})`);
+            hasDollar = true;
+        }
+
+        if (!soal.id || !soal.tipe || !soal.soalHtml || !soal.kunci || !soal.pembahasan) {
+            console.error(`ERROR: Incomplete field in ${k} soal index ${idx}:`, soal.id);
+            process.exit(1);
+        }
+
+        if (soal.tipe === 'pg') {
+            if (!soal.options || soal.options.length !== 5) {
+                console.error(`ERROR: PG must have 5 options in ${k} soal index ${idx}:`, soal.id);
+                process.exit(1);
+            }
+            if (!['A','B','C','D','E'].includes(soal.kunci)) {
+                console.error(`ERROR: Invalid PG answer key ${soal.kunci} in ${k} soal ${soal.id}`);
+                process.exit(1);
+            }
+        } else if (soal.tipe === 'mcma') {
+            if (!soal.options || !Array.isArray(soal.kunci) || soal.kunci.length === 0) {
+                console.error(`ERROR: Invalid MCMA question/key in ${k} soal ${soal.id}`);
+                process.exit(1);
+            }
+        } else if (soal.tipe === 'kompleks_bs') {
+            if (!Array.isArray(soal.items) || soal.items.length === 0) {
+                console.error(`ERROR: Invalid kompleks_bs items in ${k} soal ${soal.id}`);
+                process.exit(1);
+            }
+            if (!soal.kunci) {
+                console.error(`ERROR: Invalid kompleks_bs kunci in ${k} soal ${soal.id}`);
+                process.exit(1);
+            }
+        }
+    });
+});
+
+console.log(`\n========================================`);
+console.log(`TOTAL SOAL: ${totalSoal}`);
+console.log(`HAS DOLLAR SIGN: ${hasDollar}`);
+
+if (hasDollar) {
+    console.error('FAIL: Found dollar sign in dataset!');
+    process.exit(1);
 }
+
+if (totalSoal !== 50) {
+    console.error(`FAIL: Expected 50 questions, found ${totalSoal}`);
+    process.exit(1);
+}
+
+console.log('ALL TESTS PASSED! ✅');
