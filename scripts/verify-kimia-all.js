@@ -65,7 +65,11 @@ console.log(`✅ Paket 2 OK: ${tkaPaket2Data.length} butir soal valid.`);
 // Periksa Paket 3
 console.log('\n📦 Memeriksa Paket 3 (Prediksi 2025/2026 - Variasi PG, MCMA, Benar/Salah)...');
 assert(Array.isArray(tkaPaket3Data), 'tkaPaket3Data harus berupa array');
-assert(tkaPaket3Data.length === 40, `Paket 3 harus berisi 40 soal, ditemukan: ${tkaPaket3Data.length}`);
+assert(tkaPaket3Data.length === 25, `Paket 3 harus berisi 25 soal, ditemukan: ${tkaPaket3Data.length}`);
+
+// Validasi bebas dari tanda dolar ($)
+const jsonPaket3 = JSON.stringify(tkaPaket3Data);
+assert(!jsonPaket3.includes('$'), 'Paket 3 tidak boleh mengandung tanda dolar ($)');
 
 const typeCounts = { pg: 0, mcma: 0, kompleks_bs: 0 };
 
@@ -86,7 +90,7 @@ tkaPaket3Data.forEach((q, idx) => {
   } else if (q.tipe === 'kompleks_bs') {
     typeCounts.kompleks_bs++;
     assert(Array.isArray(q.items) && q.items.length >= 3, `Paket 3 Benar/Salah Soal #${q.id} harus memiliki items pernyataan >= 3`);
-    assert(typeof q.kunci === 'object' && Object.keys(q.kunci).length === q.items.length, `Paket 3 Benar/Salah Soal #${q.id} kunci harus mencakup semua items`);
+    assert(Array.isArray(q.kunci) && q.kunci.length === q.items.length, `Paket 3 Benar/Salah Soal #${q.id} kunci harus array sepanjang items (${JSON.stringify(q.kunci)})`);
   } else {
     assert(false, `Paket 3 Soal #${q.id} tipe tidak dikenal: ${q.tipe}`);
   }
@@ -101,10 +105,10 @@ console.log(`   - Benar / Salah             : ${typeCounts.kompleks_bs} butir`);
 console.log('\n🔍 Memeriksa Registry & Integrasi...');
 assert(tkaPackages.paket1 && tkaPackages.paket1.total === 23, 'tkaPackages.paket1 harus terdefinisi dengan total 23');
 assert(tkaPackages.paket2 && tkaPackages.paket2.total === 25, 'tkaPackages.paket2 harus terdefinisi dengan total 25');
-assert(tkaPackages.paket3 && tkaPackages.paket3.total === 40, 'tkaPackages.paket3 harus terdefinisi dengan total 40');
+assert(tkaPackages.paket3 && tkaPackages.paket3.total === 25, 'tkaPackages.paket3 harus terdefinisi dengan total 25');
 
 const regContent = fs.readFileSync(path.join(__dirname, '../tka/js/tka-registry.js'), 'utf-8');
-assert(regContent.includes('totalSoal: 88'), 'tka-registry.js totalSoal harus 88');
+assert(regContent.includes('totalSoal: 73'), 'tka-registry.js totalSoal harus 73');
 assert(regContent.includes('paketTersedia: 3'), 'tka-registry.js paketTersedia harus 3');
 
 const simContent = fs.readFileSync(path.join(__dirname, '../tka/simulasi.html'), 'utf-8');
@@ -114,7 +118,7 @@ const pemContent = fs.readFileSync(path.join(__dirname, '../tka/pembahasan.html'
 assert(pemContent.includes('src="/tka/js/tka-paket3.js"'), 'tka/pembahasan.html harus memuat tka-paket3.js');
 
 console.log('\n=============================================');
-console.log(`📊 Hasil Validasi: 3 Paket (Total 88 butir soal) diperiksa.`);
+console.log(`📊 Hasil Validasi: 3 Paket (Total 73 butir soal) diperiksa.`);
 console.log(`   ❌ Error Kritis : ${errors}`);
 console.log(`   ⚠️  Peringatan   : ${warnings}`);
 if (errors === 0) {
