@@ -147,6 +147,26 @@ function isAdmin(request, env) {
     return !!env.ADMIN_KEY && key.length > 0 && timingSafeEqual(key, env.ADMIN_KEY);
 }
 
+async function ensureScholarshipSchema(env) {
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS scholarship_claims (
+            id             INTEGER PRIMARY KEY AUTOINCREMENT,
+            device_id      TEXT    NOT NULL UNIQUE,
+            ip_hash        TEXT,
+            wa             TEXT    NOT NULL UNIQUE,
+            nama           TEXT    NOT NULL,
+            license_id     INTEGER NOT NULL,
+            total_rp       INTEGER NOT NULL,
+            mastered_count INTEGER NOT NULL,
+            claimed_at     INTEGER NOT NULL,
+            FOREIGN KEY (license_id) REFERENCES licenses(id)
+        )
+    `).run();
+    await env.DB.prepare(`
+        CREATE INDEX IF NOT EXISTS idx_scholarship_claimed_at ON scholarship_claims(claimed_at)
+    `).run();
+}
+
 // ---------- Handler ----------
 export default {
     async fetch(request, env) {
@@ -195,6 +215,7 @@ export default {
                 let verifiedRp = 0;
                 let masteredCount = 0;
                 let validTopicsCount = 0;
+                let totalCumulativeDurationMs = 0;
 
                 for (const [k, val] of Object.entries(rawState)) {
                     if (!validKeyRegex.test(k) || seenKeys.has(k) || seenKeys.size >= 101) continue;
@@ -202,37 +223,27 @@ export default {
                     const score = parseInt(val.bestScore, 10) || 0;
                     const durationMs = parseInt(val.durationMs, 10) || 0;
                     if (score < 1 || score > 3) continue;
-                    // Tolak jika durasi pengerjaan tidak wajar (< 3 detik untuk 3 soal)
+                    // Tolak jika durasi pengerjaan 1 sesi tidak wajar (< 3 detik untuk 3 soal)
                     if (durationMs > 0 && durationMs < 3000) continue;
 
                     seenKeys.add(k);
                     validTopicsCount++;
+                    totalCumulativeDurationMs += durationMs;
                     const rp = score === 3 ? 400 : (score === 2 ? 250 : 100);
                     verifiedRp += rp;
                     if (score === 3) masteredCount++;
                 }
 
-                if (verifiedRp < 35000 || validTopicsCount < 88) {
+                // Minimal 88 topik, saldo minimal Rp 35.000, dan akumulasi waktu belajar minimal 6 menit (360.000 ms)
+                if (verifiedRp < 35000 || validTopicsCount < 88 || totalCumulativeDurationMs < 360000) {
                     return json(request, env, {
                         ok: false,
-                        error: `Saldo terverifikasi (${verifiedRp} dari ${validTopicsCount} topik) belum mencapai syarat minimal Rp 35.000 (minimal 88 sub-materi).`
+                        error: `Validasi progres belajar belum terpenuhi (Terverifikasi: Rp ${verifiedRp.toLocaleString('id-ID')} dari ${validTopicsCount} topik). Selesaikan minimal 88 sub-materi dengan jujur.`
                     }, 400);
                 }
 
                 // Pastikan tabel scholarship_claims tersedia di D1
-                await env.DB.prepare(`
-                    CREATE TABLE IF NOT EXISTS scholarship_claims (
-                        id             INTEGER PRIMARY KEY AUTOINCREMENT,
-                        device_id      TEXT    NOT NULL UNIQUE,
-                        ip_hash        TEXT,
-                        wa             TEXT    NOT NULL,
-                        nama           TEXT    NOT NULL,
-                        license_id     INTEGER NOT NULL,
-                        total_rp       INTEGER NOT NULL,
-                        mastered_count INTEGER NOT NULL,
-                        claimed_at     INTEGER NOT NULL
-                    )
-                `).run();
+                await ensureScholarshipSchema(env);
 
                 // Cek apakah perangkat atau nomor WA sudah pernah klaim beasiswa
                 const existing = await env.DB.prepare(
@@ -257,7 +268,7 @@ export default {
                 if (weeklyCount && weeklyCount.n >= maxWeekly) {
                     return json(request, env, {
                         ok: false,
-                        error: 'Kuota Voucher Beasiswa minggu ini telah penuh. Silakan klaim kembali pada awal minggu depan.'
+                        error: 'Kuota Voucher Beasiswa minggu ini telah penuh (25 voucher/minggu). Silakan klaim kembali pada awal minggu depan.'
                     }, 429);
                 }
 
@@ -269,30 +280,39 @@ export default {
                 const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
                 const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
 
-                const insertLic = await env.DB.prepare(
-                    'INSERT INTO licenses (token_hash, nama, wa, created_at, activated_at, expires_at, duration_days, max_devices) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-                ).bind(tokenHash, `[BEASISWA] ${nama}`, wa, now, now, expiresAt, durationDays, 1).run();
+                try {
+                    const insertLic = await env.DB.prepare(
+                        'INSERT INTO licenses (token_hash, nama, wa, created_at, activated_at, expires_at, duration_days, max_devices) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+                    ).bind(tokenHash, `[BEASISWA] ${nama}`, wa, now, now, expiresAt, durationDays, 1).run();
 
-                const licenseId = insertLic.meta && insertLic.meta.last_row_id ? insertLic.meta.last_row_id : 0;
+                    const licenseId = insertLic.meta && insertLic.meta.last_row_id ? insertLic.meta.last_row_id : 0;
+                    if (!licenseId) {
+                        throw new Error('Gagal mengalokasikan lisensi beasiswa.');
+                    }
 
-                if (licenseId) {
-                    await env.DB.prepare(
-                        'INSERT INTO devices (license_id, device_id, first_seen) VALUES (?, ?, ?)'
-                    ).bind(licenseId, deviceId, now).run();
+                    // Daftarkan perangkat & klaim beasiswa secara atomik via batch D1
+                    await env.DB.batch([
+                        env.DB.prepare('INSERT INTO devices (license_id, device_id, first_seen) VALUES (?, ?, ?)').bind(licenseId, deviceId, now),
+                        env.DB.prepare('INSERT INTO scholarship_claims (device_id, ip_hash, wa, nama, license_id, total_rp, mastered_count, claimed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').bind(deviceId, ipHash, wa, nama, licenseId, verifiedRp, masteredCount, now)
+                    ]);
 
-                    await env.DB.prepare(
-                        'INSERT INTO scholarship_claims (device_id, ip_hash, wa, nama, license_id, total_rp, mastered_count, claimed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-                    ).bind(deviceId, ipHash, wa, nama, licenseId, verifiedRp, masteredCount, now).run();
+                    return json(request, env, {
+                        ok: true,
+                        token,
+                        expiresAt,
+                        remainingDays: durationDays,
+                        verifiedRp,
+                        masteredCount
+                    });
+                } catch (dbErr) {
+                    if (String(dbErr.message || '').includes('UNIQUE')) {
+                        return json(request, env, {
+                            ok: false,
+                            error: 'Perangkat atau nomor WhatsApp ini sudah terdaftar dalam klaim beasiswa sebelumnya.'
+                        }, 409);
+                    }
+                    throw dbErr;
                 }
-
-                return json(request, env, {
-                    ok: true,
-                    token,
-                    expiresAt,
-                    remainingDays: durationDays,
-                    verifiedRp,
-                    masteredCount
-                });
             }
 
             // --- Siswa: ambil soal premium ---
