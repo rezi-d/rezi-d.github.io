@@ -147,6 +147,50 @@ function isAdmin(request, env) {
     return !!env.ADMIN_KEY && key.length > 0 && timingSafeEqual(key, env.ADMIN_KEY);
 }
 
+// ---------- Filter Kata Kasar & Spam Komentar Sains Populer ----------
+const BLOCKED_WORDS_REGEX = /\b(anjing|anjir|anjay|babi|bangsat|bajingan|tolol|goblog|goblok|kontol|memek|ngentot|pepek|jembut|asu|kampret|keparat|tai|taik|brengsek|sialan|lonte|pelacur|perek|bokep|porno|judol|slot|gacor|maxwin|zeus|togel|pragmatic|sbobet|casino|poker)\b/i;
+const URL_SPAM_REGEX = /(https?:\/\/|www\.|[a-z0-9-]+\.(com|net|org|xyz|vip|bet|io|me|link)\/)/i;
+
+function containsProfanityOrSpam(text) {
+    const clean = String(text || '').trim();
+    if (!clean) return 'Isi komentar tidak boleh kosong.';
+    if (clean.length < 3) return 'Komentar terlalu pendek (minimal 3 karakter).';
+    if (clean.length > 1000) return 'Komentar terlalu panjang (maksimal 1.000 karakter).';
+    if (BLOCKED_WORDS_REGEX.test(clean)) {
+        return 'Komentar mengandung kata yang tidak pantas. Mari berdiskusi secara santun dan ilmiah.';
+    }
+    if (URL_SPAM_REGEX.test(clean)) {
+        return 'Demi keamanan, tautan eksternal (URL/link) tidak diperbolehkan di kolom komentar.';
+    }
+    return null;
+}
+
+async function ensureCommentsSchema(env) {
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS article_comments (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            article_slug TEXT    NOT NULL,
+            parent_id    INTEGER DEFAULT NULL,
+            nama         TEXT    NOT NULL,
+            sekolah      TEXT    DEFAULT '',
+            pesan        TEXT    NOT NULL,
+            is_admin     INTEGER NOT NULL DEFAULT 0,
+            likes        INTEGER NOT NULL DEFAULT 0,
+            device_id    TEXT,
+            ip_hash      TEXT,
+            created_at   INTEGER NOT NULL
+        )
+    `).run();
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS article_comment_likes (
+            comment_id INTEGER NOT NULL,
+            device_id  TEXT    NOT NULL,
+            created_at INTEGER NOT NULL,
+            PRIMARY KEY (comment_id, device_id)
+        )
+    `).run();
+}
+
 // ---------- Handler ----------
 export default {
     async fetch(request, env) {
@@ -193,6 +237,126 @@ export default {
                 });
             }
 
+            // --- Sains Populer: Like komentar ---
+            if (path === '/comments/like' && request.method === 'POST') {
+                await ensureCommentsSchema(env);
+                const body = await readJson(request);
+                const commentId = parseInt(body.commentId, 10);
+                const deviceId = String(body.deviceId || '').trim().slice(0, 64);
+
+                if (!commentId || !deviceId) {
+                    return json(request, env, { ok: false, error: 'Parameter tidak lengkap.' }, 400);
+                }
+
+                const existingLike = await env.DB.prepare(
+                    'SELECT 1 AS ok FROM article_comment_likes WHERE comment_id = ? AND device_id = ?'
+                ).bind(commentId, deviceId).first();
+
+                if (existingLike) {
+                    await env.DB.prepare(
+                        'DELETE FROM article_comment_likes WHERE comment_id = ? AND device_id = ?'
+                    ).bind(commentId, deviceId).run();
+                    await env.DB.prepare(
+                        'UPDATE article_comments SET likes = MAX(0, likes - 1) WHERE id = ?'
+                    ).bind(commentId).run();
+                } else {
+                    await env.DB.prepare(
+                        'INSERT INTO article_comment_likes (comment_id, device_id, created_at) VALUES (?, ?, ?)'
+                    ).bind(commentId, deviceId, Date.now()).run();
+                    await env.DB.prepare(
+                        'UPDATE article_comments SET likes = likes + 1 WHERE id = ?'
+                    ).bind(commentId).run();
+                }
+
+                const updated = await env.DB.prepare(
+                    'SELECT likes FROM article_comments WHERE id = ?'
+                ).bind(commentId).first();
+
+                return json(request, env, {
+                    ok: true,
+                    liked: !existingLike,
+                    likes: updated ? updated.likes : 0
+                });
+            }
+
+            // --- Sains Populer: Ambil & Kirim Komentar per Artikel ---
+            const commentMatch = path.match(/^\/comments\/([a-z0-9_-]{2,120})$/);
+            if (commentMatch) {
+                const slug = commentMatch[1];
+                await ensureCommentsSchema(env);
+
+                if (request.method === 'GET') {
+                    const rows = await env.DB.prepare(
+                        `SELECT id, article_slug, parent_id, nama, sekolah, pesan, is_admin, likes, created_at
+                         FROM article_comments
+                         WHERE article_slug = ?
+                         ORDER BY created_at ASC
+                         LIMIT 300`
+                    ).bind(slug).all();
+
+                    return json(request, env, { ok: true, comments: rows.results || [] });
+                }
+
+                if (request.method === 'POST') {
+                    const body = await readJson(request);
+                    const nama = String(body.nama || '').trim().slice(0, 60);
+                    const sekolah = String(body.sekolah || '').trim().slice(0, 80);
+                    const pesan = String(body.pesan || '').trim();
+                    const parentId = body.parentId ? parseInt(body.parentId, 10) : null;
+                    const deviceId = String(body.deviceId || '').trim().slice(0, 64);
+                    const adminFlag = isAdmin(request, env) ? 1 : 0;
+
+                    if (nama.length < 2) {
+                        return json(request, env, { ok: false, error: 'Nama harus diisi (minimal 2 huruf).' }, 400);
+                    }
+
+                    const errText = containsProfanityOrSpam( `${nama} ${sekolah} ${pesan}` ) || containsProfanityOrSpam(pesan);
+                    if (errText) {
+                        return json(request, env, { ok: false, error: errText }, 400);
+                    }
+
+                    const now = Date.now();
+                    const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
+                    const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+
+                    // Rate limit: maksimal 1 komentar per 15 detik dari perangkat/IP yang sama (kecuali Admin)
+                    if (!adminFlag) {
+                        const recent = await env.DB.prepare(
+                            'SELECT created_at FROM article_comments WHERE (device_id = ? OR ip_hash = ?) AND created_at > ? LIMIT 1'
+                        ).bind(deviceId || 'anon', ipHash, now - 15000).first();
+
+                        if (recent) {
+                            return json(request, env, {
+                                ok: false,
+                                error: 'Mohon tunggu 15 detik sebelum mengirim tanggapan berikutnya.'
+                            }, 429);
+                        }
+                    }
+
+                    const ins = await env.DB.prepare(
+                        `INSERT INTO article_comments (article_slug, parent_id, nama, sekolah, pesan, is_admin, likes, device_id, ip_hash, created_at)
+                         VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?)`
+                    ).bind(slug, parentId, nama, sekolah, pesan, adminFlag, deviceId, ipHash, now).run();
+
+                    const newId = ins.meta && ins.meta.last_row_id ? ins.meta.last_row_id : Date.now();
+
+                    return json(request, env, {
+                        ok: true,
+                        comment: {
+                            id: newId,
+                            article_slug: slug,
+                            parent_id: parentId,
+                            nama,
+                            sekolah,
+                            pesan,
+                            is_admin: adminFlag,
+                            likes: 0,
+                            created_at: now
+                        }
+                    });
+                }
+            }
+
             // --- Admin ---
             if (path.startsWith('/admin')) {
                 if (!isAdmin(request, env)) return json(request, env, { ok: false, error: 'Tidak berwenang.' }, 401);
@@ -235,6 +399,16 @@ export default {
                     const id = parseInt(body.id, 10);
                     if (!id) return json(request, env, { ok: false, error: 'ID tidak valid.' }, 400);
                     await env.DB.prepare('DELETE FROM devices WHERE license_id = ?').bind(id).run();
+                    return json(request, env, { ok: true });
+                }
+
+                if (path === '/admin/comments/delete' && request.method === 'POST') {
+                    await ensureCommentsSchema(env);
+                    const body = await readJson(request);
+                    const id = parseInt(body.id, 10);
+                    if (!id) return json(request, env, { ok: false, error: 'ID komentar tidak valid.' }, 400);
+                    await env.DB.prepare('DELETE FROM article_comments WHERE id = ? OR parent_id = ?').bind(id, id).run();
+                    await env.DB.prepare('DELETE FROM article_comment_likes WHERE comment_id = ?').bind(id).run();
                     return json(request, env, { ok: true });
                 }
             }

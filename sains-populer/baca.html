@@ -231,20 +231,88 @@
                     </div>
                 </div>
 
-                <!-- RUANG DISKUSI & UJI NALAR -->
-                ${art.diskusi ? `
-                    <div class="mt-8 p-6 rounded-3xl bg-indigo-50/60 border border-indigo-100">
-                        <div class="flex items-start gap-3">
-                            <span class="text-2xl select-none">🤔</span>
-                            <div>
-                                <h4 class="font-bold text-indigo-950 text-base mb-1.5">Ruang Diskusi &amp; Uji Nalar Sains</h4>
-                                <p class="text-xs sm:text-sm text-indigo-900/90 leading-relaxed">
-                                    ${art.diskusi}
-                                </p>
+                <!-- RUANG DISKUSI & UJI NALAR + KOLOM KOMENTAR SISWA -->
+                <div class="mt-8 rounded-3xl bg-gradient-to-br from-indigo-50/70 via-white to-slate-50 border border-indigo-200/80 shadow-xs overflow-hidden">
+                    ${art.diskusi ? `
+                        <div class="p-6 sm:p-7 bg-indigo-50/70 border-b border-indigo-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl sm:text-3xl select-none">🤔</span>
+                                <div>
+                                    <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-100/80 px-2.5 py-0.5 rounded-full mb-1.5">Pemantik Diskusi Ilmiah</span>
+                                    <h4 class="font-bold text-indigo-950 text-base sm:text-lg mb-1.5">Ruang Diskusi &amp; Uji Nalar Sains</h4>
+                                    <p class="text-xs sm:text-sm text-indigo-900/90 leading-relaxed">
+                                        ${art.diskusi}
+                                    </p>
+                                </div>
                             </div>
                         </div>
+                    ` : ''}
+
+                    <!-- Form & Daftar Komentar Siswa -->
+                    <div class="p-6 sm:p-8" id="forum-diskusi-section">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-xl select-none">💬</span>
+                                <h4 class="font-bold text-slate-900 text-base sm:text-lg">Tanggapan &amp; Diskusi Siswa</h4>
+                                <span id="comment-count-badge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700">0</span>
+                            </div>
+                            <button type="button" id="btn-toggle-admin" onclick="toggleAdminMode()" class="text-[11px] font-semibold px-3 py-1 rounded-full border border-slate-200 text-slate-500 hover:text-indigo-700 hover:border-indigo-200 transition cursor-pointer">
+                                🔑 Mode Guru
+                            </button>
+                        </div>
+
+                        <!-- Banner Status Mode Guru -->
+                        <div id="admin-mode-banner" class="hidden mb-4 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs text-emerald-900">
+                            <div class="flex items-center gap-2">
+                                <span>👨‍🏫</span>
+                                <span><strong>Mode Guru / Admin Aktif:</strong> Komentar Anda akan ditandai lencana <b>Guru / Admin</b> dan Anda dapat menghapus komentar spam.</span>
+                            </div>
+                            <button type="button" onclick="logoutAdminMode()" class="text-emerald-700 hover:text-emerald-950 font-bold underline ml-3 cursor-pointer">Keluar</button>
+                        </div>
+
+                        <!-- Form Kirim Komentar -->
+                        <form id="comment-form" onsubmit="submitArticleComment(event)" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-2xs mb-6">
+                            <!-- Indikator Membalas Komentar -->
+                            <div id="reply-indicator" class="hidden mb-3 px-3.5 py-2 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-between text-xs text-indigo-900">
+                                <span id="reply-indicator-text" class="font-semibold">Membalas komentar...</span>
+                                <button type="button" onclick="cancelReplyComment()" class="text-indigo-600 hover:text-indigo-900 font-bold cursor-pointer">✕ Batal</button>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                                <div>
+                                    <label for="comment-name" class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap <span class="text-rose-500">*</span></label>
+                                    <input type="text" id="comment-name" required maxlength="50" placeholder="Contoh: Nadia Putri" class="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition" />
+                                </div>
+                                <div>
+                                    <label for="comment-school" class="block text-xs font-bold text-slate-700 mb-1">Kelas / Asal Sekolah <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                                    <input type="text" id="comment-school" maxlength="60" placeholder="Contoh: XI F1 - SMAN 1 Padang" class="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition" />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="comment-content" class="block text-xs font-bold text-slate-700 mb-1">Pendapat / Jawaban Uji Nalar <span class="text-rose-500">*</span></label>
+                                <textarea id="comment-content" required rows="3" maxlength="1000" placeholder="Tuliskan analisis ilmiahmu, jawaban dari pertanyaan di atas, atau pertanyaan yang ingin kamu diskusikan..." class="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition resize-y"></textarea>
+                                <div class="flex items-center justify-between mt-1 text-[11px] text-slate-400">
+                                    <span>Gunakan bahasa yang santun dan ilmiah (tanpa tautan/link luar).</span>
+                                    <span id="comment-char-info">Maks. 1000 karakter</span>
+                                </div>
+                            </div>
+
+                            <div id="comment-alert" class="hidden mb-3 p-3 rounded-xl text-xs font-medium"></div>
+
+                            <div class="flex items-center justify-end">
+                                <button type="submit" id="comment-submit-btn" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-xs sm:text-sm font-bold shadow-xs transition cursor-pointer">
+                                    <span>🚀 Kirim Tanggapan</span>
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Daftar Komentar -->
+                        <div id="comments-list" class="space-y-4">
+                            <div class="text-center py-6 text-xs text-slate-400">Memuat diskusi siswa...</div>
+                        </div>
                     </div>
-                ` : ''}
+                </div>
 
                 <!-- TOMBOL KEMBALI DI BAWAH -->
                 <div class="mt-12 pt-6 border-t border-slate-100 flex items-center justify-between">
@@ -258,6 +326,9 @@
                     </button>
                 </div>
             `;
+
+            // Inisialisasi Forum Diskusi Siswa untuk artikel ini
+            initCommentSystem(art.slug);
 
             // Render Rekomendasi Artikel Lain
             const rekomendasi = DAFTAR_ARTIKEL_SAINS.filter(item => item.slug !== art.slug);
@@ -283,6 +354,479 @@
                         </p>
                     </a>
                 `).join('');
+            }
+        }
+
+        // ============================================================
+        // SISTEM KOMENTAR & DISKUSI SISWA (CLOUDFLARE WORKER + D1)
+        // ============================================================
+        const COMMENTS_API_BASE = 'https://kimia-snbt-api.kimia-ajarkita.workers.dev';
+        let currentArticleSlug = '';
+        let currentReplyParentId = null;
+        let currentReplyParentName = '';
+        let cachedComments = [];
+        let likedCommentIds = [];
+
+        function getDeviceId() {
+            let devId = localStorage.getItem('kimia_device_id');
+            if (!devId) {
+                devId = 'dev_' + Math.random().toString(36).substring(2, 11) + '_' + Date.now().toString(36);
+                localStorage.setItem('kimia_device_id', devId);
+            }
+            return devId;
+        }
+
+        function escapeHtmlText(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function formatWaktuRelatif(ts) {
+            if (!ts) return 'Baru saja';
+            const diffSec = Math.max(0, Math.floor((Date.now() - Number(ts)) / 1000));
+            if (diffSec < 60) return 'Baru saja';
+            const diffMin = Math.floor(diffSec / 60);
+            if (diffMin < 60) return diffMin + ' menit lalu';
+            const diffHour = Math.floor(diffMin / 60);
+            if (diffHour < 24) return diffHour + ' jam lalu';
+            const diffDay = Math.floor(diffHour / 24);
+            if (diffDay < 30) return diffDay + ' hari lalu';
+            const d = new Date(Number(ts));
+            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function getInitials(name) {
+            const parts = String(name || 'S').trim().split(/\s+/);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[1][0]).toUpperCase();
+            }
+            return (parts[0].substring(0, 2) || 'SI').toUpperCase();
+        }
+
+        function hasClientProfanityOrLink(text) {
+            const lower = String(text || '').toLowerCase();
+            if (/https?:\/\/|www\.|[a-z0-9-]+\.(com|net|org|xyz|slot|vip|bet|link)\b/i.test(lower)) {
+                return 'Tautan/link eksternal tidak diperbolehkan di kolom diskusi.';
+            }
+            const bad = [
+                'anjing', 'anjir', 'anjrit', 'bangsat', 'bgst', 'babi', 'monyet', 'kunyuk',
+                'bajingan', 'asu', 'kampret', 'keparat', 'brengsek', 'goblog', 'goblok',
+                'tolol', 'idiot', 'bego', 'begok', 'sinting', 'sarap', 'kontol', 'memek',
+                'jembut', 'ngentot', 'entot', 'peju', 'pelacur', 'lonte', 'perek', 'jablay',
+                'bokep', 'porno', 'jancok', 'jancuk', 'cuk', 'cok', 'pantek', 'puki',
+                'kimak', 'sialan', 'tai', 'taik', 'setan', 'iblis', 'laknat',
+                'gacor', 'maxwin', 'slot88', 'judol', 'togel', 'casino', 'sbobet', 'zeus88'
+            ];
+            for (const w of bad) {
+                const re = new RegExp('(^|[^a-z0-9])' + w + '([^a-z0-9]|$)', 'i');
+                if (re.test(lower)) {
+                    return 'Mohon gunakan bahasa yang santun dan ilmiah (terdeteksi kata yang tidak pantas).';
+                }
+            }
+            return null;
+        }
+
+        function initCommentSystem(slug) {
+            currentArticleSlug = slug;
+            currentReplyParentId = null;
+
+            // Isi otomatis nama & sekolah dari simpanan lokal jika pernah mengisi
+            const savedName = localStorage.getItem('kimia_comment_name') || '';
+            const savedSchool = localStorage.getItem('kimia_comment_school') || '';
+            const nameInput = document.getElementById('comment-name');
+            const schoolInput = document.getElementById('comment-school');
+            if (nameInput && savedName) nameInput.value = savedName;
+            if (schoolInput && savedSchool) schoolInput.value = savedSchool;
+
+            // Karakter counter
+            const contentInput = document.getElementById('comment-content');
+            const charInfo = document.getElementById('comment-char-info');
+            if (contentInput && charInfo) {
+                contentInput.addEventListener('input', () => {
+                    charInfo.textContent = contentInput.value.length + ' / 1000 karakter';
+                });
+            }
+
+            // Sinkronisasi tampilan Mode Guru
+            updateAdminUI();
+
+            // Muat daftar komentar
+            fetchArticleComments();
+        }
+
+        function updateAdminUI() {
+            const adminKey = localStorage.getItem('kimia_admin_key');
+            const banner = document.getElementById('admin-mode-banner');
+            const btn = document.getElementById('btn-toggle-admin');
+            if (adminKey) {
+                if (banner) banner.classList.remove('hidden');
+                if (btn) {
+                    btn.innerHTML = '👨‍🏫 Mode Guru Aktif';
+                    btn.className = 'text-[11px] font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 cursor-pointer';
+                }
+            } else {
+                if (banner) banner.classList.add('hidden');
+                if (btn) {
+                    btn.innerHTML = '🔑 Mode Guru';
+                    btn.className = 'text-[11px] font-semibold px-3 py-1 rounded-full border border-slate-200 text-slate-500 hover:text-indigo-700 hover:border-indigo-200 transition cursor-pointer';
+                }
+            }
+        }
+
+        function toggleAdminMode() {
+            const existing = localStorage.getItem('kimia_admin_key');
+            if (existing) {
+                logoutAdminMode();
+                return;
+            }
+            const inputKey = window.prompt('Masukkan Kunci Admin Guru (Admin Key) untuk mengaktifkan lencana Guru/Admin & fitur moderasi:');
+            if (inputKey && inputKey.trim()) {
+                localStorage.setItem('kimia_admin_key', inputKey.trim());
+                updateAdminUI();
+                renderCommentsList();
+            }
+        }
+
+        function logoutAdminMode() {
+            localStorage.removeItem('kimia_admin_key');
+            updateAdminUI();
+            renderCommentsList();
+        }
+
+        function showCommentAlert(msg, isError = true) {
+            const alertBox = document.getElementById('comment-alert');
+            if (!alertBox) return;
+            alertBox.className = 'mb-3 p-3 rounded-xl text-xs font-medium ' + (
+                isError
+                    ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+            );
+            alertBox.textContent = msg;
+            alertBox.classList.remove('hidden');
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 5000);
+        }
+
+        function getLocalFallbackComments(slug) {
+            try {
+                return JSON.parse(localStorage.getItem('kimia_local_comments_' + slug) || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveLocalFallbackComments(slug, list) {
+            try {
+                localStorage.setItem('kimia_local_comments_' + slug, JSON.stringify(list));
+            } catch (e) {}
+        }
+
+        async function fetchArticleComments() {
+            const deviceId = getDeviceId();
+            try {
+                const res = await fetch(
+                    COMMENTS_API_BASE + '/comments/' + encodeURIComponent(currentArticleSlug) + '?deviceId=' + encodeURIComponent(deviceId)
+                );
+                if (!res.ok) throw new Error('API Error');
+                const data = await res.json();
+                if (data && data.ok) {
+                    cachedComments = data.comments || [];
+                    likedCommentIds = data.likedIds || [];
+                    saveLocalFallbackComments(currentArticleSlug, cachedComments);
+                    renderCommentsList();
+                    return;
+                }
+            } catch (err) {
+                // Fallback ke simpanan lokal jika Worker belum terjangkau
+                cachedComments = getLocalFallbackComments(currentArticleSlug);
+            }
+            renderCommentsList();
+        }
+
+        function renderSingleCommentItem(c, isReply = false, isAdminActive = false) {
+            const isLiked = likedCommentIds.includes(c.id);
+            const isGuru = Number(c.is_admin) === 1;
+            const avatarClass = isGuru
+                ? 'bg-gradient-to-br from-emerald-600 to-teal-700 text-white'
+                : 'bg-gradient-to-br from-indigo-100 to-slate-200 text-indigo-900';
+
+            return `
+                <div class="${isReply ? 'ml-7 sm:ml-11 mt-3 pl-4 border-l-2 border-indigo-100' : 'p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs'}">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full ${avatarClass} flex items-center justify-center text-xs font-extrabold shrink-0 select-none">
+                            ${isGuru ? '👨‍🏫' : escapeHtmlText(getInitials(c.author_name))}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                <span class="font-bold text-slate-900 text-xs sm:text-sm">${escapeHtmlText(c.author_name)}</span>
+                                ${isGuru ? `
+                                    <span class="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                                        ✓ Guru / Admin
+                                    </span>
+                                ` : ''}
+                                ${c.school_name ? `
+                                    <span class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                                        🏫 ${escapeHtmlText(c.school_name)}
+                                    </span>
+                                ` : ''}
+                                <span class="text-[11px] text-slate-400">&bull; ${formatWaktuRelatif(c.created_at)}</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line break-words mb-2.5">${escapeHtmlText(c.content)}</p>
+
+                            <div class="flex flex-wrap items-center gap-4 text-xs">
+                                <button type="button" onclick="toggleLikeComment(${Number(c.id)})" class="inline-flex items-center gap-1.5 font-semibold transition cursor-pointer ${
+                                    isLiked ? 'text-indigo-600' : 'text-slate-400 hover:text-indigo-600'
+                                }">
+                                    <span>👍</span>
+                                    <span>Menarik</span>
+                                    ${Number(c.likes) > 0 ? `<span class="px-1.5 py-0.2 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold">${Number(c.likes)}</span>` : ''}
+                                </button>
+
+                                ${!isReply ? `
+                                    <button type="button" onclick="setReplyComment(${Number(c.id)}, '${escapeHtmlText(c.author_name).replace(/'/g, "\\'")}')" class="inline-flex items-center gap-1 font-semibold text-slate-400 hover:text-indigo-600 transition cursor-pointer">
+                                        <span>💬</span>
+                                        <span>Balas</span>
+                                    </button>
+                                ` : ''}
+
+                                ${isAdminActive ? `
+                                    <button type="button" onclick="deleteCommentByAdmin(${Number(c.id)})" class="inline-flex items-center gap-1 font-semibold text-rose-500 hover:text-rose-700 transition cursor-pointer ml-auto">
+                                        <span>🗑️</span>
+                                        <span>Hapus</span>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCommentsList() {
+            const listEl = document.getElementById('comments-list');
+            const badgeEl = document.getElementById('comment-count-badge');
+            if (!listEl) return;
+
+            if (badgeEl) badgeEl.textContent = String(cachedComments.length);
+
+            if (!cachedComments.length) {
+                listEl.innerHTML = `
+                    <div class="text-center py-8 px-4 rounded-2xl bg-white/70 border border-dashed border-slate-200">
+                        <div class="text-2xl mb-1.5">🧪</div>
+                        <p class="text-xs sm:text-sm font-bold text-slate-700 mb-0.5">Belum ada tanggapan di artikel ini</p>
+                        <p class="text-xs text-slate-500">Jadilah siswa pertama yang menjawab pertanyaan Uji Nalar atau memulai diskusi ilmiah!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const isAdminActive = Boolean(localStorage.getItem('kimia_admin_key'));
+            const parents = cachedComments.filter(c => !c.parent_id);
+            const repliesByParent = {};
+            cachedComments.filter(c => c.parent_id).forEach(r => {
+                if (!repliesByParent[r.parent_id]) repliesByParent[r.parent_id] = [];
+                repliesByParent[r.parent_id].push(r);
+            });
+
+            // Urutkan komentar utama dari yang terbaru di atas, sedangkan balasan urut kronologis
+            const sortedParents = [...parents].sort((a, b) => Number(b.created_at) - Number(a.created_at));
+
+            listEl.innerHTML = sortedParents.map(parent => {
+                const childReplies = (repliesByParent[parent.id] || []).sort((a, b) => Number(a.created_at) - Number(b.created_at));
+                const repliesHtml = childReplies.map(reply => renderSingleCommentItem(reply, true, isAdminActive)).join('');
+                return `
+                    <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
+                        ${renderSingleCommentItem(parent, false, isAdminActive).replace(/^\s*<div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200\/80 shadow-2xs">([\s\S]*)<\/div>\s*$/, '$1')}
+                        ${repliesHtml ? `<div class="mt-3 space-y-2.5">${repliesHtml}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function setReplyComment(parentId, authorName) {
+            currentReplyParentId = parentId;
+            currentReplyParentName = authorName;
+            const indicator = document.getElementById('reply-indicator');
+            const textEl = document.getElementById('reply-indicator-text');
+            if (indicator && textEl) {
+                textEl.textContent = 'Membalas tanggapan @' + authorName;
+                indicator.classList.remove('hidden');
+            }
+            const textarea = document.getElementById('comment-content');
+            if (textarea) {
+                textarea.focus();
+                textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function cancelReplyComment() {
+            currentReplyParentId = null;
+            currentReplyParentName = '';
+            const indicator = document.getElementById('reply-indicator');
+            if (indicator) indicator.classList.add('hidden');
+        }
+
+        async function submitArticleComment(event) {
+            event.preventDefault();
+            const nameEl = document.getElementById('comment-name');
+            const schoolEl = document.getElementById('comment-school');
+            const contentEl = document.getElementById('comment-content');
+            const submitBtn = document.getElementById('comment-submit-btn');
+
+            const authorName = (nameEl?.value || '').trim();
+            const schoolName = (schoolEl?.value || '').trim();
+            const content = (contentEl?.value || '').trim();
+
+            if (authorName.length < 2) {
+                showCommentAlert('Nama lengkap minimal 2 karakter.');
+                return;
+            }
+            if (content.length < 3) {
+                showCommentAlert('Tanggapan minimal 3 karakter.');
+                return;
+            }
+
+            const filterErr = hasClientProfanityOrLink(authorName + ' ' + schoolName + ' ' + content);
+            if (filterErr) {
+                showCommentAlert(filterErr);
+                return;
+            }
+
+            // Simpan nama & sekolah ke localStorage agar memudahkan diskusi berikutnya
+            localStorage.setItem('kimia_comment_name', authorName);
+            localStorage.setItem('kimia_comment_school', schoolName);
+
+            const adminKey = localStorage.getItem('kimia_admin_key') || '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span>Mengirim...</span>';
+            }
+
+            try {
+                const headers = { 'Content-Type': 'application/json' };
+                if (adminKey) headers['X-Admin-Key'] = adminKey;
+
+                const res = await fetch(COMMENTS_API_BASE + '/comments/' + encodeURIComponent(currentArticleSlug), {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify({
+                        authorName,
+                        schoolName,
+                        content,
+                        parentId: currentReplyParentId,
+                        deviceId: getDeviceId()
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    showCommentAlert(data.error || 'Gagal mengirim tanggapan.');
+                } else {
+                    cachedComments.push(data.comment);
+                    saveLocalFallbackComments(currentArticleSlug, cachedComments);
+                    if (contentEl) contentEl.value = '';
+                    const charInfo = document.getElementById('comment-char-info');
+                    if (charInfo) charInfo.textContent = 'Maks. 1000 karakter';
+                    cancelReplyComment();
+                    renderCommentsList();
+                    showCommentAlert('Tanggapan ilmiahmu berhasil dikirim!', false);
+                }
+            } catch (err) {
+                // Fallback simpan lokal jika offline
+                const fallbackComment = {
+                    id: Date.now(),
+                    article_slug: currentArticleSlug,
+                    parent_id: currentReplyParentId,
+                    author_name: authorName,
+                    school_name: schoolName,
+                    content,
+                    is_admin: adminKey ? 1 : 0,
+                    likes: 0,
+                    created_at: Date.now()
+                };
+                cachedComments.push(fallbackComment);
+                saveLocalFallbackComments(currentArticleSlug, cachedComments);
+                if (contentEl) contentEl.value = '';
+                cancelReplyComment();
+                renderCommentsList();
+                showCommentAlert('Tanggapan berhasil ditampilkan!', false);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span>🚀 Kirim Tanggapan</span>';
+                }
+            }
+        }
+
+        async function toggleLikeComment(commentId) {
+            try {
+                const res = await fetch(COMMENTS_API_BASE + '/comments/like', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        commentId,
+                        deviceId: getDeviceId()
+                    })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    const target = cachedComments.find(c => Number(c.id) === Number(commentId));
+                    if (target) target.likes = data.likes;
+                    if (data.liked) {
+                        if (!likedCommentIds.includes(commentId)) likedCommentIds.push(commentId);
+                    } else {
+                        likedCommentIds = likedCommentIds.filter(id => Number(id) !== Number(commentId));
+                    }
+                    renderCommentsList();
+                }
+            } catch (e) {
+                // Fallback lokal
+                const target = cachedComments.find(c => Number(c.id) === Number(commentId));
+                if (target) {
+                    if (likedCommentIds.includes(commentId)) {
+                        likedCommentIds = likedCommentIds.filter(id => Number(id) !== Number(commentId));
+                        target.likes = Math.max(0, Number(target.likes || 0) - 1);
+                    } else {
+                        likedCommentIds.push(commentId);
+                        target.likes = Number(target.likes || 0) + 1;
+                    }
+                    saveLocalFallbackComments(currentArticleSlug, cachedComments);
+                    renderCommentsList();
+                }
+            }
+        }
+
+        async function deleteCommentByAdmin(commentId) {
+            const adminKey = localStorage.getItem('kimia_admin_key');
+            if (!adminKey) return;
+            if (!window.confirm('Hapus komentar ini beserta balasannya secara permanen?')) return;
+
+            try {
+                const res = await fetch(COMMENTS_API_BASE + '/admin/comments/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Key': adminKey
+                    },
+                    body: JSON.stringify({ commentId })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) {
+                    window.alert(data.error || 'Kunci Admin tidak valid atau gagal menghapus komentar.');
+                    return;
+                }
+                cachedComments = cachedComments.filter(c => Number(c.id) !== Number(commentId) && Number(c.parent_id) !== Number(commentId));
+                saveLocalFallbackComments(currentArticleSlug, cachedComments);
+                renderCommentsList();
+            } catch (e) {
+                cachedComments = cachedComments.filter(c => Number(c.id) !== Number(commentId) && Number(c.parent_id) !== Number(commentId));
+                saveLocalFallbackComments(currentArticleSlug, cachedComments);
+                renderCommentsList();
             }
         }
 

@@ -23,3 +23,27 @@ CREATE TABLE IF NOT EXISTS devices (
 );
 
 CREATE INDEX IF NOT EXISTS idx_licenses_wa ON licenses(wa);
+
+-- Tabel Komentar & Diskusi Artikel Sains Populer
+CREATE TABLE IF NOT EXISTS article_comments (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    article_slug TEXT    NOT NULL,
+    parent_id    INTEGER DEFAULT NULL,
+    nama         TEXT    NOT NULL,
+    sekolah      TEXT    DEFAULT '',
+    pesan        TEXT    NOT NULL,
+    is_admin     INTEGER NOT NULL DEFAULT 0,
+    likes        INTEGER NOT NULL DEFAULT 0,
+    device_id    TEXT,
+    ip_hash      TEXT,
+    created_at   INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_comments_slug ON article_comments(article_slug, created_at);
+
+CREATE TABLE IF NOT EXISTS article_comment_likes (
+    comment_id INTEGER NOT NULL,
+    device_id  TEXT    NOT NULL,
+    created_at INTEGER NOT NULL,
+    PRIMARY KEY (comment_id, device_id)
+);
