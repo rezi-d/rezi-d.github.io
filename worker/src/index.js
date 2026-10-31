@@ -147,6 +147,15 @@ function isAdmin(request, env) {
     return !!env.ADMIN_KEY && key.length > 0 && timingSafeEqual(key, env.ADMIN_KEY);
 }
 
+function isTeacherOrAdmin(request, env) {
+    const key = (request.headers.get('X-Admin-Key') || '').trim();
+    if (!key) return false;
+    if (env.TEACHER_KEY && timingSafeEqual(key.toUpperCase(), String(env.TEACHER_KEY).trim().toUpperCase())) {
+        return true;
+    }
+    return isAdmin(request, env);
+}
+
 // ---------- Filter Kata Kasar & Spam Komentar Sains Populer ----------
 const BLOCKED_WORDS_REGEX = /\b(anjing|anjir|anjay|babi|bangsat|bajingan|tolol|goblog|goblok|kontol|memek|ngentot|pepek|jembut|asu|kampret|keparat|tai|taik|brengsek|sialan|lonte|pelacur|perek|bokep|porno|judol|slot|gacor|maxwin|zeus|togel|pragmatic|sbobet|casino|poker)\b/i;
 const URL_SPAM_REGEX = /(https?:\/\/|www\.|[a-z0-9-]+\.(com|net|org|xyz|vip|bet|io|me|link)\/)/i;
@@ -286,31 +295,45 @@ export default {
                 await ensureCommentsSchema(env);
 
                 if (request.method === 'GET') {
+                    const deviceId = String(url.searchParams.get('deviceId') || '').trim().slice(0, 64);
                     const rows = await env.DB.prepare(
-                        `SELECT id, article_slug, parent_id, nama, sekolah, pesan, is_admin, likes, created_at
+                        `SELECT id, article_slug, parent_id,
+                                nama AS author_name, sekolah AS school_name, pesan AS content,
+                                nama, sekolah, pesan, is_admin, likes, created_at
                          FROM article_comments
                          WHERE article_slug = ?
                          ORDER BY created_at ASC
                          LIMIT 300`
                     ).bind(slug).all();
 
-                    return json(request, env, { ok: true, comments: rows.results || [] });
+                    let likedIds = [];
+                    if (deviceId) {
+                        const likedRows = await env.DB.prepare(
+                            `SELECT l.comment_id
+                             FROM article_comment_likes l
+                             JOIN article_comments c ON c.id = l.comment_id
+                             WHERE c.article_slug = ? AND l.device_id = ?`
+                        ).bind(slug, deviceId).all();
+                        likedIds = (likedRows.results || []).map((r) => r.comment_id);
+                    }
+
+                    return json(request, env, { ok: true, comments: rows.results || [], likedIds });
                 }
 
                 if (request.method === 'POST') {
                     const body = await readJson(request);
-                    const nama = String(body.nama || '').trim().slice(0, 60);
-                    const sekolah = String(body.sekolah || '').trim().slice(0, 80);
-                    const pesan = String(body.pesan || '').trim();
+                    const nama = String(body.authorName || body.nama || '').trim().slice(0, 60);
+                    const sekolah = String(body.schoolName || body.sekolah || '').trim().slice(0, 80);
+                    const pesan = String(body.content || body.pesan || '').trim();
                     const parentId = body.parentId ? parseInt(body.parentId, 10) : null;
                     const deviceId = String(body.deviceId || '').trim().slice(0, 64);
-                    const adminFlag = isAdmin(request, env) ? 1 : 0;
+                    const adminFlag = isTeacherOrAdmin(request, env) ? 1 : 0;
 
                     if (nama.length < 2) {
                         return json(request, env, { ok: false, error: 'Nama harus diisi (minimal 2 huruf).' }, 400);
                     }
 
-                    const errText = containsProfanityOrSpam( `${nama} ${sekolah} ${pesan}` ) || containsProfanityOrSpam(pesan);
+                    const errText = containsProfanityOrSpam(`${nama} ${sekolah} ${pesan}`) || containsProfanityOrSpam(pesan);
                     if (errText) {
                         return json(request, env, { ok: false, error: errText }, 400);
                     }
@@ -319,7 +342,7 @@ export default {
                     const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
                     const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
 
-                    // Rate limit: maksimal 1 komentar per 15 detik dari perangkat/IP yang sama (kecuali Admin)
+                    // Rate limit: maksimal 1 komentar per 15 detik dari perangkat/IP yang sama (kecuali Guru/Admin)
                     if (!adminFlag) {
                         const recent = await env.DB.prepare(
                             'SELECT created_at FROM article_comments WHERE (device_id = ? OR ip_hash = ?) AND created_at > ? LIMIT 1'
@@ -346,6 +369,9 @@ export default {
                             id: newId,
                             article_slug: slug,
                             parent_id: parentId,
+                            author_name: nama,
+                            school_name: sekolah,
+                            content: pesan,
                             nama,
                             sekolah,
                             pesan,
@@ -357,7 +383,21 @@ export default {
                 }
             }
 
-            // --- Admin ---
+            // --- Moderasi Komentar Sains Populer (Bisa diakses dengan Kode Guru atau Kunci Admin) ---
+            if (path === '/admin/comments/delete' && request.method === 'POST') {
+                if (!isTeacherOrAdmin(request, env)) {
+                    return json(request, env, { ok: false, error: 'Kode Guru/Admin tidak valid.' }, 401);
+                }
+                await ensureCommentsSchema(env);
+                const body = await readJson(request);
+                const id = parseInt(body.commentId || body.id, 10);
+                if (!id) return json(request, env, { ok: false, error: 'ID komentar tidak valid.' }, 400);
+                await env.DB.prepare('DELETE FROM article_comments WHERE id = ? OR parent_id = ?').bind(id, id).run();
+                await env.DB.prepare('DELETE FROM article_comment_likes WHERE comment_id = ?').bind(id).run();
+                return json(request, env, { ok: true });
+            }
+
+            // --- Admin Lisensi SNBT (HANYA ADMIN_KEY UTAMA, TIDAK BISA DIAKSES KODE GURU) ---
             if (path.startsWith('/admin')) {
                 if (!isAdmin(request, env)) return json(request, env, { ok: false, error: 'Tidak berwenang.' }, 401);
 
@@ -399,16 +439,6 @@ export default {
                     const id = parseInt(body.id, 10);
                     if (!id) return json(request, env, { ok: false, error: 'ID tidak valid.' }, 400);
                     await env.DB.prepare('DELETE FROM devices WHERE license_id = ?').bind(id).run();
-                    return json(request, env, { ok: true });
-                }
-
-                if (path === '/admin/comments/delete' && request.method === 'POST') {
-                    await ensureCommentsSchema(env);
-                    const body = await readJson(request);
-                    const id = parseInt(body.id, 10);
-                    if (!id) return json(request, env, { ok: false, error: 'ID komentar tidak valid.' }, 400);
-                    await env.DB.prepare('DELETE FROM article_comments WHERE id = ? OR parent_id = ?').bind(id, id).run();
-                    await env.DB.prepare('DELETE FROM article_comment_likes WHERE comment_id = ?').bind(id).run();
                     return json(request, env, { ok: true });
                 }
             }
