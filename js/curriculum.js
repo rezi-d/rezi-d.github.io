@@ -321,7 +321,7 @@ const kurikulum = {
 const modulLain = [
     { slug: "tracker-snbt", title: "Tracker SNBT",    path: "/snbt/tracker.html",      icon: "🎯", status: "aktif", desc: "Study Tracker 7 subtes UTBK SNBT 2026, checklist materi & evaluasi skor try out.", action: "Buka tracker" },
     { slug: "snbt",         title: "Simulasi SNBT",   path: "/snbt/index.html",        icon: "📚", status: "aktif", desc: "Simulasi Tes Potensi Skolastik (TPS) dan Literasi SNBT resmi interaktif.", action: "Mulai simulasi" },
-    { slug: "tka",          title: "Simulasi TKA",    path: "/tka/index.html",         icon: "📝", status: "aktif", desc: "Simulasi CBT 13 mata pelajaran TKA SMA resmi BPPP lengkap dengan timer.", action: "Mulai simulasi" },
+    { slug: "tka",          title: "Simulasi TKA",    path: "/tka/index.html",         icon: "📝", status: "aktif", desc: "Simulasi CBT 15 mata pelajaran TKA SMA resmi BPPP lengkap dengan timer.", action: "Mulai simulasi" },
     { slug: "prediksi-ptn", title: "Prediksi PTN",    path: "/tka/prediksi-ptn.html",  icon: "🎯", status: "aktif", desc: "Rekomendasi jurusan PTN berdasarkan akumulasi nilai latihan Anda.", action: "Cek prediksi" },
     { slug: "sains-populer", title: "Sains Populer",  path: "/sains-populer/index.html", icon: "🔬", status: "aktif", desc: "Warta sains mutakhir & teknologi viral dari sudut pandang kimia yang mudah dipahami.", action: "Jelajahi warta" }
 ];

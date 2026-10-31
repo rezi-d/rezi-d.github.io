@@ -12,7 +12,7 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Simulasi TKA SMA 2025/2026: Bank Soal &amp; CBT Multi-Mapel — KimiaInteraktif</title>
-    <meta name="description" content="Portal sentral Tes Kemampuan Akademik (TKA) SMA 2025/2026. Latihan soal resmi & try out HOTS 13 mata pelajaran Saintek, Soshum, dan Literasi Umum dengan timer CBT interaktif.">
+    <meta name="description" content="Portal sentral Tes Kemampuan Akademik (TKA) SMA 2025/2026. Latihan soal resmi & try out HOTS 15 mata pelajaran Saintek, Soshum, dan Literasi Umum dengan timer CBT interaktif.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://kimia.ajarkita.my.id/tka/index.html">
     <meta property="og:type" content="website">
@@ -52,13 +52,13 @@
                 </h1>
                 
                 <p class="text-xs sm:text-sm text-slate-300 leading-relaxed text-justify">
-                    Pusat persiapan komprehensif seleksi masuk Perguruan Tinggi Negeri (SNBT, UTBK, dan Ujian Mandiri). Memuat 13 mata pelajaran resmi dari rumpun <strong>Saintek</strong>, <strong>Soshum</strong>, dan <strong>Literasi Umum</strong> dengan sistem penilaian otomatis, pembahasan mendalam, dan timer adaptif.
+                    Pusat persiapan komprehensif seleksi masuk Perguruan Tinggi Negeri (SNBT, UTBK, dan Ujian Mandiri). Memuat 15 mata pelajaran resmi dari rumpun <strong>Saintek</strong>, <strong>Soshum</strong>, dan <strong>Literasi Umum</strong> dengan sistem penilaian otomatis, pembahasan mendalam, dan timer adaptif.
                 </p>
 
                 <!-- STATISTIK BADGE -->
                 <div class="pt-2 flex flex-wrap items-center gap-3 text-xs">
-                    <span class="px-3 py-1.5 bg-slate-800/80 rounded-xl border border-slate-700 font-semibold flex items-center gap-1.5 text-slate-200">
-                        <span>📚</span> 13 Mata Pelajaran Resmi
+                    <span id="stat-badge-total-mapel" class="px-3 py-1.5 bg-slate-800/80 rounded-xl border border-slate-700 font-semibold flex items-center gap-1.5 text-slate-200">
+                        <span>📚</span> 15 Mata Pelajaran Resmi
                     </span>
                     <span class="px-3 py-1.5 bg-slate-800/80 rounded-xl border border-slate-700 font-semibold flex items-center gap-1.5 text-emerald-300">
                         <span>⚡</span> Format PG, MCMA &amp; Benar/Salah
@@ -84,13 +84,13 @@
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" id="filter-tab-container">
                 <button type="button" class="btn-rumpun-filter px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 bg-slate-900 text-white shrink-0" data-rumpun="all">
-                    <span>🌐 Semua Mapel (13)</span>
+                    <span>🌐 Semua Mapel (15)</span>
                 </button>
                 <button type="button" class="btn-rumpun-filter px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shrink-0" data-rumpun="saintek">
                     <span>🔬 Saintek / MIPA (4)</span>
                 </button>
                 <button type="button" class="btn-rumpun-filter px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shrink-0" data-rumpun="soshum">
-                    <span>🌍 Soshum / IPS (4)</span>
+                    <span>🌍 Soshum / IPS (6)</span>
                 </button>
                 <button type="button" class="btn-rumpun-filter px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shrink-0" data-rumpun="umum">
                     <span>📚 Literasi &amp; Umum (5)</span>
@@ -249,6 +249,25 @@
             }).join('');
         }
 
+        // Update jumlah mapel per tab secara dinamis dari registri
+        function updateTabCounts() {
+            const reg = window.tkaRegistry;
+            if (!reg || !Array.isArray(reg.mapelList)) return;
+            const counts = { all: reg.mapelList.length, saintek: 0, soshum: 0, umum: 0 };
+            reg.mapelList.forEach(m => {
+                if (counts[m.rumpun] !== undefined) counts[m.rumpun]++;
+            });
+            document.querySelectorAll('.btn-rumpun-filter').forEach(btn => {
+                const r = btn.dataset.rumpun;
+                if (r === 'all') btn.innerHTML = `<span>🌐 Semua Mapel (${counts.all})</span>`;
+                else if (r === 'saintek') btn.innerHTML = `<span>🔬 Saintek / MIPA (${counts.saintek})</span>`;
+                else if (r === 'soshum') btn.innerHTML = `<span>🌍 Soshum / IPS (${counts.soshum})</span>`;
+                else if (r === 'umum') btn.innerHTML = `<span>📚 Literasi &amp; Umum (${counts.umum})</span>`;
+            });
+            const badge = document.getElementById('stat-badge-total-mapel');
+            if (badge) badge.innerHTML = `<span>📚</span> ${counts.all} Mata Pelajaran Resmi`;
+        }
+
         // Filter Rumpun Tab Listener
         document.querySelectorAll('.btn-rumpun-filter').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -269,6 +288,7 @@
 
         // Inisialisasi awal
         window.addEventListener('load', () => {
+            updateTabCounts();
             renderMapelGrid();
         });
     </script>
