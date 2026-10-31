@@ -1101,10 +1101,10 @@ function initSEO() {
 
     if (document.title.includes('Modul Materi')) {
         if (subTitle && babTitle) {
-            document.title = `${subTitle} - ${babTitle} ${kelasLabel} | KimiaInteraktif`;
+            document.title = `${subTitle} - ${babTitle} ${kelasLabel} | AjarKita`;
         } else {
             const h1 = document.querySelector('main article h1, h1');
-            if (h1) document.title = `${h1.textContent.trim()} - KimiaInteraktif`;
+            if (h1) document.title = `${h1.textContent.trim()} | AjarKita`;
         }
     }
 
@@ -1420,7 +1420,7 @@ function initProgresDanKuis() {
 
         btnUnduh.addEventListener('click', () => {
             simpanIdentitas();
-            const nama = namaEl.value.trim() || 'Siswa KimiaInteraktif';
+            const nama = namaEl.value.trim() || 'Siswa AjarKita';
             const kls = kelasEl.value.trim() || kelasLabel;
             const currentStats = hitungSkorSekarang();
             unduhKartuSkorPNG({
