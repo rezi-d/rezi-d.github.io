@@ -174,6 +174,127 @@ export default {
                 });
             }
 
+            // --- Siswa: klaim voucher beasiswa Mini-Game SNBT (Rp 35.000) ---
+            if (path === '/claim-scholarship' && request.method === 'POST') {
+                const body = await readJson(request);
+                const deviceId = String(body.deviceId || '').trim();
+                const nama = String(body.nama || '').trim().slice(0, 80);
+                const wa = String(body.wa || '').replace(/\D/g, '').slice(0, 20);
+                const rawState = body.gameState && typeof body.gameState === 'object' ? body.gameState : {};
+
+                if (!validDeviceId(deviceId)) {
+                    return json(request, env, { ok: false, error: 'ID perangkat tidak valid.' }, 400);
+                }
+                if (nama.length < 2 || wa.length < 9) {
+                    return json(request, env, { ok: false, error: 'Nama lengkap dan nomor WhatsApp aktif wajib diisi.' }, 400);
+                }
+
+                // Verifikasi server-side atas progres 101 sub-materi
+                const validKeyRegex = /^(pu|pbm|ppu|pk|lbi|lbe|pm)_\d+_\d+$/;
+                const seenKeys = new Set();
+                let verifiedRp = 0;
+                let masteredCount = 0;
+                let validTopicsCount = 0;
+
+                for (const [k, val] of Object.entries(rawState)) {
+                    if (!validKeyRegex.test(k) || seenKeys.has(k) || seenKeys.size >= 101) continue;
+                    if (!val || typeof val !== 'object') continue;
+                    const score = parseInt(val.bestScore, 10) || 0;
+                    const durationMs = parseInt(val.durationMs, 10) || 0;
+                    if (score < 1 || score > 3) continue;
+                    // Tolak jika durasi pengerjaan tidak wajar (< 3 detik untuk 3 soal)
+                    if (durationMs > 0 && durationMs < 3000) continue;
+
+                    seenKeys.add(k);
+                    validTopicsCount++;
+                    const rp = score === 3 ? 400 : (score === 2 ? 250 : 100);
+                    verifiedRp += rp;
+                    if (score === 3) masteredCount++;
+                }
+
+                if (verifiedRp < 35000 || validTopicsCount < 88) {
+                    return json(request, env, {
+                        ok: false,
+                        error: `Saldo terverifikasi (${verifiedRp} dari ${validTopicsCount} topik) belum mencapai syarat minimal Rp 35.000 (minimal 88 sub-materi).`
+                    }, 400);
+                }
+
+                // Pastikan tabel scholarship_claims tersedia di D1
+                await env.DB.prepare(`
+                    CREATE TABLE IF NOT EXISTS scholarship_claims (
+                        id             INTEGER PRIMARY KEY AUTOINCREMENT,
+                        device_id      TEXT    NOT NULL UNIQUE,
+                        ip_hash        TEXT,
+                        wa             TEXT    NOT NULL,
+                        nama           TEXT    NOT NULL,
+                        license_id     INTEGER NOT NULL,
+                        total_rp       INTEGER NOT NULL,
+                        mastered_count INTEGER NOT NULL,
+                        claimed_at     INTEGER NOT NULL
+                    )
+                `).run();
+
+                // Cek apakah perangkat atau nomor WA sudah pernah klaim beasiswa
+                const existing = await env.DB.prepare(
+                    'SELECT id FROM scholarship_claims WHERE device_id = ? OR wa = ? LIMIT 1'
+                ).bind(deviceId, wa).first();
+
+                if (existing) {
+                    return json(request, env, {
+                        ok: false,
+                        error: 'Perangkat atau nomor WhatsApp ini sudah pernah mengklaim Voucher Beasiswa SNBT sebelumnya.'
+                    }, 403);
+                }
+
+                // Cek kuota mingguan (maksimal 25 voucher beasiswa per 7 hari)
+                const now = Date.now();
+                const weekAgo = now - (7 * DAY_MS);
+                const weeklyCount = await env.DB.prepare(
+                    'SELECT COUNT(*) AS n FROM scholarship_claims WHERE claimed_at >= ?'
+                ).bind(weekAgo).first();
+
+                const maxWeekly = parseInt(env.MAX_WEEKLY_SCHOLARSHIPS, 10) || 25;
+                if (weeklyCount && weeklyCount.n >= maxWeekly) {
+                    return json(request, env, {
+                        ok: false,
+                        error: 'Kuota Voucher Beasiswa minggu ini telah penuh. Silakan klaim kembali pada awal minggu depan.'
+                    }, 429);
+                }
+
+                // Terbitkan token SNBT-XXXX-XXXX-XXXX (30 hari, khusus 1 perangkat)
+                const token = generateToken();
+                const tokenHash = await sha256Hex(token);
+                const durationDays = 30;
+                const expiresAt = now + durationDays * DAY_MS;
+                const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
+                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+
+                const insertLic = await env.DB.prepare(
+                    'INSERT INTO licenses (token_hash, nama, wa, created_at, activated_at, expires_at, duration_days, max_devices) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+                ).bind(tokenHash, `[BEASISWA] ${nama}`, wa, now, now, expiresAt, durationDays, 1).run();
+
+                const licenseId = insertLic.meta && insertLic.meta.last_row_id ? insertLic.meta.last_row_id : 0;
+
+                if (licenseId) {
+                    await env.DB.prepare(
+                        'INSERT INTO devices (license_id, device_id, first_seen) VALUES (?, ?, ?)'
+                    ).bind(licenseId, deviceId, now).run();
+
+                    await env.DB.prepare(
+                        'INSERT INTO scholarship_claims (device_id, ip_hash, wa, nama, license_id, total_rp, mastered_count, claimed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+                    ).bind(deviceId, ipHash, wa, nama, licenseId, verifiedRp, masteredCount, now).run();
+                }
+
+                return json(request, env, {
+                    ok: true,
+                    token,
+                    expiresAt,
+                    remainingDays: durationDays,
+                    verifiedRp,
+                    masteredCount
+                });
+            }
+
             // --- Siswa: ambil soal premium ---
             const paketMatch = path.match(/^\/paket\/([a-z0-9_-]{1,60})$/);
             if (paketMatch && request.method === 'GET') {

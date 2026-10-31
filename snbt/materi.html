@@ -463,8 +463,8 @@
                             </h3>
                             <p class="text-xs text-slate-600 mt-0.5">
                                 ${st.bestScore === 3
-                                    ? 'Kamu sudah mengantongi hadiah penuh Rp 400 dari topik ini. Kamu tetap bisa bermain ulang untuk latihan!'
-                                    : 'Jawab 3 soal tantangan khusus game (45 detik/soal) untuk klaim hadiah hingga +Rp 400!'
+                                    ? `Kamu sudah mengantongi hadiah penuh Rp 400 dari topik ini. Kamu tetap bisa bermain ulang dengan soal acak dari bank ${(item.gameQuestions || []).length} soal!`
+                                    : `Jawab 3 soal acak dari bank ${(item.gameQuestions || []).length} soal topik ini (45 detik/soal, opsi diacak) untuk klaim hadiah hingga +Rp 400!`
                                 }
                             </p>
                         </div>
@@ -477,7 +477,7 @@
         }
 
         // =====================================================================
-        // ENGINE ARENA MINI-GAME (3 SOAL PER SUB-MATERI + TIMER ANTI-DRIFT)
+        // ENGINE ARENA MINI-GAME (3 DARI 10 SOAL ACAK + ACAK OPSI + ANTI-PEEK)
         // =====================================================================
         function stopQuestionTimer() {
             if (questionTimerInterval) {
@@ -486,19 +486,54 @@
             }
         }
 
+        // Fisher-Yates Shuffle
+        function shuffleArray(arr) {
+            const copy = arr.slice();
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const tmp = copy[i];
+                copy[i] = copy[j];
+                copy[j] = tmp;
+            }
+            return copy;
+        }
+
+        // Ambil 3 soal acak dari bank soal sub-materi & acak posisi opsi A-B-C-D tiap soal
+        function prepareRandomSessionQuestions(rawQuestions, count = 3) {
+            const picked = shuffleArray(rawQuestions || []).slice(0, count);
+            return picked.map(qItem => {
+                const indexedOpts = (qItem.opts || []).map((text, idx) => ({
+                    text,
+                    isCorrect: idx === qItem.ans
+                }));
+                const shuffledOpts = shuffleArray(indexedOpts);
+                const newAnsIdx = shuffledOpts.findIndex(o => o.isCorrect);
+                return {
+                    q: qItem.q,
+                    opts: shuffledOpts.map(o => o.text),
+                    ans: newAnsIdx >= 0 ? newAnsIdx : 0,
+                    exp: qItem.exp
+                };
+            });
+        }
+
         function startMiniGame(subKey) {
             const reg = window.SNBT_MATERI_REGISTRY[activeSubtesId];
             if (!reg) return;
             const item = reg.submateri.find(s => s.key === subKey);
             if (!item) return;
 
+            const sessionQuestions = prepareRandomSessionQuestions(item.gameQuestions, 3);
+
             currentSession = {
                 subKey: item.key,
                 judul: item.judul,
-                questions: item.gameQuestions,
+                bankSize: (item.gameQuestions || []).length,
+                questions: sessionQuestions,
                 qIndex: 0,
                 correctCount: 0,
                 answered: false,
+                startedAt: Date.now(),
                 deadlineMs: 0
             };
 
@@ -526,6 +561,9 @@
                             </button>
                             <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-900 font-extrabold text-xs">
                                 🎮 Soal ${sess.qIndex + 1} / ${sess.questions.length}
+                            </span>
+                            <span class="hidden sm:inline-block px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold text-[11px]" title="Diambil secara acak dari ${sess.bankSize} bank soal topik ini">
+                                🎲 Acak dari ${sess.bankSize} Soal
                             </span>
                         </div>
                         <div class="flex items-center gap-3">
@@ -594,10 +632,16 @@
             const isCorrect = chosenIdx === qObj.ans;
             if (isCorrect) sess.correctCount++;
 
+            // Cek apakah topik ini sebelumnya sudah pernah lulus sempurna (3/3)
+            const alreadyMastered = (gameState[sess.subKey] && gameState[sess.subKey].bestScore === 3);
+            const revealExplanation = isCorrect || alreadyMastered;
+
             const buttons = document.querySelectorAll(".game-opt-btn");
             buttons.forEach((b, i) => {
                 b.disabled = true;
-                if (i === qObj.ans) {
+                if (isCorrect && i === qObj.ans) {
+                    b.className = "game-opt-btn w-full text-left px-4 py-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-950 flex items-center gap-3 shadow-xs";
+                } else if (!isCorrect && alreadyMastered && i === qObj.ans) {
                     b.className = "game-opt-btn w-full text-left px-4 py-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm font-bold text-emerald-950 flex items-center gap-3 shadow-xs";
                 } else if (i === chosenIdx && !isCorrect) {
                     b.className = "game-opt-btn w-full text-left px-4 py-3.5 rounded-2xl bg-rose-50 border-2 border-rose-400 text-xs sm:text-sm font-semibold text-rose-950 flex items-center gap-3 shadow-xs";
@@ -612,9 +656,14 @@
             fb.innerHTML = `
                 <div class="p-4 rounded-2xl ${isCorrect ? 'bg-emerald-50 border border-emerald-200 text-emerald-950' : 'bg-rose-50 border border-rose-200 text-rose-950'} text-xs sm:text-sm space-y-1 mb-4">
                     <div class="font-extrabold">
-                        ${chosenIdx === -1 ? '⏰ Waktu Habis!' : (isCorrect ? '✅ Jawaban Tepat!' : '💡 Kurang Tepat!')}
+                        ${chosenIdx === -1 ? '⏰ Waktu Habis!' : (isCorrect ? '✅ Jawaban Tepat!' : '❌ Belum Tepat!')}
                     </div>
-                    <p class="text-slate-700 leading-relaxed">${qObj.exp}</p>
+                    <p class="text-slate-700 leading-relaxed">
+                        ${revealExplanation
+                            ? qObj.exp
+                            : '🔒 <em>Demi menjaga kejujuran tantangan beasiswa, kunci jawaban &amp; pembahasan soal yang belum dijawab tepat tetap disembunyikan. Pelajari kembali ringkasan konsep di atas dan coba lagi!</em>'
+                        }
+                    </p>
                 </div>
                 <div class="flex justify-end">
                     <button type="button" id="btn-next-game-q" class="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-extrabold shadow-md transition cursor-pointer">
@@ -636,9 +685,12 @@
         function finishMiniGame() {
             stopQuestionTimer();
             const sess = currentSession;
-            const prevRecord = gameState[sess.subKey] || { bestScore: 0, reward: 0, attempts: 0 };
+            const durationMs = Math.max(0, Date.now() - (sess.startedAt || Date.now()));
+            const prevRecord = gameState[sess.subKey] || { bestScore: 0, reward: 0, attempts: 0, durationMs: 0 };
 
-            const newScore = sess.correctCount;
+            // Proteksi anti-bot speedrun (< 3 detik untuk 3 soal dianggap tidak sah)
+            const isTooFast = durationMs < 3000 && sess.correctCount > 0;
+            const newScore = isTooFast ? 0 : sess.correctCount;
             const newReward = scoreToRupiah(newScore);
             const bestScore = Math.max(prevRecord.bestScore || 0, newScore);
             const bestReward = Math.max(prevRecord.reward || 0, newReward);
@@ -648,6 +700,7 @@
                 bestScore,
                 reward: bestReward,
                 attempts: (prevRecord.attempts || 0) + 1,
+                durationMs: Math.max(prevRecord.durationMs || 0, durationMs),
                 updatedAt: Date.now()
             };
             saveGameState();
@@ -674,12 +727,16 @@
                             Skor Kamu: ${newScore} / 3 Benar
                         </span>
                         <h3 class="text-2xl font-black text-slate-900 pt-1">
-                            ${newScore === 3 ? 'Luar Biasa! Topik Ini Tuntas Sempurna!' : 'Bagus! Terus Tingkatkan Skormu!'}
+                            ${isTooFast
+                                ? '⚠️ Pengerjaan Terlalu Cepat (Tidak Wajar)'
+                                : (newScore === 3 ? 'Luar Biasa! Topik Ini Tuntas Sempurna!' : 'Bagus! Terus Tingkatkan Skormu!')}
                         </h3>
                         <p class="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
-                            ${addedRp > 0
-                                ? `Selamat! Saldo Beasiswa SNBT kamu bertambah sebesar <strong class="text-emerald-700">+${formatRupiah(addedRp)}</strong> dari topik <em>${sess.judul}</em>.`
-                                : `Rekor tertinggi kamu di topik ini adalah <strong>${formatRupiah(bestReward)}</strong>.`
+                            ${isTooFast
+                                ? 'Sistem mendeteksi penyelesaian 3 soal kurang dari 3 detik. Silakan kerjakan secara normal dengan membaca soal.'
+                                : (addedRp > 0
+                                    ? `Selamat! Saldo Beasiswa SNBT kamu bertambah sebesar <strong class="text-emerald-700">+${formatRupiah(addedRp)}</strong> dari topik <em>${sess.judul}</em>.`
+                                    : `Rekor tertinggi kamu di topik ini adalah <strong>${formatRupiah(bestReward)}</strong>.`)
                             }
                         </p>
                     </div>
@@ -691,14 +748,14 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-500">Status Study Tracker:</span>
-                            <strong class="text-teal-700">${bestScore === 3 ? '✅ Materi, Latsol & Review Tercentang' : '✅ Materi Tercentang'}</strong>
+                            <strong class="text-teal-700">${bestScore === 3 ? '✅ Materi, Latsol & Review Tercentang' : (bestScore >= 1 ? '✅ Materi Tercentang' : 'Belum Tuntas')}</strong>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
                         ${newScore < 3 ? `
                             <button type="button" onclick="startMiniGame('${sess.subKey}')" class="px-5 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs sm:text-sm shadow-md transition cursor-pointer">
-                                🔄 Coba Lagi (Rebut Penuh Rp 400)
+                                🔄 Coba Lagi (Soal Acak Baru)
                             </button>
                         ` : ''}
                         <button type="button" onclick="renderActiveSubmateri()" class="px-5 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition cursor-pointer">
@@ -715,16 +772,42 @@
         }
 
         // =====================================================================
-        // MODAL KLAIM VOUCHER BEASISWA RP 35.000
+        // MODAL KLAIM VOUCHER BEASISWA RP 35.000 (VERIFIKASI CLOUDFLARE WORKER)
         // =====================================================================
         function openClaimModal() {
             const { totalRp, masteredCount } = calculateWalletStats();
             const pct = Math.min(100, Math.round((totalRp / TARGET_VOUCHER_RP) * 100));
             const kurangRp = Math.max(0, TARGET_VOUCHER_RP - totalRp);
             const kurangTopik = Math.ceil(kurangRp / 400);
+            const claimedToken = localStorage.getItem("snbt_scholarship_claimed_token") || "";
 
             const body = document.getElementById("modal-claim-body");
-            if (totalRp < TARGET_VOUCHER_RP) {
+            if (claimedToken) {
+                body.innerHTML = `
+                    <div class="text-center space-y-4">
+                        <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl mx-auto">
+                            👑
+                        </div>
+                        <h3 class="text-xl font-black text-slate-900">
+                            Voucher Beasiswa Kamu Sudah Aktif!
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Kode Lisensi Premium SNBT hasil jerih payah belajarmu sudah terpasang otomatis di perangkat ini:
+                        </p>
+                        <div class="p-4 rounded-2xl bg-slate-900 text-amber-300 font-mono text-base sm:text-lg font-black tracking-wider select-all">
+                            ${claimedToken}
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-2 pt-1">
+                            <button type="button" onclick="copyScholarshipToken('${claimedToken}')" class="flex-1 py-3 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-xs sm:text-sm cursor-pointer">
+                                📋 Salin Kode Token
+                            </button>
+                            <a href="/snbt/index.html" class="flex-1 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm text-center">
+                                🚀 Mulai Simulasi Premium
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else if (totalRp < TARGET_VOUCHER_RP) {
                 body.innerHTML = `
                     <div class="text-center space-y-4">
                         <div class="w-16 h-16 rounded-3xl bg-amber-100 text-amber-700 flex items-center justify-center text-3xl mx-auto">
@@ -734,7 +817,7 @@
                             Tabungan Beasiswa: ${formatRupiah(totalRp)}
                         </h3>
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                            Kumpulkan saldo hingga <strong>Rp 35.000</strong> dari tantangan sub-materi untuk menukarkannya menjadi <strong>Kode Lisensi Premium SNBT (30 Hari)</strong> secara gratis!
+                            Kumpulkan saldo hingga <strong>Rp 35.000</strong> dari tantangan 101 sub-materi untuk menukarkannya menjadi <strong>Kode Lisensi Premium SNBT (30 Hari)</strong> secara gratis!
                         </p>
 
                         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left text-xs space-y-2">
@@ -764,27 +847,126 @@
                 `;
             } else {
                 body.innerHTML = `
-                    <div class="text-center space-y-4">
-                        <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl mx-auto">
-                            🎉
+                    <div class="space-y-4">
+                        <div class="text-center space-y-2">
+                            <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl mx-auto">
+                                🎉
+                            </div>
+                            <h3 class="text-xl font-black text-slate-900">
+                                Selamat! Target Rp 35.000 Tercapai!
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Kamu telah menuntaskan <strong>${masteredCount} sub-materi</strong> dengan total saldo <strong>${formatRupiah(totalRp)}</strong>. Isi nama dan nomor WhatsApp aktif untuk menerbitkan kode lisensi <code>SNBT-XXXX-XXXX-XXXX</code> gratis!
+                            </p>
                         </div>
-                        <h3 class="text-xl font-black text-slate-900">
-                            Selamat! Target Rp 35.000 Tercapai!
-                        </h3>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                            Kamu telah menuntaskan <strong>${masteredCount} sub-materi</strong> dengan saldo <strong>${formatRupiah(totalRp)}</strong>. Silakan klaim Voucher Beasiswa Premium SNBT kamu!
-                        </p>
-                        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900">
-                            Sistem verifikasi otomatis Cloudflare Worker sedang disiapkan pada Tahap 5 untuk menerbitkan token <code>SNBT-XXXX-XXXX-XXXX</code> langsung ke perangkatmu.
+
+                        <div class="space-y-3 text-left">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap Siswa</label>
+                                <input id="claim-input-nama" type="text" placeholder="Contoh: Budi Santoso" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:border-teal-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nomor WhatsApp Aktif</label>
+                                <input id="claim-input-wa" type="tel" placeholder="Contoh: 081234567890" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:outline-none focus:border-teal-500">
+                            </div>
+                            <div id="claim-error-msg" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-semibold"></div>
                         </div>
-                        <button type="button" onclick="closeClaimModal()" class="w-full py-3 rounded-2xl bg-slate-900 text-white font-bold text-xs sm:text-sm cursor-pointer">
-                            Tutup
-                        </button>
+
+                        <div class="pt-1 space-y-2">
+                            <button type="button" id="btn-submit-claim" onclick="submitScholarshipClaim()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-extrabold text-xs sm:text-sm shadow-md transition cursor-pointer">
+                                🎁 Terbitkan &amp; Aktifkan Voucher Rp 35.000 Sekarang
+                            </button>
+                            <button type="button" onclick="closeClaimModal()" class="w-full py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs cursor-pointer">
+                                Batal
+                            </button>
+                        </div>
                     </div>
                 `;
             }
 
             document.getElementById("modal-claim").classList.remove("hidden");
+        }
+
+        async function submitScholarshipClaim() {
+            const namaEl = document.getElementById("claim-input-nama");
+            const waEl = document.getElementById("claim-input-wa");
+            const errEl = document.getElementById("claim-error-msg");
+            const btnEl = document.getElementById("btn-submit-claim");
+
+            const nama = (namaEl ? namaEl.value : "").trim();
+            const wa = (waEl ? waEl.value : "").replace(/\D/g, "");
+
+            if (nama.length < 2 || wa.length < 9) {
+                if (errEl) {
+                    errEl.textContent = "Harap isi Nama Lengkap dan Nomor WhatsApp aktif dengan benar.";
+                    errEl.classList.remove("hidden");
+                }
+                return;
+            }
+
+            if (errEl) errEl.classList.add("hidden");
+            if (btnEl) {
+                btnEl.disabled = true;
+                btnEl.textContent = "⏳ Memverifikasi Skor & Menerbitkan Token...";
+            }
+
+            try {
+                const apiUrl = (typeof SNBT_API_URL !== "undefined" && SNBT_API_URL)
+                    ? SNBT_API_URL
+                    : "https://kimia-snbt-api.kimia-ajarkita.workers.dev";
+                const devId = (typeof snbtGetDeviceId === "function")
+                    ? snbtGetDeviceId()
+                    : "dev_local_fallback_123456";
+
+                const res = await fetch(`${apiUrl}/claim-scholarship`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nama,
+                        wa,
+                        deviceId: devId,
+                        gameState
+                    })
+                });
+                const data = await res.json();
+
+                if (!res.ok || !data.ok) {
+                    if (errEl) {
+                        errEl.textContent = data.error || "Gagal mengklaim voucher. Silakan coba lagi.";
+                        errEl.classList.remove("hidden");
+                    }
+                    if (btnEl) {
+                        btnEl.disabled = false;
+                        btnEl.textContent = "🎁 Terbitkan & Aktifkan Voucher Rp 35.000 Sekarang";
+                    }
+                    return;
+                }
+
+                // Simpan dan aktifkan lisensi langsung di perangkat ini
+                localStorage.setItem("snbt_premium_token", data.token);
+                localStorage.setItem("snbt_premium_expires_at", String(data.expiresAt));
+                localStorage.setItem("snbt_premium_activated_at", String(Date.now()));
+                localStorage.setItem("snbt_premium_phone", wa);
+                localStorage.setItem("snbt_scholarship_claimed_token", data.token);
+
+                openClaimModal();
+            } catch (err) {
+                if (errEl) {
+                    errEl.textContent = "Tidak dapat terhubung ke server lisensi. Pastikan koneksi internet aktif.";
+                    errEl.classList.remove("hidden");
+                }
+                if (btnEl) {
+                    btnEl.disabled = false;
+                    btnEl.textContent = "🎁 Terbitkan & Aktifkan Voucher Rp 35.000 Sekarang";
+                }
+            }
+        }
+
+        function copyScholarshipToken(token) {
+            try {
+                navigator.clipboard.writeText(token);
+                alert("Kode Token " + token + " berhasil disalin!");
+            } catch (e) {}
         }
 
         function closeClaimModal() {

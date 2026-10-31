@@ -23,3 +23,20 @@ CREATE TABLE IF NOT EXISTS devices (
 );
 
 CREATE INDEX IF NOT EXISTS idx_licenses_wa ON licenses(wa);
+
+-- Tabel klaim Voucher Beasiswa Mini-Game SNBT (Rp 35.000)
+CREATE TABLE IF NOT EXISTS scholarship_claims (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    device_id      TEXT    NOT NULL UNIQUE,
+    ip_hash        TEXT,
+    wa             TEXT    NOT NULL,
+    nama           TEXT    NOT NULL,
+    license_id     INTEGER NOT NULL,
+    total_rp       INTEGER NOT NULL,
+    mastered_count INTEGER NOT NULL,
+    claimed_at     INTEGER NOT NULL,
+    FOREIGN KEY (license_id) REFERENCES licenses(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_scholarship_wa ON scholarship_claims(wa);
+CREATE INDEX IF NOT EXISTS idx_scholarship_claimed_at ON scholarship_claims(claimed_at);
