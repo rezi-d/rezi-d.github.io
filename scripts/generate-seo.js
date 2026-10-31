@@ -38,8 +38,13 @@ if (!kurikulum) {
 const urls = [
     { loc: `${DOMAIN}/`, changefreq: 'weekly', priority: '1.0' },
     { loc: `${DOMAIN}/snbt/index.html`, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${DOMAIN}/snbt/materi.html`, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${DOMAIN}/snbt/tracker.html`, changefreq: 'weekly', priority: '0.8' },
+    { loc: `${DOMAIN}/tka/index.html`, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${DOMAIN}/tka/simulasi.html`, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${DOMAIN}/tka/pembahasan.html`, changefreq: 'weekly', priority: '0.8' },
     { loc: `${DOMAIN}/tka/prediksi-ptn.html`, changefreq: 'weekly', priority: '0.9' },
-    { loc: `${DOMAIN}/tka/index.html`, changefreq: 'weekly', priority: '0.8' },
+    { loc: `${DOMAIN}/sains-populer/index.html`, changefreq: 'weekly', priority: '0.8' },
     { loc: `${DOMAIN}/tentang.html`, changefreq: 'monthly', priority: '0.6' },
     { loc: `${DOMAIN}/kontak.html`, changefreq: 'monthly', priority: '0.6' },
     { loc: `${DOMAIN}/kebijakan-privasi.html`, changefreq: 'monthly', priority: '0.5' }
@@ -86,26 +91,25 @@ for (const [kelasId, dataKelas] of Object.entries(kurikulum)) {
 }
 
 // 3. Tulis ulang sitemap.xml
+// Format rapi tanpa enter berlebih di dalam tag <loc>, dilengkapi <lastmod> ISO untuk Google Search Console
+const today = new Date().toISOString().split('T')[0];
 const sitemapLines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 ];
 
 for (const u of urls) {
-    sitemapLines.push('    <url>');
-    sitemapLines.push(`        <loc>${u.loc}</loc>`);
-    sitemapLines.push(`        <changefreq>${u.changefreq}</changefreq>`);
-    sitemapLines.push(`        <priority>${u.priority}</priority>`);
-    sitemapLines.push('    </url>');
+    const cleanLoc = String(u.loc || '').trim().replace(/[\r\n\t\s]+/g, '');
+    sitemapLines.push(`    <url><loc>${cleanLoc}</loc><lastmod>${today}</lastmod><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`);
 }
 sitemapLines.push('</urlset>');
 sitemapLines.push('');
 
 const sitemapPath = path.join(ROOT_DIR, 'sitemap.xml');
-const newSitemapContent = sitemapLines.join('\n');
-const oldSitemapContent = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath, 'utf8') : '';
+const newSitemapContent = sitemapLines.join('\n').replace(/\r\n/g, '\n');
+const oldSitemapContent = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath, 'utf8').replace(/\r\n/g, '\n') : '';
 
-if (newSitemapContent.replace(/\r\n/g, '\n') !== oldSitemapContent.replace(/\r\n/g, '\n')) {
+if (newSitemapContent !== oldSitemapContent) {
     fs.writeFileSync(sitemapPath, newSitemapContent, 'utf8');
     console.log(`✅ sitemap.xml diperbarui (${urls.length} URL terdaftar).`);
 } else {
