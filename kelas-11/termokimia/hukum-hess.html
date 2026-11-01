@@ -298,18 +298,105 @@
                                 s = s.trim();
                                 if (!s) return;
                                 let coef = 1, name = s;
-                                const m = s.match(/^(\d+)/);
-                                if (m) {
-                                    coef = parseInt(m[1], 10);
-                                    name = s.replace(/^\d+/, '').trim();
+                                const m = s.match(/^(\d+\/\d+|\d+(?:\.\d+)?)\s*(.*)$/);
+                                if (m && m[1]) {
+                                    if (m[1].includes('/')) {
+                                        const parts = m[1].split('/');
+                                        coef = parseFloat(parts[0]) / parseFloat(parts[1]);
+                                    } else {
+                                        coef = parseFloat(m[1]);
+                                    }
+                                    name = m[2].trim();
                                 }
-                                spesiList.push({ name, coef });
+                                if (name) {
+                                    spesiList.push({ name, coef });
+                                }
                             });
                             return spesiList;
                         }
 
+                        function buildSpeciesKeyFn(allRawSpecies) {
+                            const baseToPhases = {};
+                            allRawSpecies.forEach(s => {
+                                const m = s.match(/\s*\(\s*([a-zA-Z]+)\s*\)\s*$/);
+                                const phase = m ? m[1].toLowerCase() : null;
+                                const base = s.replace(/\s*\(\s*[a-zA-Z]+\s*\)\s*$/, '').trim().replace(/\s+/g, '');
+                                if (!baseToPhases[base]) baseToPhases[base] = new Set();
+                                if (phase) baseToPhases[base].add(phase);
+                            });
+
+                            return function(s) {
+                                const m = s.match(/\s*\(\s*([a-zA-Z]+)\s*\)\s*$/);
+                                const phase = m ? m[1].toLowerCase() : null;
+                                const base = s.replace(/\s*\(\s*[a-zA-Z]+\s*\)\s*$/, '').trim().replace(/\s+/g, '');
+                                if (baseToPhases[base] && baseToPhases[base].size > 1 && phase) {
+                                    return base + '(' + phase + ')';
+                                }
+                                return base;
+                            };
+                        }
+
+                        function solveHessLinearSystem(A, T) {
+                            const S = A.length;
+                            const m = A[0].length;
+                            const ATA = [];
+                            const ATT = [];
+                            for (let i = 0; i < m; i++) {
+                                ATA[i] = [];
+                                for (let j = 0; j < m; j++) {
+                                    let sum = 0;
+                                    for (let k = 0; k < S; k++) sum += A[k][i] * A[k][j];
+                                    ATA[i][j] = sum;
+                                }
+                                let sumT = 0;
+                                for (let k = 0; k < S; k++) sumT += A[k][i] * T[k];
+                                ATT[i] = sumT;
+                            }
+                            const M = [];
+                            for (let i = 0; i < m; i++) {
+                                M[i] = [...ATA[i], ATT[i]];
+                            }
+                            for (let i = 0; i < m; i++) {
+                                let maxRow = i;
+                                for (let k = i + 1; k < m; k++) {
+                                    if (Math.abs(M[k][i]) > Math.abs(M[maxRow][i])) maxRow = k;
+                                }
+                                const tmp = M[i]; M[i] = M[maxRow]; M[maxRow] = tmp;
+                                const pivot = M[i][i];
+                                if (Math.abs(pivot) < 1e-9) return null;
+                                for (let j = i; j <= m; j++) M[i][j] /= pivot;
+                                for (let k = 0; k < m; k++) {
+                                    if (k !== i) {
+                                        const f = M[k][i];
+                                        for (let j = i; j <= m; j++) M[k][j] -= f * M[i][j];
+                                    }
+                                }
+                            }
+                            const x = [];
+                            for (let i = 0; i < m; i++) x[i] = M[i][m];
+                            for (let k = 0; k < S; k++) {
+                                let recon = 0;
+                                for (let j = 0; j < m; j++) recon += A[k][j] * x[j];
+                                if (Math.abs(recon - T[k]) > 1e-3) return null;
+                            }
+                            return x;
+                        }
+
                         function formatSubscriptKimia(nama) {
                             return nama.replace(/(\d+)/g, '<sub>$1</sub>');
+                        }
+
+                        function formatKoefSpesi(coef, name) {
+                            let coefStr = '';
+                            const rounded = Math.round(coef * 100) / 100;
+                            if (Math.abs(rounded - 1) > 1e-3) {
+                                if (Math.abs(rounded - 0.5) < 1e-3) coefStr = '½ ';
+                                else if (Math.abs(rounded - 1.5) < 1e-3) coefStr = '1½ ';
+                                else if (Math.abs(rounded - 2.5) < 1e-3) coefStr = '2½ ';
+                                else if (Math.abs(rounded - Math.round(rounded)) < 1e-3) coefStr = Math.round(rounded) + '';
+                                else coefStr = rounded.toLocaleString('id-ID', { maximumFractionDigits: 2 }) + ' ';
+                            }
+                            return coefStr + formatSubscriptKimia(name);
                         }
 
                         function hitungHukumHess() {
@@ -326,7 +413,7 @@
                                 const rInp = rows[i].cells[0].querySelector('input').value.trim();
                                 const pInp = rows[i].cells[2].querySelector('input').value.trim();
                                 const dInp = rows[i].cells[3].querySelector('input').value.trim();
-                                const isReversed = rows[i].cells[4].querySelector('.btn-balik-hess')?.textContent === 'Dibalik';
+                                const btnBalik = rows[i].cells[4].querySelector('.btn-balik-hess');
 
                                 if (!rInp || !pInp || dInp === '') {
                                     errBox.textContent = `Peringatan: Baris ${i + 1} belum terisi lengkap (pereaksi, produk, atau nilai \u0394H).`;
@@ -336,25 +423,15 @@
 
                                 const reactants = parseSpesiKimia(rInp);
                                 const products = parseSpesiKimia(pInp);
-                                let dH = parseFloat(dInp);
+                                const dH = parseFloat(dInp);
 
-                                if (isReversed) {
-                                    helperReactions.push({
-                                        reactants: products,
-                                        products: reactants,
-                                        deltaH: -dH,
-                                        reversed: true,
-                                        origIdx: i + 1
-                                    });
-                                } else {
-                                    helperReactions.push({
-                                        reactants: reactants,
-                                        products: products,
-                                        deltaH: dH,
-                                        reversed: false,
-                                        origIdx: i + 1
-                                    });
-                                }
+                                helperReactions.push({
+                                    reactants: reactants,
+                                    products: products,
+                                    origDH: dH,
+                                    origIdx: i + 1,
+                                    btnBalik: btnBalik
+                                });
                             }
 
                             const tRInp = document.getElementById('target-reaktan-hess').value.trim();
@@ -369,56 +446,106 @@
                             const targetReactants = parseSpesiKimia(tRInp);
                             const targetProducts = parseSpesiKimia(tPInp);
 
-                            // Hitung net net species target (reaktan: negatif, produk: positif)
-                            const targetNet = {};
-                            targetReactants.forEach(s => targetNet[s.name] = (targetNet[s.name] || 0) - s.coef);
-                            targetProducts.forEach(s => targetNet[s.name] = (targetNet[s.name] || 0) + s.coef);
+                            // Kumpulkan semua spesi untuk normalisasi fasa
+                            const allRawSpecies = [];
+                            helperReactions.forEach(r => {
+                                r.reactants.forEach(s => allRawSpecies.push(s.name));
+                                r.products.forEach(s => allRawSpecies.push(s.name));
+                            });
+                            targetReactants.forEach(s => allRawSpecies.push(s.name));
+                            targetProducts.forEach(s => allRawSpecies.push(s.name));
 
-                            // Cocokkan faktor pengali untuk masing-masing reaksi pembantu
-                            const adjustedReactions = [];
-                            let canSolve = true;
+                            const getSpeciesKey = buildSpeciesKeyFn(allRawSpecies);
 
-                            helperReactions.forEach((r) => {
-                                const rNet = {};
-                                r.reactants.forEach(s => rNet[s.name] = (rNet[s.name] || 0) - s.coef);
-                                r.products.forEach(s => rNet[s.name] = (rNet[s.name] || 0) + s.coef);
+                            const speciesKeysSet = new Set();
+                            allRawSpecies.forEach(name => speciesKeysSet.add(getSpeciesKey(name)));
+                            const speciesKeys = Array.from(speciesKeysSet).sort();
+                            const S = speciesKeys.length;
+                            const m = helperReactions.length;
 
-                                let factor = 1;
-                                let foundKey = false;
+                            // Bangun matriks A (S x m) dan vektor T (S)
+                            const A = Array.from({ length: S }, () => Array(m).fill(0));
+                            const T = Array(S).fill(0);
 
-                                Object.keys(targetNet).forEach(sp => {
-                                    if (rNet[sp] && targetNet[sp] * rNet[sp] > 0) {
-                                        factor = Math.abs(targetNet[sp] / rNet[sp]);
-                                        foundKey = true;
-                                    }
+                            helperReactions.forEach((r, j) => {
+                                r.reactants.forEach(s => {
+                                    const idx = speciesKeys.indexOf(getSpeciesKey(s.name));
+                                    if (idx >= 0) A[idx][j] -= s.coef;
                                 });
-
-                                if (!foundKey) {
-                                    factor = 1;
-                                }
-
-                                factor = Math.round(factor * 100) / 100;
-                                const finalR = {
-                                    reactants: r.reactants.map(s => ({ name: s.name, coef: s.coef * factor })),
-                                    products: r.products.map(s => ({ name: s.name, coef: s.coef * factor })),
-                                    deltaH: r.deltaH * factor,
-                                    factor: factor,
-                                    reversed: r.reversed,
-                                    origIdx: r.origIdx
-                                };
-                                adjustedReactions.push(finalR);
+                                r.products.forEach(s => {
+                                    const idx = speciesKeys.indexOf(getSpeciesKey(s.name));
+                                    if (idx >= 0) A[idx][j] += s.coef;
+                                });
                             });
 
+                            targetReactants.forEach(s => {
+                                const idx = speciesKeys.indexOf(getSpeciesKey(s.name));
+                                if (idx >= 0) T[idx] -= s.coef;
+                            });
+                            targetProducts.forEach(s => {
+                                const idx = speciesKeys.indexOf(getSpeciesKey(s.name));
+                                if (idx >= 0) T[idx] += s.coef;
+                            });
+
+                            // Selesaikan sistem persamaan linear eliminasi Gauss
+                            const sol = solveHessLinearSystem(A, T);
+                            if (!sol) {
+                                errBox.innerHTML = '<strong>Kombinasi Tidak Cocok:</strong> Persamaan reaksi pembantu tidak dapat dieliminasi/dijumlahkan untuk membentuk reaksi target. Silakan periksa kembali rumus zat dan koefisien yang dimasukkan.';
+                                errBox.classList.remove('hidden');
+                                return;
+                            }
+
+                            const adjustedReactions = [];
                             let totalDeltaH = 0;
                             const langkahTeks = document.getElementById('langkah-teks-hess');
                             langkahTeks.innerHTML = '';
 
-                            adjustedReactions.forEach(r => {
-                                totalDeltaH += r.deltaH;
+                            helperReactions.forEach((r, j) => {
+                                const x = sol[j];
+                                const isReversed = x < -1e-4;
+                                const factor = Math.abs(x);
+                                const factorRounded = Math.round(factor * 100) / 100;
+                                const adjustedDH = (isReversed ? -r.origDH : r.origDH) * factor;
+
+                                totalDeltaH += adjustedDH;
+
+                                // Sinkronkan tombol baris pada tabel input agar siswa paham visualnya
+                                if (r.btnBalik) {
+                                    if (isReversed) {
+                                        r.btnBalik.className = 'btn-balik-hess px-2.5 py-1 rounded text-[11px] font-sans font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition mr-1';
+                                        r.btnBalik.textContent = 'Dibalik';
+                                    } else {
+                                        r.btnBalik.className = 'btn-balik-hess px-2.5 py-1 rounded text-[11px] font-sans font-semibold bg-rose-600 hover:bg-rose-500 text-white transition mr-1';
+                                        r.btnBalik.textContent = 'Tetap';
+                                    }
+                                }
+
+                                const finalReactants = isReversed
+                                    ? r.products.map(s => ({ name: s.name, coef: s.coef * factor }))
+                                    : r.reactants.map(s => ({ name: s.name, coef: s.coef * factor }));
+                                const finalProducts = isReversed
+                                    ? r.reactants.map(s => ({ name: s.name, coef: s.coef * factor }))
+                                    : r.products.map(s => ({ name: s.name, coef: s.coef * factor }));
+
+                                adjustedReactions.push({
+                                    reactants: finalReactants,
+                                    products: finalProducts,
+                                    deltaH: adjustedDH,
+                                    factor: factorRounded,
+                                    reversed: isReversed,
+                                    origIdx: r.origIdx
+                                });
+
                                 let catatan = `Reaksi ${r.origIdx}`;
-                                if (r.reversed) catatan += ' (dibalik)';
-                                if (r.factor !== 1) catatan += `, dikalikan ${r.factor}`;
-                                langkahTeks.innerHTML += `<div>&bull; ${catatan} &rarr; &Delta;H = ${r.deltaH.toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} kJ</div>`;
+                                if (isReversed) {
+                                    catatan += `, <strong>dibalik</strong>`;
+                                } else {
+                                    catatan += `, <strong>tetap</strong>`;
+                                }
+                                if (Math.abs(factorRounded - 1) > 1e-3) {
+                                    catatan += `, dikalikan ${factorRounded}`;
+                                }
+                                langkahTeks.innerHTML += `<div>&bull; ${catatan} &rarr; &Delta;H = ${adjustedDH.toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} kJ</div>`;
                             });
 
                             const valBox = document.getElementById('nilai-akhir-hess');
@@ -430,8 +557,8 @@
                             tbodyOut.innerHTML = '';
 
                             adjustedReactions.forEach(r => {
-                                const rStr = r.reactants.map(s => `${s.coef === 1 ? '' : s.coef}${formatSubscriptKimia(s.name)}`).join(' + ');
-                                const pStr = r.products.map(s => `${s.coef === 1 ? '' : s.coef}${formatSubscriptKimia(s.name)}`).join(' + ');
+                                const rStr = r.reactants.map(s => formatKoefSpesi(s.coef, s.name)).join(' + ');
+                                const pStr = r.products.map(s => formatKoefSpesi(s.coef, s.name)).join(' + ');
                                 tbodyOut.innerHTML += `
                                     <tr class="hover:bg-slate-900/60">
                                         <td class="p-2 text-left pl-3 text-slate-300">${rStr}</td>
@@ -443,8 +570,8 @@
                             });
 
                             // Tambah baris hasil target
-                            const tRStr = targetReactants.map(s => `${s.coef === 1 ? '' : s.coef}${formatSubscriptKimia(s.name)}`).join(' + ');
-                            const tPStr = targetProducts.map(s => `${s.coef === 1 ? '' : s.coef}${formatSubscriptKimia(s.name)}`).join(' + ');
+                            const tRStr = targetReactants.map(s => formatKoefSpesi(s.coef, s.name)).join(' + ');
+                            const tPStr = targetProducts.map(s => formatKoefSpesi(s.coef, s.name)).join(' + ');
                             tbodyOut.innerHTML += `
                                 <tr class="bg-amber-950/40 border-t-2 border-amber-500 font-bold text-amber-200">
                                     <td class="p-2 text-left pl-3">${tRStr}</td>
