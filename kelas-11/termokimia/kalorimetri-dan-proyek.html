@@ -182,19 +182,33 @@
 
                         <!-- Hasil Perhitungan Kalor & Entalpi -->
                         <div id="kal-hasil-box" class="mt-5 p-4 rounded-xl bg-slate-900 border border-slate-800 hidden">
-                            <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider mb-2">📊 Data Hasil Pengamatan:</h4>
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-800">
+                                <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                                    <span>📊</span> <span>Data Hasil Pengamatan Kalorimetri:</span>
+                                </h4>
+                                <span class="text-[11px] text-slate-400 font-mono bg-slate-950 px-2 py-0.5 rounded border border-slate-800">c<sub>air</sub> = 4,18 J/g·°C</span>
+                            </div>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                                <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
-                                    <span class="text-slate-400 block">Kalor Larutan (q<sub>lar</sub> = m·c·&Delta;T)</span>
-                                    <span class="text-base font-bold text-teal-400 font-mono" id="kal-res-q">0 J</span>
+                                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col justify-between">
+                                    <div>
+                                        <span class="text-slate-400 block text-[11px]">Kalor Larutan (q<sub>lar</sub> = m·c·&Delta;T)</span>
+                                        <span class="text-lg font-bold text-teal-400 font-mono mt-1 block" id="kal-res-q">0 J</span>
+                                    </div>
+                                    <span class="text-[10px] text-slate-500 font-mono mt-2 pt-2 border-t border-slate-800/80 block" id="kal-calc-q">100 × 4,18 × &Delta;T</span>
                                 </div>
-                                <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
-                                    <span class="text-slate-400 block">Jumlah Mol Zat (n)</span>
-                                    <span class="text-base font-bold text-slate-200 font-mono" id="kal-res-n">0 mol</span>
+                                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col justify-between">
+                                    <div>
+                                        <span class="text-slate-400 block text-[11px]">Jumlah Mol Zat (n = m / Mr)</span>
+                                        <span class="text-lg font-bold text-slate-200 font-mono mt-1 block" id="kal-res-n">0 mol</span>
+                                    </div>
+                                    <span class="text-[10px] text-slate-500 font-mono mt-2 pt-2 border-t border-slate-800/80 block" id="kal-calc-n">massa / Mr</span>
                                 </div>
-                                <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
-                                    <span class="text-slate-400 block">Perubahan Entalpi (&Delta;H = &minus;q/n)</span>
-                                    <span class="text-base font-bold font-mono" id="kal-res-dh">0 kJ/mol</span>
+                                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex flex-col justify-between">
+                                    <div>
+                                        <span class="text-slate-400 block text-[11px]">Perubahan Entalpi (&Delta;H = &minus;q<sub>lar</sub> / n)</span>
+                                        <span class="text-lg font-bold font-mono mt-1 block" id="kal-res-dh">0 kJ/mol</span>
+                                    </div>
+                                    <span class="text-[10px] text-slate-500 font-mono mt-2 pt-2 border-t border-slate-800/80 block" id="kal-calc-dh">&minus;q / (n × 1000)</span>
                                 </div>
                             </div>
                         </div>
@@ -219,6 +233,9 @@
                         const resQ = document.getElementById('kal-res-q');
                         const resN = document.getElementById('kal-res-n');
                         const resDh = document.getElementById('kal-res-dh');
+                        const calcQ = document.getElementById('kal-calc-q');
+                        const calcN = document.getElementById('kal-calc-n');
+                        const calcDh = document.getElementById('kal-calc-dh');
                         const badgeAnim = document.getElementById('kal-anim-badge');
                         const cairanEl = document.getElementById('kal-cairan');
 
@@ -252,17 +269,26 @@
                                 if (count >= steps) {
                                     clearInterval(interval);
                                     dispT2.textContent = t2Target.toFixed(1) + ' °C';
-                                    dispDt.textContent = (deltaT > 0 ? '+' : '') + deltaT.toFixed(1) + ' °C';
+                                    const dtTampil = parseFloat((t2Target - t1).toFixed(1));
+                                    dispDt.textContent = (dtTampil > 0 ? '+' : '') + dtTampil.toFixed(1) + ' °C';
 
-                                    resQ.textContent = Math.round(totalKalor).toLocaleString() + ' J';
+                                    // Hitung kalor larutan langsung dari deltaT yang terukur di termometer (100% sinkron rumus m * c * deltaT)
+                                    const qHitung = mAir * cAir * dtTampil;
+                                    const dhHitung = -(qHitung / (mol * 1000));
+
+                                    resQ.textContent = Math.round(qHitung).toLocaleString('id-ID') + ' J';
                                     resN.textContent = mol.toFixed(3) + ' mol';
 
-                                    const finalDh = data.deltaH;
-                                    resDh.textContent = (finalDh > 0 ? '+' : '') + finalDh.toFixed(1) + ' kJ/mol';
-                                    resDh.className = finalDh < 0 ? 'text-base font-bold font-mono text-rose-400' : 'text-base font-bold font-mono text-sky-400';
+                                    resDh.textContent = (dhHitung > 0 ? '+' : '') + dhHitung.toFixed(1) + ' kJ/mol';
+                                    resDh.className = dhHitung < 0 ? 'text-lg font-bold font-mono text-rose-400 mt-1 block' : 'text-lg font-bold font-mono text-sky-400 mt-1 block';
+
+                                    // Tampilkan langkah substitusi matematis agar siswa paham 100%
+                                    if (calcQ) calcQ.textContent = `${mAir} × 4,18 × ${dtTampil.toFixed(1)} = ${Math.round(qHitung).toLocaleString('id-ID')} J`;
+                                    if (calcN) calcN.textContent = `${mZat.toFixed(1)} g / ${data.mr} g/mol`;
+                                    if (calcDh) calcDh.textContent = `-(${Math.round(qHitung).toLocaleString('id-ID')} / ${mol.toFixed(3)}) / 1000`;
 
                                     hasilBox.classList.remove('hidden');
-                                    badgeAnim.textContent = deltaT > 0 ? 'Status: Selesai (Eksoterm / Naik)' : 'Status: Selesai (Endoterm / Turun)';
+                                    badgeAnim.textContent = dtTampil > 0 ? 'Status: Selesai (Eksoterm / Naik)' : 'Status: Selesai (Endoterm / Turun)';
                                     badgeAnim.className = 'absolute bottom-2 text-[11px] font-mono text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-600';
                                     btnRun.disabled = false;
                                 }
