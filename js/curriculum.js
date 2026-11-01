@@ -323,7 +323,8 @@ const modulLain = [
     { slug: "snbt",         title: "Simulasi SNBT",   path: "/snbt/index.html",        icon: "📚", status: "aktif", desc: "Simulasi Tes Potensi Skolastik (TPS) dan Literasi SNBT resmi interaktif.", action: "Mulai simulasi" },
     { slug: "tka",          title: "Simulasi TKA",    path: "/tka/index.html",         icon: "📝", status: "aktif", desc: "Simulasi CBT 15 mata pelajaran TKA SMA resmi BPPP lengkap dengan timer.", action: "Mulai simulasi" },
     { slug: "prediksi-ptn", title: "Prediksi PTN",    path: "/tka/prediksi-ptn.html",  icon: "🎯", status: "aktif", desc: "Rekomendasi jurusan PTN berdasarkan akumulasi nilai latihan Anda.", action: "Cek prediksi" },
-    { slug: "sains-populer", title: "Sains Populer",  path: "/sains-populer/index.html", icon: "🔬", status: "aktif", desc: "Warta sains mutakhir & teknologi viral dari sudut pandang kimia yang mudah dipahami.", action: "Jelajahi warta" }
+    { slug: "sains-populer", title: "Sains Populer",  path: "/sains-populer/index.html", icon: "🔬", status: "aktif", desc: "Warta sains mutakhir & teknologi viral dari sudut pandang kimia yang mudah dipahami.", action: "Jelajahi warta" },
+    { slug: "ielts",         title: "Persiapan IELTS", path: "/ielts/index.html",        icon: "🌐", status: "aktif", desc: "Pondasi bahasa Inggris akademik menuju IELTS: seni parafrase, kolokasi, grammar Band 7+ & kalkulator skor.", action: "Mulai belajar" }
 ];
 
 
