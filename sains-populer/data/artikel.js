@@ -6,6 +6,158 @@
 
 const DAFTAR_ARTIKEL_SAINS = [
     {
+        "id": "plastik-biodegradable-rumput-laut",
+        "slug": "plastik-biodegradable-rumput-laut",
+        "title": "Plastik Alami dari Rumput Laut: Hancur Ditelan Tanah dalam Hitungan Pekan",
+        "subtitle": "Menyulap polisakarida alginat menjadi kemasan makanan biodegradable yang bahkan aman jika termakan hewan laut.",
+        "category": "Material Masa Depan",
+        "categoryColor": "indigo",
+        "icon": "🌊",
+        "publishDate": "2 November 2026",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-indigo-950 to-teal-950",
+            "badge": "Kimia Polimer × Laut Lestari",
+            "icon": "🌿"
+        },
+        "summary": "Sampah plastik sintetis membutuhkan waktu ratusan tahun untuk terurai di alam. Inovasi bioplastik berbasis polimer alami alginat dari rumput laut kini hadir sebagai pengganti kemasan sachet yang larut dalam air hangat, aman bagi biota laut, dan menyuburkan tanaman.",
+        "tahukahKamu": "Plastik konvensional seperti polietilena dibuat dari ikatan kovalen rantai karbon-karbon jenuh (−C−C−) minyak bumi yang sangat stabil dan tidak memiliki enzim alami pengurai di tanah. Sebaliknya, bioplastik rumput laut tersusun dari ikatan glikosidik alami yang dapat dicerna sempurna oleh mikroorganisme tanah hanya dalam waktu 4 hingga 6 pekan!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XII",
+                "bab": "Polimer Sintetis & Daur Ulang Plastik",
+                "desc": "Perbandingan polimer adisi sintetis vs polimer kondensasi alami serta mekanisme degradasi rantai.",
+                "url": "/kelas-12/makromolekul/polimer-sintetis-dan-reaksi-polimerisasi.html"
+            },
+            {
+                "kelas": "Kelas XI",
+                "bab": "Sistem Koloid & Rekayasa Partikel",
+                "desc": "Sifat hidrokoloid, dispersi partikel, dan pembentukan gel polimer fleksibel.",
+                "url": "/kelas-11/sistem-koloid/konsep-dan-jenis-koloid.html"
+            }
+        ],
+        "contentHtml": `
+            <p class="lead text-lg text-slate-700 leading-relaxed font-normal mb-6">
+                Indonesia merupakan salah satu negara kepulauan penghasil rumput laut terbesar di dunia. Selama puluhan tahun, komoditas ini umumnya hanya diekspor mentah atau diolah menjadi agar-agar dan bahan pengental kosmetik. Namun di laboratorium kimia material modern, ekstrak rumput laut kini disulap menjadi <strong>Bioplastik Cerdas</strong> yang berpotensi melenyapkan ancaman mikroplastik global selamanya.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-900 mt-8 mb-4">1. Rahasia Molekul Natrium Alginat & Jembatan Kalsium (Cross-linking)</h3>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Dinding sel rumput laut cokelat (<em>Phaeophyceae</em>) kaya akan <strong>asam alginat</strong>, yaitu makromolekul rantai panjang polisakarida yang tersusun dari dua jenis monomer: asam β-D-manuronat (blok M) dan asam α-L-guluronat (blok G).
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Ketika garam natrium alginat dilarutkan dalam air, rantai-rantai polimer ini bergerak bebas membentuk larutan kental (sol hidrokoloid). Keajaiban kimia terjadi saat larutan ini ditambahkan ion kalsium (Ca²⁺). Ion Ca²⁺ bermuatan +2 bertindak sebagai jembatan elektrostatis yang mengikat dua rantai polimer bermuatan negatif sekaligus melalui struktur yang dikenal sebagai <em>"egg-box model"</em> (model kotak telur).
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Reaksi pengikatan silang (<em>cross-linking</em>) ini mengubah sol cair menjadi lapisan film gel padat yang lentur, kedap oksigen, dan memiliki kekuatan tarik yang menyaingi kantong plastik belanja konvensional.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-900 mt-8 mb-4">2. Peran Plasticizer: Menjinakkan Kerapuhan Polimer</h3>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Film murni hasil silang alginat cenderung kaku dan getas jika kering. Untuk membuatnya elastis seperti plastik elastis (cling wrap), kimiawan menambahkan senyawa <em>plasticizer</em> alami seperti <strong>gliserol</strong> (senyawa alkohol dengan tiga gugus hidroksil, C₃H₈O₃).
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Molekul gliserol berukuran kecil menyusup di antara rantai-rantai makromolekul alginat. Gugus −OH pada gliserol membentuk <strong>ikatan hidrogen</strong> dengan gugus karboksil alginat, meregangkan jarak antar-rantai dan mengurangi gaya tarik antar-molekul polimer. Hasilnya, rantai alginat dapat meluncur lebih bebas, menghasilkan lembaran plastik yang lentur, tidak mudah sobek, dan lembut saat dipegang.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-900 mt-8 mb-4">3. Larut dalam Air Panas dan Ramah Lingkungan 100%</h3>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Salah satu inovasi paling memukau dari bioplastik rumput laut adalah kemampuannya dirancang agar <strong>larut seketika dalam air panas</strong> (suhu 80°C). Bayangkan kemasan bumbu mi instan atau kopi sachet yang cukup dicemplungkan langsung ke dalam cangkir bersama air mendidih tanpa perlu disobek dan dibuang ke tempat sampah!
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Karena bahan dasarnya adalah serat pangan alami murni tanpa zat aditif beracun petroleum, plastik ini aman jika tidak sengaja tertelan hewan laut seperti kura-kura atau ikan. Jika terbuang ke tanah perkebunan, plastik rumput laut akan diurai mikroba tanah menjadi humus dan mineral penyubur tanaman hanya dalam hitungan pekan.
+            </p>
+        `,
+        "diskusi": "Mengapa plastik sintetis seperti polietilena (−[CH₂−CH₂]ₙ−) sangat sukar terurai oleh bakteri tanah, sedangkan polimer alami rumput laut (alginat) sangat mudah terurai? Tinjau dari jenis ikatan kimia dan gugus fungsi yang menyusun kedua polimer tersebut!"
+    },
+    {
+        "id": "kaca-pintar-elektrokromik",
+        "slug": "kaca-pintar-elektrokromik",
+        "title": "Kaca Pintar Elektrokromik: Jendela Masa Depan yang Menyesuaikan Cahaya Otomatis Berkat Reaksi Redoks",
+        "subtitle": "Teknologi jendela pintar berbasis film tipis Tungsten Trioksida (WO₃) yang mampu berubah gelap-terang hanya dengan sentuhan voltase listrik rendah.",
+        "category": "Teknologi Masa Depan",
+        "categoryColor": "amber",
+        "icon": "🪟",
+        "publishDate": "2 November 2026",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-amber-950 to-blue-950",
+            "badge": "Elektrokimia × Material Cerdas",
+            "icon": "⚡"
+        },
+        "summary": "Pernahkah kamu melihat jendela pesawat Boeing 787 Dreamliner atau gedung pencakar langit modern yang tidak memakai tirai kain, melainkan bisa digelapkan menjadi biru gelap hanya dengan menekan tombol? Di balik kecanggihan ini bekerja reaksi redoks dan migrasi ion pada sel elektrokimia kaca pintar elektrokromik.",
+        "tahukahKamu": "Kaca elektrokromik hanya membutuhkan listrik saat mengubah warnanya saja (proses switching). Sekali warnanya berubah menjadi gelap atau terang, kaca tersebut dapat mempertahankan kondisinya selama berjam-jam tanpa mengonsumsi listrik sama sekali (disebut efek optical memory)!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XII",
+                "bab": "Sel Volta & Elektrokimia Baterai",
+                "desc": "Aliran elektron, perpindahan kation dalam elektrolit padat, dan potensial sel reversibel.",
+                "url": "/kelas-12/sel-volta/anode-katode-potensial-sel.html"
+            },
+            {
+                "kelas": "Kelas X",
+                "bab": "Reaksi Redoks & Bilangan Oksidasi",
+                "desc": "Perubahan bilangan oksidasi logam transisi Tungsten (W) dari +6 menjadi +5 yang disertai perubahan warna drastis.",
+                "url": "/kelas-10/reaksi-redoks/aturan-dan-penentuan-bilangan-oksidasi.html"
+            }
+        ],
+        "contentHtml": `
+            <p class="lead text-lg text-slate-700 leading-relaxed font-normal mb-6">
+                Di gedung-gedung perkantoran modern dan kabin pesawat penumpang canggih, tirai jendela konvensional yang berdebu mulai ditinggalkan. Sebagai gantinya, dipasang <strong>Smart Glass</strong> (Kaca Pintar) yang dapat bertransisi secara mulus dari transparan bening menjadi biru gelap pekat hanya dengan memutar kenop atau diatur otomatis oleh sensor cahaya matahari.
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-900 mt-8 mb-4">1. Anatomi Kaca Elektrokromik: Seperti Baterai Transparan Tipis</h3>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Secara arsitektur kimia, kaca elektrokromik sebenarnya adalah sebuah <strong>sel elektrokimia berlapis lima</strong> yang sangat tipis dan tembus pandang:
+            </p>
+            <ul class="space-y-3 mb-6 pl-2">
+                <li class="flex items-start gap-2.5 text-slate-700">
+                    <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold shrink-0 mt-0.5">1</span>
+                    <span><strong>Lapisan Konduktif Transparan (TCO):</strong> Biasanya terbuat dari <em>Indium Tin Oxide</em> (ITO) yang menghantarkan arus listrik tetapi tetap tembus pandang.</span>
+                </li>
+                <li class="flex items-start gap-2.5 text-slate-700">
+                    <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold shrink-0 mt-0.5">2</span>
+                    <span><strong>Lapisan Elektrokromik Aktif:</strong> Film tipis senyawa oksida logam transisi, paling populer adalah <strong>Tungsten Trioksida (WO₃)</strong>.</span>
+                </li>
+                <li class="flex items-start gap-2.5 text-slate-700">
+                    <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold shrink-0 mt-0.5">3</span>
+                    <span><strong>Elektrolit Konduktor Ion:</strong> Lapisan polimer padat yang memungkinkan ion kecil seperti H⁺ atau Li⁺ lewat dengan cepat, namun mengisolasi elektron bebas.</span>
+                </li>
+                <li class="flex items-start gap-2.5 text-slate-700">
+                    <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold shrink-0 mt-0.5">4</span>
+                    <span><strong>Lapisan Penyimpan Ion (Counter Electrode):</strong> Menyimpan kation Li⁺ atau H⁺ saat kaca berada dalam kondisi transparan.</span>
+                </li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-slate-900 mt-8 mb-4">2. Kimia Redoks: Mengapa Tungsten (WO₃) Berubah Menjadi Biru Gelap?</h3>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Dalam keadaan normal tanpa tegangan, tungsten dalam senyawa WO₃ berada pada bilangan oksidasi tertingginya, yaitu <strong>W(VI) atau +6</strong>. Pada biloks ini, orbital d logam tungsten kosong sepenuhnya (d⁰), sehingga senyawa tidak menyerap spektrum cahaya tampak dan tampak bening transparan.
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Ketika voltase listrik kecil (sekitar 1–3 Volt DC) dialirkan dengan polaritas maju:
+            </p>
+            <div class="p-4 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm font-mono mb-4 text-center">
+                WO₃ (bening, W⁶⁺) + x Li⁺ + x e⁻ &rarr; LiₓWO₃ (biru pekat, W⁵⁺)
+            </div>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Elektron masuk ke lapisan WO₃ sementara ion litium (Li⁺) berdifusi masuk ke dalam celah kisi kristal untuk menyeimbangkan muatan. Hal ini mereduksi sebagian ion W⁶⁺ menjadi W⁵⁺ (d¹). Elektron pada ion W⁵⁺ kini dapat menyerap foton cahaya merah dan kuning untuk bertransisi ke ion W⁶⁺ tetangganya (fenomena <em>intervalence charge transfer</em>), memantulkan cahaya biru tua yang pekat dan memblokir lebih dari 98% panas radiasi inframerah matahari!
+            </p>
+
+            <h3 class="text-xl font-bold text-slate-900 mt-8 mb-4">3. Reaksi Reversibel: Cukup Balik Arah Voltase</h3>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Bagaimana cara mengembalikan kaca agar bening kembali? Sangat mudah: tinggal membalik polaritas tegangan listrik baterai! Reaksi oksidasi akan terjadi: elektron ditarik keluar, ion Li⁺ terdorong kembali ke lapisan penyimpan, ion W⁵⁺ teroksidasi kembali menjadi W⁶⁺, dan kaca kembali jernih transparan seperti sediakala.
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Dengan mengadopsi kaca pintar elektrokromik di gedung-gedung tropis seperti di Indonesia, konsumsi energi pendingin ruangan (AC) dapat dihemat hingga 30–40% per tahun karena panas matahari dapat dihalau sejak dari permukaan kaca luar bangunan.
+            </p>
+        `,
+        "diskusi": "Tungsten (W) adalah logam transisi dengan nomor atom 74. Mengapa senyawa logam transisi dengan orbital d yang terisi sebagian (seperti W⁵⁺ dengan konfigurasi d¹) sering kali memiliki warna cerah, sedangkan yang orbital d-nya kosong (W⁶⁺) atau penuh (Zn²⁺) cenderung tidak berwarna/putih?"
+    },
+    {
         "id": "baterai-sodium-ion-garam",
         "slug": "baterai-sodium-ion-garam",
         "title": "Baterai Garam Sodium-Ion: Solusi Mobil Listrik Murah Pengganti Tambang Litium",
