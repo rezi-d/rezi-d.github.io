@@ -1078,8 +1078,11 @@
             document.getElementById('modal-grading-speaking').classList.remove('hidden');
 
             try {
-                const res = await fetch(`${API_BASE}/speaking/detail?sessionId=${encodeURIComponent(spk.id)}&teacherKey=${encodeURIComponent(ACTIVE_TEACHER_KEY)}`, {
-                    headers: { 'X-Teacher-Key': ACTIVE_TEACHER_KEY }
+                const res = await fetch(`${API_BASE}/speaking/detail?sessionId=${encodeURIComponent(spk.id)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${ACTIVE_TEACHER_KEY}`,
+                        'X-Teacher-Key': ACTIVE_TEACHER_KEY
+                    }
                 });
 
                 if (!res.ok) {
