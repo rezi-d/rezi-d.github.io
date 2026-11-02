@@ -196,7 +196,8 @@ CREATE TABLE IF NOT EXISTS speaking_recordings (
     transcript           TEXT    DEFAULT '',          -- Draf transkrip mesin opsional (bukan dasar penilaian)
     duration_seconds     REAL    DEFAULT 0,
     file_size_bytes      INTEGER DEFAULT 0,
-    uploaded_at          INTEGER NOT NULL
+    uploaded_at          INTEGER NOT NULL,
+    FOREIGN KEY (session_id) REFERENCES speaking_sessions(id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS idx_speaking_recordings_sess ON speaking_recordings(session_id);
