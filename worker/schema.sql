@@ -123,4 +123,39 @@ CREATE INDEX IF NOT EXISTS idx_reading_sessions_test ON reading_sessions(test_id
 CREATE INDEX IF NOT EXISTS idx_reading_sessions_kelas ON reading_sessions(kelas, submitted_at);
 CREATE INDEX IF NOT EXISTS idx_reading_sessions_device ON reading_sessions(device_id);
 
+-- =================================================================
+-- Tabel Simulasi IELTS-Style Academic Writing Mock Test (Cloudflare D1)
+-- =================================================================
+
+CREATE TABLE IF NOT EXISTS writing_sessions (
+    id                   TEXT    PRIMARY KEY,         -- UUID attempt_id ('ws_...')
+    test_id              TEXT    NOT NULL,            -- 'writing1'
+    device_id            TEXT    NOT NULL,
+    nama_peserta         TEXT    NOT NULL,
+    kelas                TEXT    NOT NULL,            -- '12 MIPA 1'
+    started_at           INTEGER NOT NULL,            -- server timestamp ms
+    duration_seconds     INTEGER NOT NULL DEFAULT 3600,-- 60 menit (3.600 detik)
+    submitted_at         INTEGER DEFAULT NULL,        -- server timestamp ms
+    current_task         INTEGER NOT NULL DEFAULT 1,  -- Task aktif (1 atau 2)
+    task1_text           TEXT    DEFAULT '',          -- Teks ketikan Task 1
+    task2_text           TEXT    DEFAULT '',          -- Teks ketikan Task 2
+    task1_word_count     INTEGER DEFAULT 0,
+    task2_word_count     INTEGER DEFAULT 0,
+    structural_check     TEXT    DEFAULT '{}',        -- Hasil analisa kelayakan teknis otomatis (bukan skor)
+    status               TEXT    NOT NULL DEFAULT 'in_progress', -- 'in_progress', 'submitted', 'graded'
+    -- Evaluasi & Penilaian Guru (Hanya melalui TEACHER_KEY):
+    graded_at            INTEGER DEFAULT NULL,        -- server timestamp ms
+    teacher_name         TEXT    DEFAULT NULL,
+    task1_criteria       TEXT    DEFAULT '{}',        -- {"ta": 7.0, "cc": 6.5, "lr": 7.0, "gra": 6.5, "band": 7.0}
+    task2_criteria       TEXT    DEFAULT '{}',        -- {"tr": 7.5, "cc": 7.0, "lr": 7.0, "gra": 7.0, "band": 7.0}
+    task1_comment        TEXT    DEFAULT '',          -- Catatan guru untuk Task 1
+    task2_comment        TEXT    DEFAULT '',          -- Catatan guru untuk Task 2
+    writing_band         REAL    DEFAULT NULL         -- Skor akhir Writing: (T1 + 2*T2)/3 dibulatkan
+);
+
+CREATE INDEX IF NOT EXISTS idx_writing_sessions_test ON writing_sessions(test_id, started_at);
+CREATE INDEX IF NOT EXISTS idx_writing_sessions_kelas ON writing_sessions(kelas, submitted_at);
+CREATE INDEX IF NOT EXISTS idx_writing_sessions_device ON writing_sessions(device_id);
+
+
 

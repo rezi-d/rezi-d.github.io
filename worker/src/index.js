@@ -395,6 +395,99 @@ function sanitizeReadingTestForStudent(masterData) {
     return copy;
 }
 
+// ---------- IELTS Academic Writing Helpers & Schema ----------
+function roundIeltsBand(val) {
+    if (typeof val !== 'number' || isNaN(val)) return null;
+    const base = Math.floor(val);
+    const remainder = Math.round((val - base) * 1000) / 1000;
+    if (remainder < 0.25) return base;
+    if (remainder < 0.75) return base + 0.5;
+    return base + 1.0;
+}
+
+async function ensureWritingSchema(env) {
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS writing_sessions (
+            id                   TEXT    PRIMARY KEY,
+            test_id              TEXT    NOT NULL,
+            device_id            TEXT    NOT NULL,
+            nama_peserta         TEXT    NOT NULL,
+            kelas                TEXT    NOT NULL,
+            started_at           INTEGER NOT NULL,
+            duration_seconds     INTEGER NOT NULL DEFAULT 3600,
+            submitted_at         INTEGER DEFAULT NULL,
+            current_task         INTEGER NOT NULL DEFAULT 1,
+            task1_text           TEXT    DEFAULT '',
+            task2_text           TEXT    DEFAULT '',
+            task1_word_count     INTEGER DEFAULT 0,
+            task2_word_count     INTEGER DEFAULT 0,
+            structural_check     TEXT    DEFAULT '{}',
+            status               TEXT    NOT NULL DEFAULT 'in_progress',
+            graded_at            INTEGER DEFAULT NULL,
+            teacher_name         TEXT    DEFAULT NULL,
+            task1_criteria       TEXT    DEFAULT '{}',
+            task2_criteria       TEXT    DEFAULT '{}',
+            task1_comment        TEXT    DEFAULT '',
+            task2_comment        TEXT    DEFAULT '',
+            writing_band         REAL    DEFAULT NULL
+        )
+    `).run();
+}
+
+function sanitizeWritingTestForStudent(masterData) {
+    const copy = JSON.parse(JSON.stringify(masterData));
+    if (copy.tasks && Array.isArray(copy.tasks)) {
+        copy.tasks.forEach(t => {
+            delete t.sample_answer;
+        });
+    }
+    return copy;
+}
+
+function isValidBandCriterion(val) {
+    const n = Number(val);
+    if (isNaN(n) || n < 0 || n > 9) return false;
+    return (n * 2) % 1 === 0;
+}
+
+function analyzeWritingStructure(t1, t2) {
+    const analyzeText = (txt, minWords) => {
+        const clean = (txt || '').trim();
+        const words = clean ? clean.split(/\s+/).filter(w => w.length > 0) : [];
+        const wordCount = words.length;
+        const paragraphs = clean ? clean.split(/\n\s*\n/).filter(p => p.trim().length > 0) : [];
+        const paraCount = paragraphs.length;
+        
+        const cohesiveList = [
+            'furthermore', 'moreover', 'in contrast', 'on the other hand', 'however',
+            'consequently', 'therefore', 'as a result', 'in conclusion', 'firstly',
+            'secondly', 'similarly', 'overall', 'in terms of', 'specifically',
+            'for instance', 'for example', 'in particular', 'nevertheless', 'whereas'
+        ];
+        const lower = clean.toLowerCase();
+        const detectedCohesives = cohesiveList.filter(c => lower.includes(c));
+
+        const uniqueWords = new Set(words.map(w => w.toLowerCase().replace(/[^a-z0-9]/g, '')).filter(Boolean));
+        const varietyRatio = wordCount > 0 ? Math.round((uniqueWords.size / wordCount) * 100) : 0;
+
+        return {
+            wordCount,
+            minWords,
+            meetsMinWords: wordCount >= minWords,
+            paraCount,
+            detectedCohesives,
+            uniqueWordsCount: uniqueWords.size,
+            varietyRatio
+        };
+    };
+
+    return {
+        task1: analyzeText(t1, 150),
+        task2: analyzeText(t2, 250),
+        disclaimer: "Pengecekan di atas adalah audit kelayakan struktural teknis otomatis dan TIDAK menilai kualitas argumen, koherensi ide, maupun ketepatan tata bahasa. Penilaian resmi dilakukan oleh guru."
+    };
+}
+
 // ---------- Handler ----------
 export default {
     async fetch(request, env) {
@@ -939,10 +1032,309 @@ export default {
                 });
             }
 
-            // 4. Rekap Guru Terpadu IELTS (Listening & Reading)
-            if ((path === '/listening/admin/results' || path === '/reading/admin/results' || path === '/ielts/admin/results') && (request.method === 'GET' || request.method === 'POST')) {
+            // =================================================================
+            // --- IELTS-Style Academic Writing Mock Test Endpoints ---
+            // =================================================================
+
+            // 1. Mulai tes writing / resume session
+            if (path === '/writing/start' && request.method === 'POST') {
+                await ensureWritingSchema(env);
+                const body = await readJson(request);
+                const testId = String(body.testId || 'writing1').trim().toLowerCase();
+                const nama = String(body.nama || '').trim().slice(0, 80);
+                const kelas = String(body.kelas || '').trim().slice(0, 50);
+                const deviceId = String(body.deviceId || '').trim().slice(0, 64) || ('dev_' + crypto.randomUUID().slice(0, 12));
+                const requestedSessionId = String(body.sessionId || '').trim();
+
+                if (nama.length < 2) {
+                    return json(request, env, { ok: false, error: 'Nama lengkap wajib diisi minimal 2 karakter.' }, 400);
+                }
+                if (kelas.length < 1) {
+                    return json(request, env, { ok: false, error: 'Kelas wajib diisi (misal: 12 MIPA 1).' }, 400);
+                }
+
+                // Ambil master data soal writing dari Assets
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${testId}-master.json`, url.origin)));
+                if (!assetRes.ok) {
+                    return json(request, env, { ok: false, error: 'Paket tes writing tidak ditemukan.' }, 404);
+                }
+                const masterData = await assetRes.json();
+                const studentTestData = sanitizeWritingTestForStudent(masterData);
+
+                const now = Date.now();
+                let session = null;
+
+                if (requestedSessionId) {
+                    session = await env.DB.prepare('SELECT * FROM writing_sessions WHERE id = ?').bind(requestedSessionId).first();
+                }
+
+                if (!session) {
+                    session = await env.DB.prepare(
+                        'SELECT * FROM writing_sessions WHERE test_id = ? AND device_id = ? AND status = "in_progress" ORDER BY started_at DESC LIMIT 1'
+                    ).bind(testId, deviceId).first();
+                }
+
+                const testDurationSeconds = (masterData.duration_minutes || 60) * 60;
+
+                if (session) {
+                    if (session.status === 'submitted' || session.status === 'graded') {
+                        return json(request, env, {
+                            ok: true,
+                            alreadySubmitted: true,
+                            sessionId: session.id,
+                            status: session.status,
+                            task1Text: session.task1_text,
+                            task2Text: session.task2_text,
+                            task1WordCount: session.task1_word_count,
+                            task2WordCount: session.task2_word_count,
+                            structuralCheck: JSON.parse(session.structural_check || '{}'),
+                            writingBand: session.writing_band,
+                            task1Criteria: JSON.parse(session.task1_criteria || '{}'),
+                            task2Criteria: JSON.parse(session.task2_criteria || '{}'),
+                            task1Comment: session.task1_comment,
+                            task2Comment: session.task2_comment,
+                            sampleAnswers: masterData.tasks.map(t => ({
+                                task_no: t.task_no,
+                                sample_answer: t.sample_answer
+                            }))
+                        });
+                    }
+
+                    const durationMs = (session.duration_seconds || testDurationSeconds) * 1000;
+                    const elapsedMs = now - session.started_at;
+                    const remainingSeconds = Math.max(0, Math.floor((durationMs - elapsedMs) / 1000));
+
+                    return json(request, env, {
+                        ok: true,
+                        sessionId: session.id,
+                        resumed: true,
+                        startedAt: session.started_at,
+                        serverTime: now,
+                        remainingSeconds,
+                        currentTask: session.current_task,
+                        task1Text: session.task1_text,
+                        task2Text: session.task2_text,
+                        testData: studentTestData
+                    });
+                }
+
+                // Buat sesi baru
+                const newSessionId = 'ws_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+                await env.DB.prepare(`
+                    INSERT INTO writing_sessions (id, test_id, device_id, nama_peserta, kelas, started_at, duration_seconds, current_task, task1_text, task2_text, status)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 1, '', '', 'in_progress')
+                `).bind(newSessionId, testId, deviceId, nama, kelas, now, testDurationSeconds).run();
+
+                return json(request, env, {
+                    ok: true,
+                    sessionId: newSessionId,
+                    resumed: false,
+                    startedAt: now,
+                    serverTime: now,
+                    remainingSeconds: testDurationSeconds,
+                    currentTask: 1,
+                    task1Text: '',
+                    task2Text: '',
+                    testData: studentTestData
+                });
+            }
+
+            // 2. Autosave progres tulisan writing (Task 1 & Task 2)
+            if (path === '/writing/save-progress' && request.method === 'POST') {
+                await ensureWritingSchema(env);
+                const body = await readJson(request);
+                const sessionId = String(body.sessionId || '').trim();
+                const currentTask = Math.max(1, Math.min(2, parseInt(body.currentTask, 10) || 1));
+                const task1Text = String(body.task1Text || '');
+                const task2Text = String(body.task2Text || '');
+
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const t1Words = task1Text.trim() ? task1Text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
+                const t2Words = task2Text.trim() ? task2Text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
+
+                await env.DB.prepare(`
+                    UPDATE writing_sessions
+                    SET current_task = ?, task1_text = ?, task2_text = ?, task1_word_count = ?, task2_word_count = ?
+                    WHERE id = ? AND status = 'in_progress'
+                `).bind(currentTask, task1Text, task2Text, t1Words, t2Words, sessionId).run();
+
+                return json(request, env, {
+                    ok: true,
+                    serverTime: Date.now(),
+                    task1WordCount: t1Words,
+                    task2WordCount: t2Words
+                });
+            }
+
+            // 3. Submit tes writing (generate structural check, buka sample answer, status = submitted)
+            if (path === '/writing/submit' && request.method === 'POST') {
+                await ensureWritingSchema(env);
+                const body = await readJson(request);
+                const sessionId = String(body.sessionId || '').trim();
+                const task1Text = String(body.task1Text || '');
+                const task2Text = String(body.task2Text || '');
+
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT * FROM writing_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes writing tidak ditemukan.' }, 404);
+                }
+
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
+                if (!assetRes.ok) {
+                    return json(request, env, { ok: false, error: 'Master paket writing tidak ditemukan.' }, 500);
+                }
+                const master = await assetRes.json();
+
+                const now = Date.now();
+                const t1Words = task1Text.trim() ? task1Text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
+                const t2Words = task2Text.trim() ? task2Text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
+                const structuralCheck = analyzeWritingStructure(task1Text, task2Text);
+
+                await env.DB.prepare(`
+                    UPDATE writing_sessions
+                    SET submitted_at = ?, task1_text = ?, task2_text = ?, task1_word_count = ?, task2_word_count = ?, structural_check = ?, status = 'submitted'
+                    WHERE id = ?
+                `).bind(now, task1Text, task2Text, t1Words, t2Words, JSON.stringify(structuralCheck), sessionId).run();
+
+                return json(request, env, {
+                    ok: true,
+                    submittedAt: now,
+                    startedAt: session.started_at,
+                    task1WordCount: t1Words,
+                    task2WordCount: t2Words,
+                    structuralCheck,
+                    sampleAnswers: master.tasks.map(t => ({
+                        task_no: t.task_no,
+                        sample_answer: t.sample_answer
+                    }))
+                });
+            }
+
+            // 4. Status tes writing (untuk polling hasil penilaian guru oleh siswa)
+            if (path === '/writing/status' && request.method === 'GET') {
+                await ensureWritingSchema(env);
+                const sessionId = String(url.searchParams.get('sessionId') || '').trim();
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak diberikan.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT * FROM writing_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
+                }
+
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
+                const master = assetRes.ok ? await assetRes.json() : null;
+
+                return json(request, env, {
+                    ok: true,
+                    sessionId: session.id,
+                    status: session.status,
+                    submittedAt: session.submitted_at,
+                    gradedAt: session.graded_at,
+                    task1WordCount: session.task1_word_count,
+                    task2WordCount: session.task2_word_count,
+                    structuralCheck: JSON.parse(session.structural_check || '{}'),
+                    writingBand: session.writing_band,
+                    task1Criteria: JSON.parse(session.task1_criteria || '{}'),
+                    task2Criteria: JSON.parse(session.task2_criteria || '{}'),
+                    task1Comment: session.task1_comment || '',
+                    task2Comment: session.task2_comment || '',
+                    sampleAnswers: master ? master.tasks.map(t => ({
+                        task_no: t.task_no,
+                        sample_answer: t.sample_answer
+                    })) : []
+                });
+            }
+
+            // 5. Penilaian Writing oleh Guru (Protected by TEACHER_KEY)
+            if (path === '/writing/admin/grade' && request.method === 'POST') {
+                await ensureWritingSchema(env);
+                const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
+                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+
+                const rateStatus = await checkTeacherRateLimit(env, ipHash);
+                if (rateStatus.locked) {
+                    return json(request, env, {
+                        ok: false,
+                        error: `Terlalu banyak percobaan salah. Akses dikunci sementara selama ${rateStatus.remainingMinutes} menit.`
+                    }, 429);
+                }
+
+                let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
+                const body = await readJson(request);
+                if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
+
+                if (!verifyTeacherKey(submittedKey, env)) {
+                    await recordTeacherAttemptResult(env, ipHash, false);
+                    return json(request, env, { ok: false, error: 'Kunci Guru / Teacher Key tidak valid.' }, 401);
+                }
+                await recordTeacherAttemptResult(env, ipHash, true);
+
+                const sessionId = String(body.sessionId || '').trim();
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const t1c = body.task1Criteria || {};
+                const t2c = body.task2Criteria || {};
+
+                // Validasi tiap kriteria kelipatan 0.5 (0.0 - 9.0)
+                const cKeys1 = ['ta', 'cc', 'lr', 'gra'];
+                const cKeys2 = ['tr', 'cc', 'lr', 'gra'];
+                for (const k of cKeys1) {
+                    if (!isValidBandCriterion(t1c[k])) {
+                        return json(request, env, { ok: false, error: `Kriteria Task 1 (${k.toUpperCase()}) tidak valid (harus 0.0 - 9.0 kelipatan 0.5).` }, 400);
+                    }
+                }
+                for (const k of cKeys2) {
+                    if (!isValidBandCriterion(t2c[k])) {
+                        return json(request, env, { ok: false, error: `Kriteria Task 2 (${k.toUpperCase()}) tidak valid (harus 0.0 - 9.0 kelipatan 0.5).` }, 400);
+                    }
+                }
+
+                const t1Ta = Number(t1c.ta), t1Cc = Number(t1c.cc), t1Lr = Number(t1c.lr), t1Gra = Number(t1c.gra);
+                const t2Tr = Number(t2c.tr), t2Cc = Number(t2c.cc), t2Lr = Number(t2c.lr), t2Gra = Number(t2c.gra);
+
+                const task1Band = roundIeltsBand((t1Ta + t1Cc + t1Lr + t1Gra) / 4);
+                const task2Band = roundIeltsBand((t2Tr + t2Cc + t2Lr + t2Gra) / 4);
+                const writingBand = roundIeltsBand((task1Band + 2 * task2Band) / 3);
+
+                const task1CriteriaObj = { ta: t1Ta, cc: t1Cc, lr: t1Lr, gra: t1Gra, band: task1Band };
+                const task2CriteriaObj = { tr: t2Tr, cc: t2Cc, lr: t2Lr, gra: t2Gra, band: task2Band };
+                const task1Comment = String(body.task1Comment || '').trim().slice(0, 2000);
+                const task2Comment = String(body.task2Comment || '').trim().slice(0, 2000);
+                const teacherName = String(body.teacherName || '').trim().slice(0, 80);
+                const now = Date.now();
+
+                await env.DB.prepare(`
+                    UPDATE writing_sessions
+                    SET status = 'graded', graded_at = ?, teacher_name = ?, task1_criteria = ?, task2_criteria = ?, task1_comment = ?, task2_comment = ?, writing_band = ?
+                    WHERE id = ?
+                `).bind(now, teacherName, JSON.stringify(task1CriteriaObj), JSON.stringify(task2CriteriaObj), task1Comment, task2Comment, writingBand, sessionId).run();
+
+                return json(request, env, {
+                    ok: true,
+                    sessionId,
+                    task1Band,
+                    task2Band,
+                    writingBand,
+                    gradedAt: now
+                });
+            }
+
+            // 6. Rekap Guru Terpadu IELTS (Listening, Reading, & Writing)
+            if ((path === '/listening/admin/results' || path === '/reading/admin/results' || path === '/writing/admin/results' || path === '/ielts/admin/results') && (request.method === 'GET' || request.method === 'POST')) {
                 await ensureListeningSchema(env);
                 await ensureReadingSchema(env);
+                await ensureWritingSchema(env);
                 const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
                 const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
 
@@ -975,21 +1367,25 @@ export default {
 
                 let lisQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores FROM listening_sessions WHERE status = 'submitted'`;
                 let readQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, passage_scores, type_scores FROM reading_sessions WHERE status = 'submitted'`;
+                let writeQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, current_task, task1_text, task2_text, task1_word_count, task2_word_count, status, graded_at, task1_criteria, task2_criteria, task1_comment, task2_comment, writing_band FROM writing_sessions WHERE status IN ('submitted', 'graded')`;
                 const params = [];
 
                 if (filterKelas) {
                     lisQuery += ` AND kelas = ?`;
                     readQuery += ` AND kelas = ?`;
+                    writeQuery += ` AND kelas = ?`;
                     params.push(filterKelas);
                 }
 
                 lisQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
                 readQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
+                writeQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
 
                 const lisStmt = params.length > 0 ? env.DB.prepare(lisQuery).bind(...params) : env.DB.prepare(lisQuery);
                 const readStmt = params.length > 0 ? env.DB.prepare(readQuery).bind(...params) : env.DB.prepare(readQuery);
+                const writeStmt = params.length > 0 ? env.DB.prepare(writeQuery).bind(...params) : env.DB.prepare(writeQuery);
 
-                const [lisRes, readRes] = await Promise.all([lisStmt.all(), readStmt.all()]);
+                const [lisRes, readRes, writeRes] = await Promise.all([lisStmt.all(), readStmt.all(), writeStmt.all()]);
 
                 // Gabungkan per siswa: Map key = `nama_peserta.toLowerCase() + '|' + kelas.toLowerCase()`
                 const studentMap = new Map();
@@ -1002,6 +1398,7 @@ export default {
                             kelas: l.kelas,
                             listening: null,
                             reading: null,
+                            writing: null,
                             last_submitted_at: l.submitted_at || l.started_at
                         });
                     }
@@ -1025,6 +1422,7 @@ export default {
                             kelas: r.kelas,
                             listening: null,
                             reading: null,
+                            writing: null,
                             last_submitted_at: r.submitted_at || r.started_at
                         });
                     }
@@ -1041,21 +1439,58 @@ export default {
                     entry.last_submitted_at = Math.max(entry.last_submitted_at, r.submitted_at || 0);
                 });
 
-                // Hitung Overall Band per siswa (aturan IELTS: rata-rata sub-tes dibulatkan ke kelipatan 0.5 terdekat)
-                const mergedStudents = Array.from(studentMap.values()).map(s => {
-                    let overallBand = null;
-                    if (s.listening && s.reading) {
-                        const avg = (s.listening.band_score + s.reading.band_score) / 2;
-                        // Pembulatan IELTS: fraksi .25 naik ke .5, fraksi .75 naik ke .0 berikutnya
-                        overallBand = Math.round(avg * 2) / 2;
-                    } else if (s.listening) {
-                        overallBand = s.listening.band_score;
-                    } else if (s.reading) {
-                        overallBand = s.reading.band_score;
+                (writeRes.results || []).forEach(w => {
+                    const key = `${(w.nama_peserta || '').trim().toLowerCase()}|${(w.kelas || '').trim().toLowerCase()}`;
+                    if (!studentMap.has(key)) {
+                        studentMap.set(key, {
+                            nama_peserta: w.nama_peserta,
+                            kelas: w.kelas,
+                            listening: null,
+                            reading: null,
+                            writing: null,
+                            last_submitted_at: w.submitted_at || w.started_at
+                        });
                     }
+                    const entry = studentMap.get(key);
+                    entry.writing = {
+                        id: w.id,
+                        test_id: w.test_id,
+                        status: w.status,
+                        task1_text: w.task1_text,
+                        task2_text: w.task2_text,
+                        task1_word_count: w.task1_word_count,
+                        task2_word_count: w.task2_word_count,
+                        task1_criteria: JSON.parse(w.task1_criteria || '{}'),
+                        task2_criteria: JSON.parse(w.task2_criteria || '{}'),
+                        task1_comment: w.task1_comment || '',
+                        task2_comment: w.task2_comment || '',
+                        writing_band: w.writing_band,
+                        submitted_at: w.submitted_at,
+                        graded_at: w.graded_at
+                    };
+                    entry.last_submitted_at = Math.max(entry.last_submitted_at, w.submitted_at || 0);
+                });
+
+                // Hitung Overall (L+R+W) per siswa:
+                // HANYA dihitung jika ketiga subtes sudah ada DAN writing sudah dinilai (status 'graded')
+                const mergedStudents = Array.from(studentMap.values()).map(s => {
+                    let overallLrw = null;
+                    if (
+                        s.listening &&
+                        typeof s.listening.band_score === 'number' &&
+                        s.reading &&
+                        typeof s.reading.band_score === 'number' &&
+                        s.writing &&
+                        s.writing.status === 'graded' &&
+                        typeof s.writing.writing_band === 'number'
+                    ) {
+                        const avg = (s.listening.band_score + s.reading.band_score + s.writing.writing_band) / 3;
+                        overallLrw = roundIeltsBand(avg);
+                    }
+
                     return {
                         ...s,
-                        overall_band: overallBand
+                        overall_lrw: overallLrw
                     };
                 });
 
@@ -1066,7 +1501,8 @@ export default {
                     total: mergedStudents.length,
                     results: mergedStudents,
                     raw_listening: lisRes.results || [],
-                    raw_reading: readRes.results || []
+                    raw_reading: readRes.results || [],
+                    raw_writing: writeRes.results || []
                 });
             }
 

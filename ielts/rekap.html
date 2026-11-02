@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z11XQXB5L7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Z11XQXB5L7');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Rekap Hasil IELTS Siswa (Listening, Reading, Writing) — Panel Guru AjarKita</title>
+    <meta name="description" content="Dashboard rekapitulasi terpadu nilai IELTS-style Listening, Reading, dan penilaian Writing untuk guru: tinjau esai, input skor 4 kriteria, filter kelas, dan ekspor CSV.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen antialiased">
+
+    <!-- Global Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-grow w-full space-y-8">
+
+        <!-- HEADER BANNER -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+            <div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-2">
+                    <span>🔒</span> Panel Khusus Pengajar &amp; Guru
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                    Rekap Hasil <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-teal-600 to-amber-600">IELTS Practice Test Siswa</span>
+                </h1>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                    Dashboard terpadu pemantauan capaian siswa untuk subtes <strong>Listening</strong> (4 Section), <strong>Academic Reading</strong> (3 Passage), dan penilaian esai <strong>Academic Writing</strong> (Task 1 &amp; Task 2).
+                </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+                <a href="/ielts/listening-mock-test.html" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition flex items-center gap-1.5">
+                    <span>🎧</span> Tes Listening
+                </a>
+                <a href="/ielts/reading-mock-test.html" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition flex items-center gap-1.5">
+                    <span>📖</span> Tes Reading
+                </a>
+                <a href="/ielts/writing-mock-test.html" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition flex items-center gap-1.5">
+                    <span>✍️</span> Tes Writing
+                </a>
+                <button type="button" id="btn-logout-teacher" class="hidden px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition">
+                    🔒 Kunci Panel
+                </button>
+            </div>
+        </div>
+
+        <!-- AUTH FORM (JIKA BELUM MEMASUKKAN KODE GURU) -->
+        <div id="auth-box" class="max-w-md mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+            <div class="text-center space-y-2">
+                <span class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 text-2xl inline-flex items-center justify-center font-bold">
+                    🔑
+                </span>
+                <h2 class="text-lg font-bold text-slate-900">Autentikasi Kunci Guru</h2>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Masukkan Teacher Key terdaftar untuk mengakses rekapitulasi nilai dan lembar penilaian esai siswa.
+                </p>
+            </div>
+
+            <form id="form-teacher-auth" class="space-y-4">
+                <div class="space-y-1.5">
+                    <label for="input-teacher-key" class="block text-xs font-bold text-slate-700">Teacher Key / Kode Akses</label>
+                    <input type="password" id="input-teacher-key" required placeholder="Ketik Teacher Key..." autocomplete="current-password"
+                           class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/10 shadow-2xs transition">
+                </div>
+
+                <div id="auth-error-notice" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium"></div>
+
+                <button type="submit" id="btn-submit-auth" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition">
+                    Verifikasi &amp; Tampilkan Rekap
+                </button>
+            </form>
+        </div>
+
+        <!-- DASHBOARD CONTAINER (DITAMPILKAN SETELAH AUTH SUKSES) -->
+        <div id="dashboard-content" class="hidden space-y-8">
+            
+            <!-- STATS CARDS -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Siswa Terdata</span>
+                    <span id="stat-total-students" class="text-2xl sm:text-3xl font-extrabold text-slate-900 block font-mono">0</span>
+                    <span id="stat-complete-all" class="text-[10px] text-slate-500">0 siswa tuntas 3 subtes</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Rata-rata Band Listening</span>
+                    <span id="stat-avg-lis-band" class="text-2xl sm:text-3xl font-extrabold text-teal-700 block font-mono">0.0</span>
+                    <span id="stat-lis-count" class="text-[10px] text-slate-500">0 lembar jawaban</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600">Rata-rata Band Reading</span>
+                    <span id="stat-avg-read-band" class="text-2xl sm:text-3xl font-extrabold text-indigo-700 block font-mono">0.0</span>
+                    <span id="stat-read-count" class="text-[10px] text-slate-500">0 lembar jawaban</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Writing: Menunggu Dinilai</span>
+                    <span id="stat-writing-pending" class="text-2xl sm:text-3xl font-extrabold text-amber-700 block font-mono">0</span>
+                    <span id="stat-writing-graded-count" class="text-[10px] text-slate-500">0 sudah dinilai guru</span>
+                </div>
+            </div>
+
+            <!-- TOOLBAR: FILTER & SEARCH -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 flex-grow">
+                    <!-- Search by Name -->
+                    <div class="relative w-full">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">🔍</span>
+                        <input type="text" id="input-search-student" oninput="filterAndRenderTable()" placeholder="Cari nama siswa..." 
+                               class="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 transition">
+                    </div>
+
+                    <!-- Filter by Class -->
+                    <div class="w-full">
+                        <select id="select-filter-kelas" onchange="filterAndRenderTable()" 
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
+                            <option value="">Semua Kelas</option>
+                        </select>
+                    </div>
+
+                    <!-- Filter by Module Status -->
+                    <div class="w-full">
+                        <select id="select-filter-modul" onchange="filterAndRenderTable()" 
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
+                            <option value="">Semua Status Subtes</option>
+                            <option value="complete_3">Lengkap 3 Subtes (L + R + W)</option>
+                            <option value="writing_pending">Writing Menunggu Penilaian</option>
+                            <option value="writing_graded">Writing Sudah Dinilai</option>
+                            <option value="has_listening">Memiliki Nilai Listening</option>
+                            <option value="has_reading">Memiliki Nilai Reading</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort -->
+                    <div class="w-full">
+                        <select id="select-sort-by" onchange="filterAndRenderTable()" 
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
+                            <option value="time_desc">Waktu Submit (Terbaru)</option>
+                            <option value="overall_desc">Overall (L+R+W) Tertinggi</option>
+                            <option value="write_desc">Writing Band Tertinggi</option>
+                            <option value="read_desc">Reading Band Tertinggi</option>
+                            <option value="lis_desc">Listening Band Tertinggi</option>
+                            <option value="name_asc">Nama Siswa (A–Z)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Export CSV & Refresh -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button type="button" onclick="fetchResults()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                        🔄 Refresh
+                    </button>
+                    <button type="button" onclick="exportToCSV()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-xs transition flex items-center gap-1.5">
+                        <span>📥</span> Ekspor CSV (Excel)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TABLE OF SUBMISSIONS -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-700 border-collapse">
+                        <thead class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                            <tr>
+                                <th class="py-3.5 px-4 w-12 text-center">No</th>
+                                <th class="py-3.5 px-4 min-w-[150px]">Nama Siswa</th>
+                                <th class="py-3.5 px-4 min-w-[80px]">Kelas</th>
+                                <th class="py-3.5 px-4 text-center min-w-[140px]">🎧 Listening</th>
+                                <th class="py-3.5 px-4 text-center min-w-[140px]">📖 Reading</th>
+                                <th class="py-3.5 px-4 text-center min-w-[190px]">✍️ Writing</th>
+                                <th class="py-3.5 px-4 text-center min-w-[130px]">Overall (L+R+W)</th>
+                                <th class="py-3.5 px-4 text-right min-w-[130px]">Submit Terakhir</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-submissions-body" class="divide-y divide-slate-100">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="table-empty-state" class="hidden text-center py-12 space-y-2">
+                    <span class="text-3xl">📭</span>
+                    <p class="text-xs font-semibold text-slate-600">Belum ada data lembar tes yang cocok.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- MODAL PENILAIAN & PEMBACA ESAY SISWA (ANTI-XSS) -->
+    <div id="modal-grading-writing" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-4xl w-full p-6 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto custom-scrollbar">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">
+                        Form Penilaian Writing Guru
+                    </span>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mt-1" id="modal-student-info">
+                        Nama Siswa (Kelas)
+                    </h3>
+                </div>
+                <button type="button" onclick="closeGradingModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xs transition">
+                    ✕
+                </button>
+            </div>
+
+            <form id="form-submit-grade" onsubmit="handleSaveGrade(event)" class="space-y-6">
+                <input type="hidden" id="modal-session-id" value="">
+
+                <!-- TASK 1 SECTION -->
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                        <span class="text-xs font-bold text-indigo-900 uppercase">
+                            Task 1: Report Data Visual (<span id="modal-t1-word-count">0</span> kata)
+                        </span>
+                        <span id="modal-t1-live-band" class="text-xs font-bold font-mono bg-white px-2.5 py-0.5 rounded border border-indigo-200 text-indigo-700">
+                            Task 1 Band: -
+                        </span>
+                    </div>
+
+                    <!-- Teks Asli Siswa (Sanitized Anti-XSS) -->
+                    <div class="space-y-1">
+                        <span class="text-[11px] font-semibold text-slate-500">Tulisan Siswa:</span>
+                        <div id="modal-t1-essay-text" class="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 leading-relaxed font-sans max-h-48 overflow-y-auto custom-scrollbar whitespace-pre-wrap">
+                            -
+                        </div>
+                    </div>
+
+                    <!-- 4 Kriteria Dropdown Task 1 -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                        <div class="space-y-1">
+                            <label class="block text-[10px] font-bold uppercase text-slate-600">Task Achievement (TA)</label>
+                            <select id="input-t1-ta" onchange="calculateLiveModalBands()" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-indigo-900">
+                                <!-- 0.0 - 9.0 -->
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] font-bold uppercase text-slate-600">Coherence &amp; Cohesion (CC)</label>
+                            <select id="input-t1-cc" onchange="calculateLiveModalBands()" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-indigo-900">
+                                <!-- 0.0 - 9.0 -->
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] font-bold uppercase text-slate-600">Lexical Resource (LR)</label>
+                            <select id="input-t1-lr" onchange="calculateLiveModalBands()" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-indigo-900">
+                                <!-- 0.0 - 9.0 -->
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] font-bold uppercase text-slate-600">Grammar &amp; Accuracy (GRA)</label>
+                            <select id="input-t1-gra" onchange="calculateLiveModalBands()" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-indigo-900">
+                                <!-- 0.0 - 9.0 -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Catatan Guru Task 1 -->
+                    <div class="space-y-1 pt-1">
+                        <label class="block text-[11px] font-semibold text-slate-600">Catatan / Umpan Balik Guru (Task 1):</label>
+                        <input type="text" id="input-t1-comment" placeholder="Catatan evaluasi untuk Task 1..." class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-800">
+                    </div>
+                </div>
+
+                <!-- TASK 2 SECTION -->
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                        <span class="text-xs font-bold text-teal-900 uppercase">
+                            Task 2: Discursive Essay (<span id="modal-t2-word-count">0</span> kata)
+                        </span>
+                        <span id="modal-t2-live-band" class="text-xs font-bold font-mono bg-white px-2.5 py-0.5 rounded border border-teal-200 text-teal-700">
+                            Task 2 Band: -
+                        </span>
+                    </div>
+
+                    <!-- Teks Asli Siswa (Sanitized Anti-XSS) -->
+                    <div class="space-y-1">
+                        <span class="text-[11px] font-semibold text-slate-500">Tulisan Siswa:</span>
+                        <div id="modal-t2-essay-text" class="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 leading-relaxed font-sans max-h-56 overflow-y-auto custom-scrollbar whitespace-pre-wrap">
+                            -
+                        </div>
+                    </div>
+
+                    <!-- 4 Kriteria Dropdown Task 2 -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                        <div class="space-y-1">
+                            <label class="block text-[10px] font-bold uppercase text-slate-600">Task Response (TR)</label>
+                            <select id="input-t2-tr" onchange="calculateLiveModalBands()" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-teal-900">
+                                <!-- 0.0 - 9.0 -->
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] font-bold uppercase text-slate-600">Coherence &amp; Cohesion (CC)</label>
+                            <select id="input-t2-cc" onchange="calculateLiveModalBands()" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-teal-900">
+                                <!-- 0.0 - 9.0 -->
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] font-bold uppercase text-slate-600">Lexical Resource (LR)</label>
+                            <select id="input-t2-lr" onchange="calculateLiveModalBands()" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-teal-900">
+                                <!-- 0.0 - 9.0 -->
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[10px] font-bold uppercase text-slate-600">Grammar &amp; Accuracy (GRA)</label>
+                            <select id="input-t2-gra" onchange="calculateLiveModalBands()" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-teal-900">
+                                <!-- 0.0 - 9.0 -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Catatan Guru Task 2 -->
+                    <div class="space-y-1 pt-1">
+                        <label class="block text-[11px] font-semibold text-slate-600">Catatan / Umpan Balik Guru (Task 2):</label>
+                        <input type="text" id="input-t2-comment" placeholder="Catatan evaluasi untuk Task 2..." class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-800">
+                    </div>
+                </div>
+
+                <!-- PREVIEW BAND WRITING AKHIR & TOMBOL SIMPAN -->
+                <div class="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-indigo-900 font-bold">Total Writing Band Akhir:</span>
+                        <span id="modal-writing-final-band" class="text-lg font-black font-mono text-indigo-700 bg-white px-3 py-1 rounded-xl border border-indigo-300 shadow-2xs">
+                            Band 0.0
+                        </span>
+                        <span class="text-[10px] text-slate-500 font-mono">Formula: (T1 + 2×T2)/3</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button type="button" onclick="closeGradingModal()" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 text-xs font-bold transition">
+                            Batal
+                        </button>
+                        <button type="submit" id="btn-save-grading" class="w-full sm:w-auto px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-xs transition">
+                            💾 Simpan Penilaian Guru
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Global Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/include.js"></script>
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
+            : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev';
+
+        let ALL_STUDENTS = [];
+        let ACTIVE_TEACHER_KEY = sessionStorage.getItem('teacher_key') || '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initScoreDropdownOptions();
+
+            if (ACTIVE_TEACHER_KEY) {
+                fetchResults();
+            }
+
+            document.getElementById('form-teacher-auth').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const keyInput = document.getElementById('input-teacher-key');
+                const key = keyInput ? keyInput.value.trim() : '';
+                if (!key) return;
+
+                ACTIVE_TEACHER_KEY = key;
+                await fetchResults(true);
+            });
+
+            document.getElementById('btn-logout-teacher').addEventListener('click', () => {
+                sessionStorage.removeItem('teacher_key');
+                ACTIVE_TEACHER_KEY = '';
+                document.getElementById('dashboard-content').classList.add('hidden');
+                document.getElementById('auth-box').classList.remove('hidden');
+                document.getElementById('btn-logout-teacher').classList.add('hidden');
+            });
+        });
+
+        // Isi opsi dropdown skor 0.0 - 9.0 kelipatan 0.5
+        function initScoreDropdownOptions() {
+            const dropdownIds = [
+                'input-t1-ta', 'input-t1-cc', 'input-t1-lr', 'input-t1-gra',
+                'input-t2-tr', 'input-t2-cc', 'input-t2-lr', 'input-t2-gra'
+            ];
+            const options = [];
+            for (let i = 0; i <= 9; i += 0.5) {
+                options.push(`<option value="${i.toFixed(1)}">${i.toFixed(1)}</option>`);
+            }
+            const optsHtml = options.join('');
+
+            dropdownIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = optsHtml;
+            });
+        }
+
+        async function fetchResults(isAuthAttempt = false) {
+            const errBox = document.getElementById('auth-error-notice');
+            const submitBtn = document.getElementById('btn-submit-auth');
+            if (errBox) errBox.classList.add('hidden');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Memverifikasi...';
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/ielts/admin/results`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Teacher-Key': ACTIVE_TEACHER_KEY
+                    },
+                    body: JSON.stringify({ teacherKey: ACTIVE_TEACHER_KEY })
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.error || 'Autentikasi gagal. Kode guru salah atau akses terkunci.');
+                }
+
+                const data = await res.json();
+                ALL_STUDENTS = data.results || [];
+
+                sessionStorage.setItem('teacher_key', ACTIVE_TEACHER_KEY);
+
+                document.getElementById('auth-box').classList.add('hidden');
+                document.getElementById('dashboard-content').classList.remove('hidden');
+                document.getElementById('btn-logout-teacher').classList.remove('hidden');
+
+                populateClassFilter(ALL_STUDENTS);
+                updateStatistics(ALL_STUDENTS);
+                filterAndRenderTable();
+
+            } catch (err) {
+                if (errBox) {
+                    errBox.textContent = err.message;
+                    errBox.classList.remove('hidden');
+                }
+                if (!isAuthAttempt) {
+                    sessionStorage.removeItem('teacher_key');
+                    document.getElementById('dashboard-content').classList.add('hidden');
+                    document.getElementById('auth-box').classList.remove('hidden');
+                    document.getElementById('btn-logout-teacher').classList.add('hidden');
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Verifikasi & Tampilkan Rekap';
+                }
+            }
+        }
+
+        function populateClassFilter(students) {
+            const select = document.getElementById('select-filter-kelas');
+            if (!select) return;
+
+            const existingVal = select.value;
+            const uniqueClasses = Array.from(new Set(students.map(s => s.kelas).filter(Boolean))).sort();
+
+            select.innerHTML = '<option value="">Semua Kelas</option>' + 
+                uniqueClasses.map(c => `<option value="${escapeHtml(c)}" ${existingVal === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('');
+        }
+
+        function updateStatistics(students) {
+            const totalStudentsEl = document.getElementById('stat-total-students');
+            const completeAllEl = document.getElementById('stat-complete-all');
+            const avgLisBandEl = document.getElementById('stat-avg-lis-band');
+            const lisCountEl = document.getElementById('stat-lis-count');
+            const avgReadBandEl = document.getElementById('stat-avg-read-band');
+            const readCountEl = document.getElementById('stat-read-count');
+            const writingPendingEl = document.getElementById('stat-writing-pending');
+            const writingGradedEl = document.getElementById('stat-writing-graded-count');
+
+            const total = students.length;
+            if (totalStudentsEl) totalStudentsEl.textContent = total;
+
+            let completeAllCount = 0;
+            let lisSum = 0, lisCount = 0;
+            let readSum = 0, readCount = 0;
+            let writePendingCount = 0, writeGradedCount = 0;
+
+            students.forEach(s => {
+                const hasL = s.listening && typeof s.listening.band_score === 'number';
+                const hasR = s.reading && typeof s.reading.band_score === 'number';
+                const hasW = s.writing && s.writing.status === 'graded';
+
+                if (hasL && hasR && hasW) completeAllCount++;
+
+                if (hasL) {
+                    lisSum += s.listening.band_score;
+                    lisCount++;
+                }
+                if (hasR) {
+                    readSum += s.reading.band_score;
+                    readCount++;
+                }
+                if (s.writing) {
+                    if (s.writing.status === 'submitted') writePendingCount++;
+                    else if (s.writing.status === 'graded') writeGradedCount++;
+                }
+            });
+
+            if (completeAllEl) completeAllEl.textContent = `${completeAllCount} siswa tuntas 3 subtes`;
+            if (avgLisBandEl) avgLisBandEl.textContent = lisCount > 0 ? (lisSum / lisCount).toFixed(1) : '0.0';
+            if (lisCountEl) lisCountEl.textContent = `${lisCount} lembar jawaban`;
+            if (avgReadBandEl) avgReadBandEl.textContent = readCount > 0 ? (readSum / readCount).toFixed(1) : '0.0';
+            if (readCountEl) readCountEl.textContent = `${readCount} lembar jawaban`;
+            if (writingPendingEl) writingPendingEl.textContent = writePendingCount;
+            if (writingGradedEl) writingGradedEl.textContent = `${writeGradedCount} sudah dinilai guru`;
+        }
+
+        function filterAndRenderTable() {
+            const searchQ = (document.getElementById('input-search-student').value || '').toLowerCase().trim();
+            const filterClass = document.getElementById('select-filter-kelas').value;
+            const filterModul = document.getElementById('select-filter-modul').value;
+            const sortBy = document.getElementById('select-sort-by').value;
+
+            let list = ALL_STUDENTS.filter(item => {
+                const matchClass = !filterClass || item.kelas === filterClass;
+                const matchName = !searchQ || 
+                    (item.nama_peserta || '').toLowerCase().includes(searchQ) ||
+                    (item.kelas || '').toLowerCase().includes(searchQ);
+
+                let matchModul = true;
+                if (filterModul === 'complete_3') {
+                    matchModul = !!(item.listening && item.reading && item.writing && item.writing.status === 'graded');
+                } else if (filterModul === 'writing_pending') {
+                    matchModul = !!(item.writing && item.writing.status === 'submitted');
+                } else if (filterModul === 'writing_graded') {
+                    matchModul = !!(item.writing && item.writing.status === 'graded');
+                } else if (filterModul === 'has_listening') {
+                    matchModul = !!item.listening;
+                } else if (filterModul === 'has_reading') {
+                    matchModul = !!item.reading;
+                }
+
+                return matchClass && matchName && matchModul;
+            });
+
+            // Sorting
+            list.sort((a, b) => {
+                if (sortBy === 'time_desc') return (b.last_submitted_at || 0) - (a.last_submitted_at || 0);
+                if (sortBy === 'overall_desc') return ((b.overall_lrw || 0) - (a.overall_lrw || 0));
+                if (sortBy === 'write_desc') return ((b.writing && b.writing.writing_band ? b.writing.writing_band : -1) - (a.writing && a.writing.writing_band ? a.writing.writing_band : -1));
+                if (sortBy === 'read_desc') return ((b.reading ? b.reading.raw_score : -1) - (a.reading ? a.reading.raw_score : -1));
+                if (sortBy === 'lis_desc') return ((b.listening ? b.listening.raw_score : -1) - (a.listening ? a.listening.raw_score : -1));
+                if (sortBy === 'name_asc') return (a.nama_peserta || '').localeCompare(b.nama_peserta || '');
+                return 0;
+            });
+
+            renderTableRows(list);
+        }
+
+        function renderTableRows(items) {
+            const tbody = document.getElementById('table-submissions-body');
+            const emptyState = document.getElementById('table-empty-state');
+            if (!tbody) return;
+
+            if (items.length === 0) {
+                tbody.innerHTML = '';
+                if (emptyState) emptyState.classList.remove('hidden');
+                return;
+            }
+
+            if (emptyState) emptyState.classList.add('hidden');
+
+            tbody.innerHTML = items.map((item, idx) => {
+                const timeStr = item.last_submitted_at ? formatDateTime(item.last_submitted_at) : '-';
+
+                // Listening
+                let lisHtml = `<span class="text-[11px] text-slate-400 italic">Belum tes</span>`;
+                if (item.listening) {
+                    const l = item.listening;
+                    const sec = parseScores(l.section_scores);
+                    const lColor = getBandBadgeClass(l.band_score);
+                    lisHtml = `
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-mono font-bold text-slate-900">${l.raw_score}/40</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${lColor}">B ${Number(l.band_score).toFixed(1)}</span>
+                            </div>
+                            <div class="flex items-center gap-1 font-mono text-[9px] text-slate-500">
+                                <span class="px-1 py-0.2 rounded bg-indigo-50 text-indigo-700">S1:${sec.s1 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-teal-50 text-teal-700">S2:${sec.s2 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-amber-50 text-amber-700">S3:${sec.s3 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-rose-50 text-rose-700">S4:${sec.s4 || 0}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Reading
+                let readHtml = `<span class="text-[11px] text-slate-400 italic">Belum tes</span>`;
+                if (item.reading) {
+                    const r = item.reading;
+                    const pass = parseScores(r.passage_scores);
+                    const rColor = getBandBadgeClass(r.band_score);
+                    readHtml = `
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-mono font-bold text-slate-900">${r.raw_score}/40</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${rColor}">B ${Number(r.band_score).toFixed(1)}</span>
+                            </div>
+                            <div class="flex items-center gap-1 font-mono text-[9px] text-slate-500">
+                                <span class="px-1 py-0.2 rounded bg-blue-50 text-blue-700">P1:${pass.p1 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-emerald-50 text-emerald-700">P2:${pass.p2 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-purple-50 text-purple-700">P3:${pass.p3 || 0}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Writing (Status / Band / Tombol Nilai)
+                let writeHtml = `<span class="text-[11px] text-slate-400 italic">Belum tes</span>`;
+                if (item.writing) {
+                    const w = item.writing;
+                    const isGraded = w.status === 'graded';
+                    const bandText = isGraded && w.writing_band ? `Band ${Number(w.writing_band).toFixed(1)}` : 'Menunggu Dinilai';
+                    const badgeClass = isGraded ? 'bg-teal-100 text-teal-800 border-teal-200' : 'bg-amber-100 text-amber-800 border-amber-200';
+
+                    writeHtml = `
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold border ${badgeClass}">
+                                    ${bandText}
+                                </span>
+                                <button type="button" onclick="openGradingModal(${idx})" class="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 underline">
+                                    ${isGraded ? 'Ubah Nilai' : 'Nilai Tulisan'}
+                                </button>
+                            </div>
+                            <span class="text-[9px] text-slate-500 font-mono">
+                                T1: ${w.task1_word_count || 0} kata • T2: ${w.task2_word_count || 0} kata
+                            </span>
+                        </div>
+                    `;
+                }
+
+                // Overall (L+R+W): HANYA jika ketiga subtes ada dan writing sudah dinilai
+                let overallHtml = `<span class="text-slate-400 font-mono" title="Menunggu ketiga subtes selesai dan dinilai">-</span>`;
+                if (typeof item.overall_lrw === 'number') {
+                    const oColor = getBandBadgeClass(item.overall_lrw);
+                    overallHtml = `
+                        <div class="flex flex-col items-center gap-0.5">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-black shadow-2xs ${oColor}">
+                                Band ${item.overall_lrw.toFixed(1)}
+                            </span>
+                            <span class="text-[9px] text-slate-400">3 Subtes (L+R+W)</span>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <tr class="hover:bg-slate-50/70 transition">
+                        <td class="py-3 px-4 text-center font-mono font-medium text-slate-400">${idx + 1}</td>
+                        <td class="py-3 px-4 font-bold text-slate-900">
+                            <div class="truncate max-w-[180px]" title="${escapeHtml(item.nama_peserta)}">
+                                ${escapeHtml(item.nama_peserta)}
+                            </div>
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-semibold text-[11px]">${escapeHtml(item.kelas)}</span>
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            ${lisHtml}
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            ${readHtml}
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            ${writeHtml}
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            ${overallHtml}
+                        </td>
+                        <td class="py-3 px-4 text-right text-slate-500 font-mono text-[11px]">
+                            ${timeStr}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function getBandBadgeClass(band) {
+            const b = Number(band) || 0;
+            if (b >= 7.5) return 'bg-indigo-100 text-indigo-800 border border-indigo-200';
+            if (b >= 6.0) return 'bg-teal-100 text-teal-800 border border-teal-200';
+            if (b >= 5.0) return 'bg-amber-100 text-amber-800 border border-amber-200';
+            return 'bg-slate-100 text-slate-700 border border-slate-200';
+        }
+
+        function parseScores(raw) {
+            if (typeof raw === 'object' && raw !== null) return raw;
+            try {
+                return JSON.parse(raw || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function formatDateTime(ms) {
+            const d = new Date(ms);
+            const tgl = d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+            const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+            return `${tgl}, ${jam} WIB`;
+        }
+
+        // --- Logika Modal Penilaian & Pembaca Esai Siswa ---
+        let ACTIVE_GRADING_STUDENT = null;
+
+        function openGradingModal(index) {
+            const student = ALL_STUDENTS[index];
+            if (!student || !student.writing) {
+                alert('Siswa ini belum memiliki lembar jawaban tes Writing.');
+                return;
+            }
+
+            ACTIVE_GRADING_STUDENT = student;
+            const w = student.writing;
+
+            document.getElementById('modal-session-id').value = w.id || '';
+            document.getElementById('modal-student-info').textContent = `${student.nama_peserta} (${student.kelas})`;
+
+            document.getElementById('modal-t1-word-count').textContent = w.task1_word_count || 0;
+            document.getElementById('modal-t2-word-count').textContent = w.task2_word_count || 0;
+
+            // Render Teks Siswa DENGAN ESCAPING ANTI-XSS
+            const t1Text = w.task1_text || '(Tidak ada teks diketik)';
+            const t2Text = w.task2_text || '(Tidak ada teks diketik)';
+            document.getElementById('modal-t1-essay-text').textContent = t1Text;
+            document.getElementById('modal-t2-essay-text').textContent = t2Text;
+
+            // Isi nilai yang tersimpan sebelumnya (jika sudah ada)
+            const t1c = w.task1_criteria || {};
+            const t2c = w.task2_criteria || {};
+
+            document.getElementById('input-t1-ta').value = (t1c.ta !== undefined ? Number(t1c.ta).toFixed(1) : '6.0');
+            document.getElementById('input-t1-cc').value = (t1c.cc !== undefined ? Number(t1c.cc).toFixed(1) : '6.0');
+            document.getElementById('input-t1-lr').value = (t1c.lr !== undefined ? Number(t1c.lr).toFixed(1) : '6.0');
+            document.getElementById('input-t1-gra').value = (t1c.gra !== undefined ? Number(t1c.gra).toFixed(1) : '6.0');
+
+            document.getElementById('input-t2-tr').value = (t2c.tr !== undefined ? Number(t2c.tr).toFixed(1) : '6.0');
+            document.getElementById('input-t2-cc').value = (t2c.cc !== undefined ? Number(t2c.cc).toFixed(1) : '6.0');
+            document.getElementById('input-t2-lr').value = (t2c.lr !== undefined ? Number(t2c.lr).toFixed(1) : '6.0');
+            document.getElementById('input-t2-gra').value = (t2c.gra !== undefined ? Number(t2c.gra).toFixed(1) : '6.0');
+
+            document.getElementById('input-t1-comment').value = w.task1_comment || '';
+            document.getElementById('input-t2-comment').value = w.task2_comment || '';
+
+            calculateLiveModalBands();
+
+            document.getElementById('modal-grading-writing').classList.remove('hidden');
+        }
+
+        function closeGradingModal() {
+            document.getElementById('modal-grading-writing').classList.add('hidden');
+            ACTIVE_GRADING_STUDENT = null;
+        }
+
+        // Pembulatan IELTS Baku di Frontend (.25 naik ke .5, .75 naik ke bulat berikutnya)
+        function roundIeltsBandFrontend(val) {
+            if (typeof val !== 'number' || isNaN(val)) return 0;
+            const base = Math.floor(val);
+            const remainder = Math.round((val - base) * 1000) / 1000;
+            if (remainder < 0.25) return base;
+            if (remainder < 0.75) return base + 0.5;
+            return base + 1.0;
+        }
+
+        function calculateLiveModalBands() {
+            const t1Ta = parseFloat(document.getElementById('input-t1-ta').value) || 0;
+            const t1Cc = parseFloat(document.getElementById('input-t1-cc').value) || 0;
+            const t1Lr = parseFloat(document.getElementById('input-t1-lr').value) || 0;
+            const t1Gra = parseFloat(document.getElementById('input-t1-gra').value) || 0;
+
+            const t2Tr = parseFloat(document.getElementById('input-t2-tr').value) || 0;
+            const t2Cc = parseFloat(document.getElementById('input-t2-cc').value) || 0;
+            const t2Lr = parseFloat(document.getElementById('input-t2-lr').value) || 0;
+            const t2Gra = parseFloat(document.getElementById('input-t2-gra').value) || 0;
+
+            const t1Band = roundIeltsBandFrontend((t1Ta + t1Cc + t1Lr + t1Gra) / 4);
+            const t2Band = roundIeltsBandFrontend((t2Tr + t2Cc + t2Lr + t2Gra) / 4);
+            const writingBand = roundIeltsBandFrontend((t1Band + 2 * t2Band) / 3);
+
+            document.getElementById('modal-t1-live-band').textContent = `Task 1 Band: ${t1Band.toFixed(1)}`;
+            document.getElementById('modal-t2-live-band').textContent = `Task 2 Band: ${t2Band.toFixed(1)}`;
+            document.getElementById('modal-writing-final-band').textContent = `Band ${writingBand.toFixed(1)}`;
+        }
+
+        async function handleSaveGrade(e) {
+            e.preventDefault();
+            const sessionId = document.getElementById('modal-session-id').value;
+            const saveBtn = document.getElementById('btn-save-grading');
+
+            if (!sessionId) {
+                alert('Session ID tidak valid.');
+                return;
+            }
+
+            const payload = {
+                teacherKey: ACTIVE_TEACHER_KEY,
+                sessionId,
+                task1Criteria: {
+                    ta: parseFloat(document.getElementById('input-t1-ta').value),
+                    cc: parseFloat(document.getElementById('input-t1-cc').value),
+                    lr: parseFloat(document.getElementById('input-t1-lr').value),
+                    gra: parseFloat(document.getElementById('input-t1-gra').value)
+                },
+                task2Criteria: {
+                    tr: parseFloat(document.getElementById('input-t2-tr').value),
+                    cc: parseFloat(document.getElementById('input-t2-cc').value),
+                    lr: parseFloat(document.getElementById('input-t2-lr').value),
+                    gra: parseFloat(document.getElementById('input-t2-gra').value)
+                },
+                task1Comment: document.getElementById('input-t1-comment').value.trim(),
+                task2Comment: document.getElementById('input-t2-comment').value.trim()
+            };
+
+            if (saveBtn) {
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'Menyimpan Nilai...';
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/writing/admin/grade`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Teacher-Key': ACTIVE_TEACHER_KEY
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.error || 'Gagal menyimpan penilaian guru.');
+                }
+
+                alert('Penilaian Writing berhasil disimpan dan diperbarui!');
+                closeGradingModal();
+                await fetchResults();
+
+            } catch (err) {
+                alert('Kendala: ' + err.message);
+            } finally {
+                if (saveBtn) {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = '💾 Simpan Penilaian Guru';
+                }
+            }
+        }
+
+        // --- Ekspor Rekap Lengkap ke CSV (Kompatibel Excel) ---
+        function exportToCSV() {
+            if (ALL_STUDENTS.length === 0) {
+                alert('Tidak ada data untuk diekspor.');
+                return;
+            }
+
+            const headers = [
+                'No',
+                'Nama Siswa',
+                'Kelas',
+                'Overall (L+R+W)',
+                'Listening Raw (/40)',
+                'Listening Band',
+                'Reading Raw (/40)',
+                'Reading Band',
+                'Writing Status',
+                'Writing Band',
+                'Writing T1 Words',
+                'Writing T1 Band',
+                'Writing T1 TA',
+                'Writing T1 CC',
+                'Writing T1 LR',
+                'Writing T1 GRA',
+                'Writing T1 Comment',
+                'Writing T1 Text',
+                'Writing T2 Words',
+                'Writing T2 Band',
+                'Writing T2 TR',
+                'Writing T2 CC',
+                'Writing T2 LR',
+                'Writing T2 GRA',
+                'Writing T2 Comment',
+                'Writing T2 Text',
+                'Waktu Submit Terakhir'
+            ];
+            
+            const rows = ALL_STUDENTS.map((s, i) => {
+                const l = s.listening || null;
+                const r = s.reading || null;
+                const w = s.writing || null;
+
+                const t1c = w ? (w.task1_criteria || {}) : {};
+                const t2c = w ? (w.task2_criteria || {}) : {};
+
+                return [
+                    i + 1,
+                    escapeCsvCell(s.nama_peserta),
+                    escapeCsvCell(s.kelas),
+                    typeof s.overall_lrw === 'number' ? s.overall_lrw.toFixed(1) : '""',
+                    l ? (l.raw_score ?? 0) : '""',
+                    l && typeof l.band_score === 'number' ? l.band_score.toFixed(1) : '""',
+                    r ? (r.raw_score ?? 0) : '""',
+                    r && typeof r.band_score === 'number' ? r.band_score.toFixed(1) : '""',
+                    w ? escapeCsvCell(w.status === 'graded' ? 'Sudah Dinilai' : 'Menunggu Penilaian') : '""',
+                    w && typeof w.writing_band === 'number' ? w.writing_band.toFixed(1) : '""',
+                    w ? (w.task1_word_count ?? 0) : '""',
+                    t1c.band !== undefined ? Number(t1c.band).toFixed(1) : '""',
+                    t1c.ta !== undefined ? Number(t1c.ta).toFixed(1) : '""',
+                    t1c.cc !== undefined ? Number(t1c.cc).toFixed(1) : '""',
+                    t1c.lr !== undefined ? Number(t1c.lr).toFixed(1) : '""',
+                    t1c.gra !== undefined ? Number(t1c.gra).toFixed(1) : '""',
+                    escapeCsvCell(w ? w.task1_comment : ''),
+                    escapeCsvCell(w ? w.task1_text : ''),
+                    w ? (w.task2_word_count ?? 0) : '""',
+                    t2c.band !== undefined ? Number(t2c.band).toFixed(1) : '""',
+                    t2c.tr !== undefined ? Number(t2c.tr).toFixed(1) : '""',
+                    t2c.cc !== undefined ? Number(t2c.cc).toFixed(1) : '""',
+                    t2c.lr !== undefined ? Number(t2c.lr).toFixed(1) : '""',
+                    t2c.gra !== undefined ? Number(t2c.gra).toFixed(1) : '""',
+                    escapeCsvCell(w ? w.task2_comment : ''),
+                    escapeCsvCell(w ? w.task2_text : ''),
+                    s.last_submitted_at ? `"${new Date(s.last_submitted_at).toISOString()}"` : '""'
+                ];
+            });
+
+            // BOM UTF-8 (\uFEFF) agar terbaca sempurna di Microsoft Excel
+            const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rekap-ielts-lengkap-${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function escapeCsvCell(str) {
+            if (str === null || str === undefined) return '""';
+            return `"${String(str).replace(/"/g, '""')}"`;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
