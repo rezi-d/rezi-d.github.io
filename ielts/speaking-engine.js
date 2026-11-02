@@ -740,11 +740,15 @@
             try {
                 const res = await fetch(`${API_BASE}/speaking/upload-recording`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Device-Id': STATE.deviceId
+                    },
                     credentials: 'omit',
                     body: JSON.stringify({
                         sessionId: STATE.sessionId,
                         questionId: questionId,
+                        deviceId: STATE.deviceId,
                         audioData: base64Data,
                         mimeType: mimeType || 'audio/webm',
                         transcript: STATE.currentDraftTranscript || '',

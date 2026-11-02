@@ -1093,15 +1093,16 @@
                 document.getElementById('modal-spk-audio-count').textContent = `${recordings.length} Rekaman Audio`;
                 document.getElementById('modal-spk-p2-notes').textContent = sess.part2_notes || '(Siswa tidak membuat catatan tertulis)';
 
-                // Render Audio Player Cards
+                // Render Audio Player Cards (Menggunakan Fetch + Authorization Header, Kunci Tidak di URL)
                 const container = document.getElementById('modal-spk-recordings-container');
                 if (recordings.length === 0) {
                     container.innerHTML = `<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 italic">Belum ada berkas rekaman suara yang diunggah untuk sesi ini.</div>`;
                 } else {
                     container.innerHTML = recordings.map((rec, rIdx) => {
-                        const streamUrl = `${API_BASE}/speaking/audio?sessionId=${encodeURIComponent(sess.id)}&questionId=${encodeURIComponent(rec.question_id)}&teacherKey=${encodeURIComponent(ACTIVE_TEACHER_KEY)}`;
                         const durText = rec.duration_seconds ? `${Math.round(rec.duration_seconds)} detik` : '-';
                         const sizeKb = rec.file_size_bytes ? `${Math.round(rec.file_size_bytes / 1024)} KB` : '';
+                        const audioId = `audio_player_${rIdx}`;
+                        const btnId = `audio_btn_${rIdx}`;
 
                         let transcriptHtml = '';
                         if (rec.transcript && rec.transcript.trim()) {
@@ -1123,8 +1124,11 @@
                                     <span class="font-mono text-rose-700 font-bold">Soal: ${escapeHtml(rec.question_id)}</span>
                                     <span class="text-slate-500 text-[11px]">${durText} ${sizeKb ? `• ${sizeKb}` : ''}</span>
                                 </div>
-                                <div class="w-full">
-                                    <audio controls preload="none" class="w-full h-8" src="${streamUrl}"></audio>
+                                <div class="flex items-center gap-3">
+                                    <button type="button" id="${btnId}" onclick="playSecureAudio('${escapeHtml(sess.id)}', '${escapeHtml(rec.question_id)}', '${audioId}', '${btnId}')" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
+                                        ▶ Putar Rekaman
+                                    </button>
+                                    <audio id="${audioId}" controls preload="none" class="flex-grow h-8 hidden"></audio>
                                 </div>
                                 ${transcriptHtml}
                             </div>
@@ -1166,6 +1170,78 @@
 
             const spkBand = roundIeltsBandFrontend((fc + lr + gra + pr) / 4);
             document.getElementById('modal-spk-live-band').textContent = `Speaking Band: ${spkBand.toFixed(1)}`;
+        }
+
+        async function playSecureAudio(sessionId, questionId, audioId, btnId) {
+            const audioElem = document.getElementById(audioId);
+            const btnElem = document.getElementById(btnId);
+            if (!audioElem || !btnElem) return;
+
+            if (audioElem.src && audioElem.src.startsWith('blob:')) {
+                if (audioElem.paused) {
+                    audioElem.play();
+                    btnElem.textContent = '⏸ Pause';
+                } else {
+                    audioElem.pause();
+                    btnElem.textContent = '▶ Putar';
+                }
+                return;
+            }
+
+            btnElem.disabled = true;
+            btnElem.textContent = '⏳ Memuat...';
+
+            try {
+                const res = await fetch(`${API_BASE}/speaking/audio?sessionId=${encodeURIComponent(sessionId)}&questionId=${encodeURIComponent(questionId)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${ACTIVE_TEACHER_KEY}`
+                    }
+                });
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+                const blob = await res.blob();
+                audioElem.src = URL.createObjectURL(blob);
+                audioElem.classList.remove('hidden');
+                await audioElem.play();
+                btnElem.textContent = '⏸ Pause';
+
+                audioElem.onplay = () => { btnElem.textContent = '⏸ Pause'; };
+                audioElem.onpause = () => { btnElem.textContent = '▶ Putar'; };
+                audioElem.onended = () => { btnElem.textContent = '▶ Putar Ulang'; };
+            } catch (err) {
+                console.error('Play secure audio error:', err);
+                alert('Gagal memutar audio rekaman: ' + err.message);
+                btnElem.textContent = '⚠️ Gagal';
+            } finally {
+                btnElem.disabled = false;
+            }
+        }
+
+        async function cleanupSpeakingSession() {
+            const sessionId = document.getElementById('modal-spk-session-id').value;
+            if (!sessionId) return;
+            if (!confirm('Apakah Anda yakin ingin MENGHAPUS SELURUH REKAMAN SUARA untuk sesi ini demi privasi siswa? Aksi ini tidak dapat dibatalkan.')) {
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/speaking/admin/cleanup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${ACTIVE_TEACHER_KEY}`
+                    },
+                    body: JSON.stringify({ mode: 'session', sessionId })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.ok) throw new Error(data.error || 'Gagal menghapus rekaman');
+                alert('Seluruh rekaman suara sesi ini berhasil dihapus dari server.');
+                closeSpeakingGradingModal();
+                loadRekapData();
+            } catch (err) {
+                alert('Gagal membersihkan rekaman: ' + err.message);
+            }
         }
 
         async function handleSaveSpeakingGrade(e) {

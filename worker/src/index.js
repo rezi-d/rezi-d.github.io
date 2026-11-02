@@ -514,6 +514,49 @@ function analyzeWritingStructure(t1, t2) {
     };
 }
 
+async function generateAudioToken(sessionId, questionId, secret, ttlSeconds = 600) {
+    const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
+    const payload = `${sessionId}:${questionId}:${exp}`;
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+        'raw',
+        enc.encode(secret),
+        { name: 'HMAC', hash: 'SHA-256' },
+        false,
+        ['sign']
+    );
+    const sig = await crypto.subtle.sign('HMAC', key, enc.encode(payload));
+    const sigHex = Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
+    return `${exp}.${sigHex}`;
+}
+
+async function verifyAudioToken(sessionId, questionId, tokenStr, secret) {
+    if (!tokenStr || !secret) return false;
+    const parts = tokenStr.split('.');
+    if (parts.length !== 2) return false;
+    const exp = parseInt(parts[0], 10);
+    const sigHex = parts[1];
+    if (isNaN(exp) || Math.floor(Date.now() / 1000) > exp) return false;
+
+    const payload = `${sessionId}:${questionId}:${exp}`;
+    const enc = new TextEncoder();
+    try {
+        const key = await crypto.subtle.importKey(
+            'raw',
+            enc.encode(secret),
+            { name: 'HMAC', hash: 'SHA-256' },
+            false,
+            ['verify']
+        );
+        const match = sigHex.match(/.{1,2}/g);
+        if (!match) return false;
+        const expectedSig = new Uint8Array(match.map(byte => parseInt(byte, 16)));
+        return await crypto.subtle.verify('HMAC', key, expectedSig, enc.encode(payload));
+    } catch {
+        return false;
+    }
+}
+
 async function ensureSpeakingSchema(env) {
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS speaking_sessions (
@@ -544,7 +587,8 @@ async function ensureSpeakingSchema(env) {
             transcript           TEXT    DEFAULT '',
             duration_seconds     REAL    DEFAULT 0,
             file_size_bytes      INTEGER DEFAULT 0,
-            uploaded_at          INTEGER NOT NULL
+            uploaded_at          INTEGER NOT NULL,
+            FOREIGN KEY (session_id) REFERENCES speaking_sessions(id) ON DELETE CASCADE
         )
     `).run();
 }
@@ -1573,33 +1617,63 @@ export default {
                 });
             }
 
-            // 2. Unggah rekaman per pertanyaan (Immediate Upload)
+            // 2. Unggah rekaman per pertanyaan (Immediate Upload - D1 Hardened Storage)
             if (path === '/speaking/upload-recording' && request.method === 'POST') {
                 await ensureSpeakingSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
                 const questionId = String(body.questionId || '').trim();
                 const audioData = String(body.audioData || ''); // Base64
-                const mimeType = String(body.mimeType || 'audio/webm').slice(0, 50);
+                const rawMimeType = String(body.mimeType || 'audio/webm');
                 const transcript = String(body.transcript || '').slice(0, 5000);
                 const durationSeconds = Math.max(0, parseFloat(body.durationSeconds) || 0);
+                const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
 
-                if (!sessionId || !questionId) {
-                    return json(request, env, { ok: false, error: 'sessionId dan questionId wajib ada.' }, 400);
+                // Validasi format ID (huruf, angka, tanda hubung, garis bawah)
+                if (!/^[a-zA-Z0-9_-]{8,64}$/.test(sessionId)) {
+                    return json(request, env, { ok: false, error: 'Format sessionId tidak valid.' }, 400);
                 }
+                if (!/^[a-zA-Z0-9_-]{2,32}$/.test(questionId)) {
+                    return json(request, env, { ok: false, error: 'Format questionId tidak valid.' }, 400);
+                }
+
+                // Whitelist tipe dasar MIME (abaikan parameter codec)
+                const baseMime = rawMimeType.split(';')[0].trim().toLowerCase();
+                const ALLOWED_AUDIO_MIMES = ['audio/webm', 'audio/mp4', 'audio/ogg', 'audio/wav', 'audio/mpeg'];
+                if (!ALLOWED_AUDIO_MIMES.includes(baseMime)) {
+                    return json(request, env, {
+                        ok: false,
+                        error: `Tipe audio tidak diizinkan (${baseMime}). Hanya mendukung: ${ALLOWED_AUDIO_MIMES.join(', ')}`
+                    }, 415);
+                }
+
                 if (!audioData || audioData.length < 50) {
                     return json(request, env, { ok: false, error: 'Data rekaman audio kosong atau tidak valid.' }, 400);
                 }
-                if (audioData.length > 5 * 1024 * 1024) {
-                    return json(request, env, { ok: false, error: 'Ukuran rekaman melebihi batas 5MB.' }, 413);
+
+                // Batas ukuran maksimal 1,2 MB binary (~1.677.722 karakter base64)
+                if (audioData.length > 1677722) {
+                    return json(request, env, { ok: false, error: 'Ukuran rekaman audio melebihi batas 1,2 MB.' }, 413);
                 }
 
-                const session = await env.DB.prepare('SELECT id, status FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                const session = await env.DB.prepare('SELECT id, device_id, status FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking tidak ditemukan.' }, 404);
                 }
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking ini sudah diselesaikan.' }, 400);
+                }
+                if (requestDeviceId && session.device_id !== requestDeviceId) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
+                }
+
+                // Batas kuota maksimal 15 rekaman unik per sesi
+                const existingRec = await env.DB.prepare('SELECT id FROM speaking_recordings WHERE session_id = ? AND question_id = ?').bind(sessionId, questionId).first();
+                if (!existingRec) {
+                    const countRow = await env.DB.prepare('SELECT count(*) as cnt FROM speaking_recordings WHERE session_id = ?').bind(sessionId).first();
+                    if ((countRow?.cnt || 0) >= 15) {
+                        return json(request, env, { ok: false, error: 'Batas kuota maksimal 15 rekaman per sesi telah tercapai.' }, 400);
+                    }
                 }
 
                 const recId = `${sessionId}_${questionId}`;
@@ -1616,11 +1690,12 @@ export default {
                         duration_seconds = excluded.duration_seconds,
                         file_size_bytes = excluded.file_size_bytes,
                         uploaded_at = excluded.uploaded_at
-                `).bind(recId, sessionId, questionId, mimeType, audioData, transcript, durationSeconds, fileSizeBytes, now).run();
+                `).bind(recId, sessionId, questionId, baseMime, audioData, transcript, durationSeconds, fileSizeBytes, now).run();
 
                 return json(request, env, {
                     ok: true,
                     questionId,
+                    mimeType: baseMime,
                     fileSizeBytes,
                     uploadedAt: now
                 });
@@ -1702,7 +1777,9 @@ export default {
             if (path === '/speaking/detail' && request.method === 'GET') {
                 await ensureSpeakingSchema(env);
                 const sessionId = String(url.searchParams.get('sessionId') || '').trim();
-                const teacherKey = request.headers.get('X-Teacher-Key') || url.searchParams.get('teacherKey') || '';
+                const authHeader = request.headers.get('Authorization') || '';
+                let teacherKey = request.headers.get('X-Teacher-Key') || '';
+                if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
                 const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
 
                 if (!sessionId) {
@@ -1748,13 +1825,44 @@ export default {
                 });
             }
 
-            // 6. Streaming Audio Privat (Hanya Guru via TEACHER_KEY atau Siswa Pemilik)
-            if (path === '/speaking/audio' && request.method === 'GET') {
+            // 6. Generate Short-Lived Audio Token (untuk tag audio browser tanpa mengekspos kunci di URL)
+            if (path === '/speaking/audio-token' && request.method === 'POST') {
+                const body = await readJson(request);
+                const authHeader = request.headers.get('Authorization') || '';
+                let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
+                if (authHeader.startsWith('Bearer ')) submittedKey = authHeader.slice(7).trim();
+                if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
+
+                if (!verifyTeacherKey(submittedKey, env)) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid.' }, 401);
+                }
+
+                const sessionId = String(body.sessionId || '').trim();
+                const questionId = String(body.questionId || '').trim();
+                if (!sessionId || !questionId) {
+                    return json(request, env, { ok: false, error: 'sessionId dan questionId wajib ada.' }, 400);
+                }
+
+                const token = await generateAudioToken(sessionId, questionId, env.TEACHER_KEY || env.ADMIN_KEY || 'FALLBACK_KEY', 600);
+                return json(request, env, { ok: true, token, expiresIn: 600 });
+            }
+
+            // 7. Streaming Audio Privat (Hanya Guru via Auth Header / Token Singkat atau Siswa Pemilik)
+            if (path === '/speaking/audio' && (request.method === 'GET' || request.method === 'HEAD')) {
                 await ensureSpeakingSchema(env);
                 const sessionId = String(url.searchParams.get('sessionId') || '').trim();
                 const questionId = String(url.searchParams.get('questionId') || '').trim();
-                const teacherKey = request.headers.get('X-Teacher-Key') || url.searchParams.get('teacherKey') || '';
                 const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
+                const authHeader = request.headers.get('Authorization') || '';
+                let teacherKey = request.headers.get('X-Teacher-Key') || '';
+                if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
+
+                const audioToken = url.searchParams.get('token') || '';
+                let isTokenValid = false;
+                const secret = env.TEACHER_KEY || env.ADMIN_KEY;
+                if (audioToken && secret) {
+                    isTokenValid = await verifyAudioToken(sessionId, questionId, audioToken, secret);
+                }
 
                 if (!sessionId || !questionId) {
                     return json(request, env, { ok: false, error: 'sessionId dan questionId wajib diberikan.' }, 400);
@@ -1765,10 +1873,10 @@ export default {
                     return json(request, env, { ok: false, error: 'Sesi tidak ditemukan.' }, 404);
                 }
 
-                const isTeacher = verifyTeacherKey(teacherKey, env);
+                const isTeacher = isTokenValid || verifyTeacherKey(teacherKey, env);
                 const isOwner = deviceId && session.device_id === deviceId;
                 if (!isTeacher && !isOwner) {
-                    return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid.' }, 401);
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid atau token audio kedaluwarsa.' }, 401);
                 }
 
                 const rec = await env.DB.prepare(`
@@ -1781,21 +1889,110 @@ export default {
                 }
 
                 const binaryString = atob(rec.audio_data);
-                const len = binaryString.length;
-                const bytes = new Uint8Array(len);
-                for (let i = 0; i < len; i++) {
+                const totalLen = binaryString.length;
+                const bytes = new Uint8Array(totalLen);
+                for (let i = 0; i < totalLen; i++) {
                     bytes[i] = binaryString.charCodeAt(i);
                 }
 
-                return new Response(bytes.buffer, {
+                const mimeType = (rec.mime_type || 'audio/webm').split(';')[0].trim().toLowerCase();
+
+                // Dukungan HTTP Range Request (Status 206) untuk Safari / iOS seeking
+                const rangeHeader = request.headers.get('Range');
+                if (rangeHeader && rangeHeader.startsWith('bytes=')) {
+                    const rangeSpec = rangeHeader.replace('bytes=', '').trim();
+                    const parts = rangeSpec.split('-');
+                    let start = parseInt(parts[0], 10);
+                    let end = parts[1] ? parseInt(parts[1], 10) : totalLen - 1;
+
+                    if (isNaN(start)) {
+                        start = totalLen - end;
+                        end = totalLen - 1;
+                    }
+                    if (isNaN(end) || end >= totalLen) {
+                        end = totalLen - 1;
+                    }
+
+                    if (start > end || start >= totalLen) {
+                        return new Response(null, {
+                            status: 416,
+                            headers: {
+                                'Content-Range': `bytes */${totalLen}`,
+                                ...corsHeaders(request, env)
+                            }
+                        });
+                    }
+
+                    const chunk = bytes.subarray(start, end + 1);
+                    return new Response(request.method === 'HEAD' ? null : chunk, {
+                        status: 206,
+                        headers: {
+                            'Content-Type': mimeType,
+                            'Content-Range': `bytes ${start}-${end}/${totalLen}`,
+                            'Accept-Ranges': 'bytes',
+                            'Content-Length': String(chunk.length),
+                            'X-Content-Type-Options': 'nosniff',
+                            'Cache-Control': 'private, no-store',
+                            ...corsHeaders(request, env)
+                        }
+                    });
+                }
+
+                return new Response(request.method === 'HEAD' ? null : bytes.buffer, {
                     status: 200,
                     headers: {
-                        'Content-Type': rec.mime_type || 'audio/webm',
-                        'Content-Length': String(bytes.length),
+                        'Content-Type': mimeType,
+                        'Content-Length': String(totalLen),
+                        'Accept-Ranges': 'bytes',
+                        'X-Content-Type-Options': 'nosniff',
                         'Cache-Control': 'private, no-store',
                         ...corsHeaders(request, env)
                     }
                 });
+            }
+
+            // 8. Pembersihan / Retensi Rekaman Audio (Protected by TEACHER_KEY)
+            if (path === '/speaking/admin/cleanup' && request.method === 'POST') {
+                await ensureSpeakingSchema(env);
+                const authHeader = request.headers.get('Authorization') || '';
+                let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
+                if (authHeader.startsWith('Bearer ')) submittedKey = authHeader.slice(7).trim();
+                const body = await readJson(request);
+                if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
+
+                if (!verifyTeacherKey(submittedKey, env)) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid.' }, 401);
+                }
+
+                const mode = String(body.mode || 'session');
+                let deletedCount = 0;
+
+                if (mode === 'session') {
+                    const sessionId = String(body.sessionId || '').trim();
+                    if (!sessionId) return json(request, env, { ok: false, error: 'sessionId wajib ada.' }, 400);
+                    await env.DB.prepare('DELETE FROM speaking_recordings WHERE session_id = ?').bind(sessionId).run();
+                    const delSess = await env.DB.prepare('DELETE FROM speaking_sessions WHERE id = ?').bind(sessionId).run();
+                    deletedCount = delSess.meta?.changes || 1;
+                } else if (mode === 'student') {
+                    const nama = String(body.nama || '').trim();
+                    const kelas = String(body.kelas || '').trim();
+                    if (!nama || !kelas) return json(request, env, { ok: false, error: 'nama dan kelas wajib ada.' }, 400);
+                    const sessions = await env.DB.prepare('SELECT id FROM speaking_sessions WHERE nama_peserta = ? AND kelas = ?').bind(nama, kelas).all();
+                    for (const s of (sessions.results || [])) {
+                        await env.DB.prepare('DELETE FROM speaking_recordings WHERE session_id = ?').bind(s.id).run();
+                        await env.DB.prepare('DELETE FROM speaking_sessions WHERE id = ?').bind(s.id).run();
+                        deletedCount++;
+                    }
+                } else if (mode === 'retention') {
+                    const retentionDays = Math.max(1, parseInt(body.days, 10) || 30);
+                    const cutoffMs = Date.now() - (retentionDays * 24 * 60 * 60 * 1000);
+                    const delRec = await env.DB.prepare('DELETE FROM speaking_recordings WHERE uploaded_at < ?').bind(cutoffMs).run();
+                    deletedCount = delRec.meta?.changes || 0;
+                } else {
+                    return json(request, env, { ok: false, error: 'Mode pembersihan tidak valid. Pilihan: session, student, retention.' }, 400);
+                }
+
+                return json(request, env, { ok: true, mode, deletedCount });
             }
 
             // 7. Penilaian Speaking oleh Guru (4 Kriteria: FC, LR, GRA, PR)
