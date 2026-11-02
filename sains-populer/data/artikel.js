@@ -12,7 +12,7 @@ const DAFTAR_ARTIKEL_SAINS = [
         "subtitle": "Bagaimana fotokatalis nano merevolusi reduksi karbon dioksida dan fotolisis air demi bahan bakar nir-emisi masa depan.",
         "category": "Teknologi Masa Depan",
         "categoryColor": "teal",
-        "icon": "Leaf",
+        "icon": "🍃",
         "publishDate": "2 November 2026",
         "readTime": "5 menit baca",
         "author": "Tim Litbang KimiaInteraktif",
@@ -20,7 +20,7 @@ const DAFTAR_ARTIKEL_SAINS = [
             "type": "gradient",
             "bg": "from-emerald-950 via-teal-900 to-cyan-900",
             "badge": "Energi Terbarukan",
-            "icon": "SunMedium"
+            "icon": "☀️"
         },
         "summary": "Para ilmuwan sukses mengembangkan 'daun artifisial' berbasis semikonduktor fotokatalitik yang meniru proses fotosintesis alami. Dengan bantuan sinar matahari, alat ini memecah molekul air serta mereduksi gas rumah kaca (CO2) menjadi bahan bakar cair bernilai tinggi seperti metanol dan syngas tanpa jejak emisi fosil.",
         "tahukahKamu": "Satu lembar perangkat daun artifisial berukuran satu meter persegi dapat menyerap karbon dioksida hingga 10 kali lebih efisien daripada daun pohon asli dalam memproduksi senyawa penyimpan energi kimia.",
@@ -29,13 +29,13 @@ const DAFTAR_ARTIKEL_SAINS = [
                 "kelas": "Kelas XI",
                 "bab": "Termokimia & Laju Reaksi",
                 "desc": "Konsep reaksi endoterm yang membutuhkan input foton cahaya serta mekanisme katalis fotokimia dalam menurunkan energi aktivasi peruraian molekul air.",
-                "url": "/materi/kelas-11/termokimia"
+                "url": "/kelas-11/termokimia/energi-ikatan-dan-penentuan-entalpi.html"
             },
             {
                 "kelas": "Kelas XII",
                 "bab": "Reaksi Redoks & Sel Elektrokimia",
                 "desc": "Prinsip sel foto-elektrokimia (PEC), transfer elektron fotogenerasi, reaksi oksidasi air di anoda, dan reaksi reduksi CO2 di katoda.",
-                "url": "/materi/kelas-12/elektrokimia"
+                "url": "/kelas-12/sel-volta/anode-katode-potensial-sel.html"
             }
         ],
         "contentHtml": "<p class=\"lead\">Selama miliaran tahun, alam mengandalkan fotosintesis untuk mengubah energi radiasi surya menjadi ikatan kimia glukosa. Hari ini, para kimiawan berhasil menciptakan sistem foto-elektrokimia sintetis yang dikenal sebagai <strong>daun artifisial (artificial leaf)</strong> untuk menghasilkan energi bersih terbarukan secara langsung dari udara dan air.</p><h3>Anatomi Daun Artifisial: Meniru Reaksi Terang dan Gelap</h3><p>Pada daun hijau, klorofil menyerap foton untuk memicu transfer elektron. Dalam daun buatan, klorofil digantikan oleh lembaran <em>semikonduktor fotokatalis</em> seperti Titanium Dioksida (TiO<sub>2</sub>), Bismut Vanadat (BiVO<sub>4</sub>), atau perovskit terstabilisasi.</p><p>Ketika foton cahaya matahari mengenai permukaan semikonduktor dengan energi yang lebih besar dari <em>bandgap</em> (celah pita energi), elektron ($e^-$) akan tereksitasi ke pita konduksi, meninggalkan kekosongan bermuatan positif yang disebut <em>hole</em> ($h^+$).</p><div class=\"my-4 p-4 rounded-xl bg-teal-950/40 border border-teal-500/30\"><h4 class=\"font-bold text-teal-300 text-base mb-2\">Dua Reaksi Kunci yang Berjalan Serentak:</h4><ol class=\"list-decimal list-inside space-y-2 text-sm text-slate-200\"><li><strong>Oksidasi Air (Mirip Fotolisis Alami):</strong> Di anoda, <em>hole</em> fotogenerasi mengoksidasi air menghasilkan gas oksigen dan ion hidrogen:<br/><code class=\"text-teal-200 block my-1 font-mono\">2H<sub>2</sub>O(l) + 4h<sup>+</sup> &rarr; O<sub>2</sub>(g) + 4H<sup>+</sup>(aq)</code></li><li><strong>Reduksi Karbon Dioksida:</strong> Di katoda, proton ($H^+$) dan elektron ($e^-$) mereduksi gas CO<sub>2</sub> menjadi molekul bahan bakar berenergi tinggi, seperti format ($HCOOH$), karbon monoksida ($CO$), atau metanol ($CH_3OH$):<br/><code class=\"text-teal-200 block my-1 font-mono\">CO<sub>2</sub>(g) + 6H<sup>+</sup> + 6e<sup>-</sup> &rarr; CH<sub>3</sub>OH(l) + H<sub>2</sub>O(l)</code></li></ol></div><h3>Mengapa Sangat Krusial bagi Iklim Bumi?</h3><p>Bahan bakar fosil membakar hidrokarbon purba dan melepaskan karbon tersimpan ke atmosfer, menaikkan suhu global. Sebaliknya, daun buatan menerapkan <strong>siklus karbon tertutup</strong>: CO<sub>2</sub> yang dikeluarkan industri ditangkap kembali, diubah menjadi bahan bakar cair lewat energi surya, dan ketika bahan bakar itu digunakan kembali, tidak ada penambahan bersih karbon baru di atmosfer (<em>net-zero</em>).</p><h3>Tantangan Katalis Berkelanjutan</h3><p>Tantangan terbesar saat ini adalah efisiensi selektivitas reduksi CO<sub>2</sub>. Karena reduksi air menjadi gas hidrogen sering kali berkompetisi dengan reduksi CO<sub>2</sub>, para ilmuwan merancang katalis berbahan logam non-mulia (seperti tembaga/Cu dan kobalt/Co nanostruktur) yang dirancang secara atomik agar selektif hanya membentuk bahan bakar yang diinginkan.</p>",
@@ -52,7 +52,7 @@ const DAFTAR_ARTIKEL_SAINS = [
         "subtitle": "Arsitektur koordinasi logam-organik dengan luas permukaan raksasa yang mampu mengekstraksi molekul uap air di kelembapan ekstrem.",
         "category": "Material Masa Depan",
         "categoryColor": "indigo",
-        "icon": "Droplets",
+        "icon": "💧",
         "publishDate": "2 November 2026",
         "readTime": "5 menit baca",
         "author": "Tim Litbang KimiaInteraktif",
@@ -60,7 +60,7 @@ const DAFTAR_ARTIKEL_SAINS = [
             "type": "gradient",
             "bg": "from-indigo-950 via-slate-900 to-sky-950",
             "badge": "Kristalografi Nano",
-            "icon": "Box"
+            "icon": "🧊"
         },
         "summary": "Metal-Organic Frameworks (MOF) adalah material kristal berpori ultra-tinggi yang tersusun dari kation logam dan ligan organik. Melalui interaksi gaya antarmolekul yang presisi, MOF mampu bertindak bagai spons ajaib yang menyerap molekul air langsung dari udara kering gurun, lalu melepaskannya menjadi air minum higienis hanya dengan panas matahari.",
         "tahukahKamu": "Satu gram MOF memiliki luas permukaan internal yang sedemikian masif—mencapai lebih dari 7.000 meter persegi—atau setara dengan luas satu lapangan sepak bola penuh jika dibentangkan secara molekuler!",
@@ -69,13 +69,13 @@ const DAFTAR_ARTIKEL_SAINS = [
                 "kelas": "Kelas X",
                 "bab": "Ikatan Kimia & Gaya Antarmolekul",
                 "desc": "Ikatan kovalen koordinasi antara atom donor ligan dengan kation logam transisi, serta interaksi dipol dan ikatan hidrogen dalam penangkapan molekul air.",
-                "url": "/materi/kelas-10/ikatan-kimia"
+                "url": "/kelas-11/ikatan-kimia/teori-hibridisasi.html"
             },
             {
                 "kelas": "Kelas XI",
                 "bab": "Kesetimbangan Kimia & Termodinamika",
                 "desc": "Proses isoterm adsorpsi fisik (fisisorpsi) yang bersifat reversibel dan pelepasan molekul air (desorpsi) yang digerakkan oleh entalpi penguapan termal surya.",
-                "url": "/materi/kelas-11/kesetimbangan-kimia"
+                "url": "/kelas-11/kesetimbangan-kimia/faktor-pergeseran-kesetimbangan.html"
             }
         ],
         "contentHtml": "<p class=\"lead\">Di tengah ancaman krisis air tawar global, sebuah terobosan kimia koordinasi menghadirkan solusi tanpa listrik: <strong>Metal-Organic Frameworks (MOF)</strong>. Material kristalin berpangkal nanomaterial ini mampu 'memeras' uap air tak kasatmata bahkan di lingkungan paling gersang di muka bumi.</p><h3>Arsitektur Kisi Koordinasi: Pertemuan Logam dan Senyawa Organik</h3><p>Secara kimia, MOF adalah polimer koordinasi hibrida berpori. Strukturnya dibangun dari dua komponen utama:</p><ul><li><strong>Node Logam:</strong> Kation logam atau gugus kluster oksida logam (misalnya $Zr^{4+}$, $Al^{3+}$, $Fe^{3+}$, atau $Cu^{2+}$) yang bertindak sebagai simpul sambungan.</li><li><strong>Ligan Penghubung (Linker Organik):</strong> Molekul organik polidentat (seperti asam tereftalat atau senyawa imidazolat) yang mendonorkan pasangan elektron bebasnya melalui ikatan kovalen koordinasi untuk merangkai simpul-simpul logam.</li></ul><p>Kombinasi geometri ini menghasilkan kisi kristal 3 dimensi yang kokoh namun nyaris hampa di bagian dalamnya, membentuk jutaan liang pori berukuran nanometer dengan rongga spesifik.</p><div class=\"my-4 p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30\"><h4 class=\"font-bold text-indigo-300 text-base mb-2\">Mekanisme Adsorpsi-Desorpsi Tanpa Energi Listrik</h4><ol class=\"list-decimal list-inside space-y-2 text-sm text-slate-200\"><li><strong>Adsorpsi Malam Hari (Fisisorpsi Selektif):</strong> Saat suhu malam gurun mendingin dan kelembapan relatif berada di kisaran 10%–20%, pori-pori MOF (misalnya varian <em>MOF-303</em> berbahan dasar zirkonium) menarik molekul uap air ($H_2O$) melalui pembentukan ikatan hidrogen selektif pada situs fungsional hidrofiliknya.</li><li><strong>Desorpsi Siang Hari (Panas Matahari Alami):</strong> Saat matahari terbit, perangkat ditutup transparan. Panas sinar matahari meningkatkan energi kinetik molekul air yang terikat di rongga kristal hingga melampaui energi ikat adsorpsinya. Molekul air menguap keluar dari kisi, mengembun di dinding kondensor, dan menetes sebagai air murni siap minum.</li></ol></div><h3>Bukan Sekadar Pemanen Air</h3><p>Kekuatan MOF terletak pada sifat <em>tunable</em> (dapat disetel). Dengan mengganti jenis kation logam atau memodifikasi gugus fungsional ligan organik penyusunnya, kimiawan dapat mendesain MOF untuk kegunaan lain yang revolusioner:</p><ul><li><strong>Penyimpanan Gas Hidrogen:</strong> Menyimpan gas hidrogen ($H_2$) dengan densitas tinggi pada tekanan rendah untuk mobil ramah lingkungan.</li><li><strong>Penangkapan Karbon (Carbon Capture):</strong> Menjaring gas polutan CO<sub>2</sub> langsung dari cerobong asap pabrik semen dan pembangkit listrik.</li><li><strong>Penghantaran Obat Bertarget:</strong> Membawa molekul obat antikanker ke dalam sel tubuh dan melepaskannya hanya saat mendeteksi pH asam di lingkungan sel tumor.</li></ul>",

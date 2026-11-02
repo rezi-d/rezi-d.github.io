@@ -552,6 +552,7 @@ async function tryCallGemini(prompt) {
             const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                signal: AbortSignal.timeout(15000),
                 body: JSON.stringify({
                     contents: [{ parts: [{ text: prompt }] }],
                     generationConfig: {
@@ -568,7 +569,7 @@ async function tryCallGemini(prompt) {
                     const parsed = parseJsonArray(text);
                     if (parsed) {
                         console.log(`✨ Sukses menerima ${parsed.length} artikel dari model ${model} via generateContent!`);
-                        return parsed;
+                        return parsed.map(normalizeArticle);
                     }
                 }
             } else {
@@ -592,6 +593,7 @@ async function tryCallGemini(prompt) {
                     'Content-Type': 'application/json',
                     'x-goog-api-key': GEMINI_API_KEY
                 },
+                signal: AbortSignal.timeout(15000),
                 body: JSON.stringify({
                     model: model,
                     input: prompt
@@ -614,7 +616,7 @@ async function tryCallGemini(prompt) {
                     const parsed = parseJsonArray(text);
                     if (parsed) {
                         console.log(`✨ Sukses menerima ${parsed.length} artikel dari model ${model} via interactions!`);
-                        return parsed;
+                        return parsed.map(normalizeArticle);
                     }
                 }
             } else {
@@ -628,6 +630,47 @@ async function tryCallGemini(prompt) {
 
     console.log('ℹ️ Gemini API belum merespons, beralih dengan mulus ke bank kurasi terverifikasi.');
     return null;
+}
+
+// Normalisasi otomatis ikon emoji dan URL materi SMA
+function normalizeArticle(art) {
+    const iconMap = {
+        'Leaf': '🌿', 'Leaves': '🍃', 'Sun': '☀️', 'SunMedium': '☀️', 'Droplets': '💧', 'Droplet': '💧',
+        'Box': '📦', 'Battery': '🔋', 'Zap': '⚡', 'Sparkles': '✨', 'Atom': '⚛️', 'Flask': '🧪',
+        'Flame': '🔥', 'Wind': '💨', 'Shield': '🛡️', 'Globe': '🌍', 'Layers': '🥞', 'Cpu': '💻'
+    };
+
+    if (art.icon && iconMap[art.icon]) {
+        art.icon = iconMap[art.icon];
+    } else if (!art.icon || (art.icon.length > 2 && !/^\p{Emoji}/u.test(art.icon))) {
+        art.icon = '🔬';
+    }
+
+    if (art.coverImage) {
+        if (art.coverImage.icon && iconMap[art.coverImage.icon]) {
+            art.coverImage.icon = iconMap[art.coverImage.icon];
+        } else if (!art.coverImage.icon || (art.coverImage.icon.length > 2 && !/^\p{Emoji}/u.test(art.coverImage.icon))) {
+            art.coverImage.icon = '🧪';
+        }
+    }
+
+    // Validasi URL materi SMA agar selalu valid di website kita
+    if (Array.isArray(art.kaitanMateri)) {
+        art.kaitanMateri = art.kaitanMateri.map((km, idx) => {
+            if (!km.url || !km.url.startsWith('/kelas-')) {
+                const fallback = MATERI_VALID_SMA[idx % MATERI_VALID_SMA.length];
+                return {
+                    ...km,
+                    url: fallback.url,
+                    kelas: km.kelas || fallback.kelas,
+                    bab: km.bab || fallback.bab
+                };
+            }
+            return km;
+        });
+    }
+
+    return art;
 }
 
 function parseJsonArray(rawText) {
