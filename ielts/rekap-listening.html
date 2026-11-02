@@ -11,8 +11,8 @@
       gtag('config', 'G-Z11XQXB5L7');
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekap Hasil Simulasi Listening Siswa — Panel Guru AjarKita</title>
-    <meta name="description" content="Dashboard rekapitulasi nilai tes IELTS-style Listening untuk guru: pantau skor mentah, estimated band, rincian per section, filter per kelas, dan ekspor CSV.">
+    <title>Rekap Hasil Simulasi IELTS Siswa (Listening &amp; Reading) — Panel Guru AjarKita</title>
+    <meta name="description" content="Dashboard rekapitulasi terpadu IELTS-style Listening dan Academic Reading untuk guru: pantau skor mentah, estimated band, rincian per section/passage, filter kelas, dan ekspor CSV.">
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
     
@@ -32,7 +32,7 @@
     <div id="header-placeholder"></div>
 
     <!-- MAIN CONTENT -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-grow w-full space-y-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-grow w-full space-y-8">
 
         <!-- HEADER BANNER -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
@@ -41,19 +41,22 @@
                     <span>🔒</span> Panel Khusus Pengajar &amp; Guru
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                    Rekap Hasil <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-teal-600 to-amber-600">IELTS Listening Mock Test</span>
+                    Rekap Hasil <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-teal-600 to-amber-600">IELTS Practice Test Siswa</span>
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-500 mt-1">
-                    Pantau capaian skor siswa per kelas, evaluasi kelemahan section, dan unduh rekapan data dalam format spreadsheet (CSV).
+                    Dashboard terpadu pemantauan capaian siswa untuk modul <strong>Listening</strong> (4 Section / 40 Soal) dan <strong>Academic Reading</strong> (3 Passage / 40 Soal).
                 </p>
             </div>
 
-            <div class="flex items-center gap-2 shrink-0">
-                <a href="/ielts/listening-mock-test.html" class="px-4 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition">
-                    &larr; Buka Halaman Tes Siswa
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+                <a href="/ielts/listening-mock-test.html" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition flex items-center gap-1.5">
+                    <span>🎧</span> Tes Listening
                 </a>
-                <button type="button" id="btn-logout-teacher" class="hidden px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition">
-                    Kunci Panel
+                <a href="/ielts/reading-mock-test.html" class="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition flex items-center gap-1.5">
+                    <span>📖</span> Tes Reading
+                </a>
+                <button type="button" id="btn-logout-teacher" class="hidden px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition">
+                    🔒 Kunci Panel
                 </button>
             </div>
         </div>
@@ -91,54 +94,66 @@
             <!-- STATS CARDS -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Peserta Selesai</span>
-                    <span id="stat-total-attempts" class="text-2xl sm:text-3xl font-extrabold text-slate-900 block font-mono">0</span>
-                    <span class="text-[10px] text-slate-500">Lembar jawaban masuk</span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Siswa Terdata</span>
+                    <span id="stat-total-students" class="text-2xl sm:text-3xl font-extrabold text-slate-900 block font-mono">0</span>
+                    <span id="stat-complete-both" class="text-[10px] text-slate-500">0 siswa telah tuntas kedua tes</span>
                 </div>
                 <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Rata-rata Skor Mentah</span>
-                    <span id="stat-avg-raw" class="text-2xl sm:text-3xl font-extrabold text-teal-700 block font-mono">0.0</span>
-                    <span class="text-[10px] text-slate-500">Dari maksimal 40 soal</span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Rata-rata Band Listening</span>
+                    <span id="stat-avg-lis-band" class="text-2xl sm:text-3xl font-extrabold text-teal-700 block font-mono">0.0</span>
+                    <span id="stat-lis-count" class="text-[10px] text-slate-500">0 lembar jawaban masuk</span>
                 </div>
                 <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600">Rata-rata Estimated Band</span>
-                    <span id="stat-avg-band" class="text-2xl sm:text-3xl font-extrabold text-indigo-700 block font-mono">0.0</span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600">Rata-rata Band Reading</span>
+                    <span id="stat-avg-read-band" class="text-2xl sm:text-3xl font-extrabold text-indigo-700 block font-mono">0.0</span>
+                    <span id="stat-read-count" class="text-[10px] text-slate-500">0 lembar jawaban masuk</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Rata-rata Overall Band</span>
+                    <span id="stat-avg-overall-band" class="text-2xl sm:text-3xl font-extrabold text-amber-700 block font-mono">0.0</span>
                     <span class="text-[10px] text-slate-500">Skala Band 1.0 – 9.0</span>
-                </div>
-                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Skor Tertinggi (Top)</span>
-                    <span id="stat-top-score" class="text-2xl sm:text-3xl font-extrabold text-amber-700 block font-mono">0</span>
-                    <span id="stat-top-student" class="text-[10px] text-slate-500 truncate block">-</span>
                 </div>
             </div>
 
             <!-- TOOLBAR: FILTER & SEARCH -->
-            <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
                 
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-grow">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 flex-grow">
                     <!-- Search by Name -->
-                    <div class="relative w-full sm:w-64">
+                    <div class="relative w-full">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">🔍</span>
                         <input type="text" id="input-search-student" oninput="filterAndRenderTable()" placeholder="Cari nama siswa..." 
                                class="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 transition">
                     </div>
 
                     <!-- Filter by Class -->
-                    <div class="w-full sm:w-48">
+                    <div class="w-full">
                         <select id="select-filter-kelas" onchange="filterAndRenderTable()" 
                                 class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
                             <option value="">Semua Kelas</option>
                         </select>
                     </div>
 
+                    <!-- Filter by Module Status -->
+                    <div class="w-full">
+                        <select id="select-filter-modul" onchange="filterAndRenderTable()" 
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
+                            <option value="">Semua Status Tes</option>
+                            <option value="both">Lengkap Keduanya (L + R)</option>
+                            <option value="listening_only">Hanya Listening</option>
+                            <option value="reading_only">Hanya Reading</option>
+                        </select>
+                    </div>
+
                     <!-- Sort -->
-                    <div class="w-full sm:w-44">
+                    <div class="w-full">
                         <select id="select-sort-by" onchange="filterAndRenderTable()" 
                                 class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
-                            <option value="time_desc">Waktu (Terbaru)</option>
-                            <option value="score_desc">Skor Tertinggi</option>
-                            <option value="score_asc">Skor Terendah</option>
-                            <option value="name_asc">Nama (A–Z)</option>
+                            <option value="time_desc">Waktu Submit (Terbaru)</option>
+                            <option value="overall_desc">Overall Band Tertinggi</option>
+                            <option value="read_desc">Reading Band Tertinggi</option>
+                            <option value="lis_desc">Listening Band Tertinggi</option>
+                            <option value="name_asc">Nama Siswa (A–Z)</option>
                         </select>
                     </div>
                 </div>
@@ -161,12 +176,12 @@
                         <thead class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                             <tr>
                                 <th class="py-3.5 px-4 w-12 text-center">No</th>
-                                <th class="py-3.5 px-4">Nama Siswa</th>
-                                <th class="py-3.5 px-4">Kelas</th>
-                                <th class="py-3.5 px-4 text-center">Skor Mentah</th>
-                                <th class="py-3.5 px-4 text-center">Band</th>
-                                <th class="py-3.5 px-4 text-center">Breakdown Section (S1–S4)</th>
-                                <th class="py-3.5 px-4 text-right">Waktu Submit</th>
+                                <th class="py-3.5 px-4 min-w-[160px]">Nama Siswa</th>
+                                <th class="py-3.5 px-4 min-w-[90px]">Kelas</th>
+                                <th class="py-3.5 px-4 text-center min-w-[170px]">🎧 Listening (/40)</th>
+                                <th class="py-3.5 px-4 text-center min-w-[170px]">📖 Academic Reading (/40)</th>
+                                <th class="py-3.5 px-4 text-center min-w-[120px]">Overall Band</th>
+                                <th class="py-3.5 px-4 text-right min-w-[140px]">Submit Terakhir</th>
                             </tr>
                         </thead>
                         <tbody id="table-submissions-body" class="divide-y divide-slate-100">
@@ -197,7 +212,7 @@
             ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
             : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev';
 
-        let ALL_ATTEMPTS = [];
+        let ALL_STUDENTS = [];
         let ACTIVE_TEACHER_KEY = sessionStorage.getItem('teacher_key') || '';
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -234,7 +249,7 @@
             }
 
             try {
-                const res = await fetch(`${API_BASE}/listening/admin/results`, {
+                const res = await fetch(`${API_BASE}/ielts/admin/results`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -249,7 +264,7 @@
                 }
 
                 const data = await res.json();
-                ALL_ATTEMPTS = data.results || [];
+                ALL_STUDENTS = data.results || [];
 
                 // Simpan ke sessionStorage jika valid
                 sessionStorage.setItem('teacher_key', ACTIVE_TEACHER_KEY);
@@ -260,10 +275,10 @@
                 document.getElementById('btn-logout-teacher').classList.remove('hidden');
 
                 // Populate opsi kelas
-                populateClassFilter(ALL_ATTEMPTS);
+                populateClassFilter(ALL_STUDENTS);
 
                 // Render statistik & tabel
-                updateStatistics(ALL_ATTEMPTS);
+                updateStatistics(ALL_STUDENTS);
                 filterAndRenderTable();
 
             } catch (err) {
@@ -272,7 +287,6 @@
                     errBox.classList.remove('hidden');
                 }
                 if (!isAuthAttempt) {
-                    // Jika sebelumnya tersimpan tapi sekarang gagal (misal kunci diubah)
                     sessionStorage.removeItem('teacher_key');
                     document.getElementById('dashboard-content').classList.add('hidden');
                     document.getElementById('auth-box').classList.remove('hidden');
@@ -286,76 +300,95 @@
             }
         }
 
-        function populateClassFilter(attempts) {
+        function populateClassFilter(students) {
             const select = document.getElementById('select-filter-kelas');
             if (!select) return;
 
             const existingVal = select.value;
-            const uniqueClasses = Array.from(new Set(attempts.map(a => a.kelas).filter(Boolean))).sort();
+            const uniqueClasses = Array.from(new Set(students.map(s => s.kelas).filter(Boolean))).sort();
 
             select.innerHTML = '<option value="">Semua Kelas</option>' + 
                 uniqueClasses.map(c => `<option value="${escapeHtml(c)}" ${existingVal === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('');
         }
 
-        function updateStatistics(attempts) {
-            const totalEl = document.getElementById('stat-total-attempts');
-            const avgRawEl = document.getElementById('stat-avg-raw');
-            const avgBandEl = document.getElementById('stat-avg-band');
-            const topScoreEl = document.getElementById('stat-top-score');
-            const topStudentEl = document.getElementById('stat-top-student');
+        function updateStatistics(students) {
+            const totalStudentsEl = document.getElementById('stat-total-students');
+            const completeBothEl = document.getElementById('stat-complete-both');
+            const avgLisBandEl = document.getElementById('stat-avg-lis-band');
+            const lisCountEl = document.getElementById('stat-lis-count');
+            const avgReadBandEl = document.getElementById('stat-avg-read-band');
+            const readCountEl = document.getElementById('stat-read-count');
+            const avgOverallBandEl = document.getElementById('stat-avg-overall-band');
 
-            const count = attempts.length;
-            if (totalEl) totalEl.textContent = count;
+            const total = students.length;
+            if (totalStudentsEl) totalStudentsEl.textContent = total;
 
-            if (count === 0) {
-                if (avgRawEl) avgRawEl.textContent = '0.0';
-                if (avgBandEl) avgBandEl.textContent = '0.0';
-                if (topScoreEl) topScoreEl.textContent = '0';
-                if (topStudentEl) topStudentEl.textContent = '-';
+            if (total === 0) {
+                if (completeBothEl) completeBothEl.textContent = '0 siswa telah tuntas kedua tes';
+                if (avgLisBandEl) avgLisBandEl.textContent = '0.0';
+                if (lisCountEl) lisCountEl.textContent = '0 lembar jawaban masuk';
+                if (avgReadBandEl) avgReadBandEl.textContent = '0.0';
+                if (readCountEl) readCountEl.textContent = '0 lembar jawaban masuk';
+                if (avgOverallBandEl) avgOverallBandEl.textContent = '0.0';
                 return;
             }
 
-            let totalRaw = 0;
-            let totalBand = 0;
-            let maxRaw = -1;
-            let topStudent = '-';
+            let bothCount = 0;
+            let lisSum = 0, lisCount = 0;
+            let readSum = 0, readCount = 0;
+            let overallSum = 0, overallCount = 0;
 
-            attempts.forEach(a => {
-                const raw = a.raw_score || 0;
-                const band = a.band_score || 0;
-                totalRaw += raw;
-                totalBand += band;
+            students.forEach(s => {
+                if (s.listening && s.reading) bothCount++;
 
-                if (raw > maxRaw) {
-                    maxRaw = raw;
-                    topStudent = `${a.nama_peserta} (${a.kelas})`;
+                if (s.listening && typeof s.listening.band_score === 'number') {
+                    lisSum += s.listening.band_score;
+                    lisCount++;
+                }
+                if (s.reading && typeof s.reading.band_score === 'number') {
+                    readSum += s.reading.band_score;
+                    readCount++;
+                }
+                if (typeof s.overall_band === 'number') {
+                    overallSum += s.overall_band;
+                    overallCount++;
                 }
             });
 
-            if (avgRawEl) avgRawEl.textContent = (totalRaw / count).toFixed(1);
-            if (avgBandEl) avgBandEl.textContent = (totalBand / count).toFixed(1);
-            if (topScoreEl) topScoreEl.textContent = `${maxRaw} / 40`;
-            if (topStudentEl) topStudentEl.textContent = topStudent;
+            if (completeBothEl) completeBothEl.textContent = `${bothCount} siswa telah tuntas kedua tes`;
+            if (avgLisBandEl) avgLisBandEl.textContent = lisCount > 0 ? (lisSum / lisCount).toFixed(1) : '0.0';
+            if (lisCountEl) lisCountEl.textContent = `${lisCount} lembar jawaban masuk`;
+            if (avgReadBandEl) avgReadBandEl.textContent = readCount > 0 ? (readSum / readCount).toFixed(1) : '0.0';
+            if (readCountEl) readCountEl.textContent = `${readCount} lembar jawaban masuk`;
+            if (avgOverallBandEl) avgOverallBandEl.textContent = overallCount > 0 ? (overallSum / overallCount).toFixed(1) : '0.0';
         }
 
         function filterAndRenderTable() {
             const searchQ = (document.getElementById('input-search-student').value || '').toLowerCase().trim();
             const filterClass = document.getElementById('select-filter-kelas').value;
+            const filterModul = document.getElementById('select-filter-modul').value;
             const sortBy = document.getElementById('select-sort-by').value;
 
-            let list = ALL_ATTEMPTS.filter(item => {
+            let list = ALL_STUDENTS.filter(item => {
                 const matchClass = !filterClass || item.kelas === filterClass;
                 const matchName = !searchQ || 
                     (item.nama_peserta || '').toLowerCase().includes(searchQ) ||
                     (item.kelas || '').toLowerCase().includes(searchQ);
-                return matchClass && matchName;
+
+                let matchModul = true;
+                if (filterModul === 'both') matchModul = !!(item.listening && item.reading);
+                else if (filterModul === 'listening_only') matchModul = !!(item.listening && !item.reading);
+                else if (filterModul === 'reading_only') matchModul = !!(!item.listening && item.reading);
+
+                return matchClass && matchName && matchModul;
             });
 
             // Sorting
             list.sort((a, b) => {
-                if (sortBy === 'time_desc') return (b.submitted_at || 0) - (a.submitted_at || 0);
-                if (sortBy === 'score_desc') return (b.raw_score || 0) - (a.raw_score || 0);
-                if (sortBy === 'score_asc') return (a.raw_score || 0) - (b.raw_score || 0);
+                if (sortBy === 'time_desc') return (b.last_submitted_at || 0) - (a.last_submitted_at || 0);
+                if (sortBy === 'overall_desc') return (b.overall_band || 0) - (a.overall_band || 0);
+                if (sortBy === 'read_desc') return ((b.reading ? b.reading.raw_score : -1) - (a.reading ? a.reading.raw_score : -1));
+                if (sortBy === 'lis_desc') return ((b.listening ? b.listening.raw_score : -1) - (a.listening ? a.listening.raw_score : -1));
                 if (sortBy === 'name_asc') return (a.nama_peserta || '').localeCompare(b.nama_peserta || '');
                 return 0;
             });
@@ -377,34 +410,85 @@
             if (emptyState) emptyState.classList.add('hidden');
 
             tbody.innerHTML = items.map((item, idx) => {
-                const sec = parseSectionScores(item.section_scores);
-                const timeStr = item.submitted_at ? formatDateTime(item.submitted_at) : '-';
+                const timeStr = item.last_submitted_at ? formatDateTime(item.last_submitted_at) : '-';
 
-                const bandColor = (item.band_score >= 7.5) ? 'bg-indigo-100 text-indigo-800' :
-                                  (item.band_score >= 6.0) ? 'bg-teal-100 text-teal-800' : 'bg-slate-100 text-slate-800';
+                // Listening Column
+                let lisHtml = `<span class="text-[11px] text-slate-400 italic">Belum tes</span>`;
+                if (item.listening) {
+                    const l = item.listening;
+                    const sec = parseScores(l.section_scores);
+                    const lBandColor = getBandBadgeClass(l.band_score);
+                    lisHtml = `
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-mono font-bold text-slate-900">${l.raw_score}/40</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${lBandColor}">B ${Number(l.band_score).toFixed(1)}</span>
+                            </div>
+                            <div class="flex items-center gap-1 font-mono text-[9px] text-slate-500">
+                                <span class="px-1 py-0.2 rounded bg-indigo-50 text-indigo-700" title="Section 1">S1:${sec.s1 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-teal-50 text-teal-700" title="Section 2">S2:${sec.s2 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-amber-50 text-amber-700" title="Section 3">S3:${sec.s3 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-rose-50 text-rose-700" title="Section 4">S4:${sec.s4 || 0}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Reading Column
+                let readHtml = `<span class="text-[11px] text-slate-400 italic">Belum tes</span>`;
+                if (item.reading) {
+                    const r = item.reading;
+                    const pass = parseScores(r.passage_scores);
+                    const rBandColor = getBandBadgeClass(r.band_score);
+                    readHtml = `
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-mono font-bold text-slate-900">${r.raw_score}/40</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${rBandColor}">B ${Number(r.band_score).toFixed(1)}</span>
+                            </div>
+                            <div class="flex items-center gap-1 font-mono text-[9px] text-slate-500">
+                                <span class="px-1 py-0.2 rounded bg-blue-50 text-blue-700" title="Passage 1">P1:${pass.p1 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-emerald-50 text-emerald-700" title="Passage 2">P2:${pass.p2 || 0}</span>
+                                <span class="px-1 py-0.2 rounded bg-purple-50 text-purple-700" title="Passage 3">P3:${pass.p3 || 0}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Overall Band Column
+                let overallHtml = `<span class="text-slate-400">-</span>`;
+                if (typeof item.overall_band === 'number') {
+                    const oColor = getBandBadgeClass(item.overall_band);
+                    const isBoth = item.listening && item.reading;
+                    overallHtml = `
+                        <div class="flex flex-col items-center gap-0.5">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-black shadow-2xs ${oColor}">
+                                Band ${item.overall_band.toFixed(1)}
+                            </span>
+                            <span class="text-[9px] text-slate-400">${isBoth ? 'Rata-rata IELTS' : '1 Subtes'}</span>
+                        </div>
+                    `;
+                }
 
                 return `
                     <tr class="hover:bg-slate-50/70 transition">
                         <td class="py-3 px-4 text-center font-mono font-medium text-slate-400">${idx + 1}</td>
-                        <td class="py-3 px-4 font-bold text-slate-900">${escapeHtml(item.nama_peserta)}</td>
+                        <td class="py-3 px-4 font-bold text-slate-900">
+                            <div class="truncate max-w-[200px]" title="${escapeHtml(item.nama_peserta)}">
+                                ${escapeHtml(item.nama_peserta)}
+                            </div>
+                        </td>
                         <td class="py-3 px-4">
                             <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-semibold text-[11px]">${escapeHtml(item.kelas)}</span>
                         </td>
-                        <td class="py-3 px-4 text-center font-mono font-bold text-slate-900">
-                            ${item.raw_score} / 40
+                        <td class="py-3 px-4 text-center">
+                            ${lisHtml}
                         </td>
                         <td class="py-3 px-4 text-center">
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold ${bandColor}">
-                                Band ${Number(item.band_score).toFixed(1)}
-                            </span>
+                            ${readHtml}
                         </td>
                         <td class="py-3 px-4 text-center">
-                            <span class="inline-flex items-center gap-1 font-mono text-[11px] text-slate-600">
-                                <span title="Section 1" class="px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 font-bold">S1:${sec.s1}</span>
-                                <span title="Section 2" class="px-1.5 py-0.5 rounded bg-teal-50 text-teal-700 font-bold">S2:${sec.s2}</span>
-                                <span title="Section 3" class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">S3:${sec.s3}</span>
-                                <span title="Section 4" class="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 font-bold">S4:${sec.s4}</span>
-                            </span>
+                            ${overallHtml}
                         </td>
                         <td class="py-3 px-4 text-right text-slate-500 font-mono text-[11px]">
                             ${timeStr}
@@ -414,12 +498,20 @@
             }).join('');
         }
 
-        function parseSectionScores(raw) {
+        function getBandBadgeClass(band) {
+            const b = Number(band) || 0;
+            if (b >= 7.5) return 'bg-indigo-100 text-indigo-800 border border-indigo-200';
+            if (b >= 6.0) return 'bg-teal-100 text-teal-800 border border-teal-200';
+            if (b >= 5.0) return 'bg-amber-100 text-amber-800 border border-amber-200';
+            return 'bg-slate-100 text-slate-700 border border-slate-200';
+        }
+
+        function parseScores(raw) {
             if (typeof raw === 'object' && raw !== null) return raw;
             try {
                 return JSON.parse(raw || '{}');
             } catch (e) {
-                return { s1: 0, s2: 0, s3: 0, s4: 0 };
+                return {};
             }
         }
 
@@ -431,28 +523,60 @@
         }
 
         function exportToCSV() {
-            if (ALL_ATTEMPTS.length === 0) {
+            if (ALL_STUDENTS.length === 0) {
                 alert('Tidak ada data untuk diekspor.');
                 return;
             }
 
-            const headers = ['No', 'ID Sesi', 'Nama Siswa', 'Kelas', 'Skor Mentah (/40)', 'Estimated Band', 'Section 1 (/10)', 'Section 2 (/10)', 'Section 3 (/10)', 'Section 4 (/10)', 'Waktu Mulai', 'Waktu Submit'];
+            const headers = [
+                'No',
+                'Nama Siswa',
+                'Kelas',
+                'Status Pengerjaan',
+                'Overall Estimated Band',
+                'Listening Raw (/40)',
+                'Listening Band',
+                'Listening S1 (/10)',
+                'Listening S2 (/10)',
+                'Listening S3 (/10)',
+                'Listening S4 (/10)',
+                'Reading Raw (/40)',
+                'Reading Band',
+                'Reading Passage 1 (/13)',
+                'Reading Passage 2 (/13)',
+                'Reading Passage 3 (/14)',
+                'Waktu Submit Terakhir'
+            ];
             
-            const rows = ALL_ATTEMPTS.map((a, i) => {
-                const sec = parseSectionScores(a.section_scores);
+            const rows = ALL_STUDENTS.map((s, i) => {
+                const l = s.listening || null;
+                const r = s.reading || null;
+                const lSec = l ? parseScores(l.section_scores) : {};
+                const rPass = r ? parseScores(r.passage_scores) : {};
+
+                let statusText = 'Belum Ada';
+                if (l && r) statusText = 'Lengkap (Listening & Reading)';
+                else if (l) statusText = 'Hanya Listening';
+                else if (r) statusText = 'Hanya Reading';
+
                 return [
                     i + 1,
-                    `"${a.id || ''}"`,
-                    `"${(a.nama_peserta || '').replace(/"/g, '""')}"`,
-                    `"${(a.kelas || '').replace(/"/g, '""')}"`,
-                    a.raw_score || 0,
-                    Number(a.band_score || 0).toFixed(1),
-                    sec.s1 || 0,
-                    sec.s2 || 0,
-                    sec.s3 || 0,
-                    sec.s4 || 0,
-                    a.started_at ? `"${new Date(a.started_at).toISOString()}"` : '""',
-                    a.submitted_at ? `"${new Date(a.submitted_at).toISOString()}"` : '""'
+                    `"${(s.nama_peserta || '').replace(/"/g, '""')}"`,
+                    `"${(s.kelas || '').replace(/"/g, '""')}"`,
+                    `"${statusText}"`,
+                    typeof s.overall_band === 'number' ? s.overall_band.toFixed(1) : '""',
+                    l ? (l.raw_score ?? 0) : '""',
+                    l && typeof l.band_score === 'number' ? l.band_score.toFixed(1) : '""',
+                    l ? (lSec.s1 ?? 0) : '""',
+                    l ? (lSec.s2 ?? 0) : '""',
+                    l ? (lSec.s3 ?? 0) : '""',
+                    l ? (lSec.s4 ?? 0) : '""',
+                    r ? (r.raw_score ?? 0) : '""',
+                    r && typeof r.band_score === 'number' ? r.band_score.toFixed(1) : '""',
+                    r ? (rPass.p1 ?? 0) : '""',
+                    r ? (rPass.p2 ?? 0) : '""',
+                    r ? (rPass.p3 ?? 0) : '""',
+                    s.last_submitted_at ? `"${new Date(s.last_submitted_at).toISOString()}"` : '""'
                 ];
             });
 
@@ -462,7 +586,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `rekap-listening-ielts-${new Date().toISOString().slice(0, 10)}.csv`;
+            a.download = `rekap-ielts-terpadu-${new Date().toISOString().slice(0, 10)}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

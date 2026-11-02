@@ -334,6 +334,67 @@ function verifyTeacherKey(submittedKey, env) {
            (env.ADMIN_KEY && timingSafeEqual(submittedKey, env.ADMIN_KEY));
 }
 
+// ---------- IELTS Academic Reading Helpers & Schema ----------
+async function ensureReadingSchema(env) {
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS reading_sessions (
+            id               TEXT    PRIMARY KEY,
+            test_id          TEXT    NOT NULL,
+            device_id        TEXT    NOT NULL,
+            nama_peserta     TEXT    NOT NULL,
+            kelas            TEXT    NOT NULL,
+            started_at       INTEGER NOT NULL,
+            duration_seconds INTEGER NOT NULL DEFAULT 3600,
+            submitted_at     INTEGER DEFAULT NULL,
+            current_passage  INTEGER NOT NULL DEFAULT 1,
+            answers_json     TEXT    DEFAULT '{}',
+            raw_score        INTEGER DEFAULT NULL,
+            band_score       REAL    DEFAULT NULL,
+            passage_scores   TEXT    DEFAULT '{}',
+            type_scores      TEXT    DEFAULT '{}',
+            status           TEXT    NOT NULL DEFAULT 'in_progress'
+        )
+    `).run();
+}
+
+function calculateReadingBand(rawScore) {
+    const score = Math.max(0, Math.min(40, parseInt(rawScore, 10) || 0));
+    if (score >= 39) return 9.0;
+    if (score >= 37) return 8.5;
+    if (score >= 35) return 8.0;
+    if (score >= 33) return 7.5;
+    if (score >= 30) return 7.0;
+    if (score >= 27) return 6.5;
+    if (score >= 23) return 6.0;
+    if (score >= 19) return 5.5;
+    if (score >= 15) return 5.0;
+    if (score >= 13) return 4.5;
+    if (score >= 10) return 4.0;
+    if (score >= 8)  return 3.5;
+    if (score >= 6)  return 3.0;
+    if (score >= 4)  return 2.5;
+    return 2.0;
+}
+
+function sanitizeReadingTestForStudent(masterData) {
+    const copy = JSON.parse(JSON.stringify(masterData));
+    if (copy.passages && Array.isArray(copy.passages)) {
+        copy.passages.forEach(p => {
+            if (p.groups && Array.isArray(p.groups)) {
+                p.groups.forEach(grp => {
+                    if (grp.questions && Array.isArray(grp.questions)) {
+                        grp.questions.forEach(q => {
+                            delete q.answers;
+                            delete q.evidence;
+                        });
+                    }
+                });
+            }
+        });
+    }
+    return copy;
+}
+
 // ---------- Handler ----------
 export default {
     async fetch(request, env) {
@@ -671,9 +732,217 @@ export default {
                 });
             }
 
-            // 4. Rekap Guru (Hanya dengan TEACHER_KEY lewat Header X-Teacher-Key atau POST body)
-            if (path === '/listening/admin/results' && (request.method === 'GET' || request.method === 'POST')) {
+            // =================================================================
+            // --- IELTS-Style Academic Reading Mock Test Endpoints ---
+            // =================================================================
+
+            // 1. Mulai tes reading / resume session
+            if (path === '/reading/start' && request.method === 'POST') {
+                await ensureReadingSchema(env);
+                const body = await readJson(request);
+                const testId = String(body.testId || 'reading1').trim().toLowerCase();
+                const nama = String(body.nama || '').trim().slice(0, 80);
+                const kelas = String(body.kelas || '').trim().slice(0, 50);
+                const deviceId = String(body.deviceId || '').trim().slice(0, 64) || ('dev_' + crypto.randomUUID().slice(0, 12));
+                const requestedSessionId = String(body.sessionId || '').trim();
+
+                if (nama.length < 2) {
+                    return json(request, env, { ok: false, error: 'Nama lengkap wajib diisi minimal 2 karakter.' }, 400);
+                }
+                if (kelas.length < 1) {
+                    return json(request, env, { ok: false, error: 'Kelas wajib diisi (misal: 12 MIPA 1).' }, 400);
+                }
+
+                // Ambil master data soal reading dari Assets
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/reading/${testId}-master.json`, url.origin)));
+                if (!assetRes.ok) {
+                    return json(request, env, { ok: false, error: 'Paket tes reading tidak ditemukan.' }, 404);
+                }
+                const masterData = await assetRes.json();
+                const studentTestData = sanitizeReadingTestForStudent(masterData);
+
+                const now = Date.now();
+                let session = null;
+
+                // Cek jika ada session yang diminta
+                if (requestedSessionId) {
+                    session = await env.DB.prepare('SELECT * FROM reading_sessions WHERE id = ?').bind(requestedSessionId).first();
+                }
+
+                // Jika tidak ditemukan atau tidak diminta, cek apakah device memiliki sesi in_progress untuk test ini
+                if (!session) {
+                    session = await env.DB.prepare(
+                        'SELECT * FROM reading_sessions WHERE test_id = ? AND device_id = ? AND status = "in_progress" ORDER BY started_at DESC LIMIT 1'
+                    ).bind(testId, deviceId).first();
+                }
+
+                const testDurationSeconds = (masterData.duration_minutes || 60) * 60;
+
+                if (session) {
+                    // Jika sesi sudah disubmit sebelumnya
+                    if (session.status === 'submitted') {
+                        return json(request, env, {
+                            ok: true,
+                            alreadySubmitted: true,
+                            sessionId: session.id,
+                            rawScore: session.raw_score,
+                            bandScore: session.band_score,
+                            passageScores: JSON.parse(session.passage_scores || '{}'),
+                            typeScores: JSON.parse(session.type_scores || '{}')
+                        });
+                    }
+
+                    // Hitung sisa waktu mundur server
+                    const durationMs = (session.duration_seconds || testDurationSeconds) * 1000;
+                    const elapsedMs = now - session.started_at;
+                    const remainingSeconds = Math.max(0, Math.floor((durationMs - elapsedMs) / 1000));
+
+                    return json(request, env, {
+                        ok: true,
+                        sessionId: session.id,
+                        resumed: true,
+                        startedAt: session.started_at,
+                        serverTime: now,
+                        remainingSeconds,
+                        currentPassage: session.current_passage,
+                        savedAnswers: JSON.parse(session.answers_json || '{}'),
+                        testData: studentTestData
+                    });
+                }
+
+                // Buat sesi baru
+                const newSessionId = 'rs_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+                await env.DB.prepare(`
+                    INSERT INTO reading_sessions (id, test_id, device_id, nama_peserta, kelas, started_at, duration_seconds, current_passage, answers_json, status)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 1, '{}', 'in_progress')
+                `).bind(newSessionId, testId, deviceId, nama, kelas, now, testDurationSeconds).run();
+
+                return json(request, env, {
+                    ok: true,
+                    sessionId: newSessionId,
+                    resumed: false,
+                    startedAt: now,
+                    serverTime: now,
+                    remainingSeconds: testDurationSeconds,
+                    currentPassage: 1,
+                    savedAnswers: {},
+                    testData: studentTestData
+                });
+            }
+
+            // 2. Autosave progres jawaban reading & passage aktif
+            if (path === '/reading/save-progress' && request.method === 'POST') {
+                await ensureReadingSchema(env);
+                const body = await readJson(request);
+                const sessionId = String(body.sessionId || '').trim();
+                const currentPassage = Math.max(1, Math.min(3, parseInt(body.currentPassage, 10) || 1));
+                const answers = body.answers && typeof body.answers === 'object' ? JSON.stringify(body.answers) : '{}';
+
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                await env.DB.prepare(`
+                    UPDATE reading_sessions
+                    SET current_passage = ?, answers_json = ?
+                    WHERE id = ? AND status = 'in_progress'
+                `).bind(currentPassage, answers, sessionId).run();
+
+                return json(request, env, { ok: true, serverTime: Date.now() });
+            }
+
+            // 3. Submit tes reading, penilaian server-side 40 soal & hasil review
+            if (path === '/reading/submit' && request.method === 'POST') {
+                await ensureReadingSchema(env);
+                const body = await readJson(request);
+                const sessionId = String(body.sessionId || '').trim();
+                const submittedAnswers = body.answers && typeof body.answers === 'object' ? body.answers : {};
+
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT * FROM reading_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes reading tidak ditemukan.' }, 404);
+                }
+
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/reading/${session.test_id}-master.json`, url.origin)));
+                if (!assetRes.ok) {
+                    return json(request, env, { ok: false, error: 'Master soal tes reading tidak ditemukan.' }, 500);
+                }
+                const master = await assetRes.json();
+
+                const now = Date.now();
+                let rawScore = 0;
+                const passageScores = { p1: 0, p2: 0, p3: 0 };
+                const typeScores = {};
+                const questionReviews = [];
+
+                // Grading 40 soal
+                (master.passages || []).forEach(p => {
+                    const passKey = `p${p.passage_no}`;
+                    (p.groups || []).forEach(grp => {
+                        const grpType = grp.type;
+                        if (!typeScores[grpType]) typeScores[grpType] = { correct: 0, total: 0 };
+
+                        (grp.questions || []).forEach(q => {
+                            typeScores[grpType].total++;
+                            const qNo = q.no;
+                            const studentAns = String(submittedAnswers[String(qNo)] || submittedAnswers[qNo] || '').trim();
+                            const studentNorm = normalizeListeningAnswer(studentAns);
+
+                            const isCorrect = (q.answers || []).some(acc => {
+                                return normalizeListeningAnswer(acc) === studentNorm;
+                            });
+
+                            if (isCorrect) {
+                                rawScore++;
+                                if (passageScores[passKey] !== undefined) passageScores[passKey]++;
+                                typeScores[grpType].correct++;
+                            }
+
+                            questionReviews.push({
+                                no: qNo,
+                                passage: p.passage_no,
+                                type: grpType,
+                                studentAnswer: studentAns,
+                                correctAnswers: q.answers || [],
+                                isCorrect,
+                                evidence: q.evidence || ''
+                            });
+                        });
+                    });
+                });
+
+                const bandScore = calculateReadingBand(rawScore);
+                const passageScoresJson = JSON.stringify(passageScores);
+                const typeScoresJson = JSON.stringify(typeScores);
+                const finalAnswersJson = JSON.stringify(submittedAnswers);
+
+                // Update database
+                await env.DB.prepare(`
+                    UPDATE reading_sessions
+                    SET submitted_at = ?, answers_json = ?, raw_score = ?, band_score = ?, passage_scores = ?, type_scores = ?, status = 'submitted'
+                    WHERE id = ?
+                `).bind(now, finalAnswersJson, rawScore, bandScore, passageScoresJson, typeScoresJson, sessionId).run();
+
+                return json(request, env, {
+                    ok: true,
+                    rawScore,
+                    bandScore,
+                    passageScores,
+                    typeScores,
+                    questionReviews,
+                    submittedAt: now,
+                    startedAt: session.started_at
+                });
+            }
+
+            // 4. Rekap Guru Terpadu IELTS (Listening & Reading)
+            if ((path === '/listening/admin/results' || path === '/reading/admin/results' || path === '/ielts/admin/results') && (request.method === 'GET' || request.method === 'POST')) {
                 await ensureListeningSchema(env);
+                await ensureReadingSchema(env);
                 const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
                 const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
 
@@ -704,27 +973,100 @@ export default {
                 // Reset failed attempts jika valid
                 await recordTeacherAttemptResult(env, ipHash, true);
 
-                let query = `
-                    SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores
-                    FROM listening_sessions
-                    WHERE status = 'submitted'
-                `;
+                let lisQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores FROM listening_sessions WHERE status = 'submitted'`;
+                let readQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, passage_scores, type_scores FROM reading_sessions WHERE status = 'submitted'`;
                 const params = [];
 
                 if (filterKelas) {
-                    query += ` AND kelas = ?`;
+                    lisQuery += ` AND kelas = ?`;
+                    readQuery += ` AND kelas = ?`;
                     params.push(filterKelas);
                 }
 
-                query += ` ORDER BY submitted_at DESC LIMIT 500`;
+                lisQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
+                readQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
 
-                const stmt = params.length > 0 ? env.DB.prepare(query).bind(...params) : env.DB.prepare(query);
-                const rows = await stmt.all();
+                const lisStmt = params.length > 0 ? env.DB.prepare(lisQuery).bind(...params) : env.DB.prepare(lisQuery);
+                const readStmt = params.length > 0 ? env.DB.prepare(readQuery).bind(...params) : env.DB.prepare(readQuery);
+
+                const [lisRes, readRes] = await Promise.all([lisStmt.all(), readStmt.all()]);
+
+                // Gabungkan per siswa: Map key = `nama_peserta.toLowerCase() + '|' + kelas.toLowerCase()`
+                const studentMap = new Map();
+
+                (lisRes.results || []).forEach(l => {
+                    const key = `${(l.nama_peserta || '').trim().toLowerCase()}|${(l.kelas || '').trim().toLowerCase()}`;
+                    if (!studentMap.has(key)) {
+                        studentMap.set(key, {
+                            nama_peserta: l.nama_peserta,
+                            kelas: l.kelas,
+                            listening: null,
+                            reading: null,
+                            last_submitted_at: l.submitted_at || l.started_at
+                        });
+                    }
+                    const entry = studentMap.get(key);
+                    entry.listening = {
+                        id: l.id,
+                        test_id: l.test_id,
+                        raw_score: l.raw_score,
+                        band_score: l.band_score,
+                        section_scores: l.section_scores,
+                        submitted_at: l.submitted_at
+                    };
+                    entry.last_submitted_at = Math.max(entry.last_submitted_at, l.submitted_at || 0);
+                });
+
+                (readRes.results || []).forEach(r => {
+                    const key = `${(r.nama_peserta || '').trim().toLowerCase()}|${(r.kelas || '').trim().toLowerCase()}`;
+                    if (!studentMap.has(key)) {
+                        studentMap.set(key, {
+                            nama_peserta: r.nama_peserta,
+                            kelas: r.kelas,
+                            listening: null,
+                            reading: null,
+                            last_submitted_at: r.submitted_at || r.started_at
+                        });
+                    }
+                    const entry = studentMap.get(key);
+                    entry.reading = {
+                        id: r.id,
+                        test_id: r.test_id,
+                        raw_score: r.raw_score,
+                        band_score: r.band_score,
+                        passage_scores: r.passage_scores,
+                        type_scores: r.type_scores,
+                        submitted_at: r.submitted_at
+                    };
+                    entry.last_submitted_at = Math.max(entry.last_submitted_at, r.submitted_at || 0);
+                });
+
+                // Hitung Overall Band per siswa (aturan IELTS: rata-rata sub-tes dibulatkan ke kelipatan 0.5 terdekat)
+                const mergedStudents = Array.from(studentMap.values()).map(s => {
+                    let overallBand = null;
+                    if (s.listening && s.reading) {
+                        const avg = (s.listening.band_score + s.reading.band_score) / 2;
+                        // Pembulatan IELTS: fraksi .25 naik ke .5, fraksi .75 naik ke .0 berikutnya
+                        overallBand = Math.round(avg * 2) / 2;
+                    } else if (s.listening) {
+                        overallBand = s.listening.band_score;
+                    } else if (s.reading) {
+                        overallBand = s.reading.band_score;
+                    }
+                    return {
+                        ...s,
+                        overall_band: overallBand
+                    };
+                });
+
+                mergedStudents.sort((a, b) => (b.last_submitted_at || 0) - (a.last_submitted_at || 0));
 
                 return json(request, env, {
                     ok: true,
-                    total: rows.results ? rows.results.length : 0,
-                    results: rows.results || []
+                    total: mergedStudents.length,
+                    results: mergedStudents,
+                    raw_listening: lisRes.results || [],
+                    raw_reading: readRes.results || []
                 });
             }
 

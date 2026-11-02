@@ -97,3 +97,30 @@ CREATE TABLE IF NOT EXISTS listening_admin_attempts (
     last_attempt    INTEGER NOT NULL
 );
 
+-- =================================================================
+-- Tabel Simulasi IELTS-Style Academic Reading Mock Test (Cloudflare D1)
+-- =================================================================
+
+CREATE TABLE IF NOT EXISTS reading_sessions (
+    id               TEXT    PRIMARY KEY,         -- UUID attempt_id (misal 'rs_f1a2b3c4...')
+    test_id          TEXT    NOT NULL,            -- 'reading1'
+    device_id        TEXT    NOT NULL,
+    nama_peserta     TEXT    NOT NULL,
+    kelas            TEXT    NOT NULL,            -- e.g. '12 MIPA 1'
+    started_at       INTEGER NOT NULL,            -- server timestamp ms
+    duration_seconds INTEGER NOT NULL DEFAULT 3600,-- 60 menit (3.600 detik)
+    submitted_at     INTEGER DEFAULT NULL,        -- server timestamp ms
+    current_passage  INTEGER NOT NULL DEFAULT 1,  -- Passage aktif (1-3)
+    answers_json     TEXT    DEFAULT '{}',        -- Jawaban tersimpan dari autosave
+    raw_score        INTEGER DEFAULT NULL,        -- Skor mentah (0 - 40)
+    band_score       REAL    DEFAULT NULL,        -- Estimated Band (e.g. 7.0)
+    passage_scores   TEXT    DEFAULT '{}',        -- Breakdown per passage: {"p1":12,"p2":11,"p3":11}
+    type_scores      TEXT    DEFAULT '{}',        -- Breakdown tipe soal: {"tfng":6,"headings":5,...}
+    status           TEXT    NOT NULL DEFAULT 'in_progress' -- 'in_progress', 'submitted'
+);
+
+CREATE INDEX IF NOT EXISTS idx_reading_sessions_test ON reading_sessions(test_id, started_at);
+CREATE INDEX IF NOT EXISTS idx_reading_sessions_kelas ON reading_sessions(kelas, submitted_at);
+CREATE INDEX IF NOT EXISTS idx_reading_sessions_device ON reading_sessions(device_id);
+
+
