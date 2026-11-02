@@ -254,7 +254,7 @@ async function ensureListeningSchema(env) {
     `).run();
 }
 
-function normalizeListeningAnswer(raw) {
+function normalizeTextAnswer(raw) {
     if (typeof raw !== 'string') return '';
     return raw
         .toLowerCase()
@@ -263,6 +263,7 @@ function normalizeListeningAnswer(raw) {
         .replace(/\s+/g, ' ')
         .trim();
 }
+const normalizeListeningAnswer = normalizeTextAnswer;
 
 function calculateEstimatedBand(rawScore) {
     const score = Math.max(0, Math.min(40, parseInt(rawScore, 10) || 0));
@@ -980,8 +981,8 @@ export default {
                             const studentAns = studentArr.join(', ');
                             
                             const isCorrect = (q.answers || []).some(acc => {
-                                const accNorm = normalizeListeningAnswer(acc);
-                                return studentArr.some(ans => normalizeListeningAnswer(ans) === accNorm);
+                                const accNorm = normalizeTextAnswer(acc);
+                                return studentArr.some(ans => normalizeTextAnswer(ans) === accNorm);
                             });
 
                             if (isCorrect) {
@@ -1214,8 +1215,8 @@ export default {
                             const studentAns = studentArr.join(', ');
 
                             const isCorrect = (q.answers || []).some(acc => {
-                                const accNorm = normalizeListeningAnswer(acc);
-                                return studentArr.some(ans => normalizeListeningAnswer(ans) === accNorm);
+                                const accNorm = normalizeTextAnswer(acc);
+                                return studentArr.some(ans => normalizeTextAnswer(ans) === accNorm);
                             });
 
                             if (isCorrect) {
