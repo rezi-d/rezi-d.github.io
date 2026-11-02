@@ -63,16 +63,16 @@
         <div class="mb-8 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             <!-- Category Filter Chips -->
             <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar" id="category-chips">
-                <button type="button" onclick="filterKategori('Semua')" class="chip-btn active-chip px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer">
+                <button type="button" data-kategori="Semua" onclick="filterKategori('Semua')" class="chip-btn active-chip px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer">
                     Semua Artikel
                 </button>
-                <button type="button" onclick="filterKategori('Teknologi Masa Depan')" class="chip-btn px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer">
+                <button type="button" data-kategori="Teknologi Masa Depan" onclick="filterKategori('Teknologi Masa Depan')" class="chip-btn px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer">
                     🚀 Teknologi Masa Depan
                 </button>
-                <button type="button" onclick="filterKategori('Nobel & Terobosan Sains')" class="chip-btn px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer">
+                <button type="button" data-kategori="Nobel & Terobosan Sains" onclick="filterKategori('Nobel & Terobosan Sains')" class="chip-btn px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer">
                     🏆 Nobel &amp; Terobosan
                 </button>
-                <button type="button" onclick="filterKategori('Material Masa Depan')" class="chip-btn px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer">
+                <button type="button" data-kategori="Material Masa Depan" onclick="filterKategori('Material Masa Depan')" class="chip-btn px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition cursor-pointer">
                     🧪 Material Masa Depan
                 </button>
             </div>
@@ -247,9 +247,11 @@
 
         function filterKategori(kat) {
             kategoriAktif = kat;
-            document.querySelectorAll('.chip-btn').forEach(btn => {
-                const text = btn.innerText;
-                const match = (kat === 'Semua' && text.includes('Semua')) || (kat !== 'Semua' && text.includes(kat.replace(/&amp;/g, '&')));
+            document.querySelectorAll('#category-chips .chip-btn').forEach(btn => {
+                const btnKat = btn.getAttribute('data-kategori');
+                const match = (btnKat === kat) || 
+                              (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${kat}'`)) ||
+                              (kat === 'Semua' && btn.innerText.includes('Semua'));
                 if (match) {
                     btn.classList.add('active-chip');
                 } else {
