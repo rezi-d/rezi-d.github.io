@@ -43,10 +43,16 @@
     };
 
     function getOrSetDeviceId() {
-        let dev = localStorage.getItem('ielts_listening_device_id');
+        let dev = localStorage.getItem('ielts_shared_device_id');
         if (!dev) {
-            dev = 'dev_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-            localStorage.setItem('ielts_listening_device_id', dev);
+            dev = localStorage.getItem('ielts_listening_device_id') ||
+                  localStorage.getItem('ielts_reading_device_id') ||
+                  localStorage.getItem('ielts_writing_device_id') ||
+                  localStorage.getItem('ielts_speaking_device_id');
+            if (!dev) {
+                dev = 'dev_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+            }
+            localStorage.setItem('ielts_shared_device_id', dev);
         }
         return dev;
     }
