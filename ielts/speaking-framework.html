@@ -81,8 +81,25 @@
             </div>
         </div>
 
+        <!-- SLIDER CONTROLLER (TOP STICKY) -->
+        <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+            <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+            </button>
+            <div class="flex flex-col items-center gap-1">
+                <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 6</span>
+                <div id="slider-dots" class="flex items-center gap-1.5"></div>
+            </div>
+            <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+            </button>
+        </div>
+
+        <!-- SLIDER WRAPPER -->
+        <div id="ielts-slider-container" data-accent="rose" class="space-y-6">
+
         <!-- 1. 4 BAND DESCRIPTORS SPEAKING (MASING-MASING 25%) -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Kriteria Evaluasi Penguji Cambridge</span>
@@ -161,7 +178,7 @@
         </section>
 
         <!-- 2. PART 1: THE 3-SENTENCE ANSWER FORMULA -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Part 1 (4 – 5 Menit)</span>
@@ -249,7 +266,7 @@
         </section>
 
         <!-- 3. PART 2: THE 1-MINUTE SPIDERGRAM & DUAL TIMER SIMULATOR -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Part 2 (3 – 4 Menit)</span>
@@ -375,7 +392,7 @@
         </section>
 
         <!-- 4. PART 3: THE ABSTRACT DIALECTIC & SPECULATION -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Part 3 (4 – 5 Menit)</span>
@@ -468,7 +485,7 @@
         </section>
 
         <!-- 5. KLINIK PENGUCAPAN & INTONASI (PRONUNCIATION CLINIC) -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Pilar Fonologi Cambridge &middot; Speaking Reference Hal. 99–101</span>
@@ -536,7 +553,7 @@
         </section>
 
         <!-- 6. CHECKLIST AUDIT DIRI SPEAKING BAND 7.5+ -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-4">
             <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
                 <span>📋 Checklist Audit Mandiri Simulasi Speaking Band 7.5+</span>
             </h3>
@@ -595,6 +612,19 @@
             </div>
         </section>
 
+        </div> <!-- END OF #ielts-slider-container -->
+
+        <!-- SLIDER BOTTOM NAV -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+            <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                <span>&larr;</span> <span>Poin Sebelumnya</span>
+            </button>
+            <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 6</span>
+            <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+            </button>
+        </div>
+
         <!-- NAVIGASI KELAS LAIN -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-white rounded-2xl border border-slate-200 shadow-xs">
             <a href="/ielts/reading-mechanics.html" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-rose-600 transition">
@@ -625,6 +655,7 @@
     <!-- SCRIPTS -->
     <script src="/js/curriculum.js"></script>
     <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
 
     <!-- TOPIC DATA & LOGIC -->
     <script>

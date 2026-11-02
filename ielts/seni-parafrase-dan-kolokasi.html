@@ -78,8 +78,25 @@
             </div>
         </div>
 
+        <!-- SLIDER CONTROLLER (TOP STICKY) -->
+        <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+            <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+            </button>
+            <div class="flex flex-col items-center gap-1">
+                <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 6</span>
+                <div id="slider-dots" class="flex items-center gap-1.5"></div>
+            </div>
+            <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+            </button>
+        </div>
+
+        <!-- SLIDER WRAPPER -->
+        <div id="ielts-slider-container" data-accent="indigo" class="space-y-6">
+
         <!-- 1. SPEKTRUM PARAFRASE DI 4 SUB-TES IELTS -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Mekanisme Pengujian Resmi</span>
@@ -165,7 +182,7 @@
         </section>
 
         <!-- 2. MATRIKS TRANSFORMASI BENTUK KATA (WORD FORMATION & DERIVATION) -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Complete IELTS Language Reference Hal. 124–131</span>
@@ -284,7 +301,7 @@
         </section>
 
         <!-- 3. ENSIKLOPEDIA KOLOKASI AKADEMIK & DEPENDENT PREPOSITIONS -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Language Reference Hal. 123 &middot; Cambridge Complete IELTS</span>
@@ -520,7 +537,7 @@
         </section>
 
         <!-- 4. KLINIK BEDAH PARAFRASE LINTAS SUB-TES (6 KASUS RESMI) -->
-        <section class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Studi Kasus Menyeluruh</span>
@@ -564,7 +581,7 @@
         </section>
 
         <!-- 5. LABORATORIUM LATIHAN INTERAKTIF BERTINGKAT (4 DRILLS) -->
-        <section class="space-y-6">
+        <section class="ielts-slide space-y-6">
             <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 block mb-0.5">Uji Kemampuan Komprehensif</span>
@@ -755,7 +772,7 @@
         </section>
 
         <!-- 6. INTERACTIVE PARAPHRASE SANDBOX (KOTAK LATIHAN MENULIS MANDIRI) -->
-        <section class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-sm space-y-6">
+        <section class="ielts-slide bg-gradient-to-br from-indigo-900 to-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-sm space-y-6">
             <div class="border-b border-indigo-700/60 pb-3 flex items-center justify-between flex-wrap gap-2">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-0.5">Alat Latihan Menulis Mandiri</span>
@@ -791,6 +808,19 @@
             </div>
         </section>
 
+        </div> <!-- END OF #ielts-slider-container -->
+
+        <!-- SLIDER BOTTOM NAV -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+            <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                <span>&larr;</span> <span>Poin Sebelumnya</span>
+            </button>
+            <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 6</span>
+            <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+            </button>
+        </div>
+
         <!-- SUMBER REFERENSI -->
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
             <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
@@ -819,6 +849,7 @@
     <script src="/js/spu.js"></script>
     <script src="/js/curriculum.js"></script>
     <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
 
     <!-- LOGIKA INTERAKTIF LENGKAP -->
     <script>
