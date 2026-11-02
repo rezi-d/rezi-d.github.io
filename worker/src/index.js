@@ -882,6 +882,9 @@ export default {
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
                 }
+                if (session.status !== 'in_progress') {
+                    return json(request, env, { ok: false, error: 'Sesi tes listening ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/listening/${session.test_id}-master.json`, url.origin)));
                 if (!assetRes.ok) {
@@ -929,12 +932,16 @@ export default {
                 const sectionScoresJson = JSON.stringify(sectionScores);
                 const finalAnswersJson = JSON.stringify(submittedAnswers);
 
-                // Update database
-                await env.DB.prepare(`
+                // Update database atomik
+                const updateRes = await env.DB.prepare(`
                     UPDATE listening_sessions
                     SET submitted_at = ?, answers_json = ?, raw_score = ?, band_score = ?, section_scores = ?, status = 'submitted'
-                    WHERE id = ?
+                    WHERE id = ? AND status = 'in_progress'
                 `).bind(now, finalAnswersJson, rawScore, bandScore, sectionScoresJson, sessionId).run();
+
+                if (!updateRes.meta || updateRes.meta.changes === 0) {
+                    return json(request, env, { ok: false, error: 'Sesi tes listening ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
 
                 return json(request, env, {
                     ok: true,
@@ -1082,6 +1089,9 @@ export default {
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes reading tidak ditemukan.' }, 404);
                 }
+                if (session.status !== 'in_progress') {
+                    return json(request, env, { ok: false, error: 'Sesi tes reading ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/reading/${session.test_id}-master.json`, url.origin)));
                 if (!assetRes.ok) {
@@ -1138,12 +1148,16 @@ export default {
                 const typeScoresJson = JSON.stringify(typeScores);
                 const finalAnswersJson = JSON.stringify(submittedAnswers);
 
-                // Update database
-                await env.DB.prepare(`
+                // Update database atomik
+                const updateRes = await env.DB.prepare(`
                     UPDATE reading_sessions
                     SET submitted_at = ?, answers_json = ?, raw_score = ?, band_score = ?, passage_scores = ?, type_scores = ?, status = 'submitted'
-                    WHERE id = ?
+                    WHERE id = ? AND status = 'in_progress'
                 `).bind(now, finalAnswersJson, rawScore, bandScore, passageScoresJson, typeScoresJson, sessionId).run();
+
+                if (!updateRes.meta || updateRes.meta.changes === 0) {
+                    return json(request, env, { ok: false, error: 'Sesi tes reading ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
 
                 return json(request, env, {
                     ok: true,
@@ -1310,6 +1324,9 @@ export default {
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes writing tidak ditemukan.' }, 404);
                 }
+                if (session.status !== 'in_progress') {
+                    return json(request, env, { ok: false, error: 'Sesi tes writing ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
                 if (!assetRes.ok) {
@@ -1322,11 +1339,16 @@ export default {
                 const t2Words = task2Text.trim() ? task2Text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
                 const structuralCheck = analyzeWritingStructure(task1Text, task2Text);
 
-                await env.DB.prepare(`
+                // Update database atomik
+                const updateRes = await env.DB.prepare(`
                     UPDATE writing_sessions
                     SET submitted_at = ?, task1_text = ?, task2_text = ?, task1_word_count = ?, task2_word_count = ?, structural_check = ?, status = 'submitted'
-                    WHERE id = ?
+                    WHERE id = ? AND status = 'in_progress'
                 `).bind(now, task1Text, task2Text, t1Words, t2Words, JSON.stringify(structuralCheck), sessionId).run();
+
+                if (!updateRes.meta || updateRes.meta.changes === 0) {
+                    return json(request, env, { ok: false, error: 'Sesi tes writing ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
 
                 return json(request, env, {
                     ok: true,
@@ -1619,16 +1641,24 @@ export default {
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking tidak ditemukan.' }, 404);
                 }
+                if (session.status !== 'in_progress') {
+                    return json(request, env, { ok: false, error: 'Sesi tes speaking ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${session.test_id}-master.json`, url.origin)));
                 const master = assetRes.ok ? await assetRes.json() : null;
 
                 const now = Date.now();
-                await env.DB.prepare(`
+                // Update database atomik
+                const updateRes = await env.DB.prepare(`
                     UPDATE speaking_sessions
                     SET submitted_at = ?, part2_notes = ?, status = 'submitted'
-                    WHERE id = ?
+                    WHERE id = ? AND status = 'in_progress'
                 `).bind(now, part2Notes, sessionId).run();
+
+                if (!updateRes.meta || updateRes.meta.changes === 0) {
+                    return json(request, env, { ok: false, error: 'Sesi tes speaking ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
 
                 return json(request, env, {
                     ok: true,
