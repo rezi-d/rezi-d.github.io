@@ -55,7 +55,7 @@ function corsHeaders(request, env) {
     const headers = {
         'Vary': 'Origin',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Device-Id, X-Admin-Key',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Device-Id, X-Admin-Key, X-Teacher-Key',
         'Access-Control-Max-Age': '86400'
     };
     if (origin) headers['Access-Control-Allow-Origin'] = origin;
@@ -220,6 +220,120 @@ async function ensureScholarshipSchema(env) {
     `).run();
 }
 
+// ---------- IELTS Listening Engine Helpers & Schema ----------
+async function ensureListeningSchema(env) {
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS listening_sessions (
+            id             TEXT    PRIMARY KEY,
+            test_id        TEXT    NOT NULL,
+            device_id      TEXT    NOT NULL,
+            nama_peserta   TEXT    NOT NULL,
+            kelas          TEXT    NOT NULL,
+            started_at     INTEGER NOT NULL,
+            submitted_at   INTEGER DEFAULT NULL,
+            current_sec    INTEGER NOT NULL DEFAULT 1,
+            answers_json   TEXT    DEFAULT '{}',
+            raw_score      INTEGER DEFAULT NULL,
+            band_score     REAL    DEFAULT NULL,
+            section_scores TEXT    DEFAULT '{}',
+            status         TEXT    NOT NULL DEFAULT 'in_progress'
+        )
+    `).run();
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS listening_admin_attempts (
+            ip_hash         TEXT    PRIMARY KEY,
+            failed_attempts INTEGER NOT NULL DEFAULT 0,
+            locked_until    INTEGER NOT NULL DEFAULT 0,
+            last_attempt    INTEGER NOT NULL
+        )
+    `).run();
+}
+
+function normalizeListeningAnswer(raw) {
+    if (typeof raw !== 'string') return '';
+    return raw
+        .toLowerCase()
+        .replace(/['"“”’‘]/g, '')
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function calculateEstimatedBand(rawScore) {
+    const score = Math.max(0, Math.min(40, parseInt(rawScore, 10) || 0));
+    if (score >= 39) return 9.0;
+    if (score >= 37) return 8.5;
+    if (score >= 35) return 8.0;
+    if (score >= 32) return 7.5;
+    if (score >= 30) return 7.0;
+    if (score >= 26) return 6.5;
+    if (score >= 23) return 6.0;
+    if (score >= 18) return 5.5;
+    if (score >= 16) return 5.0;
+    if (score >= 13) return 4.5;
+    if (score >= 10) return 4.0;
+    if (score >= 8)  return 3.5;
+    if (score >= 6)  return 3.0;
+    if (score >= 4)  return 2.5;
+    return 2.0;
+}
+
+function sanitizeTestForStudent(masterData) {
+    const copy = JSON.parse(JSON.stringify(masterData));
+    delete copy.transcripts;
+    if (copy.sections && Array.isArray(copy.sections)) {
+        copy.sections.forEach(sec => {
+            if (sec.groups && Array.isArray(sec.groups)) {
+                sec.groups.forEach(grp => {
+                    if (grp.questions && Array.isArray(grp.questions)) {
+                        grp.questions.forEach(q => {
+                            delete q.answers;
+                            delete q.hint;
+                        });
+                    }
+                });
+            }
+        });
+    }
+    return copy;
+}
+
+async function checkTeacherRateLimit(env, ipHash) {
+    const now = Date.now();
+    const row = await env.DB.prepare('SELECT failed_attempts, locked_until FROM listening_admin_attempts WHERE ip_hash = ?').bind(ipHash).first();
+    if (row && row.locked_until && row.locked_until > now) {
+        const remainingMinutes = Math.ceil((row.locked_until - now) / 60000);
+        return { locked: true, remainingMinutes };
+    }
+    return { locked: false, failedAttempts: row ? row.failed_attempts : 0 };
+}
+
+async function recordTeacherAttemptResult(env, ipHash, success) {
+    const now = Date.now();
+    if (success) {
+        await env.DB.prepare(`
+            INSERT INTO listening_admin_attempts (ip_hash, failed_attempts, locked_until, last_attempt)
+            VALUES (?, 0, 0, ?)
+            ON CONFLICT(ip_hash) DO UPDATE SET failed_attempts = 0, locked_until = 0, last_attempt = excluded.last_attempt
+        `).bind(ipHash, now).run();
+    } else {
+        const status = await checkTeacherRateLimit(env, ipHash);
+        const newFails = (status.failedAttempts || 0) + 1;
+        const lockUntil = newFails >= 5 ? now + (15 * 60 * 1000) : 0;
+        await env.DB.prepare(`
+            INSERT INTO listening_admin_attempts (ip_hash, failed_attempts, locked_until, last_attempt)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(ip_hash) DO UPDATE SET failed_attempts = excluded.failed_attempts, locked_until = excluded.locked_until, last_attempt = excluded.last_attempt
+        `).bind(ipHash, newFails, lockUntil, now).run();
+    }
+}
+
+function verifyTeacherKey(submittedKey, env) {
+    if (!submittedKey || !env.TEACHER_KEY) return false;
+    return timingSafeEqual(submittedKey.toUpperCase(), String(env.TEACHER_KEY).trim().toUpperCase()) ||
+           (env.ADMIN_KEY && timingSafeEqual(submittedKey, env.ADMIN_KEY));
+}
+
 // ---------- Handler ----------
 export default {
     async fetch(request, env) {
@@ -366,6 +480,252 @@ export default {
                     }
                     throw dbErr;
                 }
+            }
+
+            // =================================================================
+            // --- IELTS-Style Listening Mock Test Endpoints ---
+            // =================================================================
+
+            // 1. Mulai tes / resume session
+            if (path === '/listening/start' && request.method === 'POST') {
+                await ensureListeningSchema(env);
+                const body = await readJson(request);
+                const testId = String(body.testId || 'test1').trim().toLowerCase();
+                const nama = String(body.nama || '').trim().slice(0, 80);
+                const kelas = String(body.kelas || '').trim().slice(0, 50);
+                const deviceId = String(body.deviceId || '').trim().slice(0, 64) || ('dev_' + crypto.randomUUID().slice(0, 12));
+                const requestedSessionId = String(body.sessionId || '').trim();
+
+                if (nama.length < 2) {
+                    return json(request, env, { ok: false, error: 'Nama lengkap wajib diisi minimal 2 karakter.' }, 400);
+                }
+                if (kelas.length < 1) {
+                    return json(request, env, { ok: false, error: 'Kelas wajib diisi (misal: 12 MIPA 1).' }, 400);
+                }
+
+                // Ambil master data soal dari Assets
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/listening/${testId}-master.json`, url.origin)));
+                if (!assetRes.ok) {
+                    return json(request, env, { ok: false, error: 'Paket tes listening tidak ditemukan.' }, 404);
+                }
+                const masterData = await assetRes.json();
+                const studentTestData = sanitizeTestForStudent(masterData);
+
+                const now = Date.now();
+                let session = null;
+
+                // Cek jika ada session yang diminta
+                if (requestedSessionId) {
+                    session = await env.DB.prepare('SELECT * FROM listening_sessions WHERE id = ?').bind(requestedSessionId).first();
+                }
+
+                // Jika tidak ditemukan atau tidak diminta, cek apakah device memiliki sesi in_progress untuk test ini
+                if (!session) {
+                    session = await env.DB.prepare(
+                        'SELECT * FROM listening_sessions WHERE test_id = ? AND device_id = ? AND status = "in_progress" ORDER BY started_at DESC LIMIT 1'
+                    ).bind(testId, deviceId).first();
+                }
+
+                if (session) {
+                    // Jika sesi sudah disubmit sebelumnya
+                    if (session.status === 'submitted') {
+                        return json(request, env, {
+                            ok: true,
+                            alreadySubmitted: true,
+                            sessionId: session.id,
+                            rawScore: session.raw_score,
+                            bandScore: session.band_score,
+                            sectionScores: JSON.parse(session.section_scores || '{}')
+                        });
+                    }
+
+                    // Sesi sedang berjalan (resume)
+                    return json(request, env, {
+                        ok: true,
+                        sessionId: session.id,
+                        resumed: true,
+                        startedAt: session.started_at,
+                        serverTime: now,
+                        currentSec: session.current_sec,
+                        savedAnswers: JSON.parse(session.answers_json || '{}'),
+                        testData: studentTestData
+                    });
+                }
+
+                // Buat sesi baru
+                const newSessionId = 'ls_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+                await env.DB.prepare(`
+                    INSERT INTO listening_sessions (id, test_id, device_id, nama_peserta, kelas, started_at, current_sec, answers_json, status)
+                    VALUES (?, ?, ?, ?, ?, ?, 1, '{}', 'in_progress')
+                `).bind(newSessionId, testId, deviceId, nama, kelas, now).run();
+
+                return json(request, env, {
+                    ok: true,
+                    sessionId: newSessionId,
+                    resumed: false,
+                    startedAt: now,
+                    serverTime: now,
+                    currentSec: 1,
+                    savedAnswers: {},
+                    testData: studentTestData
+                });
+            }
+
+            // 2. Autosave progres jawaban & section
+            if (path === '/listening/save-progress' && request.method === 'POST') {
+                await ensureListeningSchema(env);
+                const body = await readJson(request);
+                const sessionId = String(body.sessionId || '').trim();
+                const currentSec = Math.max(1, Math.min(4, parseInt(body.currentSec, 10) || 1));
+                const answers = body.answers && typeof body.answers === 'object' ? JSON.stringify(body.answers) : '{}';
+
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                await env.DB.prepare(`
+                    UPDATE listening_sessions
+                    SET current_sec = ?, answers_json = ?
+                    WHERE id = ? AND status = 'in_progress'
+                `).bind(currentSec, answers, sessionId).run();
+
+                return json(request, env, { ok: true, serverTime: Date.now() });
+            }
+
+            // 3. Submit tes, penilaian server-side & hasil review
+            if (path === '/listening/submit' && request.method === 'POST') {
+                await ensureListeningSchema(env);
+                const body = await readJson(request);
+                const sessionId = String(body.sessionId || '').trim();
+                const submittedAnswers = body.answers && typeof body.answers === 'object' ? body.answers : {};
+
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT * FROM listening_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
+                }
+
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/listening/${session.test_id}-master.json`, url.origin)));
+                if (!assetRes.ok) {
+                    return json(request, env, { ok: false, error: 'Master soal tes tidak ditemukan.' }, 500);
+                }
+                const master = await assetRes.json();
+
+                const now = Date.now();
+                let rawScore = 0;
+                const sectionScores = { s1: 0, s2: 0, s3: 0, s4: 0 };
+                const questionReviews = [];
+
+                // Grading 40 soal
+                (master.sections || []).forEach(sec => {
+                    const secKey = `s${sec.section_no}`;
+                    (sec.groups || []).forEach(grp => {
+                        (grp.questions || []).forEach(q => {
+                            const qNo = q.no;
+                            const studentAns = String(submittedAnswers[String(qNo)] || submittedAnswers[qNo] || '').trim();
+                            const studentNorm = normalizeListeningAnswer(studentAns);
+                            
+                            const isCorrect = (q.answers || []).some(acc => {
+                                return normalizeListeningAnswer(acc) === studentNorm;
+                            });
+
+                            if (isCorrect) {
+                                rawScore++;
+                                if (sectionScores[secKey] !== undefined) sectionScores[secKey]++;
+                            }
+
+                            questionReviews.push({
+                                no: qNo,
+                                section: sec.section_no,
+                                studentAnswer: studentAns,
+                                correctAnswers: q.answers || [],
+                                isCorrect
+                            });
+                        });
+                    });
+                });
+
+                const bandScore = calculateEstimatedBand(rawScore);
+                const sectionScoresJson = JSON.stringify(sectionScores);
+                const finalAnswersJson = JSON.stringify(submittedAnswers);
+
+                // Update database
+                await env.DB.prepare(`
+                    UPDATE listening_sessions
+                    SET submitted_at = ?, answers_json = ?, raw_score = ?, band_score = ?, section_scores = ?, status = 'submitted'
+                    WHERE id = ?
+                `).bind(now, finalAnswersJson, rawScore, bandScore, sectionScoresJson, sessionId).run();
+
+                return json(request, env, {
+                    ok: true,
+                    rawScore,
+                    bandScore,
+                    sectionScores,
+                    questionReviews,
+                    transcripts: master.transcripts || {},
+                    submittedAt: now,
+                    startedAt: session.started_at
+                });
+            }
+
+            // 4. Rekap Guru (Hanya dengan TEACHER_KEY lewat Header X-Teacher-Key atau POST body)
+            if (path === '/listening/admin/results' && (request.method === 'GET' || request.method === 'POST')) {
+                await ensureListeningSchema(env);
+                const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
+                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+
+                // Cek Rate Limit
+                const rateStatus = await checkTeacherRateLimit(env, ipHash);
+                if (rateStatus.locked) {
+                    return json(request, env, {
+                        ok: false,
+                        error: `Terlalu banyak percobaan salah. Akses dikunci sementara selama ${rateStatus.remainingMinutes} menit demi keamanan.`
+                    }, 429);
+                }
+
+                // Ambil key dari header atau body POST (jangan URL query)
+                let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
+                let filterKelas = url.searchParams.get('kelas') || '';
+
+                if (request.method === 'POST') {
+                    const body = await readJson(request);
+                    if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
+                    if (!filterKelas && body.kelas) filterKelas = String(body.kelas).trim();
+                }
+
+                if (!verifyTeacherKey(submittedKey, env)) {
+                    await recordTeacherAttemptResult(env, ipHash, false);
+                    return json(request, env, { ok: false, error: 'Kunci Guru / Teacher Key tidak valid.' }, 401);
+                }
+
+                // Reset failed attempts jika valid
+                await recordTeacherAttemptResult(env, ipHash, true);
+
+                let query = `
+                    SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores
+                    FROM listening_sessions
+                    WHERE status = 'submitted'
+                `;
+                const params = [];
+
+                if (filterKelas) {
+                    query += ` AND kelas = ?`;
+                    params.push(filterKelas);
+                }
+
+                query += ` ORDER BY submitted_at DESC LIMIT 500`;
+
+                const stmt = params.length > 0 ? env.DB.prepare(query).bind(...params) : env.DB.prepare(query);
+                const rows = await stmt.all();
+
+                return json(request, env, {
+                    ok: true,
+                    total: rows.results ? rows.results.length : 0,
+                    results: rows.results || []
+                });
             }
 
             // --- Siswa: ambil soal premium ---

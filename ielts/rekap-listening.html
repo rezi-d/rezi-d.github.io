@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z11XQXB5L7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Z11XQXB5L7');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap Hasil Simulasi Listening Siswa — Panel Guru AjarKita</title>
+    <meta name="description" content="Dashboard rekapitulasi nilai tes IELTS-style Listening untuk guru: pantau skor mentah, estimated band, rincian per section, filter per kelas, dan ekspor CSV.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen antialiased">
+
+    <!-- Global Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-grow w-full space-y-8">
+
+        <!-- HEADER BANNER -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+            <div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-2">
+                    <span>🔒</span> Panel Khusus Pengajar &amp; Guru
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                    Rekap Hasil <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-teal-600 to-amber-600">IELTS Listening Mock Test</span>
+                </h1>
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                    Pantau capaian skor siswa per kelas, evaluasi kelemahan section, dan unduh rekapan data dalam format spreadsheet (CSV).
+                </p>
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+                <a href="/ielts/listening-mock-test.html" class="px-4 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition">
+                    &larr; Buka Halaman Tes Siswa
+                </a>
+                <button type="button" id="btn-logout-teacher" class="hidden px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition">
+                    Kunci Panel
+                </button>
+            </div>
+        </div>
+
+        <!-- AUTH FORM (JIKA BELUM MEMASUKKAN KODE GURU) -->
+        <div id="auth-box" class="max-w-md mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+            <div class="text-center space-y-2">
+                <span class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 text-2xl inline-flex items-center justify-center font-bold">
+                    🔑
+                </span>
+                <h2 class="text-lg font-bold text-slate-900">Autentikasi Kunci Guru</h2>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Masukkan Teacher Key terdaftar untuk memverifikasi wewenang guru. Verifikasi dilakukan langsung di server dengan pembatasan percobaan aman.
+                </p>
+            </div>
+
+            <form id="form-teacher-auth" class="space-y-4">
+                <div class="space-y-1.5">
+                    <label for="input-teacher-key" class="block text-xs font-bold text-slate-700">Teacher Key / Kode Akses</label>
+                    <input type="password" id="input-teacher-key" required placeholder="Ketik Teacher Key..." autocomplete="current-password"
+                           class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/10 shadow-2xs transition">
+                </div>
+
+                <div id="auth-error-notice" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium"></div>
+
+                <button type="submit" id="btn-submit-auth" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition">
+                    Verifikasi &amp; Tampilkan Rekap
+                </button>
+            </form>
+        </div>
+
+        <!-- DASHBOARD CONTAINER (DITAMPILKAN SETELAH AUTH SUKSES) -->
+        <div id="dashboard-content" class="hidden space-y-8">
+            
+            <!-- STATS CARDS -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Peserta Selesai</span>
+                    <span id="stat-total-attempts" class="text-2xl sm:text-3xl font-extrabold text-slate-900 block font-mono">0</span>
+                    <span class="text-[10px] text-slate-500">Lembar jawaban masuk</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Rata-rata Skor Mentah</span>
+                    <span id="stat-avg-raw" class="text-2xl sm:text-3xl font-extrabold text-teal-700 block font-mono">0.0</span>
+                    <span class="text-[10px] text-slate-500">Dari maksimal 40 soal</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600">Rata-rata Estimated Band</span>
+                    <span id="stat-avg-band" class="text-2xl sm:text-3xl font-extrabold text-indigo-700 block font-mono">0.0</span>
+                    <span class="text-[10px] text-slate-500">Skala Band 1.0 – 9.0</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Skor Tertinggi (Top)</span>
+                    <span id="stat-top-score" class="text-2xl sm:text-3xl font-extrabold text-amber-700 block font-mono">0</span>
+                    <span id="stat-top-student" class="text-[10px] text-slate-500 truncate block">-</span>
+                </div>
+            </div>
+
+            <!-- TOOLBAR: FILTER & SEARCH -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+                
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-grow">
+                    <!-- Search by Name -->
+                    <div class="relative w-full sm:w-64">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">🔍</span>
+                        <input type="text" id="input-search-student" oninput="filterAndRenderTable()" placeholder="Cari nama siswa..." 
+                               class="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 transition">
+                    </div>
+
+                    <!-- Filter by Class -->
+                    <div class="w-full sm:w-48">
+                        <select id="select-filter-kelas" onchange="filterAndRenderTable()" 
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
+                            <option value="">Semua Kelas</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort -->
+                    <div class="w-full sm:w-44">
+                        <select id="select-sort-by" onchange="filterAndRenderTable()" 
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
+                            <option value="time_desc">Waktu (Terbaru)</option>
+                            <option value="score_desc">Skor Tertinggi</option>
+                            <option value="score_asc">Skor Terendah</option>
+                            <option value="name_asc">Nama (A–Z)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Export CSV & Refresh -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button type="button" onclick="fetchResults()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                        🔄 Refresh
+                    </button>
+                    <button type="button" onclick="exportToCSV()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-xs transition flex items-center gap-1.5">
+                        <span>📥</span> Ekspor CSV (Excel)
+                    </button>
+                </div>
+            </div>
+
+            <!-- TABLE OF SUBMISSIONS -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-700 border-collapse">
+                        <thead class="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                            <tr>
+                                <th class="py-3.5 px-4 w-12 text-center">No</th>
+                                <th class="py-3.5 px-4">Nama Siswa</th>
+                                <th class="py-3.5 px-4">Kelas</th>
+                                <th class="py-3.5 px-4 text-center">Skor Mentah</th>
+                                <th class="py-3.5 px-4 text-center">Band</th>
+                                <th class="py-3.5 px-4 text-center">Breakdown Section (S1–S4)</th>
+                                <th class="py-3.5 px-4 text-right">Waktu Submit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-submissions-body" class="divide-y divide-slate-100">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="table-empty-state" class="hidden text-center py-12 space-y-2">
+                    <span class="text-3xl">📭</span>
+                    <p class="text-xs font-semibold text-slate-600">Belum ada data lembar tes yang cocok.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Global Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/include.js"></script>
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
+            : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev';
+
+        let ALL_ATTEMPTS = [];
+        let ACTIVE_TEACHER_KEY = sessionStorage.getItem('teacher_key') || '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (ACTIVE_TEACHER_KEY) {
+                fetchResults();
+            }
+
+            document.getElementById('form-teacher-auth').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const keyInput = document.getElementById('input-teacher-key');
+                const key = keyInput ? keyInput.value.trim() : '';
+                if (!key) return;
+
+                ACTIVE_TEACHER_KEY = key;
+                await fetchResults(true);
+            });
+
+            document.getElementById('btn-logout-teacher').addEventListener('click', () => {
+                sessionStorage.removeItem('teacher_key');
+                ACTIVE_TEACHER_KEY = '';
+                document.getElementById('dashboard-content').classList.add('hidden');
+                document.getElementById('auth-box').classList.remove('hidden');
+                document.getElementById('btn-logout-teacher').classList.add('hidden');
+            });
+        });
+
+        async function fetchResults(isAuthAttempt = false) {
+            const errBox = document.getElementById('auth-error-notice');
+            const submitBtn = document.getElementById('btn-submit-auth');
+            if (errBox) errBox.classList.add('hidden');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Memverifikasi...';
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/listening/admin/results`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Teacher-Key': ACTIVE_TEACHER_KEY
+                    },
+                    body: JSON.stringify({ teacherKey: ACTIVE_TEACHER_KEY })
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.error || 'Autentikasi gagal. Kode guru salah atau akses terkunci.');
+                }
+
+                const data = await res.json();
+                ALL_ATTEMPTS = data.results || [];
+
+                // Simpan ke sessionStorage jika valid
+                sessionStorage.setItem('teacher_key', ACTIVE_TEACHER_KEY);
+
+                // Tampilkan dashboard
+                document.getElementById('auth-box').classList.add('hidden');
+                document.getElementById('dashboard-content').classList.remove('hidden');
+                document.getElementById('btn-logout-teacher').classList.remove('hidden');
+
+                // Populate opsi kelas
+                populateClassFilter(ALL_ATTEMPTS);
+
+                // Render statistik & tabel
+                updateStatistics(ALL_ATTEMPTS);
+                filterAndRenderTable();
+
+            } catch (err) {
+                if (errBox) {
+                    errBox.textContent = err.message;
+                    errBox.classList.remove('hidden');
+                }
+                if (!isAuthAttempt) {
+                    // Jika sebelumnya tersimpan tapi sekarang gagal (misal kunci diubah)
+                    sessionStorage.removeItem('teacher_key');
+                    document.getElementById('dashboard-content').classList.add('hidden');
+                    document.getElementById('auth-box').classList.remove('hidden');
+                    document.getElementById('btn-logout-teacher').classList.add('hidden');
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Verifikasi & Tampilkan Rekap';
+                }
+            }
+        }
+
+        function populateClassFilter(attempts) {
+            const select = document.getElementById('select-filter-kelas');
+            if (!select) return;
+
+            const existingVal = select.value;
+            const uniqueClasses = Array.from(new Set(attempts.map(a => a.kelas).filter(Boolean))).sort();
+
+            select.innerHTML = '<option value="">Semua Kelas</option>' + 
+                uniqueClasses.map(c => `<option value="${escapeHtml(c)}" ${existingVal === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('');
+        }
+
+        function updateStatistics(attempts) {
+            const totalEl = document.getElementById('stat-total-attempts');
+            const avgRawEl = document.getElementById('stat-avg-raw');
+            const avgBandEl = document.getElementById('stat-avg-band');
+            const topScoreEl = document.getElementById('stat-top-score');
+            const topStudentEl = document.getElementById('stat-top-student');
+
+            const count = attempts.length;
+            if (totalEl) totalEl.textContent = count;
+
+            if (count === 0) {
+                if (avgRawEl) avgRawEl.textContent = '0.0';
+                if (avgBandEl) avgBandEl.textContent = '0.0';
+                if (topScoreEl) topScoreEl.textContent = '0';
+                if (topStudentEl) topStudentEl.textContent = '-';
+                return;
+            }
+
+            let totalRaw = 0;
+            let totalBand = 0;
+            let maxRaw = -1;
+            let topStudent = '-';
+
+            attempts.forEach(a => {
+                const raw = a.raw_score || 0;
+                const band = a.band_score || 0;
+                totalRaw += raw;
+                totalBand += band;
+
+                if (raw > maxRaw) {
+                    maxRaw = raw;
+                    topStudent = `${a.nama_peserta} (${a.kelas})`;
+                }
+            });
+
+            if (avgRawEl) avgRawEl.textContent = (totalRaw / count).toFixed(1);
+            if (avgBandEl) avgBandEl.textContent = (totalBand / count).toFixed(1);
+            if (topScoreEl) topScoreEl.textContent = `${maxRaw} / 40`;
+            if (topStudentEl) topStudentEl.textContent = topStudent;
+        }
+
+        function filterAndRenderTable() {
+            const searchQ = (document.getElementById('input-search-student').value || '').toLowerCase().trim();
+            const filterClass = document.getElementById('select-filter-kelas').value;
+            const sortBy = document.getElementById('select-sort-by').value;
+
+            let list = ALL_ATTEMPTS.filter(item => {
+                const matchClass = !filterClass || item.kelas === filterClass;
+                const matchName = !searchQ || 
+                    (item.nama_peserta || '').toLowerCase().includes(searchQ) ||
+                    (item.kelas || '').toLowerCase().includes(searchQ);
+                return matchClass && matchName;
+            });
+
+            // Sorting
+            list.sort((a, b) => {
+                if (sortBy === 'time_desc') return (b.submitted_at || 0) - (a.submitted_at || 0);
+                if (sortBy === 'score_desc') return (b.raw_score || 0) - (a.raw_score || 0);
+                if (sortBy === 'score_asc') return (a.raw_score || 0) - (b.raw_score || 0);
+                if (sortBy === 'name_asc') return (a.nama_peserta || '').localeCompare(b.nama_peserta || '');
+                return 0;
+            });
+
+            renderTableRows(list);
+        }
+
+        function renderTableRows(items) {
+            const tbody = document.getElementById('table-submissions-body');
+            const emptyState = document.getElementById('table-empty-state');
+            if (!tbody) return;
+
+            if (items.length === 0) {
+                tbody.innerHTML = '';
+                if (emptyState) emptyState.classList.remove('hidden');
+                return;
+            }
+
+            if (emptyState) emptyState.classList.add('hidden');
+
+            tbody.innerHTML = items.map((item, idx) => {
+                const sec = parseSectionScores(item.section_scores);
+                const timeStr = item.submitted_at ? formatDateTime(item.submitted_at) : '-';
+
+                const bandColor = (item.band_score >= 7.5) ? 'bg-indigo-100 text-indigo-800' :
+                                  (item.band_score >= 6.0) ? 'bg-teal-100 text-teal-800' : 'bg-slate-100 text-slate-800';
+
+                return `
+                    <tr class="hover:bg-slate-50/70 transition">
+                        <td class="py-3 px-4 text-center font-mono font-medium text-slate-400">${idx + 1}</td>
+                        <td class="py-3 px-4 font-bold text-slate-900">${escapeHtml(item.nama_peserta)}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-semibold text-[11px]">${escapeHtml(item.kelas)}</span>
+                        </td>
+                        <td class="py-3 px-4 text-center font-mono font-bold text-slate-900">
+                            ${item.raw_score} / 40
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold ${bandColor}">
+                                Band ${Number(item.band_score).toFixed(1)}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="inline-flex items-center gap-1 font-mono text-[11px] text-slate-600">
+                                <span title="Section 1" class="px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 font-bold">S1:${sec.s1}</span>
+                                <span title="Section 2" class="px-1.5 py-0.5 rounded bg-teal-50 text-teal-700 font-bold">S2:${sec.s2}</span>
+                                <span title="Section 3" class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 font-bold">S3:${sec.s3}</span>
+                                <span title="Section 4" class="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 font-bold">S4:${sec.s4}</span>
+                            </span>
+                        </td>
+                        <td class="py-3 px-4 text-right text-slate-500 font-mono text-[11px]">
+                            ${timeStr}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function parseSectionScores(raw) {
+            if (typeof raw === 'object' && raw !== null) return raw;
+            try {
+                return JSON.parse(raw || '{}');
+            } catch (e) {
+                return { s1: 0, s2: 0, s3: 0, s4: 0 };
+            }
+        }
+
+        function formatDateTime(ms) {
+            const d = new Date(ms);
+            const tgl = d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+            const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+            return `${tgl}, ${jam} WIB`;
+        }
+
+        function exportToCSV() {
+            if (ALL_ATTEMPTS.length === 0) {
+                alert('Tidak ada data untuk diekspor.');
+                return;
+            }
+
+            const headers = ['No', 'ID Sesi', 'Nama Siswa', 'Kelas', 'Skor Mentah (/40)', 'Estimated Band', 'Section 1 (/10)', 'Section 2 (/10)', 'Section 3 (/10)', 'Section 4 (/10)', 'Waktu Mulai', 'Waktu Submit'];
+            
+            const rows = ALL_ATTEMPTS.map((a, i) => {
+                const sec = parseSectionScores(a.section_scores);
+                return [
+                    i + 1,
+                    `"${a.id || ''}"`,
+                    `"${(a.nama_peserta || '').replace(/"/g, '""')}"`,
+                    `"${(a.kelas || '').replace(/"/g, '""')}"`,
+                    a.raw_score || 0,
+                    Number(a.band_score || 0).toFixed(1),
+                    sec.s1 || 0,
+                    sec.s2 || 0,
+                    sec.s3 || 0,
+                    sec.s4 || 0,
+                    a.started_at ? `"${new Date(a.started_at).toISOString()}"` : '""',
+                    a.submitted_at ? `"${new Date(a.submitted_at).toISOString()}"` : '""'
+                ];
+            });
+
+            // BOM UTF-8 (\uFEFF) agar terbaca rapi langsung di Excel
+            const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rekap-listening-ielts-${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

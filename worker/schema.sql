@@ -64,3 +64,36 @@ CREATE TABLE IF NOT EXISTS article_comment_likes (
     created_at INTEGER NOT NULL,
     PRIMARY KEY (comment_id, device_id)
 );
+
+-- =================================================================
+-- Tabel Simulasi IELTS-Style Listening Mock Test (Cloudflare D1)
+-- =================================================================
+
+CREATE TABLE IF NOT EXISTS listening_sessions (
+    id             TEXT    PRIMARY KEY,         -- UUID attempt_id (misal 'ls_a8b9c0d1...')
+    test_id        TEXT    NOT NULL,            -- 'test1'
+    device_id      TEXT    NOT NULL,
+    nama_peserta   TEXT    NOT NULL,
+    kelas          TEXT    NOT NULL,            -- e.g. '12 MIPA 1'
+    started_at     INTEGER NOT NULL,            -- server timestamp ms
+    submitted_at   INTEGER DEFAULT NULL,        -- server timestamp ms
+    current_sec    INTEGER NOT NULL DEFAULT 1,  -- Section aktif (1-4)
+    answers_json   TEXT    DEFAULT '{}',        -- Jawaban tersimpan dari autosave
+    raw_score      INTEGER DEFAULT NULL,        -- Skor mentah (0 - 40)
+    band_score     REAL    DEFAULT NULL,        -- Estimated Band (e.g. 7.5)
+    section_scores TEXT    DEFAULT '{}',        -- Breakdown skor per section: {"s1":9,"s2":8,"s3":8,"s4":8}
+    status         TEXT    NOT NULL DEFAULT 'in_progress' -- 'in_progress', 'submitted'
+);
+
+CREATE INDEX IF NOT EXISTS idx_listening_sessions_test ON listening_sessions(test_id, started_at);
+CREATE INDEX IF NOT EXISTS idx_listening_sessions_kelas ON listening_sessions(kelas, submitted_at);
+CREATE INDEX IF NOT EXISTS idx_listening_sessions_device ON listening_sessions(device_id);
+
+-- Tabel Rate-Limiting Percobaan TEACHER_KEY
+CREATE TABLE IF NOT EXISTS listening_admin_attempts (
+    ip_hash         TEXT    PRIMARY KEY,
+    failed_attempts INTEGER NOT NULL DEFAULT 0,
+    locked_until    INTEGER NOT NULL DEFAULT 0,
+    last_attempt    INTEGER NOT NULL
+);
+
