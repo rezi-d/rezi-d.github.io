@@ -148,9 +148,11 @@ function isAdmin(request, env) {
 }
 
 function isTeacherOrAdmin(request, env) {
-    const key = (request.headers.get('X-Admin-Key') || '').trim();
+    const key = (request.headers.get('X-Admin-Key') || request.headers.get('X-Teacher-Key') || '').trim();
     if (!key) return false;
-    if (env.TEACHER_KEY && timingSafeEqual(key.toUpperCase(), String(env.TEACHER_KEY).trim().toUpperCase())) {
+    const teacherSecret = typeof env.TEACHER_KEY === 'string' ? env.TEACHER_KEY.trim() : '';
+    // FAIL-CLOSED: jika TEACHER_KEY belum disetel di Worker Secret, akses guru ditolak
+    if (teacherSecret && timingSafeEqual(key, teacherSecret)) {
         return true;
     }
     return isAdmin(request, env);
@@ -329,9 +331,19 @@ async function recordTeacherAttemptResult(env, ipHash, success) {
 }
 
 function verifyTeacherKey(submittedKey, env) {
-    if (!submittedKey || !env.TEACHER_KEY) return false;
-    return timingSafeEqual(submittedKey.toUpperCase(), String(env.TEACHER_KEY).trim().toUpperCase()) ||
-           (env.ADMIN_KEY && timingSafeEqual(submittedKey, env.ADMIN_KEY));
+    if (!submittedKey) return false;
+    const key = String(submittedKey).trim();
+    if (!key) return false;
+    const teacherSecret = typeof env.TEACHER_KEY === 'string' ? env.TEACHER_KEY.trim() : '';
+    // FAIL-CLOSED: jika TEACHER_KEY belum disetel di Worker Secret, akses guru ditolak
+    if (teacherSecret && timingSafeEqual(key, teacherSecret)) {
+        return true;
+    }
+    const adminSecret = typeof env.ADMIN_KEY === 'string' ? env.ADMIN_KEY.trim() : '';
+    if (adminSecret && timingSafeEqual(key, adminSecret)) {
+        return true;
+    }
+    return false;
 }
 
 // ---------- IELTS Academic Reading Helpers & Schema ----------
