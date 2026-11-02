@@ -238,9 +238,11 @@ async function ensureListeningSchema(env) {
             raw_score      INTEGER DEFAULT NULL,
             band_score     REAL    DEFAULT NULL,
             section_scores TEXT    DEFAULT '{}',
+            is_late        INTEGER DEFAULT 0,
             status         TEXT    NOT NULL DEFAULT 'in_progress'
         )
     `).run();
+    try { await env.DB.prepare('ALTER TABLE listening_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS listening_admin_attempts (
             ip_hash         TEXT    PRIMARY KEY,
@@ -378,9 +380,11 @@ async function ensureReadingSchema(env) {
             band_score       REAL    DEFAULT NULL,
             passage_scores   TEXT    DEFAULT '{}',
             type_scores      TEXT    DEFAULT '{}',
+            is_late          INTEGER DEFAULT 0,
             status           TEXT    NOT NULL DEFAULT 'in_progress'
         )
     `).run();
+    try { await env.DB.prepare('ALTER TABLE reading_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
 }
 
 function calculateReadingBand(rawScore) {
@@ -455,9 +459,11 @@ async function ensureWritingSchema(env) {
             task2_criteria       TEXT    DEFAULT '{}',
             task1_comment        TEXT    DEFAULT '',
             task2_comment        TEXT    DEFAULT '',
+            is_late              INTEGER DEFAULT 0,
             writing_band         REAL    DEFAULT NULL
         )
     `).run();
+    try { await env.DB.prepare('ALTER TABLE writing_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
 }
 
 function sanitizeWritingTestForStudent(masterData) {
@@ -573,9 +579,11 @@ async function ensureSpeakingSchema(env) {
             teacher_name         TEXT    DEFAULT NULL,
             criteria_scores      TEXT    DEFAULT '{}',
             teacher_comment      TEXT    DEFAULT '',
+            is_late              INTEGER DEFAULT 0,
             speaking_band        REAL    DEFAULT NULL
         )
     `).run();
+    try { await env.DB.prepare('ALTER TABLE speaking_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
 
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS speaking_recordings (
@@ -976,12 +984,17 @@ export default {
                 const sectionScoresJson = JSON.stringify(sectionScores);
                 const finalAnswersJson = JSON.stringify(submittedAnswers);
 
+                // Toleransi keterlambatan 60 detik (tidak membuang jawaban, ditandai is_late)
+                const durationSeconds = (master.duration_minutes || 40) * 60;
+                const elapsedSeconds = Math.floor((now - session.started_at) / 1000);
+                const isLate = elapsedSeconds > (durationSeconds + 60) ? 1 : 0;
+
                 // Update database atomik
                 const updateRes = await env.DB.prepare(`
                     UPDATE listening_sessions
-                    SET submitted_at = ?, answers_json = ?, raw_score = ?, band_score = ?, section_scores = ?, status = 'submitted'
+                    SET submitted_at = ?, answers_json = ?, raw_score = ?, band_score = ?, section_scores = ?, is_late = ?, status = 'submitted'
                     WHERE id = ? AND status = 'in_progress'
-                `).bind(now, finalAnswersJson, rawScore, bandScore, sectionScoresJson, sessionId).run();
+                `).bind(now, finalAnswersJson, rawScore, bandScore, sectionScoresJson, isLate, sessionId).run();
 
                 if (!updateRes.meta || updateRes.meta.changes === 0) {
                     return json(request, env, { ok: false, error: 'Sesi tes listening ini sudah pernah disubmit atau telah dinilai.' }, 409);
@@ -993,6 +1006,7 @@ export default {
                     bandScore,
                     sectionScores,
                     questionReviews,
+                    isLate: Boolean(isLate),
                     transcripts: master.transcripts || {},
                     submittedAt: now,
                     startedAt: session.started_at
@@ -1192,12 +1206,17 @@ export default {
                 const typeScoresJson = JSON.stringify(typeScores);
                 const finalAnswersJson = JSON.stringify(submittedAnswers);
 
+                // Toleransi keterlambatan 60 detik (tidak membuang jawaban, ditandai is_late)
+                const durationSeconds = (session.duration_seconds || (master.duration_minutes || 60) * 60);
+                const elapsedSeconds = Math.floor((now - session.started_at) / 1000);
+                const isLate = elapsedSeconds > (durationSeconds + 60) ? 1 : 0;
+
                 // Update database atomik
                 const updateRes = await env.DB.prepare(`
                     UPDATE reading_sessions
-                    SET submitted_at = ?, answers_json = ?, raw_score = ?, band_score = ?, passage_scores = ?, type_scores = ?, status = 'submitted'
+                    SET submitted_at = ?, answers_json = ?, raw_score = ?, band_score = ?, passage_scores = ?, type_scores = ?, is_late = ?, status = 'submitted'
                     WHERE id = ? AND status = 'in_progress'
-                `).bind(now, finalAnswersJson, rawScore, bandScore, passageScoresJson, typeScoresJson, sessionId).run();
+                `).bind(now, finalAnswersJson, rawScore, bandScore, passageScoresJson, typeScoresJson, isLate, sessionId).run();
 
                 if (!updateRes.meta || updateRes.meta.changes === 0) {
                     return json(request, env, { ok: false, error: 'Sesi tes reading ini sudah pernah disubmit atau telah dinilai.' }, 409);
@@ -1210,6 +1229,7 @@ export default {
                     passageScores,
                     typeScores,
                     questionReviews,
+                    isLate: Boolean(isLate),
                     submittedAt: now,
                     startedAt: session.started_at
                 });
@@ -1383,12 +1403,18 @@ export default {
                 const t2Words = task2Text.trim() ? task2Text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
                 const structuralCheck = analyzeWritingStructure(task1Text, task2Text);
 
+                // Toleransi keterlambatan 60 detik (tidak membuang jawaban, ditandai is_late)
+                const durationSeconds = (session.duration_seconds || (master.duration_minutes || 60) * 60);
+                const elapsedSeconds = Math.floor((now - session.started_at) / 1000);
+                const isLate = elapsedSeconds > (durationSeconds + 60) ? 1 : 0;
+                structuralCheck.is_late = Boolean(isLate);
+
                 // Update database atomik
                 const updateRes = await env.DB.prepare(`
                     UPDATE writing_sessions
-                    SET submitted_at = ?, task1_text = ?, task2_text = ?, task1_word_count = ?, task2_word_count = ?, structural_check = ?, status = 'submitted'
+                    SET submitted_at = ?, task1_text = ?, task2_text = ?, task1_word_count = ?, task2_word_count = ?, structural_check = ?, is_late = ?, status = 'submitted'
                     WHERE id = ? AND status = 'in_progress'
-                `).bind(now, task1Text, task2Text, t1Words, t2Words, JSON.stringify(structuralCheck), sessionId).run();
+                `).bind(now, task1Text, task2Text, t1Words, t2Words, JSON.stringify(structuralCheck), isLate, sessionId).run();
 
                 if (!updateRes.meta || updateRes.meta.changes === 0) {
                     return json(request, env, { ok: false, error: 'Sesi tes writing ini sudah pernah disubmit atau telah dinilai.' }, 409);
@@ -1400,6 +1426,7 @@ export default {
                     startedAt: session.started_at,
                     task1WordCount: t1Words,
                     task2WordCount: t2Words,
+                    isLate: Boolean(isLate),
                     structuralCheck,
                     sampleAnswers: master.tasks.map(t => ({
                         task_no: t.task_no,
@@ -1724,12 +1751,17 @@ export default {
                 const master = assetRes.ok ? await assetRes.json() : null;
 
                 const now = Date.now();
+                // Toleransi keterlambatan 60 detik (durasi wajar speaking ~20 menit = 1200 detik)
+                const durationSeconds = 1200;
+                const elapsedSeconds = Math.floor((now - session.started_at) / 1000);
+                const isLate = elapsedSeconds > (durationSeconds + 60) ? 1 : 0;
+
                 // Update database atomik
                 const updateRes = await env.DB.prepare(`
                     UPDATE speaking_sessions
-                    SET submitted_at = ?, part2_notes = ?, status = 'submitted'
+                    SET submitted_at = ?, part2_notes = ?, is_late = ?, status = 'submitted'
                     WHERE id = ? AND status = 'in_progress'
-                `).bind(now, part2Notes, sessionId).run();
+                `).bind(now, part2Notes, isLate, sessionId).run();
 
                 if (!updateRes.meta || updateRes.meta.changes === 0) {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking ini sudah pernah disubmit atau telah dinilai.' }, 409);
@@ -1739,6 +1771,7 @@ export default {
                     ok: true,
                     submittedAt: now,
                     startedAt: session.started_at,
+                    isLate: Boolean(isLate),
                     sampleAnswers: master ? filterSampleAnswers(master) : null
                 });
             }
@@ -2104,10 +2137,10 @@ export default {
                 // Reset failed attempts jika valid
                 await recordTeacherAttemptResult(env, ipHash, true);
 
-                let lisQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores FROM listening_sessions WHERE status = 'submitted'`;
-                let readQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, passage_scores, type_scores FROM reading_sessions WHERE status = 'submitted'`;
-                let writeQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, current_task, task1_text, task2_text, task1_word_count, task2_word_count, status, graded_at, task1_criteria, task2_criteria, task1_comment, task2_comment, writing_band FROM writing_sessions WHERE status IN ('submitted', 'graded')`;
-                let spkQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, part2_notes, status, graded_at, teacher_name, criteria_scores, teacher_comment, speaking_band FROM speaking_sessions WHERE status IN ('submitted', 'graded')`;
+                let lisQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores, is_late FROM listening_sessions WHERE status = 'submitted'`;
+                let readQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, passage_scores, type_scores, is_late FROM reading_sessions WHERE status = 'submitted'`;
+                let writeQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, current_task, task1_text, task2_text, task1_word_count, task2_word_count, status, graded_at, task1_criteria, task2_criteria, task1_comment, task2_comment, writing_band, is_late FROM writing_sessions WHERE status IN ('submitted', 'graded')`;
+                let spkQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, part2_notes, status, graded_at, teacher_name, criteria_scores, teacher_comment, speaking_band, is_late FROM speaking_sessions WHERE status IN ('submitted', 'graded')`;
                 const params = [];
 
                 if (filterKelas) {
@@ -2153,6 +2186,7 @@ export default {
                         raw_score: l.raw_score,
                         band_score: l.band_score,
                         section_scores: l.section_scores,
+                        is_late: Boolean(l.is_late),
                         submitted_at: l.submitted_at
                     };
                     entry.last_submitted_at = Math.max(entry.last_submitted_at, l.submitted_at || 0);
@@ -2179,6 +2213,7 @@ export default {
                         band_score: r.band_score,
                         passage_scores: r.passage_scores,
                         type_scores: r.type_scores,
+                        is_late: Boolean(r.is_late),
                         submitted_at: r.submitted_at
                     };
                     entry.last_submitted_at = Math.max(entry.last_submitted_at, r.submitted_at || 0);
@@ -2211,6 +2246,7 @@ export default {
                         task1_comment: w.task1_comment || '',
                         task2_comment: w.task2_comment || '',
                         writing_band: w.writing_band,
+                        is_late: Boolean(w.is_late),
                         submitted_at: w.submitted_at,
                         graded_at: w.graded_at
                     };
@@ -2240,6 +2276,7 @@ export default {
                         teacher_name: s.teacher_name,
                         teacher_comment: s.teacher_comment || '',
                         speaking_band: s.speaking_band,
+                        is_late: Boolean(s.is_late),
                         submitted_at: s.submitted_at,
                         graded_at: s.graded_at
                     };
