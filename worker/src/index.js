@@ -280,6 +280,20 @@ function calculateEstimatedBand(rawScore) {
     return 2.0;
 }
 
+function extractStudentAnswerArray(raw) {
+    if (raw == null) return [];
+    if (Array.isArray(raw)) {
+        // Filter nilai kosong dulu, lalu potong max 5 opsi, dan dedup
+        return Array.from(new Set(
+            raw.map(item => String(item || '').trim().slice(0, 100))
+               .filter(Boolean)
+               .slice(0, 5)
+        ));
+    }
+    const single = String(raw).trim().slice(0, 100);
+    return single ? [single] : [];
+}
+
 function sanitizeTestForStudent(masterData) {
     const copy = JSON.parse(JSON.stringify(masterData));
     delete copy.transcripts;
@@ -886,11 +900,13 @@ export default {
                     (sec.groups || []).forEach(grp => {
                         (grp.questions || []).forEach(q => {
                             const qNo = q.no;
-                            const studentAns = String(submittedAnswers[String(qNo)] || submittedAnswers[qNo] || '').trim();
-                            const studentNorm = normalizeListeningAnswer(studentAns);
+                            const rawStudentAns = submittedAnswers[String(qNo)] ?? submittedAnswers[qNo] ?? '';
+                            const studentArr = extractStudentAnswerArray(rawStudentAns);
+                            const studentAns = studentArr.join(', ');
                             
                             const isCorrect = (q.answers || []).some(acc => {
-                                return normalizeListeningAnswer(acc) === studentNorm;
+                                const accNorm = normalizeListeningAnswer(acc);
+                                return studentArr.some(ans => normalizeListeningAnswer(ans) === accNorm);
                             });
 
                             if (isCorrect) {
@@ -1089,11 +1105,13 @@ export default {
                         (grp.questions || []).forEach(q => {
                             typeScores[grpType].total++;
                             const qNo = q.no;
-                            const studentAns = String(submittedAnswers[String(qNo)] || submittedAnswers[qNo] || '').trim();
-                            const studentNorm = normalizeListeningAnswer(studentAns);
+                            const rawStudentAns = submittedAnswers[String(qNo)] ?? submittedAnswers[qNo] ?? '';
+                            const studentArr = extractStudentAnswerArray(rawStudentAns);
+                            const studentAns = studentArr.join(', ');
 
                             const isCorrect = (q.answers || []).some(acc => {
-                                return normalizeListeningAnswer(acc) === studentNorm;
+                                const accNorm = normalizeListeningAnswer(acc);
+                                return studentArr.some(ans => normalizeListeningAnswer(ans) === accNorm);
                             });
 
                             if (isCorrect) {
