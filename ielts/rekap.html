@@ -1437,7 +1437,15 @@
 
         function escapeCsvCell(str) {
             if (str === null || str === undefined) return '""';
-            return `"${String(str).replace(/"/g, '""')}"`;
+            let val = String(str);
+            // Sanitasi CSV Formula Injection untuk SEMUA field teks:
+            // Jika diawali =, +, -, @, \t, atau \r (bahkan dengan spasi sebelumnya), netralkan dengan prefix tanda petik tunggal (')
+            const trimmed = val.trimStart();
+            const formulaTriggers = ['=', '+', '-', '@', '\t', '\r'];
+            if (trimmed.length > 0 && formulaTriggers.includes(trimmed[0])) {
+                val = "'" + val;
+            }
+            return `"${val.replace(/"/g, '""')}"`;
         }
 
         function escapeHtml(str) {
