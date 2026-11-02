@@ -1340,6 +1340,12 @@ export default {
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
                 const master = assetRes.ok ? await assetRes.json() : null;
 
+                const isSubmittedOrGraded = session.status === 'submitted' || session.status === 'graded';
+                const sampleAnswers = (isSubmittedOrGraded && master) ? master.tasks.map(t => ({
+                    task_no: t.task_no,
+                    sample_answer: t.sample_answer
+                })) : [];
+
                 return json(request, env, {
                     ok: true,
                     sessionId: session.id,
@@ -1348,16 +1354,13 @@ export default {
                     gradedAt: session.graded_at,
                     task1WordCount: session.task1_word_count,
                     task2WordCount: session.task2_word_count,
-                    structuralCheck: JSON.parse(session.structural_check || '{}'),
+                    structuralCheck: isSubmittedOrGraded ? JSON.parse(session.structural_check || '{}') : {},
                     writingBand: session.writing_band,
                     task1Criteria: JSON.parse(session.task1_criteria || '{}'),
                     task2Criteria: JSON.parse(session.task2_criteria || '{}'),
                     task1Comment: session.task1_comment || '',
                     task2Comment: session.task2_comment || '',
-                    sampleAnswers: master ? master.tasks.map(t => ({
-                        task_no: t.task_no,
-                        sample_answer: t.sample_answer
-                    })) : []
+                    sampleAnswers
                 });
             }
 
