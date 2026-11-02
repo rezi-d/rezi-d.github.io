@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z11XQXB5L7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Z11XQXB5L7');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS-Style Speaking Practice Test — AjarKita</title>
+    <meta name="description" content="Simulasi tes speaking bergaya IELTS: Part 1 Tanya Jawab Santai, Part 2 Cue Card Long Turn (1 menit prep + 2 menit bicara), dan Part 3 Diskusi Abstrak. Dilengkapi perekaman privat dan penilaian guru.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/ielts/speaking-mock-test.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/ielts/speaking-mock-test.html">
+    <meta property="og:title" content="🎤 IELTS-Style Speaking Practice Test — AjarKita">
+    <meta property="og:description" content="Simulasi tes berbicara bahasa Inggris interaktif dengan rekaman audio per pertanyaan, pengatur waktu Cue Card, dan evaluasi guru 4 kriteria.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎤</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 0.3; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .pulse-recording {
+            animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen antialiased">
+
+    <!-- Global Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-grow w-full space-y-6">
+
+        <!-- DISCLAIMER BANNER (Bukan Tes Resmi) -->
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 flex items-start gap-3">
+            <span class="text-lg shrink-0">ℹ️</span>
+            <p class="text-xs text-amber-900 leading-relaxed">
+                <strong>Catatan Kemandirian:</strong> Fitur ini adalah <em>IELTS-Style Speaking Practice Test</em> untuk sarana latihan mandiri siswa sekolah. Naskah pertanyaan, kartu topik (Cue Card), dan rubrik evaluasi dirancang mengikuti format simulasi standar Cambridge Speaking. Tes ini tidak terafiliasi atau disahkan oleh IDP Education, British Council, atau Cambridge Assessment English.
+            </p>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 1: INTRO / PETUNJUK, MIC CHECK, & FORM PESERTA           -->
+        <!-- ============================================================= -->
+        <section id="view-intro-speaking" class="space-y-8">
+            
+            <!-- Banner Resume Session (jika ada sesi belum selesai) -->
+            <div id="banner-resume-speaking" class="hidden p-5 rounded-3xl bg-teal-50 border border-teal-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🔄</span>
+                    <div>
+                        <h4 class="text-sm font-bold text-teal-950">Sesi Ujian Speaking Ditemukan</h4>
+                        <p class="text-xs text-teal-700">Anda memiliki sesi simulasi speaking yang belum selesai. Rekaman yang sudah dibuat tersimpan aman di server.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button type="button" id="btn-resume-speaking" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-xs transition">
+                        Lanjutkan Ujian Ini
+                    </button>
+                    <button type="button" id="btn-discard-speaking" class="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 font-semibold text-xs transition">
+                        Mulai Baru
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hero Intro Card -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 sm:p-10 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-800 text-xs font-bold uppercase tracking-wider">
+                    <span>🎤</span>
+                    <span>Complete Speaking Simulation • Test 1</span>
+                </div>
+
+                <div class="space-y-2">
+                    <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-snug">
+                        Simulasi Tes <span class="bg-clip-text text-transparent bg-gradient-to-r from-teal-600 via-indigo-600 to-amber-600">IELTS Speaking</span>
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Latih kelancaran, rentang kosakata, tata bahasa, dan pengucapan lisan Anda dalam simulasi berdurasi 11–14 menit. Terdiri dari 3 bagian: wawancara topik sehari-hari, kartu topik Cue Card (1 menit persiapan + 2 menit bicara), dan diskusi analitis mendalam.
+                    </p>
+                </div>
+
+                <!-- Struktur 3 Parts Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-teal-700 uppercase">Part 1 • 4–5 Menit</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 font-semibold">9 Soal</span>
+                        </div>
+                        <h3 class="text-sm font-bold text-slate-900">Introduction & Everyday Topics</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Pertanyaan santai seputar tempat tinggal, kebiasaan teknologi, dan aktivitas waktu luang. Jawaban 2–3 kalimat langsung (maks 40 detik/soal).
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-700 uppercase">Part 2 • 3–4 Menit</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-semibold">Cue Card</span>
+                        </div>
+                        <h3 class="text-sm font-bold text-slate-900">The Long Turn</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Menerima 1 kartu topik proyek lingkungan. Diberi <strong>1 menit persiapan</strong> dengan lembar coretan ide, lalu berbicara mandiri selama <strong>1–2 menit</strong>.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-700 uppercase">Part 3 • 4–5 Menit</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-semibold">5 Soal</span>
+                        </div>
+                        <h3 class="text-sm font-bold text-slate-900">Two-way Discussion</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Pertanyaan analitis dan abstrak mengenai tanggung jawab individu vs korporasi, regulasi pemerintah, dan dampak teknologi (maks 60 detik/soal).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pemberitahuan Privasi Rekaman Suara -->
+                <div class="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 flex items-start gap-3">
+                    <span class="text-xl shrink-0">🔒</span>
+                    <div class="space-y-1">
+                        <h4 class="text-xs font-bold text-blue-950 uppercase tracking-wide">Pemberitahuan Privasi Rekaman Suara</h4>
+                        <p class="text-xs text-blue-900 leading-relaxed">
+                            Suara Anda akan direkam selama simulasi berlangsung untuk keperluan evaluasi kompetensi Speaking. Rekaman disimpan secara privat di server terlindung dan <strong>hanya dapat didengarkan oleh guru pembimbing</strong> yang memegang kunci akses guru (<code class="text-blue-800 font-mono text-[11px]">TEACHER_KEY</code>). Rekaman audio tidak dipublikasikan ke publik dan dapat dihapus oleh guru kapan saja.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- UJI MIKROFON & AUDIO LEVEL -->
+                <div class="p-5 sm:p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                    <div class="flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                                <span>🎙️</span> Pengecekan Mikrofon Perangkat
+                            </h3>
+                            <p class="text-xs text-slate-500">Pastikan mikrofon berfungsi jernih sebelum memulai tes.</p>
+                        </div>
+                        <span id="mic-status-badge" class="px-2.5 py-1 rounded-full bg-slate-200 text-slate-600 text-xs font-semibold">
+                            Belum Diuji
+                        </span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        <button type="button" id="btn-test-mic" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center justify-center gap-2">
+                            <span>🎤</span>
+                            <span id="btn-test-mic-label">Uji Mikrofon (Bicara 3 Detik)</span>
+                        </button>
+                        <button type="button" id="btn-play-test-audio" class="hidden px-4 py-2.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 font-bold text-xs transition flex items-center justify-center gap-2">
+                            <span>🔊</span> Putar Ulang Suara Tes
+                        </button>
+                    </div>
+
+                    <!-- Audio Level Visualizer Meter -->
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                            <span>Tingkat Sensitivitas Suara:</span>
+                            <span id="mic-level-label">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="mic-level-bar" class="bg-teal-500 h-full w-0 transition-all duration-75"></div>
+                        </div>
+                    </div>
+
+                    <!-- Opsi Draf Transkrip Mesin (Nonaktif by default) -->
+                    <div class="pt-2 border-t border-slate-200/80">
+                        <label class="flex items-start gap-3 cursor-pointer select-none">
+                            <input type="checkbox" id="check-enable-transcript" class="mt-0.5 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
+                            <div class="text-xs">
+                                <span class="font-bold text-slate-800">Aktifkan draf transkrip mesin otomatis (Eksperimental)</span>
+                                <p class="text-slate-500 text-[11px] leading-relaxed">
+                                    Draf transkrip dibuat otomatis oleh browser Anda saat berbicara, memiliki akurasi terbatas, dan <strong>bukan merupakan dasar penilaian</strong>. Guru Anda menilai murni dari rekaman audio langsung.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- FORM IDENTITAS PESERTA -->
+                <div class="pt-4 border-t border-slate-100 space-y-4">
+                    <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                        <span>👤</span> Data Identitas Peserta (Tanpa Login)
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label for="input-nama" class="block text-xs font-bold text-slate-700">Nama Lengkap Siswa *</label>
+                            <input type="text" id="input-nama" required placeholder="Contoh: Muhammad Farhan"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-medium focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label for="input-kelas" class="block text-xs font-bold text-slate-700">Kelas / Rombel *</label>
+                            <input type="text" id="input-kelas" required placeholder="Contoh: 12 MIPA 1"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-medium focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition">
+                        </div>
+                    </div>
+
+                    <div id="form-error-msg" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-semibold"></div>
+
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <a href="/ielts/index.html" class="text-xs text-slate-500 hover:text-slate-800 font-semibold transition flex items-center gap-1">
+                            <span>←</span> Kembali ke Hub Simulasi IELTS
+                        </a>
+                        <button type="button" id="btn-start-speaking" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2">
+                            <span>Mulai Simulasi Speaking</span>
+                            <span>→</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 2: ARENA TES SPEAKING INTERAKTIF                         -->
+        <!-- ============================================================= -->
+        <section id="view-test-speaking" class="hidden space-y-5">
+            
+            <!-- STICKY TOP BAR: PART SELECTOR & STATUS -->
+            <header class="sticky top-2 z-30 p-3 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div id="badge-current-part" class="px-3 py-1 rounded-full bg-teal-100 text-teal-900 font-extrabold text-xs">
+                        Part 1: Everyday Topics
+                    </div>
+                    <span id="label-question-progress" class="text-xs font-bold text-slate-600 font-mono">
+                        Soal 1 / 9
+                    </span>
+                </div>
+
+                <div class="flex items-center justify-between sm:justify-end gap-3 text-xs">
+                    <!-- Upload Status Indicator -->
+                    <div id="upload-status-indicator" class="flex items-center gap-1.5 text-slate-500 text-[11px] font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                        <span>Siap</span>
+                    </div>
+
+                    <!-- Participant Info -->
+                    <div class="text-right">
+                        <span id="top-bar-nama" class="font-bold text-slate-900 text-xs block truncate max-w-[150px]">Nama Siswa</span>
+                        <span id="top-bar-kelas" class="text-[10px] text-slate-500 block">Kelas</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTAINER CARD: TAMPILAN PER PART -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 sm:p-8 space-y-6">
+                
+                <!-- --------------------------------------------------------- -->
+                <!-- SUB-VIEW A: PART 1 & PART 3 (QUESTION CARDS)              -->
+                <!-- --------------------------------------------------------- -->
+                <div id="subview-qa" class="space-y-6">
+                    
+                    <!-- Topic Banner -->
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="space-y-1">
+                            <span id="qa-category-badge" class="text-[11px] font-bold uppercase tracking-wider text-teal-600">Topik Pembahasan</span>
+                            <h2 id="qa-topic-title" class="text-lg sm:text-xl font-extrabold text-slate-900">Hometown & Living Environment</h2>
+                        </div>
+                        <button type="button" id="btn-tts-speak" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
+                            <span>🔊</span>
+                            <span class="hidden sm:inline">Dengar Soal</span>
+                        </button>
+                    </div>
+
+                    <!-- Question Prompt Box -->
+                    <div class="p-5 sm:p-7 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span id="qa-id-badge" class="text-[11px] font-mono font-bold text-slate-400">ID: p1t1q1</span>
+                            <span id="qa-time-limit-badge" class="text-[11px] font-bold text-slate-500">Maksimal 40 Detik</span>
+                        </div>
+                        <p id="qa-question-text" class="text-lg sm:text-2xl font-extrabold text-slate-900 leading-snug">
+                            Where are you from, and what kind of town or city is it?
+                        </p>
+                    </div>
+
+                    <!-- RECORDING CONTROLS & TIMER -->
+                    <div class="p-6 rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white flex flex-col items-center justify-center space-y-4">
+                        
+                        <!-- Visualizer & Timer Display -->
+                        <div class="flex flex-col items-center space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span id="record-pulsing-dot" class="w-3.5 h-3.5 rounded-full bg-slate-300"></span>
+                                <span id="record-timer-text" class="text-3xl sm:text-4xl font-extrabold font-mono text-slate-900">00:00</span>
+                            </div>
+                            <span id="record-status-label" class="text-xs text-slate-500 font-medium">Klik tombol di bawah untuk mulai berbicara</span>
+                        </div>
+
+                        <!-- Live Audio Bar while recording -->
+                        <div class="w-full max-w-md bg-slate-200 h-2 rounded-full overflow-hidden">
+                            <div id="live-audio-bar" class="bg-red-500 h-full w-0 transition-all duration-75"></div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                            <button type="button" id="btn-start-record-qa" class="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
+                                <span>🎤</span>
+                                <span>Mulai Bicara (Rekam)</span>
+                            </button>
+
+                            <button type="button" id="btn-stop-record-qa" class="hidden px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-xs bg-white"></span>
+                                <span>Selesai Bicara & Unggah</span>
+                            </button>
+
+                            <button type="button" id="btn-play-playback-qa" class="hidden px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition flex items-center gap-1.5">
+                                <span>▶️</span>
+                                <span>Dengar Rekaman Saya</span>
+                            </button>
+                        </div>
+
+                        <!-- Machine Draft Transcript Preview (Jika diaktifkan) -->
+                        <div id="box-draft-transcript-qa" class="hidden w-full max-w-xl p-3 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-slate-700 space-y-1">
+                            <span class="font-bold text-[10px] uppercase text-amber-800 tracking-wider">Draf Transkrip Mesin (Referensi Kasar)</span>
+                            <p id="text-draft-transcript-qa" class="italic text-slate-600">...</p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <button type="button" id="btn-prev-qa" class="hidden px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                            ← Soal Sebelumnya
+                        </button>
+                        <div></div>
+                        <button type="button" id="btn-next-qa" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center gap-1.5">
+                            <span>Lanjut ke Soal Berikutnya</span>
+                            <span>→</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- --------------------------------------------------------- -->
+                <!-- SUB-VIEW B: PART 2 (THE LONG TURN / CUE CARD)             -->
+                <!-- --------------------------------------------------------- -->
+                <div id="subview-cue-card" class="hidden space-y-6">
+                    
+                    <div class="border-b border-slate-100 pb-4 flex items-center justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600">Part 2: The Long Turn</span>
+                            <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">Task Card & Preparation Notepad</h2>
+                        </div>
+                        <div class="text-right">
+                            <span id="cue-phase-badge" class="px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold">
+                                Fase 1: Persiapan 1 Menit
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Split Layout: Desktop 2 Kolom (Kiri = Cue Card, Kanan = Notepad Ide) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+                        
+                        <!-- Kiri: Kartu Soal Cue Card -->
+                        <div class="p-6 rounded-2xl bg-indigo-50/60 border border-indigo-200 space-y-4 flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <span class="px-2.5 py-0.5 rounded-md bg-indigo-100 text-indigo-800 font-mono text-[11px] font-bold">CUE CARD • ID: p2q1</span>
+                                
+                                <h3 id="cue-card-topic" class="text-base sm:text-lg font-bold text-indigo-950 leading-snug">
+                                    Describe an environmental initiative or project in your school or community that you found interesting.
+                                </h3>
+
+                                <div class="space-y-2 pt-2">
+                                    <p class="text-xs font-bold text-indigo-900">You should say:</p>
+                                    <ul id="cue-card-bullets" class="space-y-1.5 text-xs text-indigo-950 list-disc list-inside leading-relaxed">
+                                        <li>What the initiative or project was</li>
+                                        <li>Who was involved in organizing it</li>
+                                        <li>What actions were taken</li>
+                                        <li>And explain why you thought this initiative was effective or important.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <p class="text-[11px] text-indigo-700/80 italic pt-4 border-t border-indigo-200/60">
+                                Anda memiliki waktu 1 menit untuk menyiapkan catatan, lalu Anda harus berbicara mandiri selama 1 hingga 2 menit.
+                            </p>
+                        </div>
+
+                        <!-- Kanan: Timer & Notepad Ide -->
+                        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between space-y-4">
+                            
+                            <!-- Timer Card -->
+                            <div class="p-4 rounded-xl bg-white border border-slate-200 text-center space-y-1 shadow-2xs">
+                                <span id="cue-timer-label" class="text-xs font-bold text-slate-500 uppercase tracking-wide">Sisa Waktu Persiapan:</span>
+                                <div id="cue-timer-display" class="text-3xl sm:text-4xl font-extrabold font-mono text-amber-600">
+                                    01:00
+                                </div>
+                            </div>
+
+                            <!-- Digital Notepad Coretan Ide -->
+                            <div class="space-y-1.5 flex-grow">
+                                <div class="flex items-center justify-between">
+                                    <label for="cue-notes-input" class="text-xs font-bold text-slate-700 flex items-center gap-1">
+                                        <span>📝</span> Lembar Catatan Ide (Opsional):
+                                    </label>
+                                    <span class="text-[10px] text-slate-400">Tersimpan ke guru</span>
+                                </div>
+                                <textarea id="cue-notes-input" rows="5" placeholder="Tuliskan kata kunci ide Anda di sini (misal: - Green Circle, waste sorting - Canteen vendors, teachers - Friday collection, organic compost)..."
+                                          class="w-full p-3 rounded-xl border border-slate-300 text-xs font-mono leading-relaxed focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition resize-none"></textarea>
+                            </div>
+
+                            <!-- Tombol Transisi / Aksi Cue Card -->
+                            <div class="pt-2">
+                                <!-- Tombol saat Fase 1 Persiapan -->
+                                <button type="button" id="btn-ready-to-speak-cue" class="w-full px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition flex items-center justify-center gap-2">
+                                    <span>🎤</span>
+                                    <span>Saya Siap Bicara Sekarang (Mulai Rekaman 2 Menit)</span>
+                                </button>
+
+                                <!-- Tombol saat Fase 2 Bicara -->
+                                <button type="button" id="btn-stop-speak-cue" class="hidden w-full px-5 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-xs transition flex items-center justify-center gap-2">
+                                    <span class="w-3 h-3 rounded-xs bg-white"></span>
+                                    <span>Selesai Bicara Part 2 & Simpan Rekaman</span>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 3: HALAMAN SELESAI / REVIEW                              -->
+        <!-- ============================================================= -->
+        <section id="view-result-speaking" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 sm:p-10 space-y-6 text-center">
+                
+                <div class="w-16 h-16 rounded-full bg-teal-100 text-teal-700 text-3xl flex items-center justify-center mx-auto">
+                    ✓
+                </div>
+
+                <div class="space-y-2 max-w-xl mx-auto">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Simulasi Speaking Telah Selesai</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Seluruh rekaman suara Anda untuk Part 1, Part 2, dan Part 3 telah berhasil disimpan secara privat di server dan siap dievaluasi oleh guru.
+                    </p>
+                </div>
+
+                <!-- Info Status Penilaian Guru -->
+                <div class="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-left max-w-2xl mx-auto space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-amber-900 uppercase">Status Evaluasi Speaking:</span>
+                        <span id="result-status-badge" class="px-3 py-1 rounded-full bg-amber-200 text-amber-900 font-extrabold text-xs">
+                            Menunggu Penilaian Guru
+                        </span>
+                    </div>
+                    <p class="text-xs text-amber-950 leading-relaxed">
+                        Guru pembimbing Anda akan mendengarkan rekaman audio dan memberikan skor berdasarkan 4 kriteria resmi: <em>Fluency & Coherence</em>, <em>Lexical Resource</em>, <em>Grammatical Range & Accuracy</em>, dan <em>Pronunciation</em>. Hasil penilaian akan otomatis dihitung ke dalam skor <strong>Overall (L+R+W+S)</strong>.
+                    </p>
+                </div>
+
+                <!-- Rekap Data Partisipasi Siswa -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto text-left">
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Peserta</span>
+                        <span id="result-nama" class="text-xs font-bold text-slate-900 block truncate">-</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Kelas</span>
+                        <span id="result-kelas" class="text-xs font-bold text-slate-900 block">-</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Jumlah Rekaman</span>
+                        <span id="result-recorded-count" class="text-xs font-bold text-teal-700 block font-mono">15 Soal</span>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase block">Band Speaking</span>
+                        <span id="result-speaking-band" class="text-xs font-bold text-indigo-700 block font-mono">Menunggu</span>
+                    </div>
+                </div>
+
+                <!-- Tombol Navigasi -->
+                <div class="pt-4 flex flex-wrap items-center justify-center gap-3">
+                    <a href="/ielts/index.html" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition">
+                        Kembali ke Menu Simulasi IELTS
+                    </a>
+                    <button type="button" onclick="window.location.reload()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                        Tinjau Sesi Ini Lagi
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/header-footer.js"></script>
+    <script src="/ielts/speaking-engine.js"></script>
+</body>
+</html>

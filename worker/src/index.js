@@ -488,6 +488,101 @@ function analyzeWritingStructure(t1, t2) {
     };
 }
 
+async function ensureSpeakingSchema(env) {
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS speaking_sessions (
+            id                   TEXT    PRIMARY KEY,
+            test_id              TEXT    NOT NULL,
+            device_id            TEXT    NOT NULL,
+            nama_peserta         TEXT    NOT NULL,
+            kelas                TEXT    NOT NULL,
+            started_at           INTEGER NOT NULL,
+            submitted_at         INTEGER DEFAULT NULL,
+            part2_notes          TEXT    DEFAULT '',
+            status               TEXT    NOT NULL DEFAULT 'in_progress',
+            graded_at            INTEGER DEFAULT NULL,
+            teacher_name         TEXT    DEFAULT NULL,
+            criteria_scores      TEXT    DEFAULT '{}',
+            teacher_comment      TEXT    DEFAULT '',
+            speaking_band        REAL    DEFAULT NULL
+        )
+    `).run();
+
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS speaking_recordings (
+            id                   TEXT    PRIMARY KEY,
+            session_id           TEXT    NOT NULL,
+            question_id          TEXT    NOT NULL,
+            mime_type            TEXT    NOT NULL,
+            audio_data           TEXT    NOT NULL,
+            transcript           TEXT    DEFAULT '',
+            duration_seconds     REAL    DEFAULT 0,
+            file_size_bytes      INTEGER DEFAULT 0,
+            uploaded_at          INTEGER NOT NULL
+        )
+    `).run();
+}
+
+function sanitizeSpeakingTestForStudent(masterData) {
+    const copy = JSON.parse(JSON.stringify(masterData));
+    if (copy.part1 && Array.isArray(copy.part1.topics)) {
+        copy.part1.topics.forEach(top => {
+            if (Array.isArray(top.questions)) {
+                top.questions.forEach(q => {
+                    delete q.sample_answer;
+                });
+            }
+        });
+    }
+    if (copy.part2) {
+        delete copy.part2.sample_answer;
+    }
+    if (copy.part3 && Array.isArray(copy.part3.questions)) {
+        copy.part3.questions.forEach(q => {
+            delete q.sample_answer;
+        });
+    }
+    return copy;
+}
+
+function filterSampleAnswers(masterData) {
+    const result = {
+        part1: [],
+        part2: null,
+        part3: []
+    };
+    if (masterData.part1 && Array.isArray(masterData.part1.topics)) {
+        masterData.part1.topics.forEach(top => {
+            if (Array.isArray(top.questions)) {
+                top.questions.forEach(q => {
+                    if (q.sample_answer && !q.sample_answer.includes('[Teks') && !q.sample_answer.includes('{...}')) {
+                        result.part1.push({
+                            id: q.id,
+                            text: q.text,
+                            sample_answer: q.sample_answer
+                        });
+                    }
+                });
+            }
+        });
+    }
+    if (masterData.part2 && masterData.part2.sample_answer && masterData.part2.sample_answer.text && !masterData.part2.sample_answer.text.includes('[Teks')) {
+        result.part2 = masterData.part2.sample_answer;
+    }
+    if (masterData.part3 && Array.isArray(masterData.part3.questions)) {
+        masterData.part3.questions.forEach(q => {
+            if (q.sample_answer && !q.sample_answer.includes('[Teks') && !q.sample_answer.includes('{...}')) {
+                result.part3.push({
+                    id: q.id,
+                    text: q.text,
+                    sample_answer: q.sample_answer
+                });
+            }
+        });
+    }
+    return result;
+}
+
 // ---------- Handler ----------
 export default {
     async fetch(request, env) {
@@ -1330,11 +1425,395 @@ export default {
                 });
             }
 
-            // 6. Rekap Guru Terpadu IELTS (Listening, Reading, & Writing)
-            if ((path === '/listening/admin/results' || path === '/reading/admin/results' || path === '/writing/admin/results' || path === '/ielts/admin/results') && (request.method === 'GET' || request.method === 'POST')) {
+            // =================================================================
+            // --- IELTS-Style Speaking Mock Test Endpoints ---
+            // =================================================================
+
+            // 1. Mulai tes speaking / resume session
+            if (path === '/speaking/start' && request.method === 'POST') {
+                await ensureSpeakingSchema(env);
+                const body = await readJson(request);
+                const testId = String(body.testId || 'speaking1').trim().toLowerCase();
+                const nama = String(body.nama || '').trim().slice(0, 80);
+                const kelas = String(body.kelas || '').trim().slice(0, 50);
+                const deviceId = String(body.deviceId || '').trim().slice(0, 64) || ('dev_' + crypto.randomUUID().slice(0, 12));
+                const requestedSessionId = String(body.sessionId || '').trim();
+
+                if (nama.length < 2) {
+                    return json(request, env, { ok: false, error: 'Nama lengkap wajib diisi minimal 2 karakter.' }, 400);
+                }
+                if (kelas.length < 1) {
+                    return json(request, env, { ok: false, error: 'Kelas wajib diisi (misal: 12 MIPA 1).' }, 400);
+                }
+
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${testId}-master.json`, url.origin)));
+                if (!assetRes.ok) {
+                    return json(request, env, { ok: false, error: 'Paket tes speaking tidak ditemukan.' }, 404);
+                }
+                const masterData = await assetRes.json();
+                const studentTestData = sanitizeSpeakingTestForStudent(masterData);
+
+                const now = Date.now();
+                let session = null;
+
+                if (requestedSessionId) {
+                    session = await env.DB.prepare('SELECT * FROM speaking_sessions WHERE id = ?').bind(requestedSessionId).first();
+                }
+
+                if (!session) {
+                    session = await env.DB.prepare(
+                        'SELECT * FROM speaking_sessions WHERE test_id = ? AND device_id = ? AND status = "in_progress" ORDER BY started_at DESC LIMIT 1'
+                    ).bind(testId, deviceId).first();
+                }
+
+                if (session) {
+                    if (session.status === 'submitted' || session.status === 'graded') {
+                        return json(request, env, {
+                            ok: true,
+                            alreadySubmitted: true,
+                            sessionId: session.id,
+                            status: session.status,
+                            part2Notes: session.part2_notes,
+                            speakingBand: session.speaking_band,
+                            criteriaScores: JSON.parse(session.criteria_scores || '{}'),
+                            teacherComment: session.teacher_comment,
+                            sampleAnswers: filterSampleAnswers(masterData)
+                        });
+                    }
+
+                    const uploadedRows = await env.DB.prepare(
+                        'SELECT question_id, duration_seconds FROM speaking_recordings WHERE session_id = ?'
+                    ).bind(session.id).all();
+                    const recordedQuestions = (uploadedRows.results || []).map(r => ({
+                        question_id: r.question_id,
+                        duration_seconds: r.duration_seconds
+                    }));
+
+                    return json(request, env, {
+                        ok: true,
+                        sessionId: session.id,
+                        resumed: true,
+                        startedAt: session.started_at,
+                        serverTime: now,
+                        part2Notes: session.part2_notes,
+                        recordedQuestions,
+                        testData: studentTestData
+                    });
+                }
+
+                const newSessionId = 'spk_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+                await env.DB.prepare(`
+                    INSERT INTO speaking_sessions (id, test_id, device_id, nama_peserta, kelas, started_at, status)
+                    VALUES (?, ?, ?, ?, ?, ?, 'in_progress')
+                `).bind(newSessionId, testId, deviceId, nama, kelas, now).run();
+
+                return json(request, env, {
+                    ok: true,
+                    sessionId: newSessionId,
+                    resumed: false,
+                    startedAt: now,
+                    serverTime: now,
+                    recordedQuestions: [],
+                    testData: studentTestData
+                });
+            }
+
+            // 2. Unggah rekaman per pertanyaan (Immediate Upload)
+            if (path === '/speaking/upload-recording' && request.method === 'POST') {
+                await ensureSpeakingSchema(env);
+                const body = await readJson(request);
+                const sessionId = String(body.sessionId || '').trim();
+                const questionId = String(body.questionId || '').trim();
+                const audioData = String(body.audioData || ''); // Base64
+                const mimeType = String(body.mimeType || 'audio/webm').slice(0, 50);
+                const transcript = String(body.transcript || '').slice(0, 5000);
+                const durationSeconds = Math.max(0, parseFloat(body.durationSeconds) || 0);
+
+                if (!sessionId || !questionId) {
+                    return json(request, env, { ok: false, error: 'sessionId dan questionId wajib ada.' }, 400);
+                }
+                if (!audioData || audioData.length < 50) {
+                    return json(request, env, { ok: false, error: 'Data rekaman audio kosong atau tidak valid.' }, 400);
+                }
+                if (audioData.length > 5 * 1024 * 1024) {
+                    return json(request, env, { ok: false, error: 'Ukuran rekaman melebihi batas 5MB.' }, 413);
+                }
+
+                const session = await env.DB.prepare('SELECT id, status FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes speaking tidak ditemukan.' }, 404);
+                }
+                if (session.status !== 'in_progress') {
+                    return json(request, env, { ok: false, error: 'Sesi tes speaking ini sudah diselesaikan.' }, 400);
+                }
+
+                const recId = `${sessionId}_${questionId}`;
+                const fileSizeBytes = Math.round((audioData.length * 3) / 4);
+                const now = Date.now();
+
+                await env.DB.prepare(`
+                    INSERT INTO speaking_recordings (id, session_id, question_id, mime_type, audio_data, transcript, duration_seconds, file_size_bytes, uploaded_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        mime_type = excluded.mime_type,
+                        audio_data = excluded.audio_data,
+                        transcript = excluded.transcript,
+                        duration_seconds = excluded.duration_seconds,
+                        file_size_bytes = excluded.file_size_bytes,
+                        uploaded_at = excluded.uploaded_at
+                `).bind(recId, sessionId, questionId, mimeType, audioData, transcript, durationSeconds, fileSizeBytes, now).run();
+
+                return json(request, env, {
+                    ok: true,
+                    questionId,
+                    fileSizeBytes,
+                    uploadedAt: now
+                });
+            }
+
+            // 3. Submit tes speaking & simpan notes Part 2
+            if (path === '/speaking/submit' && request.method === 'POST') {
+                await ensureSpeakingSchema(env);
+                const body = await readJson(request);
+                const sessionId = String(body.sessionId || '').trim();
+                const part2Notes = String(body.part2Notes || '').slice(0, 5000);
+
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT * FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes speaking tidak ditemukan.' }, 404);
+                }
+
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${session.test_id}-master.json`, url.origin)));
+                const master = assetRes.ok ? await assetRes.json() : null;
+
+                const now = Date.now();
+                await env.DB.prepare(`
+                    UPDATE speaking_sessions
+                    SET submitted_at = ?, part2_notes = ?, status = 'submitted'
+                    WHERE id = ?
+                `).bind(now, part2Notes, sessionId).run();
+
+                return json(request, env, {
+                    ok: true,
+                    submittedAt: now,
+                    startedAt: session.started_at,
+                    sampleAnswers: master ? filterSampleAnswers(master) : null
+                });
+            }
+
+            // 4. Status tes speaking (untuk polling / pengecekan)
+            if (path === '/speaking/status' && request.method === 'GET') {
+                await ensureSpeakingSchema(env);
+                const sessionId = String(url.searchParams.get('sessionId') || '').trim();
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak diberikan.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT * FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
+                }
+
+                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${session.test_id}-master.json`, url.origin)));
+                const master = assetRes.ok ? await assetRes.json() : null;
+
+                return json(request, env, {
+                    ok: true,
+                    sessionId: session.id,
+                    status: session.status,
+                    submittedAt: session.submitted_at,
+                    gradedAt: session.graded_at,
+                    part2Notes: session.part2_notes,
+                    speakingBand: session.speaking_band,
+                    criteriaScores: JSON.parse(session.criteria_scores || '{}'),
+                    teacherComment: session.teacher_comment || '',
+                    sampleAnswers: (session.status === 'submitted' || session.status === 'graded') && master ? filterSampleAnswers(master) : null
+                });
+            }
+
+            // 5. Detail sesi speaking (rekaman, durasi, transkrip) untuk Guru & Siswa
+            if (path === '/speaking/detail' && request.method === 'GET') {
+                await ensureSpeakingSchema(env);
+                const sessionId = String(url.searchParams.get('sessionId') || '').trim();
+                const teacherKey = request.headers.get('X-Teacher-Key') || url.searchParams.get('teacherKey') || '';
+                const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
+
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID wajib diberikan.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT * FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
+                }
+
+                const isTeacher = verifyTeacherKey(teacherKey, env);
+                const isOwner = deviceId && session.device_id === deviceId;
+                if (!isTeacher && !isOwner) {
+                    return json(request, env, { ok: false, error: 'Tidak memiliki izin akses sesi ini.' }, 401);
+                }
+
+                const recRows = await env.DB.prepare(`
+                    SELECT question_id, mime_type, transcript, duration_seconds, file_size_bytes, uploaded_at
+                    FROM speaking_recordings
+                    WHERE session_id = ?
+                    ORDER BY question_id ASC
+                `).bind(sessionId).all();
+
+                return json(request, env, {
+                    ok: true,
+                    session: {
+                        id: session.id,
+                        test_id: session.test_id,
+                        nama_peserta: session.nama_peserta,
+                        kelas: session.kelas,
+                        started_at: session.started_at,
+                        submitted_at: session.submitted_at,
+                        part2_notes: session.part2_notes,
+                        status: session.status,
+                        graded_at: session.graded_at,
+                        teacher_name: session.teacher_name,
+                        criteria_scores: JSON.parse(session.criteria_scores || '{}'),
+                        teacher_comment: session.teacher_comment,
+                        speaking_band: session.speaking_band
+                    },
+                    recordings: recRows.results || []
+                });
+            }
+
+            // 6. Streaming Audio Privat (Hanya Guru via TEACHER_KEY atau Siswa Pemilik)
+            if (path === '/speaking/audio' && request.method === 'GET') {
+                await ensureSpeakingSchema(env);
+                const sessionId = String(url.searchParams.get('sessionId') || '').trim();
+                const questionId = String(url.searchParams.get('questionId') || '').trim();
+                const teacherKey = request.headers.get('X-Teacher-Key') || url.searchParams.get('teacherKey') || '';
+                const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
+
+                if (!sessionId || !questionId) {
+                    return json(request, env, { ok: false, error: 'sessionId dan questionId wajib diberikan.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT device_id FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tidak ditemukan.' }, 404);
+                }
+
+                const isTeacher = verifyTeacherKey(teacherKey, env);
+                const isOwner = deviceId && session.device_id === deviceId;
+                if (!isTeacher && !isOwner) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid.' }, 401);
+                }
+
+                const rec = await env.DB.prepare(`
+                    SELECT mime_type, audio_data FROM speaking_recordings
+                    WHERE session_id = ? AND question_id = ?
+                `).bind(sessionId, questionId).first();
+
+                if (!rec || !rec.audio_data) {
+                    return json(request, env, { ok: false, error: 'Rekaman audio untuk pertanyaan ini tidak ditemukan.' }, 404);
+                }
+
+                const binaryString = atob(rec.audio_data);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+
+                return new Response(bytes.buffer, {
+                    status: 200,
+                    headers: {
+                        'Content-Type': rec.mime_type || 'audio/webm',
+                        'Content-Length': String(bytes.length),
+                        'Cache-Control': 'private, no-store',
+                        ...corsHeaders(request, env)
+                    }
+                });
+            }
+
+            // 7. Penilaian Speaking oleh Guru (4 Kriteria: FC, LR, GRA, PR)
+            if (path === '/speaking/admin/grade' && request.method === 'POST') {
+                await ensureSpeakingSchema(env);
+                const teacherKey = request.headers.get('X-Teacher-Key') || '';
+                const body = await readJson(request);
+                const submittedKey = teacherKey || String(body.teacherKey || '').trim();
+
+                if (!verifyTeacherKey(submittedKey, env)) {
+                    return json(request, env, { ok: false, error: 'Kunci Guru / Teacher Key tidak valid.' }, 401);
+                }
+
+                const sessionId = String(body.sessionId || '').trim();
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT * FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes speaking tidak ditemukan.' }, 404);
+                }
+
+                const fc = Number(body.fc);
+                const lr = Number(body.lr);
+                const gra = Number(body.gra);
+                const pr = Number(body.pr);
+
+                if (!isValidBandCriterion(fc) || !isValidBandCriterion(lr) || !isValidBandCriterion(gra) || !isValidBandCriterion(pr)) {
+                    return json(request, env, { ok: false, error: 'Nilai setiap kriteria harus angka 0.0 - 9.0 dengan kelipatan 0.5 (misal: 6.0, 6.5, 7.0).' }, 400);
+                }
+
+                const speakingBand = roundIeltsBand((fc + lr + gra + pr) / 4);
+                const criteriaObj = { fc, lr, gra, pr, band: speakingBand };
+                const teacherComment = String(body.teacherComment || '').trim().slice(0, 3000);
+                const teacherName = String(body.teacherName || '').trim().slice(0, 80);
+                const now = Date.now();
+
+                await env.DB.prepare(`
+                    UPDATE speaking_sessions
+                    SET status = 'graded', graded_at = ?, teacher_name = ?, criteria_scores = ?, teacher_comment = ?, speaking_band = ?
+                    WHERE id = ?
+                `).bind(now, teacherName, JSON.stringify(criteriaObj), teacherComment, speakingBand, sessionId).run();
+
+                return json(request, env, {
+                    ok: true,
+                    sessionId,
+                    speakingBand,
+                    criteriaScores: criteriaObj,
+                    gradedAt: now
+                });
+            }
+
+            // 8. Hapus Sesi & Rekaman Speaking (Kebijakan Privasi Data)
+            if (path === '/speaking/admin/delete' && request.method === 'POST') {
+                await ensureSpeakingSchema(env);
+                const teacherKey = request.headers.get('X-Teacher-Key') || '';
+                const body = await readJson(request);
+                const submittedKey = teacherKey || String(body.teacherKey || '').trim();
+
+                if (!verifyTeacherKey(submittedKey, env)) {
+                    return json(request, env, { ok: false, error: 'Kunci Guru / Teacher Key tidak valid.' }, 401);
+                }
+
+                const sessionId = String(body.sessionId || '').trim();
+                if (!sessionId) {
+                    return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                await env.DB.prepare('DELETE FROM speaking_recordings WHERE session_id = ?').bind(sessionId).run();
+                await env.DB.prepare('DELETE FROM speaking_sessions WHERE id = ?').bind(sessionId).run();
+
+                return json(request, env, { ok: true, deletedSessionId: sessionId });
+            }
+
+            // 9. Rekap Guru Terpadu IELTS (Listening, Reading, Writing, & Speaking)
+            if ((path === '/listening/admin/results' || path === '/reading/admin/results' || path === '/writing/admin/results' || path === '/speaking/admin/results' || path === '/ielts/admin/results') && (request.method === 'GET' || request.method === 'POST')) {
                 await ensureListeningSchema(env);
                 await ensureReadingSchema(env);
                 await ensureWritingSchema(env);
+                await ensureSpeakingSchema(env);
                 const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
                 const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
 
@@ -1368,24 +1847,28 @@ export default {
                 let lisQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores FROM listening_sessions WHERE status = 'submitted'`;
                 let readQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, passage_scores, type_scores FROM reading_sessions WHERE status = 'submitted'`;
                 let writeQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, current_task, task1_text, task2_text, task1_word_count, task2_word_count, status, graded_at, task1_criteria, task2_criteria, task1_comment, task2_comment, writing_band FROM writing_sessions WHERE status IN ('submitted', 'graded')`;
+                let spkQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, part2_notes, status, graded_at, teacher_name, criteria_scores, teacher_comment, speaking_band FROM speaking_sessions WHERE status IN ('submitted', 'graded')`;
                 const params = [];
 
                 if (filterKelas) {
                     lisQuery += ` AND kelas = ?`;
                     readQuery += ` AND kelas = ?`;
                     writeQuery += ` AND kelas = ?`;
+                    spkQuery += ` AND kelas = ?`;
                     params.push(filterKelas);
                 }
 
                 lisQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
                 readQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
                 writeQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
+                spkQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
 
                 const lisStmt = params.length > 0 ? env.DB.prepare(lisQuery).bind(...params) : env.DB.prepare(lisQuery);
                 const readStmt = params.length > 0 ? env.DB.prepare(readQuery).bind(...params) : env.DB.prepare(readQuery);
                 const writeStmt = params.length > 0 ? env.DB.prepare(writeQuery).bind(...params) : env.DB.prepare(writeQuery);
+                const spkStmt = params.length > 0 ? env.DB.prepare(spkQuery).bind(...params) : env.DB.prepare(spkQuery);
 
-                const [lisRes, readRes, writeRes] = await Promise.all([lisStmt.all(), readStmt.all(), writeStmt.all()]);
+                const [lisRes, readRes, writeRes, spkRes] = await Promise.all([lisStmt.all(), readStmt.all(), writeStmt.all(), spkStmt.all()]);
 
                 // Gabungkan per siswa: Map key = `nama_peserta.toLowerCase() + '|' + kelas.toLowerCase()`
                 const studentMap = new Map();
@@ -1399,6 +1882,7 @@ export default {
                             listening: null,
                             reading: null,
                             writing: null,
+                            speaking: null,
                             last_submitted_at: l.submitted_at || l.started_at
                         });
                     }
@@ -1423,6 +1907,7 @@ export default {
                             listening: null,
                             reading: null,
                             writing: null,
+                            speaking: null,
                             last_submitted_at: r.submitted_at || r.started_at
                         });
                     }
@@ -1448,6 +1933,7 @@ export default {
                             listening: null,
                             reading: null,
                             writing: null,
+                            speaking: null,
                             last_submitted_at: w.submitted_at || w.started_at
                         });
                     }
@@ -1471,26 +1957,53 @@ export default {
                     entry.last_submitted_at = Math.max(entry.last_submitted_at, w.submitted_at || 0);
                 });
 
-                // Hitung Overall (L+R+W) per siswa:
-                // HANYA dihitung jika ketiga subtes sudah ada DAN writing sudah dinilai (status 'graded')
+                (spkRes.results || []).forEach(s => {
+                    const key = `${(s.nama_peserta || '').trim().toLowerCase()}|${(s.kelas || '').trim().toLowerCase()}`;
+                    if (!studentMap.has(key)) {
+                        studentMap.set(key, {
+                            nama_peserta: s.nama_peserta,
+                            kelas: s.kelas,
+                            listening: null,
+                            reading: null,
+                            writing: null,
+                            speaking: null,
+                            last_submitted_at: s.submitted_at || s.started_at
+                        });
+                    }
+                    const entry = studentMap.get(key);
+                    entry.speaking = {
+                        id: s.id,
+                        test_id: s.test_id,
+                        status: s.status,
+                        part2_notes: s.part2_notes,
+                        criteria_scores: JSON.parse(s.criteria_scores || '{}'),
+                        teacher_name: s.teacher_name,
+                        teacher_comment: s.teacher_comment || '',
+                        speaking_band: s.speaking_band,
+                        submitted_at: s.submitted_at,
+                        graded_at: s.graded_at
+                    };
+                    entry.last_submitted_at = Math.max(entry.last_submitted_at, s.submitted_at || 0);
+                });
+
+                // Hitung Overall (L+R+W+S) per siswa:
+                // HANYA dihitung jika keempat subtes sudah ada DAN Writing + Speaking sudah dinilai guru ('graded')
                 const mergedStudents = Array.from(studentMap.values()).map(s => {
-                    let overallLrw = null;
-                    if (
-                        s.listening &&
-                        typeof s.listening.band_score === 'number' &&
-                        s.reading &&
-                        typeof s.reading.band_score === 'number' &&
-                        s.writing &&
-                        s.writing.status === 'graded' &&
-                        typeof s.writing.writing_band === 'number'
-                    ) {
-                        const avg = (s.listening.band_score + s.reading.band_score + s.writing.writing_band) / 3;
-                        overallLrw = roundIeltsBand(avg);
+                    let overallBand = null;
+                    const hasLis = s.listening && typeof s.listening.band_score === 'number';
+                    const hasRead = s.reading && typeof s.reading.band_score === 'number';
+                    const hasWrite = s.writing && s.writing.status === 'graded' && typeof s.writing.writing_band === 'number';
+                    const hasSpk = s.speaking && s.speaking.status === 'graded' && typeof s.speaking.speaking_band === 'number';
+
+                    if (hasLis && hasRead && hasWrite && hasSpk) {
+                        const avg = (s.listening.band_score + s.reading.band_score + s.writing.writing_band + s.speaking.speaking_band) / 4;
+                        overallBand = roundIeltsBand(avg);
                     }
 
                     return {
                         ...s,
-                        overall_lrw: overallLrw
+                        overall_band: overallBand,
+                        overall_lrw: overallBand
                     };
                 });
 
@@ -1502,7 +2015,8 @@ export default {
                     results: mergedStudents,
                     raw_listening: lisRes.results || [],
                     raw_reading: readRes.results || [],
-                    raw_writing: writeRes.results || []
+                    raw_writing: writeRes.results || [],
+                    raw_speaking: spkRes.results || []
                 });
             }
 

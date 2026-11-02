@@ -52,6 +52,39 @@ export function calculateOverallLrw(listeningBand, readingBand, writingBand) {
     return roundIeltsBand(raw);
 }
 
+/**
+ * Perhitungan Band Speaking (rata-rata 4 kriteria: FC, LR, GRA, PR)
+ */
+export function calculateSpeakingBand(fc, lr, gra, pr) {
+    if (
+        typeof fc !== 'number' ||
+        typeof lr !== 'number' ||
+        typeof gra !== 'number' ||
+        typeof pr !== 'number'
+    ) {
+        return null;
+    }
+    const raw = (fc + lr + gra + pr) / 4;
+    return roundIeltsBand(raw);
+}
+
+/**
+ * Perhitungan Rata-rata 4 Subtes (Overall L + R + W + S):
+ * Hanya dihitung jika keempat subtes lengkap dan telah dinilai
+ */
+export function calculateOverall4Skills(listeningBand, readingBand, writingBand, speakingBand) {
+    if (
+        typeof listeningBand !== 'number' ||
+        typeof readingBand !== 'number' ||
+        typeof writingBand !== 'number' ||
+        typeof speakingBand !== 'number'
+    ) {
+        return null;
+    }
+    const raw = (listeningBand + readingBand + writingBand + speakingBand) / 4;
+    return roundIeltsBand(raw);
+}
+
 // -------------------------------------------------------------
 // Test Suite: Aturan Pembulatan Fraksi IELTS (.25 dan .75)
 // -------------------------------------------------------------
@@ -146,4 +179,47 @@ test('calculateOverallLrw: L=6.5, R=7.0, W=7.0 -> raw=6.833 -> 7.0', () => {
 test('calculateOverallLrw: belum lengkap mengembalikan null', () => {
     assert.equal(calculateOverallLrw(6.5, 6.0, null), null);
     assert.equal(calculateOverallLrw(null, 6.0, 6.5), null);
+});
+
+// -------------------------------------------------------------
+// Test Suite: Formula Speaking (FC, LR, GRA, PR)
+// -------------------------------------------------------------
+
+test('calculateSpeakingBand: FC=6.5, LR=6.0, GRA=6.5, PR=7.0 -> raw=6.5 -> 6.5', () => {
+    assert.equal(calculateSpeakingBand(6.5, 6.0, 6.5, 7.0), 6.5);
+});
+
+test('calculateSpeakingBand: FC=7.0, LR=7.0, GRA=6.5, PR=6.0 -> raw=6.625 -> 6.5', () => {
+    assert.equal(calculateSpeakingBand(7.0, 7.0, 6.5, 6.0), 6.5);
+});
+
+test('calculateSpeakingBand: FC=7.0, LR=7.0, GRA=7.0, PR=6.0 -> raw=6.75 -> 7.0 (.75 naik ke integer)', () => {
+    assert.equal(calculateSpeakingBand(7.0, 7.0, 7.0, 6.0), 7.0);
+});
+
+test('calculateSpeakingBand: FC=6.0, LR=6.0, GRA=6.0, PR=7.0 -> raw=6.25 -> 6.5 (.25 naik ke .5)', () => {
+    assert.equal(calculateSpeakingBand(6.0, 6.0, 6.0, 7.0), 6.5);
+});
+
+// -------------------------------------------------------------
+// Test Suite: Formula Overall 4 Subtes (L + R + W + S)
+// -------------------------------------------------------------
+
+test('calculateOverall4Skills: L=6.5, R=6.5, W=6.0, S=6.0 -> raw=6.25 -> 6.5', () => {
+    assert.equal(calculateOverall4Skills(6.5, 6.5, 6.0, 6.0), 6.5);
+});
+
+test('calculateOverall4Skills: L=7.0, R=7.0, W=6.5, S=6.5 -> raw=6.75 -> 7.0', () => {
+    assert.equal(calculateOverall4Skills(7.0, 7.0, 6.5, 6.5), 7.0);
+});
+
+test('calculateOverall4Skills: L=6.0, R=6.0, W=6.5, S=6.0 -> raw=6.125 -> 6.0 (<.25 round down)', () => {
+    assert.equal(calculateOverall4Skills(6.0, 6.0, 6.5, 6.0), 6.0);
+});
+
+test('calculateOverall4Skills: belum lengkap (salah satu null) mengembalikan null', () => {
+    assert.equal(calculateOverall4Skills(6.5, 6.5, 6.0, null), null);
+    assert.equal(calculateOverall4Skills(null, 6.5, 6.0, 6.5), null);
+    assert.equal(calculateOverall4Skills(6.5, null, 6.0, 6.5), null);
+    assert.equal(calculateOverall4Skills(6.5, 6.5, null, 6.5), null);
 });

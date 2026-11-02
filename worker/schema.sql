@@ -157,5 +157,46 @@ CREATE INDEX IF NOT EXISTS idx_writing_sessions_test ON writing_sessions(test_id
 CREATE INDEX IF NOT EXISTS idx_writing_sessions_kelas ON writing_sessions(kelas, submitted_at);
 CREATE INDEX IF NOT EXISTS idx_writing_sessions_device ON writing_sessions(device_id);
 
+-- =================================================================
+-- Tabel Simulasi IELTS-Style Speaking Mock Test (Cloudflare D1)
+-- =================================================================
+
+CREATE TABLE IF NOT EXISTS speaking_sessions (
+    id                   TEXT    PRIMARY KEY,         -- UUID attempt_id ('spk_...')
+    test_id              TEXT    NOT NULL,            -- 'speaking1'
+    device_id            TEXT    NOT NULL,
+    nama_peserta         TEXT    NOT NULL,
+    kelas                TEXT    NOT NULL,            -- '12 MIPA 1'
+    started_at           INTEGER NOT NULL,            -- server timestamp ms
+    submitted_at         INTEGER DEFAULT NULL,        -- server timestamp ms
+    part2_notes          TEXT    DEFAULT '',          -- Coretan catatan persiapan siswa Part 2
+    status               TEXT    NOT NULL DEFAULT 'in_progress', -- 'in_progress', 'submitted', 'graded'
+    -- Evaluasi & Penilaian Guru (Hanya melalui TEACHER_KEY):
+    graded_at            INTEGER DEFAULT NULL,        -- server timestamp ms
+    teacher_name         TEXT    DEFAULT NULL,
+    criteria_scores      TEXT    DEFAULT '{}',        -- {"fc": 7.0, "lr": 6.5, "gra": 6.5, "pr": 7.0}
+    teacher_comment      TEXT    DEFAULT '',          -- Catatan kualitatif guru
+    speaking_band        REAL    DEFAULT NULL         -- Rata-rata 4 kriteria dengan pembulatan IELTS
+);
+
+CREATE INDEX IF NOT EXISTS idx_speaking_sessions_test ON speaking_sessions(test_id, started_at);
+CREATE INDEX IF NOT EXISTS idx_speaking_sessions_kelas ON speaking_sessions(kelas, submitted_at);
+CREATE INDEX IF NOT EXISTS idx_speaking_sessions_device ON speaking_sessions(device_id);
+
+CREATE TABLE IF NOT EXISTS speaking_recordings (
+    id                   TEXT    PRIMARY KEY,         -- 'sessionId_questionId'
+    session_id           TEXT    NOT NULL,
+    question_id          TEXT    NOT NULL,
+    mime_type            TEXT    NOT NULL,
+    audio_data           TEXT    NOT NULL,            -- Base64 encoded audio
+    transcript           TEXT    DEFAULT '',          -- Draf transkrip mesin opsional (bukan dasar penilaian)
+    duration_seconds     REAL    DEFAULT 0,
+    file_size_bytes      INTEGER DEFAULT 0,
+    uploaded_at          INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_speaking_recordings_sess ON speaking_recordings(session_id);
+
+
 
 
