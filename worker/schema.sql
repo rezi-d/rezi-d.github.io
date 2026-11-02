@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS listening_sessions (
 CREATE INDEX IF NOT EXISTS idx_listening_sessions_test ON listening_sessions(test_id, started_at);
 CREATE INDEX IF NOT EXISTS idx_listening_sessions_kelas ON listening_sessions(kelas, submitted_at);
 CREATE INDEX IF NOT EXISTS idx_listening_sessions_device ON listening_sessions(device_id);
+CREATE INDEX IF NOT EXISTS idx_listening_status_submitted ON listening_sessions(status, submitted_at DESC);
 
 -- Tabel Rate-Limiting Percobaan TEACHER_KEY
 CREATE TABLE IF NOT EXISTS listening_admin_attempts (
@@ -122,6 +123,7 @@ CREATE TABLE IF NOT EXISTS reading_sessions (
 CREATE INDEX IF NOT EXISTS idx_reading_sessions_test ON reading_sessions(test_id, started_at);
 CREATE INDEX IF NOT EXISTS idx_reading_sessions_kelas ON reading_sessions(kelas, submitted_at);
 CREATE INDEX IF NOT EXISTS idx_reading_sessions_device ON reading_sessions(device_id);
+CREATE INDEX IF NOT EXISTS idx_reading_status_submitted ON reading_sessions(status, submitted_at DESC);
 
 -- =================================================================
 -- Tabel Simulasi IELTS-Style Academic Writing Mock Test (Cloudflare D1)
@@ -156,6 +158,7 @@ CREATE TABLE IF NOT EXISTS writing_sessions (
 CREATE INDEX IF NOT EXISTS idx_writing_sessions_test ON writing_sessions(test_id, started_at);
 CREATE INDEX IF NOT EXISTS idx_writing_sessions_kelas ON writing_sessions(kelas, submitted_at);
 CREATE INDEX IF NOT EXISTS idx_writing_sessions_device ON writing_sessions(device_id);
+CREATE INDEX IF NOT EXISTS idx_writing_status_submitted ON writing_sessions(status, submitted_at DESC);
 
 -- =================================================================
 -- Tabel Simulasi IELTS-Style Speaking Mock Test (Cloudflare D1)
@@ -182,6 +185,7 @@ CREATE TABLE IF NOT EXISTS speaking_sessions (
 CREATE INDEX IF NOT EXISTS idx_speaking_sessions_test ON speaking_sessions(test_id, started_at);
 CREATE INDEX IF NOT EXISTS idx_speaking_sessions_kelas ON speaking_sessions(kelas, submitted_at);
 CREATE INDEX IF NOT EXISTS idx_speaking_sessions_device ON speaking_sessions(device_id);
+CREATE INDEX IF NOT EXISTS idx_speaking_status_submitted ON speaking_sessions(status, submitted_at DESC);
 
 CREATE TABLE IF NOT EXISTS speaking_recordings (
     id                   TEXT    PRIMARY KEY,         -- 'sessionId_questionId'

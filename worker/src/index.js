@@ -243,6 +243,7 @@ async function ensureListeningSchema(env) {
         )
     `).run();
     try { await env.DB.prepare('ALTER TABLE listening_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_listening_status_submitted ON listening_sessions(status, submitted_at DESC)').run(); } catch {}
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS listening_admin_attempts (
             ip_hash         TEXT    PRIMARY KEY,
@@ -385,6 +386,7 @@ async function ensureReadingSchema(env) {
         )
     `).run();
     try { await env.DB.prepare('ALTER TABLE reading_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_reading_status_submitted ON reading_sessions(status, submitted_at DESC)').run(); } catch {}
 }
 
 function calculateReadingBand(rawScore) {
@@ -464,6 +466,7 @@ async function ensureWritingSchema(env) {
         )
     `).run();
     try { await env.DB.prepare('ALTER TABLE writing_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_writing_status_submitted ON writing_sessions(status, submitted_at DESC)').run(); } catch {}
 }
 
 function sanitizeWritingTestForStudent(masterData) {
@@ -584,6 +587,7 @@ async function ensureSpeakingSchema(env) {
         )
     `).run();
     try { await env.DB.prepare('ALTER TABLE speaking_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_speaking_status_submitted ON speaking_sessions(status, submitted_at DESC)').run(); } catch {}
 
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS speaking_recordings (
