@@ -148,7 +148,10 @@
 
         const res = await fetch(`${API_BASE}/reading/start`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Device-Id': STATE.deviceId
+            },
             body: JSON.stringify(payload)
         });
 
@@ -815,9 +818,13 @@
         try {
             const res = await fetch(`${API_BASE}/reading/save-progress`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Device-Id': STATE.deviceId
+                },
                 body: JSON.stringify({
                     sessionId: STATE.sessionId,
+                    deviceId: STATE.deviceId,
                     currentPassage: STATE.currentPassageIdx + 1,
                     answers: STATE.answers
                 })
@@ -927,9 +934,13 @@
         try {
             const res = await fetch(`${API_BASE}/reading/submit`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Device-Id': STATE.deviceId
+                },
                 body: JSON.stringify({
                     sessionId: STATE.sessionId,
+                    deviceId: STATE.deviceId,
                     answers: STATE.answers
                 })
             });

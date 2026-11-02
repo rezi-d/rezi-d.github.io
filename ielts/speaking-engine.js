@@ -258,7 +258,10 @@
     async function checkExistingSession() {
         if (!STATE.sessionId) return;
         try {
-            const res = await fetch(`${API_BASE}/speaking/status?sessionId=${encodeURIComponent(STATE.sessionId)}`, { credentials: 'omit' });
+            const res = await fetch(`${API_BASE}/speaking/status?sessionId=${encodeURIComponent(STATE.sessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}`, {
+                headers: { 'X-Device-Id': STATE.deviceId },
+                credentials: 'omit'
+            });
             if (!res.ok) return;
             const data = await res.json();
             if (data.ok && data.sessionId) {
@@ -338,7 +341,10 @@
         try {
             const res = await fetch(`${API_BASE}/speaking/start`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Device-Id': STATE.deviceId
+                },
                 credentials: 'omit',
                 body: JSON.stringify({
                     testId: STATE.testId,
@@ -916,10 +922,14 @@
         try {
             const res = await fetch(`${API_BASE}/speaking/submit`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Device-Id': STATE.deviceId
+                },
                 credentials: 'omit',
                 body: JSON.stringify({
                     sessionId: STATE.sessionId,
+                    deviceId: STATE.deviceId,
                     part2Notes: STATE.part2Notes || ''
                 })
             });

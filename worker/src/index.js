@@ -844,6 +844,9 @@ export default {
                 // Cek jika ada session yang diminta
                 if (requestedSessionId) {
                     session = await env.DB.prepare('SELECT * FROM listening_sessions WHERE id = ?').bind(requestedSessionId).first();
+                    if (session && session.device_id !== deviceId) {
+                        session = null;
+                    }
                 }
 
                 // Jika tidak ditemukan atau tidak diminta, cek apakah device memiliki sesi in_progress untuk test ini
@@ -903,11 +906,20 @@ export default {
                 await ensureListeningSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
+                const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
                 const currentSec = Math.max(1, Math.min(4, parseInt(body.currentSec, 10) || 1));
                 const answers = body.answers && typeof body.answers === 'object' ? JSON.stringify(body.answers) : '{}';
 
                 if (!sessionId) {
                     return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT id, device_id, status FROM listening_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
+                }
+                if (!requestDeviceId || session.device_id !== requestDeviceId) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
 
                 await env.DB.prepare(`
@@ -924,6 +936,7 @@ export default {
                 await ensureListeningSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
+                const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
                 const submittedAnswers = body.answers && typeof body.answers === 'object' ? body.answers : {};
 
                 if (!sessionId) {
@@ -933,6 +946,9 @@ export default {
                 const session = await env.DB.prepare('SELECT * FROM listening_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
+                }
+                if (!requestDeviceId || session.device_id !== requestDeviceId) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes listening ini sudah pernah disubmit atau telah dinilai.' }, 409);
@@ -1048,6 +1064,9 @@ export default {
                 // Cek jika ada session yang diminta
                 if (requestedSessionId) {
                     session = await env.DB.prepare('SELECT * FROM reading_sessions WHERE id = ?').bind(requestedSessionId).first();
+                    if (session && session.device_id !== deviceId) {
+                        session = null;
+                    }
                 }
 
                 // Jika tidak ditemukan atau tidak diminta, cek apakah device memiliki sesi in_progress untuk test ini
@@ -1116,11 +1135,20 @@ export default {
                 await ensureReadingSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
+                const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
                 const currentPassage = Math.max(1, Math.min(3, parseInt(body.currentPassage, 10) || 1));
                 const answers = body.answers && typeof body.answers === 'object' ? JSON.stringify(body.answers) : '{}';
 
                 if (!sessionId) {
                     return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT id, device_id, status FROM reading_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes reading tidak ditemukan.' }, 404);
+                }
+                if (!requestDeviceId || session.device_id !== requestDeviceId) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
 
                 await env.DB.prepare(`
@@ -1137,6 +1165,7 @@ export default {
                 await ensureReadingSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
+                const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
                 const submittedAnswers = body.answers && typeof body.answers === 'object' ? body.answers : {};
 
                 if (!sessionId) {
@@ -1146,6 +1175,9 @@ export default {
                 const session = await env.DB.prepare('SELECT * FROM reading_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes reading tidak ditemukan.' }, 404);
+                }
+                if (!requestDeviceId || session.device_id !== requestDeviceId) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes reading ini sudah pernah disubmit atau telah dinilai.' }, 409);
@@ -1269,6 +1301,9 @@ export default {
 
                 if (requestedSessionId) {
                     session = await env.DB.prepare('SELECT * FROM writing_sessions WHERE id = ?').bind(requestedSessionId).first();
+                    if (session && session.device_id !== deviceId) {
+                        session = null;
+                    }
                 }
 
                 if (!session) {
@@ -1347,12 +1382,21 @@ export default {
                 await ensureWritingSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
+                const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
                 const currentTask = Math.max(1, Math.min(2, parseInt(body.currentTask, 10) || 1));
                 const task1Text = String(body.task1Text || '');
                 const task2Text = String(body.task2Text || '');
 
                 if (!sessionId) {
                     return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
+                }
+
+                const session = await env.DB.prepare('SELECT id, device_id, status FROM writing_sessions WHERE id = ?').bind(sessionId).first();
+                if (!session) {
+                    return json(request, env, { ok: false, error: 'Sesi tes writing tidak ditemukan.' }, 404);
+                }
+                if (!requestDeviceId || session.device_id !== requestDeviceId) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
 
                 const t1Words = task1Text.trim() ? task1Text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
@@ -1377,6 +1421,7 @@ export default {
                 await ensureWritingSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
+                const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
                 const task1Text = String(body.task1Text || '');
                 const task2Text = String(body.task2Text || '');
 
@@ -1387,6 +1432,9 @@ export default {
                 const session = await env.DB.prepare('SELECT * FROM writing_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes writing tidak ditemukan.' }, 404);
+                }
+                if (!requestDeviceId || session.device_id !== requestDeviceId) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes writing ini sudah pernah disubmit atau telah dinilai.' }, 409);
@@ -1439,6 +1487,11 @@ export default {
             if (path === '/writing/status' && request.method === 'GET') {
                 await ensureWritingSchema(env);
                 const sessionId = String(url.searchParams.get('sessionId') || '').trim();
+                const authHeader = request.headers.get('Authorization') || '';
+                let teacherKey = request.headers.get('X-Teacher-Key') || '';
+                if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
+                const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
+
                 if (!sessionId) {
                     return json(request, env, { ok: false, error: 'Session ID tidak diberikan.' }, 400);
                 }
@@ -1446,6 +1499,12 @@ export default {
                 const session = await env.DB.prepare('SELECT * FROM writing_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
+                }
+
+                const isTeacher = verifyTeacherKey(teacherKey, env);
+                const isOwner = deviceId && session.device_id === deviceId;
+                if (!isTeacher && !isOwner) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Anda tidak memiliki izin melihat sesi ini.' }, 403);
                 }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
@@ -1584,6 +1643,9 @@ export default {
 
                 if (requestedSessionId) {
                     session = await env.DB.prepare('SELECT * FROM speaking_sessions WHERE id = ?').bind(requestedSessionId).first();
+                    if (session && session.device_id !== deviceId) {
+                        session = null;
+                    }
                 }
 
                 if (!session) {
@@ -1690,7 +1752,7 @@ export default {
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking ini sudah diselesaikan.' }, 400);
                 }
-                if (requestDeviceId && session.device_id !== requestDeviceId) {
+                if (!requestDeviceId || session.device_id !== requestDeviceId) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
 
@@ -1733,6 +1795,7 @@ export default {
                 await ensureSpeakingSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
+                const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
                 const part2Notes = String(body.part2Notes || '').slice(0, 5000);
 
                 if (!sessionId) {
@@ -1742,6 +1805,9 @@ export default {
                 const session = await env.DB.prepare('SELECT * FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking tidak ditemukan.' }, 404);
+                }
+                if (!requestDeviceId || session.device_id !== requestDeviceId) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking ini sudah pernah disubmit atau telah dinilai.' }, 409);
@@ -1780,6 +1846,11 @@ export default {
             if (path === '/speaking/status' && request.method === 'GET') {
                 await ensureSpeakingSchema(env);
                 const sessionId = String(url.searchParams.get('sessionId') || '').trim();
+                const authHeader = request.headers.get('Authorization') || '';
+                let teacherKey = request.headers.get('X-Teacher-Key') || '';
+                if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
+                const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
+
                 if (!sessionId) {
                     return json(request, env, { ok: false, error: 'Session ID tidak diberikan.' }, 400);
                 }
@@ -1787,6 +1858,12 @@ export default {
                 const session = await env.DB.prepare('SELECT * FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
+                }
+
+                const isTeacher = verifyTeacherKey(teacherKey, env);
+                const isOwner = deviceId && session.device_id === deviceId;
+                if (!isTeacher && !isOwner) {
+                    return json(request, env, { ok: false, error: 'Akses ditolak: Anda tidak memiliki izin melihat sesi ini.' }, 403);
                 }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${session.test_id}-master.json`, url.origin)));

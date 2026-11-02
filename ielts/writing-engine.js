@@ -117,7 +117,9 @@
         }
 
         try {
-            const res = await fetch(`${API_BASE}/writing/status?sessionId=${encodeURIComponent(savedSessionId)}`);
+            const res = await fetch(`${API_BASE}/writing/status?sessionId=${encodeURIComponent(savedSessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}`, {
+                headers: { 'X-Device-Id': STATE.deviceId }
+            });
             if (res.ok) {
                 const data = await res.json();
                 if (data.status === 'submitted' || data.status === 'graded') {
@@ -186,13 +188,17 @@
             testId: STATE.testId,
             nama: STATE.nama || 'Peserta',
             kelas: STATE.kelas || 'Umum',
+            deviceId: STATE.deviceId,
             sessionId: overrideSessionId || STATE.sessionId || undefined
         };
 
         try {
             const res = await fetch(`${API_BASE}/writing/start`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Device-Id': STATE.deviceId
+                },
                 body: JSON.stringify(payload)
             });
 
@@ -645,9 +651,13 @@
         try {
             const res = await fetch(`${API_BASE}/writing/save-progress`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Device-Id': STATE.deviceId
+                },
                 body: JSON.stringify({
                     sessionId: STATE.sessionId,
+                    deviceId: STATE.deviceId,
                     currentTask: STATE.currentTask,
                     task1Text: STATE.task1Text,
                     task2Text: STATE.task2Text
@@ -765,9 +775,13 @@
         try {
             const res = await fetch(`${API_BASE}/writing/submit`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Device-Id': STATE.deviceId
+                },
                 body: JSON.stringify({
                     sessionId: STATE.sessionId,
+                    deviceId: STATE.deviceId,
                     task1Text: STATE.task1Text,
                     task2Text: STATE.task2Text
                 })
@@ -1029,7 +1043,9 @@
         }
 
         try {
-            const res = await fetch(`${API_BASE}/writing/status?sessionId=${encodeURIComponent(STATE.sessionId)}`);
+            const res = await fetch(`${API_BASE}/writing/status?sessionId=${encodeURIComponent(STATE.sessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}`, {
+                headers: { 'X-Device-Id': STATE.deviceId }
+            });
             if (res.ok) {
                 const data = await res.json();
                 renderSubmittedResult(data);
