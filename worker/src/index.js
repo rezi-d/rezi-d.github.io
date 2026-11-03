@@ -152,7 +152,7 @@ async function authorize(env, token, deviceId, register) {
     const hash = await sha256Hex(token);
     const lic = await env.DB.prepare('SELECT * FROM licenses WHERE token_hash = ?').bind(hash).first();
     if (!lic) return { ok: false, status: 401, error: 'Kode token tidak ditemukan.', reason: 'token_not_found' };
-    if (lic.revoked) return { ok: false, status: 403, error: 'Lisensi ini telah dinonaktifkan. Hubungi admin.', reason: 'token_revoked' };
+    if (lic.revoked) return { ok: false, status: 403, error: 'Lisensi ini telah dinonaktifkan (dicabut). Hubungi admin.', reason: 'token_revoked' };
 
     const now = Date.now();
     let expiresAt = lic.expires_at;
@@ -214,6 +214,21 @@ function isTeacherOrAdmin(request, env) {
         return true;
     }
     return isAdmin(request, env);
+}
+
+async function resolveAdminLicense(env, body) {
+    if (!body || typeof body !== 'object') return null;
+    let lic = null;
+    const id = parseInt(body.id, 10);
+    if (id && id > 0) {
+        lic = await env.DB.prepare('SELECT id, nama, wa, duration_days, max_devices, revoked, expires_at FROM licenses WHERE id = ?').bind(id).first();
+    }
+    if (!lic && typeof body.token === 'string' && body.token.trim()) {
+        const norm = normalizeToken(body.token);
+        const hash = await sha256Hex(norm);
+        lic = await env.DB.prepare('SELECT id, nama, wa, duration_days, max_devices, revoked, expires_at FROM licenses WHERE token_hash = ?').bind(hash).first();
+    }
+    return lic;
 }
 
 // ---------- Filter Kata Kasar & Spam Komentar Sains Populer ----------
@@ -3088,7 +3103,7 @@ export default {
             const paketMatch = path.match(/^\/paket\/([a-z0-9_-]{1,60})$/);
             if (paketMatch && request.method === 'GET') {
                 const res = await authorize(env, bearerToken(request), request.headers.get('X-Device-Id'), false);
-                if (!res.ok) return json(request, env, { ok: false, error: res.error }, res.status);
+                if (!res.ok) return json(request, env, { ok: false, error: res.error, reason: res.reason }, res.status);
 
                 const asset = await env.ASSETS.fetch(new Request(new URL(`/${paketMatch[1]}.json`, url.origin)));
                 if (!asset.ok) return json(request, env, { ok: false, error: 'Paket tidak ditemukan.' }, 404);
@@ -3283,20 +3298,49 @@ export default {
                     return json(request, env, { ok: true, licenses: rows.results });
                 }
 
-                if (path === '/admin/revoke' && request.method === 'POST') {
+                if ((path === '/admin/revoke' || path === '/admin/unrevoke') && request.method === 'POST') {
                     const body = await readJson(request);
-                    const id = parseInt(body.id, 10);
-                    if (!id) return json(request, env, { ok: false, error: 'ID tidak valid.' }, 400);
-                    await env.DB.prepare('UPDATE licenses SET revoked = 1 WHERE id = ?').bind(id).run();
-                    return json(request, env, { ok: true });
+                    const lic = await resolveAdminLicense(env, body);
+                    if (!lic) return json(request, env, { ok: false, error: 'Lisensi tidak ditemukan (ID atau token tidak valid).' }, 404);
+
+                    const isUnrevoke = path === '/admin/unrevoke' || body.unrevoke === true || body.action === 'unrevoke';
+                    const targetRevoked = isUnrevoke ? 0 : 1;
+
+                    await env.DB.prepare('UPDATE licenses SET revoked = ? WHERE id = ?').bind(targetRevoked, lic.id).run();
+
+                    let devicesCleared = 0;
+                    if (targetRevoked === 1) {
+                        // Saat dicabut (mis. refund), bersihkan seluruh binding perangkat terdaftar
+                        const delRes = await env.DB.prepare('DELETE FROM devices WHERE license_id = ?').bind(lic.id).run();
+                        devicesCleared = delRes.changes || 0;
+                    }
+
+                    return json(request, env, {
+                        ok: true,
+                        licenseId: lic.id,
+                        nama: lic.nama || '',
+                        revoked: targetRevoked,
+                        devicesCleared,
+                        message: targetRevoked === 1
+                            ? `Lisensi #${lic.id} berhasil dicabut (refund/dinonaktifkan). Akses server ditolak.`
+                            : `Lisensi #${lic.id} berhasil diaktifkan kembali (unrevoked).`
+                    });
                 }
 
                 if (path === '/admin/reset-devices' && request.method === 'POST') {
                     const body = await readJson(request);
-                    const id = parseInt(body.id, 10);
-                    if (!id) return json(request, env, { ok: false, error: 'ID tidak valid.' }, 400);
-                    await env.DB.prepare('DELETE FROM devices WHERE license_id = ?').bind(id).run();
-                    return json(request, env, { ok: true });
+                    const lic = await resolveAdminLicense(env, body);
+                    if (!lic) return json(request, env, { ok: false, error: 'Lisensi tidak ditemukan (ID atau token tidak valid).' }, 404);
+
+                    const delRes = await env.DB.prepare('DELETE FROM devices WHERE license_id = ?').bind(lic.id).run();
+                    return json(request, env, {
+                        ok: true,
+                        licenseId: lic.id,
+                        nama: lic.nama || '',
+                        maxDevices: lic.max_devices || 2,
+                        clearedDevices: delRes.changes || 0,
+                        message: `Berhasil mereset binding perangkat untuk lisensi #${lic.id}. Siswa dapat mendaftarkan ulang hingga ${lic.max_devices || 2} perangkat.`
+                    });
                 }
 
                 if (path === '/admin/activation-logs' && request.method === 'GET') {

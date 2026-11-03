@@ -280,7 +280,7 @@ Selamat belajar intensif dan semoga sukses meraih kursi PTN impian! 🎓✨`;
                             <td class="p-2.5 font-mono">${r.devices}/${r.max_devices}</td>
                             <td class="p-2.5 text-right space-x-1">
                                 <button onclick="resetDevices(${r.id})" class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-[11px] cursor-pointer">Reset HP</button>
-                                ${!r.revoked ? `<button onclick="revokeLicense(${r.id})" class="px-2 py-1 rounded bg-rose-700/80 hover:bg-rose-600 text-[11px] cursor-pointer">Blokir</button>` : ''}
+                                ${!r.revoked ? `<button onclick="revokeLicense(${r.id})" class="px-2 py-1 rounded bg-rose-700/80 hover:bg-rose-600 text-[11px] cursor-pointer">Blokir / Refund</button>` : `<button onclick="unrevokeLicense(${r.id})" class="px-2 py-1 rounded bg-amber-600/80 hover:bg-amber-500 text-[11px] cursor-pointer">Buka Blokir</button>`}
                             </td>
                         </tr>
                     `;
@@ -301,8 +301,18 @@ Selamat belajar intensif dan semoga sukses meraih kursi PTN impian! 🎓✨`;
         };
 
         window.revokeLicense = async function(id) {
-            if (!confirm(`Blokir permanen lisensi #${id}?`)) return;
+            if (!confirm(`Blokir / Cabut lisensi #${id} (misal untuk refund)? Siswa akan kehilangan akses secara instan.`)) return;
             await fetch(`${SNBT_API_URL}/admin/revoke`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Admin-Key': getAdminKey() },
+                body: JSON.stringify({ id })
+            });
+            loadLicenseList();
+        };
+
+        window.unrevokeLicense = async function(id) {
+            if (!confirm(`Buka blokir dan aktifkan kembali lisensi #${id}?`)) return;
+            await fetch(`${SNBT_API_URL}/admin/unrevoke`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-Admin-Key': getAdminKey() },
                 body: JSON.stringify({ id })
