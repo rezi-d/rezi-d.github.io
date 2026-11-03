@@ -10,19 +10,28 @@ const workerContent = fs.readFileSync(path.resolve('worker/src/index.js'), 'utf-
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-test('Retention Config: File konfigurasi memuat batas masa simpan 14 hari graded & 60 hari ungraded', () => {
-    assert.strictEqual(RETENTION_CONFIG.GRADED_RETENTION_DAYS, 14, 'Masa simpan rekaman yang sudah dinilai harus 14 hari');
-    assert.strictEqual(RETENTION_CONFIG.UNGRADED_RETENTION_DAYS, 60, 'Masa simpan rekaman yang belum dinilai harus 60 hari');
+test('Retention Config: File konfigurasi memuat batas masa simpan per jenis (guru 14 & 60 hari, mandiri 3-7 hari)', () => {
+    assert.strictEqual(RETENTION_CONFIG.TEACHER_GRADED_RETENTION_DAYS, 14, 'Masa simpan rekaman guru yang sudah dinilai harus 14 hari');
+    assert.strictEqual(RETENTION_CONFIG.TEACHER_UNGRADED_RETENTION_DAYS, 60, 'Masa simpan rekaman guru yang belum dinilai harus 60 hari');
+    assert.ok(
+        RETENTION_CONFIG.SELF_STUDY_RETENTION_DAYS >= 3 && RETENTION_CONFIG.SELF_STUDY_RETENTION_DAYS <= 7,
+        'Masa simpan rekaman mandiri harus berada dalam rentang 3-7 hari'
+    );
     assert.strictEqual(RETENTION_CONFIG.EXPIRING_WARNING_DAYS, 7, 'Peringatan kedaluwarsa di dashboard harus 7 hari');
+    // Backward compatibility
+    assert.strictEqual(RETENTION_CONFIG.GRADED_RETENTION_DAYS, 14);
+    assert.strictEqual(RETENTION_CONFIG.UNGRADED_RETENTION_DAYS, 60);
 });
 
 test('Cron Triggers: worker/wrangler.jsonc memuat konfigurasi jadwal cron harian', () => {
     assert.match(wranglerContent, /"crons":\s*\[\s*"[^"]+"\s*\]/, 'wrangler.jsonc harus memuat triggers crons harian');
 });
 
-test('Schema: tabel speaking_recordings dan cleanup_logs mendukung deleted_at dan audit log', () => {
+test('Schema: tabel speaking_sessions, speaking_recordings, dan cleanup_logs mendukung package_type, deleted_at, dan audit log', () => {
+    assert.match(schemaContent, /package_type\s+TEXT\s+NOT\s+NULL\s+DEFAULT\s+'teacher'/i, 'speaking_sessions harus memuat kolom package_type');
     assert.match(schemaContent, /deleted_at\s+INTEGER\s+DEFAULT\s+NULL/i, 'speaking_recordings harus memiliki kolom deleted_at');
     assert.match(schemaContent, /CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS\s+cleanup_logs/i, 'schema.sql harus memuat tabel cleanup_logs');
+    assert.match(workerContent, /ADD\s+COLUMN\s+package_type\s+TEXT\s+NOT\s+NULL\s+DEFAULT\s+'teacher'/i, 'ensureSpeakingSchema harus auto-migrate package_type');
     assert.match(workerContent, /ADD\s+COLUMN\s+deleted_at\s+INTEGER\s+DEFAULT\s+NULL/i, 'ensureSpeakingSchema harus auto-migrate deleted_at');
 });
 
@@ -128,31 +137,48 @@ test('Preservasi Data: Penghapusan rekaman mengosongkan audio tapi MENJAGA nilai
     assert.strictEqual(session.teacher_comment, 'Excellent fluency with natural idiomatic expressions.', 'Komentar guru tidak boleh hilang');
 });
 
-test('Cron Retention: Hanya menghapus rekaman graded > 14 hari dan ungraded > 60 hari', () => {
+test('Cron Retention: Menghapus rekaman mandiri > 3 hari, guru graded > 14 hari, dan guru ungraded > 60 hari', () => {
     const now = Date.now();
+    const selfStudyDays = RETENTION_CONFIG.SELF_STUDY_RETENTION_DAYS || 3;
+    const teacherGradedDays = RETENTION_CONFIG.TEACHER_GRADED_RETENTION_DAYS || 14;
+    const teacherUngradedDays = RETENTION_CONFIG.TEACHER_UNGRADED_RETENTION_DAYS || 60;
+
     const sessions = [
-        { id: 's1', status: 'graded', graded_at: now - (5 * DAY_MS), started_at: now - (6 * DAY_MS) },   // graded 5 hari (KEEP)
-        { id: 's2', status: 'graded', graded_at: now - (13 * DAY_MS), started_at: now - (14 * DAY_MS) }, // graded 13 hari (KEEP)
-        { id: 's3', status: 'graded', graded_at: now - (15 * DAY_MS), started_at: now - (16 * DAY_MS) }, // graded 15 hari (DELETE)
-        { id: 's4', status: 'submitted', graded_at: null, started_at: now - (20 * DAY_MS) },              // ungraded 20 hari (KEEP)
-        { id: 's5', status: 'submitted', graded_at: null, started_at: now - (59 * DAY_MS) },              // ungraded 59 hari (KEEP)
-        { id: 's6', status: 'submitted', graded_at: null, started_at: now - (62 * DAY_MS) }               // ungraded 62 hari (DELETE)
+        // Sesi Paket Mandiri
+        { id: 'sm1', package_type: 'self_study', status: 'submitted', started_at: now - (2 * DAY_MS) },  // mandiri 2 hari (KEEP)
+        { id: 'sm2', package_type: 'self_study', status: 'submitted', started_at: now - (4 * DAY_MS) },  // mandiri 4 hari (DELETE)
+
+        // Sesi Add-on Guru Graded
+        { id: 'tg1', package_type: 'teacher', status: 'graded', graded_at: now - (5 * DAY_MS), started_at: now - (6 * DAY_MS) },   // graded 5 hari (KEEP)
+        { id: 'tg2', package_type: 'teacher', status: 'graded', graded_at: now - (13 * DAY_MS), started_at: now - (14 * DAY_MS) }, // graded 13 hari (KEEP)
+        { id: 'tg3', package_type: 'teacher', status: 'graded', graded_at: now - (15 * DAY_MS), started_at: now - (16 * DAY_MS) }, // graded 15 hari (DELETE)
+
+        // Sesi Add-on Guru Ungraded
+        { id: 'tu1', package_type: 'teacher', status: 'submitted', graded_at: null, started_at: now - (20 * DAY_MS) },              // ungraded 20 hari (KEEP)
+        { id: 'tu2', package_type: 'teacher', status: 'submitted', graded_at: null, started_at: now - (59 * DAY_MS) },              // ungraded 59 hari (KEEP)
+        { id: 'tu3', package_type: 'teacher', status: 'submitted', graded_at: null, started_at: now - (62 * DAY_MS) }               // ungraded 62 hari (DELETE)
     ];
 
-    const gradedCutoff = now - (RETENTION_CONFIG.GRADED_RETENTION_DAYS * DAY_MS);
-    const ungradedCutoff = now - (RETENTION_CONFIG.UNGRADED_RETENTION_DAYS * DAY_MS);
+    const selfStudyCutoff = now - (selfStudyDays * DAY_MS);
+    const gradedCutoff = now - (teacherGradedDays * DAY_MS);
+    const ungradedCutoff = now - (teacherUngradedDays * DAY_MS);
 
     const eligibleForCleanup = sessions.filter(s => {
-        if (s.status === 'graded' && s.graded_at && s.graded_at < gradedCutoff) return true;
-        if (s.status !== 'graded' && s.started_at < ungradedCutoff) return true;
-        return false;
+        if (s.package_type === 'self_study') {
+            return s.started_at < selfStudyCutoff;
+        }
+        if (s.status === 'graded') {
+            return s.graded_at && s.graded_at < gradedCutoff;
+        }
+        return s.started_at < ungradedCutoff;
     }).map(s => s.id);
 
-    assert.deepStrictEqual(eligibleForCleanup, ['s3', 's6']);
-    assert.ok(!eligibleForCleanup.includes('s1'), 'Sesi graded 5 hari tidak boleh dihapus');
-    assert.ok(!eligibleForCleanup.includes('s2'), 'Sesi graded 13 hari tidak boleh dihapus');
-    assert.ok(!eligibleForCleanup.includes('s4'), 'Sesi ungraded 20 hari tidak boleh dihapus');
-    assert.ok(!eligibleForCleanup.includes('s5'), 'Sesi ungraded 59 hari tidak boleh dihapus');
+    assert.deepStrictEqual(eligibleForCleanup, ['sm2', 'tg3', 'tu3']);
+    assert.ok(!eligibleForCleanup.includes('sm1'), 'Sesi mandiri 2 hari tidak boleh dihapus');
+    assert.ok(!eligibleForCleanup.includes('tg1'), 'Sesi guru graded 5 hari tidak boleh dihapus');
+    assert.ok(!eligibleForCleanup.includes('tg2'), 'Sesi guru graded 13 hari tidak boleh dihapus');
+    assert.ok(!eligibleForCleanup.includes('tu1'), 'Sesi guru ungraded 20 hari tidak boleh dihapus');
+    assert.ok(!eligibleForCleanup.includes('tu2'), 'Sesi guru ungraded 59 hari tidak boleh dihapus');
 });
 
 test('Indikator Kapasitas: Dihitung HANYA dari SUM(file_size_bytes) rekaman aktif yang belum dihapus', () => {

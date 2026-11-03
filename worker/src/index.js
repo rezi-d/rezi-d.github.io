@@ -581,6 +581,7 @@ async function ensureSpeakingSchema(env) {
             submitted_at         INTEGER DEFAULT NULL,
             part2_notes          TEXT    DEFAULT '',
             status               TEXT    NOT NULL DEFAULT 'in_progress',
+            package_type         TEXT    NOT NULL DEFAULT 'teacher',
             graded_at            INTEGER DEFAULT NULL,
             teacher_name         TEXT    DEFAULT NULL,
             criteria_scores      TEXT    DEFAULT '{}',
@@ -590,7 +591,9 @@ async function ensureSpeakingSchema(env) {
         )
     `).run();
     try { await env.DB.prepare('ALTER TABLE speaking_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
+    try { await env.DB.prepare("ALTER TABLE speaking_sessions ADD COLUMN package_type TEXT NOT NULL DEFAULT 'teacher'").run(); } catch {}
     try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_speaking_status_submitted ON speaking_sessions(status, submitted_at DESC)').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_speaking_package_status ON speaking_sessions(package_type, status)').run(); } catch {}
 
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS speaking_recordings (
@@ -668,34 +671,52 @@ async function cleanRecordingsForSessions(env, sessionIds, triggerType, cleanupT
 
 /**
  * Eksekusi pembersihan retensi berkala otomatis (Cron Trigger harian)
- * Nilai 14 hari (graded) dan 60 hari (ungraded) bersumber dari RETENTION_CONFIG.
+ * Aturan per jenis bersumber dari RETENTION_CONFIG:
+ * - Paket mandiri (self_study): 3 hari (pembersihan cepat kuota D1)
+ * - Add-on guru (teacher):
+ *   - Graded: 14 hari pasca dinilai
+ *   - Ungraded: 60 hari sejak mulai
  */
 async function runScheduledRetentionCleanup(env) {
     await ensureSpeakingSchema(env);
     const now = Date.now();
-    const gradedCutoff = now - (RETENTION_CONFIG.GRADED_RETENTION_DAYS * DAY_MS);
-    const ungradedCutoff = now - (RETENTION_CONFIG.UNGRADED_RETENTION_DAYS * DAY_MS);
+    const selfStudyDays = RETENTION_CONFIG.SELF_STUDY_RETENTION_DAYS || 3;
+    const teacherGradedDays = RETENTION_CONFIG.TEACHER_GRADED_RETENTION_DAYS || RETENTION_CONFIG.GRADED_RETENTION_DAYS || 14;
+    const teacherUngradedDays = RETENTION_CONFIG.TEACHER_UNGRADED_RETENTION_DAYS || RETENTION_CONFIG.UNGRADED_RETENTION_DAYS || 60;
 
-    // 1. Sesi yang sudah dinilai > 14 hari
-    const gradedSessions = await env.DB.prepare(`
+    const selfStudyCutoff = now - (selfStudyDays * DAY_MS);
+    const teacherGradedCutoff = now - (teacherGradedDays * DAY_MS);
+    const teacherUngradedCutoff = now - (teacherUngradedDays * DAY_MS);
+
+    // 1. Sesi Paket Mandiri (self_study) > 3 hari
+    const selfStudySessions = await env.DB.prepare(`
         SELECT id FROM speaking_sessions 
-        WHERE status = 'graded' AND graded_at IS NOT NULL AND graded_at < ?
-    `).bind(gradedCutoff).all();
-    const gradedIds = (gradedSessions.results || []).map(s => s.id);
+        WHERE package_type = 'self_study' AND started_at < ?
+    `).bind(selfStudyCutoff).all();
+    const selfStudyIds = (selfStudySessions.results || []).map(s => s.id);
 
-    // 2. Sesi yang belum dinilai > 60 hari
-    const ungradedSessions = await env.DB.prepare(`
+    // 2. Sesi Add-on Guru yang sudah dinilai > 14 hari
+    const teacherGradedSessions = await env.DB.prepare(`
         SELECT id FROM speaking_sessions 
-        WHERE status != 'graded' AND started_at < ?
-    `).bind(ungradedCutoff).all();
-    const ungradedIds = (ungradedSessions.results || []).map(s => s.id);
+        WHERE (package_type IS NULL OR package_type != 'self_study')
+          AND status = 'graded' AND graded_at IS NOT NULL AND graded_at < ?
+    `).bind(teacherGradedCutoff).all();
+    const teacherGradedIds = (teacherGradedSessions.results || []).map(s => s.id);
 
-    const allSessionIds = [...new Set([...gradedIds, ...ungradedIds])];
+    // 3. Sesi Add-on Guru yang belum dinilai > 60 hari
+    const teacherUngradedSessions = await env.DB.prepare(`
+        SELECT id FROM speaking_sessions 
+        WHERE (package_type IS NULL OR package_type != 'self_study')
+          AND status != 'graded' AND started_at < ?
+    `).bind(teacherUngradedCutoff).all();
+    const teacherUngradedIds = (teacherUngradedSessions.results || []).map(s => s.id);
+
+    const allSessionIds = [...new Set([...selfStudyIds, ...teacherGradedIds, ...teacherUngradedIds])];
     if (allSessionIds.length === 0) {
         return { deletedCount: 0, freedBytes: 0 };
     }
 
-    const notes = `Otomatis Cron: ${gradedIds.length} sesi graded (>14 hari), ${ungradedIds.length} sesi ungraded (>60 hari)`;
+    const notes = `Cron Harian: ${selfStudyIds.length} sesi mandiri (>${selfStudyDays} hari), ${teacherGradedIds.length} sesi guru dinilai (>${teacherGradedDays} hari), ${teacherUngradedIds.length} sesi guru belum dinilai (>${teacherUngradedDays} hari)`;
     return await cleanRecordingsForSessions(env, allSessionIds, 'cron', 'retention', 'Jadwal Harian Otomatis', notes);
 }
 
@@ -1788,10 +1809,11 @@ export default {
                 }
 
                 const newSessionId = 'spk_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+                const packageType = String(body.packageType || (body.selfStudy ? 'self_study' : 'teacher')).trim() === 'self_study' ? 'self_study' : 'teacher';
                 await env.DB.prepare(`
-                    INSERT INTO speaking_sessions (id, test_id, device_id, nama_peserta, kelas, started_at, status)
-                    VALUES (?, ?, ?, ?, ?, ?, 'in_progress')
-                `).bind(newSessionId, testId, deviceId, nama, kelas, now).run();
+                    INSERT INTO speaking_sessions (id, test_id, device_id, nama_peserta, kelas, started_at, status, package_type)
+                    VALUES (?, ?, ?, ?, ?, ?, 'in_progress', ?)
+                `).bind(newSessionId, testId, deviceId, nama, kelas, now, packageType).run();
 
                 return json(request, env, {
                     ok: true,
@@ -2405,7 +2427,7 @@ export default {
                         WHERE deleted_at IS NULL AND (audio_data != '' OR audio_data IS NOT NULL)
                     `).first(),
                     env.DB.prepare(`
-                        SELECT r.session_id, s.nama_peserta, s.kelas, s.status, s.started_at, s.graded_at,
+                        SELECT r.session_id, s.nama_peserta, s.kelas, s.status, s.started_at, s.graded_at, s.package_type,
                                COUNT(r.id) as recording_count, COALESCE(SUM(r.file_size_bytes), 0) as session_bytes
                         FROM speaking_recordings r
                         JOIN speaking_sessions s ON r.session_id = s.id
@@ -2422,7 +2444,7 @@ export default {
                     `).all()
                 ]);
 
-                // Hitung masa kedaluwarsa & peringatan retensi per sesi aktif
+                // Hitung masa kedaluwarsa & peringatan retensi per sesi aktif sesuai jenis paket
                 const now = Date.now();
                 const sessionExpiryMap = new Map();
                 let expiringSoonCount = 0;
@@ -2431,20 +2453,31 @@ export default {
                 const expiringSessions = [];
 
                 for (const s of (activeSessionsWithRecordings.results || [])) {
+                    const isSelfStudy = s.package_type === 'self_study';
                     const isGraded = s.status === 'graded';
-                    const baseTime = isGraded ? (s.graded_at || s.started_at) : s.started_at;
-                    const retentionDays = isGraded ? RETENTION_CONFIG.GRADED_RETENTION_DAYS : RETENTION_CONFIG.UNGRADED_RETENTION_DAYS;
+                    let retentionDays = RETENTION_CONFIG.TEACHER_UNGRADED_RETENTION_DAYS || RETENTION_CONFIG.UNGRADED_RETENTION_DAYS || 60;
+                    let baseTime = s.started_at;
+
+                    if (isSelfStudy) {
+                        retentionDays = RETENTION_CONFIG.SELF_STUDY_RETENTION_DAYS || 3;
+                        baseTime = s.started_at;
+                    } else if (isGraded) {
+                        retentionDays = RETENTION_CONFIG.TEACHER_GRADED_RETENTION_DAYS || RETENTION_CONFIG.GRADED_RETENTION_DAYS || 14;
+                        baseTime = s.graded_at || s.started_at;
+                    }
+
                     const expiryTime = baseTime + (retentionDays * DAY_MS);
                     const msRemaining = expiryTime - now;
                     const daysRemaining = Math.ceil(msRemaining / DAY_MS);
                     const isExpiringSoon = daysRemaining <= RETENTION_CONFIG.EXPIRING_WARNING_DAYS;
-                    const isExpiringUngraded = !isGraded && isExpiringSoon;
+                    const isExpiringUngraded = !isGraded && !isSelfStudy && isExpiringSoon;
 
                     const info = {
                         sessionId: s.session_id,
                         nama_peserta: s.nama_peserta,
                         kelas: s.kelas,
                         status: s.status,
+                        package_type: s.package_type || 'teacher',
                         recording_count: s.recording_count,
                         session_bytes: s.session_bytes,
                         daysRemaining: Math.max(0, daysRemaining),
@@ -2634,8 +2667,9 @@ export default {
                         expiring_soon_count: expiringSoonCount,
                         expiring_soon_recordings_count: expiringSoonRecordings,
                         expiring_ungraded_count: expiringUngradedCount,
-                        retention_days_graded: RETENTION_CONFIG.GRADED_RETENTION_DAYS,
-                        retention_days_ungraded: RETENTION_CONFIG.UNGRADED_RETENTION_DAYS,
+                        retention_days_graded: RETENTION_CONFIG.TEACHER_GRADED_RETENTION_DAYS || RETENTION_CONFIG.GRADED_RETENTION_DAYS || 14,
+                        retention_days_ungraded: RETENTION_CONFIG.TEACHER_UNGRADED_RETENTION_DAYS || RETENTION_CONFIG.UNGRADED_RETENTION_DAYS || 60,
+                        retention_days_self_study: RETENTION_CONFIG.SELF_STUDY_RETENTION_DAYS || 3,
                         warning_days: RETENTION_CONFIG.EXPIRING_WARNING_DAYS,
                         expiring_sessions: expiringSessions
                     },

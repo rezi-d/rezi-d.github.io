@@ -174,6 +174,7 @@ CREATE TABLE IF NOT EXISTS speaking_sessions (
     submitted_at         INTEGER DEFAULT NULL,        -- server timestamp ms
     part2_notes          TEXT    DEFAULT '',          -- Coretan catatan persiapan siswa Part 2
     status               TEXT    NOT NULL DEFAULT 'in_progress', -- 'in_progress', 'submitted', 'graded'
+    package_type         TEXT    NOT NULL DEFAULT 'teacher',     -- 'teacher' (add-on guru) atau 'self_study' (mandiri)
     -- Evaluasi & Penilaian Guru (Hanya melalui TEACHER_KEY):
     graded_at            INTEGER DEFAULT NULL,        -- server timestamp ms
     teacher_name         TEXT    DEFAULT NULL,
@@ -186,6 +187,7 @@ CREATE INDEX IF NOT EXISTS idx_speaking_sessions_test ON speaking_sessions(test_
 CREATE INDEX IF NOT EXISTS idx_speaking_sessions_kelas ON speaking_sessions(kelas, submitted_at);
 CREATE INDEX IF NOT EXISTS idx_speaking_sessions_device ON speaking_sessions(device_id);
 CREATE INDEX IF NOT EXISTS idx_speaking_status_submitted ON speaking_sessions(status, submitted_at DESC);
+CREATE INDEX IF NOT EXISTS idx_speaking_package_status ON speaking_sessions(package_type, status);
 
 CREATE TABLE IF NOT EXISTS speaking_recordings (
     id                   TEXT    PRIMARY KEY,         -- 'sessionId_questionId'
