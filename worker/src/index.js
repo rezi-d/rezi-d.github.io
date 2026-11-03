@@ -742,7 +742,7 @@ function analyzeWritingStructure(t1, t2) {
     return {
         task1: analyzeText(t1, 150),
         task2: analyzeText(t2, 250),
-        disclaimer: "Pengecekan di atas adalah audit kelayakan struktural teknis otomatis dan TIDAK menilai kualitas argumen, koherensi ide, maupun ketepatan tata bahasa. Penilaian resmi dilakukan oleh guru."
+        disclaimer: "Pengecekan di atas adalah audit kelayakan struktural teknis otomatis dan TIDAK menilai kualitas argumen, koherensi ide, maupun ketepatan tata bahasa. Penilaian komprehensif dilakukan oleh guru/evaluator."
     };
 }
 

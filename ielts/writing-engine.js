@@ -1089,7 +1089,7 @@
                 ${renderTaskCol(t2, 'Writing Task 2 (Esai Akademik)', 250)}
             </div>
             <p class="text-[11px] text-slate-500 italic mt-3 bg-amber-50/70 p-3 rounded-xl border border-amber-200/60 leading-relaxed">
-                ℹ️ ${escapeHtml(checkData.disclaimer || 'Pengecekan di atas adalah audit kelayakan struktural otomatis dan TIDAK menilai kualitas argumen, koherensi ide, maupun ketepatan tata bahasa. Penilaian resmi dilakukan oleh guru.')}
+                ℹ️ ${escapeHtml(checkData.disclaimer || 'Pengecekan di atas adalah audit kelayakan struktural otomatis dan TIDAK menilai kualitas argumen, koherensi ide, maupun ketepatan tata bahasa. Penilaian komprehensif dilakukan oleh guru/evaluator.')}
             </p>
         `;
     }
