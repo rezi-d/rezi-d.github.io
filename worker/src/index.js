@@ -2460,7 +2460,13 @@ export default {
                 const writeStmt = params.length > 0 ? env.DB.prepare(writeQuery).bind(...params) : env.DB.prepare(writeQuery);
                 const spkStmt = params.length > 0 ? env.DB.prepare(spkQuery).bind(...params) : env.DB.prepare(spkQuery);
 
-                const [lisRes, readRes, writeRes, spkRes, storageStats, activeSessionsWithRecordings, recordingStatusRows] = await Promise.all([
+                const now = Date.now();
+                const WIB_OFFSET_MS = 7 * 60 * 60 * 1000;
+                const wibNow = new Date(now + WIB_OFFSET_MS);
+                const startOfDayWib = new Date(Date.UTC(wibNow.getUTCFullYear(), wibNow.getUTCMonth(), wibNow.getUTCDate()) - WIB_OFFSET_MS);
+                const startOfDayMs = startOfDayWib.getTime();
+
+                const [lisRes, readRes, writeRes, spkRes, storageStats, activeSessionsWithRecordings, recordingStatusRows, licenseStats, todayActivityRow] = await Promise.all([
                     lisStmt.all(),
                     readStmt.all(),
                     writeStmt.all(),
@@ -2485,11 +2491,72 @@ export default {
                                MAX(deleted_at) as deleted_at
                         FROM speaking_recordings
                         GROUP BY session_id
-                    `).all()
+                    `).all(),
+                    env.DB.prepare(`
+                        SELECT COUNT(*) as cnt 
+                        FROM licenses 
+                        WHERE revoked = 0 AND (expires_at IS NULL OR expires_at > ?)
+                    `).bind(now).first().catch(() => ({ cnt: 0 })),
+                    env.DB.prepare(`
+                        SELECT 
+                            (SELECT COUNT(*) FROM listening_sessions WHERE started_at >= ? OR (submitted_at IS NOT NULL AND submitted_at >= ?)) as lis_today,
+                            (SELECT COUNT(*) FROM reading_sessions WHERE started_at >= ? OR (submitted_at IS NOT NULL AND submitted_at >= ?)) as read_today,
+                            (SELECT COUNT(*) FROM writing_sessions WHERE started_at >= ? OR (submitted_at IS NOT NULL AND submitted_at >= ?)) as write_today,
+                            (SELECT COUNT(*) FROM speaking_sessions WHERE started_at >= ? OR (submitted_at IS NOT NULL AND submitted_at >= ?)) as spk_today,
+                            (SELECT COUNT(*) FROM speaking_recordings WHERE uploaded_at >= ?) as rec_today
+                    `).bind(startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs).first().catch(() => ({
+                        lis_today: 0, read_today: 0, write_today: 0, spk_today: 0, rec_today: 0
+                    }))
                 ]);
 
+                // Hitung estimasi kapasitas & rows written harian (Zero write load on D1)
+                const activeLicensesCount = Number(licenseStats?.cnt || 0);
+                const lisToday = Number(todayActivityRow?.lis_today || 0);
+                const readToday = Number(todayActivityRow?.read_today || 0);
+                const writeToday = Number(todayActivityRow?.write_today || 0);
+                const spkToday = Number(todayActivityRow?.spk_today || 0);
+                const recToday = Number(todayActivityRow?.rec_today || 0);
+
+                const estimatedDailyRowsWritten = (lisToday * 3) + (readToday * 3) + (writeToday * 15) + (spkToday * 5) + (recToday * 1) + 2;
+                const estimatedDailyRequests = (lisToday * 15) + (readToday * 15) + (writeToday * 30) + (spkToday * 30) + (recToday * 3) + 25;
+
+                const FREE_LIMIT_REQUESTS = 100000;
+                const FREE_LIMIT_ROWS_WRITTEN = 100000;
+                const FREE_LIMIT_STORAGE_BYTES = 500 * 1024 * 1024;
+                const FREE_LIMIT_STORAGE_MB = 500;
+
+                const evaluateCapacityMetric = (used, limit, warnPct = 60, dangerPct = 80) => {
+                    const percent = Math.min(100, Number(((used / limit) * 100).toFixed(1)));
+                    let status = 'normal';
+                    let label = 'Normal (<60%)';
+                    let color = 'green';
+                    if (percent >= dangerPct) {
+                        status = 'danger';
+                        label = `Kritis (≥${dangerPct}%)`;
+                        color = 'red';
+                    } else if (percent >= warnPct) {
+                        status = 'warning';
+                        label = `Peringatan (≥${warnPct}%)`;
+                        color = 'yellow';
+                    }
+                    return { percent, status, label, color };
+                };
+
+                const totalStorageBytes = Number(storageStats?.total_bytes || 0);
+                const totalStorageMb = Number((totalStorageBytes / (1024 * 1024)).toFixed(2));
+
+                const storageEval = evaluateCapacityMetric(totalStorageBytes, FREE_LIMIT_STORAGE_BYTES);
+                const requestsEval = evaluateCapacityMetric(estimatedDailyRequests, FREE_LIMIT_REQUESTS);
+                const rowsWrittenEval = evaluateCapacityMetric(estimatedDailyRowsWritten, FREE_LIMIT_ROWS_WRITTEN);
+
+                let overallCapacityStatus = 'normal';
+                if (storageEval.status === 'danger' || requestsEval.status === 'danger' || rowsWrittenEval.status === 'danger') {
+                    overallCapacityStatus = 'danger';
+                } else if (storageEval.status === 'warning' || requestsEval.status === 'warning' || rowsWrittenEval.status === 'warning') {
+                    overallCapacityStatus = 'warning';
+                }
+
                 // Hitung masa kedaluwarsa & peringatan retensi per sesi aktif sesuai jenis paket
-                const now = Date.now();
                 const sessionExpiryMap = new Map();
                 let expiringSoonCount = 0;
                 let expiringSoonRecordings = 0;
@@ -2705,9 +2772,9 @@ export default {
                     results: mergedStudents,
                     storage_retention: {
                         active_recordings_count: storageStats?.active_count || 0,
-                        total_file_size_bytes: storageStats?.total_bytes || 0,
-                        total_file_size_mb: Number(((storageStats?.total_bytes || 0) / (1024 * 1024)).toFixed(2)),
-                        d1_capacity_limit_mb: 500,
+                        total_file_size_bytes: totalStorageBytes,
+                        total_file_size_mb: totalStorageMb,
+                        d1_capacity_limit_mb: FREE_LIMIT_STORAGE_MB,
                         expiring_soon_count: expiringSoonCount,
                         expiring_soon_recordings_count: expiringSoonRecordings,
                         expiring_ungraded_count: expiringUngradedCount,
@@ -2716,6 +2783,49 @@ export default {
                         retention_days_self_study: RETENTION_CONFIG.SELF_STUDY_RETENTION_DAYS || 3,
                         warning_days: RETENTION_CONFIG.EXPIRING_WARNING_DAYS,
                         expiring_sessions: expiringSessions
+                    },
+                    capacity_monitoring: {
+                        limits: {
+                            daily_requests: FREE_LIMIT_REQUESTS,
+                            daily_rows_written: FREE_LIMIT_ROWS_WRITTEN,
+                            storage_mb: FREE_LIMIT_STORAGE_MB,
+                            warning_threshold_pct: 60,
+                            danger_threshold_pct: 80
+                        },
+                        metrics: {
+                            storage: {
+                                used_bytes: totalStorageBytes,
+                                used_mb: totalStorageMb,
+                                limit_mb: FREE_LIMIT_STORAGE_MB,
+                                percent: storageEval.percent,
+                                status: storageEval.status,
+                                label: storageEval.label,
+                                color: storageEval.color
+                            },
+                            daily_requests: {
+                                estimated_count: estimatedDailyRequests,
+                                limit: FREE_LIMIT_REQUESTS,
+                                percent: requestsEval.percent,
+                                status: requestsEval.status,
+                                label: requestsEval.label,
+                                color: requestsEval.color
+                            },
+                            daily_rows_written: {
+                                estimated_count: estimatedDailyRowsWritten,
+                                limit: FREE_LIMIT_ROWS_WRITTEN,
+                                percent: rowsWrittenEval.percent,
+                                status: rowsWrittenEval.status,
+                                label: rowsWrittenEval.label,
+                                color: rowsWrittenEval.color
+                            },
+                            active_recordings: {
+                                count: storageStats?.active_count || 0
+                            },
+                            active_licenses: {
+                                count: activeLicensesCount
+                            }
+                        },
+                        overall_status: overallCapacityStatus
                     },
                     raw_listening: lisRes.results || [],
                     raw_reading: readRes.results || [],

@@ -152,6 +152,106 @@
                 </div>
             </div>
 
+            <!-- CAPACITY & QUOTA MONITORING PANEL (Cloudflare D1 Free Tier) -->
+            <div id="capacity-monitoring-panel" class="p-4 sm:p-5 rounded-3xl bg-white border border-slate-200 shadow-2xs space-y-3.5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-xl">⚡</span>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                                    Pemantauan Kapasitas Cloudflare D1 (Free Tier)
+                                </h3>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                                    Zero-Write Monitoring
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-500">
+                                Batas gratis: 100k req/hari, 100k rows written/hari, 500 MB database. Ambang peringatan 60% (kuning) &amp; 80% (merah).
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <span id="capacity-overall-badge" class="px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1.5 shadow-2xs">
+                            <span id="capacity-overall-dot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span id="capacity-overall-text">Normal (&lt;60%)</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 4 Capacity Grid Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <!-- 1. Database Storage -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="font-bold text-slate-700">💾 Ukuran Audio D1</span>
+                            <span id="cap-storage-badge" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-slate-700">0.0%</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <span id="cap-storage-val" class="text-lg font-bold font-mono text-slate-900">0.00 MB</span>
+                            <span class="text-[11px] font-semibold text-slate-400">/ 500 MB</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                            <div id="cap-storage-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <span id="cap-storage-status" class="text-[10px] font-medium text-slate-500 block">Normal (&lt;60%)</span>
+                    </div>
+
+                    <!-- 2. Daily Requests -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="font-bold text-slate-700">🌐 Estimasi Request Hari Ini</span>
+                            <span id="cap-requests-badge" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-slate-700">0.0%</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <span id="cap-requests-val" class="text-lg font-bold font-mono text-slate-900">0</span>
+                            <span class="text-[11px] font-semibold text-slate-400">/ 100k req</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                            <div id="cap-requests-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <span id="cap-requests-status" class="text-[10px] font-medium text-slate-500 block">Normal (&lt;60%)</span>
+                    </div>
+
+                    <!-- 3. Daily Rows Written -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="font-bold text-slate-700">✍️ Rows Written Hari Ini</span>
+                            <span id="cap-rows-badge" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-slate-700">0.0%</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <span id="cap-rows-val" class="text-lg font-bold font-mono text-slate-900">0</span>
+                            <span class="text-[11px] font-semibold text-slate-400">/ 100k baris</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                            <div id="cap-rows-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <span id="cap-rows-status" class="text-[10px] font-medium text-slate-500 block">Normal (&lt;60%)</span>
+                    </div>
+
+                    <!-- 4. Active Recordings & Licenses -->
+                    <div class="p-3.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-2">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="font-bold text-slate-700">🔑 Entitas Aktif D1</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-indigo-50 text-indigo-700">Aktif</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-0.5">
+                            <div>
+                                <span class="text-[10px] text-slate-500 block">Lisensi Aktif</span>
+                                <span id="cap-licenses-val" class="text-lg font-bold font-mono text-indigo-700">0</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-500 block">Rekaman Audio</span>
+                                <span id="cap-recordings-val" class="text-lg font-bold font-mono text-rose-700">0</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-medium text-slate-400 block pt-1 border-t border-slate-200/60 truncate">
+                            Beban D1: Nol tulis tambahan
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             <!-- TOOLBAR: FILTER & SEARCH -->
             <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
                 
@@ -678,6 +778,7 @@
         let ALL_STUDENTS = [];
         let ACTIVE_TEACHER_KEY = sessionStorage.getItem('teacher_key') || '';
         let CURRENT_STORAGE_RETENTION = null;
+        let CURRENT_CAPACITY_MONITORING = null;
         let ACTIVE_SPEAKING_STUDENT = null;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -752,6 +853,7 @@
                 const data = await res.json();
                 ALL_STUDENTS = data.results || [];
                 CURRENT_STORAGE_RETENTION = data.storage_retention || null;
+                CURRENT_CAPACITY_MONITORING = data.capacity_monitoring || null;
 
                 sessionStorage.setItem('teacher_key', ACTIVE_TEACHER_KEY);
 
@@ -895,6 +997,99 @@
                 } else {
                     if (bannerWarning) bannerWarning.classList.add('hidden');
                 }
+            }
+
+            // Update Panel Pemantauan Kapasitas Cloudflare D1
+            if (CURRENT_CAPACITY_MONITORING) {
+                renderCapacityMonitoringUI(CURRENT_CAPACITY_MONITORING);
+            }
+        }
+
+        function renderCapacityMonitoringUI(cm) {
+            if (!cm || !cm.metrics) return;
+            const m = cm.metrics;
+
+            // 1. Storage
+            const storageValEl = document.getElementById('cap-storage-val');
+            const storageBadgeEl = document.getElementById('cap-storage-badge');
+            const storageBarEl = document.getElementById('cap-storage-bar');
+            const storageStatusEl = document.getElementById('cap-storage-status');
+
+            if (storageValEl) storageValEl.textContent = `${(m.storage?.used_mb || 0).toFixed(2)} MB`;
+            if (storageBadgeEl) storageBadgeEl.textContent = `${m.storage?.percent || 0}%`;
+            if (storageBarEl) {
+                storageBarEl.style.width = `${Math.min(100, m.storage?.percent || 0)}%`;
+                applyMetricColor(storageBarEl, storageBadgeEl, storageStatusEl, m.storage?.status, m.storage?.label);
+            }
+
+            // 2. Daily Requests
+            const reqValEl = document.getElementById('cap-requests-val');
+            const reqBadgeEl = document.getElementById('cap-requests-badge');
+            const reqBarEl = document.getElementById('cap-requests-bar');
+            const reqStatusEl = document.getElementById('cap-requests-status');
+
+            if (reqValEl) reqValEl.textContent = Number(m.daily_requests?.estimated_count || 0).toLocaleString('id-ID');
+            if (reqBadgeEl) reqBadgeEl.textContent = `${m.daily_requests?.percent || 0}%`;
+            if (reqBarEl) {
+                reqBarEl.style.width = `${Math.min(100, m.daily_requests?.percent || 0)}%`;
+                applyMetricColor(reqBarEl, reqBadgeEl, reqStatusEl, m.daily_requests?.status, m.daily_requests?.label);
+            }
+
+            // 3. Daily Rows Written
+            const rowsValEl = document.getElementById('cap-rows-val');
+            const rowsBadgeEl = document.getElementById('cap-rows-badge');
+            const rowsBarEl = document.getElementById('cap-rows-bar');
+            const rowsStatusEl = document.getElementById('cap-rows-status');
+
+            if (rowsValEl) rowsValEl.textContent = Number(m.daily_rows_written?.estimated_count || 0).toLocaleString('id-ID');
+            if (rowsBadgeEl) rowsBadgeEl.textContent = `${m.daily_rows_written?.percent || 0}%`;
+            if (rowsBarEl) {
+                rowsBarEl.style.width = `${Math.min(100, m.daily_rows_written?.percent || 0)}%`;
+                applyMetricColor(rowsBarEl, rowsBadgeEl, rowsStatusEl, m.daily_rows_written?.status, m.daily_rows_written?.label);
+            }
+
+            // 4. Entities
+            const licValEl = document.getElementById('cap-licenses-val');
+            const recValEl = document.getElementById('cap-recordings-val');
+            if (licValEl) licValEl.textContent = m.active_licenses?.count || 0;
+            if (recValEl) recValEl.textContent = m.active_recordings?.count || 0;
+
+            // Overall Badge
+            const overallBadgeEl = document.getElementById('capacity-overall-badge');
+            const overallDotEl = document.getElementById('capacity-overall-dot');
+            const overallTextEl = document.getElementById('capacity-overall-text');
+
+            if (overallBadgeEl && overallDotEl && overallTextEl) {
+                if (cm.overall_status === 'danger') {
+                    overallBadgeEl.className = 'px-3 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800 border border-rose-300 flex items-center gap-1.5 shadow-2xs';
+                    overallDotEl.className = 'w-2 h-2 rounded-full bg-rose-600 animate-ping';
+                    overallTextEl.textContent = 'Kritis (≥80% Kuota Terpakai)';
+                } else if (cm.overall_status === 'warning') {
+                    overallBadgeEl.className = 'px-3 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300 flex items-center gap-1.5 shadow-2xs';
+                    overallDotEl.className = 'w-2 h-2 rounded-full bg-amber-500 animate-pulse';
+                    overallTextEl.textContent = 'Peringatan (≥60% Kuota Terpakai)';
+                } else {
+                    overallBadgeEl.className = 'px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1.5 shadow-2xs';
+                    overallDotEl.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+                    overallTextEl.textContent = 'Normal (<60%)';
+                }
+            }
+        }
+
+        function applyMetricColor(barEl, badgeEl, statusEl, status, label) {
+            if (statusEl && label) statusEl.textContent = label;
+            if (status === 'danger') {
+                if (barEl) barEl.className = 'bg-rose-500 h-full rounded-full transition-all duration-500';
+                if (badgeEl) badgeEl.className = 'px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-100 text-rose-700';
+                if (statusEl) statusEl.className = 'text-[10px] font-bold text-rose-600 block';
+            } else if (status === 'warning') {
+                if (barEl) barEl.className = 'bg-amber-500 h-full rounded-full transition-all duration-500';
+                if (badgeEl) badgeEl.className = 'px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-800';
+                if (statusEl) statusEl.className = 'text-[10px] font-bold text-amber-700 block';
+            } else {
+                if (barEl) barEl.className = 'bg-emerald-500 h-full rounded-full transition-all duration-500';
+                if (badgeEl) badgeEl.className = 'px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800';
+                if (statusEl) statusEl.className = 'text-[10px] font-medium text-slate-500 block';
             }
         }
 
