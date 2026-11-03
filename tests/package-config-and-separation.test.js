@@ -295,3 +295,21 @@ test('B3.7: Halaman UI Premium Saya - File ielts/premium-saya.html memuat kompon
     assert.match(htmlContent, /Tanpa Penilaian Personal Guru/i, 'Mencantumkan catatan transparan ketiadaan koreksi guru');
     assert.match(htmlContent, /btn-buy-wa/i, 'Memuat tombol WhatsApp pembelian');
 });
+
+test('B3.8: Konfigurasi Add-on Guru - PACKAGES_CONFIG memuat struktur tarif & ketentuan penilaian guru', () => {
+    assert.ok(PACKAGES_CONFIG.ielts.teacher_addons, 'Harus memuat teacher_addons di paket IELTS');
+    const addons = PACKAGES_CONFIG.ielts.teacher_addons;
+
+    assert.equal(addons.single_essay.price_idr, 30000);
+    assert.equal(addons.single_essay.price_formatted, 'Rp 30.000');
+
+    assert.equal(addons.writing_full.price_idr, 50000);
+    assert.equal(addons.writing_full.price_formatted, 'Rp 50.000');
+
+    assert.equal(addons.speaking_review.price_idr, 50000);
+    assert.equal(addons.speaking_review.price_formatted, 'Rp 50.000');
+
+    assert.match(addons.sla, /3[–-]5 hari kerja/i);
+    assert.match(addons.quota, /Kuota terbatas per minggu/i);
+    assert.match(addons.disclaimer, /bukan skor resmi IELTS/i);
+});

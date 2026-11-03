@@ -28,7 +28,33 @@ const PACKAGES_CONFIG = {
         ],
         excluded_features: [
             "Penilaian personal oleh guru (Add-on terpisah)"
-        ]
+        ],
+        teacher_addons: {
+            single_essay: {
+                id: "addon_single_essay",
+                name: "Koreksi 1 Esai",
+                price_idr: 30000,
+                price_formatted: "Rp 30.000",
+                description: "Koreksi 1 esai (Task 1 atau Task 2)"
+            },
+            writing_full: {
+                id: "addon_writing_full",
+                name: "Koreksi Writing Lengkap (Task 1 + 2)",
+                price_idr: 50000,
+                price_formatted: "Rp 50.000",
+                description: "Koreksi 1 paket Writing lengkap (Task 1 + Task 2)"
+            },
+            speaking_review: {
+                id: "addon_speaking_review",
+                name: "Review Speaking (Part 1–3)",
+                price_idr: 50000,
+                price_formatted: "Rp 50.000",
+                description: "Review performa audio speaking lengkap 3 part"
+            },
+            sla: "3–5 hari kerja",
+            quota: "Kuota terbatas per minggu",
+            disclaimer: "Berupa umpan balik latihan dengan estimasi band (4 kriteria), bukan skor resmi IELTS."
+        }
     },
     snbt: {
         id: "snbt",

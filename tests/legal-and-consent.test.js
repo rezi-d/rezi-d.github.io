@@ -117,3 +117,29 @@ test('B4.6: Kotak Persetujuan SNBT - snbt/js/snbt-license.js memuat kotak perset
     assert.match(content, /check-snbt-consent-pay/i, 'Memuat ID checkbox konfirmasi bayar SNBT');
     assert.match(content, /jika berusia di bawah 18 tahun, saya sudah mendapat izin orang tua\/wali/i, 'Memuat klausul izin orang tua/wali');
 });
+
+test('B4.7: Layanan Add-on Penilaian Guru - Memuat rincian tarif, SLA 3-5 hari kerja, kuota mingguan, & disclaimer 4 kriteria', () => {
+    const skPath = path.resolve('syarat-ketentuan.html');
+    const skContent = fs.readFileSync(skPath, 'utf8');
+
+    // Tarif di Syarat & Ketentuan
+    assert.match(skContent, /Koreksi 1 Esai.*Rp\s*30\.000/i, 'Menyebutkan tarif koreksi 1 esai Rp 30.000');
+    assert.match(skContent, /Koreksi Writing Lengkap.*Rp\s*50\.000/i, 'Menyebutkan tarif writing lengkap Rp 50.000');
+    assert.match(skContent, /Review Speaking.*Rp\s*50\.000/i, 'Menyebutkan tarif speaking review Rp 50.000');
+    assert.match(skContent, /3[–-]5 hari kerja/i, 'Menyebutkan SLA 3-5 hari kerja');
+    assert.match(skContent, /Kuota.*terbatas.*per minggu/i, 'Menyebutkan kuota terbatas per minggu');
+    assert.match(skContent, /estimasi band.*4 kriteria/i, 'Menegaskan umpan balik estimasi band 4 kriteria');
+    assert.match(skContent, /bukan merupakan skor resmi tes IELTS/i, 'Menegaskan bukan skor resmi IELTS');
+
+    // Tarif di Portal Lisensi
+    const portalPath = path.resolve('ielts/premium-saya.html');
+    const portalContent = fs.readFileSync(portalPath, 'utf8');
+    assert.match(portalContent, /Rp\s*30\.000/i, 'Portal menampilkan Rp 30.000');
+    assert.match(portalContent, /Rp\s*50\.000/i, 'Portal menampilkan Rp 50.000');
+    assert.match(portalContent, /3[–-]5 hari kerja/i, 'Portal menampilkan SLA 3-5 hari kerja');
+
+    // Kebijakan Refund Add-on
+    const refundPath = path.resolve('kebijakan-refund.html');
+    const refundContent = fs.readFileSync(refundPath, 'utf8');
+    assert.match(refundContent, /Layanan Add-on Penilaian Guru/i, 'Memuat ketentuan refund Add-on guru');
+});
