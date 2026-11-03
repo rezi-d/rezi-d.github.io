@@ -19,6 +19,12 @@ export const RETENTION_CONFIG = {
     // Ambang batas peringatan di dashboard sebelum rekaman kedaluwarsa (7 hari)
     EXPIRING_WARNING_DAYS: 7,
 
+    // Jadwal Cron Pembersihan Otomatis:
+    // Cloudflare Worker berjalan dalam zona waktu UTC.
+    // 19:00 UTC = 02:00 WIB (dini hari saat traffic minimum).
+    CRON_SCHEDULE_UTC: "0 19 * * *",
+    CRON_SCHEDULE_WIB: "02:00 WIB",
+
     // Backward-compatibility aliases untuk modul lama
     GRADED_RETENTION_DAYS: 14,
     UNGRADED_RETENTION_DAYS: 60

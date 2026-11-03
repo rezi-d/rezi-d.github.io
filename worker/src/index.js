@@ -31,6 +31,39 @@ async function sha256Hex(text) {
     return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, '0')).join('');
 }
 
+async function hmacSha256Hex(text, secret) {
+    const enc = new TextEncoder();
+    const keyData = enc.encode(String(secret || 'ajarkita-ip-pepper-secret-2026'));
+    const key = await crypto.subtle.importKey(
+        'raw',
+        keyData,
+        { name: 'HMAC', hash: 'SHA-256' },
+        false,
+        ['sign']
+    );
+    const signature = await crypto.subtle.sign('HMAC', key, enc.encode(String(text || '')));
+    return Array.from(new Uint8Array(signature), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+function getIpPepper(env) {
+    return (env && (env.IP_PEPPER || env.ADMIN_KEY)) || 'ajarkita-ip-pepper-secret-2026';
+}
+
+async function getIpHash(ipRaw, env) {
+    const pepper = getIpPepper(env);
+    const fullHmac = await hmacSha256Hex(String(ipRaw || '0.0.0.0').trim(), pepper);
+    return fullHmac.slice(0, 24);
+}
+
+function clientIp(request) {
+    if (!request || !request.headers) return '0.0.0.0';
+    const cfIp = request.headers.get('CF-Connecting-IP');
+    if (cfIp) return cfIp.trim();
+    const xForwarded = request.headers.get('X-Forwarded-For');
+    if (xForwarded) return xForwarded.split(',')[0].trim();
+    return '0.0.0.0';
+}
+
 function normalizeToken(raw) {
     return String(raw || '').trim().toUpperCase();
 }
@@ -964,17 +997,17 @@ async function runScheduledRetentionCleanup(env) {
     const teacherGradedCutoff = now - (teacherGradedDays * DAY_MS);
     const teacherUngradedCutoff = now - (teacherUngradedDays * DAY_MS);
 
-    // 1. Sesi Paket Mandiri (self_study) > 3 hari
+    // 1. Sesi Paket Mandiri (self_study / mandiri) > 3 hari
     const selfStudySessions = await env.DB.prepare(`
         SELECT id FROM speaking_sessions 
-        WHERE package_type = 'self_study' AND started_at < ?
+        WHERE (package_type = 'self_study' OR package_type = 'mandiri') AND started_at < ?
     `).bind(selfStudyCutoff).all();
     const selfStudyIds = (selfStudySessions.results || []).map(s => s.id);
 
     // 2. Sesi Add-on Guru yang sudah dinilai > 14 hari
     const teacherGradedSessions = await env.DB.prepare(`
         SELECT id FROM speaking_sessions 
-        WHERE (package_type IS NULL OR package_type != 'self_study')
+        WHERE (package_type IS NULL OR (package_type != 'self_study' AND package_type != 'mandiri'))
           AND status = 'graded' AND graded_at IS NOT NULL AND graded_at < ?
     `).bind(teacherGradedCutoff).all();
     const teacherGradedIds = (teacherGradedSessions.results || []).map(s => s.id);
@@ -982,18 +1015,53 @@ async function runScheduledRetentionCleanup(env) {
     // 3. Sesi Add-on Guru yang belum dinilai > 60 hari
     const teacherUngradedSessions = await env.DB.prepare(`
         SELECT id FROM speaking_sessions 
-        WHERE (package_type IS NULL OR package_type != 'self_study')
+        WHERE (package_type IS NULL OR (package_type != 'self_study' AND package_type != 'mandiri'))
           AND status != 'graded' AND started_at < ?
     `).bind(teacherUngradedCutoff).all();
     const teacherUngradedIds = (teacherUngradedSessions.results || []).map(s => s.id);
 
-    const allSessionIds = [...new Set([...selfStudyIds, ...teacherGradedIds, ...teacherUngradedIds])];
+    // 4. Sapu bersih universal: kumpulkan juga ID sesi yatim / data rekaman yang session_id-nya tidak ada di speaking_sessions
+    const orphanedRecs = await env.DB.prepare(`
+        SELECT DISTINCT session_id FROM speaking_recordings 
+        WHERE deleted_at IS NULL AND (uploaded_at < ? OR session_id NOT IN (SELECT id FROM speaking_sessions))
+    `).bind(teacherUngradedCutoff).all();
+    const orphanedSessionIds = (orphanedRecs.results || []).map(s => s.session_id);
+
+    const allSessionIds = [...new Set([...selfStudyIds, ...teacherGradedIds, ...teacherUngradedIds, ...orphanedSessionIds])];
+    
+    // Sapu bersih langsung baris apa pun di speaking_recordings yang melewati retensi maksimal (Universal Retention)
+    let directFreedCount = 0;
+    let directFreedBytes = 0;
+    const expiredUniversal = await env.DB.prepare(`
+        SELECT COUNT(*) as cnt, COALESCE(SUM(file_size_bytes), 0) as total_bytes
+        FROM speaking_recordings
+        WHERE deleted_at IS NULL AND uploaded_at < ?
+    `).bind(teacherUngradedCutoff).first();
+    
+    if (expiredUniversal && expiredUniversal.cnt > 0) {
+        await env.DB.prepare(`
+            UPDATE speaking_recordings
+            SET audio_data = X'', transcript = '', file_size_bytes = 0, deleted_at = ?
+            WHERE deleted_at IS NULL AND uploaded_at < ?
+        `).bind(now, teacherUngradedCutoff).run();
+        directFreedCount = expiredUniversal.cnt;
+        directFreedBytes = expiredUniversal.total_bytes;
+        await env.DB.prepare(`
+            INSERT INTO cleanup_logs (timestamp, trigger_type, cleanup_type, target_info, deleted_count, freed_bytes, notes)
+            VALUES (?, 'cron', 'universal_sweep', 'Semua baris rekaman kedaluwarsa', ?, ?, 'Sapu bersih universal melewati 60 hari')
+        `).bind(now, directFreedCount, directFreedBytes).run();
+    }
+
     if (allSessionIds.length === 0) {
-        return { deletedCount: 0, freedBytes: 0 };
+        return { deletedCount: directFreedCount, freedBytes: directFreedBytes };
     }
 
     const notes = `Cron Harian: ${selfStudyIds.length} sesi mandiri (>${selfStudyDays} hari), ${teacherGradedIds.length} sesi guru dinilai (>${teacherGradedDays} hari), ${teacherUngradedIds.length} sesi guru belum dinilai (>${teacherUngradedDays} hari)`;
-    return await cleanRecordingsForSessions(env, allSessionIds, 'cron', 'retention', 'Jadwal Harian Otomatis', notes);
+    const sessionRes = await cleanRecordingsForSessions(env, allSessionIds, 'cron', 'retention', 'Jadwal Harian Otomatis', notes);
+    return {
+        deletedCount: directFreedCount + sessionRes.deletedCount,
+        freedBytes: directFreedBytes + sessionRes.freedBytes
+    };
 }
 
 function sanitizeSpeakingTestForStudent(masterData) {
@@ -1080,8 +1148,8 @@ export default {
             if (path === '/activate' && request.method === 'POST') {
                 await ensureLicensesSchema(env);
                 await ensureActivationSchema(env);
-                const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
-                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+                const ipRaw = clientIp(request);
+                const ipHash = await getIpHash(ipRaw, env);
 
                 const body = await readJson(request);
                 const rawToken = String(body.token || '').trim();
@@ -1212,8 +1280,8 @@ export default {
                 const tokenHash = await sha256Hex(token);
                 const durationDays = 30;
                 const expiresAt = now + durationDays * DAY_MS;
-                const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
-                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+                const ipRaw = clientIp(request);
+                const ipHash = await getIpHash(ipRaw, env);
 
                 try {
                     const insertLic = await env.DB.prepare(
@@ -2017,8 +2085,8 @@ export default {
             // 5. Penilaian Writing oleh Guru (Protected by TEACHER_KEY)
             if (path === '/writing/admin/grade' && request.method === 'POST') {
                 await ensureWritingSchema(env);
-                const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
-                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+                const ipRaw = clientIp(request);
+                const ipHash = await getIpHash(ipRaw, env);
 
                 const rateStatus = await checkTeacherRateLimit(env, ipHash);
                 if (rateStatus.locked) {
@@ -2188,7 +2256,7 @@ export default {
             }
 
             // 2. Unggah rekaman per pertanyaan (Immediate Upload - D1 Hardened Storage)
-            if (path === '/speaking/upload-recording' && request.method === 'POST') {
+            if ((path === '/speaking/upload-recording' || path === '/speaking/upload-audio') && request.method === 'POST') {
                 await ensureSpeakingSchema(env);
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
@@ -2237,7 +2305,7 @@ export default {
                     return json(request, env, { ok: false, error: 'Ukuran rekaman audio melebihi batas 1 MB.' }, 413);
                 }
 
-                const session = await env.DB.prepare('SELECT id, device_id, status FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                const session = await env.DB.prepare('SELECT id, device_id, status, package_type FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking tidak ditemukan.' }, 404);
                 }
@@ -2246,6 +2314,15 @@ export default {
                 }
                 if (!requestDeviceId || session.device_id !== requestDeviceId) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
+                }
+
+                // 4. Proteksi Server: Tolak unggahan audio dari paket mandiri / self_study
+                const pkgType = String(session.package_type || 'teacher').trim().toLowerCase();
+                if (pkgType === 'mandiri' || pkgType === 'self_study') {
+                    return json(request, env, {
+                        ok: false,
+                        error: 'Penyimpanan rekaman audio di server tidak tersedia untuk Paket Mandiri. Fitur unggah rekaman hanya diperuntukkan bagi Paket Guru atau Add-on Penilaian Speaking.'
+                    }, 403);
                 }
 
                 // Batas kuota maksimal 15 rekaman unik per sesi
@@ -2755,8 +2832,8 @@ export default {
                 await ensureReadingSchema(env);
                 await ensureWritingSchema(env);
                 await ensureSpeakingSchema(env);
-                const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
-                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+                const ipRaw = clientIp(request);
+                const ipHash = await getIpHash(ipRaw, env);
 
                 // Cek Rate Limit
                 const rateStatus = await checkTeacherRateLimit(env, ipHash);
@@ -3295,8 +3372,8 @@ export default {
                     }
 
                     const now = Date.now();
-                    const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
-                    const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+                    const ipRaw = clientIp(request);
+                    const ipHash = await getIpHash(ipRaw, env);
 
                     // Rate limit: maksimal 1 komentar per 15 detik dari perangkat/IP yang sama (kecuali Guru/Admin)
                     if (!adminFlag) {
@@ -3373,7 +3450,7 @@ export default {
 
                 // 2. Rate Limiting Brute-Force pada /admin/*
                 const ipRaw = clientIp(request);
-                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+                const ipHash = await getIpHash(ipRaw, env);
                 const rateStatus = await checkAdminRateLimit(env, ipHash);
                 if (rateStatus.locked) {
                     return json(request, env, {
@@ -3486,4 +3563,12 @@ export default {
             await runScheduledRetentionCleanup(env);
         }
     }
+};
+
+export {
+    hmacSha256Hex,
+    getIpPepper,
+    getIpHash,
+    clientIp,
+    runScheduledRetentionCleanup
 };
