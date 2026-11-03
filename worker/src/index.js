@@ -542,6 +542,18 @@ async function generateAudioToken(sessionId, questionId, secret, ttlSeconds = 60
     return `${exp}.${sigHex}`;
 }
 
+function base64ToUint8Array(base64) {
+    if (!base64 || typeof base64 !== 'string') return new Uint8Array(0);
+    const clean = base64.replace(/\s+/g, '');
+    const binaryString = atob(clean);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+}
+
 async function verifyAudioToken(sessionId, questionId, tokenStr, secret) {
     if (!tokenStr || !secret) return false;
     const parts = tokenStr.split('.');
@@ -601,7 +613,7 @@ async function ensureSpeakingSchema(env) {
             session_id           TEXT    NOT NULL,
             question_id          TEXT    NOT NULL,
             mime_type            TEXT    NOT NULL,
-            audio_data           TEXT    NOT NULL,
+            audio_data           BLOB    NOT NULL,
             transcript           TEXT    DEFAULT '',
             duration_seconds     REAL    DEFAULT 0,
             file_size_bytes      INTEGER DEFAULT 0,
@@ -644,7 +656,7 @@ async function cleanRecordingsForSessions(env, sessionIds, triggerType, cleanupT
         FROM speaking_recordings
         WHERE session_id IN (${placeholders}) 
           AND deleted_at IS NULL 
-          AND (audio_data != '' OR audio_data IS NOT NULL)
+          AND length(audio_data) > 0
     `).bind(...sessionIds).first();
 
     const deletedCount = activeStats?.cnt || 0;
@@ -652,10 +664,10 @@ async function cleanRecordingsForSessions(env, sessionIds, triggerType, cleanupT
 
     if (deletedCount > 0) {
         const now = Date.now();
-        // 2. Kosongkan audio_data dan transkrip, tandai deleted_at & file_size_bytes = 0
+        // 2. Kosongkan audio_data (BLOB kosong X'') dan transkrip, tandai deleted_at & file_size_bytes = 0
         await env.DB.prepare(`
             UPDATE speaking_recordings
-            SET audio_data = '', transcript = '', file_size_bytes = 0, deleted_at = ?
+            SET audio_data = X'', transcript = '', file_size_bytes = 0, deleted_at = ?
             WHERE session_id IN (${placeholders}) AND deleted_at IS NULL
         `).bind(now, ...sessionIds).run();
 
@@ -1860,9 +1872,20 @@ export default {
                     return json(request, env, { ok: false, error: 'Data rekaman audio kosong atau tidak valid.' }, 400);
                 }
 
-                // Batas ukuran maksimal 1,2 MB binary (~1.677.722 karakter base64)
-                if (audioData.length > 1677722) {
-                    return json(request, env, { ok: false, error: 'Ukuran rekaman audio melebihi batas 1,2 MB.' }, 413);
+                // Batas ukuran maksimal 1 MB binary (1.048.576 bytes / ~1.398.102 karakter Base64)
+                if (audioData.length > 1398102) {
+                    return json(request, env, { ok: false, error: 'Ukuran rekaman audio melebihi batas 1 MB.' }, 413);
+                }
+
+                let audioBytes;
+                try {
+                    audioBytes = base64ToUint8Array(audioData);
+                } catch {
+                    return json(request, env, { ok: false, error: 'Format data rekaman audio Base64 tidak valid.' }, 400);
+                }
+
+                if (audioBytes.byteLength > 1048576) {
+                    return json(request, env, { ok: false, error: 'Ukuran rekaman audio melebihi batas 1 MB.' }, 413);
                 }
 
                 const session = await env.DB.prepare('SELECT id, device_id, status FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
@@ -1886,7 +1909,7 @@ export default {
                 }
 
                 const recId = `${sessionId}_${questionId}`;
-                const fileSizeBytes = Math.round((audioData.length * 3) / 4);
+                const fileSizeBytes = audioBytes.byteLength;
                 const now = Date.now();
 
                 await env.DB.prepare(`
@@ -1899,7 +1922,7 @@ export default {
                         duration_seconds = excluded.duration_seconds,
                         file_size_bytes = excluded.file_size_bytes,
                         uploaded_at = excluded.uploaded_at
-                `).bind(recId, sessionId, questionId, baseMime, audioData, transcript, durationSeconds, fileSizeBytes, now).run();
+                `).bind(recId, sessionId, questionId, baseMime, audioBytes.buffer, transcript, durationSeconds, fileSizeBytes, now).run();
 
                 return json(request, env, {
                     ok: true,
@@ -2125,7 +2148,7 @@ export default {
                     WHERE session_id = ? AND question_id = ?
                 `).bind(sessionId, questionId).first();
 
-                if (!rec || !rec.audio_data || rec.audio_data === '' || rec.deleted_at) {
+                if (!rec || !rec.audio_data || rec.deleted_at) {
                     return json(request, env, {
                         ok: false,
                         error: rec?.deleted_at
@@ -2134,11 +2157,32 @@ export default {
                     }, 404);
                 }
 
-                const binaryString = atob(rec.audio_data);
-                const totalLen = binaryString.length;
-                const bytes = new Uint8Array(totalLen);
-                for (let i = 0; i < totalLen; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
+                let bytes;
+                if (rec.audio_data instanceof ArrayBuffer) {
+                    bytes = new Uint8Array(rec.audio_data);
+                } else if (ArrayBuffer.isView(rec.audio_data)) {
+                    bytes = new Uint8Array(rec.audio_data.buffer, rec.audio_data.byteOffset, rec.audio_data.byteLength);
+                } else if (typeof rec.audio_data === 'string' && rec.audio_data.length > 0) {
+                    // Backward compatibility: dekode legacy Base64 string
+                    try {
+                        bytes = base64ToUint8Array(rec.audio_data);
+                    } catch {
+                        bytes = new Uint8Array(0);
+                    }
+                } else if (Array.isArray(rec.audio_data)) {
+                    bytes = new Uint8Array(rec.audio_data);
+                } else {
+                    bytes = new Uint8Array(0);
+                }
+
+                const totalLen = bytes.byteLength;
+                if (totalLen === 0) {
+                    return json(request, env, {
+                        ok: false,
+                        error: rec?.deleted_at
+                            ? 'Rekaman audio telah dihapus dari server sesuai kebijakan masa simpan privasi siswa.'
+                            : 'Rekaman audio kosong atau telah dihapus.'
+                    }, 404);
                 }
 
                 const mimeType = (rec.mime_type || 'audio/webm').split(';')[0].trim().toLowerCase();
@@ -2424,20 +2468,20 @@ export default {
                     env.DB.prepare(`
                         SELECT COUNT(*) as active_count, COALESCE(SUM(file_size_bytes), 0) as total_bytes
                         FROM speaking_recordings
-                        WHERE deleted_at IS NULL AND (audio_data != '' OR audio_data IS NOT NULL)
+                        WHERE deleted_at IS NULL AND length(audio_data) > 0
                     `).first(),
                     env.DB.prepare(`
                         SELECT r.session_id, s.nama_peserta, s.kelas, s.status, s.started_at, s.graded_at, s.package_type,
                                COUNT(r.id) as recording_count, COALESCE(SUM(r.file_size_bytes), 0) as session_bytes
                         FROM speaking_recordings r
                         JOIN speaking_sessions s ON r.session_id = s.id
-                        WHERE r.deleted_at IS NULL AND (r.audio_data != '' OR r.audio_data IS NOT NULL)
+                        WHERE r.deleted_at IS NULL AND length(r.audio_data) > 0
                         GROUP BY r.session_id
                     `).all(),
                     env.DB.prepare(`
                         SELECT session_id,
                                COUNT(*) as total_rec,
-                               SUM(CASE WHEN deleted_at IS NULL AND (audio_data != '' OR audio_data IS NOT NULL) THEN 1 ELSE 0 END) as active_rec,
+                               SUM(CASE WHEN deleted_at IS NULL AND length(audio_data) > 0 THEN 1 ELSE 0 END) as active_rec,
                                MAX(deleted_at) as deleted_at
                         FROM speaking_recordings
                         GROUP BY session_id

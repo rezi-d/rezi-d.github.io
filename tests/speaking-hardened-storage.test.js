@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const ALLOWED_AUDIO_MIMES = ['audio/webm', 'audio/mp4', 'audio/ogg', 'audio/wav', 'audio/mpeg'];
 
@@ -12,14 +14,74 @@ function parseAndValidateMime(rawMime) {
     return { ok: true, baseMime };
 }
 
+function base64ToUint8Array(base64) {
+    if (!base64 || typeof base64 !== 'string') return new Uint8Array(0);
+    const clean = base64.replace(/\s+/g, '');
+    const binaryString = atob(clean);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+}
+
 function checkAudioPayloadSize(base64Str) {
     if (!base64Str || base64Str.length < 50) return { ok: false, status: 400, error: 'Data kosong' };
-    // Max 1.2 MB binary = ~1,677,722 chars base64
-    if (base64Str.length > 1677722) {
-        return { ok: false, status: 413, error: 'Ukuran melebihi batas 1.2 MB' };
+    // Batas ketat 1 MB binary (1.048.576 bytes / ~1.398.102 karakter Base64)
+    if (base64Str.length > 1398102) {
+        return { ok: false, status: 413, error: 'Ukuran rekaman audio melebihi batas 1 MB.' };
     }
-    const byteLength = Math.round((base64Str.length * 3) / 4);
-    return { ok: true, byteLength };
+    let audioBytes;
+    try {
+        audioBytes = base64ToUint8Array(base64Str);
+    } catch {
+        return { ok: false, status: 400, error: 'Format data rekaman audio Base64 tidak valid.' };
+    }
+    if (audioBytes.byteLength > 1048576) {
+        return { ok: false, status: 413, error: 'Ukuran rekaman audio melebihi batas 1 MB.' };
+    }
+    return { ok: true, byteLength: audioBytes.byteLength, buffer: audioBytes.buffer };
+}
+
+function extractAudioBytesFromStorage(record) {
+    if (!record || !record.audio_data || record.deleted_at) {
+        return null;
+    }
+    let bytes;
+    if (record.audio_data instanceof ArrayBuffer) {
+        bytes = new Uint8Array(record.audio_data);
+    } else if (ArrayBuffer.isView(record.audio_data)) {
+        bytes = new Uint8Array(record.audio_data.buffer, record.audio_data.byteOffset, record.audio_data.byteLength);
+    } else if (typeof record.audio_data === 'string' && record.audio_data.length > 0) {
+        try {
+            bytes = base64ToUint8Array(record.audio_data);
+        } catch {
+            bytes = new Uint8Array(0);
+        }
+    } else if (Array.isArray(record.audio_data)) {
+        bytes = new Uint8Array(record.audio_data);
+    } else {
+        bytes = new Uint8Array(0);
+    }
+    if (bytes.byteLength === 0) return null;
+    return bytes;
+}
+
+function getAudioResponseHeaders(mimeType, chunkLength, start, end, totalLen, isRange) {
+    const headers = {
+        'Content-Type': mimeType,
+        'Accept-Ranges': 'bytes',
+        'X-Content-Type-Options': 'nosniff',
+        'Cache-Control': 'private, no-store'
+    };
+    if (isRange) {
+        headers['Content-Range'] = `bytes ${start}-${end}/${totalLen}`;
+        headers['Content-Length'] = String(chunkLength);
+    } else {
+        headers['Content-Length'] = String(totalLen);
+    }
+    return headers;
 }
 
 function parseHttpRange(rangeHeader, totalLen) {
@@ -94,6 +156,10 @@ async function verifyAudioToken(sessionId, questionId, tokenStr, secret) {
     }
 }
 
+// ----------------------------------------------------
+// PENGUJIAN TAHAP A3: KAPASITAS & REKAMAN
+// ----------------------------------------------------
+
 test('MIME Whitelist: menerima audio/webm dengan parameter codecs=opus dan ekstrak base MIME', () => {
     const res = parseAndValidateMime('audio/webm;codecs=opus');
     assert.equal(res.ok, true);
@@ -113,21 +179,56 @@ test('MIME Whitelist: tolak tipe file non-audio berbahaya (Stored XSS prevention
     assert.equal(parseAndValidateMime('application/pdf').ok, false);
 });
 
-test('Batas Ukuran: tolak payload audio melebihi 1.2 MB (HTTP 413)', () => {
-    const oversizedBase64 = 'A'.repeat(1677723);
+test('Batas Ukuran: tolak payload audio melebihi batas ketat 1 MB (HTTP 413)', () => {
+    // 1 MB binary = 1,048,576 bytes -> ~1,398,102 chars Base64
+    const oversizedBase64 = 'A'.repeat(1398103);
     const res = checkAudioPayloadSize(oversizedBase64);
     assert.equal(res.ok, false);
     assert.equal(res.status, 413);
+    assert.match(res.error, /melebihi batas 1 MB/i);
 });
 
-test('Batas Ukuran: terima payload audio valid di bawah 1.2 MB', () => {
-    const validBase64 = 'A'.repeat(50000); // ~37.5 KB
+test('Batas Ukuran: terima payload audio valid di bawah batas 1 MB', () => {
+    const sampleBytes = new Uint8Array([0x52, 0x49, 0x46, 0x46, 0x24, 0x00, 0x00, 0x00, 0x57, 0x41, 0x56, 0x45]);
+    const validBase64 = btoa(String.fromCharCode(...sampleBytes)) + 'A'.repeat(60);
     const res = checkAudioPayloadSize(validBase64);
     assert.equal(res.ok, true);
-    assert.equal(res.byteLength, 37500);
+    assert.ok(res.byteLength <= 1048576);
+    assert.ok(res.buffer instanceof ArrayBuffer);
 });
 
-test('HTTP Range Parser: mendukung request range Safari iOS (HTTP 206)', () => {
+test('Konversi BLOB: base64ToUint8Array mengubah string base64 menjadi Uint8Array byte akurat', () => {
+    const original = new Uint8Array([1, 2, 3, 4, 5, 250, 251, 255]);
+    const b64 = btoa(String.fromCharCode(...original));
+    const decoded = base64ToUint8Array(b64);
+    assert.deepEqual(Array.from(decoded), Array.from(original));
+});
+
+test('Backward Compatibility: extractAudioBytesFromStorage membaca BLOB ArrayBuffer dan legacy Base64 string', () => {
+    const testBytes = new Uint8Array([10, 20, 30, 40]);
+
+    // 1. BLOB mentah (ArrayBuffer)
+    const blobRecord = { audio_data: testBytes.buffer, deleted_at: null };
+    const blobResult = extractAudioBytesFromStorage(blobRecord);
+    assert.ok(blobResult instanceof Uint8Array);
+    assert.deepEqual(Array.from(blobResult), [10, 20, 30, 40]);
+
+    // 2. Legacy Base64 string
+    const legacyB64 = btoa(String.fromCharCode(...testBytes));
+    const legacyRecord = { audio_data: legacyB64, deleted_at: null };
+    const legacyResult = extractAudioBytesFromStorage(legacyRecord);
+    assert.ok(legacyResult instanceof Uint8Array);
+    assert.deepEqual(Array.from(legacyResult), [10, 20, 30, 40]);
+
+    // 3. Rekaman yang sudah dihapus (deleted_at terisi atau audio_data kosong)
+    const deletedRecord = { audio_data: testBytes.buffer, deleted_at: 1700000000 };
+    assert.equal(extractAudioBytesFromStorage(deletedRecord), null);
+
+    const emptyRecord = { audio_data: '', deleted_at: null };
+    assert.equal(extractAudioBytesFromStorage(emptyRecord), null);
+});
+
+test('HTTP Range Parser & Security Headers: mendukung request range Safari iOS (HTTP 206) dan X-Content-Type-Options: nosniff', () => {
     const totalLen = 50000;
     const range = parseHttpRange('bytes=0-1023', totalLen);
     assert.equal(range.valid, true);
@@ -136,6 +237,15 @@ test('HTTP Range Parser: mendukung request range Safari iOS (HTTP 206)', () => {
     assert.equal(range.end, 1023);
     assert.equal(range.chunkLength, 1024);
     assert.equal(range.contentRange, 'bytes 0-1023/50000');
+
+    // Cek header keamanan
+    const headers = getAudioResponseHeaders('audio/webm', range.chunkLength, range.start, range.end, totalLen, true);
+    assert.equal(headers['Content-Type'], 'audio/webm');
+    assert.equal(headers['Accept-Ranges'], 'bytes');
+    assert.equal(headers['X-Content-Type-Options'], 'nosniff');
+    assert.equal(headers['Cache-Control'], 'private, no-store');
+    assert.equal(headers['Content-Range'], 'bytes 0-1023/50000');
+    assert.equal(headers['Content-Length'], '1024');
 });
 
 test('HTTP Range Parser: tolak range invalid melebihi ukuran (HTTP 416)', () => {
@@ -145,7 +255,7 @@ test('HTTP Range Parser: tolak range invalid melebihi ukuran (HTTP 416)', () => 
     assert.equal(range.status, 416);
 });
 
-test('Short-Lived Audio Token: tanda tangan valid dan verifikasi sukses', async () => {
+test('Short-Lived Audio Token: tanda tangan HMAC valid dan verifikasi sukses untuk streaming guru', async () => {
     const secret = 'SECRET-SUPER-KEY-2026';
     const token = await generateAudioToken('sess_123', 'q_part1_1', secret, 600);
     assert.equal(typeof token, 'string');
@@ -160,4 +270,12 @@ test('Short-Lived Audio Token: tanda tangan valid dan verifikasi sukses', async 
     // Tolak jika secret salah
     const wrongSecret = await verifyAudioToken('sess_123', 'q_part1_1', token, 'WRONG_SECRET');
     assert.equal(wrongSecret, false);
+});
+
+test('Database Schema: worker/schema.sql dan ensureSpeakingSchema mendefinisikan audio_data sebagai BLOB NOT NULL', () => {
+    const schemaContent = fs.readFileSync(path.resolve('worker/schema.sql'), 'utf-8');
+    const workerContent = fs.readFileSync(path.resolve('worker/src/index.js'), 'utf-8');
+
+    assert.match(schemaContent, /audio_data\s+BLOB\s+NOT\s+NULL/i, 'worker/schema.sql harus mendefinisikan audio_data BLOB NOT NULL');
+    assert.match(workerContent, /audio_data\s+BLOB\s+NOT\s+NULL/i, 'ensureSpeakingSchema harus mendefinisikan audio_data BLOB NOT NULL');
 });

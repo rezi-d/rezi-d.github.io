@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS speaking_recordings (
     session_id           TEXT    NOT NULL,
     question_id          TEXT    NOT NULL,
     mime_type            TEXT    NOT NULL,
-    audio_data           TEXT    NOT NULL,            -- Base64 encoded audio
+    audio_data           BLOB    NOT NULL,            -- BLOB biner mentah (ArrayBuffer)
     transcript           TEXT    DEFAULT '',          -- Draf transkrip mesin opsional (bukan dasar penilaian)
     duration_seconds     REAL    DEFAULT 0,
     file_size_bytes      INTEGER DEFAULT 0,
