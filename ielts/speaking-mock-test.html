@@ -75,7 +75,7 @@
                     <span class="text-3xl">🔄</span>
                     <div>
                         <h4 class="text-sm font-bold text-teal-950">Sesi Ujian Speaking Ditemukan</h4>
-                        <p class="text-xs text-teal-700">Anda memiliki sesi simulasi speaking yang belum selesai. Rekaman yang sudah dibuat tersimpan aman di server.</p>
+                        <p class="text-xs text-teal-700">Anda memiliki sesi simulasi speaking yang belum selesai di sesi peramban ini.</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -140,13 +140,13 @@
                     </div>
                 </div>
 
-                <!-- Pemberitahuan Privasi Rekaman Suara -->
-                <div class="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 flex items-start gap-3">
-                    <span class="text-xl shrink-0">🔒</span>
+                <!-- Pemberitahuan Privasi Rekaman Suara (Mode Mandiri) -->
+                <div class="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 flex items-start gap-3">
+                    <span class="text-xl shrink-0">🛡️</span>
                     <div class="space-y-1">
-                        <h4 class="text-xs font-bold text-blue-950 uppercase tracking-wide">Pemberitahuan Privasi Rekaman Suara</h4>
-                        <p class="text-xs text-blue-900 leading-relaxed">
-                            Suara Anda akan direkam selama simulasi berlangsung untuk keperluan evaluasi kompetensi Speaking. Rekaman disimpan secara privat di server terlindung dan <strong>hanya dapat didengarkan oleh guru pembimbing</strong> yang memegang kunci akses guru (<code class="text-blue-800 font-mono text-[11px]">TEACHER_KEY</code>). Rekaman audio tidak dipublikasikan ke publik dan dapat dihapus oleh guru kapan saja.
+                        <h4 class="text-xs font-bold text-emerald-950 uppercase tracking-wide">Pemberitahuan Privasi & Perekaman Lokal</h4>
+                        <p class="text-xs text-emerald-900 leading-relaxed">
+                            Simulasi Speaking mandiri ini direkam dan diputar ulang <strong>sepenuhnya di peramban (browser) perangkat Anda</strong> via MediaRecorder dan Blob URL. <strong>TIDAK ADA rekaman audio yang diunggah ke server</strong>. <em>Rekaman hanya ada di perangkatmu dan hilang jika halaman ditutup</em>. Tersedia tombol "Unduh rekaman" lokal untuk menyimpan file suara Anda sendiri jika diinginkan.
                         </p>
                     </div>
                 </div>
@@ -186,11 +186,11 @@
                         </div>
                     </div>
 
-                    <!-- Kebijakan Privasi & Masa Simpan Rekaman Audio -->
+                    <!-- Kebijakan Penyimpanan Rekaman Lokal -->
                     <div class="p-3 rounded-xl bg-amber-50/80 border border-amber-200/80 text-[11px] text-amber-900 flex items-start gap-2.5">
-                        <span class="text-sm">🔒</span>
+                        <span class="text-sm">⚠️</span>
                         <div class="leading-relaxed">
-                            <strong>Pemberitahuan Privasi &amp; Masa Simpan:</strong> Suara Anda direkam secara privat hanya untuk bahan evaluasi guru dan dilindungi token terenkripsi. Berkas audio akan otomatis dihapus permanen dari server <strong>14 hari</strong> setelah dinilai (atau maksimal <strong>60 hari</strong> jika belum dinilai). Skor dan ulasan guru tetap tersimpan di rekap nilai.
+                            <strong>Pemberitahuan Penyimpanan:</strong> Rekaman hanya ada di perangkatmu dan hilang jika halaman ditutup. Tidak ada berkas audio yang disimpan di database server. Anda dapat mengunduh berkas audio (.webm/.mp4) setelah menjawab tiap soal untuk evaluasi mandiri.
                         </div>
                     </div>
 
@@ -199,9 +199,9 @@
                         <label class="flex items-start gap-3 cursor-pointer select-none">
                             <input type="checkbox" id="check-enable-transcript" class="mt-0.5 rounded border-slate-300 text-teal-600 focus:ring-teal-500">
                             <div class="text-xs">
-                                <span class="font-bold text-slate-800">Aktifkan draf transkrip mesin otomatis (Eksperimental)</span>
+                                <span class="font-bold text-slate-800">Aktifkan draf transkrip teks otomatis (Eksperimental &bull; Opsional)</span>
                                 <p class="text-slate-500 text-[11px] leading-relaxed">
-                                    Draf transkrip dibuat otomatis oleh browser Anda saat berbicara, memiliki akurasi terbatas, dan <strong>bukan merupakan dasar penilaian</strong>. Guru Anda menilai murni dari rekaman audio langsung.
+                                    Nonaktif secara default. <em>Catatan privasi:</em> Pengenalan suara ini menggunakan Web Speech API bawaan browser Anda. Audio Anda mungkin diproses oleh layanan server milik penyedia browser (seperti Google Speech pada Google Chrome) untuk dikonversi menjadi teks, sesuai kebijakan privasi browser Anda. Draf transkrip ini hanya untuk referensi kasar latihan Anda.
                                 </p>
                             </div>
                         </label>
@@ -331,13 +331,24 @@
 
                             <button type="button" id="btn-stop-record-qa" class="hidden px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-md transition flex items-center gap-2">
                                 <span class="w-3 h-3 rounded-xs bg-white"></span>
-                                <span>Selesai Bicara & Unggah</span>
+                                <span>Selesai Bicara & Simpan</span>
                             </button>
 
                             <button type="button" id="btn-play-playback-qa" class="hidden px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition flex items-center gap-1.5">
                                 <span>▶️</span>
                                 <span>Dengar Rekaman Saya</span>
                             </button>
+
+                            <button type="button" id="btn-download-recording-qa" class="hidden px-4 py-3 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 font-bold text-xs transition flex items-center gap-1.5">
+                                <span>💾</span>
+                                <span>Unduh Rekaman</span>
+                            </button>
+                        </div>
+
+                        <!-- Pemberitahuan Rekaman Lokal -->
+                        <div class="w-full max-w-xl p-2.5 rounded-xl bg-amber-50/90 border border-amber-200/80 text-[11px] text-amber-900 flex items-center justify-center gap-2 text-center">
+                            <span>⚠️</span>
+                            <span><strong>Pemberitahuan:</strong> Rekaman hanya ada di perangkatmu dan hilang jika halaman ditutup. Unduh rekaman jika ingin menyimpannya.</span>
                         </div>
 
                         <!-- Machine Draft Transcript Preview (Jika diaktifkan) -->
@@ -423,14 +434,14 @@
                                     <label for="cue-notes-input" class="text-xs font-bold text-slate-700 flex items-center gap-1">
                                         <span>📝</span> Lembar Catatan Ide (Opsional):
                                     </label>
-                                    <span class="text-[10px] text-slate-400">Tersimpan ke guru</span>
+                                    <span class="text-[10px] text-slate-400">Coretan ide persiapan</span>
                                 </div>
                                 <textarea id="cue-notes-input" rows="5" placeholder="Tuliskan kata kunci ide Anda di sini (misal: - Green Circle, waste sorting - Canteen vendors, teachers - Friday collection, organic compost)..."
                                           class="w-full p-3 rounded-xl border border-slate-300 text-xs font-mono leading-relaxed focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition resize-none"></textarea>
                             </div>
 
                             <!-- Tombol Transisi / Aksi Cue Card -->
-                            <div class="pt-2">
+                            <div class="pt-2 space-y-2">
                                 <!-- Tombol saat Fase 1 Persiapan -->
                                 <button type="button" id="btn-ready-to-speak-cue" class="w-full px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition flex items-center justify-center gap-2">
                                     <span>🎤</span>
@@ -442,10 +453,40 @@
                                     <span class="w-3 h-3 rounded-xs bg-white"></span>
                                     <span>Selesai Bicara Part 2 & Simpan Rekaman</span>
                                 </button>
+
+                                <!-- Tombol Playback, Download, dan Rekam Ulang Cue Card -->
+                                <div id="box-cue-playback-actions" class="hidden flex flex-wrap items-center justify-center gap-2 pt-1">
+                                    <button type="button" id="btn-play-playback-cue" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition flex items-center gap-1.5">
+                                        <span>▶️</span>
+                                        <span>Dengar Suara Part 2</span>
+                                    </button>
+                                    <button type="button" id="btn-download-recording-cue" class="px-3.5 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 font-bold text-xs transition flex items-center gap-1.5">
+                                        <span>💾</span>
+                                        <span>Unduh Audio Part 2</span>
+                                    </button>
+                                    <button type="button" id="btn-rerecord-cue" class="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 font-semibold text-xs transition flex items-center gap-1">
+                                        <span>🔄</span>
+                                        <span>Rekam Ulang</span>
+                                    </button>
+                                </div>
                             </div>
 
                         </div>
 
+                    </div>
+
+                    <!-- Navigation Footer Cue Card -->
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <button type="button" id="btn-prev-cue" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                            ← Kembali ke Part 1
+                        </button>
+                        <div class="text-[11px] text-amber-800 font-medium hidden sm:block">
+                            ⚠️ Rekaman hanya ada di perangkatmu dan hilang jika halaman ditutup.
+                        </div>
+                        <button type="button" id="btn-next-cue" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center gap-1.5">
+                            <span>Lanjut ke Part 3: Two-way Discussion</span>
+                            <span>→</span>
+                        </button>
                     </div>
 
                 </div>
@@ -467,20 +508,20 @@
                 <div class="space-y-2 max-w-xl mx-auto">
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Simulasi Speaking Telah Selesai</h2>
                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                        Seluruh rekaman suara Anda untuk Part 1, Part 2, dan Part 3 telah berhasil disimpan secara privat di server dan siap dievaluasi oleh guru.
+                        Seluruh sesi simulasi Speaking mandiri telah selesai. Rekaman suara Anda tersimpan di peramban ini untuk evaluasi mandiri.
                     </p>
                 </div>
 
-                <!-- Info Status Penilaian Guru -->
-                <div class="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-left max-w-2xl mx-auto space-y-3">
+                <!-- Info Status Penilaian Mandiri -->
+                <div class="p-5 rounded-2xl bg-teal-50 border border-teal-200 text-left max-w-2xl mx-auto space-y-3">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-amber-900 uppercase">Status Evaluasi Speaking:</span>
-                        <span id="result-status-badge" class="px-3 py-1 rounded-full bg-amber-200 text-amber-900 font-extrabold text-xs">
-                            Menunggu Penilaian Guru
+                        <span class="text-xs font-bold text-teal-900 uppercase">Status Simulasi Speaking:</span>
+                        <span id="result-status-badge" class="px-3 py-1 rounded-full bg-teal-200 text-teal-950 font-extrabold text-xs">
+                            Latihan Mandiri Selesai
                         </span>
                     </div>
-                    <p class="text-xs text-amber-950 leading-relaxed">
-                        Guru pembimbing Anda akan mendengarkan rekaman audio dan memberikan skor berdasarkan 4 kriteria resmi: <em>Fluency & Coherence</em>, <em>Lexical Resource</em>, <em>Grammatical Range & Accuracy</em>, dan <em>Pronunciation</em>. Hasil penilaian akan otomatis dihitung ke dalam skor <strong>Overall (L+R+W+S)</strong>.
+                    <p class="text-xs text-teal-950 leading-relaxed">
+                        Anda telah menyelesaikan seluruh sesi speaking mandiri. Rekaman suara Anda diproses di peramban perangkat Anda dan tidak disimpan di server database. Evaluasi performa lisan Anda dengan membandingkan terhadap <strong>Rubrik 4 Kriteria</strong> (<em>Fluency & Coherence</em>, <em>Lexical Resource</em>, <em>Grammatical Range & Accuracy</em>, dan <em>Pronunciation</em>) serta pelajari contoh tanggapan <strong>Sample Answer</strong>.
                     </p>
                 </div>
 
@@ -500,7 +541,7 @@
                     </div>
                     <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
                         <span class="text-[10px] text-slate-400 font-bold uppercase block">Band Speaking</span>
-                        <span id="result-speaking-band" class="text-xs font-bold text-indigo-700 block font-mono">Menunggu</span>
+                        <span id="result-speaking-band" class="text-xs font-bold text-indigo-700 block font-mono">Mandiri</span>
                     </div>
                 </div>
 

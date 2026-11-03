@@ -15,6 +15,11 @@
 (function () {
     'use strict';
 
+    // Feature Flag: Perekaman Mandiri (default: false / NONAKTIF)
+    // Dalam mode mandiri, rekaman suara disimpan & diputar 100% lokal di browser (MediaRecorder & Blob URL).
+    // TIDAK ADA berkas audio yang diunggah ke server database D1.
+    const ENABLE_SERVER_AUDIO_UPLOAD = false;
+
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
         : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev';
@@ -28,9 +33,11 @@
         testData: null,
         flatQuestions: [],
         currentIndex: 0,
-        recordedQuestionsMap: {}, // { [questionId]: { duration, uploaded: true } }
+        recordedQuestionsMap: {}, // { [questionId]: { duration, uploaded: boolean, local: boolean } }
+        localRecordingsMap: {},   // { [questionId]: { blob, url, duration, mimeType } }
         part2Notes: '',
         enableTranscript: false,
+        testSubmitted: false,
 
         // Media & Audio State
         mediaStream: null,
@@ -112,7 +119,10 @@
         if (btnStopRecordQa) btnStopRecordQa.addEventListener('click', stopRecordingCurrentQuestion);
 
         const btnPlayPlaybackQa = document.getElementById('btn-play-playback-qa');
-        if (btnPlayPlaybackQa) btnPlayPlaybackQa.addEventListener('click', playRecordedAudioPlayback);
+        if (btnPlayPlaybackQa) btnPlayPlaybackQa.addEventListener('click', () => playRecordedAudioPlayback());
+
+        const btnDownloadRecordingQa = document.getElementById('btn-download-recording-qa');
+        if (btnDownloadRecordingQa) btnDownloadRecordingQa.addEventListener('click', () => downloadRecordedAudio());
 
         const btnNextQa = document.getElementById('btn-next-qa');
         if (btnNextQa) btnNextQa.addEventListener('click', handleNextQuestion);
@@ -130,12 +140,51 @@
         const btnStopSpeakCue = document.getElementById('btn-stop-speak-cue');
         if (btnStopSpeakCue) btnStopSpeakCue.addEventListener('click', stopCueCardSpeakingPhase);
 
+        const btnPlayPlaybackCue = document.getElementById('btn-play-playback-cue');
+        if (btnPlayPlaybackCue) {
+            btnPlayPlaybackCue.addEventListener('click', () => {
+                const q = STATE.flatQuestions[STATE.currentIndex];
+                if (q) playRecordedAudioPlayback(q.id);
+            });
+        }
+
+        const btnDownloadRecordingCue = document.getElementById('btn-download-recording-cue');
+        if (btnDownloadRecordingCue) {
+            btnDownloadRecordingCue.addEventListener('click', () => {
+                const q = STATE.flatQuestions[STATE.currentIndex];
+                if (q) downloadRecordedAudio(q.id);
+            });
+        }
+
+        const btnRerecordCue = document.getElementById('btn-rerecord-cue');
+        if (btnRerecordCue) {
+            btnRerecordCue.addEventListener('click', () => {
+                const q = STATE.flatQuestions[STATE.currentIndex];
+                if (q) renderCueCardView(q);
+            });
+        }
+
+        const btnPrevCue = document.getElementById('btn-prev-cue');
+        if (btnPrevCue) btnPrevCue.addEventListener('click', handlePrevQuestion);
+
+        const btnNextCue = document.getElementById('btn-next-cue');
+        if (btnNextCue) btnNextCue.addEventListener('click', handleNextQuestion);
+
         const cueNotesInput = document.getElementById('cue-notes-input');
         if (cueNotesInput) {
             cueNotesInput.addEventListener('input', (e) => {
                 STATE.part2Notes = e.target.value;
             });
         }
+
+        // Peringatan sebelum menutup tab jika terdapat rekaman lokal
+        window.addEventListener('beforeunload', (e) => {
+            if (Object.keys(STATE.localRecordingsMap).length > 0 && !STATE.testSubmitted) {
+                e.preventDefault();
+                e.returnValue = 'Rekaman hanya ada di perangkatmu dan hilang jika halaman ditutup. Unduh rekaman jika ingin menyimpannya.';
+                return e.returnValue;
+            }
+        });
     }
 
     // --- Audio Format Detection ---
@@ -496,10 +545,11 @@
     function updateUploadIndicator(qId) {
         const ind = document.getElementById('upload-status-indicator');
         if (!ind) return;
-        const isUploaded = STATE.recordedQuestionsMap[qId] && STATE.recordedQuestionsMap[qId].uploaded;
+        const isRecorded = (STATE.localRecordingsMap && STATE.localRecordingsMap[qId]) ||
+                           (STATE.recordedQuestionsMap[qId] && (STATE.recordedQuestionsMap[qId].uploaded || STATE.recordedQuestionsMap[qId].local));
 
-        if (isUploaded) {
-            ind.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="text-emerald-700">✓ Tersimpan di server</span>`;
+        if (isRecorded) {
+            ind.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="text-emerald-700 font-semibold">✓ Tersimpan di perangkat</span>`;
         } else {
             ind.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-300"></span><span class="text-slate-500">Belum Direkam</span>`;
         }
@@ -519,6 +569,7 @@
         const btnStart = document.getElementById('btn-start-record-qa');
         const btnStop = document.getElementById('btn-stop-record-qa');
         const btnPlay = document.getElementById('btn-play-playback-qa');
+        const btnDownload = document.getElementById('btn-download-recording-qa');
         const btnPrev = document.getElementById('btn-prev-qa');
         const btnNext = document.getElementById('btn-next-qa');
 
@@ -526,12 +577,17 @@
         btnStop.classList.add('hidden');
 
         // Jika soal ini sudah pernah direkam sebelumnya
-        if (STATE.recordedQuestionsMap[q.id]) {
+        const isRecorded = (STATE.localRecordingsMap && STATE.localRecordingsMap[q.id]) ||
+                           (STATE.recordedQuestionsMap[q.id] && (STATE.recordedQuestionsMap[q.id].uploaded || STATE.recordedQuestionsMap[q.id].local));
+
+        if (isRecorded) {
             btnStart.innerHTML = '<span>🔄</span><span>Rekam Ulang Jawaban</span>';
             btnPlay.classList.remove('hidden');
+            if (btnDownload) btnDownload.classList.remove('hidden');
         } else {
             btnStart.innerHTML = '<span>🎤</span><span>Mulai Bicara (Rekam)</span>';
             btnPlay.classList.add('hidden');
+            if (btnDownload) btnDownload.classList.add('hidden');
         }
 
         // Navigasi Prev
@@ -568,6 +624,15 @@
 
         const notesInput = document.getElementById('cue-notes-input');
         if (notesInput) notesInput.value = STATE.part2Notes || '';
+
+        // Tampilkan tombol Playback & Download Part 2 jika sudah pernah direkam
+        const isRecorded = (STATE.localRecordingsMap && STATE.localRecordingsMap[q.id]) ||
+                           (STATE.recordedQuestionsMap[q.id] && (STATE.recordedQuestionsMap[q.id].uploaded || STATE.recordedQuestionsMap[q.id].local));
+        const boxCueActions = document.getElementById('box-cue-playback-actions');
+        if (boxCueActions) {
+            if (isRecorded) boxCueActions.classList.remove('hidden');
+            else boxCueActions.classList.add('hidden');
+        }
 
         // Reset ke Fase 1 Persiapan
         STATE.cuePhase = 'prep';
@@ -723,7 +788,11 @@
         if (pulsingDot) pulsingDot.className = 'w-3.5 h-3.5 rounded-full bg-slate-300';
 
         const statusLbl = document.getElementById('record-status-label');
-        if (statusLbl) statusLbl.textContent = 'Memproses rekaman & mengunggah ke server...';
+        if (statusLbl) {
+            statusLbl.textContent = ENABLE_SERVER_AUDIO_UPLOAD
+                ? 'Memproses rekaman & mengunggah ke server...'
+                : 'Memproses rekaman di peramban...';
+        }
 
         if (STATE.mediaRecorder && STATE.mediaRecorder.state !== 'inactive') {
             STATE.mediaRecorder.stop();
@@ -731,16 +800,59 @@
         STATE.isRecording = false;
     }
 
-    // --- Pemrosesan & Unggah Langsung ke Server (Immediate Upload) ---
+    // --- Pemrosesan Rekaman (Mode Mandiri: 100% Lokal di Browser) ---
     async function processAndUploadRecording(questionId, blob, mimeType) {
         const ind = document.getElementById('upload-status-indicator');
+        const duration = STATE.recordedSeconds || Math.max(1, Math.round((Date.now() - STATE.recordingStartTime) / 1000));
+
+        // Bersihkan Object URL lama jika sudah ada
+        if (STATE.localRecordingsMap[questionId] && STATE.localRecordingsMap[questionId].url) {
+            try { URL.revokeObjectURL(STATE.localRecordingsMap[questionId].url); } catch (e) { }
+        }
+
+        const blobUrl = URL.createObjectURL(blob);
+        STATE.localRecordingsMap[questionId] = {
+            blob,
+            url: blobUrl,
+            duration,
+            mimeType: mimeType || 'audio/webm'
+        };
+
+        // --- ALUR 1: MODE MANDIRI (DEFAULT: TANPA UNGGAH KE SERVER) ---
+        if (!ENABLE_SERVER_AUDIO_UPLOAD) {
+            STATE.recordedQuestionsMap[questionId] = { duration, uploaded: false, local: true };
+            updateUploadIndicator(questionId);
+
+            const statusLbl = document.getElementById('record-status-label');
+            if (statusLbl) statusLbl.textContent = '✓ Rekaman tersimpan di perangkat ini (lokal).';
+
+            // Tampilkan tombol Playback & Download Part 1 & 3
+            const btnPlay = document.getElementById('btn-play-playback-qa');
+            if (btnPlay) btnPlay.classList.remove('hidden');
+
+            const btnDownload = document.getElementById('btn-download-recording-qa');
+            if (btnDownload) btnDownload.classList.remove('hidden');
+
+            // Tampilkan tombol Playback & Download Part 2 jika di cue card
+            const boxCue = document.getElementById('box-cue-playback-actions');
+            if (boxCue) boxCue.classList.remove('hidden');
+
+            const btnStart = document.getElementById('btn-start-record-qa');
+            const btnStop = document.getElementById('btn-stop-record-qa');
+            if (btnStart) {
+                btnStart.classList.remove('hidden');
+                btnStart.innerHTML = '<span>🔄</span><span>Rekam Ulang</span>';
+            }
+            if (btnStop) btnStop.classList.add('hidden');
+
+            return; // Berhenti di sini, 0 byte dikirim ke jaringan server
+        }
+
+        // --- ALUR 2: ADD-ON GURU (HANYA JIKA FEATURE FLAG DIAKTIFKAN) ---
         if (ind) {
             ind.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span><span class="text-amber-700">Sedang mengunggah...</span>`;
         }
 
-        const duration = STATE.recordedSeconds || Math.max(1, Math.round((Date.now() - STATE.recordingStartTime) / 1000));
-
-        // Konversi Blob ke Base64
         const reader = new FileReader();
         reader.onloadend = async () => {
             const base64Data = (reader.result || '').split(',')[1];
@@ -771,14 +883,13 @@
                 const data = await res.json();
                 if (!data.ok) throw new Error(data.error || 'Server menolak unggahan rekaman.');
 
-                // Sukses
-                STATE.recordedQuestionsMap[questionId] = { duration, uploaded: true };
+                // Sukses unggah
+                STATE.recordedQuestionsMap[questionId] = { duration, uploaded: true, local: true };
                 updateUploadIndicator(questionId);
 
                 const statusLbl = document.getElementById('record-status-label');
                 if (statusLbl) statusLbl.textContent = '✓ Rekaman tersimpan aman di server.';
 
-                // Tampilkan tombol Playback
                 const btnPlay = document.getElementById('btn-play-playback-qa');
                 if (btnPlay) btnPlay.classList.remove('hidden');
 
@@ -789,10 +900,6 @@
                     btnStart.innerHTML = '<span>🔄</span><span>Rekam Ulang</span>';
                 }
                 if (btnStop) btnStop.classList.add('hidden');
-
-                // Hapus salinan blob lokal untuk privasi & memori
-                STATE.activeBlob = null;
-                STATE.activeBlobBase64 = null;
 
             } catch (err) {
                 console.error('Upload failed:', err);
@@ -816,21 +923,71 @@
         if (btnStop) btnStop.classList.add('hidden');
     }
 
-    // --- Pemutaran Ulang Rekaman Siswa ---
-    async function playRecordedAudioPlayback() {
+    // --- Pemutaran Ulang Rekaman Siswa (Prioritas Lokal Browser) ---
+    function playRecordedAudioPlayback(targetId) {
         const q = STATE.flatQuestions[STATE.currentIndex];
-        if (!q) return;
+        const qId = targetId || (q ? q.id : '');
+        if (!qId) return;
 
-        try {
-            const audioUrl = `${API_BASE}/speaking/audio?sessionId=${encodeURIComponent(STATE.sessionId)}&questionId=${encodeURIComponent(q.id)}&deviceId=${encodeURIComponent(STATE.deviceId)}`;
-            const audio = new Audio(audioUrl);
-            audio.play().catch(e => {
-                console.warn('Playback error:', e);
-                alert('Tidak dapat memutar rekaman langsung dari server.');
-            });
-        } catch (e) {
-            console.error('Playback error:', e);
+        // 1. Prioritas Utama: Putar dari Blob URL lokal browser
+        const rec = STATE.localRecordingsMap[qId];
+        if (rec && rec.url) {
+            try {
+                const audio = new Audio(rec.url);
+                audio.play().catch(e => {
+                    console.warn('Playback audio lokal error:', e);
+                    alert('Tidak dapat memutar rekaman suara di browser Anda.');
+                });
+                return;
+            } catch (e) {
+                console.error('Playback lokal error:', e);
+            }
         }
+
+        // 2. Fallback: Server streaming (jika feature flag aktif)
+        if (ENABLE_SERVER_AUDIO_UPLOAD) {
+            try {
+                const audioUrl = `${API_BASE}/speaking/audio?sessionId=${encodeURIComponent(STATE.sessionId)}&questionId=${encodeURIComponent(qId)}&deviceId=${encodeURIComponent(STATE.deviceId)}`;
+                const audio = new Audio(audioUrl);
+                audio.play().catch(e => {
+                    console.warn('Playback server error:', e);
+                    alert('Tidak dapat memutar rekaman langsung dari server.');
+                });
+            } catch (e) {
+                console.error('Playback server error:', e);
+            }
+        } else {
+            alert('Belum ada rekaman lokal untuk soal ini di perangkat Anda.');
+        }
+    }
+
+    // --- Unduh Rekaman Audio Lokal Siswa (.webm / .mp4) ---
+    function downloadRecordedAudio(targetId) {
+        const q = STATE.flatQuestions[STATE.currentIndex];
+        const qId = targetId || (q ? q.id : '');
+        if (!qId) return;
+
+        const rec = STATE.localRecordingsMap[qId];
+        if (!rec || !rec.blob || !rec.url) {
+            alert('Belum ada rekaman suara lokal untuk soal ini.');
+            return;
+        }
+
+        const mime = rec.mimeType || '';
+        let ext = 'webm';
+        if (mime.includes('mp4')) ext = 'mp4';
+        else if (mime.includes('ogg')) ext = 'ogg';
+        else if (mime.includes('wav')) ext = 'wav';
+
+        const safeSession = (STATE.sessionId || 'mandiri').replace(/[^a-zA-Z0-9_-]/g, '');
+        const filename = `ielts_speaking_${safeSession}_${qId}.${ext}`;
+
+        const a = document.createElement('a');
+        a.href = rec.url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }
 
     // --- TTS Suara Soal Penguji (SpeechSynthesis) ---
@@ -922,7 +1079,10 @@
 
     // --- Selesai & Submit Ujian Speaking ---
     async function submitFullSpeakingTest() {
-        const ok = confirm('Apakah Anda yakin ingin menyelesaikan simulasi Speaking ini? Semua rekaman akan dikirim ke guru untuk dievaluasi.');
+        const confirmMsg = ENABLE_SERVER_AUDIO_UPLOAD
+            ? 'Apakah Anda yakin ingin menyelesaikan simulasi Speaking ini? Semua rekaman akan dikirim ke guru untuk dievaluasi.'
+            : 'Apakah Anda yakin ingin menyelesaikan simulasi Speaking ini? Rekaman audio tersimpan di perangkat Anda untuk evaluasi mandiri.';
+        const ok = confirm(confirmMsg);
         if (!ok) return;
 
         try {
@@ -943,11 +1103,13 @@
             const data = await res.json();
             if (!data.ok) throw new Error(data.error || 'Gagal mengirim berkas tes.');
 
+            STATE.testSubmitted = true;
+
             renderResultView({
-                status: 'submitted',
+                status: ENABLE_SERVER_AUDIO_UPLOAD ? 'submitted' : 'self_study_complete',
                 nama: STATE.nama,
                 kelas: STATE.kelas,
-                recordedCount: Object.keys(STATE.recordedQuestionsMap).length,
+                recordedCount: Object.keys(STATE.localRecordingsMap).length || Object.keys(STATE.recordedQuestionsMap).length,
                 sampleAnswers: data.sampleAnswers
             });
 
@@ -966,13 +1128,17 @@
         document.getElementById('result-nama').textContent = data.nama_peserta || STATE.nama || '-';
         document.getElementById('result-kelas').textContent = data.kelas || STATE.kelas || '-';
 
-        const count = data.recordedCount || Object.keys(STATE.recordedQuestionsMap).length || 15;
+        const count = data.recordedCount || Object.keys(STATE.localRecordingsMap).length || Object.keys(STATE.recordedQuestionsMap).length || 15;
         document.getElementById('result-recorded-count').textContent = `${count} Soal`;
 
         const bandEl = document.getElementById('result-speaking-band');
         const badgeEl = document.getElementById('result-status-badge');
 
-        if (data.status === 'graded' && typeof data.speaking_band === 'number') {
+        if (!ENABLE_SERVER_AUDIO_UPLOAD) {
+            badgeEl.className = 'px-3 py-1 rounded-full bg-teal-100 text-teal-900 font-extrabold text-xs';
+            badgeEl.textContent = 'Latihan Mandiri Selesai';
+            bandEl.textContent = 'Mandiri';
+        } else if (data.status === 'graded' && typeof data.speaking_band === 'number') {
             badgeEl.className = 'px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 font-extrabold text-xs';
             badgeEl.textContent = 'Sudah Dinilai Guru';
             bandEl.textContent = `Band ${data.speaking_band.toFixed(1)}`;
