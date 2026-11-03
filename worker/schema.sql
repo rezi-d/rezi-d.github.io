@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS licenses (
     token_hash    TEXT    NOT NULL UNIQUE,
     nama          TEXT,
     wa            TEXT,
+    package_type  TEXT    NOT NULL DEFAULT 'snbt', -- 'snbt' atau 'ielts'
     created_at    INTEGER NOT NULL,
     activated_at  INTEGER,
     expires_at    INTEGER,

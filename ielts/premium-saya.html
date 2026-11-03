@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Saya — Paket IELTS Mandiri — AjarKita</title>
+    <meta name="description" content="Status lisensi, masa aktif, dan rincian fitur Paket IELTS Mandiri Anda di AjarKita.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen antialiased">
+
+    <!-- HEADER / NAV -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2 text-slate-900 hover:text-indigo-600 transition">
+                <span class="text-xl">🌐</span>
+                <span class="font-extrabold text-base tracking-tight">IELTS Academic <span class="text-indigo-600 font-black">AjarKita</span></span>
+            </a>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition">
+                    &larr; Kembali ke Hub IELTS
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-grow w-full space-y-8">
+
+        <!-- TITLE & BREADCRUMB -->
+        <div class="space-y-1">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+                <span>👑</span>
+                <span>Portal Siswa</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Status Lisensi &amp; Fitur Premium Saya
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-600">
+                Kelola status langganan, sisa masa aktif, dan hak akses latihan mandiri Anda.
+            </p>
+        </div>
+
+        <!-- STATUS CARD -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="p-6 sm:p-8 space-y-6">
+                <!-- Header Status -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Paket Terdaftar</span>
+                        <h2 id="card-pkg-name" class="text-xl sm:text-2xl font-black text-slate-900">Paket IELTS Mandiri</h2>
+                        <span id="card-pkg-price" class="text-xs font-bold text-indigo-600 font-mono">Rp 35.000 / 30 Hari</span>
+                    </div>
+                    <div id="card-status-badge">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold">
+                            Memeriksa...
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/60">
+                        <span class="text-xs font-bold text-slate-500 block mb-1">Sisa Masa Aktif</span>
+                        <div id="info-remaining-days" class="text-2xl font-black text-slate-900 font-mono">-</div>
+                        <span id="info-expires-date" class="text-[11px] text-slate-500 block mt-1">Belum diaktifkan</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/60">
+                        <span class="text-xs font-bold text-slate-500 block mb-1">Batas Perangkat</span>
+                        <div class="text-2xl font-black text-slate-900 font-mono">Maks. 2 HP/PC</div>
+                        <span class="text-[11px] text-slate-500 block mt-1">Reset gratis via WhatsApp</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/60">
+                        <span class="text-xs font-bold text-slate-500 block mb-1">ID Perangkat Ini</span>
+                        <div id="info-device-id" class="text-xs font-mono font-bold text-slate-700 truncate">-</div>
+                        <span class="text-[11px] text-emerald-600 font-semibold block mt-1">✓ Terhubung</span>
+                    </div>
+                </div>
+
+                <!-- Token Display Box -->
+                <div id="box-token-display" class="hidden p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-indigo-950 uppercase tracking-wider">Kode Lisensi Aktif:</span>
+                        <button type="button" id="btn-toggle-mask" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold cursor-pointer">
+                            Tampilkan
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="input-token-display" readonly class="flex-grow px-3 py-2 rounded-xl bg-white border border-indigo-200 text-xs font-mono font-bold text-slate-800">
+                        <button type="button" id="btn-copy-token" class="px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition cursor-pointer">
+                            Salin
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FITUR TERMASUK & BATASAN -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Included -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 sm:p-8 space-y-4">
+                <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm uppercase tracking-wider">
+                    <span>✅</span>
+                    <span>Fitur Yang Termasuk (All-Access)</span>
+                </div>
+                <ul id="list-included-features" class="space-y-3 text-xs sm:text-sm text-slate-600">
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-emerald-500 font-bold">✓</span>
+                        <span>Akses penuh 4 Modul Latihan Mandiri Lengkap (Listening, Reading, Writing, Speaking).</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-emerald-500 font-bold">✓</span>
+                        <span>Perekaman &amp; Pemutaran Audio Speaking 100% lokal di browser (privasi terjaga, tanpa batas upload server).</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-emerald-500 font-bold">✓</span>
+                        <span>Kalkulasi Skor Otomatis &amp; Pembahasan Lengkap (Listening &amp; Reading).</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-emerald-500 font-bold">✓</span>
+                        <span>Rubrik Penilaian 4 Kriteria &amp; Contoh Sample Answer (Writing &amp; Speaking).</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-emerald-500 font-bold">✓</span>
+                        <span>Cadangan otomatis jawaban ke penyimpanan browser (localStorage) jika kendala jaringan.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <span class="text-emerald-500 font-bold">✓</span>
+                        <span>Dukungan hingga 2 perangkat pribadi per kode lisensi.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Excluded / Notice -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 sm:p-8 space-y-4">
+                <div class="flex items-center gap-2 text-amber-700 font-bold text-sm uppercase tracking-wider">
+                    <span>ℹ️</span>
+                    <span>Keterangan Paket Mandiri</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs sm:text-sm leading-relaxed space-y-2">
+                    <p class="font-bold">
+                        ⚠️ Tanpa Penilaian Personal Guru:
+                    </p>
+                    <p>
+                        Paket Rp 35.000 / 30 Hari ini dirancang untuk latihan mandiri intensif. <strong>Penilaian/koreksi personal esai Writing dan audio Speaking oleh guru adalah Add-on terpisah</strong> (belum termasuk dalam paket mandiri).
+                    </p>
+                    <p>
+                        Gunakan contoh <em>Sample Answer</em> dan panduan rubrik 4 kriteria resmi yang disediakan sistem untuk mengevaluasi latihan Anda secara mandiri.
+                    </p>
+                </div>
+
+                <div class="pt-2">
+                    <span class="text-xs font-bold text-slate-700 block mb-1">Butuh Bantuan atau Reset HP?</span>
+                    <p class="text-xs text-slate-500 mb-3">
+                        Jika Anda berganti ponsel/laptop dan kuota 2 perangkat habis, hubungi admin untuk reset gratis.
+                    </p>
+                    <a id="btn-wa-help" href="https://wa.me/6285266601477?text=Halo%20Admin%20AjarKita,%20saya%20butuh%20bantuan%20terkait%20Lisensi%20IELTS%20Mandiri." target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">
+                        <span>💬</span> <span>Hubungi Admin via WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM AKTIVASI / PERPANJANG TOKEN -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xs p-6 sm:p-8 space-y-6">
+            <div class="space-y-1">
+                <h3 class="text-lg font-black text-slate-900">
+                    Aktivasi Kode Lisensi Baru / Perpanjang
+                </h3>
+                <p class="text-xs text-slate-600">
+                    Punya kode lisensi dari Admin? Masukkan kode token 16 karakter Anda di bawah ini:
+                </p>
+            </div>
+
+            <form id="form-activate" class="space-y-4">
+                <div>
+                    <label for="input-token" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Kode Lisensi (Contoh: IELT-ABCD-EFGH-JKLM):
+                    </label>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="input-token" placeholder="IELT-XXXX-XXXX-XXXX" maxlength="24" required class="flex-grow px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-sm font-mono font-bold tracking-widest text-slate-900 uppercase focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500">
+                        <button type="submit" id="btn-submit-activate" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-xs hover:shadow transition cursor-pointer flex items-center justify-center gap-2">
+                            <span>🔑</span> <span>Aktifkan Lisensi</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="activate-alert" class="hidden text-xs p-3.5 rounded-xl font-medium"></div>
+            </form>
+
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500">
+                <span>Belum punya kode lisensi? Beli langsung Rp 35.000 / 30 Hari via WhatsApp:</span>
+                <a id="btn-buy-wa" href="https://wa.me/6285266601477?text=Halo%20Admin,%20saya%20ingin%20beli%20Paket%20IELTS%20Mandiri%2030%20Hari%20(Rp%2035.000).%20Mohon%20petunjuk%20pembayarannya%20ya!" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
+                    <span>⚡ Beli Paket IELTS Rp 35.000</span>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 space-y-2">
+        <p>&copy; 2026 AjarKita — Platform Edukasi &amp; Latihan Ujian Terpadu.</p>
+        <p class="text-[11px] text-slate-400">
+            IELTS adalah merek dagang terdaftar dari University of Cambridge, British Council, dan IDP Education Australia. Situs ini adalah platform persiapan independen dan tidak terafiliasi secara resmi.
+        </p>
+    </footer>
+
+    <!-- SCRIPT LOGIKA LISENSI -->
+    <script src="packages-config.js"></script>
+    <script>
+        const API_URL = "https://kimia-snbt-api.kimia-ajarkita.workers.dev";
+        const STORAGE_KEY_TOKEN = "ielts_premium_token";
+        const STORAGE_KEY_EXPIRES = "ielts_premium_expires_at";
+        const STORAGE_KEY_PACKAGE = "ielts_premium_package";
+
+        // Shared Device ID
+        function getDeviceId() {
+            const KEY = 'ielts_shared_device_id';
+            try {
+                let id = localStorage.getItem(KEY);
+                if (id && /^[A-Za-z0-9_-]{16,64}$/.test(id)) return id;
+                const bytes = new Uint8Array(18);
+                crypto.getRandomValues(bytes);
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+                id = 'dev_' + Array.from(bytes, (b) => chars[b % chars.length]).join('');
+                localStorage.setItem(KEY, id);
+                return id;
+            } catch (e) {
+                return 'dev_fallback_' + Math.random().toString(36).slice(2, 20);
+            }
+        }
+
+        const deviceId = getDeviceId();
+        document.getElementById('info-device-id').textContent = deviceId;
+
+        const badgeEl = document.getElementById('card-status-badge');
+        const remDaysEl = document.getElementById('info-remaining-days');
+        const expDateEl = document.getElementById('info-expires-date');
+        const boxTokenDisplay = document.getElementById('box-token-display');
+        const inputTokenDisplay = document.getElementById('input-token-display');
+        const btnToggleMask = document.getElementById('btn-toggle-mask');
+        const btnCopyToken = document.getElementById('btn-copy-token');
+        const formActivate = document.getElementById('form-activate');
+        const inputToken = document.getElementById('input-token');
+        const btnSubmit = document.getElementById('btn-submit-activate');
+        const alertEl = document.getElementById('activate-alert');
+
+        let isTokenMasked = true;
+        let activeTokenRaw = localStorage.getItem(STORAGE_KEY_TOKEN) || localStorage.getItem('snbt_premium_token') || '';
+
+        function renderStatus() {
+            const token = localStorage.getItem(STORAGE_KEY_TOKEN) || localStorage.getItem('snbt_premium_token');
+            const expiresAt = parseInt(localStorage.getItem(STORAGE_KEY_EXPIRES) || localStorage.getItem('snbt_premium_expires_at'), 10);
+            const now = Date.now();
+
+            if (!token || !expiresAt) {
+                badgeEl.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold">Belum Aktif</span>`;
+                remDaysEl.textContent = '0 Hari';
+                remDaysEl.className = 'text-2xl font-black text-slate-400 font-mono';
+                expDateEl.textContent = 'Belum memiliki lisensi aktif';
+                boxTokenDisplay.classList.add('hidden');
+                return;
+            }
+
+            activeTokenRaw = token;
+            boxTokenDisplay.classList.remove('hidden');
+            updateTokenDisplay();
+
+            if (now > expiresAt) {
+                badgeEl.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-700 border border-amber-200 text-xs font-bold">Kedaluwarsa</span>`;
+                remDaysEl.textContent = '0 Hari';
+                remDaysEl.className = 'text-2xl font-black text-amber-600 font-mono';
+                expDateEl.textContent = `Habis pada ${new Date(expiresAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+            } else {
+                const sisaHari = Math.max(0, Math.ceil((expiresAt - now) / 86400000));
+                badgeEl.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-200 text-xs font-bold">Aktif (${sisaHari} Hari)</span>`;
+                remDaysEl.textContent = `${sisaHari} Hari`;
+                remDaysEl.className = 'text-2xl font-black text-emerald-600 font-mono';
+                expDateEl.textContent = `Berakhir pada ${new Date(expiresAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+            }
+        }
+
+        function updateTokenDisplay() {
+            if (!activeTokenRaw) return;
+            if (isTokenMasked) {
+                const pfx = activeTokenRaw.slice(0, 5);
+                inputTokenDisplay.value = `${pfx}****-****-****`;
+                btnToggleMask.textContent = "Tampilkan";
+            } else {
+                inputTokenDisplay.value = activeTokenRaw;
+                btnToggleMask.textContent = "Sembunyikan";
+            }
+        }
+
+        btnToggleMask.addEventListener('click', () => {
+            isTokenMasked = !isTokenMasked;
+            updateTokenDisplay();
+        });
+
+        btnCopyToken.addEventListener('click', () => {
+            if (!activeTokenRaw) return;
+            navigator.clipboard.writeText(activeTokenRaw);
+            btnCopyToken.textContent = "Tersalin! ✓";
+            setTimeout(() => { btnCopyToken.textContent = "Salin"; }, 2000);
+        });
+
+        // Verifikasi otomatis dengan server
+        async function syncWithServer() {
+            const token = localStorage.getItem(STORAGE_KEY_TOKEN) || localStorage.getItem('snbt_premium_token');
+            if (!token) {
+                renderStatus();
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/activate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, deviceId, packageType: 'ielts' })
+                });
+                const data = await res.json();
+                if (res.ok && data.ok) {
+                    localStorage.setItem(STORAGE_KEY_TOKEN, token);
+                    localStorage.setItem(STORAGE_KEY_EXPIRES, String(data.expiresAt));
+                    localStorage.setItem(STORAGE_KEY_PACKAGE, data.packageType || 'ielts');
+                } else if (res.status === 401 || res.status === 403) {
+                    if (data.reason === 'token_revoked' || data.reason === 'token_expired') {
+                        localStorage.removeItem(STORAGE_KEY_TOKEN);
+                        localStorage.removeItem(STORAGE_KEY_EXPIRES);
+                    }
+                }
+            } catch (e) {
+                // Offline fallback
+            }
+            renderStatus();
+        }
+
+        // Form Aktivasi Manual
+        formActivate.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            alertEl.classList.add('hidden');
+            const tokenVal = inputToken.value.trim().toUpperCase();
+            if (!tokenVal) return;
+
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<span>⏳</span> <span>Memverifikasi...</span>`;
+
+            try {
+                const res = await fetch(`${API_URL}/activate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: tokenVal, deviceId, packageType: 'ielts' })
+                });
+                const data = await res.json();
+
+                alertEl.classList.remove('hidden');
+                if (res.ok && data.ok) {
+                    localStorage.setItem(STORAGE_KEY_TOKEN, tokenVal);
+                    localStorage.setItem(STORAGE_KEY_EXPIRES, String(data.expiresAt));
+                    localStorage.setItem(STORAGE_KEY_PACKAGE, data.packageType || 'ielts');
+
+                    alertEl.className = 'text-xs p-3.5 rounded-xl font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+                    alertEl.textContent = `Selamat! ${data.packageName || 'Paket IELTS Mandiri'} berhasil diaktifkan untuk ${data.remainingDays} hari ke depan.`;
+                    inputToken.value = '';
+                    renderStatus();
+                } else {
+                    alertEl.className = 'text-xs p-3.5 rounded-xl font-medium bg-rose-50 text-rose-800 border border-rose-200 block';
+                    alertEl.textContent = data.error || 'Aktivasi gagal. Silakan periksa kembali kode token Anda.';
+                }
+            } catch (err) {
+                alertEl.classList.remove('hidden');
+                alertEl.className = 'text-xs p-3.5 rounded-xl font-medium bg-rose-50 text-rose-800 border border-rose-200 block';
+                alertEl.textContent = 'Gagal menghubungi server. Periksa koneksi internet Anda.';
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<span>🔑</span> <span>Aktifkan Lisensi</span>`;
+            }
+        });
+
+        // Inisialisasi
+        syncWithServer();
+    </script>
+</body>
+</html>

@@ -53,6 +53,16 @@
                     <input type="text" id="admin-input-nama" placeholder="Contoh: Rian Pratama" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-hidden focus:ring-2 focus:ring-amber-500">
                 </div>
 
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                        Pilihan Paket <span class="text-amber-400">*</span>:
+                    </label>
+                    <select id="admin-input-package" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white font-medium focus:outline-hidden focus:ring-2 focus:ring-amber-500">
+                        <option value="ielts">Paket IELTS Mandiri (Rp 35.000 / 30 Hari)</option>
+                        <option value="snbt">Paket All-Access SNBT (Rp 35.000 / 30 Hari)</option>
+                    </select>
+                </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
                         Nomor WhatsApp Siswa <span class="text-rose-400">*</span>:
@@ -125,6 +135,7 @@
                     <thead class="bg-slate-900 text-slate-400 uppercase">
                         <tr>
                             <th class="p-2.5">ID</th>
+                            <th class="p-2.5">Paket</th>
                             <th class="p-2.5">Siswa / WA</th>
                             <th class="p-2.5">Status</th>
                             <th class="p-2.5">Perangkat</th>
@@ -145,6 +156,7 @@
         const SNBT_API_URL = "https://kimia-snbt-api.kimia-ajarkita.workers.dev";
 
         const inputKey = document.getElementById('admin-input-key');
+        const inputPackage = document.getElementById('admin-input-package');
         const inputNama = document.getElementById('admin-input-nama');
         const inputPhone = document.getElementById('admin-input-phone');
         const inputDays = document.getElementById('admin-input-days');
@@ -189,6 +201,7 @@
             const nama = inputNama.value.trim() || 'Siswa';
             const days = parseInt(inputDays.value, 10) || 30;
             const maxDevices = parseInt(inputDevices.value, 10) || 2;
+            const packageType = inputPackage ? inputPackage.value : 'snbt';
 
             btnGen.disabled = true;
             btnGen.innerHTML = '<span>⏳</span> <span>Membuat token di server...</span>';
@@ -200,7 +213,7 @@
                         'Content-Type': 'application/json',
                         'X-Admin-Key': adminKey
                     },
-                    body: JSON.stringify({ nama, wa: cleanPhone, days, maxDevices })
+                    body: JSON.stringify({ nama, wa: cleanPhone, packageType, days, maxDevices })
                 });
                 const data = await res.json();
                 if (!res.ok || !data.ok) {
@@ -211,7 +224,23 @@
                 const token = data.token;
                 let waTarget = cleanPhone.startsWith('0') ? '62' + cleanPhone.slice(1) : cleanPhone;
 
-                const pesan = `Halo ${nama}! Terima kasih sudah mengonfirmasi pembayaran Paket All-Access SNBT 2026 (Rp 35.000).
+                let pesan = '';
+                if (packageType === 'ielts') {
+                    pesan = `Halo ${nama}! Terima kasih sudah mengonfirmasi pembayaran Paket IELTS Mandiri (Rp 35.000).
+
+Berikut adalah Kode Lisensi Premium Anda:
+🔑 Kode Token   : ${token}
+⏳ Masa Aktif   : ${days} Hari sejak diaktifkan (maks. ${maxDevices} perangkat pribadi)
+📚 Fitur Akses  : Akses penuh 4 Modul (Listening, Reading, Writing, Speaking), rekaman lokal browser, kalkulasi band & pembahasan otomatis (tanpa koreksi guru/Add-on).
+
+Cara Aktivasi di Web:
+1. Buka: https://kimia.ajarkita.my.id/ielts/premium-saya.html
+2. Masukkan Kode Token: ${token}
+3. Klik "Aktifkan Lisensi"
+
+Selamat berlatih intensif dan semoga sukses meraih target skor IELTS impianmu! 🎓✨`;
+                } else {
+                    pesan = `Halo ${nama}! Terima kasih sudah mengonfirmasi pembayaran Paket All-Access SNBT 2026 (Rp 35.000).
 
 Berikut adalah Kode Lisensi Premium Anda:
 🔑 Kode Token   : ${token}
@@ -225,6 +254,7 @@ Cara Aktivasi di Web:
 5. Klik "Aktifkan Akses Premium"
 
 Selamat belajar intensif dan semoga sukses meraih kursi PTN impian! 🎓✨`;
+                }
 
                 resToken.value = token;
                 resMessage.value = pesan;
@@ -269,9 +299,13 @@ Selamat belajar intensif dan semoga sukses meraih kursi PTN impian! 🎓✨`;
                         const sisa = Math.ceil((r.expires_at - now) / 86400000);
                         statusBadge = `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Aktif (${sisa} hr)</span>`;
                     }
+                    const pkgBadge = r.package_type === 'ielts'
+                        ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">IELTS</span>'
+                        : '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30">SNBT</span>';
                     return `
                         <tr>
                             <td class="p-2.5 font-mono text-slate-400">#${r.id}</td>
+                            <td class="p-2.5">${pkgBadge}</td>
                             <td class="p-2.5">
                                 <div class="font-bold text-white">${r.nama || '-'}</div>
                                 <div class="font-mono text-slate-400">${r.wa || '-'}</div>

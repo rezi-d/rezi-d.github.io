@@ -13,15 +13,17 @@
 // =================================================================
 
 import { RETENTION_CONFIG } from './retention-config.js';
+import { PACKAGES_CONFIG, getPackageDetails } from './packages-config.js';
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // tanpa 0/O/1/I
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 // ---------- Utilitas ----------
-function generateToken() {
+function generateToken(prefix = 'SNBT') {
     const bytes = crypto.getRandomValues(new Uint8Array(12));
     const chars = Array.from(bytes, (b) => ALPHABET[b % ALPHABET.length]).join('');
-    return `SNBT-${chars.slice(0, 4)}-${chars.slice(4, 8)}-${chars.slice(8, 12)}`;
+    const pfx = String(prefix || 'SNBT').trim().toUpperCase().startsWith('IELT') ? 'IELT' : 'SNBT';
+    return `${pfx}-${chars.slice(0, 4)}-${chars.slice(4, 8)}-${chars.slice(8, 12)}`;
 }
 
 async function sha256Hex(text) {
@@ -141,10 +143,20 @@ function validDeviceId(id) {
     return typeof id === 'string' && /^[A-Za-z0-9_-]{16,64}$/.test(id);
 }
 
+async function ensureLicensesSchema(env) {
+    try {
+        await env.DB.prepare("ALTER TABLE licenses ADD COLUMN package_type TEXT DEFAULT 'snbt'").run();
+    } catch {}
+    try {
+        await env.DB.prepare("CREATE INDEX IF NOT EXISTS idx_licenses_pkg ON licenses(package_type)").run();
+    } catch {}
+}
+
 // ---------- Logika lisensi ----------
 // register=true  -> boleh mengaktifkan lisensi & mendaftarkan perangkat baru
 // register=false -> perangkat harus sudah terdaftar (dipakai untuk ambil soal)
-async function authorize(env, token, deviceId, register) {
+// requiredPackage -> 'ielts' atau 'snbt' (opsional)
+async function authorize(env, token, deviceId, register, requiredPackage = null) {
     if (!token || !validDeviceId(deviceId)) {
         return { ok: false, status: 400, error: 'Token atau ID perangkat tidak valid.', reason: 'invalid_request' };
     }
@@ -153,6 +165,19 @@ async function authorize(env, token, deviceId, register) {
     const lic = await env.DB.prepare('SELECT * FROM licenses WHERE token_hash = ?').bind(hash).first();
     if (!lic) return { ok: false, status: 401, error: 'Kode token tidak ditemukan.', reason: 'token_not_found' };
     if (lic.revoked) return { ok: false, status: 403, error: 'Lisensi ini telah dinonaktifkan (dicabut). Hubungi admin.', reason: 'token_revoked' };
+
+    const packageType = String(lic.package_type || 'snbt').trim().toLowerCase();
+    if (requiredPackage) {
+        const req = String(requiredPackage).trim().toLowerCase();
+        if (packageType !== req && packageType !== 'all') {
+            return {
+                ok: false,
+                status: 403,
+                error: `Lisensi ini khusus untuk paket ${packageType.toUpperCase()}, bukan untuk paket ${req.toUpperCase()}.`,
+                reason: 'wrong_package'
+            };
+        }
+    }
 
     const now = Date.now();
     let expiresAt = lic.expires_at;
@@ -189,6 +214,8 @@ async function authorize(env, token, deviceId, register) {
     return {
         ok: true,
         licenseId: lic.id,
+        nama: lic.nama || '',
+        packageType,
         expiresAt,
         remainingDays: Math.max(0, Math.ceil((expiresAt - now) / DAY_MS)),
         reason: 'success'
@@ -221,12 +248,12 @@ async function resolveAdminLicense(env, body) {
     let lic = null;
     const id = parseInt(body.id, 10);
     if (id && id > 0) {
-        lic = await env.DB.prepare('SELECT id, nama, wa, duration_days, max_devices, revoked, expires_at FROM licenses WHERE id = ?').bind(id).first();
+        lic = await env.DB.prepare('SELECT id, nama, wa, package_type, duration_days, max_devices, revoked, expires_at FROM licenses WHERE id = ?').bind(id).first();
     }
     if (!lic && typeof body.token === 'string' && body.token.trim()) {
         const norm = normalizeToken(body.token);
         const hash = await sha256Hex(norm);
-        lic = await env.DB.prepare('SELECT id, nama, wa, duration_days, max_devices, revoked, expires_at FROM licenses WHERE token_hash = ?').bind(hash).first();
+        lic = await env.DB.prepare('SELECT id, nama, wa, package_type, duration_days, max_devices, revoked, expires_at FROM licenses WHERE token_hash = ?').bind(hash).first();
     }
     return lic;
 }
@@ -1000,8 +1027,14 @@ export default {
                 return json(request, env, { service: 'kimia-snbt-api', status: 'ok' });
             }
 
+            // Informasi Paket, Durasi, Harga & Fitur Terpusat (Tahap B3)
+            if (path === '/packages' && request.method === 'GET') {
+                return json(request, env, { ok: true, packages: PACKAGES_CONFIG });
+            }
+
             // --- Siswa: aktivasi / cek lisensi (Tahap B1: Rate Limit Ganda, Penundaan Bertahap & Audit Log) ---
             if (path === '/activate' && request.method === 'POST') {
+                await ensureLicensesSchema(env);
                 await ensureActivationSchema(env);
                 const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
                 const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
@@ -1028,20 +1061,27 @@ export default {
                     await new Promise(r => setTimeout(r, rateCheck.delayMs));
                 }
 
-                // 3. Eksekusi otorisasi lisensi
-                const res = await authorize(env, normalizedTok, body.deviceId, true);
+                // 3. Eksekusi otorisasi lisensi (Tahap B3: Pembedaan Jenis Paket)
+                const requestedPackage = body.packageType ? String(body.packageType).trim().toLowerCase() : null;
+                const res = await authorize(env, normalizedTok, body.deviceId, true, requestedPackage);
 
                 // 4. Catat ke attempt tracker & audit log tanpa data pribadi
                 await recordActivationAttemptResult(env, ipHash, tokenPrefix, res.ok, res.reason || (res.ok ? 'success' : 'activation_failed'));
 
                 if (!res.ok) {
-                    return json(request, env, { ok: false, error: res.error }, res.status);
+                    return json(request, env, { ok: false, error: res.error, reason: res.reason }, res.status);
                 }
+
+                const pkgDetails = getPackageDetails(res.packageType);
 
                 return json(request, env, {
                     ok: true,
+                    packageType: res.packageType,
+                    packageName: pkgDetails.name,
                     expiresAt: res.expiresAt,
-                    remainingDays: res.remainingDays
+                    remainingDays: res.remainingDays,
+                    features: pkgDetails.features,
+                    excluded_features: pkgDetails.excluded_features
                 });
             }
 
@@ -3102,7 +3142,7 @@ export default {
             // --- Siswa: ambil soal premium ---
             const paketMatch = path.match(/^\/paket\/([a-z0-9_-]{1,60})$/);
             if (paketMatch && request.method === 'GET') {
-                const res = await authorize(env, bearerToken(request), request.headers.get('X-Device-Id'), false);
+                const res = await authorize(env, bearerToken(request), request.headers.get('X-Device-Id'), false, 'snbt');
                 if (!res.ok) return json(request, env, { ok: false, error: res.error, reason: res.reason }, res.status);
 
                 const asset = await env.ASSETS.fetch(new Request(new URL(`/${paketMatch[1]}.json`, url.origin)));
@@ -3274,23 +3314,27 @@ export default {
                 if (!isAdmin(request, env)) return json(request, env, { ok: false, error: 'Tidak berwenang.' }, 401);
 
                 if (path === '/admin/token' && request.method === 'POST') {
+                    await ensureLicensesSchema(env);
                     const body = await readJson(request);
                     const wa = String(body.wa || '').replace(/\D/g, '');
                     const nama = String(body.nama || '').trim().slice(0, 80);
                     const days = Math.min(365, Math.max(1, parseInt(body.days, 10) || 30));
                     const maxDevices = Math.min(5, Math.max(1, parseInt(body.maxDevices, 10) || 2));
+                    const packageType = String(body.packageType || 'snbt').trim().toLowerCase();
 
-                    const token = generateToken();
+                    const token = generateToken(packageType);
                     await env.DB.prepare(
-                        'INSERT INTO licenses (token_hash, nama, wa, created_at, duration_days, max_devices) VALUES (?, ?, ?, ?, ?, ?)'
-                    ).bind(await sha256Hex(token), nama, wa, Date.now(), days, maxDevices).run();
+                        'INSERT INTO licenses (token_hash, nama, wa, package_type, created_at, duration_days, max_devices) VALUES (?, ?, ?, ?, ?, ?, ?)'
+                    ).bind(await sha256Hex(token), nama, wa, packageType, Date.now(), days, maxDevices).run();
 
-                    return json(request, env, { ok: true, token, days, maxDevices });
+                    return json(request, env, { ok: true, token, packageType, days, maxDevices });
                 }
 
                 if (path === '/admin/list' && request.method === 'GET') {
+                    await ensureLicensesSchema(env);
                     const rows = await env.DB.prepare(
-                        `SELECT l.id, l.nama, l.wa, l.created_at, l.activated_at, l.expires_at,
+                        `SELECT l.id, l.nama, l.wa, COALESCE(l.package_type, 'snbt') AS package_type,
+                                l.created_at, l.activated_at, l.expires_at,
                                 l.duration_days, l.max_devices, l.revoked,
                                 (SELECT COUNT(*) FROM devices d WHERE d.license_id = l.id) AS devices
                          FROM licenses l ORDER BY l.id DESC LIMIT 500`
