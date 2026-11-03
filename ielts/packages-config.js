@@ -56,6 +56,24 @@ const PACKAGES_CONFIG = {
             disclaimer: "Berupa umpan balik latihan dengan estimasi band (4 kriteria), bukan skor resmi IELTS."
         }
     },
+    getBuyWhatsAppUrl(planKey = '30_days') {
+        const plan = this.ielts?.plans?.[planKey] || { price_formatted: "Rp 35.000", duration_days: 30 };
+        const text = `Halo Admin AjarKita, saya sudah menyetujui syarat dan kebijakan privasi serta ingin beli Paket IELTS Mandiri ${plan.duration_days} Hari (${plan.price_formatted}). Mohon petunjuk pembayarannya ya!`;
+        return `https://wa.me/${this.admin_wa}?text=${encodeURIComponent(text)}`;
+    },
+    getHelpWhatsAppUrl() {
+        const text = `Halo Admin AjarKita, saya butuh bantuan terkait Lisensi IELTS Mandiri (reset perangkat / kendala aktivasi).`;
+        return `https://wa.me/${this.admin_wa}?text=${encodeURIComponent(text)}`;
+    },
+    getAddonWhatsAppUrl(addonKey) {
+        const addon = this.ielts?.teacher_addons?.[addonKey];
+        if (!addon) {
+            const text = `Halo Admin AjarKita, saya ingin memesan Layanan Add-on Penilaian Guru IELTS. Mohon info ketersediaan kuota minggu ini ya!`;
+            return `https://wa.me/${this.admin_wa}?text=${encodeURIComponent(text)}`;
+        }
+        const text = `Halo Admin AjarKita, saya ingin memesan Layanan Add-on Penilaian Guru IELTS: ${addon.name} (${addon.price_formatted}). Mohon info ketersediaan kuota minggu ini ya!`;
+        return `https://wa.me/${this.admin_wa}?text=${encodeURIComponent(text)}`;
+    },
     snbt: {
         id: "snbt",
         name: "Paket All-Access SNBT",
