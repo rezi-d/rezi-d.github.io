@@ -98,8 +98,22 @@
         <!-- DASHBOARD CONTAINER (DITAMPILKAN SETELAH AUTH SUKSES) -->
         <div id="dashboard-content" class="hidden space-y-8">
             
+            <!-- BANNER PERINGATAN KEDALUWARSA AUDIO SPEAKING -->
+            <div id="banner-retention-warning" class="hidden p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-xs shadow-2xs space-y-1.5">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div class="flex items-center gap-2 font-bold text-amber-950 text-sm">
+                        <span>⚠️</span>
+                        <span id="banner-warning-title">Peringatan Masa Simpan Rekaman Speaking</span>
+                    </div>
+                    <button type="button" onclick="openRetentionModal()" class="px-3 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] transition">
+                        Kelola Penyimpanan
+                    </button>
+                </div>
+                <p id="banner-warning-desc" class="text-amber-800 leading-relaxed"></p>
+            </div>
+
             <!-- STATS CARDS -->
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-3.5">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
                 <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Siswa</span>
                     <span id="stat-total-students" class="text-2xl font-extrabold text-slate-900 block font-mono">0</span>
@@ -120,10 +134,18 @@
                     <span id="stat-writing-pending" class="text-2xl font-extrabold text-amber-700 block font-mono">0</span>
                     <span id="stat-writing-graded-count" class="text-[10px] text-slate-500">0 sudah dinilai</span>
                 </div>
-                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1 col-span-2 md:col-span-1">
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Speaking: Menunggu</span>
                     <span id="stat-speaking-pending" class="text-2xl font-extrabold text-rose-700 block font-mono">0</span>
                     <span id="stat-speaking-graded-count" class="text-[10px] text-slate-500">0 sudah dinilai</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-1 col-span-2 sm:col-span-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-rose-700">Audio Speaking D1</span>
+                        <span id="stat-audio-badge" class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600">0%</span>
+                    </div>
+                    <span id="stat-audio-size" class="text-xl font-extrabold text-slate-900 block font-mono">0.00 MB</span>
+                    <span id="stat-audio-count" class="text-[10px] text-slate-500 block truncate">0 rekaman aktif</span>
                 </div>
             </div>
 
@@ -176,8 +198,14 @@
                     </div>
                 </div>
 
-                <!-- Export CSV & Refresh -->
-                <div class="flex items-center gap-2 shrink-0">
+                <!-- Actions: Audio Retention, Export CSV & Refresh -->
+                <div class="flex items-center gap-2 shrink-0 flex-wrap">
+                    <button type="button" onclick="openRetentionModal()" class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs transition flex items-center gap-1.5 shadow-2xs">
+                        <span>🗑️</span> Kelola Audio
+                    </button>
+                    <button type="button" onclick="openCleanupLogsModal()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1" title="Lihat riwayat pembersihan audio">
+                        <span>📜</span> Log
+                    </button>
                     <button type="button" onclick="fetchResults()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
                         🔄 Refresh
                     </button>
@@ -485,9 +513,15 @@
 
                 <!-- Modal Footer -->
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-200">
-                    <button type="button" onclick="handleDeleteSpeakingSession()" class="text-xs text-red-600 hover:text-red-800 font-semibold underline">
-                        🗑️ Hapus Sesi & Rekaman Ini
-                    </button>
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="handleDeleteSpeakingSession()" class="text-xs text-red-600 hover:text-red-800 font-semibold underline">
+                            🗑️ Hapus Sesi &amp; Rekaman
+                        </button>
+                        <span class="text-slate-300">•</span>
+                        <button type="button" onclick="openSingleStudentCleanup()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline flex items-center gap-1">
+                            <span>🧹</span> Hapus Audio Saja (Skor Tetap)
+                        </button>
+                    </div>
 
                     <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
                         <button type="button" onclick="closeSpeakingGradingModal()" class="px-4 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 text-xs font-bold transition">
@@ -500,6 +534,130 @@
                 </div>
             </form>
 
+        </div>
+    </div>
+
+    <!-- MODAL KELOLA MASA SIMPAN & PEMBERSIHAN AUDIO SPEAKING (D1) -->
+    <div id="modal-retention-cleanup" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto custom-scrollbar">
+            <!-- Header -->
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-2 py-0.5 rounded">
+                        Manajemen Penyimpanan &amp; Privasi Siswa
+                    </span>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mt-1">
+                        Pembersihan Berkas Rekaman Audio (D1)
+                    </h3>
+                </div>
+                <button type="button" onclick="closeRetentionModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xs transition">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Informasi Kapasitas & Perlindungan Nilai -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-600">
+                <div class="flex items-center justify-between font-bold text-slate-800">
+                    <span>Penggunaan Audio Aktif:</span>
+                    <span id="modal-cleanup-storage-text" class="font-mono text-rose-600">0.00 MB / 500 MB</span>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-slate-500">
+                    <span>Rekaman aktif: <strong id="modal-cleanup-count-text" class="text-slate-800 font-mono">0</strong></span>
+                    <span>Akan kedaluwarsa dlm 7 hari: <strong id="modal-cleanup-expiring-text" class="text-amber-700 font-mono">0</strong></span>
+                </div>
+                <p class="text-[11px] leading-relaxed pt-1 border-t border-slate-200/80 text-emerald-800">
+                    🛡️ <strong>Jaminan Keamanan Nilai:</strong> Yang dihapus <em>hanya</em> berkas biner audio dan draf transkrip mesin. 
+                    <strong>Nilai band score, rubrik 4 kriteria guru (FC, LR, GRA, PR), catatan guru, dan rekap nilai siswa TETAP 100% AMAN.</strong>
+                </p>
+            </div>
+
+            <!-- Pilihan Opsi Pembersihan -->
+            <div class="space-y-3">
+                <label class="block text-xs font-bold text-slate-800 uppercase tracking-wide">
+                    Pilih Cakupan Pembersihan:
+                </label>
+                <div class="space-y-2">
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="cleanup-scope" value="graded" checked onchange="updateCleanupScopeUI()" class="mt-0.5 text-rose-600 focus:ring-rose-500">
+                        <div>
+                            <span class="block text-xs font-bold text-slate-800">Hapus Semua Rekaman yang Sudah Dinilai</span>
+                            <span class="block text-[11px] text-slate-500">Membersihkan berkas rekaman suara untuk seluruh siswa yang sudah dinilai guru.</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="cleanup-scope" value="class" onchange="updateCleanupScopeUI()" class="mt-0.5 text-rose-600 focus:ring-rose-500">
+                        <div class="w-full">
+                            <span class="block text-xs font-bold text-slate-800">Hapus Berdasarkan Kelas</span>
+                            <span class="block text-[11px] text-slate-500 mb-1.5">Membersihkan seluruh rekaman suara siswa dalam satu kelas tertentu.</span>
+                            <select id="cleanup-select-class" disabled class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-800">
+                                <option value="">Pilih Kelas...</option>
+                            </select>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="cleanup-scope" value="student" onchange="updateCleanupScopeUI()" class="mt-0.5 text-rose-600 focus:ring-rose-500">
+                        <div class="w-full">
+                            <span class="block text-xs font-bold text-slate-800">Hapus Berdasarkan Siswa Tertentu</span>
+                            <span class="block text-[11px] text-slate-500 mb-1.5">Membersihkan rekaman audio untuk satu siswa pilihan.</span>
+                            <select id="cleanup-select-student" disabled class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-800">
+                                <option value="">Pilih Siswa...</option>
+                            </select>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="radio" name="cleanup-scope" value="retention" onchange="updateCleanupScopeUI()" class="mt-0.5 text-rose-600 focus:ring-rose-500">
+                        <div>
+                            <span class="block text-xs font-bold text-slate-800">Jalankan Aturan Retensi Otomatis Sekarang</span>
+                            <span class="block text-[11px] text-slate-500">Eksekusi segera aturan pembersihan: rekaman dinilai &gt; 14 hari &amp; rekaman belum dinilai &gt; 60 hari.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Box Konfirmasi Wajib Ketik HAPUS -->
+            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 space-y-2">
+                <span class="text-xs font-bold text-rose-900 block flex items-center gap-1.5">
+                    <span>⚠️</span> Konfirmasi Keamanan (Tindakan Tidak Dapat Dibatalkan)
+                </span>
+                <p class="text-[11px] text-rose-700 leading-relaxed">
+                    Ketik kata <span class="font-mono font-black text-rose-900 bg-white px-2 py-0.5 rounded border border-rose-300">HAPUS</span> (huruf kapital) di kotak berikut untuk mengaktifkan tombol pembersihan:
+                </p>
+                <input type="text" id="input-confirm-hapus" oninput="checkHapusConfirmation()" placeholder='Ketik "HAPUS"' autocomplete="off"
+                       class="w-full px-3 py-2 bg-white border border-rose-300 rounded-xl text-xs font-bold text-rose-900 placeholder:text-rose-300 focus:outline-none focus:border-rose-600">
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200">
+                <button type="button" onclick="closeRetentionModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition">
+                    Batal
+                </button>
+                <button type="button" id="btn-execute-cleanup" onclick="executeCleanup()" disabled class="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold shadow-xs transition flex items-center gap-1.5">
+                    <span>🗑️</span> Hapus Rekaman Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AUDIT LOG PEMBERSIHAN AUDIO -->
+    <div id="modal-cleanup-logs" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto custom-scrollbar">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Audit Trail Keamanan &amp; Retensi</span>
+                    <h3 class="text-base font-bold text-slate-900 mt-0.5">Riwayat Pembersihan Rekaman Audio</h3>
+                </div>
+                <button type="button" onclick="closeCleanupLogsModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xs transition">
+                    ✕
+                </button>
+            </div>
+
+            <div id="cleanup-logs-loading" class="text-center py-8 text-xs font-semibold text-slate-500">
+                Memuat riwayat log pembersihan...
+            </div>
+
+            <div id="cleanup-logs-container" class="space-y-2 text-xs hidden">
+                <!-- Injected by JS -->
+            </div>
         </div>
     </div>
 
@@ -516,6 +674,8 @@
 
         let ALL_STUDENTS = [];
         let ACTIVE_TEACHER_KEY = sessionStorage.getItem('teacher_key') || '';
+        let CURRENT_STORAGE_RETENTION = null;
+        let ACTIVE_SPEAKING_STUDENT = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             initScoreDropdownOptions();
@@ -588,6 +748,7 @@
 
                 const data = await res.json();
                 ALL_STUDENTS = data.results || [];
+                CURRENT_STORAGE_RETENTION = data.storage_retention || null;
 
                 sessionStorage.setItem('teacher_key', ACTIVE_TEACHER_KEY);
 
@@ -685,6 +846,53 @@
             if (writingGradedEl) writingGradedEl.textContent = `${writeGradedCount} sudah dinilai`;
             if (speakingPendingEl) speakingPendingEl.textContent = spkPendingCount;
             if (speakingGradedEl) speakingGradedEl.textContent = `${spkGradedCount} sudah dinilai`;
+
+            // Update Indikator Kapasitas & Masa Simpan Audio D1
+            const audioSizeEl = document.getElementById('stat-audio-size');
+            const audioCountEl = document.getElementById('stat-audio-count');
+            const audioBadgeEl = document.getElementById('stat-audio-badge');
+            const bannerWarning = document.getElementById('banner-retention-warning');
+            const bannerTitle = document.getElementById('banner-warning-title');
+            const bannerDesc = document.getElementById('banner-warning-desc');
+
+            if (CURRENT_STORAGE_RETENTION) {
+                const sr = CURRENT_STORAGE_RETENTION;
+                const limitMb = sr.d1_capacity_limit_mb || 500;
+                const usedMb = sr.total_file_size_mb || 0;
+                const pct = Math.min(100, Math.round((usedMb / limitMb) * 100));
+
+                if (audioSizeEl) audioSizeEl.textContent = `${usedMb.toFixed(2)} MB`;
+                if (audioCountEl) {
+                    audioCountEl.textContent = `${sr.active_recordings_count} aktif • ${sr.expiring_soon_count} kedaluwarsa 7h`;
+                }
+                if (audioBadgeEl) {
+                    audioBadgeEl.textContent = `${pct}% / ${limitMb}MB`;
+                    if (pct > 80) {
+                        audioBadgeEl.className = 'px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-100 text-rose-700';
+                    } else if (pct > 50) {
+                        audioBadgeEl.className = 'px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800';
+                    } else {
+                        audioBadgeEl.className = 'px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600';
+                    }
+                }
+
+                // Tampilkan banner peringatan jika ada rekaman belum dinilai yang kedaluwarsa <= 7 hari
+                if (sr.expiring_ungraded_count > 0) {
+                    if (bannerWarning) bannerWarning.classList.remove('hidden');
+                    if (bannerTitle) bannerTitle.textContent = `PERINGATAN GURU: ${sr.expiring_ungraded_count} Rekaman Belum Dinilai Akan Kedaluwarsa!`;
+                    if (bannerDesc) {
+                        bannerDesc.innerHTML = `Terdapat <strong>${sr.expiring_ungraded_count} sesi Speaking yang belum sempat dinilai</strong> dan akan otomatis dihapus oleh jadwal retensi dalam 7 hari ke depan (batas ${sr.retention_days_ungraded} hari sejak tes). Segera berikan penilaian agar audio tidak terhapus sebelum dinilai.`;
+                    }
+                } else if (sr.expiring_soon_count > 0) {
+                    if (bannerWarning) bannerWarning.classList.remove('hidden');
+                    if (bannerTitle) bannerTitle.textContent = `Masa Simpan Audio: ${sr.expiring_soon_count} Rekaman Akan Dibersihkan`;
+                    if (bannerDesc) {
+                        bannerDesc.innerHTML = `Terdapat <strong>${sr.expiring_soon_count} rekaman Speaking</strong> yang dijadwalkan otomatis dibersihkan dalam 7 hari ke depan (${sr.retention_days_graded} hari setelah dinilai). Nilai dan rubrik 4 kriteria guru tetap tersimpan permanen.`;
+                    }
+                } else {
+                    if (bannerWarning) bannerWarning.classList.add('hidden');
+                }
+            }
         }
 
         function filterAndRenderTable() {
@@ -825,19 +1033,31 @@
                     const isGraded = s.status === 'graded';
                     const bandText = isGraded && s.speaking_band ? `Band ${Number(s.speaking_band).toFixed(1)}` : 'Menunggu Dinilai';
                     const badgeClass = isGraded ? 'bg-rose-100 text-rose-800 border-rose-200' : 'bg-amber-100 text-amber-800 border-amber-200';
+                    const hasAudio = Boolean(s.audio_available);
+                    const isExpiring = Boolean(s.retention_info && s.retention_info.isExpiringSoon);
+
+                    let retentionBadge = '';
+                    if (isExpiring && hasAudio) {
+                        retentionBadge = `<span class="px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 text-[9px] font-bold" title="Audio kedaluwarsa dlm ${s.retention_info.daysRemaining} hari">⏳ ${s.retention_info.daysRemaining}h</span>`;
+                    }
+
+                    let audioSubtext = hasAudio 
+                        ? (isGraded ? 'Audio siap' : 'Rekaman aktif') 
+                        : (s.deleted_at ? '🗑️ Audio dibersihkan' : 'Tanpa audio');
 
                     spkHtml = `
                         <div class="flex flex-col items-center gap-1">
-                            <div class="flex items-center gap-1.5">
+                            <div class="flex items-center gap-1.5 flex-wrap justify-center">
                                 <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold border ${badgeClass}">
                                     ${bandText}
                                 </span>
+                                ${retentionBadge}
                                 <button type="button" onclick="openSpeakingGradingModal(${idx})" class="text-[11px] font-bold text-rose-600 hover:text-rose-800 underline">
                                     ${isGraded ? 'Ubah' : 'Nilai'}
                                 </button>
                             </div>
                             <span class="text-[9px] text-slate-500 font-mono">
-                                ${isGraded ? 'FC/LR/GRA/PR siap' : 'Rekaman tersimpan'}
+                                ${audioSubtext}
                             </span>
                         </div>
                     `;
@@ -1106,6 +1326,22 @@
                         const sizeKb = rec.file_size_bytes ? `${Math.round(rec.file_size_bytes / 1024)} KB` : '';
                         const audioId = `audio_player_${rIdx}`;
                         const btnId = `audio_btn_${rIdx}`;
+                        const isAudioCleaned = !rec.audio_available || !!rec.deleted_at;
+
+                        if (isAudioCleaned) {
+                            return `
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="flex items-center justify-between text-xs font-semibold">
+                                        <span class="font-mono text-slate-700 font-bold">Soal: ${escapeHtml(rec.question_id)}</span>
+                                        <span class="text-slate-400 text-[11px]">${durText}</span>
+                                    </div>
+                                    <div class="p-2.5 rounded-lg bg-slate-100 border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
+                                        <span>🗑️</span>
+                                        <span>Berkas audio telah dihapus dari server sesuai kebijakan masa simpan privasi siswa. Skor tetap tersimpan.</span>
+                                    </div>
+                                </div>
+                            `;
+                        }
 
                         let transcriptHtml = '';
                         if (rec.transcript && rec.transcript.trim()) {
@@ -1200,9 +1436,18 @@
                         'Authorization': `Bearer ${ACTIVE_TEACHER_KEY}`
                     }
                 });
+
                 if (!res.ok) {
+                    if (res.status === 404) {
+                        const errData = await res.json().catch(() => ({}));
+                        alert(errData.error || 'Rekaman audio telah dihapus dari server sesuai kebijakan masa simpan privasi.');
+                        btnElem.textContent = '🗑️ Dihapus';
+                        btnElem.disabled = true;
+                        return;
+                    }
                     throw new Error(`HTTP ${res.status}: ${res.statusText}`);
                 }
+
                 const blob = await res.blob();
                 audioElem.src = URL.createObjectURL(blob);
                 audioElem.classList.remove('hidden');
@@ -1221,11 +1466,132 @@
             }
         }
 
-        async function cleanupSpeakingSession() {
-            const sessionId = document.getElementById('modal-spk-session-id').value;
-            if (!sessionId) return;
-            if (!confirm('Apakah Anda yakin ingin MENGHAPUS SELURUH REKAMAN SUARA untuk sesi ini demi privasi siswa? Aksi ini tidak dapat dibatalkan.')) {
+        // --- Manajemen Pembersihan Rekaman Speaking (D1) ---
+        function openRetentionModal(defaultScope = 'graded', defaultTarget = '') {
+            const modal = document.getElementById('modal-retention-cleanup');
+            if (!modal) return;
+
+            // Set radio scope
+            const radios = document.querySelectorAll('input[name="cleanup-scope"]');
+            radios.forEach(r => {
+                r.checked = (r.value === defaultScope);
+            });
+
+            // Populate class options
+            const classSelect = document.getElementById('cleanup-select-class');
+            if (classSelect) {
+                const uniqueClasses = Array.from(new Set(ALL_STUDENTS.map(s => s.kelas).filter(Boolean))).sort();
+                classSelect.innerHTML = '<option value="">Pilih Kelas...</option>' +
+                    uniqueClasses.map(c => `<option value="${escapeHtml(c)}" ${defaultScope === 'class' && defaultTarget === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('');
+            }
+
+            // Populate student options
+            const studentSelect = document.getElementById('cleanup-select-student');
+            if (studentSelect) {
+                const studentsWithSpeaking = ALL_STUDENTS.filter(s => s.speaking && s.speaking.id);
+                studentSelect.innerHTML = '<option value="">Pilih Siswa...</option>' +
+                    studentsWithSpeaking.map(s => {
+                        const isSelected = (defaultScope === 'student' && (defaultTarget === s.speaking.id || defaultTarget === s.nama_peserta));
+                        return `<option value="${escapeHtml(s.nama_peserta)}|${escapeHtml(s.kelas)}" ${isSelected ? 'selected' : ''}>${escapeHtml(s.nama_peserta)} (${escapeHtml(s.kelas)})</option>`;
+                    }).join('');
+            }
+
+            // Update stats
+            if (CURRENT_STORAGE_RETENTION) {
+                const sr = CURRENT_STORAGE_RETENTION;
+                const storageEl = document.getElementById('modal-cleanup-storage-text');
+                const countEl = document.getElementById('modal-cleanup-count-text');
+                const expEl = document.getElementById('modal-cleanup-expiring-text');
+                if (storageEl) storageEl.textContent = `${(sr.total_file_size_mb || 0).toFixed(2)} MB / ${sr.d1_capacity_limit_mb || 500} MB`;
+                if (countEl) countEl.textContent = `${sr.active_recordings_count || 0} berkas aktif`;
+                if (expEl) expEl.textContent = `${sr.expiring_soon_count || 0} rekaman`;
+            }
+
+            const inputConfirm = document.getElementById('input-confirm-hapus');
+            if (inputConfirm) inputConfirm.value = '';
+            const btnExecute = document.getElementById('btn-execute-cleanup');
+            if (btnExecute) {
+                btnExecute.disabled = true;
+                btnExecute.textContent = '🗑️ Hapus Rekaman Sekarang';
+            }
+
+            updateCleanupScopeUI();
+            modal.classList.remove('hidden');
+            if (inputConfirm) inputConfirm.focus();
+        }
+
+        function closeRetentionModal() {
+            const modal = document.getElementById('modal-retention-cleanup');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function updateCleanupScopeUI() {
+            const selectedScope = document.querySelector('input[name="cleanup-scope"]:checked')?.value || 'graded';
+            const classSelect = document.getElementById('cleanup-select-class');
+            const studentSelect = document.getElementById('cleanup-select-student');
+
+            if (classSelect) classSelect.disabled = (selectedScope !== 'class');
+            if (studentSelect) studentSelect.disabled = (selectedScope !== 'student');
+
+            checkHapusConfirmation();
+        }
+
+        function checkHapusConfirmation() {
+            const inputConfirm = document.getElementById('input-confirm-hapus');
+            const btnExecute = document.getElementById('btn-execute-cleanup');
+            if (!inputConfirm || !btnExecute) return;
+
+            const val = inputConfirm.value.trim();
+            const selectedScope = document.querySelector('input[name="cleanup-scope"]:checked')?.value || 'graded';
+
+            let targetValid = true;
+            if (selectedScope === 'class') {
+                const cls = document.getElementById('cleanup-select-class')?.value;
+                if (!cls) targetValid = false;
+            } else if (selectedScope === 'student') {
+                const std = document.getElementById('cleanup-select-student')?.value;
+                if (!std) targetValid = false;
+            }
+
+            btnExecute.disabled = !(val === 'HAPUS' && targetValid);
+        }
+
+        async function executeCleanup() {
+            const inputConfirm = document.getElementById('input-confirm-hapus');
+            const btnExecute = document.getElementById('btn-execute-cleanup');
+            if (!inputConfirm || inputConfirm.value.trim() !== 'HAPUS') {
+                alert('Harap ketik "HAPUS" (huruf kapital) untuk konfirmasi pembersihan.');
                 return;
+            }
+
+            const selectedScope = document.querySelector('input[name="cleanup-scope"]:checked')?.value || 'graded';
+            const payload = {
+                teacherKey: ACTIVE_TEACHER_KEY,
+                confirm: 'HAPUS',
+                mode: selectedScope
+            };
+
+            if (selectedScope === 'class') {
+                const cls = document.getElementById('cleanup-select-class')?.value;
+                if (!cls) {
+                    alert('Pilih kelas terlebih dahulu.');
+                    return;
+                }
+                payload.kelas = cls;
+            } else if (selectedScope === 'student') {
+                const stdVal = document.getElementById('cleanup-select-student')?.value;
+                if (!stdVal) {
+                    alert('Pilih siswa terlebih dahulu.');
+                    return;
+                }
+                const [nama, kelas] = stdVal.split('|');
+                payload.nama = nama;
+                payload.kelas = kelas;
+            }
+
+            if (btnExecute) {
+                btnExecute.disabled = true;
+                btnExecute.textContent = '⏳ Membersihkan...';
             }
 
             try {
@@ -1233,18 +1599,106 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${ACTIVE_TEACHER_KEY}`
+                        'X-Teacher-Key': ACTIVE_TEACHER_KEY
                     },
-                    body: JSON.stringify({ mode: 'session', sessionId })
+                    body: JSON.stringify(payload)
                 });
+
                 const data = await res.json();
-                if (!res.ok || !data.ok) throw new Error(data.error || 'Gagal menghapus rekaman');
-                alert('Seluruh rekaman suara sesi ini berhasil dihapus dari server.');
-                closeSpeakingGradingModal();
-                loadRekapData();
+                if (!res.ok || !data.ok) {
+                    throw new Error(data.error || 'Gagal mengeksekusi pembersihan audio.');
+                }
+
+                const freedMb = ((data.freedBytes || 0) / (1024 * 1024)).toFixed(2);
+                alert(`Pembersihan Berhasil!\n\n• Jumlah rekaman dibersihkan: ${data.deletedCount || 0}\n• Ruang dibebaskan: ${freedMb} MB\n\nSkor dan catatan guru tetap tersimpan 100% utuh.`);
+                closeRetentionModal();
+                await fetchResults();
+
             } catch (err) {
-                alert('Gagal membersihkan rekaman: ' + err.message);
+                alert('Kendala pembersihan: ' + err.message);
+            } finally {
+                if (btnExecute) {
+                    btnExecute.disabled = false;
+                    btnExecute.textContent = '🗑️ Hapus Rekaman Sekarang';
+                }
             }
+        }
+
+        function openSingleStudentCleanup() {
+            if (!ACTIVE_SPEAKING_STUDENT) return;
+            const student = ACTIVE_SPEAKING_STUDENT;
+            closeSpeakingGradingModal();
+            openRetentionModal('student', student.nama_peserta);
+        }
+
+        async function openCleanupLogsModal() {
+            const modal = document.getElementById('modal-cleanup-logs');
+            const loading = document.getElementById('cleanup-logs-loading');
+            const container = document.getElementById('cleanup-logs-container');
+            if (!modal) return;
+
+            modal.classList.remove('hidden');
+            if (loading) loading.classList.remove('hidden');
+            if (container) container.classList.add('hidden');
+
+            try {
+                const res = await fetch(`${API_BASE}/speaking/admin/cleanup-logs`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Teacher-Key': ACTIVE_TEACHER_KEY
+                    },
+                    body: JSON.stringify({ teacherKey: ACTIVE_TEACHER_KEY })
+                });
+
+                if (!res.ok) throw new Error('Gagal memuat log pembersihan.');
+                const data = await res.json();
+                const logs = data.logs || [];
+
+                if (container) {
+                    if (logs.length === 0) {
+                        container.innerHTML = `<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 italic text-center">Belum ada riwayat aktivitas pembersihan rekaman.</div>`;
+                    } else {
+                        container.innerHTML = logs.map(l => {
+                            const timeStr = l.timestamp ? new Date(l.timestamp).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
+                            const freedMb = (l.freed_bytes / (1024 * 1024)).toFixed(2);
+                            const triggerBadge = l.trigger_type === 'cron'
+                                ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-700">Cron Otomatis</span>'
+                                : '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-700">Manual Guru</span>';
+
+                            return `
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                                    <div class="space-y-0.5">
+                                        <div class="flex items-center gap-2">
+                                            ${triggerBadge}
+                                            <span class="font-bold text-slate-800 text-xs">${escapeHtml(l.target_info || l.cleanup_type)}</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-500">${escapeHtml(l.notes || '')}</p>
+                                        <span class="text-[10px] text-slate-400 font-mono">${timeStr}</span>
+                                    </div>
+                                    <div class="text-right shrink-0">
+                                        <span class="block text-xs font-mono font-bold text-rose-600">-${l.deleted_count} audio</span>
+                                        <span class="block text-[10px] font-mono text-emerald-700 font-semibold">+${freedMb} MB bebas</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    }
+                    container.classList.remove('hidden');
+                }
+            } catch (err) {
+                if (container) {
+                    container.innerHTML = `<div class="p-3 rounded-xl bg-rose-50 text-rose-700 text-xs">Kendala: ${escapeHtml(err.message)}</div>`;
+                    container.classList.remove('hidden');
+                }
+            } finally {
+                if (loading) loading.classList.add('hidden');
+            }
+        }
+
+        function closeCleanupLogsModal() {
+            const modal = document.getElementById('modal-cleanup-logs');
+            if (modal) modal.classList.add('hidden');
         }
 
         async function handleSaveSpeakingGrade(e) {

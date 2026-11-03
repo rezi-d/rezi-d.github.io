@@ -12,6 +12,8 @@
 //   POST /admin/revoke    { id }
 // =================================================================
 
+import { RETENTION_CONFIG } from './retention-config.js';
+
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // tanpa 0/O/1/I
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -601,9 +603,100 @@ async function ensureSpeakingSchema(env) {
             duration_seconds     REAL    DEFAULT 0,
             file_size_bytes      INTEGER DEFAULT 0,
             uploaded_at          INTEGER NOT NULL,
+            deleted_at           INTEGER DEFAULT NULL,
             FOREIGN KEY (session_id) REFERENCES speaking_sessions(id) ON DELETE CASCADE
         )
     `).run();
+    try { await env.DB.prepare('ALTER TABLE speaking_recordings ADD COLUMN deleted_at INTEGER DEFAULT NULL').run(); } catch {}
+
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS cleanup_logs (
+            id            INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp     INTEGER NOT NULL,
+            trigger_type  TEXT    NOT NULL,
+            cleanup_type  TEXT    NOT NULL,
+            target_info   TEXT    DEFAULT '',
+            deleted_count INTEGER NOT NULL DEFAULT 0,
+            freed_bytes   INTEGER NOT NULL DEFAULT 0,
+            notes         TEXT    DEFAULT ''
+        )
+    `).run();
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cleanup_logs_time ON cleanup_logs(timestamp DESC)').run(); } catch {}
+}
+
+/**
+ * Membersihkan berkas audio biner & draf transkrip dari speaking_recordings.
+ * Skor kriteria (FC, LR, GRA, PR), catatan guru, dan band score di speaking_sessions TETAP UTUH.
+ */
+async function cleanRecordingsForSessions(env, sessionIds, triggerType, cleanupType, targetInfo, notes = '') {
+    if (!Array.isArray(sessionIds) || sessionIds.length === 0) {
+        return { deletedCount: 0, freedBytes: 0 };
+    }
+
+    const placeholders = sessionIds.map(() => '?').join(',');
+
+    // 1. Hitung jumlah rekaman aktif & total byte yang akan dibersihkan
+    const activeStats = await env.DB.prepare(`
+        SELECT COUNT(*) as cnt, COALESCE(SUM(file_size_bytes), 0) as total_bytes
+        FROM speaking_recordings
+        WHERE session_id IN (${placeholders}) 
+          AND deleted_at IS NULL 
+          AND (audio_data != '' OR audio_data IS NOT NULL)
+    `).bind(...sessionIds).first();
+
+    const deletedCount = activeStats?.cnt || 0;
+    const freedBytes = activeStats?.total_bytes || 0;
+
+    if (deletedCount > 0) {
+        const now = Date.now();
+        // 2. Kosongkan audio_data dan transkrip, tandai deleted_at & file_size_bytes = 0
+        await env.DB.prepare(`
+            UPDATE speaking_recordings
+            SET audio_data = '', transcript = '', file_size_bytes = 0, deleted_at = ?
+            WHERE session_id IN (${placeholders}) AND deleted_at IS NULL
+        `).bind(now, ...sessionIds).run();
+
+        // 3. Catat ke tabel audit log
+        await env.DB.prepare(`
+            INSERT INTO cleanup_logs (timestamp, trigger_type, cleanup_type, target_info, deleted_count, freed_bytes, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `).bind(now, triggerType, cleanupType, String(targetInfo || ''), deletedCount, freedBytes, String(notes || '')).run();
+    }
+
+    return { deletedCount, freedBytes };
+}
+
+/**
+ * Eksekusi pembersihan retensi berkala otomatis (Cron Trigger harian)
+ * Nilai 14 hari (graded) dan 60 hari (ungraded) bersumber dari RETENTION_CONFIG.
+ */
+async function runScheduledRetentionCleanup(env) {
+    await ensureSpeakingSchema(env);
+    const now = Date.now();
+    const gradedCutoff = now - (RETENTION_CONFIG.GRADED_RETENTION_DAYS * DAY_MS);
+    const ungradedCutoff = now - (RETENTION_CONFIG.UNGRADED_RETENTION_DAYS * DAY_MS);
+
+    // 1. Sesi yang sudah dinilai > 14 hari
+    const gradedSessions = await env.DB.prepare(`
+        SELECT id FROM speaking_sessions 
+        WHERE status = 'graded' AND graded_at IS NOT NULL AND graded_at < ?
+    `).bind(gradedCutoff).all();
+    const gradedIds = (gradedSessions.results || []).map(s => s.id);
+
+    // 2. Sesi yang belum dinilai > 60 hari
+    const ungradedSessions = await env.DB.prepare(`
+        SELECT id FROM speaking_sessions 
+        WHERE status != 'graded' AND started_at < ?
+    `).bind(ungradedCutoff).all();
+    const ungradedIds = (ungradedSessions.results || []).map(s => s.id);
+
+    const allSessionIds = [...new Set([...gradedIds, ...ungradedIds])];
+    if (allSessionIds.length === 0) {
+        return { deletedCount: 0, freedBytes: 0 };
+    }
+
+    const notes = `Otomatis Cron: ${gradedIds.length} sesi graded (>14 hari), ${ungradedIds.length} sesi ungraded (>60 hari)`;
+    return await cleanRecordingsForSessions(env, allSessionIds, 'cron', 'retention', 'Jadwal Harian Otomatis', notes);
 }
 
 function sanitizeSpeakingTestForStudent(masterData) {
@@ -1913,11 +2006,22 @@ export default {
                 }
 
                 const recRows = await env.DB.prepare(`
-                    SELECT question_id, mime_type, transcript, duration_seconds, file_size_bytes, uploaded_at
+                    SELECT question_id, mime_type, transcript, duration_seconds, file_size_bytes, uploaded_at, deleted_at
                     FROM speaking_recordings
                     WHERE session_id = ?
                     ORDER BY question_id ASC
                 `).bind(sessionId).all();
+
+                const formattedRecordings = (recRows.results || []).map(r => ({
+                    question_id: r.question_id,
+                    mime_type: r.mime_type,
+                    transcript: r.transcript || '',
+                    duration_seconds: r.duration_seconds,
+                    file_size_bytes: r.file_size_bytes,
+                    uploaded_at: r.uploaded_at,
+                    deleted_at: r.deleted_at,
+                    audio_available: !r.deleted_at && Boolean(r.file_size_bytes > 0)
+                }));
 
                 return json(request, env, {
                     ok: true,
@@ -1936,7 +2040,7 @@ export default {
                         teacher_comment: session.teacher_comment,
                         speaking_band: session.speaking_band
                     },
-                    recordings: recRows.results || []
+                    recordings: formattedRecordings
                 });
             }
 
@@ -1995,12 +2099,17 @@ export default {
                 }
 
                 const rec = await env.DB.prepare(`
-                    SELECT mime_type, audio_data FROM speaking_recordings
+                    SELECT mime_type, audio_data, deleted_at FROM speaking_recordings
                     WHERE session_id = ? AND question_id = ?
                 `).bind(sessionId, questionId).first();
 
-                if (!rec || !rec.audio_data) {
-                    return json(request, env, { ok: false, error: 'Rekaman audio untuk pertanyaan ini tidak ditemukan.' }, 404);
+                if (!rec || !rec.audio_data || rec.audio_data === '' || rec.deleted_at) {
+                    return json(request, env, {
+                        ok: false,
+                        error: rec?.deleted_at
+                            ? 'Rekaman audio telah dihapus dari server sesuai kebijakan masa simpan privasi siswa.'
+                            : 'Rekaman audio untuk pertanyaan ini tidak ditemukan.'
+                    }, 404);
                 }
 
                 const binaryString = atob(rec.audio_data);
@@ -2079,35 +2188,77 @@ export default {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid.' }, 401);
                 }
 
+                const confirmText = String(body.confirm || '').trim();
+                if (confirmText !== 'HAPUS') {
+                    return json(request, env, {
+                        ok: false,
+                        error: 'Konfirmasi tidak valid. Harap ketik "HAPUS" untuk menyetujui pembersihan rekaman audio.'
+                    }, 400);
+                }
+
                 const mode = String(body.mode || 'session');
-                let deletedCount = 0;
+                let cleanResult = { deletedCount: 0, freedBytes: 0 };
 
                 if (mode === 'session') {
                     const sessionId = String(body.sessionId || '').trim();
                     if (!sessionId) return json(request, env, { ok: false, error: 'sessionId wajib ada.' }, 400);
-                    await env.DB.prepare('DELETE FROM speaking_recordings WHERE session_id = ?').bind(sessionId).run();
-                    const delSess = await env.DB.prepare('DELETE FROM speaking_sessions WHERE id = ?').bind(sessionId).run();
-                    deletedCount = delSess.meta?.changes || 1;
+                    cleanResult = await cleanRecordingsForSessions(env, [sessionId], 'manual', 'session', 'Sesi: ' + sessionId);
                 } else if (mode === 'student') {
                     const nama = String(body.nama || '').trim();
                     const kelas = String(body.kelas || '').trim();
                     if (!nama || !kelas) return json(request, env, { ok: false, error: 'nama dan kelas wajib ada.' }, 400);
                     const sessions = await env.DB.prepare('SELECT id FROM speaking_sessions WHERE nama_peserta = ? AND kelas = ?').bind(nama, kelas).all();
-                    for (const s of (sessions.results || [])) {
-                        await env.DB.prepare('DELETE FROM speaking_recordings WHERE session_id = ?').bind(s.id).run();
-                        await env.DB.prepare('DELETE FROM speaking_sessions WHERE id = ?').bind(s.id).run();
-                        deletedCount++;
-                    }
+                    const sessionIds = (sessions.results || []).map(s => s.id);
+                    cleanResult = await cleanRecordingsForSessions(env, sessionIds, 'manual', 'student', `Siswa: ${nama} (${kelas})`);
+                } else if (mode === 'class') {
+                    const kelas = String(body.kelas || '').trim();
+                    if (!kelas) return json(request, env, { ok: false, error: 'kelas wajib ada.' }, 400);
+                    const sessions = await env.DB.prepare('SELECT id FROM speaking_sessions WHERE kelas = ?').bind(kelas).all();
+                    const sessionIds = (sessions.results || []).map(s => s.id);
+                    cleanResult = await cleanRecordingsForSessions(env, sessionIds, 'manual', 'class', `Kelas: ${kelas}`);
+                } else if (mode === 'graded') {
+                    // Hapus audio untuk SEMUA sesi speaking yang sudah dinilai guru ('graded')
+                    const sessions = await env.DB.prepare('SELECT id FROM speaking_sessions WHERE status = "graded"').all();
+                    const sessionIds = (sessions.results || []).map(s => s.id);
+                    cleanResult = await cleanRecordingsForSessions(env, sessionIds, 'manual', 'graded', 'Semua Rekaman Yang Sudah Dinilai');
                 } else if (mode === 'retention') {
-                    const retentionDays = Math.max(1, parseInt(body.days, 10) || 30);
-                    const cutoffMs = Date.now() - (retentionDays * 24 * 60 * 60 * 1000);
-                    const delRec = await env.DB.prepare('DELETE FROM speaking_recordings WHERE uploaded_at < ?').bind(cutoffMs).run();
-                    deletedCount = delRec.meta?.changes || 0;
+                    // Jalankan aturan retensi manual
+                    cleanResult = await runScheduledRetentionCleanup(env);
                 } else {
-                    return json(request, env, { ok: false, error: 'Mode pembersihan tidak valid. Pilihan: session, student, retention.' }, 400);
+                    return json(request, env, { ok: false, error: 'Mode pembersihan tidak valid. Pilihan: session, student, class, graded, retention.' }, 400);
                 }
 
-                return json(request, env, { ok: true, mode, deletedCount });
+                return json(request, env, {
+                    ok: true,
+                    mode,
+                    deletedCount: cleanResult.deletedCount,
+                    freedBytes: cleanResult.freedBytes
+                });
+            }
+
+            // 8b. Riwayat Audit Log Pembersihan Rekaman
+            if (path === '/speaking/admin/cleanup-logs' && (request.method === 'GET' || request.method === 'POST')) {
+                await ensureSpeakingSchema(env);
+                const authHeader = request.headers.get('Authorization') || '';
+                let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
+                if (authHeader.startsWith('Bearer ')) submittedKey = authHeader.slice(7).trim();
+                if (request.method === 'POST') {
+                    const body = await readJson(request);
+                    if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
+                }
+
+                if (!verifyTeacherKey(submittedKey, env)) {
+                    return json(request, env, { ok: false, error: 'Kunci Guru tidak valid.' }, 401);
+                }
+
+                const logs = await env.DB.prepare(`
+                    SELECT id, timestamp, trigger_type, cleanup_type, target_info, deleted_count, freed_bytes, notes
+                    FROM cleanup_logs
+                    ORDER BY timestamp DESC
+                    LIMIT 30
+                `).all();
+
+                return json(request, env, { ok: true, logs: logs.results || [] });
             }
 
             // 7. Penilaian Speaking oleh Guru (4 Kriteria: FC, LR, GRA, PR)
@@ -2243,7 +2394,85 @@ export default {
                 const writeStmt = params.length > 0 ? env.DB.prepare(writeQuery).bind(...params) : env.DB.prepare(writeQuery);
                 const spkStmt = params.length > 0 ? env.DB.prepare(spkQuery).bind(...params) : env.DB.prepare(spkQuery);
 
-                const [lisRes, readRes, writeRes, spkRes] = await Promise.all([lisStmt.all(), readStmt.all(), writeStmt.all(), spkStmt.all()]);
+                const [lisRes, readRes, writeRes, spkRes, storageStats, activeSessionsWithRecordings, recordingStatusRows] = await Promise.all([
+                    lisStmt.all(),
+                    readStmt.all(),
+                    writeStmt.all(),
+                    spkStmt.all(),
+                    env.DB.prepare(`
+                        SELECT COUNT(*) as active_count, COALESCE(SUM(file_size_bytes), 0) as total_bytes
+                        FROM speaking_recordings
+                        WHERE deleted_at IS NULL AND (audio_data != '' OR audio_data IS NOT NULL)
+                    `).first(),
+                    env.DB.prepare(`
+                        SELECT r.session_id, s.nama_peserta, s.kelas, s.status, s.started_at, s.graded_at,
+                               COUNT(r.id) as recording_count, COALESCE(SUM(r.file_size_bytes), 0) as session_bytes
+                        FROM speaking_recordings r
+                        JOIN speaking_sessions s ON r.session_id = s.id
+                        WHERE r.deleted_at IS NULL AND (r.audio_data != '' OR r.audio_data IS NOT NULL)
+                        GROUP BY r.session_id
+                    `).all(),
+                    env.DB.prepare(`
+                        SELECT session_id,
+                               COUNT(*) as total_rec,
+                               SUM(CASE WHEN deleted_at IS NULL AND (audio_data != '' OR audio_data IS NOT NULL) THEN 1 ELSE 0 END) as active_rec,
+                               MAX(deleted_at) as deleted_at
+                        FROM speaking_recordings
+                        GROUP BY session_id
+                    `).all()
+                ]);
+
+                // Hitung masa kedaluwarsa & peringatan retensi per sesi aktif
+                const now = Date.now();
+                const sessionExpiryMap = new Map();
+                let expiringSoonCount = 0;
+                let expiringSoonRecordings = 0;
+                let expiringUngradedCount = 0;
+                const expiringSessions = [];
+
+                for (const s of (activeSessionsWithRecordings.results || [])) {
+                    const isGraded = s.status === 'graded';
+                    const baseTime = isGraded ? (s.graded_at || s.started_at) : s.started_at;
+                    const retentionDays = isGraded ? RETENTION_CONFIG.GRADED_RETENTION_DAYS : RETENTION_CONFIG.UNGRADED_RETENTION_DAYS;
+                    const expiryTime = baseTime + (retentionDays * DAY_MS);
+                    const msRemaining = expiryTime - now;
+                    const daysRemaining = Math.ceil(msRemaining / DAY_MS);
+                    const isExpiringSoon = daysRemaining <= RETENTION_CONFIG.EXPIRING_WARNING_DAYS;
+                    const isExpiringUngraded = !isGraded && isExpiringSoon;
+
+                    const info = {
+                        sessionId: s.session_id,
+                        nama_peserta: s.nama_peserta,
+                        kelas: s.kelas,
+                        status: s.status,
+                        recording_count: s.recording_count,
+                        session_bytes: s.session_bytes,
+                        daysRemaining: Math.max(0, daysRemaining),
+                        isExpiringSoon,
+                        isExpiringUngraded,
+                        expiryTime
+                    };
+
+                    sessionExpiryMap.set(s.session_id, info);
+
+                    if (isExpiringSoon) {
+                        expiringSoonCount++;
+                        expiringSoonRecordings += s.recording_count;
+                        if (isExpiringUngraded) {
+                            expiringUngradedCount++;
+                        }
+                        expiringSessions.push(info);
+                    }
+                }
+
+                const recStatusMap = new Map();
+                (recordingStatusRows.results || []).forEach(row => {
+                    recStatusMap.set(row.session_id, {
+                        total_rec: row.total_rec,
+                        active_rec: row.active_rec,
+                        deleted_at: row.deleted_at
+                    });
+                });
 
                 // Gabungkan per siswa: Map key = `nama_peserta.toLowerCase() + '|' + kelas.toLowerCase()`
                 const studentMap = new Map();
@@ -2349,6 +2578,8 @@ export default {
                         });
                     }
                     const entry = studentMap.get(key);
+                    const recStat = recStatusMap.get(s.id);
+                    const retentionInfo = sessionExpiryMap.get(s.id) || null;
                     entry.speaking = {
                         id: s.id,
                         test_id: s.test_id,
@@ -2360,7 +2591,10 @@ export default {
                         speaking_band: s.speaking_band,
                         is_late: Boolean(s.is_late),
                         submitted_at: s.submitted_at,
-                        graded_at: s.graded_at
+                        graded_at: s.graded_at,
+                        audio_available: Boolean(recStat && recStat.active_rec > 0),
+                        deleted_at: recStat ? recStat.deleted_at : null,
+                        retention_info: retentionInfo
                     };
                     entry.last_submitted_at = Math.max(entry.last_submitted_at, s.submitted_at || 0);
                 });
@@ -2392,6 +2626,19 @@ export default {
                     ok: true,
                     total: mergedStudents.length,
                     results: mergedStudents,
+                    storage_retention: {
+                        active_recordings_count: storageStats?.active_count || 0,
+                        total_file_size_bytes: storageStats?.total_bytes || 0,
+                        total_file_size_mb: Number(((storageStats?.total_bytes || 0) / (1024 * 1024)).toFixed(2)),
+                        d1_capacity_limit_mb: 500,
+                        expiring_soon_count: expiringSoonCount,
+                        expiring_soon_recordings_count: expiringSoonRecordings,
+                        expiring_ungraded_count: expiringUngradedCount,
+                        retention_days_graded: RETENTION_CONFIG.GRADED_RETENTION_DAYS,
+                        retention_days_ungraded: RETENTION_CONFIG.UNGRADED_RETENTION_DAYS,
+                        warning_days: RETENTION_CONFIG.EXPIRING_WARNING_DAYS,
+                        expiring_sessions: expiringSessions
+                    },
                     raw_listening: lisRes.results || [],
                     raw_reading: readRes.results || [],
                     raw_writing: writeRes.results || [],
@@ -2618,6 +2865,13 @@ export default {
             return json(request, env, { ok: false, error: 'Endpoint tidak ditemukan.' }, 404);
         } catch (err) {
             return json(request, env, { ok: false, error: 'Terjadi kesalahan server.' }, 500);
+        }
+    },
+    async scheduled(event, env, ctx) {
+        if (ctx && typeof ctx.waitUntil === 'function') {
+            ctx.waitUntil(runScheduledRetentionCleanup(env));
+        } else {
+            await runScheduledRetentionCleanup(env);
         }
     }
 };

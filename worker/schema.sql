@@ -197,10 +197,26 @@ CREATE TABLE IF NOT EXISTS speaking_recordings (
     duration_seconds     REAL    DEFAULT 0,
     file_size_bytes      INTEGER DEFAULT 0,
     uploaded_at          INTEGER NOT NULL,
+    deleted_at           INTEGER DEFAULT NULL,        -- Timestamp saat berkas audio & transkrip dibersihkan
     FOREIGN KEY (session_id) REFERENCES speaking_sessions(id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS idx_speaking_recordings_sess ON speaking_recordings(session_id);
+
+-- Tabel Audit Log Penghapusan / Pembersihan Rekaman Speaking
+CREATE TABLE IF NOT EXISTS cleanup_logs (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp     INTEGER NOT NULL,
+    trigger_type  TEXT    NOT NULL, -- 'manual' (oleh guru) atau 'cron' (otomatis)
+    cleanup_type  TEXT    NOT NULL, -- 'student', 'class', 'graded', 'session', 'retention'
+    target_info   TEXT    DEFAULT '', -- misal: 'Siswa: Farhan (12 IPA 1)', 'Kelas: 12 MIPA 1', 'Semua Graded'
+    deleted_count INTEGER NOT NULL DEFAULT 0,
+    freed_bytes   INTEGER NOT NULL DEFAULT 0,
+    notes         TEXT    DEFAULT ''
+);
+
+CREATE INDEX IF NOT EXISTS idx_cleanup_logs_time ON cleanup_logs(timestamp DESC);
+
 
 
 
