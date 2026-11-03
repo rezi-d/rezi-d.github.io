@@ -743,6 +743,16 @@
     async function autoSaveProgress() {
         if (!STATE.sessionId || STATE.submitted) return;
 
+        // Selalu cadangkan instan ke localStorage (Zero data loss)
+        try {
+            localStorage.setItem(`ielts_listening_backup_${STATE.sessionId}`, JSON.stringify({
+                sessionId: STATE.sessionId,
+                answers: STATE.answers,
+                currentSec: STATE.currentSectionIdx + 1,
+                savedAt: Date.now()
+            }));
+        } catch {}
+
         const badge = document.getElementById('autosave-indicator');
         if (badge) {
             badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping inline-block"></span> <span>Menyimpan...</span>`;
@@ -763,13 +773,25 @@
                 })
             });
 
+            const data = await res.json().catch(() => ({}));
+            if (res.headers.get('X-Eco-Mode') === 'active' || data.eco_mode) {
+                STATE.ecoMode = true;
+            }
+
+            if (res.status === 429 || res.status === 503 || data.quota_exceeded) {
+                if (badge) {
+                    badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span> <span class="text-amber-700 font-bold">Jawaban aman di localStorage (Kuota Server Penuh)</span>`;
+                }
+                return;
+            }
+
             if (res.ok && badge) {
                 badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> <span class="text-slate-500">Tersimpan otomatis</span>`;
             }
         } catch (err) {
             console.warn('Autosave failed:', err);
             if (badge) {
-                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-400 inline-block"></span> <span class="text-rose-500">Gagal simpan (offline)</span>`;
+                badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400 inline-block"></span> <span class="text-slate-500">Tersimpan di perangkat (offline)</span>`;
             }
         }
     }

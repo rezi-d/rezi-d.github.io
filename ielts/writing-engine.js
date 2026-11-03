@@ -27,6 +27,10 @@
         activeMobileTab: 'prompt', // 'prompt' | 'editor'
         task1Text: '',
         task2Text: '',
+        lastSavedT1: '',
+        lastSavedT2: '',
+        ecoMode: false,
+        quotaExceeded: false,
         remainingSeconds: 3600,
         timerInterval: null,
         autosaveTimer: null,
@@ -103,6 +107,13 @@
         }
         if (btnCloseZoom && zoomModal) {
             btnCloseZoom.addEventListener('click', () => zoomModal.classList.add('hidden'));
+        }
+
+        // Tombol Modal Batas Kuota Tercapai
+        const btnCloseQuota = document.getElementById('btn-close-quota-modal');
+        const quotaModal = document.getElementById('modal-quota-exceeded');
+        if (btnCloseQuota && quotaModal) {
+            btnCloseQuota.addEventListener('click', () => quotaModal.classList.add('hidden'));
         }
 
         // Tombol Cek Polling Nilai Guru
@@ -231,6 +242,21 @@
             STATE.currentTask = data.currentTask || 1;
             STATE.task1Text = data.task1Text || '';
             STATE.task2Text = data.task2Text || '';
+
+            // Pulihkan cadangan dari localStorage jika server kosong atau ada tulisan lokal yang lebih lengkap
+            const backup = getLocalStorageBackup(data.sessionId) || getLocalStorageBackup(STATE.deviceId);
+            if (backup) {
+                if (!STATE.task1Text && backup.task1Text) STATE.task1Text = backup.task1Text;
+                if (!STATE.task2Text && backup.task2Text) STATE.task2Text = backup.task2Text;
+            }
+
+            STATE.lastSavedT1 = STATE.task1Text;
+            STATE.lastSavedT2 = STATE.task2Text;
+
+            // Inisialisasi Mode Hemat dari respon server (ambang 80%)
+            if (data.eco_mode || res.headers.get('X-Eco-Mode') === 'active') {
+                setEcoMode(true);
+            }
 
             // Tampilkan Layar Ujian
             document.getElementById('view-intro-writing').classList.add('hidden');
@@ -575,19 +601,86 @@
         `;
     }
 
+    // --- Penyimpanan Cadangan Lokal (localStorage) ---
+    function saveToLocalStorageBackup() {
+        try {
+            const backupKey = `ielts_writing_backup_${STATE.sessionId || STATE.deviceId}`;
+            const payload = {
+                sessionId: STATE.sessionId,
+                deviceId: STATE.deviceId,
+                nama: STATE.nama,
+                kelas: STATE.kelas,
+                currentTask: STATE.currentTask,
+                task1Text: STATE.task1Text,
+                task2Text: STATE.task2Text,
+                savedAt: Date.now()
+            };
+            localStorage.setItem(backupKey, JSON.stringify(payload));
+        } catch {}
+    }
+
+    function getLocalStorageBackup(key) {
+        try {
+            const raw = localStorage.getItem(`ielts_writing_backup_${key}`);
+            return raw ? JSON.parse(raw) : null;
+        } catch {
+            return null;
+        }
+    }
+
+    function setEcoMode(active) {
+        STATE.ecoMode = !!active;
+        const ecoBadge = document.getElementById('eco-mode-badge');
+        if (ecoBadge) {
+            if (active) {
+                ecoBadge.classList.remove('hidden');
+            } else {
+                ecoBadge.classList.add('hidden');
+            }
+        }
+    }
+
+    function handleQuotaExceeded(msg) {
+        STATE.quotaExceeded = true;
+        saveToLocalStorageBackup();
+
+        const modal = document.getElementById('modal-quota-exceeded');
+        const msgEl = document.getElementById('modal-quota-message');
+        if (msgEl && msg) {
+            msgEl.textContent = msg;
+        }
+        if (modal) {
+            modal.classList.remove('hidden');
+        } else {
+            alert(msg || 'Batas kuota harian sistem telah tercapai. Tulisan Anda aman tersimpan di perangkat lokal.');
+        }
+
+        const syncBadge = document.getElementById('autosave-sync-indicator');
+        if (syncBadge) {
+            syncBadge.textContent = '🔒 Tersimpan aman di perangkat (localStorage)';
+            syncBadge.className = 'text-[11px] text-amber-600 font-bold';
+        }
+    }
+
     // --- Input Textarea & Metrik Kata / Paragraf ---
     function handleEditorInput() {
         saveCurrentEditorTextToState();
+        saveToLocalStorageBackup(); // Cadangkan instan ke localStorage setiap ketikan
         updateMetricsDisplay();
 
-        // Jadwalkan autosave debounced (3 detik setelah ketikan terakhir)
+        // Jadwalkan autosave debounced: 60 detik jika Mode Hemat (80%), 3 detik jika normal
         clearTimeout(STATE.autosaveTimer);
         const syncBadge = document.getElementById('autosave-sync-indicator');
-        if (syncBadge) syncBadge.textContent = 'Menyimpan...';
+        if (syncBadge) {
+            syncBadge.textContent = STATE.ecoMode ? 'Menyimpan (Mode Hemat 60s)...' : 'Menyimpan...';
+            syncBadge.className = 'text-[11px] text-slate-400';
+        }
+
+        const debounceDelay = STATE.ecoMode ? 60000 : 3000;
 
         STATE.autosaveTimer = setTimeout(() => {
             triggerAutosave();
-        }, 3000);
+        }, debounceDelay);
     }
 
     function updateMetricsDisplay() {
@@ -652,6 +745,18 @@
         if (!STATE.sessionId || STATE.isSubmitting || STATE.status !== 'in_progress') return;
 
         saveCurrentEditorTextToState();
+        saveToLocalStorageBackup();
+
+        // Penulisan non-esensial dimatikan: jika teks tidak berubah, jangan kirim request ke server
+        if (STATE.task1Text === STATE.lastSavedT1 && STATE.task2Text === STATE.lastSavedT2) {
+            const syncBadge = document.getElementById('autosave-sync-indicator');
+            if (syncBadge) {
+                syncBadge.textContent = STATE.ecoMode ? '✓ Tersimpan (Mode Hemat)' : '✓ Tersimpan di server';
+                syncBadge.className = 'text-[11px] text-emerald-600 font-medium';
+            }
+            return;
+        }
+
         const syncBadge = document.getElementById('autosave-sync-indicator');
 
         try {
@@ -670,10 +775,29 @@
                 })
             });
 
+            const isEcoHeader = res.headers.get('X-Eco-Mode') === 'active';
+            const data = await res.json().catch(() => ({}));
+
+            if (isEcoHeader || data.eco_mode) {
+                setEcoMode(true);
+            }
+
+            if (res.status === 429 || res.status === 503 || data.quota_exceeded) {
+                handleQuotaExceeded(data.error || 'Batas kuota harian sistem telah tercapai.');
+                return;
+            }
+
             if (res.ok) {
+                STATE.lastSavedT1 = STATE.task1Text;
+                STATE.lastSavedT2 = STATE.task2Text;
                 if (syncBadge) {
-                    syncBadge.textContent = '✓ Tersimpan di server';
+                    syncBadge.textContent = STATE.ecoMode ? '✓ Tersimpan (Mode Hemat)' : '✓ Tersimpan di server';
                     syncBadge.className = 'text-[11px] text-emerald-600 font-medium';
+                }
+            } else {
+                if (syncBadge) {
+                    syncBadge.textContent = 'Tersimpan lokal (offline)';
+                    syncBadge.className = 'text-[11px] text-slate-500 font-medium';
                 }
             }
         } catch (e) {
@@ -682,6 +806,7 @@
                 syncBadge.className = 'text-[11px] text-slate-500 font-medium';
             }
         }
+    }
     }
 
     // --- Timer 60 Menit Sinkron Server ---
@@ -795,6 +920,15 @@
 
             if (!res.ok) {
                 const errData = await res.json().catch(() => ({}));
+                if (res.status === 429 || res.status === 503 || errData.quota_exceeded) {
+                    handleQuotaExceeded(errData.error || 'Batas kuota harian sistem tercapai. Tulisan Anda aman tersimpan di perangkat lokal.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '🔄 Kirim Ulang Jawaban';
+                    }
+                    STATE.isSubmitting = false;
+                    return;
+                }
                 throw new Error(errData.error || 'Gagal mengirim lembar tes writing.');
             }
 

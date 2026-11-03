@@ -64,15 +64,69 @@ function corsHeaders(request, env) {
     return headers;
 }
 
-function json(request, env, data, status = 200) {
+function json(request, env, data, status = 200, extraHeaders = {}) {
     return new Response(JSON.stringify(data), {
         status,
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
             'Cache-Control': 'no-store',
-            ...corsHeaders(request, env)
+            ...corsHeaders(request, env),
+            ...extraHeaders
         }
     });
+}
+
+/**
+ * Pengecekan otomatis ambang batas kapasitas sistem (Free Tier).
+ * Ambang 80%: Masuk "Mode Hemat" (eco_mode).
+ * Ambang 100%: Batas kuota tercapai (HTTP 429 quota_exceeded).
+ */
+async function checkCapacityState(env) {
+    try {
+        const now = Date.now();
+        const WIB_OFFSET_MS = 7 * 60 * 60 * 1000;
+        const wibNow = new Date(now + WIB_OFFSET_MS);
+        const startOfDayWib = new Date(Date.UTC(wibNow.getUTCFullYear(), wibNow.getUTCMonth(), wibNow.getUTCDate()) - WIB_OFFSET_MS);
+        const startOfDayMs = startOfDayWib.getTime();
+
+        const [storageStats, todayStats] = await Promise.all([
+            env.DB.prepare(`
+                SELECT COALESCE(SUM(file_size_bytes), 0) as total_bytes
+                FROM speaking_recordings
+                WHERE deleted_at IS NULL AND length(audio_data) > 0
+            `).first().catch(() => ({ total_bytes: 0 })),
+            env.DB.prepare(`
+                SELECT 
+                    (SELECT COUNT(*) FROM listening_sessions WHERE started_at >= ? OR (submitted_at IS NOT NULL AND submitted_at >= ?)) as lis_today,
+                    (SELECT COUNT(*) FROM reading_sessions WHERE started_at >= ? OR (submitted_at IS NOT NULL AND submitted_at >= ?)) as read_today,
+                    (SELECT COUNT(*) FROM writing_sessions WHERE started_at >= ? OR (submitted_at IS NOT NULL AND submitted_at >= ?)) as write_today,
+                    (SELECT COUNT(*) FROM speaking_sessions WHERE started_at >= ? OR (submitted_at IS NOT NULL AND submitted_at >= ?)) as spk_today,
+                    (SELECT COUNT(*) FROM speaking_recordings WHERE uploaded_at >= ?) as rec_today
+            `).bind(startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs, startOfDayMs).first().catch(() => ({
+                lis_today: 0, read_today: 0, write_today: 0, spk_today: 0, rec_today: 0
+            }))
+        ]);
+
+        const totalBytes = Number(storageStats?.total_bytes || 0);
+        const lisToday = Number(todayStats?.lis_today || 0);
+        const readToday = Number(todayStats?.read_today || 0);
+        const writeToday = Number(todayStats?.write_today || 0);
+        const spkToday = Number(todayStats?.spk_today || 0);
+        const recToday = Number(todayStats?.rec_today || 0);
+
+        const estRows = (lisToday * 3) + (readToday * 3) + (writeToday * 15) + (spkToday * 5) + (recToday * 1) + 2;
+        const estReqs = (lisToday * 15) + (readToday * 15) + (writeToday * 30) + (spkToday * 30) + (recToday * 3) + 25;
+
+        // Ambang 80% (Mode Hemat): Storage >= 400 MB (419.430.400 B), Req >= 80.000, Rows >= 80.000
+        const isEcoMode = (totalBytes >= 419430400) || (estReqs >= 80000) || (estRows >= 80000);
+
+        // Batas 100% (Kuota Habis): Storage >= 500 MB (524.288.000 B), Req >= 100.000, Rows >= 100.000
+        const isQuotaExceeded = (totalBytes >= 524288000) || (estReqs >= 100000) || (estRows >= 100000);
+
+        return { isEcoMode, isQuotaExceeded, estReqs, estRows, totalBytes };
+    } catch {
+        return { isEcoMode: false, isQuotaExceeded: false, estReqs: 0, estRows: 0, totalBytes: 0 };
+    }
 }
 
 async function readJson(request) {
@@ -1035,6 +1089,16 @@ export default {
             // 2. Autosave progres jawaban & section
             if (path === '/listening/save-progress' && request.method === 'POST') {
                 await ensureListeningSchema(env);
+                const cap = await checkCapacityState(env);
+                if (cap.isQuotaExceeded) {
+                    return json(request, env, {
+                        ok: false,
+                        quota_exceeded: true,
+                        eco_mode: true,
+                        error: 'Batas kuota harian sistem telah tercapai. Jawaban Anda tersimpan dengan aman di perangkat lokal (localStorage) dan dapat dikirim ulang.'
+                    }, 429, { 'X-Eco-Mode': 'active' });
+                }
+
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
                 const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
@@ -1059,7 +1123,11 @@ export default {
                     WHERE id = ? AND status = 'in_progress'
                 `).bind(currentSec, answers, sessionId).run();
 
-                return json(request, env, { ok: true, serverTime: Date.now() });
+                return json(request, env, {
+                    ok: true,
+                    serverTime: Date.now(),
+                    eco_mode: cap.isEcoMode
+                }, 200, cap.isEcoMode ? { 'X-Eco-Mode': 'active' } : {});
             }
 
             // 3. Submit tes, penilaian server-side & hasil review
@@ -1264,6 +1332,16 @@ export default {
             // 2. Autosave progres jawaban reading & passage aktif
             if (path === '/reading/save-progress' && request.method === 'POST') {
                 await ensureReadingSchema(env);
+                const cap = await checkCapacityState(env);
+                if (cap.isQuotaExceeded) {
+                    return json(request, env, {
+                        ok: false,
+                        quota_exceeded: true,
+                        eco_mode: true,
+                        error: 'Batas kuota harian sistem telah tercapai. Jawaban Anda tersimpan dengan aman di perangkat lokal (localStorage) dan dapat dikirim ulang.'
+                    }, 429, { 'X-Eco-Mode': 'active' });
+                }
+
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
                 const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
@@ -1288,7 +1366,11 @@ export default {
                     WHERE id = ? AND status = 'in_progress'
                 `).bind(currentPassage, answers, sessionId).run();
 
-                return json(request, env, { ok: true, serverTime: Date.now() });
+                return json(request, env, {
+                    ok: true,
+                    serverTime: Date.now(),
+                    eco_mode: cap.isEcoMode
+                }, 200, cap.isEcoMode ? { 'X-Eco-Mode': 'active' } : {});
             }
 
             // 3. Submit tes reading, penilaian server-side 40 soal & hasil review
@@ -1511,6 +1593,16 @@ export default {
             // 2. Autosave progres tulisan writing (Task 1 & Task 2)
             if (path === '/writing/save-progress' && request.method === 'POST') {
                 await ensureWritingSchema(env);
+                const cap = await checkCapacityState(env);
+                if (cap.isQuotaExceeded) {
+                    return json(request, env, {
+                        ok: false,
+                        quota_exceeded: true,
+                        eco_mode: true,
+                        error: 'Batas kuota harian sistem telah tercapai. Jawaban Anda tersimpan dengan aman di perangkat lokal (localStorage) dan dapat dikirim ulang.'
+                    }, 429, { 'X-Eco-Mode': 'active' });
+                }
+
                 const body = await readJson(request);
                 const sessionId = String(body.sessionId || '').trim();
                 const requestDeviceId = (request.headers.get('X-Device-Id') || String(body.deviceId || '')).trim();
@@ -1543,8 +1635,9 @@ export default {
                     ok: true,
                     serverTime: Date.now(),
                     task1WordCount: t1Words,
-                    task2WordCount: t2Words
-                });
+                    task2WordCount: t2Words,
+                    eco_mode: cap.isEcoMode
+                }, 200, cap.isEcoMode ? { 'X-Eco-Mode': 'active' } : {});
             }
 
             // 3. Submit tes writing (generate structural check, buka sample answer, status = submitted)
