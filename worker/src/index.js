@@ -2238,7 +2238,8 @@ export default {
                 }
 
                 const newSessionId = 'spk_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
-                const packageType = String(body.packageType || (body.selfStudy ? 'self_study' : 'teacher')).trim() === 'self_study' ? 'self_study' : 'teacher';
+                const rawPkg = String(body.packageType || (body.selfStudy ? 'self_study' : 'teacher')).trim().toLowerCase();
+                const packageType = (rawPkg === 'mandiri' || rawPkg === 'self_study') ? 'self_study' : (rawPkg === 'addon' ? 'addon' : 'teacher');
                 await env.DB.prepare(`
                     INSERT INTO speaking_sessions (id, test_id, device_id, nama_peserta, kelas, started_at, status, package_type)
                     VALUES (?, ?, ?, ?, ?, ?, 'in_progress', ?)

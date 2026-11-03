@@ -105,6 +105,12 @@ test('Server Lockdown: Paket Mandiri ditolak HTTP 403 saat mengunggah rekaman au
         status: 'in_progress',
         package_type: 'teacher'
     });
+    mockSessions.set('spk_addon_04', {
+        id: 'spk_addon_04',
+        device_id: 'dev_addon_789',
+        status: 'in_progress',
+        package_type: 'addon'
+    });
 
     const mockDB = {
         prepare(query) {
@@ -189,6 +195,20 @@ test('Server Lockdown: Paket Mandiri ditolak HTTP 403 saat mengunggah rekaman au
     assert.strictEqual(resTeacher.status, 200, 'Paket guru/teacher harus diizinkan HTTP 200');
     const jsonTeacher = await resTeacher.json();
     assert.strictEqual(jsonTeacher.ok, true);
+
+    // 4. Tes upload paket 'addon' (Add-on Review Speaking Siswa) -> Harus diizinkan (HTTP 200)
+    const reqAddon = new Request('https://kimia.ajarkita.my.id/speaking/upload-recording', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Device-Id': 'dev_addon_789'
+        },
+        body: validPayload('spk_addon_04', 'dev_addon_789')
+    });
+    const resAddon = await worker.fetch(reqAddon, { DB: mockDB, ALLOWED_ORIGINS: 'https://kimia.ajarkita.my.id' });
+    assert.strictEqual(resAddon.status, 200, 'Paket addon harus diizinkan HTTP 200');
+    const jsonAddon = await resAddon.json();
+    assert.strictEqual(jsonAddon.ok, true);
 });
 
 // 4. UJI UNIVERSAL RETENTION: SAPU BERSIH SEMUA BARIS speaking_recordings
