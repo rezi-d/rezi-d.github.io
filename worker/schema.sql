@@ -24,6 +24,26 @@ CREATE TABLE IF NOT EXISTS devices (
 
 CREATE INDEX IF NOT EXISTS idx_licenses_wa ON licenses(wa);
 
+-- Tabel Rate Limit & Lockout Percobaan Aktivasi Token (Tahap B1)
+CREATE TABLE IF NOT EXISTS activation_attempts (
+    identifier     TEXT PRIMARY KEY, -- 'ip:<ip_hash>' atau 'pfx:<token_prefix>'
+    failed_count   INTEGER NOT NULL DEFAULT 0,
+    locked_until   INTEGER NOT NULL DEFAULT 0,
+    last_attempt   INTEGER NOT NULL
+);
+
+-- Tabel Audit Log Aktivasi Token Tanpa Data Pribadi (Tahap B1)
+CREATE TABLE IF NOT EXISTS activation_logs (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp      INTEGER NOT NULL,
+    ip_hash        TEXT NOT NULL,    -- SHA-256 dari IP (bukan IP asli)
+    token_prefix   TEXT NOT NULL,    -- Hanya awalan 9 karakter (mis: SNBT-AB**), bukan token utuh
+    success        INTEGER NOT NULL, -- 1 = berhasil, 0 = gagal
+    reason         TEXT DEFAULT ''   -- 'token_not_found', 'max_devices_exceeded', 'token_revoked', 'rate_limited'
+);
+
+CREATE INDEX IF NOT EXISTS idx_activation_logs_time ON activation_logs(timestamp DESC);
+
 -- Tabel klaim Voucher Beasiswa Mini-Game SNBT (Rp 35.000)
 -- device_id dan wa KEDUANYA UNIQUE untuk mencegah klaim ganda per perangkat dan per nomor WA
 CREATE TABLE IF NOT EXISTS scholarship_claims (

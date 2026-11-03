@@ -146,39 +146,40 @@ function validDeviceId(id) {
 // register=false -> perangkat harus sudah terdaftar (dipakai untuk ambil soal)
 async function authorize(env, token, deviceId, register) {
     if (!token || !validDeviceId(deviceId)) {
-        return { ok: false, status: 400, error: 'Token atau ID perangkat tidak valid.' };
+        return { ok: false, status: 400, error: 'Token atau ID perangkat tidak valid.', reason: 'invalid_request' };
     }
 
     const hash = await sha256Hex(token);
     const lic = await env.DB.prepare('SELECT * FROM licenses WHERE token_hash = ?').bind(hash).first();
-    if (!lic) return { ok: false, status: 401, error: 'Kode token tidak ditemukan.' };
-    if (lic.revoked) return { ok: false, status: 403, error: 'Lisensi ini telah dinonaktifkan. Hubungi admin.' };
+    if (!lic) return { ok: false, status: 401, error: 'Kode token tidak ditemukan.', reason: 'token_not_found' };
+    if (lic.revoked) return { ok: false, status: 403, error: 'Lisensi ini telah dinonaktifkan. Hubungi admin.', reason: 'token_revoked' };
 
     const now = Date.now();
     let expiresAt = lic.expires_at;
 
     if (!lic.activated_at) {
-        if (!register) return { ok: false, status: 403, error: 'Lisensi belum diaktifkan.' };
+        if (!register) return { ok: false, status: 403, error: 'Lisensi belum diaktifkan.', reason: 'not_activated' };
         expiresAt = now + lic.duration_days * DAY_MS;
         await env.DB.prepare('UPDATE licenses SET activated_at = ?, expires_at = ? WHERE id = ?')
             .bind(now, expiresAt, lic.id).run();
     }
 
     if (now > expiresAt) {
-        return { ok: false, status: 403, error: 'Masa aktif lisensi sudah habis.', expiresAt };
+        return { ok: false, status: 403, error: 'Masa aktif lisensi sudah habis.', expiresAt, reason: 'token_expired' };
     }
 
     const device = await env.DB.prepare('SELECT 1 AS ok FROM devices WHERE license_id = ? AND device_id = ?')
         .bind(lic.id, deviceId).first();
 
     if (!device) {
-        if (!register) return { ok: false, status: 403, error: 'Perangkat ini belum terdaftar untuk lisensi tersebut.' };
+        if (!register) return { ok: false, status: 403, error: 'Perangkat ini belum terdaftar untuk lisensi tersebut.', reason: 'unregistered_device' };
         const count = await env.DB.prepare('SELECT COUNT(*) AS n FROM devices WHERE license_id = ?').bind(lic.id).first();
         if (count.n >= lic.max_devices) {
             return {
                 ok: false,
                 status: 403,
-                error: `Batas ${lic.max_devices} perangkat untuk lisensi ini sudah tercapai. Hubungi admin untuk reset.`
+                error: `Batas ${lic.max_devices} perangkat untuk lisensi ini sudah tercapai. Hubungi admin untuk reset.`,
+                reason: 'max_devices_exceeded'
             };
         }
         await env.DB.prepare('INSERT INTO devices (license_id, device_id, first_seen) VALUES (?, ?, ?)')
@@ -189,7 +190,8 @@ async function authorize(env, token, deviceId, register) {
         ok: true,
         licenseId: lic.id,
         expiresAt,
-        remainingDays: Math.max(0, Math.ceil((expiresAt - now) / DAY_MS))
+        remainingDays: Math.max(0, Math.ceil((expiresAt - now) / DAY_MS)),
+        reason: 'success'
     };
 }
 
@@ -401,6 +403,128 @@ async function recordTeacherAttemptResult(env, ipHash, success) {
             VALUES (?, ?, ?, ?)
             ON CONFLICT(ip_hash) DO UPDATE SET failed_attempts = excluded.failed_attempts, locked_until = excluded.locked_until, last_attempt = excluded.last_attempt
         `).bind(ipHash, newFails, lockUntil, now).run();
+    }
+}
+
+// ---------- Rate Limiting & Audit Log Aktivasi Token (Tahap B1) ----------
+async function ensureActivationSchema(env) {
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS activation_attempts (
+            identifier     TEXT PRIMARY KEY,
+            failed_count   INTEGER NOT NULL DEFAULT 0,
+            locked_until   INTEGER NOT NULL DEFAULT 0,
+            last_attempt   INTEGER NOT NULL
+        )
+    `).run();
+
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS activation_logs (
+            id             INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp      INTEGER NOT NULL,
+            ip_hash        TEXT NOT NULL,
+            token_prefix   TEXT NOT NULL,
+            success        INTEGER NOT NULL,
+            reason         TEXT DEFAULT ''
+        )
+    `).run();
+
+    try {
+        await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_activation_logs_time ON activation_logs(timestamp DESC)').run();
+    } catch {}
+}
+
+function extractTokenPrefix(rawToken) {
+    const clean = String(rawToken || '').trim().toUpperCase();
+    if (!clean) return 'UNKNOWN';
+    const pfx = clean.slice(0, 9);
+    return pfx.length >= 4 ? pfx : pfx.padEnd(4, '*');
+}
+
+async function checkActivationRateLimit(env, ipHash, tokenPrefix) {
+    const now = Date.now();
+    const ipKey = `ip:${ipHash}`;
+    const pfxKey = `pfx:${tokenPrefix}`;
+
+    const [ipRow, pfxRow] = await Promise.all([
+        env.DB.prepare('SELECT failed_count, locked_until FROM activation_attempts WHERE identifier = ?').bind(ipKey).first().catch(() => null),
+        env.DB.prepare('SELECT failed_count, locked_until FROM activation_attempts WHERE identifier = ?').bind(pfxKey).first().catch(() => null)
+    ]);
+
+    // 1. Cek lockout IP
+    if (ipRow && ipRow.locked_until && ipRow.locked_until > now) {
+        const remainingMinutes = Math.ceil((ipRow.locked_until - now) / 60000);
+        return { locked: true, reason: 'ip_rate_limited', remainingMinutes, delayMs: 0 };
+    }
+
+    // 2. Cek lockout awalan token (prefix)
+    if (pfxRow && pfxRow.locked_until && pfxRow.locked_until > now) {
+        const remainingMinutes = Math.ceil((pfxRow.locked_until - now) / 60000);
+        return { locked: true, reason: 'prefix_rate_limited', remainingMinutes, delayMs: 0 };
+    }
+
+    // 3. Penundaan bertahap setelah gagal (progressive slowdown)
+    // Gagal 1-2 kali: delay 500 ms; gagal 3-4 kali: delay 1500 ms
+    const ipFails = ipRow ? (ipRow.failed_count || 0) : 0;
+    let delayMs = 0;
+    if (ipFails >= 3) {
+        delayMs = 1500;
+    } else if (ipFails >= 1) {
+        delayMs = 500;
+    }
+
+    return { locked: false, failedCount: ipFails, delayMs };
+}
+
+async function recordActivationAttemptResult(env, ipHash, tokenPrefix, success, reason = '') {
+    const now = Date.now();
+    const ipKey = `ip:${ipHash}`;
+    const pfxKey = `pfx:${tokenPrefix}`;
+
+    // Log tanpa data pribadi (hanya ipHash, prefix, flag success, dan reason)
+    try {
+        await env.DB.prepare(`
+            INSERT INTO activation_logs (timestamp, ip_hash, token_prefix, success, reason)
+            VALUES (?, ?, ?, ?, ?)
+        `).bind(now, ipHash, tokenPrefix, success ? 1 : 0, String(reason || '')).run();
+    } catch {}
+
+    if (success) {
+        // Reset kegagalan IP jika aktivasi berhasil
+        try {
+            await env.DB.prepare(`
+                INSERT INTO activation_attempts (identifier, failed_count, locked_until, last_attempt)
+                VALUES (?, 0, 0, ?)
+                ON CONFLICT(identifier) DO UPDATE SET failed_count = 0, locked_until = 0, last_attempt = excluded.last_attempt
+            `).bind(ipKey, now).run();
+        } catch {}
+    } else {
+        // Tambah hitungan gagal per IP (kunci 15 menit jika >= 5 gagal)
+        try {
+            const ipRow = await env.DB.prepare('SELECT failed_count FROM activation_attempts WHERE identifier = ?').bind(ipKey).first().catch(() => null);
+            const newIpFails = ((ipRow && ipRow.failed_count) || 0) + 1;
+            const ipLockUntil = newIpFails >= 5 ? now + (15 * 60 * 1000) : 0;
+
+            await env.DB.prepare(`
+                INSERT INTO activation_attempts (identifier, failed_count, locked_until, last_attempt)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(identifier) DO UPDATE SET failed_count = excluded.failed_count, locked_until = excluded.locked_until, last_attempt = excluded.last_attempt
+            `).bind(ipKey, newIpFails, ipLockUntil, now).run();
+        } catch {}
+
+        // Tambah hitungan gagal per prefix token (kunci 30 menit jika >= 10 gagal pada prefix yang sama)
+        if (tokenPrefix && tokenPrefix !== 'UNKNOWN') {
+            try {
+                const pfxRow = await env.DB.prepare('SELECT failed_count FROM activation_attempts WHERE identifier = ?').bind(pfxKey).first().catch(() => null);
+                const newPfxFails = ((pfxRow && pfxRow.failed_count) || 0) + 1;
+                const pfxLockUntil = newPfxFails >= 10 ? now + (30 * 60 * 1000) : 0;
+
+                await env.DB.prepare(`
+                    INSERT INTO activation_attempts (identifier, failed_count, locked_until, last_attempt)
+                    VALUES (?, ?, ?, ?)
+                    ON CONFLICT(identifier) DO UPDATE SET failed_count = excluded.failed_count, locked_until = excluded.locked_until, last_attempt = excluded.last_attempt
+                `).bind(pfxKey, newPfxFails, pfxLockUntil, now).run();
+            } catch {}
+        }
     }
 }
 
@@ -861,11 +985,44 @@ export default {
                 return json(request, env, { service: 'kimia-snbt-api', status: 'ok' });
             }
 
-            // --- Siswa: aktivasi / cek lisensi ---
+            // --- Siswa: aktivasi / cek lisensi (Tahap B1: Rate Limit Ganda, Penundaan Bertahap & Audit Log) ---
             if (path === '/activate' && request.method === 'POST') {
+                await ensureActivationSchema(env);
+                const ipRaw = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
+                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+
                 const body = await readJson(request);
-                const res = await authorize(env, normalizeToken(body.token), body.deviceId, true);
-                if (!res.ok) return json(request, env, { ok: false, error: res.error }, res.status);
+                const rawToken = String(body.token || '').trim();
+                const normalizedTok = normalizeToken(rawToken);
+                const tokenPrefix = extractTokenPrefix(normalizedTok);
+
+                // 1. Cek rate limit percobaan aktivasi (per IP dan per awalan token)
+                const rateCheck = await checkActivationRateLimit(env, ipHash, tokenPrefix);
+                if (rateCheck.locked) {
+                    await recordActivationAttemptResult(env, ipHash, tokenPrefix, false, rateCheck.reason);
+                    return json(request, env, {
+                        ok: false,
+                        error: rateCheck.reason === 'prefix_rate_limited'
+                            ? `Awalan token ini terkunci sementara karena terlalu banyak percobaan salah. Silakan coba lagi dalam ${rateCheck.remainingMinutes} menit.`
+                            : `Terlalu banyak percobaan aktivasi salah dari perangkat Anda. Akses dikunci sementara selama ${rateCheck.remainingMinutes} menit demi keamanan.`
+                    }, 429);
+                }
+
+                // 2. Penundaan bertahap setelah gagal (progressive delay: 500ms - 1500ms)
+                if (rateCheck.delayMs > 0) {
+                    await new Promise(r => setTimeout(r, rateCheck.delayMs));
+                }
+
+                // 3. Eksekusi otorisasi lisensi
+                const res = await authorize(env, normalizedTok, body.deviceId, true);
+
+                // 4. Catat ke attempt tracker & audit log tanpa data pribadi
+                await recordActivationAttemptResult(env, ipHash, tokenPrefix, res.ok, res.reason || (res.ok ? 'success' : 'activation_failed'));
+
+                if (!res.ok) {
+                    return json(request, env, { ok: false, error: res.error }, res.status);
+                }
+
                 return json(request, env, {
                     ok: true,
                     expiresAt: res.expiresAt,
@@ -3140,6 +3297,14 @@ export default {
                     if (!id) return json(request, env, { ok: false, error: 'ID tidak valid.' }, 400);
                     await env.DB.prepare('DELETE FROM devices WHERE license_id = ?').bind(id).run();
                     return json(request, env, { ok: true });
+                }
+
+                if (path === '/admin/activation-logs' && request.method === 'GET') {
+                    await ensureActivationSchema(env);
+                    const rows = await env.DB.prepare(
+                        'SELECT id, timestamp, ip_hash, token_prefix, success, reason FROM activation_logs ORDER BY id DESC LIMIT 200'
+                    ).all();
+                    return json(request, env, { ok: true, logs: rows.results || [] });
                 }
             }
 
