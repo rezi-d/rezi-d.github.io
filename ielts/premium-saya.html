@@ -195,14 +195,29 @@
                     </div>
                 </div>
 
+                <div class="flex items-start gap-2.5 pt-1">
+                    <input type="checkbox" id="check-consent-activate" required class="mt-1 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+                    <label for="check-consent-activate" class="text-xs text-slate-600 leading-relaxed cursor-pointer select-none">
+                        Saya menyetujui <a href="/syarat-ketentuan.html" target="_blank" class="text-indigo-600 font-bold hover:underline">Syarat &amp; Ketentuan</a>, <a href="/kebijakan-privasi.html" target="_blank" class="text-indigo-600 font-bold hover:underline">Kebijakan Privasi</a>, dan <a href="/kebijakan-refund.html" target="_blank" class="text-indigo-600 font-bold hover:underline">Kebijakan Refund</a>; jika berusia di bawah 18 tahun, saya sudah mendapat izin orang tua/wali.
+                    </label>
+                </div>
+
                 <div id="activate-alert" class="hidden text-xs p-3.5 rounded-xl font-medium"></div>
             </form>
 
-            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500">
-                <span>Belum punya kode lisensi? Beli langsung Rp 35.000 / 30 Hari via WhatsApp:</span>
-                <a id="btn-buy-wa" href="https://wa.me/6285266601477?text=Halo%20Admin,%20saya%20ingin%20beli%20Paket%20IELTS%20Mandiri%2030%20Hari%20(Rp%2035.000).%20Mohon%20petunjuk%20pembayarannya%20ya!" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
-                    <span>⚡ Beli Paket IELTS Rp 35.000</span>
-                </a>
+            <div class="pt-4 border-t border-slate-100 space-y-3">
+                <div class="flex items-start gap-2.5">
+                    <input type="checkbox" id="check-consent-buy" class="mt-1 w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+                    <label for="check-consent-buy" class="text-xs text-slate-600 leading-relaxed cursor-pointer select-none">
+                        Saya menyetujui <a href="/syarat-ketentuan.html" target="_blank" class="text-indigo-600 font-bold hover:underline">Syarat &amp; Ketentuan</a> serta <a href="/kebijakan-privasi.html" target="_blank" class="text-indigo-600 font-bold hover:underline">Kebijakan Privasi</a>; jika berusia di bawah 18 tahun, saya sudah mendapat izin orang tua/wali.
+                    </label>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500">
+                    <span>Belum punya kode lisensi? Beli langsung Rp 35.000 / 30 Hari via WhatsApp:</span>
+                    <a id="btn-buy-wa" href="https://wa.me/6285266601477?text=Halo%20Admin,%20saya%20sudah%20menyetujui%20syarat%20dan%20kebijakan%20privasi%20serta%20ingin%20beli%20Paket%20IELTS%20Mandiri%2030%20Hari%20(Rp%2035.000).%20Mohon%20petunjuk%20pembayarannya%20ya!" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
+                        <span>⚡ Beli Paket IELTS Rp 35.000</span>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -210,9 +225,16 @@
 
     <!-- FOOTER -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 space-y-2">
+        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs">
+            <a href="/kebijakan-privasi.html" class="hover:text-slate-900 transition-colors">Kebijakan Privasi</a>
+            <span>&bull;</span>
+            <a href="/syarat-ketentuan.html" class="hover:text-slate-900 transition-colors">Syarat &amp; Ketentuan</a>
+            <span>&bull;</span>
+            <a href="/kebijakan-refund.html" class="hover:text-slate-900 transition-colors">Kebijakan Refund</a>
+        </div>
         <p>&copy; 2026 AjarKita — Platform Edukasi &amp; Latihan Ujian Terpadu.</p>
         <p class="text-[11px] text-slate-400">
-            IELTS adalah merek dagang terdaftar dari University of Cambridge, British Council, dan IDP Education Australia. Situs ini adalah platform persiapan independen dan tidak terafiliasi secara resmi.
+            IELTS&reg; adalah merek dagang terdaftar dari University of Cambridge, British Council, dan IDP Education Australia. Platform AjarKita beroperasi secara independen dan tidak terafiliasi secara resmi.
         </p>
     </footer>
 
@@ -350,6 +372,15 @@
         formActivate.addEventListener('submit', async (e) => {
             e.preventDefault();
             alertEl.classList.add('hidden');
+
+            const checkConsent = document.getElementById('check-consent-activate');
+            if (checkConsent && !checkConsent.checked) {
+                alertEl.classList.remove('hidden');
+                alertEl.className = 'text-xs p-3.5 rounded-xl font-medium bg-rose-50 text-rose-800 border border-rose-200 block';
+                alertEl.textContent = 'Harap centang persetujuan Syarat & Ketentuan serta Kebijakan Privasi terlebih dahulu.';
+                return;
+            }
+
             const tokenVal = inputToken.value.trim().toUpperCase();
             if (!tokenVal) return;
 
@@ -387,6 +418,18 @@
                 btnSubmit.innerHTML = `<span>🔑</span> <span>Aktifkan Lisensi</span>`;
             }
         });
+
+        // Validasi Persetujuan Pembelian WA
+        const checkConsentBuy = document.getElementById('check-consent-buy');
+        const btnBuyWa = document.getElementById('btn-buy-wa');
+        if (btnBuyWa) {
+            btnBuyWa.addEventListener('click', (e) => {
+                if (checkConsentBuy && !checkConsentBuy.checked) {
+                    e.preventDefault();
+                    alert('Harap centang persetujuan Syarat & Ketentuan serta Kebijakan Privasi terlebih dahulu sebelum melanjutkan ke WhatsApp.');
+                }
+            });
+        }
 
         // Inisialisasi
         syncWithServer();

@@ -315,8 +315,14 @@ function snbtInjectPremiumModal() {
                         <div class="p-2 bg-white border border-slate-200 rounded-2xl inline-block shadow-xs">
                             <img src="/img/qris-35rb.png" alt="QRIS Pembayaran SNBT Rp 35.000" class="w-56 sm:w-64 h-auto mx-auto rounded-lg">
                         </div>
-                        <div class="space-y-1 pt-0.5">
-                            <a href="https://wa.me/${SNBT_WA_ADMIN}?text=Halo%20Admin,%20saya%20sudah%20transfer%20Rp35.000%20via%20QRIS%20untuk%20Aktivasi%20Paket%20Premium%20SNBT%20(30%20Hari).%20Mohon%20kode%20lisensinya%20ya!" target="_blank" rel="noopener" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition">
+                        <div class="space-y-1.5 pt-0.5">
+                            <div class="flex items-start gap-2 pt-1 text-left">
+                                <input type="checkbox" id="check-snbt-consent-pay" class="mt-0.5 w-3.5 h-3.5 rounded border-slate-300 text-teal-600 focus:ring-teal-500 cursor-pointer">
+                                <label for="check-snbt-consent-pay" class="text-[10px] text-slate-500 leading-tight cursor-pointer select-none">
+                                    Saya menyetujui <a href="/syarat-ketentuan.html" target="_blank" class="text-teal-700 underline font-semibold">Syarat &amp; Ketentuan</a> serta <a href="/kebijakan-privasi.html" target="_blank" class="text-teal-700 underline font-semibold">Kebijakan Privasi</a>; jika berusia di bawah 18 tahun, saya sudah mendapat izin orang tua/wali.
+                                </label>
+                            </div>
+                            <a id="btn-snbt-wa-pay" href="https://wa.me/${SNBT_WA_ADMIN}?text=Halo%20Admin,%20saya%20sudah%20menyetujui%20syarat%20dan%20kebijakan%20privasi%20serta%20transfer%20Rp35.000%20via%20QRIS%20untuk%20Aktivasi%20Paket%20Premium%20SNBT%20(30%20Hari).%20Mohon%20kode%20lisensinya%20ya!" target="_blank" rel="noopener" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition">
                                 <span>💬</span>
                                 <span>Konfirmasi Transfer ke WhatsApp Admin</span>
                             </a>
@@ -343,6 +349,13 @@ function snbtInjectPremiumModal() {
                                 <input type="text" id="input-license-token" placeholder="Contoh: SNBT-XXXX-XXXX-XXXX" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono uppercase tracking-wider">
                                 <span class="text-[10px] text-slate-400">Kode unik yang diberikan Admin via WhatsApp (maks. 2 perangkat).</span>
                             </div>
+
+                            <div class="flex items-start gap-2 pt-1 text-left">
+                                <input type="checkbox" id="check-snbt-consent-token" class="mt-0.5 w-3.5 h-3.5 rounded border-slate-300 text-teal-600 focus:ring-teal-500 cursor-pointer">
+                                <label for="check-snbt-consent-token" class="text-[10px] text-slate-500 leading-tight cursor-pointer select-none">
+                                    Saya menyetujui <a href="/syarat-ketentuan.html" target="_blank" class="text-teal-700 underline font-semibold">Syarat &amp; Ketentuan</a> serta <a href="/kebijakan-privasi.html" target="_blank" class="text-teal-700 underline font-semibold">Kebijakan Privasi</a>; jika berusia di bawah 18 tahun, saya sudah mendapat izin orang tua/wali.
+                                </label>
+                            </div>
                         </div>
 
                         <div id="license-feedback" class="text-xs min-h-[16px] font-semibold"></div>
@@ -362,6 +375,17 @@ function snbtInjectPremiumModal() {
     const div = document.createElement('div');
     div.innerHTML = modalHtml;
     document.body.appendChild(div.firstElementChild);
+
+    const btnWaPay = document.getElementById('btn-snbt-wa-pay');
+    const consentPay = document.getElementById('check-snbt-consent-pay');
+    if (btnWaPay) {
+        btnWaPay.addEventListener('click', (e) => {
+            if (consentPay && !consentPay.checked) {
+                e.preventDefault();
+                alert('Harap centang persetujuan Syarat & Ketentuan serta Kebijakan Privasi terlebih dahulu sebelum menghubungi WhatsApp Admin.');
+            }
+        });
+    }
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') snbtClosePremiumModal();
@@ -392,8 +416,14 @@ async function snbtSubmitActivation() {
     const elToken = document.getElementById('input-license-token');
     const elFb = document.getElementById('license-feedback');
     const btn = document.getElementById('btn-submit-activation');
+    const consentToken = document.getElementById('check-snbt-consent-token');
 
     if (!elToken || !elFb) return;
+
+    if (consentToken && !consentToken.checked) {
+        elFb.innerHTML = `<span class="text-rose-600">Harap centang persetujuan Syarat &amp; Ketentuan serta Kebijakan Privasi terlebih dahulu!</span>`;
+        return;
+    }
 
     const phone = elPhone ? elPhone.value.trim() : '';
     const token = elToken.value.trim();
