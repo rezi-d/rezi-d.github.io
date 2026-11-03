@@ -228,8 +228,15 @@ function bearerToken(request) {
 }
 
 function isAdmin(request, env) {
-    const key = request.headers.get('X-Admin-Key') || '';
-    return !!env.ADMIN_KEY && key.length > 0 && timingSafeEqual(key, env.ADMIN_KEY);
+    const key = (request.headers.get('X-Admin-Key') || '').trim();
+    if (!key || !env.ADMIN_KEY) return false;
+    const adminSecret = typeof env.ADMIN_KEY === 'string' ? env.ADMIN_KEY.trim() : '';
+    const teacherSecret = typeof env.TEACHER_KEY === 'string' ? env.TEACHER_KEY.trim() : '';
+    // Mencegah guru menyamar sebagai admin jika TEACHER_KEY diserahkan di X-Admin-Key
+    if (teacherSecret && timingSafeEqual(key, teacherSecret)) {
+        return false;
+    }
+    return adminSecret.length > 0 && timingSafeEqual(key, adminSecret);
 }
 
 function isTeacherOrAdmin(request, env) {
@@ -568,6 +575,43 @@ async function recordActivationAttemptResult(env, ipHash, tokenPrefix, success, 
             } catch {}
         }
     }
+}
+
+// ---------- Rate Limiting Endpoint Admin (Tahap Pre-Release) ----------
+async function checkAdminRateLimit(env, ipHash) {
+    await ensureActivationSchema(env);
+    const now = Date.now();
+    const identifier = `admin_ip:${ipHash}`;
+    const row = await env.DB.prepare('SELECT failed_count, locked_until FROM activation_attempts WHERE identifier = ?').bind(identifier).first().catch(() => null);
+    if (row && row.locked_until && row.locked_until > now) {
+        const remainingMinutes = Math.ceil((row.locked_until - now) / 60000);
+        return { locked: true, remainingMinutes };
+    }
+    return { locked: false, failedCount: row ? row.failed_count : 0 };
+}
+
+async function recordAdminAttemptResult(env, ipHash, success) {
+    try {
+        await ensureActivationSchema(env);
+        const now = Date.now();
+        const identifier = `admin_ip:${ipHash}`;
+        if (success) {
+            await env.DB.prepare(`
+                INSERT INTO activation_attempts (identifier, failed_count, locked_until, last_attempt)
+                VALUES (?, 0, 0, ?)
+                ON CONFLICT(identifier) DO UPDATE SET failed_count = 0, locked_until = 0, last_attempt = excluded.last_attempt
+            `).bind(identifier, now).run();
+        } else {
+            const status = await checkAdminRateLimit(env, ipHash);
+            const newFails = (status.failedCount || 0) + 1;
+            const lockUntil = newFails >= 5 ? now + (30 * 60 * 1000) : 0; // 30 menit lockout setelah 5x gagal
+            await env.DB.prepare(`
+                INSERT INTO activation_attempts (identifier, failed_count, locked_until, last_attempt)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(identifier) DO UPDATE SET failed_count = excluded.failed_count, locked_until = excluded.locked_until, last_attempt = excluded.last_attempt
+            `).bind(identifier, newFails, lockUntil, now).run();
+        }
+    } catch {}
 }
 
 function verifyTeacherKey(submittedKey, env) {
@@ -3309,9 +3353,43 @@ export default {
                 return json(request, env, { ok: true });
             }
 
-            // --- Admin Lisensi SNBT (HANYA ADMIN_KEY UTAMA, TIDAK BISA DIAKSES KODE GURU) ---
+            // --- Admin Lisensi & Operasional (HANYA ADMIN_KEY, BATASAN ORIGIN & RATE-LIMITED) ---
             if (path.startsWith('/admin')) {
-                if (!isAdmin(request, env)) return json(request, env, { ok: false, error: 'Tidak berwenang.' }, 401);
+                // 1. Batasan Origin Ketat
+                const origin = request.headers.get('Origin');
+                const referer = request.headers.get('Referer');
+                if (origin || referer) {
+                    const checkUrl = origin || referer;
+                    try {
+                        const u = new URL(checkUrl);
+                        const allowedHosts = ['kimia.ajarkita.my.id', 'rezi-d.github.io', 'localhost', '127.0.0.1'];
+                        if (!allowedHosts.includes(u.hostname)) {
+                            return json(request, env, { ok: false, error: 'Akses origin tidak diizinkan (403 Forbidden).' }, 403);
+                        }
+                    } catch {
+                        return json(request, env, { ok: false, error: 'Format Origin/Referer tidak valid.' }, 403);
+                    }
+                }
+
+                // 2. Rate Limiting Brute-Force pada /admin/*
+                const ipRaw = clientIp(request);
+                const ipHash = (await sha256Hex(ipRaw)).slice(0, 24);
+                const rateStatus = await checkAdminRateLimit(env, ipHash);
+                if (rateStatus.locked) {
+                    return json(request, env, {
+                        ok: false,
+                        error: `Terlalu banyak percobaan autentikasi admin yang gagal. Akses dikunci sementara selama ${rateStatus.remainingMinutes} menit.`
+                    }, 429);
+                }
+
+                // 3. Autentikasi Kunci Admin (Tolak Kunci Guru)
+                if (!isAdmin(request, env)) {
+                    await recordAdminAttemptResult(env, ipHash, false);
+                    return json(request, env, { ok: false, error: 'Tidak berwenang (Kunci Admin salah atau tidak memiliki akses).' }, 401);
+                }
+
+                // Reset hitungan gagal jika autentikasi sukses
+                await recordAdminAttemptResult(env, ipHash, true);
 
                 if (path === '/admin/token' && request.method === 'POST') {
                     await ensureLicensesSchema(env);
