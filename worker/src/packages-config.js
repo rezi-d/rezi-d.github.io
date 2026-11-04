@@ -170,3 +170,163 @@ export function isFreeMockTest(testId) {
     // Default aman tertutup (fail-closed) untuk tes baru tak dikenal: butuh lisensi
     return false;
 }
+
+/**
+ * Menghasilkan kunci standar penyimpanan draf/autosave peramban.
+ * Format baku Tahap 3: ajarkita:{test_id}:{modul}:draft
+ */
+export function getDraftStorageKey(testId, modul) {
+    const tid = normalizeTestId(testId);
+    const mod = String(modul || '').toLowerCase().trim();
+    return `ajarkita:${tid}:${mod}:draft`;
+}
+
+/**
+ * Menghasilkan kunci standar penyimpanan ID sesi peramban.
+ * Format baku Tahap 3: ajarkita:{test_id}:{modul}:session_id
+ */
+export function getSessionStorageKey(testId, modul) {
+    const tid = normalizeTestId(testId);
+    const mod = String(modul || '').toLowerCase().trim();
+    return `ajarkita:${tid}:${mod}:session_id`;
+}
+
+/**
+ * Menghasilkan daftar kunci cadangan lama (legacy) untuk migrasi aman ke test1.
+ */
+export function getLegacyDraftKeys(modul, sessionId, deviceId) {
+    const mod = String(modul || '').toLowerCase().trim();
+    const candidates = [];
+    if (sessionId) candidates.push(`ielts_${mod}_backup_${sessionId}`);
+    if (deviceId) candidates.push(`ielts_${mod}_backup_${deviceId}`);
+    candidates.push(`ielts_${mod}_backup_undefined`);
+    return candidates;
+}
+
+/**
+ * Memuat draf ujian dari localStorage/storage peramban secara aman.
+ * - Membaca format baku: ajarkita:{test_id}:{modul}:draft
+ * - Jika test1 dan format baru belum ada, memigrasikan draf lama secara transparan.
+ * - Format draf yang rusak / non-JSON diabaikan dengan aman tanpa memicu crash JavaScript.
+ */
+export function loadModuleDraft(testId, modul, options = {}) {
+    const storage = options.storage || (typeof localStorage !== 'undefined' ? localStorage : null);
+    if (!storage) return null;
+
+    const tid = normalizeTestId(testId);
+    const mod = String(modul || '').toLowerCase().trim();
+    const draftKey = getDraftStorageKey(tid, mod);
+
+    try {
+        const raw = storage.getItem(draftKey);
+        if (raw) {
+            return JSON.parse(raw);
+        }
+    } catch (e) {
+        // Abaikan dengan aman tanpa error JavaScript
+    }
+
+    // Migrasi draf lama HANYA untuk test1 tanpa sengaja menghapus data yang sedang berjalan
+    if (tid === 'test1') {
+        const legacyCandidates = getLegacyDraftKeys(mod, options.sessionId, options.deviceId);
+
+        try {
+            if (typeof storage.length === 'number' && typeof storage.key === 'function') {
+                const prefix = `ielts_${mod}_backup_`;
+                for (let i = 0; i < storage.length; i++) {
+                    const k = storage.key(i);
+                    if (k && k.startsWith(prefix) && !legacyCandidates.includes(k)) {
+                        legacyCandidates.push(k);
+                    }
+                }
+            }
+        } catch (_) {}
+
+        for (const k of legacyCandidates) {
+            try {
+                const legacyRaw = storage.getItem(k);
+                if (legacyRaw) {
+                    const parsed = JSON.parse(legacyRaw);
+                    if (parsed && typeof parsed === 'object') {
+                        parsed.testId = 'test1';
+                        storage.setItem(draftKey, JSON.stringify(parsed));
+                        if (parsed.sessionId) {
+                            storage.setItem(getSessionStorageKey('test1', mod), parsed.sessionId);
+                        }
+                        return parsed;
+                    }
+                }
+            } catch (_) {
+                // Abaikan jika berkas legacy bukan JSON valid
+            }
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Menyimpan draf ujian ke format standar ajarkita:{test_id}:{modul}:draft.
+ */
+export function saveModuleDraft(testId, modul, data, options = {}) {
+    const storage = options.storage || (typeof localStorage !== 'undefined' ? localStorage : null);
+    if (!storage || !data) return false;
+
+    const tid = normalizeTestId(testId);
+    const mod = String(modul || '').toLowerCase().trim();
+    const draftKey = getDraftStorageKey(tid, mod);
+
+    try {
+        const payload = (typeof data === 'object' && data !== null)
+            ? { ...data, testId: tid }
+            : data;
+        const serialized = typeof payload === 'string' ? payload : JSON.stringify(payload);
+        storage.setItem(draftKey, serialized);
+
+        if (typeof payload === 'object' && payload !== null && payload.sessionId) {
+            storage.setItem(getSessionStorageKey(tid, mod), payload.sessionId);
+        }
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+/**
+ * Menghapus draf dan session_id modul saat submit selesai atau sesi dibatalkan sengaja oleh peserta.
+ */
+export function clearModuleDraft(testId, modul, options = {}) {
+    const storage = options.storage || (typeof localStorage !== 'undefined' ? localStorage : null);
+    if (!storage) return;
+
+    const tid = normalizeTestId(testId);
+    const mod = String(modul || '').toLowerCase().trim();
+    const draftKey = getDraftStorageKey(tid, mod);
+    const sessionKey = getSessionStorageKey(tid, mod);
+
+    try {
+        storage.removeItem(draftKey);
+        storage.removeItem(sessionKey);
+
+        if (tid === 'test1') {
+            storage.removeItem(`ielts_${mod}_session_id`);
+            if (options.sessionId) {
+                storage.removeItem(`ielts_${mod}_backup_${options.sessionId}`);
+            }
+            if (options.deviceId) {
+                storage.removeItem(`ielts_${mod}_backup_${options.deviceId}`);
+            }
+            try {
+                if (typeof storage.length === 'number' && typeof storage.key === 'function') {
+                    const prefix = `ielts_${mod}_backup_`;
+                    const toDelete = [];
+                    for (let i = 0; i < storage.length; i++) {
+                        const k = storage.key(i);
+                        if (k && k.startsWith(prefix)) toDelete.push(k);
+                    }
+                    toDelete.forEach(k => storage.removeItem(k));
+                }
+            } catch (_) {}
+        }
+    } catch (_) {}
+}

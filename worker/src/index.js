@@ -13,8 +13,8 @@
 // =================================================================
 
 import { RETENTION_CONFIG } from './retention-config.js';
-import { PACKAGES_CONFIG, getPackageDetails, isFreeMockTest, normalizeTestId } from './packages-config.js';
-export { normalizeTestId } from './packages-config.js';
+import { PACKAGES_CONFIG, getPackageDetails, isFreeMockTest, normalizeTestId, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
+export { normalizeTestId, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
 
 function extractRequestToken(request, body = null, url = null) {
     const authHeader = request.headers.get('Authorization') || '';
@@ -1259,9 +1259,14 @@ export default {
             return new Response(null, { status: 204, headers: corsHeaders(request, env) });
         }
 
-        // Proteksi Aset Statis: Blokir akses publik langsung via URL ke berkas aset internal/master/premium
-        if (path.endsWith('.json') || path.endsWith('.mp3') || path.startsWith('/premium') || path.includes('-master')) {
-            return json(request, env, { ok: false, error: 'Akses langsung ke berkas aset internal dilarang.', reason: 'direct_asset_access_forbidden' }, 403);
+        // Proteksi Aset Statis Premium: Blokir akses langsung ke berkas soal master/kunci dan aset premium (Mock 2 dst.)
+        // Aset Mock 1 (audio listening test1, mock1 data, manifest.json) tetap dapat diakses publik tanpa token.
+        const isMasterAsset = path.includes('-master');
+        const isPremiumFolder = path.startsWith('/premium');
+        const isPremiumMockAsset = (path.includes('mock2') || path.includes('mock3') || path.includes('test2') || path.includes('test3')) && (path.endsWith('.json') || path.endsWith('.mp3'));
+
+        if (isMasterAsset || isPremiumFolder || isPremiumMockAsset) {
+            return json(request, env, { ok: false, error: 'Akses langsung ke berkas aset internal premium dilarang.', reason: 'direct_asset_access_forbidden' }, 403);
         }
 
         try {

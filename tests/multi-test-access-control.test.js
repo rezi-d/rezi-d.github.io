@@ -635,17 +635,20 @@ test('Tahap 1 Syarat 2: Akses langsung via URL ke berkas aset internal/master/JS
     const assets = createMockAssets();
     const env = { DB: db, ASSETS: assets, ALLOWED_ORIGINS: 'https://kimia.ajarkita.my.id' };
 
-    // Uji percobaan akses langsung ke file master JSON
-    const pathsToTest = [
+    // 1. Uji percobaan akses langsung ke file master JSON dan berkas premium Mock 2/3 (Wajib Ditolak 403)
+    const premiumPathsToTest = [
         '/listening/test2-master.json',
         '/reading/reading2-master.json',
         '/writing/writing2-master.json',
         '/speaking/speaking2-master.json',
         '/premium/test2.json',
-        '/premium/audio/sample.mp3'
+        '/premium/audio/sample.mp3',
+        '/ielts/audio/listening-test2.mp3',
+        '/ielts/data/writing-mock2.json',
+        '/ielts/data/reading-test3.json'
     ];
 
-    for (const p of pathsToTest) {
+    for (const p of premiumPathsToTest) {
         const req = new Request(`https://kimia.ajarkita.my.id${p}`, {
             method: 'GET',
             headers: { 'Origin': 'https://kimia.ajarkita.my.id' }
@@ -655,6 +658,24 @@ test('Tahap 1 Syarat 2: Akses langsung via URL ke berkas aset internal/master/JS
         const json = await res.json();
         assert.strictEqual(json.ok, false);
         assert.strictEqual(json.reason, 'direct_asset_access_forbidden');
+    }
+
+    // 2. Uji bahwa aset publik Mock 1 dan halaman umum (manifest.json, audio listening test1) TIDAK diblokir 403
+    const publicMock1Paths = [
+        '/manifest.json',
+        '/site.webmanifest',
+        '/ielts/audio/ielts-listening-test1.mp3',
+        '/ielts/data/writing-mock1.json',
+        '/ielts/data/reading-mock1.json'
+    ];
+
+    for (const p of publicMock1Paths) {
+        const req = new Request(`https://kimia.ajarkita.my.id${p}`, {
+            method: 'GET',
+            headers: { 'Origin': 'https://kimia.ajarkita.my.id' }
+        });
+        const res = await worker.fetch(req, env);
+        assert.notStrictEqual(res.status, 403, `Aset publik Mock 1 ${p} tidak boleh ditolak HTTP 403`);
     }
 });
 

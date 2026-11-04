@@ -24,9 +24,104 @@
         ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
         : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev';
 
+    function getNormalizedTestId(tid) {
+        if (typeof window !== 'undefined' && window.normalizeTestId) {
+            return window.normalizeTestId(tid);
+        }
+        return (tid || 'test1').toString().trim().toLowerCase();
+    }
+
+    function getStorageDraftKey(tid) {
+        if (typeof window !== 'undefined' && window.getDraftStorageKey) {
+            return window.getDraftStorageKey(tid, 'speaking');
+        }
+        return `ajarkita:${getNormalizedTestId(tid)}:speaking:draft`;
+    }
+
+    function getStorageSessionKey(tid) {
+        if (typeof window !== 'undefined' && window.getSessionStorageKey) {
+            return window.getSessionStorageKey(tid, 'speaking');
+        }
+        return `ajarkita:${getNormalizedTestId(tid)}:speaking:session_id`;
+    }
+
+    function getInitialTestId() {
+        if (typeof window !== 'undefined' && window.location) {
+            const params = new URLSearchParams(window.location.search);
+            const t = params.get('test') || params.get('testId');
+            if (t) return getNormalizedTestId(t);
+        }
+        return 'test1';
+    }
+
+    function getSavedSessionId(tid) {
+        try {
+            const sessionKey = getStorageSessionKey(tid);
+            const saved = localStorage.getItem(sessionKey);
+            if (saved) return saved;
+            if (getNormalizedTestId(tid) === 'test1') {
+                return localStorage.getItem('ielts_speaking_session_id') || '';
+            }
+        } catch (_) {}
+        return '';
+    }
+
+    function saveSpeakingDraft(payload) {
+        if (typeof window !== 'undefined' && window.saveModuleDraft) {
+            return window.saveModuleDraft(STATE.testId, 'speaking', payload);
+        }
+        try {
+            const key = getStorageDraftKey(STATE.testId);
+            localStorage.setItem(key, JSON.stringify(payload));
+            if (payload && payload.sessionId) {
+                localStorage.setItem(getStorageSessionKey(STATE.testId), payload.sessionId);
+            }
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    function loadSpeakingDraft(sessionId) {
+        if (typeof window !== 'undefined' && window.loadModuleDraft) {
+            return window.loadModuleDraft(STATE.testId, 'speaking', { sessionId, deviceId: STATE.deviceId });
+        }
+        try {
+            const key = getStorageDraftKey(STATE.testId);
+            const raw = localStorage.getItem(key);
+            if (raw) return JSON.parse(raw);
+            if (getNormalizedTestId(STATE.testId) === 'test1' && sessionId) {
+                const legacy = localStorage.getItem(`ielts_speaking_backup_${sessionId}`);
+                if (legacy) {
+                    const parsed = JSON.parse(legacy);
+                    saveSpeakingDraft(parsed);
+                    return parsed;
+                }
+            }
+        } catch (_) {}
+        return null;
+    }
+
+    function clearSpeakingDraft(sessionId) {
+        if (typeof window !== 'undefined' && window.clearModuleDraft) {
+            window.clearModuleDraft(STATE.testId, 'speaking', { sessionId, deviceId: STATE.deviceId });
+        } else {
+            try {
+                localStorage.removeItem(getStorageDraftKey(STATE.testId));
+                localStorage.removeItem(getStorageSessionKey(STATE.testId));
+                if (getNormalizedTestId(STATE.testId) === 'test1') {
+                    localStorage.removeItem('ielts_speaking_session_id');
+                    if (sessionId) localStorage.removeItem(`ielts_speaking_backup_${sessionId}`);
+                }
+            } catch (_) {}
+        }
+    }
+
+    const initialTestId = getInitialTestId();
+
     const STATE = {
-        testId: 'speaking1',
-        sessionId: localStorage.getItem('ielts_speaking_session_id') || '',
+        testId: initialTestId,
+        sessionId: getSavedSessionId(initialTestId),
         deviceId: getOrSetDeviceId(),
         nama: '',
         kelas: '',
@@ -199,6 +294,13 @@
         if (cueNotesInput) {
             cueNotesInput.addEventListener('input', (e) => {
                 STATE.part2Notes = e.target.value;
+                saveSpeakingDraft({
+                    sessionId: STATE.sessionId,
+                    deviceId: STATE.deviceId,
+                    part2Notes: STATE.part2Notes,
+                    currentIndex: STATE.currentIndex,
+                    savedAt: Date.now()
+                });
             });
         }
 
@@ -336,9 +438,11 @@
 
     // --- Cek Sesi Sebelumnya (Resume) ---
     async function checkExistingSession() {
-        if (!STATE.sessionId) return;
+        const savedSessionId = getSavedSessionId(STATE.testId);
+        if (!savedSessionId) return;
+        STATE.sessionId = savedSessionId;
         try {
-            const res = await fetch(`${API_BASE}/speaking/status?sessionId=${encodeURIComponent(STATE.sessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}`, {
+            const res = await fetch(`${API_BASE}/speaking/status?sessionId=${encodeURIComponent(savedSessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}`, {
                 headers: { 'X-Device-Id': STATE.deviceId },
                 credentials: 'omit'
             });
@@ -362,7 +466,7 @@
     }
 
     function handleDiscardExam() {
-        localStorage.removeItem('ielts_speaking_session_id');
+        clearSpeakingDraft(STATE.sessionId);
         STATE.sessionId = '';
         const banner = document.getElementById('banner-resume-speaking');
         if (banner) banner.classList.add('hidden');
@@ -450,7 +554,12 @@
             }
 
             STATE.sessionId = data.sessionId;
-            localStorage.setItem('ielts_speaking_session_id', data.sessionId);
+            try {
+                localStorage.setItem(getStorageSessionKey(STATE.testId), data.sessionId);
+                if (getNormalizedTestId(STATE.testId) === 'test1') {
+                    localStorage.setItem('ielts_speaking_session_id', data.sessionId);
+                }
+            } catch (_) {}
 
             if (data.alreadySubmitted) {
                 renderResultView(data);
@@ -459,6 +568,12 @@
 
             STATE.testData = data.testData;
             flattenQuestions(data.testData);
+
+            // Pulihkan draf lokal (part2Notes) jika ada
+            const draft = loadSpeakingDraft(data.sessionId);
+            if (draft && draft.part2Notes && !STATE.part2Notes) {
+                STATE.part2Notes = draft.part2Notes;
+            }
 
             // Tandai soal yang sudah direkam (jika resume)
             if (data.recordedQuestions && Array.isArray(data.recordedQuestions)) {
@@ -1160,6 +1275,7 @@
 
     // --- View 3: Tampilan Hasil / Selesai ---
     function renderResultView(data) {
+        clearSpeakingDraft(STATE.sessionId);
         document.getElementById('view-intro-speaking').classList.add('hidden');
         document.getElementById('view-test-speaking').classList.add('hidden');
         document.getElementById('view-result-speaking').classList.remove('hidden');

@@ -458,3 +458,150 @@ test('Tahap 2: Konkurensi submit multi-tes serentak (Promise.all) dengan test_id
     assert.strictEqual(final2.status, 'submitted');
     assert.strictEqual(final2.test_id, 'test2');
 });
+
+// =====================================================================
+// 5. UJI MODAL PENILAIAN GURU (WRITING & SPEAKING) MULTI-TES
+// =====================================================================
+
+test('Tahap 2 Syarat 3: Modal penilaian guru menuliskan skor ke sesi test_id yang tepat tanpa menimpa tes lain', async () => {
+    // Siswa "Budi Santoso" memiliki 2 sesi Writing (Mock 1 & Mock 2) dan 2 sesi Speaking (Mock 1 & Mock 2)
+    const writingStore = [
+        { id: 'ws_budi_mock1', test_id: 'test1', nama_peserta: 'Budi Santoso', status: 'submitted', writing_band: null, task1_comment: '', task2_comment: '' },
+        { id: 'ws_budi_mock2', test_id: 'test2', nama_peserta: 'Budi Santoso', status: 'submitted', writing_band: null, task1_comment: '', task2_comment: '' }
+    ];
+
+    const speakingStore = [
+        { id: 'spk_budi_mock1', test_id: 'test1', nama_peserta: 'Budi Santoso', status: 'submitted', speaking_band: null, teacher_comment: '' },
+        { id: 'spk_budi_mock2', test_id: 'test2', nama_peserta: 'Budi Santoso', status: 'submitted', speaking_band: null, teacher_comment: '' }
+    ];
+
+    const mockDb = {
+        prepare(query) {
+            let boundParams = [];
+            return {
+                bind(...params) {
+                    boundParams = params;
+                    return this;
+                },
+                async first() {
+                    const q = query.trim();
+                    if (q.includes('FROM writing_sessions WHERE id = ?')) {
+                        return writingStore.find(w => w.id === boundParams[0]) || null;
+                    }
+                    if (q.includes('FROM speaking_sessions WHERE id = ?')) {
+                        return speakingStore.find(s => s.id === boundParams[0]) || null;
+                    }
+                    if (q.includes('FROM listening_admin_attempts') || q.includes('FROM speaking_sessions')) {
+                        return null;
+                    }
+                    return null;
+                },
+                async run() {
+                    const q = query.trim();
+                    if (q.includes('UPDATE writing_sessions')) {
+                        const sid = boundParams[boundParams.length - 1];
+                        const item = writingStore.find(w => w.id === sid);
+                        if (item) {
+                            item.status = 'graded';
+                            item.task1_comment = boundParams[4];
+                            item.task2_comment = boundParams[5];
+                            item.writing_band = boundParams[6];
+                        }
+                        return { changes: 1 };
+                    }
+                    if (q.includes('UPDATE speaking_sessions')) {
+                        const sid = boundParams[boundParams.length - 1];
+                        const item = speakingStore.find(s => s.id === sid);
+                        if (item) {
+                            item.status = 'graded';
+                            item.teacher_comment = boundParams[3];
+                            item.speaking_band = boundParams[4];
+                        }
+                        return { changes: 1 };
+                    }
+                    return { changes: 1 };
+                }
+            };
+        }
+    };
+
+    const env = {
+        DB: mockDb,
+        TEACHER_KEY: 'tch-valid-secret-key-99',
+        ADMIN_KEY: 'adm-valid-secret-key-88'
+    };
+
+    // 1. Guru menilai Writing Mock 1 (Band 6.5)
+    const resW1 = await worker.fetch(new Request('https://kimia.ajarkita.my.id/writing/admin/grade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Teacher-Key': 'tch-valid-secret-key-99' },
+        body: JSON.stringify({
+            sessionId: 'ws_budi_mock1',
+            task1Criteria: { ta: 6.5, cc: 6.5, lr: 6.0, gra: 6.5 },
+            task2Criteria: { tr: 6.5, cc: 6.5, lr: 6.5, gra: 6.5 },
+            task1Comment: 'Feedback Task 1 Mock 1',
+            task2Comment: 'Feedback Task 2 Mock 1',
+            teacherName: 'Mr. John'
+        })
+    }), env);
+    assert.strictEqual(resW1.status, 200);
+
+    // 2. Guru menilai Writing Mock 2 (Band 8.0)
+    const resW2 = await worker.fetch(new Request('https://kimia.ajarkita.my.id/writing/admin/grade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Teacher-Key': 'tch-valid-secret-key-99' },
+        body: JSON.stringify({
+            sessionId: 'ws_budi_mock2',
+            task1Criteria: { ta: 8.0, cc: 8.0, lr: 8.0, gra: 8.0 },
+            task2Criteria: { tr: 8.0, cc: 8.0, lr: 8.0, gra: 8.0 },
+            task1Comment: 'Feedback Task 1 Mock 2',
+            task2Comment: 'Feedback Task 2 Mock 2',
+            teacherName: 'Mr. John'
+        })
+    }), env);
+    assert.strictEqual(resW2.status, 200);
+
+    // Pastikan Writing Mock 1 dan Mock 2 terisolasi sempurna:
+    assert.strictEqual(writingStore[0].test_id, 'test1');
+    assert.strictEqual(writingStore[0].writing_band, 6.5);
+    assert.strictEqual(writingStore[0].task1_comment, 'Feedback Task 1 Mock 1');
+
+    assert.strictEqual(writingStore[1].test_id, 'test2');
+    assert.strictEqual(writingStore[1].writing_band, 8.0);
+    assert.strictEqual(writingStore[1].task1_comment, 'Feedback Task 1 Mock 2');
+
+    // 3. Guru menilai Speaking Mock 1 (Band 7.0)
+    const resS1 = await worker.fetch(new Request('https://kimia.ajarkita.my.id/speaking/admin/grade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Teacher-Key': 'tch-valid-secret-key-99' },
+        body: JSON.stringify({
+            sessionId: 'spk_budi_mock1',
+            fc: 7.0, lr: 7.0, gra: 7.0, pr: 7.0,
+            teacherComment: 'Bagus untuk Mock 1',
+            teacherName: 'Ms. Sarah'
+        })
+    }), env);
+    assert.strictEqual(resS1.status, 200);
+
+    // 4. Guru menilai Speaking Mock 2 (Band 8.5)
+    const resS2 = await worker.fetch(new Request('https://kimia.ajarkita.my.id/speaking/admin/grade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Teacher-Key': 'tch-valid-secret-key-99' },
+        body: JSON.stringify({
+            sessionId: 'spk_budi_mock2',
+            fc: 8.5, lr: 8.5, gra: 8.5, pr: 8.5,
+            teacherComment: 'Hebat untuk Mock 2',
+            teacherName: 'Ms. Sarah'
+        })
+    }), env);
+    assert.strictEqual(resS2.status, 200);
+
+    // Pastikan Speaking Mock 1 dan Mock 2 terisolasi sempurna:
+    assert.strictEqual(speakingStore[0].test_id, 'test1');
+    assert.strictEqual(speakingStore[0].speaking_band, 7.0);
+    assert.strictEqual(speakingStore[0].teacher_comment, 'Bagus untuk Mock 1');
+
+    assert.strictEqual(speakingStore[1].test_id, 'test2');
+    assert.strictEqual(speakingStore[1].speaking_band, 8.5);
+    assert.strictEqual(speakingStore[1].teacher_comment, 'Hebat untuk Mock 2');
+});

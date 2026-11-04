@@ -20,9 +20,104 @@
         ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
         : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev';
 
+    function getNormalizedTestId(tid) {
+        if (typeof window !== 'undefined' && window.normalizeTestId) {
+            return window.normalizeTestId(tid);
+        }
+        return (tid || 'test1').toString().trim().toLowerCase();
+    }
+
+    function getStorageDraftKey(tid) {
+        if (typeof window !== 'undefined' && window.getDraftStorageKey) {
+            return window.getDraftStorageKey(tid, 'listening');
+        }
+        return `ajarkita:${getNormalizedTestId(tid)}:listening:draft`;
+    }
+
+    function getStorageSessionKey(tid) {
+        if (typeof window !== 'undefined' && window.getSessionStorageKey) {
+            return window.getSessionStorageKey(tid, 'listening');
+        }
+        return `ajarkita:${getNormalizedTestId(tid)}:listening:session_id`;
+    }
+
+    function getInitialTestId() {
+        if (typeof window !== 'undefined' && window.location) {
+            const params = new URLSearchParams(window.location.search);
+            const t = params.get('test') || params.get('testId');
+            if (t) return getNormalizedTestId(t);
+        }
+        return 'test1';
+    }
+
+    function getSavedSessionId(tid) {
+        try {
+            const sessionKey = getStorageSessionKey(tid);
+            const saved = localStorage.getItem(sessionKey);
+            if (saved) return saved;
+            if (getNormalizedTestId(tid) === 'test1') {
+                return localStorage.getItem('ielts_listening_session_id') || '';
+            }
+        } catch (_) {}
+        return '';
+    }
+
+    function saveListeningDraft(payload) {
+        if (typeof window !== 'undefined' && window.saveModuleDraft) {
+            return window.saveModuleDraft(STATE.testId, 'listening', payload);
+        }
+        try {
+            const key = getStorageDraftKey(STATE.testId);
+            localStorage.setItem(key, JSON.stringify(payload));
+            if (payload && payload.sessionId) {
+                localStorage.setItem(getStorageSessionKey(STATE.testId), payload.sessionId);
+            }
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    function loadListeningDraft(sessionId) {
+        if (typeof window !== 'undefined' && window.loadModuleDraft) {
+            return window.loadModuleDraft(STATE.testId, 'listening', { sessionId, deviceId: STATE.deviceId });
+        }
+        try {
+            const key = getStorageDraftKey(STATE.testId);
+            const raw = localStorage.getItem(key);
+            if (raw) return JSON.parse(raw);
+            if (getNormalizedTestId(STATE.testId) === 'test1' && sessionId) {
+                const legacy = localStorage.getItem(`ielts_listening_backup_${sessionId}`);
+                if (legacy) {
+                    const parsed = JSON.parse(legacy);
+                    saveListeningDraft(parsed);
+                    return parsed;
+                }
+            }
+        } catch (_) {}
+        return null;
+    }
+
+    function clearListeningDraft(sessionId) {
+        if (typeof window !== 'undefined' && window.clearModuleDraft) {
+            window.clearModuleDraft(STATE.testId, 'listening', { sessionId, deviceId: STATE.deviceId });
+        } else {
+            try {
+                localStorage.removeItem(getStorageDraftKey(STATE.testId));
+                localStorage.removeItem(getStorageSessionKey(STATE.testId));
+                if (getNormalizedTestId(STATE.testId) === 'test1') {
+                    localStorage.removeItem('ielts_listening_session_id');
+                    if (sessionId) localStorage.removeItem(`ielts_listening_backup_${sessionId}`);
+                }
+            } catch (_) {}
+        }
+    }
+
+    const initialTestId = getInitialTestId();
+
     const STATE = {
-        testId: 'test1',
-        sessionId: localStorage.getItem('ielts_listening_session_id') || '',
+        testId: initialTestId,
+        sessionId: getSavedSessionId(initialTestId),
         deviceId: getOrSetDeviceId(),
         nama: '',
         kelas: '',
@@ -173,7 +268,7 @@
 
     // --- Memeriksa Sesi Tersimpan (Resume On Refresh) ---
     async function checkExistingSession() {
-        const savedSessionId = localStorage.getItem('ielts_listening_session_id');
+        const savedSessionId = getSavedSessionId(STATE.testId);
         if (!savedSessionId) return;
 
         const banner = document.getElementById('banner-resume-session');
@@ -209,7 +304,7 @@
     }
 
     function clearSavedSession() {
-        localStorage.removeItem('ielts_listening_session_id');
+        clearListeningDraft(STATE.sessionId);
         STATE.sessionId = '';
         STATE.answers = {};
     }
@@ -253,11 +348,23 @@
         }
 
         STATE.sessionId = data.sessionId;
-        localStorage.setItem('ielts_listening_session_id', data.sessionId);
+        try {
+            localStorage.setItem(getStorageSessionKey(STATE.testId), data.sessionId);
+            if (getNormalizedTestId(STATE.testId) === 'test1') {
+                localStorage.setItem('ielts_listening_session_id', data.sessionId);
+            }
+        } catch (_) {}
+
         STATE.testData = data.testData;
         STATE.startedAt = data.startedAt;
         STATE.currentSectionIdx = (data.currentSec ? data.currentSec - 1 : 0);
         STATE.answers = data.savedAnswers || {};
+
+        // Pulihkan draf lokal jika data jawaban di server masih kosong tapi ada backup lokal
+        const draft = loadListeningDraft(data.sessionId);
+        if (draft && draft.answers && (!data.savedAnswers || Object.keys(data.savedAnswers).length === 0)) {
+            STATE.answers = draft.answers;
+        }
 
         // Mulai tampilan ujian
         transitionToExamView();
@@ -778,15 +885,13 @@
     async function autoSaveProgress() {
         if (!STATE.sessionId || STATE.submitted) return;
 
-        // Selalu cadangkan instan ke localStorage (Zero data loss)
-        try {
-            localStorage.setItem(`ielts_listening_backup_${STATE.sessionId}`, JSON.stringify({
-                sessionId: STATE.sessionId,
-                answers: STATE.answers,
-                currentSec: STATE.currentSectionIdx + 1,
-                savedAt: Date.now()
-            }));
-        } catch {}
+        // Selalu cadangkan instan ke format baku localStorage (Zero data loss)
+        saveListeningDraft({
+            sessionId: STATE.sessionId,
+            answers: STATE.answers,
+            currentSec: STATE.currentSectionIdx + 1,
+            savedAt: Date.now()
+        });
 
         const badge = document.getElementById('autosave-indicator');
         if (badge) {

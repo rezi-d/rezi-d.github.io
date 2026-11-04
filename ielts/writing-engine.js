@@ -16,9 +16,106 @@
         ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
         : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev';
 
+    function getNormalizedTestId(tid) {
+        if (typeof window !== 'undefined' && window.normalizeTestId) {
+            return window.normalizeTestId(tid);
+        }
+        return (tid || 'test1').toString().trim().toLowerCase();
+    }
+
+    function getStorageDraftKey(tid) {
+        if (typeof window !== 'undefined' && window.getDraftStorageKey) {
+            return window.getDraftStorageKey(tid, 'writing');
+        }
+        return `ajarkita:${getNormalizedTestId(tid)}:writing:draft`;
+    }
+
+    function getStorageSessionKey(tid) {
+        if (typeof window !== 'undefined' && window.getSessionStorageKey) {
+            return window.getSessionStorageKey(tid, 'writing');
+        }
+        return `ajarkita:${getNormalizedTestId(tid)}:writing:session_id`;
+    }
+
+    function getInitialTestId() {
+        if (typeof window !== 'undefined' && window.location) {
+            const params = new URLSearchParams(window.location.search);
+            const t = params.get('test') || params.get('testId');
+            if (t) return getNormalizedTestId(t);
+        }
+        return 'test1';
+    }
+
+    function getSavedSessionId(tid) {
+        try {
+            const sessionKey = getStorageSessionKey(tid);
+            const saved = localStorage.getItem(sessionKey);
+            if (saved) return saved;
+            if (getNormalizedTestId(tid) === 'test1') {
+                return localStorage.getItem('ielts_writing_session_id') || '';
+            }
+        } catch (_) {}
+        return '';
+    }
+
+    function saveWritingDraft(payload) {
+        if (typeof window !== 'undefined' && window.saveModuleDraft) {
+            return window.saveModuleDraft(STATE.testId, 'writing', payload);
+        }
+        try {
+            const key = getStorageDraftKey(STATE.testId);
+            localStorage.setItem(key, JSON.stringify(payload));
+            if (payload && payload.sessionId) {
+                localStorage.setItem(getStorageSessionKey(STATE.testId), payload.sessionId);
+            }
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    function loadWritingDraft(sessionId) {
+        if (typeof window !== 'undefined' && window.loadModuleDraft) {
+            return window.loadModuleDraft(STATE.testId, 'writing', { sessionId, deviceId: STATE.deviceId });
+        }
+        try {
+            const key = getStorageDraftKey(STATE.testId);
+            const raw = localStorage.getItem(key);
+            if (raw) return JSON.parse(raw);
+            if (getNormalizedTestId(STATE.testId) === 'test1') {
+                const legacyKey = `ielts_writing_backup_${sessionId || STATE.deviceId}`;
+                const legacy = localStorage.getItem(legacyKey) || localStorage.getItem(`ielts_writing_backup_${sessionId}`);
+                if (legacy) {
+                    const parsed = JSON.parse(legacy);
+                    saveWritingDraft(parsed);
+                    return parsed;
+                }
+            }
+        } catch (_) {}
+        return null;
+    }
+
+    function clearWritingDraft(sessionId) {
+        if (typeof window !== 'undefined' && window.clearModuleDraft) {
+            window.clearModuleDraft(STATE.testId, 'writing', { sessionId, deviceId: STATE.deviceId });
+        } else {
+            try {
+                localStorage.removeItem(getStorageDraftKey(STATE.testId));
+                localStorage.removeItem(getStorageSessionKey(STATE.testId));
+                if (getNormalizedTestId(STATE.testId) === 'test1') {
+                    localStorage.removeItem('ielts_writing_session_id');
+                    if (sessionId) localStorage.removeItem(`ielts_writing_backup_${sessionId}`);
+                    if (STATE.deviceId) localStorage.removeItem(`ielts_writing_backup_${STATE.deviceId}`);
+                }
+            } catch (_) {}
+        }
+    }
+
+    const initialTestId = getInitialTestId();
+
     const STATE = {
-        testId: 'writing1',
-        sessionId: localStorage.getItem('ielts_writing_session_id') || '',
+        testId: initialTestId,
+        sessionId: getSavedSessionId(initialTestId),
         deviceId: getOrSetDeviceId(),
         nama: '',
         kelas: '',
@@ -191,7 +288,7 @@
 
     // --- Cek Sesi Sebelumnya ---
     async function checkExistingSession() {
-        const savedSessionId = localStorage.getItem('ielts_writing_session_id');
+        const savedSessionId = getSavedSessionId(STATE.testId);
         const resumeBanner = document.getElementById('banner-resume-writing');
 
         if (!savedSessionId) {
@@ -216,7 +313,7 @@
                 }
                 if (resumeBanner) resumeBanner.classList.remove('hidden');
             } else {
-                localStorage.removeItem('ielts_writing_session_id');
+                clearWritingDraft(savedSessionId);
                 if (resumeBanner) resumeBanner.classList.add('hidden');
             }
         } catch (e) {
@@ -226,7 +323,8 @@
 
     function discardExistingSession() {
         if (!confirm('Apakah Anda yakin ingin membatalkan sesi sebelumnya dan memulai ujian baru?')) return;
-        localStorage.removeItem('ielts_writing_session_id');
+        clearWritingDraft(STATE.sessionId);
+        STATE.sessionId = '';
         const resumeBanner = document.getElementById('banner-resume-writing');
         if (resumeBanner) resumeBanner.classList.add('hidden');
     }
@@ -318,13 +416,23 @@
             // Jika sesi ternyata sudah pernah disubmit
             if (data.alreadySubmitted) {
                 STATE.sessionId = data.sessionId;
-                localStorage.setItem('ielts_writing_session_id', data.sessionId);
+                try {
+                    localStorage.setItem(getStorageSessionKey(STATE.testId), data.sessionId);
+                    if (getNormalizedTestId(STATE.testId) === 'test1') {
+                        localStorage.setItem('ielts_writing_session_id', data.sessionId);
+                    }
+                } catch (_) {}
                 renderSubmittedResult(data);
                 return;
             }
 
             STATE.sessionId = data.sessionId;
-            localStorage.setItem('ielts_writing_session_id', data.sessionId);
+            try {
+                localStorage.setItem(getStorageSessionKey(STATE.testId), data.sessionId);
+                if (getNormalizedTestId(STATE.testId) === 'test1') {
+                    localStorage.setItem('ielts_writing_session_id', data.sessionId);
+                }
+            } catch (_) {}
             STATE.testData = data.testData;
             STATE.startedAt = data.startedAt;
             STATE.remainingSeconds = typeof data.remainingSeconds === 'number' ? data.remainingSeconds : 3600;
@@ -332,7 +440,7 @@
             STATE.task1Text = data.task1Text || '';
             STATE.task2Text = data.task2Text || '';
 
-            // Pulihkan cadangan dari localStorage jika server kosong atau ada tulisan lokal yang lebih lengkap
+            // Pulihkan cadangan dari draf localStorage jika server kosong atau ada tulisan lokal yang lebih lengkap
             const backup = getLocalStorageBackup(data.sessionId) || getLocalStorageBackup(STATE.deviceId);
             if (backup) {
                 if (!STATE.task1Text && backup.task1Text) STATE.task1Text = backup.task1Text;
@@ -702,29 +810,21 @@
 
     // --- Penyimpanan Cadangan Lokal (localStorage) ---
     function saveToLocalStorageBackup() {
-        try {
-            const backupKey = `ielts_writing_backup_${STATE.sessionId || STATE.deviceId}`;
-            const payload = {
-                sessionId: STATE.sessionId,
-                deviceId: STATE.deviceId,
-                nama: STATE.nama,
-                kelas: STATE.kelas,
-                currentTask: STATE.currentTask,
-                task1Text: STATE.task1Text,
-                task2Text: STATE.task2Text,
-                savedAt: Date.now()
-            };
-            localStorage.setItem(backupKey, JSON.stringify(payload));
-        } catch {}
+        const payload = {
+            sessionId: STATE.sessionId,
+            deviceId: STATE.deviceId,
+            nama: STATE.nama,
+            kelas: STATE.kelas,
+            currentTask: STATE.currentTask,
+            task1Text: STATE.task1Text,
+            task2Text: STATE.task2Text,
+            savedAt: Date.now()
+        };
+        saveWritingDraft(payload);
     }
 
     function getLocalStorageBackup(key) {
-        try {
-            const raw = localStorage.getItem(`ielts_writing_backup_${key}`);
-            return raw ? JSON.parse(raw) : null;
-        } catch {
-            return null;
-        }
+        return loadWritingDraft(key);
     }
 
     function setEcoMode(active) {
@@ -1051,6 +1151,7 @@
     // --- Tampilan Hasil Pasca-Submit Siswa ---
     function renderSubmittedResult(data) {
         clearInterval(STATE.timerInterval);
+        clearWritingDraft(STATE.sessionId);
         STATE.status = data.status || 'submitted';
         STATE.sampleAnswers = data.sampleAnswers || [];
 
