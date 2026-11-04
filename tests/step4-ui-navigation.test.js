@@ -219,3 +219,34 @@ test('Tahap 4 Syarat 1: Badge HTML simulasi tidak lagi menggunakan hardcode stat
     }
 });
 
+// =====================================================================
+// 9. UJI INTEGRITAS SPLIT-VIEW 2-KOLOM READING (PARAGRAF TETAP MUNCUL DI DESKTOP)
+// =====================================================================
+
+test('Tahap 4 Syarat 4: Tampilan Split-View 2-Kolom Reading kebal dari penyembunyian paragraf di desktop', () => {
+    const htmlPath = path.join(ROOT_DIR, 'ielts/reading-mock-test.html');
+    const html = fs.readFileSync(htmlPath, 'utf8');
+
+    // Kolom kiri (teks bacaan / paragraf) wajib memiliki class md:block agar tidak tersembunyi di desktop
+    assert.ok(
+        html.includes('id="container-passage-col" class="md:block space-y-4"') ||
+        html.includes('id="container-passage-col" class="space-y-4 md:block"'),
+        'container-passage-col harus memiliki class md:block untuk menjamin visibilitas teks bacaan di desktop'
+    );
+
+    // Kolom kanan (soal) wajib memiliki class hidden md:block
+    assert.ok(
+        html.includes('id="container-questions-col" class="hidden md:block space-y-4"'),
+        'container-questions-col harus memiliki class hidden md:block'
+    );
+
+    const jsPath = path.join(ROOT_DIR, 'ielts/reading-engine.js');
+    const js = fs.readFileSync(jsPath, 'utf8');
+
+    // switchMobileTab dan jumpToQuestion wajib memiliki guard window.innerWidth >= 768
+    assert.ok(js.includes('window.innerWidth >= 768'), 'reading-engine.js wajib memproteksi desktop (>= 768px) dari tab toggle mobile');
+    assert.ok(js.includes('scrollToParagraph'), 'reading-engine.js wajib menyediakan helper scrollToParagraph untuk melompat ke paragraf');
+    assert.ok(js.includes('window.ReadingEngine = {'), 'reading-engine.js wajib mengekspor ReadingEngine');
+});
+
+

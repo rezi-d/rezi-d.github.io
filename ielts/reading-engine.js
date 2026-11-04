@@ -543,6 +543,17 @@
         const colQuestions = document.getElementById('container-questions-scroll');
         if (colPassage) colPassage.scrollTop = 0;
         if (colQuestions) colQuestions.scrollTop = 0;
+
+        // Pastikan tampilan kolom sesuai ukuran layar (Desktop: kedua kolom selalu tampil)
+        const colPassageEl = document.getElementById('container-passage-col');
+        const colQuestionsEl = document.getElementById('container-questions-col');
+        if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+            if (colPassageEl) colPassageEl.classList.remove('hidden');
+            if (colQuestionsEl) colQuestionsEl.classList.remove('hidden');
+        } else {
+            // Pada HP, saat beralih passage, bawa siswa ke teks bacaan agar membaca teks baru
+            switchMobileTab('passage');
+        }
     }
 
     function updatePassageTabButtons(activeIdx) {
@@ -695,7 +706,10 @@
                 <div class="question-row p-3.5 rounded-xl bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3" id="r-q-row-${q.no}">
                     <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-800">
                         <span class="font-extrabold text-teal-700 shrink-0 w-8">[${q.no}]</span>
-                        <span>Paragraf <strong>${q.target_paragraph}</strong></span>
+                        <span class="cursor-pointer underline decoration-dotted text-teal-800 hover:text-teal-950 flex items-center gap-1" onclick="window.ReadingEngine.scrollToParagraph('${q.target_paragraph}')" title="Klik untuk melihat Paragraf ${q.target_paragraph} di kolom teks bacaan">
+                            <span>Paragraf <strong>${q.target_paragraph}</strong></span>
+                            <span class="text-[10px] text-teal-600">↗</span>
+                        </span>
                     </div>
                     <div class="shrink-0 pl-8 sm:pl-0">
                         <select data-qno="${q.no}" class="q-select-reading px-3 py-1.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-bold text-teal-900 focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-500/10 cursor-pointer">
@@ -1081,8 +1095,16 @@
             loadPassage(targetPassageIdx);
         }
 
-        // Jika di HP, otomatis alihkan tab aktif ke 'questions'
-        switchMobileTab('questions');
+        // HANYA jika di layar HP (< 768px), otomatis alihkan tab aktif ke 'questions'
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+            switchMobileTab('questions');
+        } else {
+            // Pada desktop, pastikan kedua kolom tampil berdampingan
+            const colPassage = document.getElementById('container-passage-col');
+            const colQuestions = document.getElementById('container-questions-col');
+            if (colPassage) colPassage.classList.remove('hidden');
+            if (colQuestions) colQuestions.classList.remove('hidden');
+        }
 
         setTimeout(() => {
             const row = document.getElementById(`r-q-row-${qNo}`);
@@ -1108,6 +1130,13 @@
 
         if (!btnPassage || !btnQuestions || !colPassage || !colQuestions) return;
 
+        // Pada tampilan desktop (>= 768px), kedua kolom WAJIB selalu tampil berdampingan
+        if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+            colPassage.classList.remove('hidden');
+            colQuestions.classList.remove('hidden');
+            return;
+        }
+
         if (tab === 'passage') {
             btnPassage.className = 'flex-1 py-2 rounded-xl bg-white text-indigo-700 font-extrabold text-xs shadow-xs';
             btnQuestions.className = 'flex-1 py-2 rounded-xl text-slate-500 font-bold text-xs hover:text-slate-800';
@@ -1119,6 +1148,39 @@
             colQuestions.classList.remove('hidden');
             colPassage.classList.add('hidden');
         }
+    }
+
+    // --- Melompat ke Paragraf Tertentu di Teks Bacaan ---
+    function scrollToParagraph(label) {
+        if (!label) return;
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+            switchMobileTab('passage');
+        } else {
+            const colPassage = document.getElementById('container-passage-col');
+            if (colPassage) colPassage.classList.remove('hidden');
+        }
+        setTimeout(() => {
+            const el = document.getElementById(`para-${label}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-2', 'ring-teal-500');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-teal-500'), 1500);
+            }
+        }, 100);
+    }
+
+    // Listener Perubahan Ukuran Layar (Responsive Layout Defense)
+    if (typeof window !== 'undefined') {
+        window.addEventListener('resize', () => {
+            const colPassage = document.getElementById('container-passage-col');
+            const colQuestions = document.getElementById('container-questions-col');
+            if (window.innerWidth >= 768) {
+                if (colPassage) colPassage.classList.remove('hidden');
+                if (colQuestions) colQuestions.classList.remove('hidden');
+            } else {
+                switchMobileTab(STATE.activeMobileTab || 'passage');
+            }
+        });
     }
 
     // --- Submit Konfirmasi Modal ---
@@ -1316,6 +1378,7 @@
         loadPassage,
         jumpToQuestion,
         switchMobileTab,
+        scrollToParagraph,
         openSubmitModal,
         closeSubmitModal,
         submitTest: () => submitTest(false),
