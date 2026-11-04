@@ -166,11 +166,26 @@
     }
 
     onDomReady(() => {
+        renderDynamicTestHeader();
         initSoundCheck();
         initStartForm();
         prefillUserData();
         checkExistingSession();
     });
+
+    function renderDynamicTestHeader() {
+        const norm = (typeof normalizeTestId === 'function') ? normalizeTestId(STATE.testId) : (STATE.testId || 'test1');
+        const testNum = norm.replace(/^test/, '');
+        const badgeLabel = document.getElementById('listening-badge-label');
+        if (badgeLabel) {
+            badgeLabel.textContent = `Complete Academic Listening Simulation • Test ${testNum}`;
+        }
+        const cfg = (typeof getMockTestConfig === 'function') ? getMockTestConfig(STATE.testId) : null;
+        const testLabel = cfg?.label || `Mock Test ${testNum}`;
+        if (document.title && !document.title.includes(testLabel)) {
+            document.title = `Simulasi IELTS Academic Listening (${testLabel}) — AjarKita`;
+        }
+    }
 
     function prefillUserData() {
         const namaInput = document.getElementById('input-nama-peserta');
@@ -277,6 +292,11 @@
 
         if (banner) {
             banner.classList.remove('hidden');
+            const draft = loadListeningDraft(savedSessionId);
+            const timeEl = document.getElementById('resume-time-listening-val');
+            if (timeEl && draft?.savedAt) {
+                timeEl.textContent = typeof formatDraftTime === 'function' ? formatDraftTime(draft.savedAt) : new Date(draft.savedAt).toLocaleTimeString();
+            }
         }
 
         if (resumeBtn) {
@@ -295,7 +315,7 @@
 
         if (discardBtn) {
             discardBtn.addEventListener('click', () => {
-                if (confirm('Yakin ingin membuang sesi tes sebelumnya dan memulai dari awal?')) {
+                if (confirm('Hapus draf dan mulai baru?\n\nPERINGATAN PRIVASI (Komputer Bersama):\nSeluruh jawaban dan ID sesi aktif di perangkat ini akan dibersihkan total.')) {
                     clearSavedSession();
                     if (banner) banner.classList.add('hidden');
                 }

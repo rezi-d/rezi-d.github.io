@@ -162,10 +162,25 @@
     }
 
     onDomReady(() => {
+        renderDynamicTestHeader();
         initStartForm();
         prefillUserData();
         checkExistingSession();
     });
+
+    function renderDynamicTestHeader() {
+        const norm = (typeof normalizeTestId === 'function') ? normalizeTestId(STATE.testId) : (STATE.testId || 'test1');
+        const testNum = norm.replace(/^test/, '');
+        const badgeLabel = document.getElementById('reading-badge-label');
+        if (badgeLabel) {
+            badgeLabel.textContent = `Complete Academic Reading Simulation • Test ${testNum}`;
+        }
+        const cfg = (typeof getMockTestConfig === 'function') ? getMockTestConfig(STATE.testId) : null;
+        const testLabel = cfg?.label || `Mock Test ${testNum}`;
+        if (document.title && !document.title.includes(testLabel)) {
+            document.title = `Simulasi IELTS Academic Reading (${testLabel}) — AjarKita`;
+        }
+    }
 
     function prefillUserData() {
         const namaInput = document.getElementById('input-nama-reading');
@@ -235,7 +250,14 @@
         const resumeBtn = document.getElementById('btn-resume-reading');
         const discardBtn = document.getElementById('btn-discard-reading');
 
-        if (banner) banner.classList.remove('hidden');
+        if (banner) {
+            banner.classList.remove('hidden');
+            const draft = loadReadingDraft(savedSessionId);
+            const timeEl = document.getElementById('resume-time-reading-val');
+            if (timeEl && draft?.savedAt) {
+                timeEl.textContent = typeof formatDraftTime === 'function' ? formatDraftTime(draft.savedAt) : new Date(draft.savedAt).toLocaleTimeString();
+            }
+        }
 
         if (resumeBtn) {
             resumeBtn.addEventListener('click', async () => {
@@ -253,7 +275,7 @@
 
         if (discardBtn) {
             discardBtn.addEventListener('click', () => {
-                if (confirm('Yakin ingin membuang sesi tes reading sebelumnya dan memulai dari awal?')) {
+                if (confirm('Hapus draf dan mulai baru?\n\nPERINGATAN PRIVASI (Komputer Bersama):\nSeluruh jawaban dan ID sesi aktif di perangkat ini akan dibersihkan total.')) {
                     clearSavedSession();
                     if (banner) banner.classList.add('hidden');
                 }

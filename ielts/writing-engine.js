@@ -166,10 +166,25 @@
     }
 
     onDomReady(() => {
+        renderDynamicTestHeader();
         initEvents();
         prefillUserData();
         checkExistingSession();
     });
+
+    function renderDynamicTestHeader() {
+        const norm = (typeof normalizeTestId === 'function') ? normalizeTestId(STATE.testId) : (STATE.testId || 'test1');
+        const testNum = norm.replace(/^test/, '');
+        const badgeLabel = document.getElementById('writing-badge-label');
+        if (badgeLabel) {
+            badgeLabel.textContent = `Complete Academic Writing Simulation • Test ${testNum}`;
+        }
+        const cfg = (typeof getMockTestConfig === 'function') ? getMockTestConfig(STATE.testId) : null;
+        const testLabel = cfg?.label || `Mock Test ${testNum}`;
+        if (document.title && !document.title.includes(testLabel)) {
+            document.title = `Simulasi IELTS Academic Writing (${testLabel}) — AjarKita`;
+        }
+    }
 
     function prefillUserData() {
         const namaInput = document.getElementById('input-writing-nama');
@@ -311,20 +326,37 @@
                     renderSubmittedResult(data);
                     return;
                 }
-                if (resumeBanner) resumeBanner.classList.remove('hidden');
+                if (resumeBanner) {
+                    resumeBanner.classList.remove('hidden');
+                    const draft = loadWritingDraft(savedSessionId);
+                    const timeEl = document.getElementById('resume-time-writing-val');
+                    if (timeEl) {
+                        const savedTime = draft?.savedAt || data?.updated_at || data?.created_at;
+                        timeEl.textContent = typeof formatDraftTime === 'function' ? formatDraftTime(savedTime) : (savedTime ? new Date(savedTime).toLocaleTimeString() : 'Sesi tersimpan');
+                    }
+                }
             } else {
                 clearWritingDraft(savedSessionId);
                 if (resumeBanner) resumeBanner.classList.add('hidden');
             }
         } catch (e) {
-            if (resumeBanner) resumeBanner.classList.remove('hidden');
+            if (resumeBanner) {
+                resumeBanner.classList.remove('hidden');
+                const draft = loadWritingDraft(savedSessionId);
+                const timeEl = document.getElementById('resume-time-writing-val');
+                if (timeEl && draft?.savedAt) {
+                    timeEl.textContent = typeof formatDraftTime === 'function' ? formatDraftTime(draft.savedAt) : new Date(draft.savedAt).toLocaleTimeString();
+                }
+            }
         }
     }
 
     function discardExistingSession() {
-        if (!confirm('Apakah Anda yakin ingin membatalkan sesi sebelumnya dan memulai ujian baru?')) return;
+        if (!confirm('Hapus draf dan mulai baru?\n\nPERINGATAN PRIVASI (Komputer Bersama):\nSeluruh ketikan esai dan ID sesi aktif di perangkat ini akan dibersihkan total.')) return;
         clearWritingDraft(STATE.sessionId);
         STATE.sessionId = '';
+        STATE.task1Text = '';
+        STATE.task2Text = '';
         const resumeBanner = document.getElementById('banner-resume-writing');
         if (resumeBanner) resumeBanner.classList.add('hidden');
     }

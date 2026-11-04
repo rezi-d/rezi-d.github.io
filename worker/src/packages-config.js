@@ -10,9 +10,9 @@ export const PACKAGES_CONFIG = {
         name: "Paket IELTS Mandiri",
         tagline: "Latihan Intensif 4 Modul Mandiri (Listening, Reading, Writing, Speaking)",
         mock_tests: {
-            test1: { id: "test1", is_free: true, label: "Mock Test 1" },
-            test2: { id: "test2", is_free: false, label: "Mock Test 2" },
-            test3: { id: "test3", is_free: false, label: "Mock Test 3" }
+            test1: { id: "test1", is_free: true, available: true, label: "Mock Test 1" },
+            test2: { id: "test2", is_free: false, available: false, label: "Mock Test 2" },
+            test3: { id: "test3", is_free: false, available: false, label: "Mock Test 3" }
         },
         plans: {
             "30_days": {
@@ -171,6 +171,33 @@ export function isFreeMockTest(testId) {
     return false;
 }
 
+export function getMockTestConfig(testId) {
+    const tid = normalizeTestId(testId);
+    const cfg = PACKAGES_CONFIG?.ielts?.mock_tests?.[tid];
+    if (cfg) return { ...cfg };
+    return {
+        id: tid,
+        is_free: isFreeMockTest(tid),
+        available: false,
+        label: `Mock Test ${tid.replace(/^test/, '')}`
+    };
+}
+
+export function formatDraftTime(timestamp) {
+    if (!timestamp) return 'Sesi tersimpan';
+    try {
+        const d = new Date(Number(timestamp));
+        if (isNaN(d.getTime())) return 'Sesi tersimpan';
+        const jam = String(d.getHours()).padStart(2, '0');
+        const mnt = String(d.getMinutes()).padStart(2, '0');
+        const tgl = String(d.getDate()).padStart(2, '0');
+        const bln = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'][d.getMonth()] || '';
+        return `${jam}:${mnt} WIB (${tgl} ${bln} ${d.getFullYear()})`;
+    } catch (_) {
+        return 'Sesi tersimpan';
+    }
+}
+
 /**
  * Menghasilkan kunci standar penyimpanan draf/autosave peramban.
  * Format baku Tahap 3: ajarkita:{test_id}:{modul}:draft
@@ -206,7 +233,8 @@ export function getLegacyDraftKeys(modul, sessionId, deviceId) {
 /**
  * Memuat draf ujian dari localStorage/storage peramban secara aman.
  * - Membaca format baku: ajarkita:{test_id}:{modul}:draft
- * - Jika test1 dan format baru belum ada, memigrasikan draf lama secara transparan.
+ * - Aturan Syarat 2: Jika kunci lama dan baru sama-sama ada, gunakan yang timestamp-nya (savedAt) terbaru.
+ * - Aturan Syarat 2: Kunci lama HANYA dihapus SETELAH kunci baru berhasil ditulis dan terbaca ulang (write-verify-delete).
  * - Format draf yang rusak / non-JSON diabaikan dengan aman tanpa memicu crash JavaScript.
  */
 export function loadModuleDraft(testId, modul, options = {}) {
@@ -217,49 +245,109 @@ export function loadModuleDraft(testId, modul, options = {}) {
     const mod = String(modul || '').toLowerCase().trim();
     const draftKey = getDraftStorageKey(tid, mod);
 
+    let modernDraft = null;
     try {
         const raw = storage.getItem(draftKey);
         if (raw) {
-            return JSON.parse(raw);
+            modernDraft = JSON.parse(raw);
         }
     } catch (e) {
         // Abaikan dengan aman tanpa error JavaScript
     }
 
-    // Migrasi draf lama HANYA untuk test1 tanpa sengaja menghapus data yang sedang berjalan
-    if (tid === 'test1') {
-        const legacyCandidates = getLegacyDraftKeys(mod, options.sessionId, options.deviceId);
+    // Migrasi draf lama HANYA untuk test1
+    if (tid !== 'test1') {
+        return modernDraft;
+    }
 
+    const legacyCandidates = getLegacyDraftKeys(mod, options.sessionId, options.deviceId);
+    try {
+        if (typeof storage.length === 'number' && typeof storage.key === 'function') {
+            const prefix = `ielts_${mod}_backup_`;
+            for (let i = 0; i < storage.length; i++) {
+                const k = storage.key(i);
+                if (k && k.startsWith(prefix) && !legacyCandidates.includes(k)) {
+                    legacyCandidates.push(k);
+                }
+            }
+        }
+    } catch (_) {}
+
+    // Temukan draf legacy terbaik (yang memiliki savedAt terbaru)
+    let bestLegacy = null;
+    let bestLegacyKey = null;
+
+    for (const k of legacyCandidates) {
         try {
-            if (typeof storage.length === 'number' && typeof storage.key === 'function') {
-                const prefix = `ielts_${mod}_backup_`;
-                for (let i = 0; i < storage.length; i++) {
-                    const k = storage.key(i);
-                    if (k && k.startsWith(prefix) && !legacyCandidates.includes(k)) {
-                        legacyCandidates.push(k);
+            const legacyRaw = storage.getItem(k);
+            if (legacyRaw) {
+                const parsed = JSON.parse(legacyRaw);
+                if (parsed && typeof parsed === 'object') {
+                    const legacyTime = Number(parsed.savedAt) || 0;
+                    const bestTime = Number(bestLegacy?.savedAt) || 0;
+                    if (!bestLegacy || legacyTime >= bestTime) {
+                        bestLegacy = parsed;
+                        bestLegacyKey = k;
                     }
+                }
+            }
+        } catch (_) {
+            // Abaikan jika berkas legacy bukan JSON valid
+        }
+    }
+
+    // KASUS A: Kedua kunci (lama dan baru) sama-sama ada
+    if (modernDraft && bestLegacy) {
+        const modernTime = Number(modernDraft.savedAt) || 0;
+        const legacyTime = Number(bestLegacy.savedAt) || 0;
+
+        if (legacyTime > modernTime) {
+            // Gunakan legacy yang lebih baru
+            bestLegacy.testId = 'test1';
+            try {
+                storage.setItem(draftKey, JSON.stringify(bestLegacy));
+                const readBack = storage.getItem(draftKey);
+                // Kunci lama HANYA dihapus SETELAH kunci baru berhasil ditulis dan terbaca ulang
+                if (readBack) {
+                    storage.removeItem(bestLegacyKey);
+                    if (bestLegacy.sessionId) {
+                        storage.setItem(getSessionStorageKey('test1', mod), bestLegacy.sessionId);
+                    }
+                }
+            } catch (_) {}
+            return bestLegacy;
+        } else {
+            // Modern lebih baru atau sama: gunakan modern, hapus kunci lama setelah verifikasi
+            try {
+                const readBack = storage.getItem(draftKey);
+                if (readBack) {
+                    storage.removeItem(bestLegacyKey);
+                }
+            } catch (_) {}
+            return modernDraft;
+        }
+    }
+
+    // KASUS B: Hanya ada modernDraft
+    if (modernDraft) {
+        return modernDraft;
+    }
+
+    // KASUS C: Hanya ada legacy draft (migrasi awal)
+    if (bestLegacy && bestLegacyKey) {
+        bestLegacy.testId = 'test1';
+        try {
+            storage.setItem(draftKey, JSON.stringify(bestLegacy));
+            const readBack = storage.getItem(draftKey);
+            // Kunci lama HANYA dihapus SETELAH kunci baru berhasil ditulis dan terbaca ulang
+            if (readBack) {
+                storage.removeItem(bestLegacyKey);
+                if (bestLegacy.sessionId) {
+                    storage.setItem(getSessionStorageKey('test1', mod), bestLegacy.sessionId);
                 }
             }
         } catch (_) {}
-
-        for (const k of legacyCandidates) {
-            try {
-                const legacyRaw = storage.getItem(k);
-                if (legacyRaw) {
-                    const parsed = JSON.parse(legacyRaw);
-                    if (parsed && typeof parsed === 'object') {
-                        parsed.testId = 'test1';
-                        storage.setItem(draftKey, JSON.stringify(parsed));
-                        if (parsed.sessionId) {
-                            storage.setItem(getSessionStorageKey('test1', mod), parsed.sessionId);
-                        }
-                        return parsed;
-                    }
-                }
-            } catch (_) {
-                // Abaikan jika berkas legacy bukan JSON valid
-            }
-        }
+        return bestLegacy;
     }
 
     return null;

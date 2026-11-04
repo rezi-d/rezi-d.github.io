@@ -187,10 +187,25 @@
     }
 
     onDomReady(() => {
+        renderDynamicTestHeader();
         initEvents();
         prefillUserData();
         checkExistingSession();
     });
+
+    function renderDynamicTestHeader() {
+        const norm = (typeof normalizeTestId === 'function') ? normalizeTestId(STATE.testId) : (STATE.testId || 'test1');
+        const testNum = norm.replace(/^test/, '');
+        const badgeLabel = document.getElementById('speaking-badge-label');
+        if (badgeLabel) {
+            badgeLabel.textContent = `Complete Speaking Simulation • Test ${testNum}`;
+        }
+        const cfg = (typeof getMockTestConfig === 'function') ? getMockTestConfig(STATE.testId) : null;
+        const testLabel = cfg?.label || `Mock Test ${testNum}`;
+        if (document.title && !document.title.includes(testLabel)) {
+            document.title = `Simulasi IELTS Speaking (${testLabel}) — AjarKita`;
+        }
+    }
 
     function prefillUserData() {
         const namaInput = document.getElementById('input-nama');
@@ -452,12 +467,27 @@
                 const banner = document.getElementById('banner-resume-speaking');
                 if (banner && data.status === 'in_progress') {
                     banner.classList.remove('hidden');
+                    const draft = loadSpeakingDraft(savedSessionId);
+                    const timeEl = document.getElementById('resume-time-speaking-val');
+                    if (timeEl) {
+                        const savedTime = draft?.savedAt || data?.updated_at || data?.created_at;
+                        timeEl.textContent = typeof formatDraftTime === 'function' ? formatDraftTime(savedTime) : (savedTime ? new Date(savedTime).toLocaleTimeString() : 'Sesi tersimpan');
+                    }
                 } else if (data.status === 'submitted' || data.status === 'graded') {
                     renderResultView(data);
                 }
             }
         } catch (e) {
             console.warn('Check existing speaking session failed:', e);
+            const banner = document.getElementById('banner-resume-speaking');
+            if (banner) {
+                banner.classList.remove('hidden');
+                const draft = loadSpeakingDraft(savedSessionId);
+                const timeEl = document.getElementById('resume-time-speaking-val');
+                if (timeEl && draft?.savedAt) {
+                    timeEl.textContent = typeof formatDraftTime === 'function' ? formatDraftTime(draft.savedAt) : new Date(draft.savedAt).toLocaleTimeString();
+                }
+            }
         }
     }
 
@@ -466,8 +496,12 @@
     }
 
     function handleDiscardExam() {
+        if (!confirm('Hapus draf dan mulai baru?\n\nPERINGATAN PRIVASI (Komputer Bersama):\nSeluruh catatan Part 2 dan sesi rekaman aktif di perangkat ini akan dibersihkan total.')) return;
         clearSpeakingDraft(STATE.sessionId);
         STATE.sessionId = '';
+        STATE.part2Notes = '';
+        STATE.localRecordingsMap = {};
+        STATE.recordedQuestionsMap = {};
         const banner = document.getElementById('banner-resume-speaking');
         if (banner) banner.classList.add('hidden');
     }
