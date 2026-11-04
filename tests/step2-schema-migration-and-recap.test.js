@@ -396,6 +396,19 @@ test('Tahap 2: Rekap guru dikelompokkan per siswa per test_id (Nilai Mock 1 tida
     assert.strictEqual(bodyFiltered2.results.length, 1);
     assert.strictEqual(bodyFiltered2.results[0].test_id, 'test2');
     assert.strictEqual(bodyFiltered2.results[0].listening.band_score, 8.5);
+
+    // 4. Panggil POST /ielts/admin/results dengan body JSON (seperti yang dilakukan rekap.html)
+    const reqPost = new Request('https://kimia.ajarkita.my.id/ielts/admin/results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teacherKey: 'tch-secret-key-valid-88', test_id: 'test1' })
+    });
+    const resPost = await worker.fetch(reqPost, env);
+    assert.strictEqual(resPost.status, 200, 'POST /ielts/admin/results harus 200 OK');
+    const bodyPost = await resPost.json();
+    assert.strictEqual(bodyPost.ok, true);
+    assert.strictEqual(bodyPost.results.length, 1);
+    assert.strictEqual(bodyPost.results[0].test_id, 'test1');
 });
 
 // =====================================================================

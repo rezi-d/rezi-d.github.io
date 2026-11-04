@@ -3290,11 +3290,12 @@ export default {
                 // Ambil key dari header atau body POST (jangan URL query)
                 let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
                 let filterKelas = url.searchParams.get('kelas') || '';
+                let body = null;
 
                 if (request.method === 'POST') {
-                    const body = await readJson(request);
-                    if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
-                    if (!filterKelas && body.kelas) filterKelas = String(body.kelas).trim();
+                    body = await readJson(request);
+                    if (!submittedKey && body && body.teacherKey) submittedKey = String(body.teacherKey).trim();
+                    if (!filterKelas && body && body.kelas) filterKelas = String(body.kelas).trim();
                 }
 
                 if (!verifyTeacherKey(submittedKey, env)) {
@@ -3305,7 +3306,7 @@ export default {
                 // Reset failed attempts jika valid
                 await recordTeacherAttemptResult(env, ipHash, true);
 
-                const rawTestFilter = url.searchParams.get('test_id') || (request.method === 'POST' ? body?.test_id : null);
+                const rawTestFilter = url.searchParams.get('test_id') || (body && body.test_id ? body.test_id : null);
                 const filterTestId = rawTestFilter ? normalizeTestId(rawTestFilter) : null;
 
                 let lisQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores, is_late FROM listening_sessions WHERE status = 'submitted'`;
