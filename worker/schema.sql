@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS article_comment_likes (
 
 CREATE TABLE IF NOT EXISTS listening_sessions (
     id             TEXT    PRIMARY KEY,         -- UUID attempt_id (misal 'ls_a8b9c0d1...')
-    test_id        TEXT    NOT NULL,            -- 'test1'
+    test_id        TEXT    NOT NULL DEFAULT 'test1', -- 'test1', 'test2', dst.
     device_id      TEXT    NOT NULL,
     nama_peserta   TEXT    NOT NULL,
     kelas          TEXT    NOT NULL,            -- e.g. '12 MIPA 1'
@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS listening_sessions (
     raw_score      INTEGER DEFAULT NULL,        -- Skor mentah (0 - 40)
     band_score     REAL    DEFAULT NULL,        -- Estimated Band (e.g. 7.5)
     section_scores TEXT    DEFAULT '{}',        -- Breakdown skor per section: {"s1":9,"s2":8,"s3":8,"s4":8}
+    is_late        INTEGER DEFAULT 0,
     status         TEXT    NOT NULL DEFAULT 'in_progress' -- 'in_progress', 'submitted'
 );
 
@@ -125,7 +126,7 @@ CREATE TABLE IF NOT EXISTS listening_admin_attempts (
 
 CREATE TABLE IF NOT EXISTS reading_sessions (
     id               TEXT    PRIMARY KEY,         -- UUID attempt_id (misal 'rs_f1a2b3c4...')
-    test_id          TEXT    NOT NULL,            -- 'reading1'
+    test_id          TEXT    NOT NULL DEFAULT 'test1', -- 'test1', 'test2', dst.
     device_id        TEXT    NOT NULL,
     nama_peserta     TEXT    NOT NULL,
     kelas            TEXT    NOT NULL,            -- e.g. '12 MIPA 1'
@@ -138,6 +139,7 @@ CREATE TABLE IF NOT EXISTS reading_sessions (
     band_score       REAL    DEFAULT NULL,        -- Estimated Band (e.g. 7.0)
     passage_scores   TEXT    DEFAULT '{}',        -- Breakdown per passage: {"p1":12,"p2":11,"p3":11}
     type_scores      TEXT    DEFAULT '{}',        -- Breakdown tipe soal: {"tfng":6,"headings":5,...}
+    is_late          INTEGER DEFAULT 0,
     status           TEXT    NOT NULL DEFAULT 'in_progress' -- 'in_progress', 'submitted'
 );
 
@@ -152,7 +154,7 @@ CREATE INDEX IF NOT EXISTS idx_reading_status_submitted ON reading_sessions(stat
 
 CREATE TABLE IF NOT EXISTS writing_sessions (
     id                   TEXT    PRIMARY KEY,         -- UUID attempt_id ('ws_...')
-    test_id              TEXT    NOT NULL,            -- 'writing1'
+    test_id              TEXT    NOT NULL DEFAULT 'test1', -- 'test1', 'test2', dst.
     device_id            TEXT    NOT NULL,
     nama_peserta         TEXT    NOT NULL,
     kelas                TEXT    NOT NULL,            -- '12 MIPA 1'
@@ -165,6 +167,7 @@ CREATE TABLE IF NOT EXISTS writing_sessions (
     task1_word_count     INTEGER DEFAULT 0,
     task2_word_count     INTEGER DEFAULT 0,
     structural_check     TEXT    DEFAULT '{}',        -- Hasil analisa kelayakan teknis otomatis (bukan skor)
+    is_late              INTEGER DEFAULT 0,
     status               TEXT    NOT NULL DEFAULT 'in_progress', -- 'in_progress', 'submitted', 'graded'
     -- Evaluasi & Penilaian Guru (Hanya melalui TEACHER_KEY):
     graded_at            INTEGER DEFAULT NULL,        -- server timestamp ms
@@ -187,13 +190,14 @@ CREATE INDEX IF NOT EXISTS idx_writing_status_submitted ON writing_sessions(stat
 
 CREATE TABLE IF NOT EXISTS speaking_sessions (
     id                   TEXT    PRIMARY KEY,         -- UUID attempt_id ('spk_...')
-    test_id              TEXT    NOT NULL,            -- 'speaking1'
+    test_id              TEXT    NOT NULL DEFAULT 'test1', -- 'test1', 'test2', dst.
     device_id            TEXT    NOT NULL,
     nama_peserta         TEXT    NOT NULL,
     kelas                TEXT    NOT NULL,            -- '12 MIPA 1'
     started_at           INTEGER NOT NULL,            -- server timestamp ms
     submitted_at         INTEGER DEFAULT NULL,        -- server timestamp ms
     part2_notes          TEXT    DEFAULT '',          -- Coretan catatan persiapan siswa Part 2
+    is_late              INTEGER DEFAULT 0,
     status               TEXT    NOT NULL DEFAULT 'in_progress', -- 'in_progress', 'submitted', 'graded'
     package_type         TEXT    NOT NULL DEFAULT 'teacher',     -- 'teacher' (add-on guru) atau 'self_study' (mandiri)
     -- Evaluasi & Penilaian Guru (Hanya melalui TEACHER_KEY):
@@ -213,6 +217,7 @@ CREATE INDEX IF NOT EXISTS idx_speaking_package_status ON speaking_sessions(pack
 CREATE TABLE IF NOT EXISTS speaking_recordings (
     id                   TEXT    PRIMARY KEY,         -- 'sessionId_questionId'
     session_id           TEXT    NOT NULL,
+    test_id              TEXT    NOT NULL DEFAULT 'test1',
     question_id          TEXT    NOT NULL,
     mime_type            TEXT    NOT NULL,
     audio_data           BLOB    NOT NULL,            -- BLOB biner mentah (ArrayBuffer)
@@ -225,6 +230,7 @@ CREATE TABLE IF NOT EXISTS speaking_recordings (
 );
 
 CREATE INDEX IF NOT EXISTS idx_speaking_recordings_sess ON speaking_recordings(session_id);
+CREATE INDEX IF NOT EXISTS idx_speaking_recordings_test ON speaking_recordings(test_id, uploaded_at);
 
 -- Tabel Audit Log Penghapusan / Pembersihan Rekaman Speaking
 CREATE TABLE IF NOT EXISTS cleanup_logs (

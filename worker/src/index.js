@@ -13,7 +13,8 @@
 // =================================================================
 
 import { RETENTION_CONFIG } from './retention-config.js';
-import { PACKAGES_CONFIG, getPackageDetails, isFreeMockTest } from './packages-config.js';
+import { PACKAGES_CONFIG, getPackageDetails, isFreeMockTest, normalizeTestId } from './packages-config.js';
+export { normalizeTestId } from './packages-config.js';
 
 function extractRequestToken(request, body = null, url = null) {
     const authHeader = request.headers.get('Authorization') || '';
@@ -404,7 +405,7 @@ async function ensureListeningSchema(env) {
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS listening_sessions (
             id             TEXT    PRIMARY KEY,
-            test_id        TEXT    NOT NULL,
+            test_id        TEXT    NOT NULL DEFAULT 'test1',
             device_id      TEXT    NOT NULL,
             nama_peserta   TEXT    NOT NULL,
             kelas          TEXT    NOT NULL,
@@ -419,6 +420,8 @@ async function ensureListeningSchema(env) {
             status         TEXT    NOT NULL DEFAULT 'in_progress'
         )
     `).run();
+    try { await env.DB.prepare("ALTER TABLE listening_sessions ADD COLUMN test_id TEXT NOT NULL DEFAULT 'test1'").run(); } catch {}
+    try { await env.DB.prepare("UPDATE listening_sessions SET test_id = 'test1' WHERE test_id IS NULL OR test_id IN ('1', 'listening1', '', 'test_1')").run(); } catch {}
     try { await env.DB.prepare('ALTER TABLE listening_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
     try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_listening_status_submitted ON listening_sessions(status, submitted_at DESC)').run(); } catch {}
     await env.DB.prepare(`
@@ -735,7 +738,7 @@ async function ensureReadingSchema(env) {
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS reading_sessions (
             id               TEXT    PRIMARY KEY,
-            test_id          TEXT    NOT NULL,
+            test_id          TEXT    NOT NULL DEFAULT 'test1',
             device_id        TEXT    NOT NULL,
             nama_peserta     TEXT    NOT NULL,
             kelas            TEXT    NOT NULL,
@@ -752,6 +755,8 @@ async function ensureReadingSchema(env) {
             status           TEXT    NOT NULL DEFAULT 'in_progress'
         )
     `).run();
+    try { await env.DB.prepare("ALTER TABLE reading_sessions ADD COLUMN test_id TEXT NOT NULL DEFAULT 'test1'").run(); } catch {}
+    try { await env.DB.prepare("UPDATE reading_sessions SET test_id = 'test1' WHERE test_id IS NULL OR test_id IN ('1', 'reading1', '', 'test_1')").run(); } catch {}
     try { await env.DB.prepare('ALTER TABLE reading_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
     try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_reading_status_submitted ON reading_sessions(status, submitted_at DESC)').run(); } catch {}
 }
@@ -808,7 +813,7 @@ async function ensureWritingSchema(env) {
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS writing_sessions (
             id                   TEXT    PRIMARY KEY,
-            test_id              TEXT    NOT NULL,
+            test_id              TEXT    NOT NULL DEFAULT 'test1',
             device_id            TEXT    NOT NULL,
             nama_peserta         TEXT    NOT NULL,
             kelas                TEXT    NOT NULL,
@@ -832,6 +837,8 @@ async function ensureWritingSchema(env) {
             writing_band         REAL    DEFAULT NULL
         )
     `).run();
+    try { await env.DB.prepare("ALTER TABLE writing_sessions ADD COLUMN test_id TEXT NOT NULL DEFAULT 'test1'").run(); } catch {}
+    try { await env.DB.prepare("UPDATE writing_sessions SET test_id = 'test1' WHERE test_id IS NULL OR test_id IN ('1', 'writing1', '', 'test_1')").run(); } catch {}
     try { await env.DB.prepare('ALTER TABLE writing_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
     try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_writing_status_submitted ON writing_sessions(status, submitted_at DESC)').run(); } catch {}
 }
@@ -995,7 +1002,7 @@ async function ensureSpeakingSchema(env) {
     await env.DB.prepare(`
         CREATE TABLE IF NOT EXISTS speaking_sessions (
             id                   TEXT    PRIMARY KEY,
-            test_id              TEXT    NOT NULL,
+            test_id              TEXT    NOT NULL DEFAULT 'test1',
             device_id            TEXT    NOT NULL,
             nama_peserta         TEXT    NOT NULL,
             kelas                TEXT    NOT NULL,
@@ -1012,6 +1019,8 @@ async function ensureSpeakingSchema(env) {
             speaking_band        REAL    DEFAULT NULL
         )
     `).run();
+    try { await env.DB.prepare("ALTER TABLE speaking_sessions ADD COLUMN test_id TEXT NOT NULL DEFAULT 'test1'").run(); } catch {}
+    try { await env.DB.prepare("UPDATE speaking_sessions SET test_id = 'test1' WHERE test_id IS NULL OR test_id IN ('1', 'speaking1', 'speaking_test1', '', 'test_1')").run(); } catch {}
     try { await env.DB.prepare('ALTER TABLE speaking_sessions ADD COLUMN is_late INTEGER DEFAULT 0').run(); } catch {}
     try { await env.DB.prepare("ALTER TABLE speaking_sessions ADD COLUMN package_type TEXT NOT NULL DEFAULT 'teacher'").run(); } catch {}
     try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_speaking_status_submitted ON speaking_sessions(status, submitted_at DESC)').run(); } catch {}
@@ -1021,6 +1030,7 @@ async function ensureSpeakingSchema(env) {
         CREATE TABLE IF NOT EXISTS speaking_recordings (
             id                   TEXT    PRIMARY KEY,
             session_id           TEXT    NOT NULL,
+            test_id              TEXT    NOT NULL DEFAULT 'test1',
             question_id          TEXT    NOT NULL,
             mime_type            TEXT    NOT NULL,
             audio_data           BLOB    NOT NULL,
@@ -1032,6 +1042,8 @@ async function ensureSpeakingSchema(env) {
             FOREIGN KEY (session_id) REFERENCES speaking_sessions(id) ON DELETE CASCADE
         )
     `).run();
+    try { await env.DB.prepare("ALTER TABLE speaking_recordings ADD COLUMN test_id TEXT NOT NULL DEFAULT 'test1'").run(); } catch {}
+    try { await env.DB.prepare("UPDATE speaking_recordings SET test_id = 'test1' WHERE test_id IS NULL OR test_id IN ('1', 'speaking1', 'speaking_test1', '', 'test_1')").run(); } catch {}
     try { await env.DB.prepare('ALTER TABLE speaking_recordings ADD COLUMN deleted_at INTEGER DEFAULT NULL').run(); } catch {}
 
     await env.DB.prepare(`
@@ -1247,6 +1259,11 @@ export default {
             return new Response(null, { status: 204, headers: corsHeaders(request, env) });
         }
 
+        // Proteksi Aset Statis: Blokir akses publik langsung via URL ke berkas aset internal/master/premium
+        if (path.endsWith('.json') || path.endsWith('.mp3') || path.startsWith('/premium') || path.includes('-master')) {
+            return json(request, env, { ok: false, error: 'Akses langsung ke berkas aset internal dilarang.', reason: 'direct_asset_access_forbidden' }, 403);
+        }
+
         try {
             if (path === '/' && request.method === 'GET') {
                 return json(request, env, { service: 'kimia-snbt-api', status: 'ok' });
@@ -1439,7 +1456,7 @@ export default {
             if (path === '/listening/start' && request.method === 'POST') {
                 await ensureListeningSchema(env);
                 const body = await readJson(request);
-                const testId = String(body.testId || 'test1').trim().toLowerCase();
+                const testId = normalizeTestId(body.testId);
                 const nama = String(body.nama || '').trim().slice(0, 80);
                 const kelas = String(body.kelas || '').trim().slice(0, 50);
                 const deviceId = String(body.deviceId || '').trim().slice(0, 64) || ('dev_' + crypto.randomUUID().slice(0, 12));
@@ -1718,7 +1735,7 @@ export default {
             if (path === '/reading/start' && request.method === 'POST') {
                 await ensureReadingSchema(env);
                 const body = await readJson(request);
-                const testId = String(body.testId || 'reading1').trim().toLowerCase();
+                const testId = normalizeTestId(body.testId);
                 const nama = String(body.nama || '').trim().slice(0, 80);
                 const kelas = String(body.kelas || '').trim().slice(0, 50);
                 const deviceId = String(body.deviceId || '').trim().slice(0, 64) || ('dev_' + crypto.randomUUID().slice(0, 12));
@@ -2015,7 +2032,7 @@ export default {
             if (path === '/writing/start' && request.method === 'POST') {
                 await ensureWritingSchema(env);
                 const body = await readJson(request);
-                const testId = String(body.testId || 'writing1').trim().toLowerCase();
+                const testId = normalizeTestId(body.testId);
                 const nama = String(body.nama || '').trim().slice(0, 80);
                 const kelas = String(body.kelas || '').trim().slice(0, 50);
                 const deviceId = String(body.deviceId || '').trim().slice(0, 64) || ('dev_' + crypto.randomUUID().slice(0, 12));
@@ -2302,7 +2319,7 @@ export default {
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Anda tidak memiliki izin melihat sesi ini.' }, 403);
                 }
-                if (!isTeacher && !isFreeMockTest(session.test_id)) {
+                if (!isTeacher && !isFreeMockTest(normalizeTestId(session.test_id))) {
                     const token = extractRequestToken(request, null, url);
                     if (!token) {
                         return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
@@ -2424,7 +2441,7 @@ export default {
             if (path === '/speaking/start' && request.method === 'POST') {
                 await ensureSpeakingSchema(env);
                 const body = await readJson(request);
-                const testId = String(body.testId || 'speaking1').trim().toLowerCase();
+                const testId = normalizeTestId(body.testId);
                 const nama = String(body.nama || '').trim().slice(0, 80);
                 const kelas = String(body.kelas || '').trim().slice(0, 50);
                 const deviceId = String(body.deviceId || '').trim().slice(0, 64) || ('dev_' + crypto.randomUUID().slice(0, 12));
@@ -2620,7 +2637,7 @@ export default {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
                 const testIdRow = await env.DB.prepare('SELECT test_id FROM speaking_sessions WHERE id = ?').bind(sessionId).first().catch(() => null);
-                const speakingTestId = testIdRow?.test_id || session.test_id || 'speaking1';
+                const speakingTestId = normalizeTestId(testIdRow?.test_id || session.test_id);
                 if (!isFreeMockTest(speakingTestId)) {
                     const token = extractRequestToken(request, body, url);
                     if (!token) {
@@ -2671,16 +2688,17 @@ export default {
                 }
 
                 await env.DB.prepare(`
-                    INSERT INTO speaking_recordings (id, session_id, question_id, mime_type, audio_data, transcript, duration_seconds, file_size_bytes, uploaded_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO speaking_recordings (id, session_id, test_id, question_id, mime_type, audio_data, transcript, duration_seconds, file_size_bytes, uploaded_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT(id) DO UPDATE SET
                         mime_type = excluded.mime_type,
                         audio_data = excluded.audio_data,
                         transcript = excluded.transcript,
                         duration_seconds = excluded.duration_seconds,
                         file_size_bytes = excluded.file_size_bytes,
-                        uploaded_at = excluded.uploaded_at
-                `).bind(recId, sessionId, questionId, baseMime, audioBytes.buffer, transcript, durationSeconds, fileSizeBytes, now).run();
+                        uploaded_at = excluded.uploaded_at,
+                        test_id = excluded.test_id
+                `).bind(recId, sessionId, speakingTestId, questionId, baseMime, audioBytes.buffer, transcript, durationSeconds, fileSizeBytes, now).run();
 
                 return json(request, env, {
                     ok: true,
@@ -2778,7 +2796,7 @@ export default {
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Anda tidak memiliki izin melihat sesi ini.' }, 403);
                 }
-                if (!isTeacher && !isFreeMockTest(session.test_id)) {
+                if (!isTeacher && !isFreeMockTest(normalizeTestId(session.test_id))) {
                     const token = extractRequestToken(request, null, url);
                     if (!token) {
                         return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
@@ -2829,7 +2847,7 @@ export default {
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Tidak memiliki izin akses sesi ini.' }, 401);
                 }
-                if (!isTeacher && !isFreeMockTest(session.test_id)) {
+                if (!isTeacher && !isFreeMockTest(normalizeTestId(session.test_id))) {
                     const token = extractRequestToken(request, null, url);
                     if (!token) {
                         return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses detail tes ini.', reason: 'token_required' }, 401);
@@ -2904,6 +2922,13 @@ export default {
                         error: 'Layanan streaming audio belum dapat digunakan: AUDIO_STREAM_SECRET belum dikonfigurasi di server (fail-closed).'
                     }, 500);
                 }
+
+                if (env.DB) {
+                    const sessRow = await env.DB.prepare('SELECT id, test_id FROM speaking_sessions WHERE id = ?').bind(sessionId).first().catch(() => null);
+                    if (!sessRow) {
+                        return json(request, env, { ok: false, error: 'Sesi speaking tidak ditemukan.' }, 404);
+                    }
+                }
                 const recordingId = `${sessionId}_${questionId}`;
                 const token = await generateAudioToken(recordingId, secret, 300);
                 return json(request, env, { ok: true, token, expiresIn: 300 });
@@ -2955,7 +2980,7 @@ export default {
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid atau token audio kedaluwarsa.' }, 401);
                 }
-                if (!isTeacher && !isFreeMockTest(session.test_id)) {
+                if (!isTeacher && !isFreeMockTest(normalizeTestId(session.test_id))) {
                     const token = extractRequestToken(request, null, url);
                     if (!token) {
                         return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk memutar audio tes ini.', reason: 'token_required' }, 401);
@@ -3226,7 +3251,7 @@ export default {
             }
 
             // 9. Rekap Guru Terpadu IELTS (Listening, Reading, Writing, & Speaking)
-            if ((path === '/listening/admin/results' || path === '/reading/admin/results' || path === '/writing/admin/results' || path === '/speaking/admin/results' || path === '/ielts/admin/results') && (request.method === 'GET' || request.method === 'POST')) {
+            if ((path === '/listening/admin/results' || path === '/reading/admin/results' || path === '/writing/admin/results' || path === '/speaking/admin/results' || path === '/ielts/admin/results' || path === '/guru/rekap') && (request.method === 'GET' || request.method === 'POST')) {
                 await ensureListeningSchema(env);
                 await ensureReadingSchema(env);
                 await ensureWritingSchema(env);
@@ -3261,6 +3286,9 @@ export default {
                 // Reset failed attempts jika valid
                 await recordTeacherAttemptResult(env, ipHash, true);
 
+                const rawTestFilter = url.searchParams.get('test_id') || (request.method === 'POST' ? body?.test_id : null);
+                const filterTestId = rawTestFilter ? normalizeTestId(rawTestFilter) : null;
+
                 let lisQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, section_scores, is_late FROM listening_sessions WHERE status = 'submitted'`;
                 let readQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, raw_score, band_score, passage_scores, type_scores, is_late FROM reading_sessions WHERE status = 'submitted'`;
                 let writeQuery = `SELECT id, test_id, nama_peserta, kelas, started_at, submitted_at, current_task, task1_text, task2_text, task1_word_count, task2_word_count, status, graded_at, task1_criteria, task2_criteria, task1_comment, task2_comment, writing_band, is_late FROM writing_sessions WHERE status IN ('submitted', 'graded')`;
@@ -3273,6 +3301,14 @@ export default {
                     writeQuery += ` AND kelas = ?`;
                     spkQuery += ` AND kelas = ?`;
                     params.push(filterKelas);
+                }
+
+                if (filterTestId) {
+                    lisQuery += ` AND test_id = ?`;
+                    readQuery += ` AND test_id = ?`;
+                    writeQuery += ` AND test_id = ?`;
+                    spkQuery += ` AND test_id = ?`;
+                    params.push(filterTestId);
                 }
 
                 lisQuery += ` ORDER BY submitted_at DESC LIMIT 500`;
@@ -3443,15 +3479,17 @@ export default {
                     });
                 });
 
-                // Gabungkan per siswa: Map key = `nama_peserta.toLowerCase() + '|' + kelas.toLowerCase()`
+                // Gabungkan per siswa per test_id: Map key = `nama_peserta.toLowerCase() + '|' + kelas.toLowerCase() + '|' + testId`
                 const studentMap = new Map();
 
                 (lisRes.results || []).forEach(l => {
-                    const key = `${(l.nama_peserta || '').trim().toLowerCase()}|${(l.kelas || '').trim().toLowerCase()}`;
+                    const testId = normalizeTestId(l.test_id);
+                    const key = `${(l.nama_peserta || '').trim().toLowerCase()}|${(l.kelas || '').trim().toLowerCase()}|${testId}`;
                     if (!studentMap.has(key)) {
                         studentMap.set(key, {
                             nama_peserta: l.nama_peserta,
                             kelas: l.kelas,
+                            test_id: testId,
                             listening: null,
                             reading: null,
                             writing: null,
@@ -3462,7 +3500,7 @@ export default {
                     const entry = studentMap.get(key);
                     entry.listening = {
                         id: l.id,
-                        test_id: l.test_id,
+                        test_id: testId,
                         raw_score: l.raw_score,
                         band_score: l.band_score,
                         section_scores: l.section_scores,
@@ -3473,11 +3511,13 @@ export default {
                 });
 
                 (readRes.results || []).forEach(r => {
-                    const key = `${(r.nama_peserta || '').trim().toLowerCase()}|${(r.kelas || '').trim().toLowerCase()}`;
+                    const testId = normalizeTestId(r.test_id);
+                    const key = `${(r.nama_peserta || '').trim().toLowerCase()}|${(r.kelas || '').trim().toLowerCase()}|${testId}`;
                     if (!studentMap.has(key)) {
                         studentMap.set(key, {
                             nama_peserta: r.nama_peserta,
                             kelas: r.kelas,
+                            test_id: testId,
                             listening: null,
                             reading: null,
                             writing: null,
@@ -3488,7 +3528,7 @@ export default {
                     const entry = studentMap.get(key);
                     entry.reading = {
                         id: r.id,
-                        test_id: r.test_id,
+                        test_id: testId,
                         raw_score: r.raw_score,
                         band_score: r.band_score,
                         passage_scores: r.passage_scores,
@@ -3500,11 +3540,13 @@ export default {
                 });
 
                 (writeRes.results || []).forEach(w => {
-                    const key = `${(w.nama_peserta || '').trim().toLowerCase()}|${(w.kelas || '').trim().toLowerCase()}`;
+                    const testId = normalizeTestId(w.test_id);
+                    const key = `${(w.nama_peserta || '').trim().toLowerCase()}|${(w.kelas || '').trim().toLowerCase()}|${testId}`;
                     if (!studentMap.has(key)) {
                         studentMap.set(key, {
                             nama_peserta: w.nama_peserta,
                             kelas: w.kelas,
+                            test_id: testId,
                             listening: null,
                             reading: null,
                             writing: null,
@@ -3515,7 +3557,7 @@ export default {
                     const entry = studentMap.get(key);
                     entry.writing = {
                         id: w.id,
-                        test_id: w.test_id,
+                        test_id: testId,
                         status: w.status,
                         task1_text: w.task1_text,
                         task2_text: w.task2_text,
@@ -3534,11 +3576,13 @@ export default {
                 });
 
                 (spkRes.results || []).forEach(s => {
-                    const key = `${(s.nama_peserta || '').trim().toLowerCase()}|${(s.kelas || '').trim().toLowerCase()}`;
+                    const testId = normalizeTestId(s.test_id);
+                    const key = `${(s.nama_peserta || '').trim().toLowerCase()}|${(s.kelas || '').trim().toLowerCase()}|${testId}`;
                     if (!studentMap.has(key)) {
                         studentMap.set(key, {
                             nama_peserta: s.nama_peserta,
                             kelas: s.kelas,
+                            test_id: testId,
                             listening: null,
                             reading: null,
                             writing: null,
@@ -3551,7 +3595,7 @@ export default {
                     const retentionInfo = sessionExpiryMap.get(s.id) || null;
                     entry.speaking = {
                         id: s.id,
-                        test_id: s.test_id,
+                        test_id: testId,
                         status: s.status,
                         part2_notes: s.part2_notes,
                         criteria_scores: JSON.parse(s.criteria_scores || '{}'),

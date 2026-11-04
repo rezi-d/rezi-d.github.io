@@ -108,27 +108,48 @@ const PACKAGES_CONFIG = {
     }
 };
 
-function isFreeMockTest(testId) {
-    if (!testId) return true; // Default fallback: Mock 1 gratis
-    const raw = String(testId).trim().toLowerCase();
+function normalizeTestId(testId) {
+    if (!testId) return 'test1';
+    const s = String(testId).trim().toLowerCase();
+    if (!s || s === 'null' || s === 'undefined') return 'test1';
 
-    // Alias resmi Mock 1 di seluruh modul (Listening, Reading, Writing, Speaking)
-    if (raw === '1' || raw === 'test1' || raw === 'reading1' || raw === 'writing1' || raw === 'speaking1' || raw === 'speaking_test1') {
-        return true;
+    // 1. Alias resmi Mock 1 di semua modul -> 'test1'
+    if (['1', 'test1', 'reading1', 'writing1', 'speaking1', 'speaking_test1', 'listening1'].includes(s)) {
+        return 'test1';
     }
+
+    // 2. Alias resmi Mock 2 di semua modul -> 'test2'
+    if (['2', 'test2', 'reading2', 'writing2', 'speaking2', 'speaking_test2', 'listening2'].includes(s)) {
+        return 'test2';
+    }
+
+    // 3. Alias resmi Mock 3 di semua modul -> 'test3'
+    if (['3', 'test3', 'reading3', 'writing3', 'speaking3', 'speaking_test3', 'listening3'].includes(s)) {
+        return 'test3';
+    }
+
+    // 4. Pola angka umum (misal reading_test4 -> test4, atau 4 -> test4)
+    const match = s.match(/(\d+)$/);
+    if (match) {
+        return `test${match[1]}`;
+    }
+
+    // 5. Jika sudah diawali test, gunakan bentuk tersebut
+    if (s.startsWith('test')) {
+        return s;
+    }
+
+    return `test_${s}`;
+}
+
+function isFreeMockTest(testId) {
+    const normalized = normalizeTestId(testId);
+    if (normalized === 'test1') return true;
 
     // Cek konfigurasi eksplisit jika terdaftar
     const mockTests = PACKAGES_CONFIG?.ielts?.mock_tests;
-    if (mockTests && mockTests[raw] !== undefined) {
-        return Boolean(mockTests[raw].is_free);
-    }
-
-    // Pola angka akhir: test1/reading1/writing1/speaking1 -> gratis; test2/reading2/dst -> berbayar
-    const match = raw.match(/\d+$/);
-    if (match) {
-        const num = parseInt(match[0], 10);
-        if (num === 1) return true;
-        if (num > 1) return false;
+    if (mockTests && mockTests[normalized] !== undefined) {
+        return Boolean(mockTests[normalized].is_free);
     }
 
     // Default aman tertutup (fail-closed) untuk tes baru tak dikenal: butuh lisensi
@@ -136,5 +157,5 @@ function isFreeMockTest(testId) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { PACKAGES_CONFIG, isFreeMockTest };
+    module.exports = { PACKAGES_CONFIG, normalizeTestId, isFreeMockTest };
 }

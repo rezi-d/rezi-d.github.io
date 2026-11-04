@@ -271,6 +271,17 @@
                                class="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 transition">
                     </div>
 
+                    <!-- Filter by Mock Test -->
+                    <div class="w-full">
+                        <select id="select-filter-test" onchange="filterAndRenderTable()" 
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-semibold focus:outline-none focus:border-indigo-600 transition cursor-pointer">
+                            <option value="">Semua Mock Test</option>
+                            <option value="test1">Mock Test 1 (Gratis)</option>
+                            <option value="test2">Mock Test 2 (Premium)</option>
+                            <option value="test3">Mock Test 3 (Premium)</option>
+                        </select>
+                    </div>
+
                     <!-- Filter by Class -->
                     <div class="w-full">
                         <select id="select-filter-kelas" onchange="filterAndRenderTable()" 
@@ -1103,11 +1114,13 @@
 
         function filterAndRenderTable() {
             const searchQ = (document.getElementById('input-search-student').value || '').toLowerCase().trim();
+            const filterTest = document.getElementById('select-filter-test') ? document.getElementById('select-filter-test').value : '';
             const filterClass = document.getElementById('select-filter-kelas').value;
             const filterModul = document.getElementById('select-filter-modul').value;
             const sortBy = document.getElementById('select-sort-by').value;
 
             let list = ALL_STUDENTS.filter(item => {
+                const matchTest = !filterTest || (item.test_id || 'test1') === filterTest;
                 const matchClass = !filterClass || item.kelas === filterClass;
                 const matchName = !searchQ || 
                     (item.nama_peserta || '').toLowerCase().includes(searchQ) ||
@@ -1130,7 +1143,7 @@
                     matchModul = !!item.reading;
                 }
 
-                return matchClass && matchName && matchModul;
+                return matchTest && matchClass && matchName && matchModul;
             });
 
             // Sorting
@@ -1287,8 +1300,13 @@
                     <tr class="hover:bg-slate-50/70 transition">
                         <td class="py-3 px-3 text-center font-mono font-medium text-slate-400">${idx + 1}</td>
                         <td class="py-3 px-4 font-bold text-slate-900">
-                            <div class="truncate max-w-[150px]" title="${escapeHtml(item.nama_peserta)}">
-                                ${escapeHtml(item.nama_peserta)}
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="truncate max-w-[140px]" title="${escapeHtml(item.nama_peserta)}">
+                                    ${escapeHtml(item.nama_peserta)}
+                                </span>
+                                <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold uppercase ${item.test_id === 'test2' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-indigo-50 text-indigo-700 border border-indigo-200'}">
+                                    ${escapeHtml((item.test_id || 'test1').replace(/^test/, 'Mock '))}
+                                </span>
                             </div>
                         </td>
                         <td class="py-3 px-3">

@@ -87,16 +87,16 @@ class MockD1Database {
                         const count = this.devices.filter(x => x.license_id === licId).length;
                         return { n: count };
                     }
-                    if (q.startsWith('SELECT * FROM listening_sessions WHERE id = ?')) {
+                    if (q.includes('FROM listening_sessions WHERE id = ?')) {
                         return this.listeningSessions.find(s => s.id === params[0]) || null;
                     }
-                    if (q.startsWith('SELECT * FROM reading_sessions WHERE id = ?')) {
+                    if (q.includes('FROM reading_sessions WHERE id = ?')) {
                         return this.readingSessions.find(s => s.id === params[0]) || null;
                     }
-                    if (q.startsWith('SELECT * FROM writing_sessions WHERE id = ?')) {
+                    if (q.includes('FROM writing_sessions WHERE id = ?')) {
                         return this.writingSessions.find(s => s.id === params[0]) || null;
                     }
-                    if (q.startsWith('SELECT * FROM speaking_sessions WHERE id = ?')) {
+                    if (q.includes('FROM speaking_sessions WHERE id = ?')) {
                         return this.speakingSessions.find(s => s.id === params[0]) || null;
                     }
                     if (q.startsWith('SELECT test_id FROM speaking_sessions WHERE id = ?')) {
@@ -553,4 +553,175 @@ test('Tahap 1: Akses Mock 2 dengan token IELTS aktif dan valid berhasil (HTTP 20
     assert.strictEqual(resS.status, 200, 'Mock 2 Speaking dengan token valid harus 200 OK');
     const jsonS = await resS.json();
     assert.strictEqual(jsonS.ok, true);
+});
+
+test('Tahap 1 Syarat 1: save-progress, status, detail, upload, dan audio pada Mock 2 tanpa token ditolak HTTP 401', async () => {
+    const db = new MockD1Database();
+    const assets = createMockAssets();
+    const env = { DB: db, ASSETS: assets, ALLOWED_ORIGINS: 'https://kimia.ajarkita.my.id' };
+
+    const devId = 'dev_participant_01';
+
+    // Buat sesi Mock 2 di tiap modul
+    db.listeningSessions.push({ id: 'ls_m2_01', test_id: 'test2', device_id: devId, status: 'in_progress' });
+    db.readingSessions.push({ id: 'rs_m2_01', test_id: 'test2', device_id: devId, status: 'in_progress' });
+    db.writingSessions.push({ id: 'ws_m2_01', test_id: 'writing2', device_id: devId, status: 'in_progress' });
+    db.speakingSessions.push({ id: 'spk_m2_01', test_id: 'speaking2', device_id: devId, status: 'in_progress', package_type: 'teacher' });
+
+    // 1. Listening save-progress tanpa token -> 401
+    const resL = await worker.fetch(new Request('https://kimia.ajarkita.my.id/listening/save-progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Device-Id': devId },
+        body: JSON.stringify({ sessionId: 'ls_m2_01', currentSec: 2, answers: { q1: 'A' } })
+    }), env);
+    assert.strictEqual(resL.status, 401, 'Listening save-progress Mock 2 tanpa token wajib 401');
+
+    // 2. Reading save-progress tanpa token -> 401
+    const resR = await worker.fetch(new Request('https://kimia.ajarkita.my.id/reading/save-progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Device-Id': devId },
+        body: JSON.stringify({ sessionId: 'rs_m2_01', currentPassage: 2, answers: { q1: 'TRUE' } })
+    }), env);
+    assert.strictEqual(resR.status, 401, 'Reading save-progress Mock 2 tanpa token wajib 401');
+
+    // 3. Writing save-progress tanpa token -> 401
+    const resW = await worker.fetch(new Request('https://kimia.ajarkita.my.id/writing/save-progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Device-Id': devId },
+        body: JSON.stringify({ sessionId: 'ws_m2_01', task1Text: 'Sample text...', currentTask: 1 })
+    }), env);
+    assert.strictEqual(resW.status, 401, 'Writing save-progress Mock 2 tanpa token wajib 401');
+
+    // 4. Writing status polling oleh siswa tanpa token -> 401
+    const resWStat = await worker.fetch(new Request('https://kimia.ajarkita.my.id/writing/status?sessionId=ws_m2_01&deviceId=dev_participant_01', {
+        method: 'GET',
+        headers: { 'X-Device-Id': devId }
+    }), env);
+    assert.strictEqual(resWStat.status, 401, 'Writing status Mock 2 tanpa token wajib 401');
+
+    // 5. Speaking upload-recording tanpa token -> 401
+    const dummyAudioBase64 = Buffer.from(new Uint8Array(200)).toString('base64');
+    const resSUpload = await worker.fetch(new Request('https://kimia.ajarkita.my.id/speaking/upload-recording', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Device-Id': devId },
+        body: JSON.stringify({ sessionId: 'spk_m2_01', questionId: 'q1', audioData: dummyAudioBase64, mimeType: 'audio/webm' })
+    }), env);
+    assert.strictEqual(resSUpload.status, 401, 'Speaking upload-recording Mock 2 tanpa token wajib 401');
+
+    // 6. Speaking status tanpa token -> 401
+    const resSStat = await worker.fetch(new Request('https://kimia.ajarkita.my.id/speaking/status?sessionId=spk_m2_01&deviceId=dev_participant_01', {
+        method: 'GET',
+        headers: { 'X-Device-Id': devId }
+    }), env);
+    assert.strictEqual(resSStat.status, 401, 'Speaking status Mock 2 tanpa token wajib 401');
+
+    // 7. Speaking detail tanpa token -> 401
+    const resSDetail = await worker.fetch(new Request('https://kimia.ajarkita.my.id/speaking/detail?sessionId=spk_m2_01&deviceId=dev_participant_01', {
+        method: 'GET',
+        headers: { 'X-Device-Id': devId }
+    }), env);
+    assert.strictEqual(resSDetail.status, 401, 'Speaking detail Mock 2 tanpa token wajib 401');
+
+    // 8. Speaking audio streaming tanpa token -> 401
+    const resSAudio = await worker.fetch(new Request('https://kimia.ajarkita.my.id/speaking/audio?sessionId=spk_m2_01&questionId=q1&deviceId=dev_participant_01', {
+        method: 'GET',
+        headers: { 'X-Device-Id': devId }
+    }), env);
+    assert.strictEqual(resSAudio.status, 401, 'Speaking audio Mock 2 tanpa token wajib 401');
+});
+
+test('Tahap 1 Syarat 2: Akses langsung via URL ke berkas aset internal/master/JSON/MP3 ditolak HTTP 403', async () => {
+    const db = new MockD1Database();
+    const assets = createMockAssets();
+    const env = { DB: db, ASSETS: assets, ALLOWED_ORIGINS: 'https://kimia.ajarkita.my.id' };
+
+    // Uji percobaan akses langsung ke file master JSON
+    const pathsToTest = [
+        '/listening/test2-master.json',
+        '/reading/reading2-master.json',
+        '/writing/writing2-master.json',
+        '/speaking/speaking2-master.json',
+        '/premium/test2.json',
+        '/premium/audio/sample.mp3'
+    ];
+
+    for (const p of pathsToTest) {
+        const req = new Request(`https://kimia.ajarkita.my.id${p}`, {
+            method: 'GET',
+            headers: { 'Origin': 'https://kimia.ajarkita.my.id' }
+        });
+        const res = await worker.fetch(req, env);
+        assert.strictEqual(res.status, 403, `Akses langsung ke ${p} harus ditolak HTTP 403`);
+        const json = await res.json();
+        assert.strictEqual(json.ok, false);
+        assert.strictEqual(json.reason, 'direct_asset_access_forbidden');
+    }
+});
+
+test('Tahap 1 Syarat 3: Lisensi non-IELTS (SNBT), expired, revoked, dan invalid ditolak spesifik saat akses Mock 2', async () => {
+    const db = new MockD1Database();
+    const assets = createMockAssets();
+    const env = { DB: db, ASSETS: assets, ALLOWED_ORIGINS: 'https://kimia.ajarkita.my.id' };
+
+    const devId = 'dev_tester_package_01';
+
+    // 1. Lisensi Paket SNBT (Bukan IELTS)
+    const snbtToken = 'SNBT-TRIAL-1234-5678';
+    db.licenses.push({
+        id: 101,
+        token_hash: await sha256Hex(snbtToken),
+        package_type: 'snbt',
+        revoked: 0,
+        activated_at: Date.now() - 1000,
+        expires_at: Date.now() + 86400000 * 30
+    });
+
+    const resSnbt = await worker.fetch(new Request('https://kimia.ajarkita.my.id/reading/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${snbtToken}` },
+        body: JSON.stringify({ testId: 'test2', nama: 'Siswa SNBT', kelas: '12', deviceId: devId })
+    }), env);
+    assert.strictEqual(resSnbt.status, 403, 'Lisensi SNBT harus ditolak HTTP 403 untuk tes IELTS Mock 2');
+    const jsonSnbt = await resSnbt.json();
+    assert.strictEqual(jsonSnbt.reason, 'wrong_package');
+
+    // 2. Lisensi IELTS Kedaluwarsa
+    const expToken = 'IELT-EXPD-9999-0000';
+    db.licenses.push({
+        id: 102,
+        token_hash: await sha256Hex(expToken),
+        package_type: 'ielts',
+        revoked: 0,
+        activated_at: Date.now() - 86400000 * 40,
+        expires_at: Date.now() - 86400000 * 10 // sudah kedaluwarsa 10 hari lalu
+    });
+
+    const resExp = await worker.fetch(new Request('https://kimia.ajarkita.my.id/listening/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${expToken}` },
+        body: JSON.stringify({ testId: 'test2', nama: 'Siswa Expired', kelas: '12', deviceId: devId })
+    }), env);
+    assert.strictEqual(resExp.status, 403, 'Lisensi IELTS kedaluwarsa harus ditolak HTTP 403');
+    const jsonExp = await resExp.json();
+    assert.strictEqual(jsonExp.reason, 'token_expired');
+
+    // 3. Lisensi IELTS Dicabut (Revoked)
+    const revToken = 'IELT-REVK-8888-7777';
+    db.licenses.push({
+        id: 103,
+        token_hash: await sha256Hex(revToken),
+        package_type: 'ielts',
+        revoked: 1, // DICABUT
+        activated_at: Date.now() - 86400000 * 5,
+        expires_at: Date.now() + 86400000 * 25
+    });
+
+    const resRev = await worker.fetch(new Request('https://kimia.ajarkita.my.id/writing/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${revToken}` },
+        body: JSON.stringify({ testId: 'writing2', nama: 'Siswa Revoked', kelas: '12', deviceId: devId })
+    }), env);
+    assert.strictEqual(resRev.status, 403, 'Lisensi IELTS dicabut harus ditolak HTTP 403');
+    const jsonRev = await resRev.json();
+    assert.strictEqual(jsonRev.reason, 'token_revoked');
 });
