@@ -9,8 +9,9 @@
 ## 1. Waktu Rilis yang Disarankan (Maintenance Window)
 
 Untuk meminimalkan dampak terhadap pengguna aktif:
-- **Jadwal Ideal:** Lakukan rilis pada **pukul 23:00 – 05:00 WIB** (dini hari), saat aktivitas belajar siswa berada pada titik terendah.
+- **Jadwal Ideal:** Lakukan rilis pada **pukul 23:00 – 01:30 WIB** atau **pukul 02:30 – 05:00 WIB** (dini hari), saat aktivitas belajar siswa berada pada titik terendah.
 - **Waktu yang Wajib Dihindari:**
+  - **Pukul 01:30 – 02:30 WIB:** Trigger cron retensi berkala (`0 19 * * *` UTC = 02:00 WIB) sedang berjalan pada rentang waktu ini. Hindari proses deploy atau migrasi agar tidak terjadi konflik konkurensi database.
   - **Pukul 07:00 – 17:00 WIB:** Jam operasional sekolah dan kegiatan belajar mengajar aktif.
   - **Pukul 19:00 – 21:00 WIB:** Jam puncak latihan mandiri dan try out malam siswa.
 
@@ -83,26 +84,38 @@ npx wrangler d1 time-travel info kimia-lisensi
 
 ## 4. Jalankan Migrasi Skema D1 Produksi (SEBELUM Deploy Kode)
 
-Jalankan berkas migrasi Cloudflare D1 [`worker/migrations/0001_add_multi_test_id.sql`](file:///Users/ash-shiddiiqi/pengembangan%20web%20kimia/worker/migrations/0001_add_multi_test_id.sql) yang menambahkan kolom `test_id TEXT NOT NULL DEFAULT 'test1'` secara aman (zero data loss):
+Jalankan berkas migrasi Cloudflare D1 `worker/migrations/0001_add_multi_test_id.sql` yang menambahkan kolom `test_id TEXT NOT NULL DEFAULT 'test1'` secara aman (zero data loss):
 
 ### a) Hitung Jumlah Baris SEBELUM Migrasi:
 Jalankan query baseline untuk mencatat jumlah baris awal pada seluruh tabel sesi dan rekaman:
 ```bash
 npx wrangler d1 execute kimia-lisensi --remote --command "SELECT 'listening_sessions' AS tbl, COUNT(*) AS total_sebelum FROM listening_sessions UNION ALL SELECT 'reading_sessions', COUNT(*) FROM reading_sessions UNION ALL SELECT 'writing_sessions', COUNT(*) FROM writing_sessions UNION ALL SELECT 'speaking_sessions', COUNT(*) FROM speaking_sessions UNION ALL SELECT 'speaking_recordings', COUNT(*) FROM speaking_recordings;"
 ```
-*Catat angka dari masing-masing tabel.*
+*Catat angka dari kelima tabel tersebut.*
 
 ### b) Eksekusi Migrasi D1:
 ```bash
 npx wrangler d1 migrations apply kimia-lisensi --remote
 ```
 
+> 🛑 **PROTOKOL JIKA MIGRASI D1 GAGAL:**
+> Jika eksekusi migrasi menghasilkan galat (error) atau keluar dengan status gagal:
+> 1. **BERHENTI SEGERA.**
+> 2. **JANGAN DEPLOY** kode Worker maupun kode Frontend.
+> 3. **JANGAN ULANGI** perintah migrasi secara membabi buta.
+> 4. Periksa riwayat tabel migrasi internal:
+>    ```bash
+>    npx wrangler d1 execute kimia-lisensi --remote --command "SELECT * FROM d1_migrations;"
+>    ```
+> 5. Jalankan kembali query hitung baris baseline untuk memastikan data tidak berubah.
+> 6. Segera laporkan pesan error persis beserta hasil query di atas kepada pemilik proyek untuk investigasi.
+
 ### c) Verifikasi Keutuhan Baris SESUDAH Migrasi:
 Jalankan query verifikasi untuk membuktikan seluruh baris lama tetap utuh dan termigrasi menjadi `test_id = 'test1'`:
 ```bash
-npx wrangler d1 execute kimia-lisensi --remote --command "SELECT 'listening_sessions' AS tbl, COUNT(*) AS total_sesudah, SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) AS migrasi_test1 FROM listening_sessions UNION ALL SELECT 'reading_sessions', COUNT(*), SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) FROM reading_sessions UNION ALL SELECT 'writing_sessions', COUNT(*), SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) FROM writing_sessions UNION ALL SELECT 'speaking_sessions', COUNT(*), SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) FROM speaking_sessions UNION ALL SELECT 'speaking_recordings', COUNT(*), 0 FROM speaking_recordings;"
+npx wrangler d1 execute kimia-lisensi --remote --command "SELECT 'listening_sessions' AS tbl, COUNT(*) AS total_sesudah, SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) AS migrasi_test1 FROM listening_sessions UNION ALL SELECT 'reading_sessions', COUNT(*), SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) FROM reading_sessions UNION ALL SELECT 'writing_sessions', COUNT(*), SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) FROM writing_sessions UNION ALL SELECT 'speaking_sessions', COUNT(*), SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) FROM speaking_sessions UNION ALL SELECT 'speaking_recordings', COUNT(*), SUM(CASE WHEN test_id = 'test1' THEN 1 ELSE 0 END) FROM speaking_recordings;"
 ```
-*Kriteria Sukses: `total_sesudah` harus sama persis dengan `total_sebelum`, dan `migrasi_test1` harus sama dengan `total_sesudah`.*
+*Kriteria Sukses: `total_sesudah` harus sama persis dengan `total_sebelum`, dan `migrasi_test1` harus sama dengan `total_sesudah` pada kelima tabel.*
 
 ---
 
@@ -114,15 +127,26 @@ npx wrangler d1 execute kimia-lisensi --remote --command "SELECT 'listening_sess
 
 ### Urutan Eksekusi Deploy:
 
-#### Langkah 5.1: Deploy Backend Cloudflare Worker
+#### Langkah 5.1: Buat Anchor Tag di Commit Stabil Terakhir (SEBELUM Langkah Rilis)
+Sebelum melakukan build atau deploy, buat tag pada commit stabil terakhir sebagai jangkar rollback yang presisi:
+```bash
+# Periksa hash commit stabil terakhir
+git log -1 --format="%h %s"
+
+# Buat dan dorong anchor tag pre-multi-test
+git tag pre-multi-test <COMMIT_STABIL_TERAKHIR>
+git push origin pre-multi-test
+```
+
+#### Langkah 5.2: Deploy Backend Cloudflare Worker
 ```bash
 cd worker
 npm run deploy
 ```
 *Pastikan output deployment menunjukkan status `Success` dan mendaftarkan trigger cron `0 19 * * *`.*
 
-#### Langkah 5.2: Audit Pra-Commit Frontend (Pemeriksaan Bebas Secret)
-Kembali ke root repositori dan periksa diff:
+#### Langkah 5.3: Audit Pra-Commit Frontend (Pemeriksaan Bebas Secret)
+Kembali ke root repositori dan periksa perubahan berkas:
 ```bash
 cd ..
 git status
@@ -130,9 +154,15 @@ git diff
 ```
 *Pastikan tidak ada kunci rahasia, secret token asli, atau berkas dump SQL cadangan yang belum di-ignore.*
 
-#### Langkah 5.3: Commit, Pembuatan Tag Rilis, & Push Frontend
+#### Langkah 5.4: Git Add, Commit, Tag Rilis, & Push
 ```bash
-# Tambahkan git tag rilis versi produksi
+# Tambahkan berkas yang telah diverifikasi
+git add .gitignore docs/ ielts/ worker/ tests/
+
+# Buat commit rilis produksi
+git commit -m "feat(release): rilis infrastruktur multi-tes IELTS v1.4.0-multi-test"
+
+# Buat tag rilis versi produksi
 git tag -a v1.4.0-multi-test -m "Rilis Infrastruktur Multi-Tes IELTS Tahap 4 (Ready for Content)"
 
 # Dorong commit dan tag ke GitHub Pages
@@ -143,20 +173,32 @@ git push origin main --tags
 
 ## 6. Prosedur Uji Asap Pasca-Deploy (Smoke Testing Produksi)
 
-Lakukan verifikasi operasional langsung pada domain produksi (`https://kimia.ajarkita.my.id`):
+Lakukan verifikasi operasional langsung pada domain produksi (`https://kimia.ajarkita.my.id`).
+> 💡 **Ketentuan Identitas Uji:**
+> Gunakan identitas nama peserta **`UJI-RILIS`** dan kelas **`UJI-PRODUKSI`** untuk seluruh sesi pengerjaan uji agar mudah diidentifikasi dan dibersihkan dari rekapitulasi.
 
 | Skenario Pengujian | Langkah Pengujian | Kriteria Lulus |
 | :--- | :--- | :--- |
 | **1. SNBT & Kimia Lama Normal** | Buka halaman materi Kimia dan simulasi UTBK-SNBT (`/snbt/`). Coba aktivasi token SNBT jika ada. | Halaman terbuka normal, bank soal SNBT berfungsi, otentikasi SNBT tidak terganggu oleh perubahan IELTS. |
-| **2. Mock 1 Bebas Token & Audio** | Buka `/ielts/listening-mock-test.html?test=1`. Klik "Putar Tes Suara", isi nama & mulai sesi. | Berjalan normal tanpa token, audio Section 1 berputar lancar tanpa error network. |
+| **2. Mock 1 Bebas Token & Audio** | Buka `/ielts/listening-mock-test.html?test=1`. Klik "Putar Tes Suara", isi nama `UJI-RILIS` & mulai sesi. | Berjalan normal tanpa token, audio Section 1 berputar lancar tanpa error network. |
 | **3. Pilihan Tes Multi-Tes** | Buka `/ielts/index.html`. Klik tab `Mock Test 1` lalu klik tab `Mock Test 2`. | Tab Mock 1 berlabel "Gratis". Tab Mock 2 berlabel "Segera Hadir" dengan kartu tes nonaktif. |
 | **4. Guard Halaman Start Mock 2** | Buka URL langsung `/ielts/writing-mock-test.html?test=2` (coba dalam mode login lisensi dan tanpa login). | Muncul kotak pemberitahuan `"Simulasi Mock Test 2 Segera Hadir"`, form submit disembunyikan, dan tidak ada baris sesi kosong di D1. |
-| **5. Blokir Aset Statis Premium** | Buka URL berkas soal master langsung di browser: `https://kimia-snbt-api.kimia-ajarkita.workers.dev/listening/test2-master.json`. | Wajib ditolak `HTTP 403 Forbidden` oleh Worker assets binding (`run_worker_first`). |
-| **6. Penolakan API Mock 2 Tanpa Token** | Jalankan via curl: `curl -X POST https://kimia-snbt-api.kimia-ajarkita.workers.dev/listening/start -H "Content-Type: application/json" -d '{"testId":"test2","nama":"Test","kelas":"12"}'`. | Wajib ditolak `HTTP 401` dengan respons JSON `{"ok":false,"reason":"token_required"}`. |
+| **5. Blokir Aset Statis Premium** | Buka URL berkas soal master langsung di browser: `https://kimia-snbt-api.kimia-ajarkita.workers.dev/listening/test2-master.json`. | **Wajib ditolak `HTTP 403 Forbidden` (BUKAN `404 Not Found`).**<br/>*(Catatan: Respons 403 membuktikan berkas ada dan berhasil dicegat oleh Worker assets `run_worker_first`. Jika 404, routing atau path berkas bermasalah).* |
+| **6. Penolakan API Mock 2 Tanpa Token** | Jalankan via curl: `curl -i -X POST https://kimia-snbt-api.kimia-ajarkita.workers.dev/listening/start -H "Content-Type: application/json" -d '{"testId":"test2","nama":"UJI-RILIS","kelas":"UJI-PRODUKSI"}'`. | Wajib ditolak `HTTP 401 Unauthorized` dengan JSON `{"ok":false,"reason":"token_required"}`. |
 | **7. Rekap Guru & Filter Multi-Tes** | Akses `/ielts/rekap.html` dengan kunci guru sah (`?key=...`). | Dashboard terbuka, widget pemantauan kapasitas D1 tampil, dan filter dropdown tes (`Semua`, `Mock 1`, `Mock 2`) berfungsi normal. |
 | **8. Pertahanan Endpoint Admin** | Buka `https://kimia-snbt-api.kimia-ajarkita.workers.dev/admin/list` tanpa header otorisasi. | Wajib ditolak `HTTP 401` / `HTTP 403` Unauthorized secara instan. |
 | **9. Verifikasi Trigger Cron** | Periksa jadwal tugas cron retention worker via terminal: `npx wrangler triggers list` (atau via Cloudflare Dashboard). | Cron `0 19 * * *` (pukul 02:00 WIB) terdaftar aktif. |
 | **10. Verifikasi Cache-Buster di Incognito** | Buka tab **Incognito / Private Window**, akses `/ielts/writing-mock-test.html`, buka inspect DevTools Network tab. | Berkas skrip termuat dengan query string `?v=20261104f` tanpa tersangkut cache usang. |
+
+### Pembersihan Data Uji `UJI-RILIS` Pasca Smoke Test:
+Setelah pengujian selesai, bersihkan baris data pengujian melalui endpoint admin:
+```bash
+curl -X POST https://kimia-snbt-api.kimia-ajarkita.workers.dev/admin/delete-customer \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <ADMIN_KEY>" \
+  -d '{"dry_run": false, "confirm": true, "nama": "UJI-RILIS", "kelas": "UJI-PRODUKSI"}'
+```
+*Periksa kembali `/ielts/rekap.html` untuk memastikan baris `UJI-RILIS` telah bersih.*
 
 ---
 
@@ -178,10 +220,9 @@ npx wrangler rollback <DEPLOYMENT_ID_SEBELUMNYA>
 > Rollback kode Worker **TIDAK MEMERLUKAN rollback database D1**. Penambahan kolom `test_id TEXT NOT NULL DEFAULT 'test1'` bersifat aditif murni (backward-compatible). Kode Worker versi lama tetap dapat membaca dan menulis tabel secara normal karena nilai default `'test1'` disediakan otomatis oleh SQLite.
 
 ### b) Rollback Frontend Web:
-Gunakan revert terarah berdasarkan tag rilis (bukan `HEAD` acak):
+Kembalikan seluruh commit frontend ke titik jangkar `pre-multi-test`:
 ```bash
-# Revert rentang commit sejak tag rilis terakhir
-git revert v1.4.0-multi-test..HEAD --no-edit
+git revert pre-multi-test..HEAD --no-edit
 git push origin main
 ```
 
@@ -194,3 +235,42 @@ npx wrangler d1 time-travel restore kimia-lisensi --bookmark <BOOKMARK_ID_SEBELU
 
 > ⚠️ **PERINGATAN PEMULIHAN TIME TRAVEL / RESTORE SQL:**
 > Operasi `time-travel restore` maupun eksekusi file cadangan SQL akan mengembalikan **seluruh isi database** ke titik waktu cadangan dibuat. Segala aktivitas pengerjaan ujian baru atau aktivasi token yang terjadi antara titik pencadangan dan saat restore dijalankan **akan terhapus**. Gunakan hanya jika terjadi korupsi data parah yang tidak dapat diatasi melalui kode.
+
+---
+
+## 8. Catatan Pasca-Rilis (Template Berita Acara Rilis)
+
+Simpan rekaman eksekusi ini sebagai bukti serah terima operasional rilis:
+
+```markdown
+### Berita Acara Rilis Produksi Multi-Tes IELTS
+- Tanggal & Waktu Eksekusi : [YYYY-MM-DD HH:MM WIB]
+- Pelaksana Rilis          : [Nama Pelaksana]
+- D1 Time Travel Bookmark  : [ID Bookmark sebelum migrasi]
+- Hash Commit Stabil Lama  : [Hash anchor pre-multi-test]
+- Hash Commit Rilis Baru   : [Hash commit v1.4.0-multi-test]
+
+#### Verifikasi Jumlah Baris Database:
+| Nama Tabel | Total Sebelum | Total Sesudah | Termigrasi 'test1' | Status |
+| :--- | :---: | :---: | :---: | :---: |
+| listening_sessions | [ ] | [ ] | [ ] | OK / Selaras |
+| reading_sessions   | [ ] | [ ] | [ ] | OK / Selaras |
+| writing_sessions   | [ ] | [ ] | [ ] | OK / Selaras |
+| speaking_sessions  | [ ] | [ ] | [ ] | OK / Selaras |
+| speaking_recordings| [ ] | [ ] | [ ] | OK / Selaras |
+
+#### Hasil Smoke Testing (10 Skenario):
+1. SNBT & Kimia Lama Normal        : [ LULUS / GAGAL ]
+2. Mock 1 Bebas Token & Audio      : [ LULUS / GAGAL ]
+3. Pilihan Tes Multi-Tes (/ielts/) : [ LULUS / GAGAL ]
+4. Guard Start Mock 2 (?test=2)    : [ LULUS / GAGAL ]
+5. Blokir Aset Statis (Wajib 403)  : [ LULUS / GAGAL ]
+6. Penolakan API Mock 2 (Wajib 401): [ LULUS / GAGAL ]
+7. Rekap Guru & Filter Multi-Tes   : [ LULUS / GAGAL ]
+8. Pertahanan Endpoint /admin/*    : [ LULUS / GAGAL ]
+9. Trigger Cron 0 19 * * * Terdaftar: [ LULUS / GAGAL ]
+10. Cache-Buster v=20261104f Incognito: [ LULUS / GAGAL ]
+
+- Pembersihan Baris UJI-RILIS      : [ SUDAH DIBERSIHKAN ]
+- Kesimpulan Rilis                 : [ SUKSES OPERASIONAL / ROLLBACK ]
+```
