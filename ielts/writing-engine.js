@@ -167,10 +167,49 @@
 
     onDomReady(() => {
         renderDynamicTestHeader();
+        if (!checkTestAvailability()) return;
         initEvents();
         prefillUserData();
         checkExistingSession();
     });
+
+    function checkTestAvailability() {
+        const cfg = (typeof getMockTestConfig === 'function') ? getMockTestConfig(STATE.testId) : null;
+        if (cfg && cfg.available === false) {
+            const hasLicense = Boolean(getIeltsToken());
+            const startForm = document.getElementById('form-start-writing');
+            const startContainer = startForm ? startForm.parentElement : null;
+            if (startContainer) {
+                startContainer.innerHTML = `
+                    <div id="unavailable-test-notice" class="p-5 sm:p-6 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 space-y-3">
+                        <div class="flex items-center gap-2 text-amber-800 font-extrabold text-sm uppercase tracking-wide">
+                            <span>🔒</span> <span>Simulasi ${cfg.label || 'Mock Test 2'} Segera Hadir</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed">
+                            Set simulasi lengkap <strong>${cfg.label || 'Mock Test 2'}</strong> saat ini masih dalam proses finalisasi materi dan kalibrasi. Akses simulasi belum dibuka dan tidak ada sesi ujian yang dibuat di sistem.
+                        </p>
+                        ${hasLicense ? `
+                        <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium flex items-center gap-2">
+                            <span>✅</span> <span>Lisensi Anda terdeteksi aktif. Anda akan otomatis mendapat akses saat paket ini resmi dirilis.</span>
+                        </div>
+                        ` : ''}
+                        <div class="pt-2 flex flex-wrap gap-2.5">
+                            <a href="/ielts/index.html" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition">
+                                &larr; Kembali ke Pilihan Tes (Coba Mock Test 1 Gratis)
+                            </a>
+                            <a href="/ielts/premium-saya.html" class="px-4 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs transition">
+                                Info Lisensi &amp; Paket
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+            const resumeBanner = document.getElementById('banner-resume-writing');
+            if (resumeBanner) resumeBanner.classList.add('hidden');
+            return false;
+        }
+        return true;
+    }
 
     function renderDynamicTestHeader() {
         const norm = (typeof normalizeTestId === 'function') ? normalizeTestId(STATE.testId) : (STATE.testId || 'test1');
@@ -415,6 +454,16 @@
 
     async function startExamRequest(overrideSessionId = '') {
         const startBtn = document.getElementById('btn-start-writing-submit');
+        const cfg = (typeof getMockTestConfig === 'function') ? getMockTestConfig(STATE.testId) : null;
+        if (cfg && cfg.available === false) {
+            showStartError(`Simulasi ${cfg.label || 'Mock Test 2'} belum dirilis (Segera Hadir).`);
+            if (startBtn) {
+                startBtn.disabled = false;
+                startBtn.textContent = 'Mulai Simulasi Tes (60 Menit) \u2192';
+            }
+            return;
+        }
+
         const token = getIeltsToken();
         const payload = {
             testId: STATE.testId,

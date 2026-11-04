@@ -145,3 +145,77 @@ test('Tahap 4: Halaman simulasi memuat ID elemen dinamis untuk badge dan cache-b
         assert.ok(html.includes('Mulai baru / hapus draf'), `${item.file} harus memiliki tombol jelas Mulai baru / hapus draf`);
     }
 });
+
+// =====================================================================
+// 6. SYARAT 2 PENUTUP: TEKS PROMOSI & PAKET MENGIKUTI FLAG AVAILABLE
+// =====================================================================
+
+test('Tahap 4 Syarat 2: Teks promosi, harga, dan paket tidak menyebut Mock 2 sebagai tersedia selama available: false', async () => {
+    const { getMockTestPromotionText, getAvailableMockTestsSummary } = await import('../worker/src/packages-config.js');
+
+    // 1. Uji fungsi helper teks promosi
+    const promoText = getMockTestPromotionText();
+    assert.ok(promoText.includes('Segera Hadir') || promoText.includes('finalisasi'), 'Promo text tidak boleh menyebut Mock 2 tersedia jika available: false');
+    assert.ok(!promoText.includes('Mock Test 2 (Tersedia Sekarang)'));
+
+    const summary = getAvailableMockTestsSummary();
+    assert.strictEqual(summary.isMock2Available, false, 'isMock2Available harus false');
+    assert.ok(summary.available.includes('Mock Test 1'), 'Mock Test 1 harus terdaftar sebagai available');
+    assert.ok(summary.upcoming.includes('Mock Test 2'), 'Mock Test 2 harus terdaftar sebagai upcoming');
+
+    // 2. Periksa berkas ielts/premium-saya.html
+    const premiumPath = path.join(ROOT_DIR, 'ielts/premium-saya.html');
+    const premiumHtml = fs.readFileSync(premiumPath, 'utf8');
+    assert.ok(premiumHtml.includes('id="feature-mock-tests-status"'), 'premium-saya.html harus memuat elemen status fitur mock test dinamis');
+    assert.ok(premiumHtml.includes('getAvailableMockTestsSummary'), 'premium-saya.html harus mengaitkan teks dengan flag ketersediaan packages-config');
+});
+
+// =====================================================================
+// 7. SYARAT 3 PENUTUP: HALAMAN START MOCK 2 (?test=2) TAMPILKAN SEGERA HADIR & TIDAK BUAT SESI KOSONG
+// =====================================================================
+
+test('Tahap 4 Syarat 3: Halaman start Mock 2 (?test=2) saat available: false menampilkan Segera Hadir (dengan/tanpa lisensi) dan menolak buat sesi di D1', () => {
+    const engineFiles = [
+        'ielts/listening-engine.js',
+        'ielts/reading-engine.js',
+        'ielts/writing-engine.js',
+        'ielts/speaking-engine.js'
+    ];
+
+    for (const relFile of engineFiles) {
+        const fullPath = path.join(ROOT_DIR, relFile);
+        const code = fs.readFileSync(fullPath, 'utf8');
+
+        // Pastikan setiap engine memiliki checkTestAvailability()
+        assert.ok(code.includes('checkTestAvailability'), `${relFile} wajib memiliki fungsi checkTestAvailability`);
+        assert.ok(code.includes('unavailable-test-notice'), `${relFile} wajib merender pesan #unavailable-test-notice jika available: false`);
+        assert.ok(code.includes('Segera Hadir'), `${relFile} wajib menampilkan teks Segera Hadir`);
+
+        // Pastikan banner resume disembunyikan dan checkExistingSession tidak dipanggil jika false
+        assert.ok(code.includes('if (!checkTestAvailability()) return;'), `${relFile} harus membatalkan inisialisasi sesi jika tes belum tersedia`);
+    }
+});
+
+// =====================================================================
+// 8. SYARAT 1 PENUTUP: BEBAS HARDCODE "TEST 1" STATIS PADA BADGE SIMULASI
+// =====================================================================
+
+test('Tahap 4 Syarat 1: Badge HTML simulasi tidak lagi menggunakan hardcode statis "• Test 1"', () => {
+    const mockHtmlFiles = [
+        'ielts/listening-mock-test.html',
+        'ielts/reading-mock-test.html',
+        'ielts/writing-mock-test.html',
+        'ielts/speaking-mock-test.html'
+    ];
+
+    for (const relFile of mockHtmlFiles) {
+        const fullPath = path.join(ROOT_DIR, relFile);
+        const html = fs.readFileSync(fullPath, 'utf8');
+
+        // Span badge label tidak boleh berisi hardcoded static "• Test 1"
+        const badgeMatch = html.match(/id="[a-z]+-badge-label">([^<]+)<\/span>/);
+        assert.ok(badgeMatch, `${relFile} harus memiliki badge label span`);
+        assert.ok(!badgeMatch[1].includes('• Test 1'), `${relFile} tidak boleh hardcode "• Test 1" di dalam span label statis`);
+    }
+});
+

@@ -183,6 +183,26 @@ export function getMockTestConfig(testId) {
     };
 }
 
+export function getMockTestPromotionText() {
+    const mock2 = getMockTestConfig('test2');
+    if (mock2 && mock2.available) {
+        return "Termasuk Akses Simulasi Mock Test 1 (Gratis) & Mock Test 2 (Premium).";
+    }
+    return "Termasuk Akses Simulasi Mock Test 1 (Gratis). Mock Test 2 sedang dalam tahap finalisasi materi (Segera Hadir).";
+}
+
+export function getAvailableMockTestsSummary() {
+    const tests = PACKAGES_CONFIG?.ielts?.mock_tests || {};
+    const list = Object.values(tests);
+    const available = list.filter(t => t.available);
+    const upcoming = list.filter(t => !t.available);
+    return {
+        available: available.map(t => t.label),
+        upcoming: upcoming.map(t => t.label),
+        isMock2Available: Boolean(tests.test2?.available)
+    };
+}
+
 export function formatDraftTime(timestamp) {
     if (!timestamp) return 'Sesi tersimpan';
     try {

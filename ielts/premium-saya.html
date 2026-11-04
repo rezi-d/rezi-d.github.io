@@ -114,6 +114,10 @@
                     <span>Fitur Yang Termasuk (All-Access)</span>
                 </div>
                 <ul id="list-included-features" class="space-y-3 text-xs sm:text-sm text-slate-600">
+                    <li id="feature-mock-tests-status" class="flex items-start gap-2.5">
+                        <span class="text-amber-500 font-bold">⏳</span>
+                        <span>Simulasi <strong>Mock Test 1</strong> (Gratis &amp; Aktif); Simulasi <strong>Mock Test 2</strong>: <em>Segera Hadir</em> (dalam tahap finalisasi).</span>
+                    </li>
                     <li class="flex items-start gap-2.5">
                         <span class="text-emerald-500 font-bold">✓</span>
                         <span>Akses penuh 4 Modul Latihan Mandiri Lengkap (Listening, Reading, Writing, Speaking).</span>
@@ -355,6 +359,19 @@
                             ? PACKAGES_CONFIG.getAddonWhatsAppUrl('speaking_review')
                             : `https://wa.me/${adminWa}?text=${encodeURIComponent(`Halo Admin AjarKita, saya ingin memesan Layanan Add-on Penilaian Guru IELTS: ${addons.speaking_review.name} (${addons.speaking_review.price_formatted}). Mohon info ketersediaan kuota minggu ini ya!`)}`;
                     }
+                }
+            }
+            // Status Fitur Mock Test Dinamis (Mock 1 vs Mock 2)
+            const mockSummary = (typeof getAvailableMockTestsSummary === 'function') 
+                ? getAvailableMockTestsSummary() 
+                : { isMock2Available: false };
+
+            const mockFeatureEl = document.getElementById('feature-mock-tests-status');
+            if (mockFeatureEl) {
+                if (mockSummary.isMock2Available) {
+                    mockFeatureEl.innerHTML = `<span class="text-emerald-500 font-bold">✓</span><span>Akses Penuh Simulasi <strong>Mock Test 1 (Gratis)</strong> &amp; <strong>Mock Test 2 (Premium)</strong>.</span>`;
+                } else {
+                    mockFeatureEl.innerHTML = `<span class="text-amber-500 font-bold">⏳</span><span>Simulasi <strong>Mock Test 1</strong> (Gratis &amp; Aktif); Simulasi <strong>Mock Test 2</strong>: <em>Segera Hadir</em> (dalam tahap finalisasi).</span>`;
                 }
             }
         }

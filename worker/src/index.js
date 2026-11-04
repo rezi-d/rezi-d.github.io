@@ -13,8 +13,8 @@
 // =================================================================
 
 import { RETENTION_CONFIG } from './retention-config.js';
-import { PACKAGES_CONFIG, getPackageDetails, isFreeMockTest, normalizeTestId, getMockTestConfig, formatDraftTime, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
-export { normalizeTestId, isFreeMockTest, getMockTestConfig, formatDraftTime, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
+import { PACKAGES_CONFIG, getPackageDetails, isFreeMockTest, normalizeTestId, getMockTestConfig, getMockTestPromotionText, getAvailableMockTestsSummary, formatDraftTime, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
+export { normalizeTestId, isFreeMockTest, getMockTestConfig, getMockTestPromotionText, getAvailableMockTestsSummary, formatDraftTime, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
 
 function extractRequestToken(request, body = null, url = null) {
     const authHeader = request.headers.get('Authorization') || '';

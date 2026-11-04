@@ -168,6 +168,26 @@ function getMockTestConfig(testId) {
     };
 }
 
+function getMockTestPromotionText() {
+    const mock2 = getMockTestConfig('test2');
+    if (mock2 && mock2.available) {
+        return "Termasuk Akses Simulasi Mock Test 1 (Gratis) & Mock Test 2 (Premium).";
+    }
+    return "Termasuk Akses Simulasi Mock Test 1 (Gratis). Mock Test 2 sedang dalam tahap finalisasi materi (Segera Hadir).";
+}
+
+function getAvailableMockTestsSummary() {
+    const tests = PACKAGES_CONFIG?.ielts?.mock_tests || {};
+    const list = Object.values(tests);
+    const available = list.filter(t => t.available);
+    const upcoming = list.filter(t => !t.available);
+    return {
+        available: available.map(t => t.label),
+        upcoming: upcoming.map(t => t.label),
+        isMock2Available: Boolean(tests.test2?.available)
+    };
+}
+
 function formatDraftTime(timestamp) {
     if (!timestamp) return 'Sesi tersimpan';
     try {
@@ -410,6 +430,8 @@ if (typeof window !== 'undefined') {
         normalizeTestId,
         isFreeMockTest,
         getMockTestConfig,
+        getMockTestPromotionText,
+        getAvailableMockTestsSummary,
         formatDraftTime,
         getDraftStorageKey,
         getSessionStorageKey,
@@ -420,6 +442,8 @@ if (typeof window !== 'undefined') {
     };
     window.normalizeTestId = normalizeTestId;
     window.getMockTestConfig = getMockTestConfig;
+    window.getMockTestPromotionText = getMockTestPromotionText;
+    window.getAvailableMockTestsSummary = getAvailableMockTestsSummary;
     window.formatDraftTime = formatDraftTime;
     window.getDraftStorageKey = getDraftStorageKey;
     window.getSessionStorageKey = getSessionStorageKey;
@@ -434,6 +458,8 @@ if (typeof module !== 'undefined' && module.exports) {
         normalizeTestId,
         isFreeMockTest,
         getMockTestConfig,
+        getMockTestPromotionText,
+        getAvailableMockTestsSummary,
         formatDraftTime,
         getDraftStorageKey,
         getSessionStorageKey,
