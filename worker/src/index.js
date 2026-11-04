@@ -498,6 +498,20 @@ function sanitizeTestForStudent(masterData) {
     return copy;
 }
 
+async function fetchMasterAsset(env, url, moduleName, rawTestId) {
+    const testId = normalizeTestId(rawTestId);
+    const primaryPath = `/${moduleName}/${testId}-master.json`;
+    let res = await env.ASSETS.fetch(new Request(new URL(primaryPath, url.origin)));
+
+    // Fallback HANYA jika status 404 dan HANYA untuk paket Mock 1 ('test1')
+    if (res.status === 404 && testId === 'test1') {
+        const legacyPath = `/${moduleName}/${moduleName}1-master.json`;
+        res = await env.ASSETS.fetch(new Request(new URL(legacyPath, url.origin)));
+    }
+
+    return res;
+}
+
 async function checkTeacherRateLimit(env, ipHash) {
     const now = Date.now();
     const row = await env.DB.prepare('SELECT failed_attempts, locked_until FROM listening_admin_attempts WHERE ip_hash = ?').bind(ipHash).first();
@@ -1487,7 +1501,7 @@ export default {
                 }
 
                 // Ambil master data soal dari Assets
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/listening/${testId}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'listening', testId);
                 if (!assetRes.ok) {
                     return json(request, env, { ok: false, error: 'Paket tes listening tidak ditemukan.' }, 404);
                 }
@@ -1657,7 +1671,7 @@ export default {
                     }
                 }
 
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/listening/${session.test_id}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'listening', session.test_id);
                 if (!assetRes.ok) {
                     return json(request, env, { ok: false, error: 'Master soal tes tidak ditemukan.' }, 500);
                 }
@@ -1766,7 +1780,7 @@ export default {
                 }
 
                 // Ambil master data soal reading dari Assets
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/reading/${testId}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'reading', testId);
                 if (!assetRes.ok) {
                     return json(request, env, { ok: false, error: 'Paket tes reading tidak ditemukan.' }, 404);
                 }
@@ -1945,7 +1959,7 @@ export default {
                     }
                 }
 
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/reading/${session.test_id}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'reading', session.test_id);
                 if (!assetRes.ok) {
                     return json(request, env, { ok: false, error: 'Master soal tes reading tidak ditemukan.' }, 500);
                 }
@@ -2063,7 +2077,7 @@ export default {
                 }
 
                 // Ambil master data soal writing dari Assets
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${testId}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'writing', testId);
                 if (!assetRes.ok) {
                     return json(request, env, { ok: false, error: 'Paket tes writing tidak ditemukan.' }, 404);
                 }
@@ -2258,7 +2272,7 @@ export default {
                     }
                 }
 
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'writing', session.test_id);
                 if (!assetRes.ok) {
                     return json(request, env, { ok: false, error: 'Master paket writing tidak ditemukan.' }, 500);
                 }
@@ -2335,7 +2349,7 @@ export default {
                     }
                 }
 
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'writing', session.test_id);
                 const master = assetRes.ok ? await assetRes.json() : null;
 
                 const isSubmittedOrGraded = session.status === 'submitted' || session.status === 'graded';
@@ -2471,7 +2485,7 @@ export default {
                     }
                 }
 
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${testId}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'speaking', testId);
                 if (!assetRes.ok) {
                     return json(request, env, { ok: false, error: 'Paket tes speaking tidak ditemukan.' }, 404);
                 }
@@ -2749,7 +2763,7 @@ export default {
                     }
                 }
 
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${session.test_id}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'speaking', session.test_id);
                 const master = assetRes.ok ? await assetRes.json() : null;
 
                 const now = Date.now();
@@ -2812,7 +2826,7 @@ export default {
                     }
                 }
 
-                const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${session.test_id}-master.json`, url.origin)));
+                const assetRes = await fetchMasterAsset(env, url, 'speaking', session.test_id);
                 const master = assetRes.ok ? await assetRes.json() : null;
 
                 return json(request, env, {
@@ -4149,5 +4163,6 @@ export {
     timingSafeEqualHex,
     getTokenPrefixPepper,
     hashTokenPrefix,
-    resolveAdminLicense
+    resolveAdminLicense,
+    fetchMasterAsset
 };
