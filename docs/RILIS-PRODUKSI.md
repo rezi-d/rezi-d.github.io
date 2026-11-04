@@ -43,7 +43,7 @@ npx wrangler secret put AUDIO_STREAM_SECRET
 
 ### Rincian Fungsi Secret:
 - `TEACHER_KEY`: Kunci otentikasi guru untuk mengakses rekapitulasi nilai dan penilaian esai/speaking.
-- `ADMIN_KEY`: Kunci administratif tingkat tinggi untuk pengelolaan lisensi dan penghapusan data GDPR/UU PDP.
+- `ADMIN_KEY`: Kunci administratif tingkat tinggi untuk pengelolaan lisensi dan pembersihan data uji.
 - `IP_PEPPER`: Salt pepper HMAC khusus untuk membuntukan alamat IP pada activation audit log.
 - `TOKEN_PREFIX_PEPPER`: Salt pepper HMAC untuk masking awalan token lisensi pada rate limiting dan log.
 - `AUDIO_STREAM_SECRET`: Secret penandatangan token streaming audio privat Speaking (HMAC SHA-256 terikat `recording_id`).
@@ -125,10 +125,15 @@ npx wrangler d1 execute kimia-lisensi --remote --command "SELECT 'listening_sess
 - **Backend API & Aset Privat:** Dilayani oleh Cloudflare Worker `kimia-snbt-api` (`worker/`). Aset master soal di `./premium` dilindungi oleh `run_worker_first: true`.
 - **Frontend Publik:** Dilayani sebagai situs statis di **GitHub Pages** (repositori `rezi-d/rezi-d.github.io` dengan custom domain `kimia.ajarkita.my.id`).
 
+> ⚠️ **PERINGATAN ARSITEKTUR & KEAMANAN KONTEN PREMIUM:**
+> Frontend situs dan folder `worker/` berada di dalam repositori GitHub Pages (`rezi-d/rezi-d.github.io`) yang kemungkinan berstatus **publik** (dapat dilihat/diakses bebas).
+> - Seluruh konten premium (soal ujian, kunci jawaban, audio listening, dan transkrip untuk Mock 2 ke atas) **DILARANG KERAS DI-COMMIT KE DALAM REPOSITORI PUBLIK INI**.
+> - Sebelum konten Mock 2 ditambahkan di masa mendatang, seluruh aset konten premium tersebut **wajib disimpan di media penyimpanan privat di luar repositori publik** (misalnya Cloudflare R2 privat, storage bucket terenkripsi, atau disajikan terproteksi melalui Worker endpoint dengan otentikasi ketat). Jangan sekali-kali menaruh berkas master JSON atau audio MP3 Mock 2 di folder publik frontend.
+
 ### Urutan Eksekusi Deploy:
 
 #### Langkah 5.1: Buat Anchor Tag di Commit Stabil Terakhir (SEBELUM Langkah Rilis)
-Sebelum melakukan build atau deploy, buat tag pada commit stabil terakhir sebagai jangkar rollback yang presisi:
+Sebelum melakukan build, pengujian rilis, atau deploy apa pun, buat tag pada commit stabil terakhir sebagai jangkar rollback yang presisi:
 ```bash
 # Periksa hash commit stabil terakhir
 git log -1 --format="%h %s"
@@ -138,34 +143,52 @@ git tag pre-multi-test <COMMIT_STABIL_TERAKHIR>
 git push origin pre-multi-test
 ```
 
-#### Langkah 5.2: Deploy Backend Cloudflare Worker
+#### Langkah 5.2: Jalankan Seluruh Suite Pengujian Otomatis (Wajib Lulus ≥ 212)
+Jalankan pengujian regresi dan integrasi multi-tes:
 ```bash
-cd worker
-npm run deploy
+npm test
 ```
-*Pastikan output deployment menunjukkan status `Success` dan mendaftarkan trigger cron `0 19 * * *`.*
+*Syarat Mutlak: Seluruh rangkaian tes (saat ini 215 tes di 30 berkas tes) wajib lulus 100% tanpa ada kegagalan sama sekali. Tidak boleh berada di bawah 212 tes.*
 
-#### Langkah 5.3: Audit Pra-Commit Frontend (Pemeriksaan Bebas Secret)
-Kembali ke root repositori dan periksa perubahan berkas:
+#### Langkah 5.3: Audit Bebas Secret pada Perubahan Berkas
+Periksa status dan diff repositori untuk memastikan kebersihan kode:
 ```bash
-cd ..
 git status
 git diff
 ```
-*Pastikan tidak ada kunci rahasia, secret token asli, atau berkas dump SQL cadangan yang belum di-ignore.*
+*Pastikan tidak ada kunci rahasia (API key, secret), token autentik, maupun file cadangan database SQL (`backups/*.sql`) yang belum di-ignore.*
 
-#### Langkah 5.4: Git Add, Commit, Tag Rilis, & Push
+#### Langkah 5.4: Git Add dan Commit Rilis
+Tambahkan berkas yang telah diaudit dan buat commit rilis:
 ```bash
 # Tambahkan berkas yang telah diverifikasi
 git add .gitignore docs/ ielts/ worker/ tests/
 
 # Buat commit rilis produksi
 git commit -m "feat(release): rilis infrastruktur multi-tes IELTS v1.4.0-multi-test"
+```
+
+#### Langkah 5.5: Deploy Backend Cloudflare Worker
+Deploy Cloudflare Worker terlebih dahulu:
+```bash
+cd worker
+npm run deploy
+```
+*Pastikan output deployment menunjukkan status `Success`.*
+
+> 💡 **MENGAPA WORKER DIDELOY LEBIH DULU DARI FRONTEND?**
+> Worker versi baru bersifat **kompatibel ke belakang (backward-compatible)** dengan frontend lama. Worker baru secara otomatis menganggap setiap request tanpa parameter `test` sebagai `test1`, dan skema database D1 telah disiapkan pada Langkah 4.
+> Sebaliknya, jika frontend baru dideploy lebih dahulu, pengguna yang membuka halaman baru bisa mengirim parameter multi-tes (`test=2`) ke Worker lama yang belum mengenali rute, validasi, atau normalisasi multi-tes, sehingga berisiko menimbulkan error 400/500 bagi pengguna aktif.
+
+#### Langkah 5.6: Buat Tag Rilis dan Push Frontend ke GitHub Pages
+Setelah Worker aktif dan terverifikasi berjalan normal, dorong frontend ke repositori:
+```bash
+cd ..
 
 # Buat tag rilis versi produksi
 git tag -a v1.4.0-multi-test -m "Rilis Infrastruktur Multi-Tes IELTS Tahap 4 (Ready for Content)"
 
-# Dorong commit dan tag ke GitHub Pages
+# Dorong commit rilis dan tag ke GitHub Pages
 git push origin main --tags
 ```
 
@@ -182,23 +205,35 @@ Lakukan verifikasi operasional langsung pada domain produksi (`https://kimia.aja
 | **1. SNBT & Kimia Lama Normal** | Buka halaman materi Kimia dan simulasi UTBK-SNBT (`/snbt/`). Coba aktivasi token SNBT jika ada. | Halaman terbuka normal, bank soal SNBT berfungsi, otentikasi SNBT tidak terganggu oleh perubahan IELTS. |
 | **2. Mock 1 Bebas Token & Audio** | Buka `/ielts/listening-mock-test.html?test=1`. Klik "Putar Tes Suara", isi nama `UJI-RILIS` & mulai sesi. | Berjalan normal tanpa token, audio Section 1 berputar lancar tanpa error network. |
 | **3. Pilihan Tes Multi-Tes** | Buka `/ielts/index.html`. Klik tab `Mock Test 1` lalu klik tab `Mock Test 2`. | Tab Mock 1 berlabel "Gratis". Tab Mock 2 berlabel "Segera Hadir" dengan kartu tes nonaktif. |
-| **4. Guard Halaman Start Mock 2** | Buka URL langsung `/ielts/writing-mock-test.html?test=2` (coba dalam mode login lisensi dan tanpa login). | Muncul kotak pemberitahuan `"Simulasi Mock Test 2 Segera Hadir"`, form submit disembunyikan, dan tidak ada baris sesi kosong di D1. |
-| **5. Blokir Aset Statis Premium** | Buka URL berkas soal master langsung di browser: `https://kimia-snbt-api.kimia-ajarkita.workers.dev/listening/test2-master.json`. | **Wajib ditolak `HTTP 403 Forbidden` (BUKAN `404 Not Found`).**<br/>*(Catatan: Respons 403 membuktikan berkas ada dan berhasil dicegat oleh Worker assets `run_worker_first`. Jika 404, routing atau path berkas bermasalah).* |
+| **4. Guard Halaman Start Mock 2** | 1. Buka URL langsung `/ielts/writing-mock-test.html?test=2` (coba dengan login lisensi maupun tanpa login).<br/>2. Jalankan query D1 untuk verifikasi tidak adanya baris phantom:<br/>`npx wrangler d1 execute kimia-lisensi --remote --command "SELECT 'listening_sessions' AS tbl, COUNT(*) AS count_test2 FROM listening_sessions WHERE test_id = 'test2' UNION ALL SELECT 'reading_sessions', COUNT(*) FROM reading_sessions WHERE test_id = 'test2' UNION ALL SELECT 'writing_sessions', COUNT(*) FROM writing_sessions WHERE test_id = 'test2' UNION ALL SELECT 'speaking_sessions', COUNT(*) FROM speaking_sessions WHERE test_id = 'test2';"` | Muncul kotak pemberitahuan `"Simulasi Mock Test 2 Segera Hadir"`, form submit disembunyikan, dan query database menghasilkan `count_test2 = 0` pada seluruh tabel sesi. |
+| **5. Blokir Aset Statis Premium (Filter Pola Nama)** | 1. Buka URL pola master terduga: `curl -i https://kimia-snbt-api.kimia-ajarkita.workers.dev/listening/test2-master.json`<br/>2. Buka URL pola master acak: `curl -i https://kimia-snbt-api.kimia-ajarkita.workers.dev/listening/xyz-master.json` | **Kedua URL wajib ditolak `HTTP 403 Forbidden` (BUKAN `404 Not Found`).**<br/>*(Catatan Penting: Respons 403 bukan bukti bahwa berkas fisik ada di server. Filter keamanan Worker assets `run_worker_first: true` bekerja berdasarkan pencocokan pola nama berkas privat seperti `/*-master.json` atau `/premium/*`. Uji dengan path acak `/listening/xyz-master.json` membuktikan bahwa pencegatan pola aktif terlepas dari keberadaan berkas).* |
 | **6. Penolakan API Mock 2 Tanpa Token** | Jalankan via curl: `curl -i -X POST https://kimia-snbt-api.kimia-ajarkita.workers.dev/listening/start -H "Content-Type: application/json" -d '{"testId":"test2","nama":"UJI-RILIS","kelas":"UJI-PRODUKSI"}'`. | Wajib ditolak `HTTP 401 Unauthorized` dengan JSON `{"ok":false,"reason":"token_required"}`. |
 | **7. Rekap Guru & Filter Multi-Tes** | Akses `/ielts/rekap.html` dengan kunci guru sah (`?key=...`). | Dashboard terbuka, widget pemantauan kapasitas D1 tampil, dan filter dropdown tes (`Semua`, `Mock 1`, `Mock 2`) berfungsi normal. |
-| **8. Pertahanan Endpoint Admin** | Buka `https://kimia-snbt-api.kimia-ajarkita.workers.dev/admin/list` tanpa header otorisasi. | Wajib ditolak `HTTP 401` / `HTTP 403` Unauthorized secara instan. |
-| **9. Verifikasi Trigger Cron** | Periksa jadwal tugas cron retention worker via terminal: `npx wrangler triggers list` (atau via Cloudflare Dashboard). | Cron `0 19 * * *` (pukul 02:00 WIB) terdaftar aktif. |
+| **8. Pertahanan Endpoint Admin** | 1. Akses `https://kimia-snbt-api.kimia-ajarkita.workers.dev/admin/list` tanpa header otorisasi.<br/>2. *(Opsional uji otorisasi)* Masukkan kunci admin secara aman tanpa pencatatan terminal:<br/>`read -s ADMIN_KEY`<br/>`curl -i https://kimia-snbt-api.kimia-ajarkita.workers.dev/admin/list -H "Authorization: Bearer $ADMIN_KEY"`<br/>`unset ADMIN_KEY` | Akses tanpa kunci wajib ditolak `HTTP 401`/`HTTP 403` secara instan. Akses dengan `$ADMIN_KEY` mengembalikan data JSON lisensi dengan aman, dan variabel lingkungan langsung dibersihkan. |
+| **9. Verifikasi Trigger Cron** | Buka **Cloudflare Dashboard > Workers & Pages > `kimia-snbt-api` > Settings > Triggers**. | Jadwal cron retensi berkala `0 19 * * *` (setiap hari pukul 02:00 WIB / 19:00 UTC) terdaftar aktif dalam daftar Cron Triggers. |
 | **10. Verifikasi Cache-Buster di Incognito** | Buka tab **Incognito / Private Window**, akses `/ielts/writing-mock-test.html`, buka inspect DevTools Network tab. | Berkas skrip termuat dengan query string `?v=20261104f` tanpa tersangkut cache usang. |
 
 ### Pembersihan Data Uji `UJI-RILIS` Pasca Smoke Test:
-Setelah pengujian selesai, bersihkan baris data pengujian melalui endpoint admin:
+
+> ⚠️ **CATATAN INVESTIGASI ENDPOINT `/admin/delete-customer`:**
+> Endpoint `/admin/delete-customer` dirancang khusus untuk penghapusan lisensi pelanggan berdasarkan identifier lisensi (`id`, `wa`, atau `token`). Endpoint tersebut **TIDAK MENDUKUNG** pencarian atau penghapusan berdasarkan nama/kelas siswa sesi ad-hoc tanpa lisensi. Oleh karena itu, penghapusan data uji `UJI-RILIS` dilakukan langsung melalui perintah query Cloudflare D1.
+
+#### Langkah 1: Tampilkan Baris Data Uji (SELECT):
+Jalankan query untuk memeriksa baris data sesi yang dibuat oleh pengujian:
 ```bash
-curl -X POST https://kimia-snbt-api.kimia-ajarkita.workers.dev/admin/delete-customer \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <ADMIN_KEY>" \
-  -d '{"dry_run": false, "confirm": true, "nama": "UJI-RILIS", "kelas": "UJI-PRODUKSI"}'
+npx wrangler d1 execute kimia-lisensi --remote --command "SELECT 'listening_sessions' AS tbl, id, nama_peserta, kelas, started_at FROM listening_sessions WHERE nama_peserta = 'UJI-RILIS' AND kelas = 'UJI-PRODUKSI' UNION ALL SELECT 'reading_sessions', id, nama_peserta, kelas, started_at FROM reading_sessions WHERE nama_peserta = 'UJI-RILIS' AND kelas = 'UJI-PRODUKSI' UNION ALL SELECT 'writing_sessions', id, nama_peserta, kelas, started_at FROM writing_sessions WHERE nama_peserta = 'UJI-RILIS' AND kelas = 'UJI-PRODUKSI' UNION ALL SELECT 'speaking_sessions', id, nama_peserta, kelas, started_at FROM speaking_sessions WHERE nama_peserta = 'UJI-RILIS' AND kelas = 'UJI-PRODUKSI';"
 ```
-*Periksa kembali `/ielts/rekap.html` untuk memastikan baris `UJI-RILIS` telah bersih.*
+*Catat ID dan jumlah baris sesi uji yang ditemukan.*
+
+#### Langkah 2: Hapus Baris Data Uji dengan Kondisi yang Persis Sama (DELETE):
+Eksekusi penghapusan pada keempat tabel sesi:
+```bash
+npx wrangler d1 execute kimia-lisensi --remote --command "DELETE FROM listening_sessions WHERE nama_peserta = 'UJI-RILIS' AND kelas = 'UJI-PRODUKSI'; DELETE FROM reading_sessions WHERE nama_peserta = 'UJI-RILIS' AND kelas = 'UJI-PRODUKSI'; DELETE FROM writing_sessions WHERE nama_peserta = 'UJI-RILIS' AND kelas = 'UJI-PRODUKSI'; DELETE FROM speaking_sessions WHERE nama_peserta = 'UJI-RILIS' AND kelas = 'UJI-PRODUKSI';"
+```
+*(Catatan: Catat jumlah baris yang terhapus dari eksekusi perintah di atas).*
+
+#### Langkah 3: Verifikasi Penghapusan:
+Jalankan kembali query SELECT pada Langkah 1 untuk memastikan seluruh tabel sesi mengembalikan 0 baris untuk identitas `UJI-RILIS` & `UJI-PRODUKSI`. Periksa pula dashboard `/ielts/rekap.html` untuk memastikan tabel rekapitulasi guru telah bersih dari entri uji.
 
 ---
 
@@ -263,14 +298,15 @@ Simpan rekaman eksekusi ini sebagai bukti serah terima operasional rilis:
 1. SNBT & Kimia Lama Normal        : [ LULUS / GAGAL ]
 2. Mock 1 Bebas Token & Audio      : [ LULUS / GAGAL ]
 3. Pilihan Tes Multi-Tes (/ielts/) : [ LULUS / GAGAL ]
-4. Guard Start Mock 2 (?test=2)    : [ LULUS / GAGAL ]
-5. Blokir Aset Statis (Wajib 403)  : [ LULUS / GAGAL ]
+4. Guard Start Mock 2 (?test=2)    : [ LULUS / GAGAL ] (count_test2 = 0)
+5. Blokir Aset Statis (Wajib 403)  : [ LULUS / GAGAL ] (pola & acak tertolak 403)
 6. Penolakan API Mock 2 (Wajib 401): [ LULUS / GAGAL ]
 7. Rekap Guru & Filter Multi-Tes   : [ LULUS / GAGAL ]
 8. Pertahanan Endpoint /admin/*    : [ LULUS / GAGAL ]
-9. Trigger Cron 0 19 * * * Terdaftar: [ LULUS / GAGAL ]
+9. Trigger Cron Dashboard Cloudflare: [ LULUS / GAGAL ] (0 19 * * *)
 10. Cache-Buster v=20261104f Incognito: [ LULUS / GAGAL ]
 
+- Jumlah Baris UJI-RILIS Dihapus   : [ ... baris ]
 - Pembersihan Baris UJI-RILIS      : [ SUDAH DIBERSIHKAN ]
 - Kesimpulan Rilis                 : [ SUKSES OPERASIONAL / ROLLBACK ]
 ```
