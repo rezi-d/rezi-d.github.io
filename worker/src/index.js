@@ -13,7 +13,27 @@
 // =================================================================
 
 import { RETENTION_CONFIG } from './retention-config.js';
-import { PACKAGES_CONFIG, getPackageDetails } from './packages-config.js';
+import { PACKAGES_CONFIG, getPackageDetails, isFreeMockTest } from './packages-config.js';
+
+function extractRequestToken(request, body = null, url = null) {
+    const authHeader = request.headers.get('Authorization') || '';
+    if (authHeader.toLowerCase().startsWith('bearer ')) {
+        const t = authHeader.slice(7).trim();
+        if (t) return t;
+    }
+    const xLicense = request.headers.get('X-License-Token') || request.headers.get('X-Token');
+    if (xLicense && xLicense.trim()) return xLicense.trim();
+    if (body && typeof body.token === 'string' && body.token.trim()) {
+        return body.token.trim();
+    }
+    if (body && typeof body.licenseToken === 'string' && body.licenseToken.trim()) {
+        return body.licenseToken.trim();
+    }
+    if (url && url.searchParams && url.searchParams.get('token')) {
+        return url.searchParams.get('token').trim();
+    }
+    return '';
+}
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // tanpa 0/O/1/I
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -1432,6 +1452,18 @@ export default {
                     return json(request, env, { ok: false, error: 'Kelas wajib diisi (misal: 12 MIPA 1).' }, 400);
                 }
 
+                // Validasi lisensi untuk paket tes premium (Mock 2 dst.)
+                if (!isFreeMockTest(testId)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, deviceId, true, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
+                }
+
                 // Ambil master data soal dari Assets
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/listening/${testId}-master.json`, url.origin)));
                 if (!assetRes.ok) {
@@ -1459,6 +1491,17 @@ export default {
                 }
 
                 if (session) {
+                    if (!isFreeMockTest(session.test_id)) {
+                        const token = extractRequestToken(request, body, url);
+                        if (!token) {
+                            return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                        }
+                        const auth = await authorize(env, token, deviceId, false, 'ielts');
+                        if (!auth.ok) {
+                            return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                        }
+                    }
+
                     // Jika sesi sudah disubmit sebelumnya
                     if (session.status === 'submitted') {
                         return json(request, env, {
@@ -1526,12 +1569,22 @@ export default {
                     return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
                 }
 
-                const session = await env.DB.prepare('SELECT id, device_id, status FROM listening_sessions WHERE id = ?').bind(sessionId).first();
+                const session = await env.DB.prepare('SELECT id, device_id, status, test_id FROM listening_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
                 }
                 if (!requestDeviceId || session.device_id !== requestDeviceId) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
+                }
+                if (!isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, requestDeviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 await env.DB.prepare(`
@@ -1568,6 +1621,18 @@ export default {
                 }
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes listening ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
+
+                // Validasi lisensi untuk paket tes premium (Mock 2 dst.)
+                if (!isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, requestDeviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/listening/${session.test_id}-master.json`, url.origin)));
@@ -1666,6 +1731,18 @@ export default {
                     return json(request, env, { ok: false, error: 'Kelas wajib diisi (misal: 12 MIPA 1).' }, 400);
                 }
 
+                // Validasi lisensi untuk paket tes premium (Mock 2 dst.)
+                if (!isFreeMockTest(testId)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, deviceId, true, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
+                }
+
                 // Ambil master data soal reading dari Assets
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/reading/${testId}-master.json`, url.origin)));
                 if (!assetRes.ok) {
@@ -1695,6 +1772,17 @@ export default {
                 const testDurationSeconds = (masterData.duration_minutes || 60) * 60;
 
                 if (session) {
+                    if (!isFreeMockTest(session.test_id)) {
+                        const token = extractRequestToken(request, body, url);
+                        if (!token) {
+                            return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                        }
+                        const auth = await authorize(env, token, deviceId, false, 'ielts');
+                        if (!auth.ok) {
+                            return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                        }
+                    }
+
                     // Jika sesi sudah disubmit sebelumnya
                     if (session.status === 'submitted') {
                         return json(request, env, {
@@ -1769,12 +1857,22 @@ export default {
                     return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
                 }
 
-                const session = await env.DB.prepare('SELECT id, device_id, status FROM reading_sessions WHERE id = ?').bind(sessionId).first();
+                const session = await env.DB.prepare('SELECT id, device_id, status, test_id FROM reading_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes reading tidak ditemukan.' }, 404);
                 }
                 if (!requestDeviceId || session.device_id !== requestDeviceId) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
+                }
+                if (!isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, requestDeviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 await env.DB.prepare(`
@@ -1811,6 +1909,18 @@ export default {
                 }
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes reading ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
+
+                // Validasi lisensi untuk paket tes premium (Mock 2 dst.)
+                if (!isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, requestDeviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/reading/${session.test_id}-master.json`, url.origin)));
@@ -1918,6 +2028,18 @@ export default {
                     return json(request, env, { ok: false, error: 'Kelas wajib diisi (misal: 12 MIPA 1).' }, 400);
                 }
 
+                // Validasi lisensi untuk paket tes premium (Mock 2 dst.)
+                if (!isFreeMockTest(testId)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, deviceId, true, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
+                }
+
                 // Ambil master data soal writing dari Assets
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${testId}-master.json`, url.origin)));
                 if (!assetRes.ok) {
@@ -1945,6 +2067,17 @@ export default {
                 const testDurationSeconds = (masterData.duration_minutes || 60) * 60;
 
                 if (session) {
+                    if (!isFreeMockTest(session.test_id)) {
+                        const token = extractRequestToken(request, body, url);
+                        if (!token) {
+                            return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                        }
+                        const auth = await authorize(env, token, deviceId, false, 'ielts');
+                        if (!auth.ok) {
+                            return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                        }
+                    }
+
                     if (session.status === 'submitted' || session.status === 'graded') {
                         return json(request, env, {
                             ok: true,
@@ -2031,12 +2164,22 @@ export default {
                     return json(request, env, { ok: false, error: 'Session ID tidak valid.' }, 400);
                 }
 
-                const session = await env.DB.prepare('SELECT id, device_id, status FROM writing_sessions WHERE id = ?').bind(sessionId).first();
+                const session = await env.DB.prepare('SELECT id, device_id, status, test_id FROM writing_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tes writing tidak ditemukan.' }, 404);
                 }
                 if (!requestDeviceId || session.device_id !== requestDeviceId) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
+                }
+                if (!isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, requestDeviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 const t1Words = task1Text.trim() ? task1Text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
@@ -2079,6 +2222,18 @@ export default {
                 }
                 if (session.status !== 'in_progress') {
                     return json(request, env, { ok: false, error: 'Sesi tes writing ini sudah pernah disubmit atau telah dinilai.' }, 409);
+                }
+
+                // Validasi lisensi untuk paket tes premium (Mock 2 dst.)
+                if (!isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, requestDeviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
@@ -2146,6 +2301,16 @@ export default {
                 const isOwner = deviceId && session.device_id === deviceId;
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Anda tidak memiliki izin melihat sesi ini.' }, 403);
+                }
+                if (!isTeacher && !isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, null, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, deviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/writing/${session.test_id}-master.json`, url.origin)));
@@ -2272,6 +2437,18 @@ export default {
                     return json(request, env, { ok: false, error: 'Kelas wajib diisi (misal: 12 MIPA 1).' }, 400);
                 }
 
+                // Validasi lisensi untuk paket tes premium (Mock 2 dst.)
+                if (!isFreeMockTest(testId)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, deviceId, true, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
+                }
+
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${testId}-master.json`, url.origin)));
                 if (!assetRes.ok) {
                     return json(request, env, { ok: false, error: 'Paket tes speaking tidak ditemukan.' }, 404);
@@ -2296,6 +2473,17 @@ export default {
                 }
 
                 if (session) {
+                    if (!isFreeMockTest(session.test_id)) {
+                        const token = extractRequestToken(request, body, url);
+                        if (!token) {
+                            return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                        }
+                        const auth = await authorize(env, token, deviceId, false, 'ielts');
+                        if (!auth.ok) {
+                            return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                        }
+                    }
+
                     if (session.status === 'submitted' || session.status === 'graded') {
                         return json(request, env, {
                             ok: true,
@@ -2431,6 +2619,18 @@ export default {
                 if (!requestDeviceId || session.device_id !== requestDeviceId) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Device ID tidak cocok dengan sesi ini.' }, 403);
                 }
+                const testIdRow = await env.DB.prepare('SELECT test_id FROM speaking_sessions WHERE id = ?').bind(sessionId).first().catch(() => null);
+                const speakingTestId = testIdRow?.test_id || session.test_id || 'speaking1';
+                if (!isFreeMockTest(speakingTestId)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, requestDeviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
+                }
 
                 // 4. Proteksi Server: Tolak unggahan audio dari paket mandiri / self_study
                 const pkgType = String(session.package_type || 'teacher').trim().toLowerCase();
@@ -2514,6 +2714,18 @@ export default {
                     return json(request, env, { ok: false, error: 'Sesi tes speaking ini sudah pernah disubmit atau telah dinilai.' }, 409);
                 }
 
+                // Validasi lisensi untuk paket tes premium (Mock 2 dst.)
+                if (!isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, body, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, requestDeviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
+                }
+
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${session.test_id}-master.json`, url.origin)));
                 const master = assetRes.ok ? await assetRes.json() : null;
 
@@ -2566,6 +2778,16 @@ export default {
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Anda tidak memiliki izin melihat sesi ini.' }, 403);
                 }
+                if (!isTeacher && !isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, null, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, deviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
+                }
 
                 const assetRes = await env.ASSETS.fetch(new Request(new URL(`/speaking/${session.test_id}-master.json`, url.origin)));
                 const master = assetRes.ok ? await assetRes.json() : null;
@@ -2606,6 +2828,16 @@ export default {
                 const isOwner = deviceId && session.device_id === deviceId;
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Tidak memiliki izin akses sesi ini.' }, 401);
+                }
+                if (!isTeacher && !isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, null, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk mengakses detail tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, deviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 const recRows = await env.DB.prepare(`
@@ -2713,7 +2945,7 @@ export default {
                     return json(request, env, { ok: false, error: 'sessionId dan questionId wajib diberikan.' }, 400);
                 }
 
-                const session = await env.DB.prepare('SELECT device_id FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
+                const session = await env.DB.prepare('SELECT device_id, test_id FROM speaking_sessions WHERE id = ?').bind(sessionId).first();
                 if (!session) {
                     return json(request, env, { ok: false, error: 'Sesi tidak ditemukan.' }, 404);
                 }
@@ -2722,6 +2954,16 @@ export default {
                 const isOwner = deviceId && session.device_id === deviceId;
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid atau token audio kedaluwarsa.' }, 401);
+                }
+                if (!isTeacher && !isFreeMockTest(session.test_id)) {
+                    const token = extractRequestToken(request, null, url);
+                    if (!token) {
+                        return json(request, env, { ok: false, error: 'Akses ditolak: Lisensi aktif diperlukan untuk memutar audio tes ini.', reason: 'token_required' }, 401);
+                    }
+                    const auth = await authorize(env, token, deviceId, false, 'ielts');
+                    if (!auth.ok) {
+                        return json(request, env, { ok: false, error: auth.error, reason: auth.reason }, auth.status);
+                    }
                 }
 
                 const rec = await env.DB.prepare(`

@@ -9,6 +9,11 @@ export const PACKAGES_CONFIG = {
         id: "ielts",
         name: "Paket IELTS Mandiri",
         tagline: "Latihan Intensif 4 Modul Mandiri (Listening, Reading, Writing, Speaking)",
+        mock_tests: {
+            test1: { id: "test1", is_free: true, label: "Mock Test 1" },
+            test2: { id: "test2", is_free: false, label: "Mock Test 2" },
+            test3: { id: "test3", is_free: false, label: "Mock Test 3" }
+        },
         plans: {
             "30_days": {
                 plan_id: "ielts_30",
@@ -116,4 +121,31 @@ export function getPackageDetails(packageType = 'ielts', planKey = '30_days') {
         features: pkg.features,
         excluded_features: pkg.excluded_features || []
     };
+}
+
+export function isFreeMockTest(testId) {
+    if (!testId) return true; // Default fallback: Mock 1 gratis
+    const raw = String(testId).trim().toLowerCase();
+
+    // Alias resmi Mock 1 di seluruh modul (Listening, Reading, Writing, Speaking)
+    if (raw === '1' || raw === 'test1' || raw === 'reading1' || raw === 'writing1' || raw === 'speaking1' || raw === 'speaking_test1') {
+        return true;
+    }
+
+    // Cek konfigurasi eksplisit jika terdaftar
+    const mockTests = PACKAGES_CONFIG?.ielts?.mock_tests;
+    if (mockTests && mockTests[raw] !== undefined) {
+        return Boolean(mockTests[raw].is_free);
+    }
+
+    // Pola angka akhir: test1/reading1/writing1/speaking1 -> gratis; test2/reading2/dst -> berbayar
+    const match = raw.match(/\d+$/);
+    if (match) {
+        const num = parseInt(match[0], 10);
+        if (num === 1) return true;
+        if (num > 1) return false;
+    }
+
+    // Default aman tertutup (fail-closed) untuk tes baru tak dikenal: butuh lisensi
+    return false;
 }

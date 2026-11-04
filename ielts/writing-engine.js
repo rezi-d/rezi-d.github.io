@@ -43,6 +43,7 @@
         let dev = localStorage.getItem('ielts_shared_device_id');
         if (!dev) {
             dev = localStorage.getItem('ielts_listening_device_id') ||
+                  localStorage.getItem('reading_device_id') ||
                   localStorage.getItem('ielts_reading_device_id') ||
                   localStorage.getItem('ielts_writing_device_id') ||
                   localStorage.getItem('ielts_speaking_device_id');
@@ -54,17 +55,76 @@
         return dev;
     }
 
-    // --- Inisialisasi DOM ---
-    document.addEventListener('DOMContentLoaded', () => {
+    function getIeltsToken() {
+        return localStorage.getItem('ielts_premium_token') || localStorage.getItem('ielts_token') || '';
+    }
+
+    // --- Inisialisasi DOM Aman (Mencegah Lewatnya DOMContentLoaded di Safari) ---
+    function onDomReady(fn) {
+        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+    }
+
+    onDomReady(() => {
         initEvents();
+        prefillUserData();
         checkExistingSession();
     });
 
+    function prefillUserData() {
+        const namaInput = document.getElementById('input-writing-nama');
+        const kelasInput = document.getElementById('input-writing-kelas');
+        if (!namaInput && !kelasInput) return;
+
+        const savedNama = localStorage.getItem('ielts_student_name') || '';
+        const savedKelas = localStorage.getItem('ielts_student_class') || '';
+
+        if (namaInput && !namaInput.value && savedNama) {
+            namaInput.value = savedNama;
+        }
+        if (kelasInput && !kelasInput.value && savedKelas) {
+            kelasInput.value = savedKelas;
+        }
+    }
+
     function initEvents() {
-        // Form Mulai Tes
+        // Form & Tombol Mulai Tes
         const startForm = document.getElementById('form-start-writing');
+        const startBtn = document.getElementById('btn-start-writing-submit');
+        const namaInput = document.getElementById('input-writing-nama');
+        const kelasInput = document.getElementById('input-writing-kelas');
+
         if (startForm) {
             startForm.addEventListener('submit', handleStartExam);
+        }
+        if (startBtn) {
+            startBtn.addEventListener('click', (e) => {
+                // Pastikan jika tombol ditekan langsung di luar event submit tetap memicu validasi & start
+                if (startForm) {
+                    // Biarkan submit form berjalan normal jika didukung
+                } else {
+                    handleStartExam(e);
+                }
+            });
+        }
+
+        // Hapus penanda error saat pengguna mulai mengetik
+        if (namaInput) {
+            namaInput.addEventListener('input', () => {
+                namaInput.classList.remove('border-rose-500', 'ring-2', 'ring-rose-200');
+                const errNotice = document.getElementById('writing-start-error');
+                if (errNotice) errNotice.classList.add('hidden');
+            });
+        }
+        if (kelasInput) {
+            kelasInput.addEventListener('input', () => {
+                kelasInput.classList.remove('border-rose-500', 'ring-2', 'ring-rose-200');
+                const errNotice = document.getElementById('writing-start-error');
+                if (errNotice) errNotice.classList.add('hidden');
+            });
         }
 
         // Tombol Resume / Discard
@@ -140,8 +200,11 @@
         }
 
         try {
-            const res = await fetch(`${API_BASE}/writing/status?sessionId=${encodeURIComponent(savedSessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}`, {
-                headers: { 'X-Device-Id': STATE.deviceId }
+            const token = getIeltsToken();
+            const headers = { 'X-Device-Id': STATE.deviceId };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+            const res = await fetch(`${API_BASE}/writing/status?sessionId=${encodeURIComponent(savedSessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}${token ? `&token=${encodeURIComponent(token)}` : ''}`, {
+                headers
             });
             if (res.ok) {
                 const data = await res.json();
@@ -170,28 +233,43 @@
 
     // --- Memulai Ujian Baru ---
     async function handleStartExam(e) {
-        e.preventDefault();
+        if (e && e.preventDefault) e.preventDefault();
         const namaInput = document.getElementById('input-writing-nama');
         const kelasInput = document.getElementById('input-writing-kelas');
         const startBtn = document.getElementById('btn-start-writing-submit');
         const errNotice = document.getElementById('writing-start-error');
 
         if (errNotice) errNotice.classList.add('hidden');
+        if (namaInput) namaInput.classList.remove('border-rose-500', 'ring-2', 'ring-rose-200');
+        if (kelasInput) kelasInput.classList.remove('border-rose-500', 'ring-2', 'ring-rose-200');
 
-        const nama = namaInput ? namaInput.value.trim() : '';
-        const kelas = kelasInput ? kelasInput.value.trim() : '';
+        const nama = (namaInput ? namaInput.value : '').trim();
+        const kelas = (kelasInput ? kelasInput.value : '').trim();
 
         if (nama.length < 2) {
-            showStartError('Nama lengkap wajib diisi minimal 2 karakter.');
+            showStartError('Silakan ketik Nama Lengkap Anda (minimal 2 karakter) untuk memulai simulasi.');
+            if (namaInput) {
+                namaInput.focus();
+                namaInput.classList.add('border-rose-500', 'ring-2', 'ring-rose-200');
+            }
             return;
         }
         if (kelas.length < 1) {
-            showStartError('Kelas wajib dipilih / diisi.');
+            showStartError('Silakan ketik Kelas / Kelompok Belajar Anda (misal: 12 MIPA 1 atau Mandiri).');
+            if (kelasInput) {
+                kelasInput.focus();
+                kelasInput.classList.add('border-rose-500', 'ring-2', 'ring-rose-200');
+            }
             return;
         }
 
         STATE.nama = nama;
         STATE.kelas = kelas;
+
+        try {
+            localStorage.setItem('ielts_student_name', nama);
+            localStorage.setItem('ielts_student_class', kelas);
+        } catch {}
 
         if (startBtn) {
             startBtn.disabled = true;
@@ -207,21 +285,26 @@
 
     async function startExamRequest(overrideSessionId = '') {
         const startBtn = document.getElementById('btn-start-writing-submit');
+        const token = getIeltsToken();
         const payload = {
             testId: STATE.testId,
             nama: STATE.nama || 'Peserta',
             kelas: STATE.kelas || 'Umum',
             deviceId: STATE.deviceId,
-            sessionId: overrideSessionId || STATE.sessionId || undefined
+            sessionId: overrideSessionId || STATE.sessionId || undefined,
+            token: token || undefined
         };
 
         try {
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-Device-Id': STATE.deviceId
+            };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
             const res = await fetch(`${API_BASE}/writing/start`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Device-Id': STATE.deviceId
-                },
+                headers,
                 body: JSON.stringify(payload)
             });
 
@@ -918,18 +1001,23 @@
             submitBtn.textContent = isAuto ? 'Waktu Habis, Mengirim...' : 'Mengirim Esai...';
         }
 
+        const token = getIeltsToken();
         try {
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-Device-Id': STATE.deviceId
+            };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
             const res = await fetch(`${API_BASE}/writing/submit`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Device-Id': STATE.deviceId
-                },
+                headers,
                 body: JSON.stringify({
                     sessionId: STATE.sessionId,
                     deviceId: STATE.deviceId,
                     task1Text: STATE.task1Text,
-                    task2Text: STATE.task2Text
+                    task2Text: STATE.task2Text,
+                    token: token || undefined
                 })
             });
 
@@ -1198,8 +1286,11 @@
         }
 
         try {
-            const res = await fetch(`${API_BASE}/writing/status?sessionId=${encodeURIComponent(STATE.sessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}`, {
-                headers: { 'X-Device-Id': STATE.deviceId }
+            const token = getIeltsToken();
+            const headers = { 'X-Device-Id': STATE.deviceId };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+            const res = await fetch(`${API_BASE}/writing/status?sessionId=${encodeURIComponent(STATE.sessionId)}&deviceId=${encodeURIComponent(STATE.deviceId)}${token ? `&token=${encodeURIComponent(token)}` : ''}`, {
+                headers
             });
             if (res.ok) {
                 const data = await res.json();

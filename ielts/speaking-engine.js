@@ -78,11 +78,36 @@
         return dev;
     }
 
-    // --- DOM Ready ---
-    document.addEventListener('DOMContentLoaded', () => {
+    function getIeltsToken() {
+        return localStorage.getItem('ielts_premium_token') || localStorage.getItem('ielts_token') || '';
+    }
+
+    // --- Inisialisasi DOM Aman (Mencegah Lewatnya DOMContentLoaded di Safari) ---
+    function onDomReady(fn) {
+        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+    }
+
+    onDomReady(() => {
         initEvents();
+        prefillUserData();
         checkExistingSession();
     });
+
+    function prefillUserData() {
+        const namaInput = document.getElementById('input-nama');
+        const kelasInput = document.getElementById('input-kelas');
+        if (!namaInput && !kelasInput) return;
+
+        const savedNama = localStorage.getItem('ielts_student_name') || '';
+        const savedKelas = localStorage.getItem('ielts_student_class') || '';
+
+        if (namaInput && !namaInput.value && savedNama) namaInput.value = savedNama;
+        if (kelasInput && !kelasInput.value && savedKelas) kelasInput.value = savedKelas;
+    }
 
     function initEvents() {
         // Mic check buttons
@@ -373,6 +398,10 @@
 
         STATE.nama = nama;
         STATE.kelas = kelas;
+        try {
+            localStorage.setItem('ielts_student_name', nama);
+            localStorage.setItem('ielts_student_class', kelas);
+        } catch {}
         errBox.classList.add('hidden');
 
         startExamSession(false);
@@ -393,20 +422,25 @@
             btnStart.innerHTML = '<span>Memuat Sesi Tes...</span>';
         }
 
+        const token = getIeltsToken();
         try {
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-Device-Id': STATE.deviceId
+            };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
             const res = await fetch(`${API_BASE}/speaking/start`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Device-Id': STATE.deviceId
-                },
+                headers,
                 credentials: 'omit',
                 body: JSON.stringify({
                     testId: STATE.testId,
                     nama: STATE.nama,
                     kelas: STATE.kelas,
                     deviceId: STATE.deviceId,
-                    sessionId: isResume ? STATE.sessionId : ''
+                    sessionId: isResume ? STATE.sessionId : '',
+                    token: token || undefined
                 })
             });
 
@@ -1085,18 +1119,23 @@
         const ok = confirm(confirmMsg);
         if (!ok) return;
 
+        const token = getIeltsToken();
         try {
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-Device-Id': STATE.deviceId
+            };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
             const res = await fetch(`${API_BASE}/speaking/submit`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Device-Id': STATE.deviceId
-                },
+                headers,
                 credentials: 'omit',
                 body: JSON.stringify({
                     sessionId: STATE.sessionId,
                     deviceId: STATE.deviceId,
-                    part2Notes: STATE.part2Notes || ''
+                    part2Notes: STATE.part2Notes || '',
+                    token: token || undefined
                 })
             });
 

@@ -57,12 +57,37 @@
         return dev;
     }
 
-    // --- Inisialisasi DOM & Event Listeners ---
-    document.addEventListener('DOMContentLoaded', () => {
+    function getIeltsToken() {
+        return localStorage.getItem('ielts_premium_token') || localStorage.getItem('ielts_token') || '';
+    }
+
+    // --- Inisialisasi DOM Aman (Mencegah Lewatnya DOMContentLoaded di Safari) ---
+    function onDomReady(fn) {
+        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+    }
+
+    onDomReady(() => {
         initSoundCheck();
         initStartForm();
+        prefillUserData();
         checkExistingSession();
     });
+
+    function prefillUserData() {
+        const namaInput = document.getElementById('input-nama-peserta');
+        const kelasInput = document.getElementById('input-kelas-peserta');
+        if (!namaInput && !kelasInput) return;
+
+        const savedNama = localStorage.getItem('ielts_student_name') || '';
+        const savedKelas = localStorage.getItem('ielts_student_class') || '';
+
+        if (namaInput && !namaInput.value && savedNama) namaInput.value = savedNama;
+        if (kelasInput && !kelasInput.value && savedKelas) kelasInput.value = savedKelas;
+    }
 
     // --- Sound Check ---
     let soundCheckAudio = null;
@@ -127,6 +152,11 @@
             STATE.nama = nama;
             STATE.kelas = kelas;
 
+            try {
+                localStorage.setItem('ielts_student_name', nama);
+                localStorage.setItem('ielts_student_class', kelas);
+            } catch {}
+
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<span>⏳</span> Mempersiapkan Ruang Ujian...';
 
@@ -186,20 +216,25 @@
 
     // --- Hubungi Server untuk Memulai Sesi ---
     async function startOrResumeSession(overrideSessionId) {
+        const token = getIeltsToken();
         const payload = {
             testId: STATE.testId,
             deviceId: STATE.deviceId,
             nama: STATE.nama || 'Peserta',
             kelas: STATE.kelas || 'Umum',
-            sessionId: overrideSessionId || STATE.sessionId || undefined
+            sessionId: overrideSessionId || STATE.sessionId || undefined,
+            token: token || undefined
         };
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'X-Device-Id': STATE.deviceId
+        };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
 
         const res = await fetch(`${API_BASE}/listening/start`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Device-Id': STATE.deviceId
-            },
+            headers,
             body: JSON.stringify(payload)
         });
 
@@ -862,17 +897,22 @@
         }
         if (STATE.autosaveTimer) clearInterval(STATE.autosaveTimer);
 
+        const token = getIeltsToken();
         try {
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-Device-Id': STATE.deviceId
+            };
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
             const res = await fetch(`${API_BASE}/listening/submit`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Device-Id': STATE.deviceId
-                },
+                headers,
                 body: JSON.stringify({
                     sessionId: STATE.sessionId,
                     deviceId: STATE.deviceId,
-                    answers: STATE.answers
+                    answers: STATE.answers,
+                    token: token || undefined
                 })
             });
 
