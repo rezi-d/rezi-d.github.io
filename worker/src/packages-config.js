@@ -52,7 +52,14 @@ export const PACKAGES_CONFIG = {
                 description: "Review performa audio speaking lengkap 3 part"
             },
             sla: "3–5 hari kerja",
-            quota: "Kuota terbatas per minggu",
+            quota: "Kuota terbatas per minggu (maks 20 review/minggu)",
+            max_weekly_quota: 20,
+            max_recordings_per_session: 15,
+            max_audio_file_bytes: 1048576, // 1 MB per file
+            max_session_audio_bytes: 4194304, // 4 MB total per sesi ujian
+            retention_graded_days: 14,
+            retention_ungraded_days: 60,
+            scores_retention: "permanent", // Nilai 4 kriteria & catatan guru tersimpan permanen
             disclaimer: "Berupa umpan balik latihan dengan estimasi band (4 kriteria), bukan skor resmi IELTS."
         }
     },

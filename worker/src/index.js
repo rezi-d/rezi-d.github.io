@@ -46,7 +46,7 @@ async function hmacSha256Hex(text, secret) {
 }
 
 function getIpPepper(env) {
-    return (env && (env.IP_PEPPER || env.ADMIN_KEY)) || 'ajarkita-ip-pepper-secret-2026';
+    return (env && env.IP_PEPPER) || 'ajarkita-ip-pepper-secret-2026';
 }
 
 async function getIpHash(ipRaw, env) {
@@ -231,17 +231,28 @@ async function authorize(env, token, deviceId, register, requiredPackage = null)
 
     if (!device) {
         if (!register) return { ok: false, status: 403, error: 'Perangkat ini belum terdaftar untuk lisensi tersebut.', reason: 'unregistered_device' };
-        const count = await env.DB.prepare('SELECT COUNT(*) AS n FROM devices WHERE license_id = ?').bind(lic.id).first();
-        if (count.n >= lic.max_devices) {
-            return {
-                ok: false,
-                status: 403,
-                error: `Batas ${lic.max_devices} perangkat untuk lisensi ini sudah tercapai. Hubungi admin untuk reset.`,
-                reason: 'max_devices_exceeded'
-            };
+        
+        // Poin 4: Perlindungan berbasis SQL Atomik mencegah race-condition melebihi max_devices
+        // Menggunakan conditional INSERT yang memeriksa COUNT(*) di dalam transaksi database tunggal
+        const insertRes = await env.DB.prepare(`
+            INSERT INTO devices (license_id, device_id, first_seen)
+            SELECT ?, ?, ?
+            WHERE (SELECT COUNT(*) FROM devices WHERE license_id = ?) < ?
+        `).bind(lic.id, deviceId, now, lic.id, lic.max_devices).run().catch(() => null);
+
+        const inserted = insertRes && ((insertRes.meta && insertRes.meta.changes > 0) || insertRes.changes > 0);
+        if (!inserted) {
+            const checkAgain = await env.DB.prepare('SELECT 1 AS ok FROM devices WHERE license_id = ? AND device_id = ?')
+                .bind(lic.id, deviceId).first().catch(() => null);
+            if (!checkAgain) {
+                return {
+                    ok: false,
+                    status: 403,
+                    error: `Batas ${lic.max_devices} perangkat untuk lisensi ini sudah tercapai. Hubungi admin untuk reset.`,
+                    reason: 'max_devices_exceeded'
+                };
+            }
         }
-        await env.DB.prepare('INSERT INTO devices (license_id, device_id, first_seen) VALUES (?, ?, ?)')
-            .bind(lic.id, deviceId, now).run();
     }
 
     return {
@@ -286,7 +297,7 @@ function isTeacherOrAdmin(request, env) {
 async function resolveAdminLicense(env, body) {
     if (!body || typeof body !== 'object') return null;
     let lic = null;
-    const id = parseInt(body.id, 10);
+    const id = parseInt(body.id || body.licenseId, 10);
     if (id && id > 0) {
         lic = await env.DB.prepare('SELECT id, nama, wa, package_type, duration_days, max_devices, revoked, expires_at FROM licenses WHERE id = ?').bind(id).first();
     }
@@ -294,6 +305,12 @@ async function resolveAdminLicense(env, body) {
         const norm = normalizeToken(body.token);
         const hash = await sha256Hex(norm);
         lic = await env.DB.prepare('SELECT id, nama, wa, package_type, duration_days, max_devices, revoked, expires_at FROM licenses WHERE token_hash = ?').bind(hash).first();
+    }
+    if (!lic && typeof body.wa === 'string' && body.wa.trim()) {
+        const cleanWa = body.wa.trim().replace(/[^0-9]/g, '');
+        if (cleanWa.length >= 8) {
+            lic = await env.DB.prepare('SELECT id, nama, wa, package_type, duration_days, max_devices, revoked, expires_at FROM licenses WHERE wa LIKE ?').bind(`%${cleanWa}%`).first();
+        }
     }
     return lic;
 }
@@ -513,6 +530,34 @@ async function ensureActivationSchema(env) {
     try {
         await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_activation_logs_time ON activation_logs(timestamp DESC)').run();
     } catch {}
+
+    // Poin 3: Pembersihan baris lama yang masih memuat awalan token asli (plaintext)
+    try {
+        await env.DB.prepare(`
+            UPDATE activation_logs
+            SET token_prefix = 'pfx_legacy_sanitized'
+            WHERE token_prefix NOT LIKE 'pfx_%' AND token_prefix != 'UNKNOWN'
+        `).run();
+        await env.DB.prepare(`
+            DELETE FROM activation_attempts
+            WHERE identifier LIKE 'pfx:%' AND identifier NOT LIKE 'pfx:pfx_%'
+        `).run();
+    } catch {}
+}
+
+function getTokenPrefixPepper(env) {
+    return (env && env.TOKEN_PREFIX_PEPPER) || 'ajarkita-token-prefix-pepper-2026';
+}
+
+async function hashTokenPrefix(rawPrefix, env) {
+    if (!rawPrefix || rawPrefix === 'UNKNOWN') return 'UNKNOWN';
+    const str = String(rawPrefix).trim().toUpperCase();
+    if (str.startsWith('pfx_') && str.length >= 12) {
+        return str;
+    }
+    const pepper = getTokenPrefixPepper(env);
+    const hashHex = await hmacSha256Hex(str, pepper);
+    return 'pfx_' + hashHex.slice(0, 12);
 }
 
 function extractTokenPrefix(rawToken) {
@@ -522,10 +567,11 @@ function extractTokenPrefix(rawToken) {
     return pfx.length >= 4 ? pfx : pfx.padEnd(4, '*');
 }
 
-async function checkActivationRateLimit(env, ipHash, tokenPrefix) {
+async function checkActivationRateLimit(env, ipHash, rawTokenPrefix) {
     const now = Date.now();
+    const blindedPrefix = await hashTokenPrefix(rawTokenPrefix, env);
     const ipKey = `ip:${ipHash}`;
-    const pfxKey = `pfx:${tokenPrefix}`;
+    const pfxKey = `pfx:${blindedPrefix}`;
 
     const [ipRow, pfxRow] = await Promise.all([
         env.DB.prepare('SELECT failed_count, locked_until FROM activation_attempts WHERE identifier = ?').bind(ipKey).first().catch(() => null),
@@ -557,17 +603,18 @@ async function checkActivationRateLimit(env, ipHash, tokenPrefix) {
     return { locked: false, failedCount: ipFails, delayMs };
 }
 
-async function recordActivationAttemptResult(env, ipHash, tokenPrefix, success, reason = '') {
+async function recordActivationAttemptResult(env, ipHash, rawTokenPrefix, success, reason = '') {
     const now = Date.now();
+    const blindedPrefix = await hashTokenPrefix(rawTokenPrefix, env);
     const ipKey = `ip:${ipHash}`;
-    const pfxKey = `pfx:${tokenPrefix}`;
+    const pfxKey = `pfx:${blindedPrefix}`;
 
-    // Log tanpa data pribadi (hanya ipHash, prefix, flag success, dan reason)
+    // Log tanpa data pribadi (hanya ipHash, blindedPrefix ter-HMAC, flag success, dan reason)
     try {
         await env.DB.prepare(`
             INSERT INTO activation_logs (timestamp, ip_hash, token_prefix, success, reason)
             VALUES (?, ?, ?, ?, ?)
-        `).bind(now, ipHash, tokenPrefix, success ? 1 : 0, String(reason || '')).run();
+        `).bind(now, ipHash, blindedPrefix, success ? 1 : 0, String(reason || '')).run();
     } catch {}
 
     if (success) {
@@ -594,7 +641,7 @@ async function recordActivationAttemptResult(env, ipHash, tokenPrefix, success, 
         } catch {}
 
         // Tambah hitungan gagal per prefix token (kunci 30 menit jika >= 10 gagal pada prefix yang sama)
-        if (tokenPrefix && tokenPrefix !== 'UNKNOWN') {
+        if (blindedPrefix && blindedPrefix !== 'UNKNOWN') {
             try {
                 const pfxRow = await env.DB.prepare('SELECT failed_count FROM activation_attempts WHERE identifier = ?').bind(pfxKey).first().catch(() => null);
                 const newPfxFails = ((pfxRow && pfxRow.failed_count) || 0) + 1;
@@ -823,9 +870,34 @@ function analyzeWritingStructure(t1, t2) {
     };
 }
 
-async function generateAudioToken(sessionId, questionId, secret, ttlSeconds = 600) {
-    const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
-    const payload = `${sessionId}:${questionId}:${exp}`;
+function timingSafeEqualHex(a, b) {
+    if (typeof a !== 'string' || typeof b !== 'string') return false;
+    if (a.length !== b.length) return false;
+    let mismatch = 0;
+    for (let i = 0; i < a.length; i++) {
+        mismatch |= (a.charCodeAt(i) ^ b.charCodeAt(i));
+    }
+    return mismatch === 0;
+}
+
+function getAudioStreamSecret(env) {
+    // Secret khusus untuk audio streaming: HANYA env.AUDIO_STREAM_SECRET
+    // Hapus fallback ke TEACHER_KEY dan ADMIN_KEY. Jika tidak diatur, kembalikan null (fail-closed).
+    if (!env || !env.AUDIO_STREAM_SECRET || typeof env.AUDIO_STREAM_SECRET !== 'string') {
+        return null;
+    }
+    const trimmed = env.AUDIO_STREAM_SECRET.trim();
+    return trimmed.length > 0 ? trimmed : null;
+}
+
+async function generateAudioToken(recordingId, secret, ttlSeconds = 300) {
+    if (!secret || typeof secret !== 'string') {
+        throw new Error('AUDIO_STREAM_SECRET tidak tersedia (fail-closed)');
+    }
+    // Batas TTL maksimal 300 detik (5 menit)
+    const effectiveTtl = Math.min(Math.max(1, parseInt(ttlSeconds, 10) || 300), 300);
+    const exp = Math.floor(Date.now() / 1000) + effectiveTtl;
+    const payload = `${recordingId}:${exp}`;
     const enc = new TextEncoder();
     const key = await crypto.subtle.importKey(
         'raw',
@@ -851,15 +923,29 @@ function base64ToUint8Array(base64) {
     return bytes;
 }
 
-async function verifyAudioToken(sessionId, questionId, tokenStr, secret) {
-    if (!tokenStr || !secret) return false;
+async function verifyAudioToken(arg1, arg2, arg3, arg4) {
+    // Mendukung signature (recordingId, tokenStr, secret) dan backward-compatible (sessionId, questionId, tokenStr, secret)
+    let recordingId, tokenStr, secret;
+    if (arg4 !== undefined) {
+        recordingId = `${arg1}_${arg2}`;
+        tokenStr = arg3;
+        secret = arg4;
+    } else {
+        recordingId = arg1;
+        tokenStr = arg2;
+        secret = arg3;
+    }
+
+    if (!recordingId || !tokenStr || !secret) return false;
     const parts = tokenStr.split('.');
     if (parts.length !== 2) return false;
     const exp = parseInt(parts[0], 10);
     const sigHex = parts[1];
-    if (isNaN(exp) || Math.floor(Date.now() / 1000) > exp) return false;
+    const now = Math.floor(Date.now() / 1000);
+    if (isNaN(exp) || now > exp) return false;
 
-    const payload = `${sessionId}:${questionId}:${exp}`;
+    // Pastikan masa berlaku token saat diverifikasi tidak melampaui toleransi 300 detik
+    const payload = `${recordingId}:${exp}`;
     const enc = new TextEncoder();
     try {
         const key = await crypto.subtle.importKey(
@@ -867,12 +953,19 @@ async function verifyAudioToken(sessionId, questionId, tokenStr, secret) {
             enc.encode(secret),
             { name: 'HMAC', hash: 'SHA-256' },
             false,
-            ['verify']
+            ['sign', 'verify']
         );
+        // Verifikasi HMAC menggunakan Web Crypto API (konstan waktu)
         const match = sigHex.match(/.{1,2}/g);
         if (!match) return false;
         const expectedSig = new Uint8Array(match.map(byte => parseInt(byte, 16)));
-        return await crypto.subtle.verify('HMAC', key, expectedSig, enc.encode(payload));
+        const validCrypto = await crypto.subtle.verify('HMAC', key, expectedSig, enc.encode(payload));
+        if (!validCrypto) return false;
+
+        // Validasi ganda dengan perbandingan waktu-konstan string hex
+        const computedSig = await crypto.subtle.sign('HMAC', key, enc.encode(payload));
+        const computedHex = Array.from(new Uint8Array(computedSig)).map(b => b.toString(16).padStart(2, '0')).join('');
+        return timingSafeEqualHex(sigHex, computedHex);
     } catch {
         return false;
     }
@@ -2240,6 +2333,28 @@ export default {
                 const newSessionId = 'spk_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);
                 const rawPkg = String(body.packageType || (body.selfStudy ? 'self_study' : 'teacher')).trim().toLowerCase();
                 const packageType = (rawPkg === 'mandiri' || rawPkg === 'self_study') ? 'self_study' : (rawPkg === 'addon' ? 'addon' : 'teacher');
+
+                // Poin 5: Penegakan kuota mingguan Add-On Guru oleh sistem
+                if (packageType === 'addon') {
+                    const maxWeeklyQuota = parseInt(env.MAX_WEEKLY_ADDON_QUOTA, 10) || 20;
+                    const d = new Date(now);
+                    const day = d.getUTCDay();
+                    const diff = d.getUTCDate() - day + (day === 0 ? -6 : 1);
+                    const startOfWeek = new Date(d.setDate(diff)).setUTCHours(0, 0, 0, 0);
+
+                    const weeklyCount = await env.DB.prepare(`
+                        SELECT COUNT(*) AS cnt FROM speaking_sessions
+                        WHERE package_type = 'addon' AND started_at >= ?
+                    `).bind(startOfWeek).first().catch(() => null);
+
+                    if (weeklyCount && (weeklyCount.cnt || 0) >= maxWeeklyQuota) {
+                        return json(request, env, {
+                            ok: false,
+                            error: `Kuota evaluasi guru untuk minggu ini telah penuh (maksimal ${maxWeeklyQuota} sesi/minggu). Kuota baru akan dibuka kembali pada hari Senin 00:00 UTC.`
+                        }, 429);
+                    }
+                }
+
                 await env.DB.prepare(`
                     INSERT INTO speaking_sessions (id, test_id, device_id, nama_peserta, kelas, started_at, status, package_type)
                     VALUES (?, ?, ?, ?, ?, ?, 'in_progress', ?)
@@ -2338,6 +2453,22 @@ export default {
                 const recId = `${sessionId}_${questionId}`;
                 const fileSizeBytes = audioBytes.byteLength;
                 const now = Date.now();
+
+                // Poin 5: Batas total ukuran rekaman audio per ujian (maksimal 4 MB)
+                const currentSessionBytesRow = await env.DB.prepare(`
+                    SELECT COALESCE(SUM(file_size_bytes), 0) AS total_bytes
+                    FROM speaking_recordings
+                    WHERE session_id = ? AND question_id != ?
+                `).bind(sessionId, questionId).first().catch(() => null);
+
+                const currentSessionBytes = (currentSessionBytesRow && currentSessionBytesRow.total_bytes) || 0;
+                const MAX_TOTAL_SESSION_BYTES = 4 * 1024 * 1024; // 4 MB
+                if (currentSessionBytes + fileSizeBytes > MAX_TOTAL_SESSION_BYTES) {
+                    return json(request, env, {
+                        ok: false,
+                        error: 'Total akumulasi ukuran rekaman audio untuk sesi ujian ini telah melebihi batas maksimal 4 MB.'
+                    }, 413);
+                }
 
                 await env.DB.prepare(`
                     INSERT INTO speaking_recordings (id, session_id, question_id, mime_type, audio_data, transcript, duration_seconds, file_size_bytes, uploaded_at)
@@ -2534,8 +2665,16 @@ export default {
                     return json(request, env, { ok: false, error: 'sessionId dan questionId wajib ada.' }, 400);
                 }
 
-                const token = await generateAudioToken(sessionId, questionId, env.TEACHER_KEY || env.ADMIN_KEY || 'FALLBACK_KEY', 600);
-                return json(request, env, { ok: true, token, expiresIn: 600 });
+                const secret = getAudioStreamSecret(env);
+                if (!secret) {
+                    return json(request, env, {
+                        ok: false,
+                        error: 'Layanan streaming audio belum dapat digunakan: AUDIO_STREAM_SECRET belum dikonfigurasi di server (fail-closed).'
+                    }, 500);
+                }
+                const recordingId = `${sessionId}_${questionId}`;
+                const token = await generateAudioToken(recordingId, secret, 300);
+                return json(request, env, { ok: true, token, expiresIn: 300 });
             }
 
             // 7. Streaming Audio Privat (Hanya Guru via Auth Header / Token Singkat atau Siswa Pemilik)
@@ -2549,10 +2688,25 @@ export default {
                 if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
 
                 const audioToken = url.searchParams.get('token') || '';
+
+                // Poin 1: Tolak jika kunci guru, admin, atau token lisensi diserahkan di query parameter
+                if (audioToken) {
+                    const isTeacherKey = env.TEACHER_KEY && timingSafeEqual(audioToken, env.TEACHER_KEY);
+                    const isAdminKey = env.ADMIN_KEY && timingSafeEqual(audioToken, env.ADMIN_KEY);
+                    const isLicenseFormat = /^(IELT|SNBT)-/i.test(audioToken);
+                    if (isTeacherKey || isAdminKey || isLicenseFormat) {
+                        return json(request, env, {
+                            ok: false,
+                            error: 'Akses ditolak: Kunci rahasia atau kode lisensi dilarang diserahkan melalui query parameter URL. Gunakan header X-Teacher-Key atau token pemutaran sesaat.'
+                        }, 403);
+                    }
+                }
+
                 let isTokenValid = false;
-                const secret = env.TEACHER_KEY || env.ADMIN_KEY;
+                const secret = getAudioStreamSecret(env);
+                const recordingId = `${sessionId}_${questionId}`;
                 if (audioToken && secret) {
-                    isTokenValid = await verifyAudioToken(sessionId, questionId, audioToken, secret);
+                    isTokenValid = await verifyAudioToken(recordingId, audioToken, secret);
                 }
 
                 if (!sessionId || !questionId) {
@@ -2649,7 +2803,8 @@ export default {
                             'Accept-Ranges': 'bytes',
                             'Content-Length': String(chunk.length),
                             'X-Content-Type-Options': 'nosniff',
-                            'Cache-Control': 'private, no-store',
+                            'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+                            'Referrer-Policy': 'no-referrer',
                             ...corsHeaders(request, env)
                         }
                     });
@@ -2662,7 +2817,8 @@ export default {
                         'Content-Length': String(totalLen),
                         'Accept-Ranges': 'bytes',
                         'X-Content-Type-Options': 'nosniff',
-                        'Cache-Control': 'private, no-store',
+                        'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+                        'Referrer-Policy': 'no-referrer',
                         ...corsHeaders(request, env)
                     }
                 });
@@ -3543,6 +3699,130 @@ export default {
                     });
                 }
 
+                if (path === '/admin/delete-customer' && request.method === 'POST') {
+                    await ensureLicensesSchema(env);
+                    await ensureSpeakingSchema(env);
+                    await ensureWritingSchema(env);
+                    await ensureListeningSchema(env);
+                    await ensureReadingSchema(env);
+
+                    const body = await readJson(request);
+                    const lic = await resolveAdminLicense(env, body);
+                    if (!lic) {
+                        return json(request, env, { ok: false, error: 'Lisensi pembeli tidak ditemukan (ID, WA, atau token tidak cocok).' }, 404);
+                    }
+
+                    // Ambil daftar device_id milik lisensi ini
+                    const devRows = await env.DB.prepare('SELECT device_id FROM devices WHERE license_id = ?').bind(lic.id).all();
+                    const deviceIds = (devRows.results || []).map(r => r.device_id).filter(Boolean);
+
+                    // Hitung rekaman & sesi terkait untuk pratinjau dry-run
+                    let spkCount = 0;
+                    let recCount = 0;
+                    let totalAudioBytes = 0;
+                    let wrtCount = 0;
+                    let lisCount = 0;
+                    let rdCount = 0;
+                    let claimCount = 0;
+
+                    const claimRow = await env.DB.prepare('SELECT COUNT(*) as cnt FROM scholarship_claims WHERE license_id = ?').bind(lic.id).first().catch(() => null);
+                    claimCount = claimRow?.cnt || 0;
+
+                    for (const devId of deviceIds) {
+                        const spk = await env.DB.prepare('SELECT COUNT(*) as cnt FROM speaking_sessions WHERE device_id = ?').bind(devId).first().catch(() => null);
+                        spkCount += (spk?.cnt || 0);
+
+                        const rec = await env.DB.prepare(`
+                            SELECT COUNT(*) as cnt, COALESCE(SUM(file_size_bytes), 0) as total_bytes
+                            FROM speaking_recordings
+                            WHERE session_id IN (SELECT id FROM speaking_sessions WHERE device_id = ?)
+                        `).bind(devId).first().catch(() => null);
+                        recCount += (rec?.cnt || 0);
+                        totalAudioBytes += (rec?.total_bytes || 0);
+
+                        const wrt = await env.DB.prepare('SELECT COUNT(*) as cnt FROM writing_sessions WHERE device_id = ?').bind(devId).first().catch(() => null);
+                        wrtCount += (wrt?.cnt || 0);
+
+                        const lis = await env.DB.prepare('SELECT COUNT(*) as cnt FROM listening_sessions WHERE device_id = ?').bind(devId).first().catch(() => null);
+                        lisCount += (lis?.cnt || 0);
+
+                        const rd = await env.DB.prepare('SELECT COUNT(*) as cnt FROM reading_sessions WHERE device_id = ?').bind(devId).first().catch(() => null);
+                        rdCount += (rd?.cnt || 0);
+                    }
+
+                    // Poin 2: dry_run sebagai DEFAULT kecuali confirm: true atau dry_run: false
+                    const isDryRun = body.dry_run !== false && body.confirm !== true;
+                    if (isDryRun) {
+                        return json(request, env, {
+                            ok: true,
+                            dry_run: true,
+                            message: 'Pratinjau data pembeli yang akan dihapus. Kirim ulang dengan "confirm": true atau "dry_run": false untuk mengeksekusi penghapusan permanen.',
+                            target: {
+                                license_id: lic.id,
+                                nama_masked: lic.nama ? (lic.nama.slice(0, 2) + '***') : '',
+                                package_type: lic.package_type,
+                                devices_count: deviceIds.length,
+                                speaking_sessions_count: spkCount,
+                                recordings_count: recCount,
+                                total_audio_bytes: totalAudioBytes,
+                                writing_sessions_count: wrtCount,
+                                listening_sessions_count: lisCount,
+                                reading_sessions_count: rdCount,
+                                scholarship_claims_count: claimCount
+                            }
+                        });
+                    }
+
+                    // Eksekusi atomik batch penghapusan kaskade
+                    const statements = [];
+                    for (const devId of deviceIds) {
+                        statements.push(env.DB.prepare('DELETE FROM speaking_recordings WHERE session_id IN (SELECT id FROM speaking_sessions WHERE device_id = ?)').bind(devId));
+                        statements.push(env.DB.prepare('DELETE FROM speaking_sessions WHERE device_id = ?').bind(devId));
+                        statements.push(env.DB.prepare('DELETE FROM writing_sessions WHERE device_id = ?').bind(devId));
+                        statements.push(env.DB.prepare('DELETE FROM listening_sessions WHERE device_id = ?').bind(devId));
+                        statements.push(env.DB.prepare('DELETE FROM reading_sessions WHERE device_id = ?').bind(devId));
+                    }
+                    statements.push(env.DB.prepare('DELETE FROM scholarship_claims WHERE license_id = ?').bind(lic.id));
+                    statements.push(env.DB.prepare('DELETE FROM devices WHERE license_id = ?').bind(lic.id));
+                    statements.push(env.DB.prepare('DELETE FROM licenses WHERE id = ?').bind(lic.id));
+
+                    if (typeof env.DB.batch === 'function') {
+                        await env.DB.batch(statements);
+                    } else {
+                        for (const stmt of statements) {
+                            await stmt.run();
+                        }
+                    }
+
+                    // Catat ke cleanup_logs tanpa data pribadi mentah (PII)
+                    const now = Date.now();
+                    try {
+                        await env.DB.prepare(`
+                            INSERT INTO cleanup_logs (timestamp, trigger_type, cleanup_type, target_info, deleted_count, freed_bytes, notes)
+                            VALUES (?, ?, ?, ?, ?, ?, ?)
+                        `).bind(
+                            now,
+                            'admin_delete_customer',
+                            'customer_gdpr_pdp',
+                            `license_id:${lic.id}; devices:${deviceIds.length}; recordings:${recCount}`,
+                            1 + deviceIds.length + recCount + spkCount + wrtCount + lisCount + rdCount + claimCount,
+                            totalAudioBytes,
+                            'D1 atomic batch cascade deletion per UU PDP right to erasure. Note: Cloudflare D1 Time Travel retention retains historical state up to 7 days before physical purge.'
+                        ).run();
+                    } catch {}
+
+                    return json(request, env, {
+                        ok: true,
+                        deleted: true,
+                        dry_run: false,
+                        license_id: lic.id,
+                        devices_purged: deviceIds.length,
+                        recordings_purged: recCount,
+                        freed_bytes: totalAudioBytes,
+                        message: `Seluruh data pembeli terkait lisensi #${lic.id} berhasil dihapus secara permanen dari tabel aktif D1. Catatan: riwayat time-travel D1 dapat menyimpan jejak hingga 7 hari.`
+                    });
+                }
+
                 if (path === '/admin/activation-logs' && request.method === 'GET') {
                     await ensureActivationSchema(env);
                     const rows = await env.DB.prepare(
@@ -3571,5 +3851,12 @@ export {
     getIpPepper,
     getIpHash,
     clientIp,
-    runScheduledRetentionCleanup
+    runScheduledRetentionCleanup,
+    generateAudioToken,
+    verifyAudioToken,
+    getAudioStreamSecret,
+    timingSafeEqualHex,
+    getTokenPrefixPepper,
+    hashTokenPrefix,
+    resolveAdminLicense
 };

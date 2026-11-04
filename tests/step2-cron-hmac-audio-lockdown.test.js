@@ -62,9 +62,11 @@ test('HMAC IP Pepper: Hash IP berbeda dari raw SHA-256 dan bervariasi dengan pep
     assert.notStrictEqual(hashA, hashFallback, 'Hash pepper khusus harus berbeda dari fallback ADMIN_KEY');
 });
 
-test('HMAC IP Pepper: Prioritas pepper (env.IP_PEPPER > env.ADMIN_KEY > default)', () => {
+test('HMAC IP Pepper: Secret terpisah env.IP_PEPPER (tanpa fallback ke ADMIN_KEY)', () => {
     assert.strictEqual(getIpPepper({ IP_PEPPER: 'pep-1', ADMIN_KEY: 'adm-2' }), 'pep-1');
-    assert.strictEqual(getIpPepper({ ADMIN_KEY: 'adm-2' }), 'adm-2');
+    // Jika IP_PEPPER tidak ada, TIDAK boleh jatuh ke ADMIN_KEY
+    assert.notStrictEqual(getIpPepper({ ADMIN_KEY: 'adm-2' }), 'adm-2');
+    assert.strictEqual(getIpPepper({ ADMIN_KEY: 'adm-2' }), 'ajarkita-ip-pepper-secret-2026');
     assert.strictEqual(typeof getIpPepper({}), 'string');
     assert.ok(getIpPepper({}).length >= 16);
 });

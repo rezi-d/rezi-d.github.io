@@ -10,7 +10,7 @@ function evaluateEcoMode(totalBytes, estReqs, estRows) {
 }
 
 function getAutosaveDelay(ecoModeActive) {
-    return ecoModeActive ? 60000 : 3000;
+    return ecoModeActive ? 60000 : 30000;
 }
 
 function shouldSkipSaveProgress(currentT1, currentT2, lastSavedT1, lastSavedT2) {
@@ -71,7 +71,7 @@ test('Batas Kuota Tercapai (100%): Memicu status quota_exceeded saat mencapai 10
 });
 
 test('Autosave Timer: Interval diperpanjang ke 60 detik (60.000 ms) saat Mode Hemat aktif', () => {
-    assert.equal(getAutosaveDelay(false), 3000, 'Normal timer autosave harus 3 detik (3000 ms)');
+    assert.equal(getAutosaveDelay(false), 30000, 'Normal timer autosave harus 30 detik (30000 ms)');
     assert.equal(getAutosaveDelay(true), 60000, 'Mode Hemat timer autosave harus 60 detik (60000 ms)');
 });
 

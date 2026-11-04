@@ -76,8 +76,14 @@
         // Tab Task 1 / Task 2
         const btnTask1 = document.getElementById('btn-tab-task-1');
         const btnTask2 = document.getElementById('btn-tab-task-2');
+        const btnToggleBottom = document.getElementById('btn-toggle-task-bottom');
         if (btnTask1) btnTask1.addEventListener('click', () => switchTask(1));
         if (btnTask2) btnTask2.addEventListener('click', () => switchTask(2));
+        if (btnToggleBottom) {
+            btnToggleBottom.addEventListener('click', () => {
+                switchTask(STATE.currentTask === 1 ? 2 : 1);
+            });
+        }
 
         // Mobile Tab Switcher: Prompt vs Editor
         const btnMTabPrompt = document.getElementById('btn-mtab-prompt');
@@ -297,9 +303,10 @@
 
         STATE.currentTask = taskNo;
 
-        // Update Tombol Tab Header
+        // Update Tombol Tab Header & Tombol Navigasi Bawah
         const tab1 = document.getElementById('btn-tab-task-1');
         const tab2 = document.getElementById('btn-tab-task-2');
+        const btnToggleBottom = document.getElementById('btn-toggle-task-bottom');
         if (tab1 && tab2) {
             if (taskNo === 1) {
                 tab1.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-indigo-600 text-white shadow-xs transition';
@@ -307,6 +314,15 @@
             } else {
                 tab1.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition';
                 tab2.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-indigo-600 text-white shadow-xs transition';
+            }
+        }
+        if (btnToggleBottom) {
+            if (taskNo === 1) {
+                btnToggleBottom.innerHTML = '<span>Lanjut ke Task 2 (Esai) &rarr;</span>';
+                btnToggleBottom.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 transition flex items-center gap-1.5 cursor-pointer';
+            } else {
+                btnToggleBottom.innerHTML = '<span>&larr; Kembali ke Task 1 (Laporan Data)</span>';
+                btnToggleBottom.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition flex items-center gap-1.5 cursor-pointer';
             }
         }
 
@@ -668,15 +684,15 @@
         saveToLocalStorageBackup(); // Cadangkan instan ke localStorage setiap ketikan
         updateMetricsDisplay();
 
-        // Jadwalkan autosave debounced: 60 detik jika Mode Hemat (80%), 3 detik jika normal
+        // Jadwalkan autosave debounced: 60 detik jika Mode Hemat (80%), 30 detik jika normal
         clearTimeout(STATE.autosaveTimer);
         const syncBadge = document.getElementById('autosave-sync-indicator');
         if (syncBadge) {
-            syncBadge.textContent = STATE.ecoMode ? 'Menyimpan (Mode Hemat 60s)...' : 'Menyimpan...';
+            syncBadge.textContent = STATE.ecoMode ? 'Menyimpan (Mode Hemat 60s)...' : 'Menyimpan (30s)...';
             syncBadge.className = 'text-[11px] text-slate-400';
         }
 
-        const debounceDelay = STATE.ecoMode ? 60000 : 3000;
+        const debounceDelay = STATE.ecoMode ? 60000 : 30000;
 
         STATE.autosaveTimer = setTimeout(() => {
             triggerAutosave();
@@ -806,7 +822,6 @@
                 syncBadge.className = 'text-[11px] text-slate-500 font-medium';
             }
         }
-    }
     }
 
     // --- Timer 60 Menit Sinkron Server ---

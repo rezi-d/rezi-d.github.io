@@ -238,9 +238,9 @@
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Mulai timer autosave berkala (tiap 12 detik)
+        // Mulai timer autosave berkala (tiap 30 detik)
         if (STATE.autosaveTimer) clearInterval(STATE.autosaveTimer);
-        STATE.autosaveTimer = setInterval(autoSaveProgress, 12000);
+        STATE.autosaveTimer = setInterval(autoSaveProgress, 30000);
 
         // Render Navigasi Soal 1-40
         renderQuestionNavigator();
