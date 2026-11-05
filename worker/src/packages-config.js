@@ -105,12 +105,42 @@ export const PACKAGES_CONFIG = {
             "Batas aktif hingga 2 perangkat pribadi per lisensi"
         ],
         excluded_features: []
+    },
+    teacher: {
+        id: "teacher",
+        name: "Kunci Akses Khusus Guru",
+        tagline: "All-Access Penuh SNBT & IELTS serta Dashboard Rekap & Penilaian Siswa",
+        plans: {
+            "365_days": {
+                plan_id: "teacher_365",
+                duration_days: 365,
+                price_idr: 0,
+                price_formatted: "Khusus Pendidik / Mitra Guru",
+                label: "365 Hari Akses Pendidik"
+            },
+            "30_days": {
+                plan_id: "teacher_365",
+                duration_days: 365,
+                price_idr: 0,
+                price_formatted: "Khusus Pendidik / Mitra Guru",
+                label: "365 Hari Akses Pendidik"
+            }
+        },
+        features: [
+            "Akses Penuh Dashboard Rekap & Penilaian Siswa IELTS (ielts/rekap.html)",
+            "Akses Seluruh Modul Latihan IELTS (Listening, Reading, Writing, Speaking)",
+            "Akses Seluruh Bank Soal & Try Out SNBT",
+            "Batas hingga 5-10 perangkat aktif"
+        ],
+        excluded_features: []
     }
 };
 
 export function getPackageDetails(packageType = 'ielts', planKey = '30_days') {
-    const pkg = PACKAGES_CONFIG[packageType] || PACKAGES_CONFIG.ielts;
-    const plan = pkg.plans[planKey] || pkg.plans["30_days"];
+    const norm = String(packageType || 'ielts').trim().toLowerCase();
+    const pkgKey = (norm === 'teacher' || norm === 'guru') ? 'teacher' : (PACKAGES_CONFIG[norm] ? norm : 'ielts');
+    const pkg = PACKAGES_CONFIG[pkgKey] || PACKAGES_CONFIG.ielts;
+    const plan = (pkg.plans && (pkg.plans[planKey] || pkg.plans["365_days"] || pkg.plans["30_days"])) || { duration_days: 30, price_idr: 35000, price_formatted: "Rp 35.000" };
     return {
         package_id: pkg.id,
         name: pkg.name,

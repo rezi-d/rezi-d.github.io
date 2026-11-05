@@ -91,10 +91,10 @@
                 </p>
             </div>
 
-            <form id="form-teacher-auth" class="space-y-4">
+            <form id="form-teacher-auth" onsubmit="event.preventDefault();" class="space-y-4">
                 <div class="space-y-1.5">
-                    <label for="input-teacher-key" class="block text-xs font-bold text-slate-700">Teacher Key / Kode Akses</label>
-                    <input type="password" id="input-teacher-key" required placeholder="Ketik Teacher Key..." autocomplete="current-password"
+                    <label for="input-teacher-key" class="block text-xs font-bold text-slate-700">Teacher Key / Kode Akses Guru</label>
+                    <input type="password" id="input-teacher-key" required placeholder="Ketik Teacher Key atau Token GURU-XXXX..." autocomplete="current-password"
                            class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/10 shadow-2xs transition">
                 </div>
 
@@ -787,8 +787,8 @@
     <div id="footer-placeholder"></div>
 
     <!-- Scripts -->
-    <script src="/js/curriculum.js"></script>
-    <script src="/js/include.js"></script>
+    <script src="../js/curriculum.js"></script>
+    <script src="../js/include.js"></script>
     <script>
         const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
@@ -800,31 +800,43 @@
         let CURRENT_CAPACITY_MONITORING = null;
         let ACTIVE_SPEAKING_STUDENT = null;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function initTeacherApp() {
             initScoreDropdownOptions();
 
             if (ACTIVE_TEACHER_KEY) {
                 fetchResults();
             }
 
-            document.getElementById('form-teacher-auth').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const keyInput = document.getElementById('input-teacher-key');
-                const key = keyInput ? keyInput.value.trim() : '';
-                if (!key) return;
+            const authForm = document.getElementById('form-teacher-auth');
+            if (authForm) {
+                authForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const keyInput = document.getElementById('input-teacher-key');
+                    const key = keyInput ? keyInput.value.trim().toUpperCase() : '';
+                    if (!key) return;
 
-                ACTIVE_TEACHER_KEY = key;
-                await fetchResults(true);
-            });
+                    ACTIVE_TEACHER_KEY = key;
+                    await fetchResults(true);
+                });
+            }
 
-            document.getElementById('btn-logout-teacher').addEventListener('click', () => {
-                sessionStorage.removeItem('teacher_key');
-                ACTIVE_TEACHER_KEY = '';
-                document.getElementById('dashboard-content').classList.add('hidden');
-                document.getElementById('auth-box').classList.remove('hidden');
-                document.getElementById('btn-logout-teacher').classList.add('hidden');
-            });
-        });
+            const btnLogout = document.getElementById('btn-logout-teacher');
+            if (btnLogout) {
+                btnLogout.addEventListener('click', () => {
+                    sessionStorage.removeItem('teacher_key');
+                    ACTIVE_TEACHER_KEY = '';
+                    document.getElementById('dashboard-content').classList.add('hidden');
+                    document.getElementById('auth-box').classList.remove('hidden');
+                    document.getElementById('btn-logout-teacher').classList.add('hidden');
+                });
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTeacherApp);
+        } else {
+            initTeacherApp();
+        }
 
         // Isi opsi dropdown skor 0.0 - 9.0 kelipatan 0.5
         function initScoreDropdownOptions() {
@@ -1502,7 +1514,7 @@
         }
 
         // --- Logika Modal Penilaian Speaking Siswa ---
-        let ACTIVE_SPEAKING_STUDENT = null;
+        // ACTIVE_SPEAKING_STUDENT sudah dideklarasikan di scope global
 
         async function openSpeakingGradingModal(index) {
             const student = ALL_STUDENTS[index];

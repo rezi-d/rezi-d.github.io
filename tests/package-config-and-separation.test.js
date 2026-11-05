@@ -14,7 +14,13 @@ const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 function generateToken(prefix = 'SNBT') {
     const bytes = crypto.getRandomValues(new Uint8Array(12));
     const chars = Array.from(bytes, (b) => ALPHABET[b % ALPHABET.length]).join('');
-    const pfx = String(prefix || 'SNBT').trim().toUpperCase().startsWith('IELT') ? 'IELT' : 'SNBT';
+    const rawPfx = String(prefix || 'SNBT').trim().toUpperCase();
+    let pfx = 'SNBT';
+    if (rawPfx.startsWith('GURU') || rawPfx.startsWith('TEACH')) {
+        pfx = 'GURU';
+    } else if (rawPfx.startsWith('IELT')) {
+        pfx = 'IELT';
+    }
     return `${pfx}-${chars.slice(0, 4)}-${chars.slice(4, 8)}-${chars.slice(8, 12)}`;
 }
 
@@ -88,9 +94,10 @@ async function authorize(env, token, deviceId, register, requiredPackage = null)
     if (lic.revoked) return { ok: false, status: 403, error: 'Lisensi ini telah dinonaktifkan (dicabut). Hubungi admin.', reason: 'token_revoked' };
 
     const packageType = String(lic.package_type || 'snbt').trim().toLowerCase();
+    const isFullAccess = packageType === 'all' || packageType === 'teacher' || packageType === 'guru' || token.startsWith('GURU-') || token.startsWith('TEACH-');
     if (requiredPackage) {
         const req = String(requiredPackage).trim().toLowerCase();
-        if (packageType !== req && packageType !== 'all') {
+        if (!isFullAccess && packageType !== req) {
             return {
                 ok: false,
                 status: 403,
@@ -312,4 +319,42 @@ test('B3.8: Konfigurasi Add-on Guru - PACKAGES_CONFIG memuat struktur tarif & ke
     assert.match(addons.sla, /3[–-]5 hari kerja/i);
     assert.match(addons.quota, /Kuota terbatas per minggu/i);
     assert.match(addons.disclaimer, /bukan skor resmi IELTS/i);
+});
+
+test('B3.9: Paket Khusus Guru (teacher) - Dapat mengakses materi IELTS dan SNBT sekaligus', async () => {
+    const db = new MockD1();
+    const token = generateToken('guru');
+    assert.match(token, /^GURU-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/, 'Format token guru harus berawalan GURU-');
+
+    const tokenHash = await sha256Hex(token);
+    db.licenses.push({
+        id: 5,
+        token_hash: tokenHash,
+        nama: 'Bpk. Bambang, M.Pd',
+        wa: '08123456789',
+        package_type: 'teacher',
+        created_at: Date.now(),
+        activated_at: Date.now(),
+        expires_at: Date.now() + 365 * DAY_MS,
+        duration_days: 365,
+        max_devices: 5,
+        revoked: 0
+    });
+    db.devices.push({ license_id: 5, device_id: 'dev_guru_laptop_123456', first_seen: Date.now() });
+
+    const env = { DB: db };
+    const authIelts = await authorize(env, token, 'dev_guru_laptop_123456', false, 'ielts');
+    assert.equal(authIelts.ok, true, 'Guru harus bisa akses materi IELTS');
+
+    const authSnbt = await authorize(env, token, 'dev_guru_laptop_123456', false, 'snbt');
+    assert.equal(authSnbt.ok, true, 'Guru harus bisa akses materi SNBT');
+});
+
+test('B3.10: PACKAGES_CONFIG memuat definisi paket Guru dengan masa aktif 365 hari', () => {
+    assert.ok(PACKAGES_CONFIG.teacher, 'PACKAGES_CONFIG harus memuat paket teacher');
+    assert.equal(PACKAGES_CONFIG.teacher.id, 'teacher');
+    assert.ok(PACKAGES_CONFIG.teacher.features.length >= 3);
+    const details = getPackageDetails('teacher');
+    assert.equal(details.duration_days, 365);
+    assert.match(details.name, /Guru/i);
 });

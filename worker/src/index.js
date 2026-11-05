@@ -43,7 +43,13 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 function generateToken(prefix = 'SNBT') {
     const bytes = crypto.getRandomValues(new Uint8Array(12));
     const chars = Array.from(bytes, (b) => ALPHABET[b % ALPHABET.length]).join('');
-    const pfx = String(prefix || 'SNBT').trim().toUpperCase().startsWith('IELT') ? 'IELT' : 'SNBT';
+    const rawPfx = String(prefix || 'SNBT').trim().toUpperCase();
+    let pfx = 'SNBT';
+    if (rawPfx.startsWith('GURU') || rawPfx.startsWith('TEACH')) {
+        pfx = 'GURU';
+    } else if (rawPfx.startsWith('IELT')) {
+        pfx = 'IELT';
+    }
     return `${pfx}-${chars.slice(0, 4)}-${chars.slice(4, 8)}-${chars.slice(8, 12)}`;
 }
 
@@ -221,9 +227,10 @@ async function authorize(env, token, deviceId, register, requiredPackage = null)
     if (lic.revoked) return { ok: false, status: 403, error: 'Lisensi ini telah dinonaktifkan (dicabut). Hubungi admin.', reason: 'token_revoked' };
 
     const packageType = String(lic.package_type || 'snbt').trim().toLowerCase();
+    const isFullAccess = packageType === 'all' || packageType === 'teacher' || packageType === 'guru' || token.startsWith('GURU-') || token.startsWith('TEACH-');
     if (requiredPackage) {
         const req = String(requiredPackage).trim().toLowerCase();
-        if (packageType !== req && packageType !== 'all') {
+        if (!isFullAccess && packageType !== req) {
             return {
                 ok: false,
                 status: 403,
@@ -304,15 +311,10 @@ function isAdmin(request, env) {
     return adminSecret.length > 0 && timingSafeEqual(key, adminSecret);
 }
 
-function isTeacherOrAdmin(request, env) {
+async function isTeacherOrAdmin(request, env) {
     const key = (request.headers.get('X-Admin-Key') || request.headers.get('X-Teacher-Key') || '').trim();
     if (!key) return false;
-    const teacherSecret = typeof env.TEACHER_KEY === 'string' ? env.TEACHER_KEY.trim() : '';
-    // FAIL-CLOSED: jika TEACHER_KEY belum disetel di Worker Secret, akses guru ditolak
-    if (teacherSecret && timingSafeEqual(key, teacherSecret)) {
-        return true;
-    }
-    return isAdmin(request, env);
+    return await verifyTeacherKey(key, env);
 }
 
 async function resolveAdminLicense(env, body) {
@@ -731,7 +733,7 @@ async function recordAdminAttemptResult(env, ipHash, success) {
     } catch {}
 }
 
-function verifyTeacherKey(submittedKey, env) {
+async function verifyTeacherKey(submittedKey, env) {
     if (!submittedKey) return false;
     const key = String(submittedKey).trim();
     if (!key) return false;
@@ -743,6 +745,35 @@ function verifyTeacherKey(submittedKey, env) {
     const adminSecret = typeof env.ADMIN_KEY === 'string' ? env.ADMIN_KEY.trim() : '';
     if (adminSecret && timingSafeEqual(key, adminSecret)) {
         return true;
+    }
+
+    // Periksa token lisensi khusus guru di database D1
+    if (env && env.DB) {
+        try {
+            const normKey = normalizeToken(key);
+            const hash = await sha256Hex(normKey);
+            const lic = await env.DB.prepare('SELECT * FROM licenses WHERE token_hash = ?').bind(hash).first();
+            if (lic && !lic.revoked) {
+                const pkg = String(lic.package_type || '').toLowerCase();
+                const isGuru = pkg === 'teacher' || pkg === 'guru' || pkg === 'all' || normKey.startsWith('GURU-') || normKey.startsWith('TEACH-');
+                if (isGuru) {
+                    const now = Date.now();
+                    if (!lic.activated_at) {
+                        const durDays = lic.duration_days || 365;
+                        const expiresAt = now + durDays * DAY_MS;
+                        await env.DB.prepare('UPDATE licenses SET activated_at = ?, expires_at = ? WHERE id = ?')
+                            .bind(now, expiresAt, lic.id).run().catch(() => null);
+                        return true;
+                    }
+                    if (lic.expires_at && now > lic.expires_at) {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+        } catch (err) {
+            console.error('Error verifying teacher token in D1:', err);
+        }
     }
     return false;
 }
@@ -2333,7 +2364,7 @@ export default {
                     return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
                 }
 
-                const isTeacher = verifyTeacherKey(teacherKey, env);
+                const isTeacher = await verifyTeacherKey(teacherKey, env);
                 const isOwner = deviceId && session.device_id === deviceId;
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Anda tidak memiliki izin melihat sesi ini.' }, 403);
@@ -2394,7 +2425,7 @@ export default {
                 const body = await readJson(request);
                 if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
 
-                if (!verifyTeacherKey(submittedKey, env)) {
+                if (!await verifyTeacherKey(submittedKey, env)) {
                     await recordTeacherAttemptResult(env, ipHash, false);
                     return json(request, env, { ok: false, error: 'Kunci Guru / Teacher Key tidak valid.' }, 401);
                 }
@@ -2810,7 +2841,7 @@ export default {
                     return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
                 }
 
-                const isTeacher = verifyTeacherKey(teacherKey, env);
+                const isTeacher = await verifyTeacherKey(teacherKey, env);
                 const isOwner = deviceId && session.device_id === deviceId;
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Anda tidak memiliki izin melihat sesi ini.' }, 403);
@@ -2861,7 +2892,7 @@ export default {
                     return json(request, env, { ok: false, error: 'Sesi tes tidak ditemukan.' }, 404);
                 }
 
-                const isTeacher = verifyTeacherKey(teacherKey, env);
+                const isTeacher = await verifyTeacherKey(teacherKey, env);
                 const isOwner = deviceId && session.device_id === deviceId;
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Tidak memiliki izin akses sesi ini.' }, 401);
@@ -2924,7 +2955,7 @@ export default {
                 if (authHeader.startsWith('Bearer ')) submittedKey = authHeader.slice(7).trim();
                 if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
 
-                if (!verifyTeacherKey(submittedKey, env)) {
+                if (!await verifyTeacherKey(submittedKey, env)) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid.' }, 401);
                 }
 
@@ -2969,7 +3000,7 @@ export default {
                 if (audioToken) {
                     const isTeacherKey = env.TEACHER_KEY && timingSafeEqual(audioToken, env.TEACHER_KEY);
                     const isAdminKey = env.ADMIN_KEY && timingSafeEqual(audioToken, env.ADMIN_KEY);
-                    const isLicenseFormat = /^(IELT|SNBT)-/i.test(audioToken);
+                    const isLicenseFormat = /^(IELT|SNBT|GURU|TEACH)-/i.test(audioToken);
                     if (isTeacherKey || isAdminKey || isLicenseFormat) {
                         return json(request, env, {
                             ok: false,
@@ -2994,7 +3025,7 @@ export default {
                     return json(request, env, { ok: false, error: 'Sesi tidak ditemukan.' }, 404);
                 }
 
-                const isTeacher = isTokenValid || verifyTeacherKey(teacherKey, env);
+                const isTeacher = isTokenValid || (await verifyTeacherKey(teacherKey, env));
                 const isOwner = deviceId && session.device_id === deviceId;
                 if (!isTeacher && !isOwner) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid atau token audio kedaluwarsa.' }, 401);
@@ -3119,7 +3150,7 @@ export default {
                 const body = await readJson(request);
                 if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
 
-                if (!verifyTeacherKey(submittedKey, env)) {
+                if (!await verifyTeacherKey(submittedKey, env)) {
                     return json(request, env, { ok: false, error: 'Akses ditolak: Kunci guru tidak valid.' }, 401);
                 }
 
@@ -3182,7 +3213,7 @@ export default {
                     if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
                 }
 
-                if (!verifyTeacherKey(submittedKey, env)) {
+                if (!await verifyTeacherKey(submittedKey, env)) {
                     return json(request, env, { ok: false, error: 'Kunci Guru tidak valid.' }, 401);
                 }
 
@@ -3203,7 +3234,7 @@ export default {
                 const body = await readJson(request);
                 const submittedKey = teacherKey || String(body.teacherKey || '').trim();
 
-                if (!verifyTeacherKey(submittedKey, env)) {
+                if (!await verifyTeacherKey(submittedKey, env)) {
                     return json(request, env, { ok: false, error: 'Kunci Guru / Teacher Key tidak valid.' }, 401);
                 }
 
@@ -3254,7 +3285,7 @@ export default {
                 const body = await readJson(request);
                 const submittedKey = teacherKey || String(body.teacherKey || '').trim();
 
-                if (!verifyTeacherKey(submittedKey, env)) {
+                if (!await verifyTeacherKey(submittedKey, env)) {
                     return json(request, env, { ok: false, error: 'Kunci Guru / Teacher Key tidak valid.' }, 401);
                 }
 
@@ -3298,7 +3329,7 @@ export default {
                     if (!filterKelas && body && body.kelas) filterKelas = String(body.kelas).trim();
                 }
 
-                if (!verifyTeacherKey(submittedKey, env)) {
+                if (!await verifyTeacherKey(submittedKey, env)) {
                     await recordTeacherAttemptResult(env, ipHash, false);
                     return json(request, env, { ok: false, error: 'Kunci Guru / Teacher Key tidak valid.' }, 401);
                 }
@@ -3823,7 +3854,7 @@ export default {
                     const pesan = String(body.content || body.pesan || '').trim();
                     const parentId = body.parentId ? parseInt(body.parentId, 10) : null;
                     const deviceId = String(body.deviceId || '').trim().slice(0, 64);
-                    const adminFlag = isTeacherOrAdmin(request, env) ? 1 : 0;
+                    const adminFlag = (await isTeacherOrAdmin(request, env)) ? 1 : 0;
 
                     if (nama.length < 2) {
                         return json(request, env, { ok: false, error: 'Nama harus diisi (minimal 2 huruf).' }, 400);
@@ -3881,7 +3912,7 @@ export default {
 
             // --- Moderasi Komentar Sains Populer (Bisa diakses dengan Kode Guru atau Kunci Admin) ---
             if (path === '/admin/comments/delete' && request.method === 'POST') {
-                if (!isTeacherOrAdmin(request, env)) {
+                if (!await isTeacherOrAdmin(request, env)) {
                     return json(request, env, { ok: false, error: 'Kode Guru/Admin tidak valid.' }, 401);
                 }
                 await ensureCommentsSchema(env);
@@ -3900,14 +3931,18 @@ export default {
                 const referer = request.headers.get('Referer');
                 if (origin || referer) {
                     const checkUrl = origin || referer;
-                    try {
-                        const u = new URL(checkUrl);
-                        const allowedHosts = ['kimia.ajarkita.my.id', 'rezi-d.github.io', 'localhost', '127.0.0.1'];
-                        if (!allowedHosts.includes(u.hostname)) {
-                            return json(request, env, { ok: false, error: 'Akses origin tidak diizinkan (403 Forbidden).' }, 403);
+                    const checkStr = String(checkUrl).trim();
+                    // Mengizinkan eksekusi berkas HTML admin lokal (file://) di mana browser mengirim Origin: null
+                    if (checkStr !== 'null' && !checkStr.startsWith('file:')) {
+                        try {
+                            const u = new URL(checkStr);
+                            const allowedHosts = ['kimia.ajarkita.my.id', 'rezi-d.github.io', 'localhost', '127.0.0.1'];
+                            if (!allowedHosts.includes(u.hostname)) {
+                                return json(request, env, { ok: false, error: 'Akses origin tidak diizinkan (403 Forbidden).' }, 403);
+                            }
+                        } catch {
+                            return json(request, env, { ok: false, error: 'Format Origin/Referer tidak valid.' }, 403);
                         }
-                    } catch {
-                        return json(request, env, { ok: false, error: 'Format Origin/Referer tidak valid.' }, 403);
                     }
                 }
 
@@ -3936,11 +3971,17 @@ export default {
                     const body = await readJson(request);
                     const wa = String(body.wa || '').replace(/\D/g, '');
                     const nama = String(body.nama || '').trim().slice(0, 80);
-                    const days = Math.min(365, Math.max(1, parseInt(body.days, 10) || 30));
-                    const maxDevices = Math.min(5, Math.max(1, parseInt(body.maxDevices, 10) || 2));
                     const packageType = String(body.packageType || 'snbt').trim().toLowerCase();
+                    const isTeacherPkg = packageType === 'teacher' || packageType === 'guru';
+                    const defaultDays = isTeacherPkg ? 365 : 30;
+                    const maxDaysLimit = isTeacherPkg ? 1095 : 365;
+                    const defaultDevices = isTeacherPkg ? 5 : 2;
+                    const maxDevicesLimit = isTeacherPkg ? 10 : 5;
 
-                    const token = generateToken(packageType);
+                    const days = Math.min(maxDaysLimit, Math.max(1, parseInt(body.days, 10) || defaultDays));
+                    const maxDevices = Math.min(maxDevicesLimit, Math.max(1, parseInt(body.maxDevices, 10) || defaultDevices));
+
+                    const token = generateToken(isTeacherPkg ? 'GURU' : packageType);
                     await env.DB.prepare(
                         'INSERT INTO licenses (token_hash, nama, wa, package_type, created_at, duration_days, max_devices) VALUES (?, ?, ?, ?, ?, ?, ?)'
                     ).bind(await sha256Hex(token), nama, wa, packageType, Date.now(), days, maxDevices).run();

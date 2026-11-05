@@ -40,7 +40,7 @@ function snbtIsPremiumActive() {
         const token = localStorage.getItem('snbt_premium_token');
         const expiresAt = parseInt(localStorage.getItem('snbt_premium_expires_at'), 10);
         if (!token || !expiresAt) return false;
-        if (!/^SNBT-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(token)) return false;
+        if (!/^(SNBT|GURU|TEACH)-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(token)) return false;
         if (Date.now() > expiresAt) return false;
         return true;
     } catch (e) {
@@ -101,10 +101,10 @@ async function snbtActivateLicense(phone, token) {
     const cleanPhone = (phone || '').toString().replace(/\D/g, '');
     const cleanToken = (token || '').trim().toUpperCase();
 
-    if (!/^SNBT-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(cleanToken)) {
+    if (!/^(SNBT|GURU|TEACH)-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(cleanToken)) {
         return {
             success: false,
-            message: "Format Kode Token tidak valid (contoh format: SNBT-XXXX-XXXX-XXXX)."
+            message: "Format Kode Token tidak valid (contoh format: SNBT-XXXX-XXXX-XXXX atau GURU-XXXX-XXXX-XXXX)."
         };
     }
 
@@ -346,7 +346,7 @@ function snbtInjectPremiumModal() {
                                 <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                                     Kode Token Lisensi:
                                 </label>
-                                <input type="text" id="input-license-token" placeholder="Contoh: SNBT-XXXX-XXXX-XXXX" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono uppercase tracking-wider">
+                                <input type="text" id="input-license-token" placeholder="Contoh: SNBT-XXXX-XXXX-XXXX atau GURU-XXXX-XXXX-XXXX" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:outline-hidden focus:ring-2 focus:ring-amber-500 font-mono uppercase tracking-wider">
                                 <span class="text-[10px] text-slate-400">Kode unik yang diberikan Admin via WhatsApp (maks. 2 perangkat).</span>
                             </div>
 
