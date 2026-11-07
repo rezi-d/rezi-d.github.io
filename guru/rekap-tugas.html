@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap Pelaporan Tugas Susulan — Portal Guru AjarKita</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              apple: {
+                blue: '#0071e3',
+                'blue-hover': '#0077ed',
+                text: '#1d1d1f',
+                muted: '#86868b',
+                surface: '#f5f5f7',
+                border: 'rgba(0, 0, 0, 0.08)',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .print-break-inside-avoid {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .print-card {
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+            }
+        }
+        .print-only {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- 1. GERBANG LOGIN KUNCI REKAP (X-Rekap-Key) -->
+    <div id="auth-gate-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 text-center">
+            <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-4 shadow-sm">
+                🔐
+            </div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">
+                Portal Rekap Tugas
+            </h1>
+            <p class="text-xs text-slate-500 mb-6">
+                Masukkan Kunci Akses Khusus Guru (<code class="bg-slate-100 px-1 py-0.5 rounded font-mono">X-Rekap-Key</code>)
+            </p>
+
+            <form id="auth-gate-form" onsubmit="event.preventDefault(); handleLoginSubmit();">
+                <div class="mb-4 text-left">
+                    <label for="input-rekap-key" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                        Kunci Rahasia Admin Rekap
+                    </label>
+                    <input type="password" id="input-rekap-key" required autocomplete="off" spellcheck="false"
+                           placeholder="••••••••••••••••"
+                           class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-mono">
+                    <div id="auth-error-msg" class="text-xs text-rose-600 mt-2 font-medium hidden"></div>
+                </div>
+
+                <button type="submit" id="btn-auth-submit"
+                        class="w-full py-3.5 px-6 rounded-xl bg-slate-900 hover:bg-black text-white text-sm font-bold shadow-md transition active:scale-98 cursor-pointer">
+                    Masuk ke Dashboard &rarr;
+                </button>
+            </form>
+
+            <div class="mt-6 pt-5 border-t border-slate-100 text-[11px] text-slate-400">
+                AjarKita Security System &bull; Enkripsi Waktu-Konstan
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. KONTEN DASHBOARD UTAMA (Tampil Setelah Login Berhasil) -->
+    <div id="dashboard-wrapper" class="hidden flex-1 flex flex-col">
+        <!-- HEADER UTAMA -->
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-30 no-print">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📋</span>
+                    <div>
+                        <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+                            Rekap Pelaporan Tugas Susulan
+                        </h1>
+                        <p class="text-xs text-slate-500">Google Classroom &bull; Portal Verifikasi Guru</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2.5">
+                    <button type="button" onclick="openCreatePeriodModal()"
+                            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm transition active:scale-95 cursor-pointer">
+                        <span>+</span>
+                        <span class="hidden sm:inline">Buat Periode Baru</span>
+                        <span class="sm:hidden">Periode</span>
+                    </button>
+                    <button type="button" onclick="handleLogout()"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition active:scale-95 cursor-pointer">
+                        <span>Keluar</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- KOP CETAK (HANYA MUNCUL SAAT DI-PRINT / SIMPAN PDF) -->
+        <div class="print-only p-8 text-center border-b-2 border-slate-900 mb-6">
+            <h1 class="text-2xl font-black uppercase tracking-wider text-black">AjarKita &bull; Laporan Rekap Tugas Susulan</h1>
+            <p class="text-xs text-slate-700 mt-1" id="print-period-header">Periode Pelaporan</p>
+            <p class="text-[11px] text-slate-500 mt-0.5" id="print-timestamp">Dicetak pada: -</p>
+        </div>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full">
+            <!-- PANEL KONTROL PERIODE -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm mb-6 no-print">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                            🗓️
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <label for="select-period" class="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                    Pilih Periode:
+                                </label>
+                                <span id="badge-period-status" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600">
+                                    Memuat...
+                                </span>
+                            </div>
+                            <select id="select-period" onchange="onPeriodChanged()"
+                                    class="mt-1 font-bold text-base sm:text-lg text-slate-900 bg-transparent border-b-2 border-slate-200 hover:border-blue-500 focus:outline-none cursor-pointer py-1 pr-8">
+                                <option value="" disabled selected>Memuat daftar periode...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- TOMBOL AKSI CEPAT PERIODE -->
+                    <div class="flex items-center gap-2 flex-wrap" id="period-actions-container">
+                        <button type="button" id="btn-toggle-status" onclick="handleTogglePeriodStatus()"
+                                class="px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition active:scale-95 cursor-pointer">
+                            Tutup Lebih Awal
+                        </button>
+                        <button type="button" id="btn-edit-deadline" onclick="openEditDeadlineModal()"
+                                class="px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition active:scale-95 cursor-pointer">
+                            Ubah Tenggat
+                        </button>
+                        <button type="button" onclick="handleExportCsvClick()"
+                                class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-xs">
+                            📥 Unduh CSV Netral
+                        </button>
+                        <button type="button" onclick="window.print()"
+                                class="px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition active:scale-95 cursor-pointer">
+                            🖨️ Cetak / PDF
+                        </button>
+                        <button type="button" onclick="openPurgeModal()"
+                                class="px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-bold transition active:scale-95 cursor-pointer">
+                            🗑️ Hapus Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rincian Waktu & Retensi Periode Aktif -->
+                <div class="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-500" id="period-meta-container">
+                    <span>Rentang: <strong id="meta-period-range" class="text-slate-700">-</strong></span>
+                    <span>Masa Simpan: <strong id="meta-period-retention" class="text-slate-700">-</strong></span>
+                    <span>Daftar Kelas: <span id="meta-period-classes" class="text-slate-700">-</span></span>
+                </div>
+            </div>
+
+            <!-- RINGKASAN METRIK KARTU -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6 no-print">
+                <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Siswa</span>
+                    <div class="text-2xl font-black text-slate-900 mt-1" id="metric-students">0</div>
+                    <span class="text-[11px] text-slate-500">telah melapor</span>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Butir Tugas</span>
+                    <div class="text-2xl font-black text-blue-600 mt-1" id="metric-tasks">0</div>
+                    <span class="text-[11px] text-slate-500">tugas fisik diserahkan</span>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs">
+                    <span class="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">Dikonfirmasi Guru</span>
+                    <div class="text-2xl font-black text-emerald-600 mt-1" id="metric-confirmed">0</div>
+                    <span class="text-[11px] text-slate-500">berkas fisik ditemukan</span>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs">
+                    <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">Menunggu / Belum</span>
+                    <div class="text-2xl font-black text-amber-600 mt-1" id="metric-pending">0</div>
+                    <span class="text-[11px] text-slate-500">perlu diperiksa guru</span>
+                </div>
+            </div>
+
+            <!-- TABS & FILTER KONTROL -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden mb-6 no-print">
+                <!-- Header Tab: Per Kelas vs Per Mapel -->
+                <div class="flex border-b border-slate-200 bg-slate-50/60">
+                    <button type="button" id="tab-btn-kelas" onclick="switchViewTab('kelas')"
+                            class="px-6 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-blue-600 text-blue-600 flex items-center gap-2 transition cursor-pointer">
+                        <span>🏫</span>
+                        <span>Rekap Per Kelas</span>
+                    </button>
+                    <button type="button" id="tab-btn-mapel" onclick="switchViewTab('mapel')"
+                            class="px-6 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition cursor-pointer">
+                        <span>📚</span>
+                        <span>Rekap Per Mata Pelajaran</span>
+                    </button>
+                </div>
+
+                <!-- Bar Filter & Pencarian -->
+                <div class="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 bg-white">
+                    <div class="flex items-center gap-2.5 flex-wrap flex-1 min-w-[260px]">
+                        <!-- Filter Kelas (Hanya aktif di Tab Kelas) -->
+                        <div id="filter-kelas-wrapper">
+                            <select id="filter-class" onchange="applyFilters()"
+                                    class="px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                <option value="">Semua Kelas</option>
+                            </select>
+                        </div>
+
+                        <!-- Filter Mapel -->
+                        <div id="filter-mapel-wrapper">
+                            <select id="filter-subject" onchange="applyFilters()"
+                                    class="px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                <option value="">Semua Mapel</option>
+                            </select>
+                        </div>
+
+                        <!-- Filter Status Verifikasi -->
+                        <div>
+                            <select id="filter-status" onchange="applyFilters()"
+                                    class="px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                <option value="">Semua Status</option>
+                                <option value="dilaporkan">Dilaporkan (Menunggu)</option>
+                                <option value="dikonfirmasi_guru_mapel">Dikonfirmasi Guru</option>
+                                <option value="tidak_ditemukan">Tidak Ditemukan</option>
+                            </select>
+                        </div>
+
+                        <!-- Toggle Deduplikasi is_latest -->
+                        <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 cursor-pointer select-none ml-1">
+                            <input type="checkbox" id="toggle-latest-only" checked onchange="applyFilters()"
+                                   class="rounded text-blue-600 focus:ring-blue-500 h-4 w-4">
+                            <span>Hanya versi terbaru (Deduplikasi)</span>
+                        </label>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="w-full sm:w-64">
+                        <input type="text" id="search-query" oninput="applyFilters()"
+                               placeholder="Cari nama atau judul..."
+                               class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- KONTINER UTAMA HASIL REKAP -->
+            <div id="rekap-content-container">
+                <div class="bg-white rounded-2xl p-12 text-center border border-slate-200 text-slate-400">
+                    Memuat data rekap tugas...
+                </div>
+            </div>
+
+            <!-- TAMPILAN TANDA TANGAN PRINT (HANYA MUNCUL SAAT CETAK) -->
+            <div class="print-only mt-12 pt-8 border-t border-slate-300">
+                <div class="grid grid-cols-2 text-center text-xs text-black">
+                    <div>
+                        <p>Mengetahui,</p>
+                        <p class="font-bold mt-1">Wali Kelas</p>
+                        <div class="h-20"></div>
+                        <p>( ............................................................ )</p>
+                    </div>
+                    <div>
+                        <p>Pemeriksa,</p>
+                        <p class="font-bold mt-1">Guru Mata Pelajaran</p>
+                        <div class="h-20"></div>
+                        <p>( ............................................................ )</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 3. MODAL: BUAT PERIODE BARU -->
+    <div id="modal-create-period" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+                <h2 class="text-lg font-bold text-slate-900">Buat Periode Pelaporan Baru</h2>
+                <button type="button" onclick="closeCreatePeriodModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1 cursor-pointer">&times;</button>
+            </div>
+
+            <form id="form-create-period" onsubmit="event.preventDefault(); submitCreatePeriod();">
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Nama Periode *</label>
+                    <input type="text" id="create-name" required placeholder="Contoh: Tugas Susulan GC Semester Ganjil 2026/2027"
+                           class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Waktu Buka (WIB) *</label>
+                        <input type="datetime-local" id="create-starts-at" required
+                               class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Waktu Tutup (WIB) *</label>
+                        <input type="datetime-local" id="create-ends-at" required
+                               class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Daftar Kelas (Pisahkan koma) *</label>
+                    <input type="text" id="create-classes" required
+                           value="X MIPA 1, X MIPA 2, XI MIPA 1, XI MIPA 2, XII MIPA 1, XII MIPA 2"
+                           class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-[11px] text-slate-400">Dropdown pilihan kelas yang akan muncul di form siswa.</span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Daftar Mata Pelajaran (Pisahkan koma) *</label>
+                    <input type="text" id="create-subjects" required
+                           value="Kimia, Fisika, Biologi, Matematika, B. Indonesia, B. Inggris"
+                           class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Kode Akses Khusus Siswa</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="create-access-code" placeholder="Otomatis jika kosong" maxlength="32"
+                                   class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono uppercase focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" onclick="generateRandomCode()" class="px-2.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold shrink-0 cursor-pointer">Acak</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Masa Simpan (Hari) *</label>
+                        <input type="number" id="create-retention-days" min="1" max="365" value="30" required
+                               class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="text-[11px] text-slate-400">Data otomatis dihapus N hari setelah ditutup.</span>
+                    </div>
+                </div>
+
+                <div id="create-period-error" class="text-xs text-rose-600 mb-4 hidden"></div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeCreatePeriodModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer">Batal</button>
+                    <button type="submit" id="btn-submit-create" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm transition active:scale-95 cursor-pointer">Simpan &amp; Buat Periode &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. MODAL: KODE AKSES BERHASIL DIBUAT (Hanya tampil sekali) -->
+    <div id="modal-access-code-notice" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 text-center">
+            <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-4">
+                🔑
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 mb-1">Periode Berhasil Dibuat!</h2>
+            <p class="text-xs text-slate-500 mb-4">
+                Simpan kode akses di bawah ini. Kode hanya ditampilkan <strong>satu kali</strong> ini demi keamanan.
+            </p>
+
+            <div class="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-4 mb-4">
+                <span class="text-[11px] uppercase tracking-wider font-bold text-slate-400 block mb-1">Kode Akses Siswa</span>
+                <div id="display-new-access-code" class="text-2xl font-black font-mono tracking-widest text-slate-900 mb-3">
+                    -
+                </div>
+                <button type="button" onclick="copyAccessCode()" id="btn-copy-code"
+                        class="px-4 py-1.5 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-bold shadow-sm transition cursor-pointer">
+                    📋 Salin Kode Akses
+                </button>
+                <div id="copy-code-success" class="text-[11px] text-emerald-600 font-semibold mt-2 hidden">
+                    ✓ Kode berhasil disalin ke papan klip!
+                </div>
+            </div>
+
+            <button type="button" onclick="closeAccessCodeNotice()"
+                    class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition active:scale-98 cursor-pointer">
+                Saya Sudah Mencatat &amp; Buka Rekap &rarr;
+            </button>
+        </div>
+    </div>
+
+    <!-- 5. MODAL: UBAH TENGGAT WAKTU -->
+    <div id="modal-edit-deadline" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100">
+            <h3 class="text-base font-bold text-slate-900 mb-2">Ubah Tenggat Waktu Periode</h3>
+            <p class="text-xs text-slate-500 mb-4">Tentukan tanggal dan jam penutupan otomatis (WIB).</p>
+            <div class="mb-4">
+                <label class="block text-xs font-bold text-slate-700 mb-1">Waktu Tutup Baru (WIB)</label>
+                <input type="datetime-local" id="edit-deadline-input" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeEditDeadlineModal()" class="px-3.5 py-2 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 cursor-pointer">Batal</button>
+                <button type="button" onclick="submitEditDeadline()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold cursor-pointer">Simpan Tenggat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. MODAL: HAPUS PERIODE & DATA (PURGE) -->
+    <div id="modal-purge" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
+            <div class="w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-4">
+                ⚠️
+            </div>
+            <h2 class="text-lg font-bold text-slate-900 text-center mb-1">Hapus Periode &amp; Seluruh Data</h2>
+            <p class="text-xs text-slate-500 text-center mb-4">
+                Tindakan ini bersifat permanen dan tidak dapat dibatalkan.
+            </p>
+
+            <div id="purge-simulation-box" class="bg-rose-50/70 border border-rose-200 rounded-2xl p-4 mb-4 text-xs text-rose-900">
+                Memuat simulasi baris data...
+            </div>
+
+            <div class="mb-5">
+                <label class="block text-xs font-bold text-slate-700 mb-1">
+                    Ketik kata <strong class="text-rose-600">HAPUS</strong> untuk melanjutkan:
+                </label>
+                <input type="text" id="input-purge-confirm" placeholder="HAPUS"
+                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono uppercase focus:ring-2 focus:ring-rose-500 focus:outline-none">
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closePurgeModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 cursor-pointer">Batal</button>
+                <button type="button" id="btn-purge-execute" onclick="executePurge()" disabled
+                        class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 disabled:opacity-50 text-white text-xs font-bold transition cursor-pointer">
+                    Hapus Permanen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIKA DASHBOARD ADMIN REKAP -->
+    <script>
+        // State Global Dashboard (Transient in memory)
+        let adminRekapKey = '';
+        let allPeriods = [];
+        let selectedPeriod = null;
+        let rekapItems = [];
+        let currentTab = 'kelas'; // 'kelas' | 'mapel'
+
+        // Deteksi Pengujian Lokal (127.0.0.1 / localhost)
+        const isLocalDev = window.location.hostname === 'localhost' || 
+                           window.location.hostname === '127.0.0.1' || 
+                           window.location.protocol === 'file:';
+
+        // Inisialisasi awal saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedKey = sessionStorage.getItem('ak_rekap_key');
+            if (savedKey) {
+                adminRekapKey = savedKey;
+                document.getElementById('auth-gate-modal').classList.add('hidden');
+                document.getElementById('dashboard-wrapper').classList.remove('hidden');
+                loadAllPeriods();
+            }
+
+            // Listener tombol konfirmasi Hapus
+            document.getElementById('input-purge-confirm')?.addEventListener('input', (e) => {
+                const btn = document.getElementById('btn-purge-execute');
+                if (btn) btn.disabled = e.target.value.trim().toUpperCase() !== 'HAPUS';
+            });
+        });
+
+        // --- 1. OTENTIKASI X-Rekap-Key ---
+        async function handleLoginSubmit() {
+            const keyInput = document.getElementById('input-rekap-key');
+            const errorMsg = document.getElementById('auth-error-msg');
+            const submitBtn = document.getElementById('btn-auth-submit');
+            const enteredKey = keyInput?.value?.trim();
+
+            errorMsg.classList.add('hidden');
+            if (!enteredKey) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Memvalidasi Kunci...';
+
+            try {
+                // Di local dev Live Server jika backend belum berjalan, berikan akses demo
+                if (isLocalDev && (!enteredKey || enteredKey.length >= 3)) {
+                    adminRekapKey = enteredKey;
+                    sessionStorage.setItem('ak_rekap_key', enteredKey);
+                    document.getElementById('auth-gate-modal').classList.add('hidden');
+                    document.getElementById('dashboard-wrapper').classList.remove('hidden');
+                    loadAllPeriods();
+                    return;
+                }
+
+                const res = await fetch('/api/task/admin/periods', {
+                    headers: { 'X-Rekap-Key': enteredKey }
+                });
+
+                if (!res.ok) {
+                    throw new Error('Kunci akses tidak valid atau ditolak oleh server.');
+                }
+
+                adminRekapKey = enteredKey;
+                sessionStorage.setItem('ak_rekap_key', enteredKey);
+                document.getElementById('auth-gate-modal').classList.add('hidden');
+                document.getElementById('dashboard-wrapper').classList.remove('hidden');
+                loadAllPeriods();
+            } catch (err) {
+                errorMsg.textContent = err.message;
+                errorMsg.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Masuk ke Dashboard →';
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('ak_rekap_key');
+            adminRekapKey = '';
+            location.reload();
+        }
+
+        // --- 2. MANAJEMEN PERIODE ---
+        async function loadAllPeriods() {
+            try {
+                let periodsData = [];
+
+                if (isLocalDev) {
+                    // Coba fetch asli dulu
+                    try {
+                        const res = await fetch('/api/task/admin/periods', {
+                            headers: { 'X-Rekap-Key': adminRekapKey }
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            periodsData = data.periods || [];
+                        }
+                    } catch (e) {}
+
+                    // Fallback data demo untuk pratinjau Live Server
+                    if (periodsData.length === 0) {
+                        const now = Date.now();
+                        periodsData = [{
+                            id: 'period_demo_1',
+                            name: 'Tugas Susulan GC Semester Ganjil 2026/2027',
+                            starts_at: now - 3600000 * 24 * 3,
+                            ends_at: now + 3600000 * 24 * 7,
+                            status: 'open',
+                            classes_json: JSON.stringify(['X MIPA 1', 'X MIPA 2', 'XI MIPA 1', 'XI MIPA 2', 'XII MIPA 1', 'XII MIPA 2']),
+                            subjects_json: JSON.stringify(['Kimia', 'Fisika', 'Biologi', 'Matematika', 'B. Indonesia']),
+                            retention_days: 30,
+                            created_at: now - 3600000 * 24 * 3,
+                            closed_at: null
+                        }];
+                    }
+                } else {
+                    const res = await fetch('/api/task/admin/periods', {
+                        headers: { 'X-Rekap-Key': adminRekapKey }
+                    });
+                    if (!res.ok) throw new Error('Gagal memuat daftar periode');
+                    const data = await res.json();
+                    periodsData = data.periods || [];
+                }
+
+                allPeriods = periodsData;
+                renderPeriodSelectOptions();
+            } catch (err) {
+                console.error('Error loadAllPeriods:', err);
+            }
+        }
+
+        function renderPeriodSelectOptions() {
+            const select = document.getElementById('select-period');
+            select.innerHTML = '';
+
+            if (allPeriods.length === 0) {
+                select.innerHTML = '<option value="" disabled selected>Belum ada periode. Silakan buat periode baru.</option>';
+                return;
+            }
+
+            allPeriods.forEach((p, idx) => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = `${p.name} (${p.status === 'open' ? 'Buka' : 'Tutup'})`;
+                if (idx === 0) opt.selected = true;
+                select.appendChild(opt);
+            });
+
+            onPeriodChanged();
+        }
+
+        function onPeriodChanged() {
+            const select = document.getElementById('select-period');
+            const periodId = select.value;
+            selectedPeriod = allPeriods.find(p => p.id === periodId) || null;
+
+            if (!selectedPeriod) return;
+
+            // Update badge status
+            const statusBadge = document.getElementById('badge-period-status');
+            const toggleBtn = document.getElementById('btn-toggle-status');
+            const isOpen = selectedPeriod.status === 'open';
+
+            if (isOpen) {
+                statusBadge.textContent = '🟢 Aktif / Terbuka';
+                statusBadge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800';
+                toggleBtn.textContent = 'Tutup Lebih Awal';
+            } else {
+                statusBadge.textContent = '🔴 Ditutup';
+                statusBadge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800';
+                toggleBtn.textContent = 'Buka Kembali';
+            }
+
+            // Update Metadata
+            const rangeStr = `${formatWib(selectedPeriod.starts_at)} s/d ${formatWib(selectedPeriod.ends_at)}`;
+            document.getElementById('meta-period-range').textContent = rangeStr;
+            document.getElementById('meta-period-retention').textContent = `${selectedPeriod.retention_days || 30} Hari setelah ditutup`;
+            
+            let classesArr = [];
+            try { classesArr = JSON.parse(selectedPeriod.classes_json || '[]'); } catch (e) {}
+            document.getElementById('meta-period-classes').textContent = classesArr.join(', ') || '-';
+
+            // Update Header Cetak
+            document.getElementById('print-period-header').textContent = `${selectedPeriod.name} (${rangeStr})`;
+            document.getElementById('print-timestamp').textContent = `Dicetak pada: ${formatWib(Date.now())}`;
+
+            // Perbarui Filter Dropdown Kelas & Mapel
+            populateFilterDropdowns(selectedPeriod);
+
+            // Muat Data Rekap
+            loadRekapData(selectedPeriod.id);
+        }
+
+        function populateFilterDropdowns(period) {
+            let classes = [];
+            let subjects = [];
+            try { classes = JSON.parse(period.classes_json || '[]'); } catch (e) {}
+            try { subjects = JSON.parse(period.subjects_json || '[]'); } catch (e) {}
+
+            const classSelect = document.getElementById('filter-class');
+            classSelect.innerHTML = '<option value="">Semua Kelas</option>';
+            classes.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c;
+                opt.textContent = c;
+                classSelect.appendChild(opt);
+            });
+
+            const subjectSelect = document.getElementById('filter-subject');
+            subjectSelect.innerHTML = '<option value="">Semua Mapel</option>';
+            subjects.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                subjectSelect.appendChild(opt);
+            });
+        }
+
+        // --- 3. PEMUATAN DATA REKAP & METRIK ---
+        async function loadRekapData(periodId) {
+            const container = document.getElementById('rekap-content-container');
+            container.innerHTML = '<div class="bg-white rounded-2xl p-12 text-center border border-slate-200 text-slate-400">Memuat data rekap tugas...</div>';
+
+            try {
+                let items = [];
+
+                if (isLocalDev) {
+                    try {
+                        const res = await fetch(`/api/task/admin/rekap/${encodeURIComponent(periodId)}?onlyLatest=false`, {
+                            headers: { 'X-Rekap-Key': adminRekapKey }
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            items = data.items || [];
+                        }
+                    } catch (e) {}
+
+                    // Fallback Data Demo untuk Live Server
+                    if (items.length === 0) {
+                        const now = Date.now();
+                        items = [
+                            {
+                                id: 'item_1', submission_id: 'sub_1', ref_code: 'TSG-7K8M9P',
+                                student_name_raw: 'Muhammad Fikri Haikal', student_name_norm: 'muhammad fikri haikal',
+                                class_name: 'XI MIPA 2', subject_name: 'Kimia',
+                                task_title_raw: 'Tugas 2: Laju Reaksi & Orde Reaksi', task_title_norm: 'tugas 2 laju reaksi orde reaksi',
+                                submitted_date: '2026-11-05', notes: 'Buku catatan bersampul merah',
+                                verification_status: 'dikonfirmasi_guru_mapel', is_latest: 1, created_at: now - 86400000
+                            },
+                            {
+                                id: 'item_2', submission_id: 'sub_1', ref_code: 'TSG-7K8M9P',
+                                student_name_raw: 'Muhammad Fikri Haikal', student_name_norm: 'muhammad fikri haikal',
+                                class_name: 'XI MIPA 2', subject_name: 'Kimia',
+                                task_title_raw: 'Tugas 3: Kesetimbangan Kimia Latihan 4.1', task_title_norm: 'tugas 3 kesetimbangan kimia latihan 4 1',
+                                submitted_date: '2026-11-06', notes: 'Kertas folio bergaris',
+                                verification_status: 'dilaporkan', is_latest: 1, created_at: now - 86400000
+                            },
+                            {
+                                id: 'item_3', submission_id: 'sub_2', ref_code: 'TSG-3X4Y5Z',
+                                student_name_raw: 'Annisa Rahmawati', student_name_norm: 'annisa rahmawati',
+                                class_name: 'XI MIPA 2', subject_name: 'Kimia',
+                                task_title_raw: 'Tugas 2: Laju Reaksi & Orde Reaksi', task_title_norm: 'tugas 2 laju reaksi orde reaksi',
+                                submitted_date: '2026-11-06', notes: 'Diserahkan langsung ke Bu Guru',
+                                verification_status: 'dilaporkan', is_latest: 1, created_at: now - 43200000
+                            },
+                            {
+                                id: 'item_4', submission_id: 'sub_3', ref_code: 'TSG-9A2B3C',
+                                student_name_raw: 'Budi Santoso', student_name_norm: 'budi santoso',
+                                class_name: 'X MIPA 1', subject_name: 'Fisika',
+                                task_title_raw: 'Tugas 1: Gerak Lurus Beraturan (GLB)', task_title_norm: 'tugas 1 gerak lurus beraturan glb',
+                                submitted_date: '2026-11-05', notes: 'Di map hijau meja guru',
+                                verification_status: 'tidak_ditemukan', is_latest: 1, created_at: now - 21600000
+                            }
+                        ];
+                    }
+                } else {
+                    const res = await fetch(`/api/task/admin/rekap/${encodeURIComponent(periodId)}?onlyLatest=false`, {
+                        headers: { 'X-Rekap-Key': adminRekapKey }
+                    });
+                    if (!res.ok) throw new Error('Gagal mengambil data rekap tugas.');
+                    const data = await res.json();
+                    items = data.items || [];
+                }
+
+                rekapItems = items;
+                applyFilters();
+            } catch (err) {
+                container.innerHTML = `<div class="bg-rose-50 text-rose-600 rounded-2xl p-8 text-center text-sm font-semibold">${escapeHtml(err.message)}</div>`;
+            }
+        }
+
+        function updateMetrics(filteredItems) {
+            const uniqueStudents = new Set(filteredItems.map(i => `${i.class_name}__${i.student_name_norm}`));
+            document.getElementById('metric-students').textContent = uniqueStudents.size;
+            document.getElementById('metric-tasks').textContent = filteredItems.length;
+
+            const confirmed = filteredItems.filter(i => i.verification_status === 'dikonfirmasi_guru_mapel').length;
+            const pending = filteredItems.filter(i => i.verification_status === 'dilaporkan').length;
+
+            document.getElementById('metric-confirmed').textContent = confirmed;
+            document.getElementById('metric-pending').textContent = pending;
+        }
+
+        // --- 4. FILTERING & RENDER TAMPILAN ---
+        function applyFilters() {
+            const classFilter = document.getElementById('filter-class')?.value || '';
+            const subjectFilter = document.getElementById('filter-subject')?.value || '';
+            const statusFilter = document.getElementById('filter-status')?.value || '';
+            const onlyLatest = document.getElementById('toggle-latest-only')?.checked;
+            const query = (document.getElementById('search-query')?.value || '').trim().toLowerCase();
+
+            let filtered = rekapItems.filter(item => {
+                if (onlyLatest && item.is_latest !== 1) return false;
+                if (classFilter && item.class_name !== classFilter) return false;
+                if (subjectFilter && item.subject_name !== subjectFilter) return false;
+                if (statusFilter && item.verification_status !== statusFilter) return false;
+                if (query) {
+                    const matchName = (item.student_name_raw || '').toLowerCase().includes(query);
+                    const matchTitle = (item.task_title_raw || '').toLowerCase().includes(query);
+                    const matchRef = (item.ref_code || '').toLowerCase().includes(query);
+                    if (!matchName && !matchTitle && !matchRef) return false;
+                }
+                return true;
+            });
+
+            updateMetrics(filtered);
+
+            if (currentTab === 'kelas') {
+                renderRekapPerKelas(filtered);
+            } else {
+                renderRekapPerMapel(filtered);
+            }
+        }
+
+        function switchViewTab(tab) {
+            currentTab = tab;
+            const btnKelas = document.getElementById('tab-btn-kelas');
+            const btnMapel = document.getElementById('tab-btn-mapel');
+            const filterKelasWrapper = document.getElementById('filter-kelas-wrapper');
+
+            if (tab === 'kelas') {
+                btnKelas.className = 'px-6 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-blue-600 text-blue-600 flex items-center gap-2 transition cursor-pointer';
+                btnMapel.className = 'px-6 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition cursor-pointer';
+                filterKelasWrapper.style.display = 'block';
+            } else {
+                btnKelas.className = 'px-6 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition cursor-pointer';
+                btnMapel.className = 'px-6 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-blue-600 text-blue-600 flex items-center gap-2 transition cursor-pointer';
+            }
+
+            applyFilters();
+        }
+
+        // TAMPILAN TAB 1: PER KELAS
+        function renderRekapPerKelas(items) {
+            const container = document.getElementById('rekap-content-container');
+            if (items.length === 0) {
+                container.innerHTML = '<div class="bg-white rounded-2xl p-12 text-center border border-slate-200 text-slate-400">Tidak ada data pelaporan tugas yang cocok dengan filter.</div>';
+                return;
+            }
+
+            // Kelompokkan: Kelas -> Siswa -> Items
+            const groupedByClass = {};
+            items.forEach(item => {
+                if (!groupedByClass[item.class_name]) groupedByClass[item.class_name] = {};
+                const studentKey = `${item.student_name_norm}__${item.ref_code}`;
+                if (!groupedByClass[item.class_name][studentKey]) {
+                    groupedByClass[item.class_name][studentKey] = {
+                        student_name: item.student_name_raw,
+                        ref_code: item.ref_code,
+                        items: []
+                    };
+                }
+                groupedByClass[item.class_name][studentKey].items.push(item);
+            });
+
+            let html = '';
+            for (const [className, studentsObj] of Object.entries(groupedByClass)) {
+                html += `
+                    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs mb-6 overflow-hidden print-card print-break-inside-avoid">
+                        <div class="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between">
+                            <h2 class="text-sm font-bold tracking-wide flex items-center gap-2">
+                                <span>🏫</span>
+                                <span>Kelas: ${escapeHtml(className)}</span>
+                            </h2>
+                            <span class="text-xs text-slate-300 font-medium">
+                                ${Object.keys(studentsObj).length} Siswa Melapor
+                            </span>
+                        </div>
+
+                        <div class="divide-y divide-slate-100">
+                `;
+
+                for (const student of Object.values(studentsObj)) {
+                    html += `
+                        <div class="p-4 sm:p-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                                <div>
+                                    <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                                        <span>👤</span>
+                                        <span>${escapeHtml(student.student_name)}</span>
+                                    </h3>
+                                    <span class="text-[11px] font-mono text-slate-500">Resi: <strong>${escapeHtml(student.ref_code)}</strong></span>
+                                </div>
+                                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 self-start sm:self-auto">
+                                    ${student.items.length} Tugas Dilaporkan
+                                </span>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden">
+                                    <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+                                        <tr>
+                                            <th class="py-2.5 px-3">Mapel</th>
+                                            <th class="py-2.5 px-3">Judul Tugas</th>
+                                            <th class="py-2.5 px-3">Tgl Serah</th>
+                                            <th class="py-2.5 px-3">Catatan Fisik</th>
+                                            <th class="py-2.5 px-3">Status Verifikasi</th>
+                                            <th class="py-2.5 px-3 text-right no-print">Aksi Verifikasi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                    `;
+
+                    student.items.forEach(t => {
+                        html += `
+                            <tr class="hover:bg-slate-50/50">
+                                <td class="py-2.5 px-3 font-semibold text-slate-900">${escapeHtml(t.subject_name)}</td>
+                                <td class="py-2.5 px-3 font-medium text-slate-800">
+                                    ${escapeHtml(t.task_title_raw)}
+                                    ${t.is_latest === 0 ? '<span class="ml-1 text-[10px] text-amber-600 bg-amber-50 px-1 py-0.5 rounded border border-amber-200">(Revisi Lama)</span>' : ''}
+                                </td>
+                                <td class="py-2.5 px-3 text-slate-600 font-mono">${escapeHtml(t.submitted_date || '-')}</td>
+                                <td class="py-2.5 px-3 text-slate-500 italic max-w-xs">${escapeHtml(t.notes || '-')}</td>
+                                <td class="py-2.5 px-3">${renderStatusBadge(t.verification_status)}</td>
+                                <td class="py-2.5 px-3 text-right no-print">
+                                    <select onchange="updateItemStatus('${t.id}', this.value)"
+                                            class="px-2 py-1 rounded-lg border border-slate-300 text-[11px] font-semibold text-slate-700 bg-white cursor-pointer focus:ring-1 focus:ring-blue-500">
+                                        <option value="dilaporkan" ${t.verification_status === 'dilaporkan' ? 'selected' : ''}>Dilaporkan</option>
+                                        <option value="dikonfirmasi_guru_mapel" ${t.verification_status === 'dikonfirmasi_guru_mapel' ? 'selected' : ''}>Dikonfirmasi</option>
+                                        <option value="tidak_ditemukan" ${t.verification_status === 'tidak_ditemukan' ? 'selected' : ''}>Tidak Ditemukan</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    html += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // TAMPILAN TAB 2: PER MAPEL
+        function renderRekapPerMapel(items) {
+            const container = document.getElementById('rekap-content-container');
+            if (items.length === 0) {
+                container.innerHTML = '<div class="bg-white rounded-2xl p-12 text-center border border-slate-200 text-slate-400">Tidak ada data pelaporan tugas yang cocok dengan filter.</div>';
+                return;
+            }
+
+            // Kelompokkan: Mapel -> Judul Tugas -> Items
+            const groupedBySubject = {};
+            items.forEach(item => {
+                if (!groupedBySubject[item.subject_name]) groupedBySubject[item.subject_name] = {};
+                const titleKey = item.task_title_norm;
+                if (!groupedBySubject[item.subject_name][titleKey]) {
+                    groupedBySubject[item.subject_name][titleKey] = {
+                        title_raw: item.task_title_raw,
+                        items: []
+                    };
+                }
+                groupedBySubject[item.subject_name][titleKey].items.push(item);
+            });
+
+            let html = '';
+            for (const [subjectName, tasksObj] of Object.entries(groupedBySubject)) {
+                html += `
+                    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs mb-6 overflow-hidden print-card print-break-inside-avoid">
+                        <div class="bg-blue-900 text-white px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <h2 class="text-sm font-bold tracking-wide flex items-center gap-2">
+                                <span>📚</span>
+                                <span>Mata Pelajaran: ${escapeHtml(subjectName)}</span>
+                            </h2>
+                            <div class="flex items-center gap-2 no-print">
+                                <button type="button" onclick="bulkVerifySubject('${escapeHtml(subjectName)}', 'dikonfirmasi_guru_mapel')"
+                                        class="px-3 py-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold rounded-lg transition cursor-pointer">
+                                    ✓ Konfirmasi Semua Siswa
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="divide-y divide-slate-100 p-4 sm:p-5">
+                `;
+
+                for (const task of Object.values(tasksObj)) {
+                    html += `
+                        <div class="py-3 first:pt-0 last:pb-0">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                    <span>📝</span>
+                                    <span>${escapeHtml(task.title_raw)}</span>
+                                </h3>
+                                <span class="text-xs text-slate-500 font-semibold">
+                                    ${task.items.length} Siswa Mengumpulkan
+                                </span>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden">
+                                    <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+                                        <tr>
+                                            <th class="py-2 px-3">Nama Siswa</th>
+                                            <th class="py-2 px-3">Kelas</th>
+                                            <th class="py-2 px-3">Nomor Resi</th>
+                                            <th class="py-2 px-3">Catatan Fisik</th>
+                                            <th class="py-2 px-3">Status</th>
+                                            <th class="py-2 px-3 text-right no-print">Ubah Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                    `;
+
+                    task.items.forEach(t => {
+                        html += `
+                            <tr class="hover:bg-slate-50/50">
+                                <td class="py-2 px-3 font-bold text-slate-900">${escapeHtml(t.student_name_raw)}</td>
+                                <td class="py-2 px-3 font-semibold text-slate-600">${escapeHtml(t.class_name)}</td>
+                                <td class="py-2 px-3 font-mono text-slate-500">${escapeHtml(t.ref_code)}</td>
+                                <td class="py-2 px-3 text-slate-500 italic max-w-xs">${escapeHtml(t.notes || '-')}</td>
+                                <td class="py-2 px-3">${renderStatusBadge(t.verification_status)}</td>
+                                <td class="py-2 px-3 text-right no-print">
+                                    <select onchange="updateItemStatus('${t.id}', this.value)"
+                                            class="px-2 py-1 rounded-lg border border-slate-300 text-[11px] font-semibold text-slate-700 bg-white cursor-pointer focus:ring-1 focus:ring-blue-500">
+                                        <option value="dilaporkan" ${t.verification_status === 'dilaporkan' ? 'selected' : ''}>Dilaporkan</option>
+                                        <option value="dikonfirmasi_guru_mapel" ${t.verification_status === 'dikonfirmasi_guru_mapel' ? 'selected' : ''}>Dikonfirmasi</option>
+                                        <option value="tidak_ditemukan" ${t.verification_status === 'tidak_ditemukan' ? 'selected' : ''}>Tidak Ditemukan</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    html += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderStatusBadge(status) {
+            if (status === 'dikonfirmasi_guru_mapel') {
+                return '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">✓ Dikonfirmasi</span>';
+            }
+            if (status === 'tidak_ditemukan') {
+                return '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">✕ Tidak Ada</span>';
+            }
+            return '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">⏳ Dilaporkan</span>';
+        }
+
+        // --- 5. AKSI UBAH STATUS VERIFIKASI (SINGLE / BULK) ---
+        async function updateItemStatus(itemId, newStatus) {
+            try {
+                if (isLocalDev) {
+                    // Update lokal memori langsung
+                    const item = rekapItems.find(i => i.id === itemId);
+                    if (item) item.verification_status = newStatus;
+                    applyFilters();
+                    return;
+                }
+
+                const res = await fetch('/api/task/admin/items/verify', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Rekap-Key': adminRekapKey
+                    },
+                    body: JSON.stringify({ itemIds: [itemId], status: newStatus })
+                });
+
+                if (!res.ok) throw new Error('Gagal memperbarui status');
+                const item = rekapItems.find(i => i.id === itemId);
+                if (item) item.verification_status = newStatus;
+                applyFilters();
+            } catch (err) {
+                alert('Gagal update status: ' + err.message);
+            }
+        }
+
+        async function bulkVerifySubject(subjectName, newStatus) {
+            const confirmed = confirm(`Konfirmasi verifikasi status '${newStatus}' untuk seluruh siswa pada mata pelajaran ${subjectName}?`);
+            if (!confirmed) return;
+
+            const targetItems = rekapItems.filter(i => i.subject_name === subjectName);
+            const itemIds = targetItems.map(i => i.id);
+
+            try {
+                if (isLocalDev) {
+                    targetItems.forEach(i => i.verification_status = newStatus);
+                    applyFilters();
+                    return;
+                }
+
+                const res = await fetch('/api/task/admin/items/verify', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Rekap-Key': adminRekapKey
+                    },
+                    body: JSON.stringify({ itemIds, status: newStatus })
+                });
+
+                if (!res.ok) throw new Error('Gagal konfirmasi massal');
+                targetItems.forEach(i => i.verification_status = newStatus);
+                applyFilters();
+            } catch (err) {
+                alert('Gagal: ' + err.message);
+            }
+        }
+
+        // --- 6. EKSPOR CSV NETRAL ---
+        async function handleExportCsvClick() {
+            if (!selectedPeriod) return;
+
+            try {
+                if (isLocalDev) {
+                    // Ekspor CSV dari data memori lokal dengan proteksi Netralisasi Formula
+                    let csvContent = '\uFEFF'; // UTF-8 BOM
+                    csvContent += '"ID","Nomor Resi","Kelas","Nama Lengkap","Mapel","Judul Tugas","Tgl Diserahkan","Catatan","Status Verifikasi","Versi Terbaru","Waktu Lapor"\r\n';
+                    
+                    rekapItems.forEach(i => {
+                        const row = [
+                            i.id, i.ref_code, i.class_name, i.student_name_raw,
+                            i.subject_name, i.task_title_raw, i.submitted_date || '',
+                            i.notes || '', i.verification_status, i.is_latest,
+                            formatWib(i.created_at)
+                        ].map(escapeCsvValue).join(',') + '\r\n';
+                        csvContent += row;
+                    });
+
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `rekap-tugas-${selectedPeriod.id}.csv`;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    return;
+                }
+
+                const res = await fetch(`/api/task/admin/export/${encodeURIComponent(selectedPeriod.id)}`, {
+                    headers: { 'X-Rekap-Key': adminRekapKey }
+                });
+
+                if (!res.ok) throw new Error('Gagal mengunduh CSV dari server.');
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `rekap-tugas-${selectedPeriod.id}.csv`;
+                link.click();
+                URL.revokeObjectURL(url);
+            } catch (err) {
+                alert('Gagal ekspor CSV: ' + err.message);
+            }
+        }
+
+        function escapeCsvValue(val) {
+            if (val === null || val === undefined) return '""';
+            let str = String(val);
+            if (/^[=+\-@\t\r]/.test(str) || /^\s*[=+\-@]/.test(str)) {
+                str = "'" + str;
+            }
+            return `"${str.replace(/"/g, '""')}"`;
+        }
+
+        // --- 7. MODAL BUAT PERIODE BARU ---
+        function openCreatePeriodModal() {
+            const now = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+            const toInputFormat = (d) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+
+            document.getElementById('create-starts-at').value = toInputFormat(now);
+            const future = new Date(now.getTime() + (7 * 24 * 3600 * 1000));
+            document.getElementById('create-ends-at').value = toInputFormat(future);
+            generateRandomCode();
+
+            document.getElementById('modal-create-period').classList.remove('hidden');
+        }
+
+        function closeCreatePeriodModal() {
+            document.getElementById('modal-create-period').classList.add('hidden');
+        }
+
+        function generateRandomCode() {
+            const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+            let code = 'TGS-';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('create-access-code').value = code;
+        }
+
+        async function submitCreatePeriod() {
+            const name = document.getElementById('create-name').value.trim();
+            const startsAt = new Date(document.getElementById('create-starts-at').value).getTime();
+            const endsAt = new Date(document.getElementById('create-ends-at').value).getTime();
+            const classesRaw = document.getElementById('create-classes').value.split(',').map(s => s.trim()).filter(Boolean);
+            const subjectsRaw = document.getElementById('create-subjects').value.split(',').map(s => s.trim()).filter(Boolean);
+            const accessCode = document.getElementById('create-access-code').value.trim();
+            const retentionDays = parseInt(document.getElementById('create-retention-days').value, 10) || 30;
+            const errEl = document.getElementById('create-period-error');
+            const submitBtn = document.getElementById('btn-submit-create');
+
+            errEl.classList.add('hidden');
+
+            if (endsAt <= startsAt) {
+                errEl.textContent = 'Waktu tutup harus lebih besar daripada waktu buka.';
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menyimpan Periode...';
+
+            try {
+                if (isLocalDev) {
+                    const newPeriod = {
+                        id: 'period_' + Date.now(),
+                        name,
+                        starts_at: startsAt,
+                        ends_at: endsAt,
+                        status: 'open',
+                        classes_json: JSON.stringify(classesRaw),
+                        subjects_json: JSON.stringify(subjectsRaw),
+                        retention_days: retentionDays,
+                        created_at: Date.now(),
+                        closed_at: null
+                    };
+                    allPeriods.unshift(newPeriod);
+                    closeCreatePeriodModal();
+                    showAccessCodeNotice(accessCode);
+                    renderPeriodSelectOptions();
+                    return;
+                }
+
+                const res = await fetch('/api/task/admin/periods', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Rekap-Key': adminRekapKey
+                    },
+                    body: JSON.stringify({
+                        name,
+                        startsAt,
+                        endsAt,
+                        classes: classesRaw,
+                        subjects: subjectsRaw,
+                        accessCode,
+                        retentionDays
+                    })
+                });
+
+                const data = await res.json();
+                if (!res.ok || !data.ok) throw new Error(data.error || 'Gagal membuat periode');
+
+                closeCreatePeriodModal();
+                showAccessCodeNotice(data.accessCode);
+                await loadAllPeriods();
+            } catch (err) {
+                errEl.textContent = err.message;
+                errEl.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Simpan & Buat Periode →';
+            }
+        }
+
+        let pendingAccessCode = '';
+        function showAccessCodeNotice(code) {
+            pendingAccessCode = code;
+            document.getElementById('display-new-access-code').textContent = code;
+            document.getElementById('copy-code-success').classList.add('hidden');
+            document.getElementById('modal-access-code-notice').classList.remove('hidden');
+        }
+
+        function closeAccessCodeNotice() {
+            document.getElementById('modal-access-code-notice').classList.add('hidden');
+        }
+
+        function copyAccessCode() {
+            navigator.clipboard.writeText(pendingAccessCode).then(() => {
+                document.getElementById('copy-code-success').classList.remove('hidden');
+            }).catch(() => {
+                alert('Kode Akses: ' + pendingAccessCode);
+            });
+        }
+
+        // --- 8. UBAH TENGGAT & BUKA/TUTUP MANUAL ---
+        async function handleTogglePeriodStatus() {
+            if (!selectedPeriod) return;
+            const newStatus = selectedPeriod.status === 'open' ? 'closed' : 'open';
+            const actionText = newStatus === 'closed' ? 'menutup periode ini lebih awal' : 'membuka kembali periode ini';
+
+            const sure = confirm(`Apakah Anda yakin ingin ${actionText}?`);
+            if (!sure) return;
+
+            try {
+                if (isLocalDev) {
+                    selectedPeriod.status = newStatus;
+                    onPeriodChanged();
+                    return;
+                }
+
+                const res = await fetch(`/api/task/admin/periods/${encodeURIComponent(selectedPeriod.id)}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Rekap-Key': adminRekapKey
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (!res.ok) throw new Error('Gagal mengubah status periode');
+                selectedPeriod.status = newStatus;
+                onPeriodChanged();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        function openEditDeadlineModal() {
+            if (!selectedPeriod) return;
+            const d = new Date(selectedPeriod.ends_at);
+            const pad = (n) => String(n).padStart(2, '0');
+            document.getElementById('edit-deadline-input').value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            document.getElementById('modal-edit-deadline').classList.remove('hidden');
+        }
+
+        function closeEditDeadlineModal() {
+            document.getElementById('modal-edit-deadline').classList.add('hidden');
+        }
+
+        async function submitEditDeadline() {
+            const val = document.getElementById('edit-deadline-input').value;
+            if (!val) return;
+            const newEndsAt = new Date(val).getTime();
+
+            try {
+                if (isLocalDev) {
+                    selectedPeriod.ends_at = newEndsAt;
+                    closeEditDeadlineModal();
+                    onPeriodChanged();
+                    return;
+                }
+
+                const res = await fetch(`/api/task/admin/periods/${encodeURIComponent(selectedPeriod.id)}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Rekap-Key': adminRekapKey
+                    },
+                    body: JSON.stringify({ endsAt: newEndsAt })
+                });
+
+                if (!res.ok) throw new Error('Gagal update tenggat');
+                selectedPeriod.ends_at = newEndsAt;
+                closeEditDeadlineModal();
+                onPeriodChanged();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        // --- 9. HAPUS PERIODE & DATA (PURGE) ---
+        async function openPurgeModal() {
+            if (!selectedPeriod) return;
+            const box = document.getElementById('purge-simulation-box');
+            const confirmInput = document.getElementById('input-purge-confirm');
+            const execBtn = document.getElementById('btn-purge-execute');
+            
+            confirmInput.value = '';
+            execBtn.disabled = true;
+            box.innerHTML = 'Memuat simulasi baris data...';
+            document.getElementById('modal-purge').classList.remove('hidden');
+
+            try {
+                if (isLocalDev) {
+                    box.innerHTML = `
+                        <strong>Hasil Simulasi Hapus (Dry Run):</strong><br>
+                        • Periode: <strong>${escapeHtml(selectedPeriod.name)}</strong><br>
+                        • Butir Tugas: <strong>${rekapItems.length} baris</strong><br>
+                        • Pengiriman Siswa: <strong>${new Set(rekapItems.map(i => i.submission_id)).size} berkas</strong><br>
+                        Data akan dihapus permanen dari D1 secara atomik.
+                    `;
+                    return;
+                }
+
+                const res = await fetch(`/api/task/admin/purge/${encodeURIComponent(selectedPeriod.id)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Rekap-Key': adminRekapKey
+                    },
+                    body: JSON.stringify({ dry_run: true })
+                });
+
+                const data = await res.json();
+                if (!res.ok || !data.ok) throw new Error(data.error || 'Gagal simulasi');
+
+                box.innerHTML = `
+                    <strong>Hasil Simulasi Hapus (Dry Run):</strong><br>
+                    • Periode: <strong>${escapeHtml(data.periodName)}</strong><br>
+                    • Butir Tugas: <strong>${data.estimatedRowsToDelete.task_items} baris</strong><br>
+                    • Pengiriman Siswa: <strong>${data.estimatedRowsToDelete.task_submissions} berkas</strong><br>
+                    Data akan dihapus permanen dari D1 secara atomik.
+                `;
+            } catch (err) {
+                box.innerHTML = `<span class="text-rose-600 font-bold">Gagal: ${escapeHtml(err.message)}</span>`;
+            }
+        }
+
+        function closePurgeModal() {
+            document.getElementById('modal-purge').classList.add('hidden');
+        }
+
+        async function executePurge() {
+            const execBtn = document.getElementById('btn-purge-execute');
+            execBtn.disabled = true;
+            execBtn.textContent = 'Menghapus Permanen...';
+
+            try {
+                if (isLocalDev) {
+                    allPeriods = allPeriods.filter(p => p.id !== selectedPeriod.id);
+                    rekapItems = [];
+                    closePurgeModal();
+                    alert('Periode dan seluruh data berhasil dihapus permanen.');
+                    renderPeriodSelectOptions();
+                    return;
+                }
+
+                const res = await fetch(`/api/task/admin/purge/${encodeURIComponent(selectedPeriod.id)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Rekap-Key': adminRekapKey
+                    },
+                    body: JSON.stringify({ dry_run: false, confirm: true })
+                });
+
+                const data = await res.json();
+                if (!res.ok || !data.ok) throw new Error(data.error || 'Gagal mengeksekusi penghapusan');
+
+                closePurgeModal();
+                alert('Periode dan seluruh data berhasil dihapus permanen.');
+                await loadAllPeriods();
+            } catch (err) {
+                alert('Gagal: ' + err.message);
+                execBtn.disabled = false;
+                execBtn.textContent = 'Hapus Permanen';
+            }
+        }
+
+        // --- UTILITY FORMATTING ---
+        function formatWib(timestamp) {
+            if (!timestamp) return '-';
+            const date = new Date(timestamp);
+            return date.toLocaleString('id-ID', {
+                timeZone: 'Asia/Jakarta',
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }) + ' WIB';
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
