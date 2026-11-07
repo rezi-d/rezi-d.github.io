@@ -141,7 +141,7 @@ function corsHeaders(request, env) {
     const origin = allowedOrigin(request, env);
     const headers = {
         'Vary': 'Origin',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Device-Id, X-Admin-Key, X-Teacher-Key, X-Rekap-Key, X-Task-Session-Token',
         'Access-Control-Max-Age': '86400'
     };
@@ -4508,7 +4508,7 @@ export default {
 
                 // Admin: Update Status / Tenggat Periode
                 const patchMatch = path.match(/^\/api\/task\/admin\/periods\/([^/]+)$/);
-                if (patchMatch && request.method === 'PATCH') {
+                if (patchMatch && (request.method === 'PATCH' || request.method === 'POST')) {
                     const periodId = patchMatch[1];
                     const body = await readJson(request);
                     const res = await handleUpdatePeriod(env.DB, periodId, body);
@@ -4530,10 +4530,14 @@ export default {
                 }
 
                 // Admin: Update Status Verifikasi (Single / Bulk)
-                if (path === '/api/task/admin/items/verify' && request.method === 'PATCH') {
-                    const body = await readJson(request);
-                    const res = await handleVerifyItems(env.DB, body);
-                    return json(request, env, res);
+                if (path === '/api/task/admin/items/verify' && (request.method === 'PATCH' || request.method === 'POST')) {
+                    try {
+                        const body = await readJson(request);
+                        const res = await handleVerifyItems(env.DB, body);
+                        return json(request, env, res);
+                    } catch (err) {
+                        return json(request, env, { ok: false, error: err.message || 'Gagal update status' }, 400);
+                    }
                 }
 
                 // Admin: Ekspor CSV dengan Netralisasi Formula

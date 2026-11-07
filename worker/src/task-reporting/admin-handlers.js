@@ -205,9 +205,10 @@ export async function handleGetRekap(db, periodId, filters = {}) {
 // --- Handler Update Status Verifikasi (Satuan / Massal) ---
 export async function handleVerifyItems(db, body, now = Date.now()) {
     const validStatuses = ['dilaporkan', 'dikonfirmasi_guru_mapel', 'tidak_ditemukan'];
-    const newStatus = body.newStatus;
+    let newStatus = body.newStatus || body.status;
+    if (newStatus === 'dikonfirmasi') newStatus = 'dikonfirmasi_guru_mapel';
     if (!validStatuses.includes(newStatus)) {
-        throw new Error('Status verifikasi tidak valid.');
+        throw new Error('Status verifikasi tidak valid: ' + newStatus);
     }
 
     if (Array.isArray(body.itemIds) && body.itemIds.length > 0) {
