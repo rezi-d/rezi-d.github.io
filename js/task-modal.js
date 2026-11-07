@@ -1146,18 +1146,33 @@
         submitBtn.disabled = true;
         submitBtn.textContent = 'Mengirim Laporan...';
 
+        const payload = {
+            periodId: currentPeriod.id,
+            studentNameRaw: savedStudentName,
+            className: savedStudentClass,
+            tasks: taskRows.map(r => ({
+                subject: r.subject,
+                title: r.title.trim(),
+                submittedDate: r.submittedDate || null,
+                notes: (r.notes || '').trim() || null
+            }))
+        };
+
         try {
-            const payload = {
-                periodId: currentPeriod.id,
-                studentNameRaw: savedStudentName,
-                className: savedStudentClass,
-                tasks: taskRows.map(r => ({
-                    subject: r.subject,
-                    title: r.title.trim(),
-                    submittedDate: r.submittedDate || null,
-                    notes: (r.notes || '').trim() || null
-                }))
-            };
+            const isLocalDev = window.location.hostname === 'localhost' || 
+                               window.location.hostname === '127.0.0.1' || 
+                               window.location.protocol === 'file:';
+            if (isLocalDev) {
+                // Simulasi pengiriman instan di Live Server lokal
+                await new Promise(r => setTimeout(r, 400));
+                const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+                let mockRef = 'TSG-';
+                for (let i = 0; i < 6; i++) {
+                    mockRef += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                renderStep4(mockRef, payload.tasks.length);
+                return;
+            }
 
             const res = await fetch('/api/task/submit', {
                 method: 'POST',
@@ -1176,14 +1191,6 @@
             // Sukses! Lanjut ke Langkah 4 (Resi)
             renderStep4(data.refCode, payload.tasks.length);
         } catch (err) {
-            const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            if (isLocalDev) {
-                // Di lingkungan Live Server lokal tanpa worker, hasilkan kode demo
-                const mockRefCode = 'TSG-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-                renderStep4(mockRefCode, payload.tasks.length);
-                return;
-            }
-
             errorEl.textContent = err.message;
             errorEl.style.display = 'block';
             submitBtn.disabled = false;
