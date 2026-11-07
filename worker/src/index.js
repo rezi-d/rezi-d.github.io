@@ -4451,15 +4451,20 @@ export default {
                 }
 
                 const ua = (request.headers.get('User-Agent') || '').slice(0, 80);
-                const result = await submitTaskBatch(env.DB, {
-                    periodId,
-                    studentNameRaw: body.studentName,
-                    className: body.className,
-                    tasks: body.tasks,
-                    ipHmac: ipHash,
-                    userAgentMasked: ua,
-                    now
-                });
+                let result;
+                try {
+                    result = await submitTaskBatch(env.DB, {
+                        periodId,
+                        studentNameRaw: body.studentNameRaw || body.studentName,
+                        className: body.className || body.studentClass,
+                        tasks: body.tasks,
+                        ipHmac: ipHash,
+                        userAgentMasked: ua,
+                        now
+                    });
+                } catch (submitErr) {
+                    return json(request, env, { ok: false, error: submitErr.message || 'Gagal menyimpan tugas.', reason: 'validation_error' }, 400);
+                }
 
                 return json(request, env, {
                     ok: true,

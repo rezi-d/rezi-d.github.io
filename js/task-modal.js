@@ -1159,8 +1159,10 @@
 
         const payload = {
             periodId: currentPeriod.id,
+            studentName: savedStudentName,
             studentNameRaw: savedStudentName,
             className: savedStudentClass,
+            studentClass: savedStudentClass,
             tasks: taskRows.map(r => ({
                 subject: r.subject,
                 title: r.title.trim(),
