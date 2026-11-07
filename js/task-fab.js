@@ -97,7 +97,7 @@
                         startsAt: Date.now() - 3600000,
                         endsAt: Date.now() + (7 * 86400000),
                         classes: ['X Putra', 'X Putri', 'XI IPA Putra', 'XI IPA Putri', 'XII IPA Putra', 'XII IPA Putri', 'XII IPS Putri'],
-                        subjects: ['Kimia', 'Fisika', 'Biologi', 'Matematika']
+                        subjects: ['Akidah', 'Al-Quran', 'Bahasa Arab', 'Bahasa Indonesia', 'Bahasa Inggris', 'Bahasa Inggris TL (Tingkat Lanjut)', 'Biologi', 'BK (Bimbingan Konseling)', 'BPI', 'Ekonomi', 'Fiqih', 'Fisika', 'Geografi', 'Hadist', 'Informatika', 'Kimia', 'Matematika', 'Matematika TL (Tingkat Lanjut)', 'PAI (Pendidikan Agama Islam)', 'PJOK', 'PKN', 'PKW (Prakarya dan Kewirausahaan)', 'Sejarah', 'Sejarah TL (Tingkat Lanjut)', 'Siroh', 'Sosiologi', 'Tafsir']
                     }
                 };
             }

@@ -28,6 +28,37 @@
     let activeStep = 1;
     let taskRows = [];
     let isSubmitting = false;
+    // 27 Mata Pelajaran Resmi Sekolah
+    const OFFICIAL_SUBJECTS = [
+        'Akidah',
+        'Al-Quran',
+        'Bahasa Arab',
+        'Bahasa Indonesia',
+        'Bahasa Inggris',
+        'Bahasa Inggris TL (Tingkat Lanjut)',
+        'Biologi',
+        'BK (Bimbingan Konseling)',
+        'BPI',
+        'Ekonomi',
+        'Fiqih',
+        'Fisika',
+        'Geografi',
+        'Hadist',
+        'Informatika',
+        'Kimia',
+        'Matematika',
+        'Matematika TL (Tingkat Lanjut)',
+        'PAI (Pendidikan Agama Islam)',
+        'PJOK',
+        'PKN',
+        'PKW (Prakarya dan Kewirausahaan)',
+        'Sejarah',
+        'Sejarah TL (Tingkat Lanjut)',
+        'Siroh',
+        'Sosiologi',
+        'Tafsir'
+    ];
+
 
     // Elemen DOM Modal
     let overlayEl = null;
@@ -232,6 +263,90 @@
                 background-color: #f0fdf4;
                 color: #166534;
             }
+            
+            /* Searchable Mapel Picker (Maksimal 4 Tampil & Search Bar) */
+            .task-subject-picker-container {
+                position: relative;
+            }
+            .task-subject-picker-btn {
+                width: 100%;
+                padding: 0.5rem 0.625rem;
+                border-radius: 12px;
+                border: 1px solid #cbd5e1;
+                font-size: 0.8125rem;
+                font-weight: 600;
+                color: #0f172a;
+                background: #ffffff;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+                text-align: left;
+                transition: border-color 0.15s, box-shadow 0.15s;
+                font-family: inherit;
+            }
+            .task-subject-picker-btn:focus {
+                outline: none;
+                border-color: #0071e3;
+                box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+            }
+            .task-subject-dropdown-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                border: 1px solid #cbd5e1;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.18), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                z-index: 35;
+                margin-top: 4px;
+                overflow: hidden;
+            }
+            .task-subject-search-wrapper {
+                padding: 0.375rem;
+                border-bottom: 1px solid #f1f5f9;
+                background: #fafafa;
+            }
+            .task-subject-search-input {
+                width: 100%;
+                padding: 0.375rem 0.625rem;
+                font-size: 0.75rem;
+                border-radius: 8px;
+                border: 1px solid #cbd5e1;
+                outline: none;
+                font-family: inherit;
+                box-sizing: border-box;
+            }
+            .task-subject-search-input:focus {
+                border-color: #0071e3;
+            }
+            .task-subject-options-list {
+                max-height: 132px; /* Tepat menampilkan maksimal 4 mapel */
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .task-subject-option-item {
+                padding: 0.45rem 0.625rem;
+                font-size: 0.8125rem;
+                color: #334155;
+                cursor: pointer;
+                border-bottom: 1px solid #f8fafc;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                transition: background-color 0.1s;
+            }
+            .task-subject-option-item:hover {
+                background-color: #eff6ff;
+                color: #1d4ed8;
+            }
+            .task-subject-option-item.selected {
+                background-color: #dbeafe;
+                color: #1e40af;
+                font-weight: 700;
+            }
+
             .task-notice-box {
                 background: #eff6ff;
                 border: 1px solid #bfdbfe;
@@ -525,7 +640,7 @@
             // Inisialisasi default 1 baris tugas
             taskRows = [{
                 id: 'row_' + Date.now(),
-                subject: currentPeriod.subjects[0] || '',
+                subject: OFFICIAL_SUBJECTS[0],
                 title: '',
                 submittedDate: new Date().toISOString().split('T')[0],
                 notes: ''
@@ -540,11 +655,11 @@
             if (isLocalDev) {
                 sessionToken = 'mock_dev_session_token_' + Date.now();
                 currentPeriod.classes = (currentPeriod.classes && currentPeriod.classes.length) ? currentPeriod.classes : ['X Putra', 'X Putri', 'XI IPA Putra', 'XI IPA Putri', 'XII IPA Putra', 'XII IPA Putri', 'XII IPS Putri'];
-                currentPeriod.subjects = (currentPeriod.subjects && currentPeriod.subjects.length) ? currentPeriod.subjects : ['Kimia', 'Fisika', 'Biologi', 'Matematika'];
+                currentPeriod.subjects = (currentPeriod.subjects && currentPeriod.subjects.length > 5) ? currentPeriod.subjects : OFFICIAL_SUBJECTS;
                 turnstileToken = null;
                 taskRows = [{
                     id: 'row_' + Date.now(),
-                    subject: currentPeriod.subjects[0] || 'Kimia',
+                    subject: OFFICIAL_SUBJECTS[0],
                     title: '',
                     submittedDate: new Date().toISOString().split('T')[0],
                     notes: ''
@@ -743,11 +858,18 @@
                 </div>
 
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
-                    <div>
+                    <div class="task-subject-picker-container" data-id="${row.id}">
                         <label style="display:block; font-size:0.75rem; font-weight:600; color:#334155; margin-bottom:0.25rem;">Mata Pelajaran *</label>
-                        <select class="task-input task-row-subject" data-id="${row.id}" style="padding:0.5rem; font-size:0.8125rem;">
-                            ${subjectOptions}
-                        </select>
+                        <button type="button" class="task-subject-picker-btn" data-id="${row.id}">
+                            <span class="task-subject-picker-label" data-id="${row.id}">${escapeHtml(row.subject || 'Pilih Mapel...')}</span>
+                            <span style="font-size:0.625rem; color:#64748b; margin-left:0.25rem;">▼</span>
+                        </button>
+                        <div class="task-subject-dropdown-menu" id="subject-menu-${row.id}" style="display:none;">
+                            <div class="task-subject-search-wrapper">
+                                <input type="text" class="task-subject-search-input" data-id="${row.id}" placeholder="🔍 Cari nama mapel..." autocomplete="off">
+                            </div>
+                            <div class="task-subject-options-list" id="subject-options-${row.id}"></div>
+                        </div>
                     </div>
                     <div>
                         <label style="display:block; font-size:0.75rem; font-weight:600; color:#334155; margin-bottom:0.25rem;">Tanggal Serah (opsional)</label>
@@ -772,12 +894,74 @@
             container.appendChild(card);
         });
 
-        // Pasang Event Listeners
-        container.querySelectorAll('.task-row-subject').forEach(select => {
-            select.addEventListener('change', (e) => {
-                const row = taskRows.find(r => r.id === e.target.dataset.id);
-                if (row) row.subject = e.target.value;
+        // Helper Render Pilihan Mapel dengan Pencarian (Maksimal 4 Tampil)
+        function renderSubjectOptions(rowId, filterQuery = '') {
+            const listEl = document.getElementById(`subject-options-${rowId}`);
+            if (!listEl) return;
+            const row = taskRows.find(r => r.id === rowId);
+            const currentSubj = row ? row.subject : '';
+            const allSubs = (currentPeriod.subjects && currentPeriod.subjects.length > 5) ? currentPeriod.subjects : OFFICIAL_SUBJECTS;
+            const filtered = allSubs.filter(s => s.toLowerCase().includes(filterQuery.toLowerCase()));
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = '<div style="padding:0.5rem; font-size:0.75rem; color:#94a3b8; text-align:center;">Mapel tidak ditemukan</div>';
+                return;
+            }
+
+            listEl.innerHTML = filtered.map(s => `
+                <div class="task-subject-option-item ${s === currentSubj ? 'selected' : ''}" data-subject="${escapeHtml(s)}">
+                    <span>${escapeHtml(s)}</span>
+                    ${s === currentSubj ? '<span style="color:#0071e3; font-weight:bold;">✓</span>' : ''}
+                </div>
+            `).join('');
+
+            listEl.querySelectorAll('.task-subject-option-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const chosen = item.dataset.subject;
+                    if (row) row.subject = chosen;
+                    const labelEl = container.querySelector(`.task-subject-picker-label[data-id="${rowId}"]`);
+                    if (labelEl) labelEl.textContent = chosen;
+                    const menuEl = document.getElementById(`subject-menu-${rowId}`);
+                    if (menuEl) menuEl.style.display = 'none';
+                });
             });
+        }
+
+        // Pasang Event Listeners Pilihan Mapel Berpencarian
+        container.querySelectorAll('.task-subject-picker-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const rowId = btn.dataset.id;
+                const menuEl = document.getElementById(`subject-menu-${rowId}`);
+                const isCurrentlyOpen = menuEl && menuEl.style.display === 'block';
+
+                document.querySelectorAll('.task-subject-dropdown-menu').forEach(m => m.style.display = 'none');
+
+                if (!isCurrentlyOpen && menuEl) {
+                    renderSubjectOptions(rowId, '');
+                    menuEl.style.display = 'block';
+                    const searchInput = menuEl.querySelector('.task-subject-search-input');
+                    if (searchInput) {
+                        searchInput.value = '';
+                        setTimeout(() => searchInput.focus(), 50);
+                    }
+                }
+            });
+        });
+
+        container.querySelectorAll('.task-subject-search-input').forEach(input => {
+            input.addEventListener('click', (e) => e.stopPropagation());
+            input.addEventListener('input', (e) => {
+                const rowId = input.dataset.id;
+                renderSubjectOptions(rowId, e.target.value.trim());
+            });
+        });
+
+        // Klik di luar pilihan mapel menutup dropdown
+        container.addEventListener('click', (e) => {
+            if (!e.target.closest('.task-subject-picker-container')) {
+                document.querySelectorAll('.task-subject-dropdown-menu').forEach(m => m.style.display = 'none');
+            }
         });
 
         container.querySelectorAll('.task-row-date').forEach(input => {
@@ -830,7 +1014,7 @@
         if (taskRows.length >= 30) return;
         taskRows.push({
             id: 'row_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
-            subject: currentPeriod.subjects[0] || 'Kimia',
+            subject: OFFICIAL_SUBJECTS[0],
             title: '',
             submittedDate: new Date().toISOString().split('T')[0],
             notes: ''
