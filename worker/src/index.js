@@ -4388,7 +4388,15 @@ export default {
                     ok: true,
                     sessionToken,
                     expiresInMinutes: 30,
-                    periodName: period.name
+                    periodName: period.name,
+                    period: {
+                        id: period.id,
+                        name: period.name,
+                        classes: JSON.parse(period.classes_json || '[]'),
+                        subjects: JSON.parse(period.subjects_json || '[]'),
+                        startsAt: period.starts_at,
+                        endsAt: period.ends_at
+                    }
                 });
             }
 

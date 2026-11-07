@@ -631,8 +631,16 @@
 
             // Simpan Session Token dalam RAM
             sessionToken = data.sessionToken;
-            currentPeriod.classes = data.period.classes || [];
-            currentPeriod.subjects = data.period.subjects || [];
+            if (data.period) {
+                currentPeriod.classes = data.period.classes || currentPeriod.classes || [];
+                currentPeriod.subjects = data.period.subjects || currentPeriod.subjects || [];
+            }
+            if (!currentPeriod.classes || currentPeriod.classes.length === 0) {
+                currentPeriod.classes = ['X Putra', 'X Putri', 'XI IPA Putra', 'XI IPA Putri', 'XII IPA Putra', 'XII IPA Putri', 'XII IPS Putri'];
+            }
+            if (!currentPeriod.subjects || currentPeriod.subjects.length === 0) {
+                currentPeriod.subjects = OFFICIAL_SUBJECTS;
+            }
 
             // Reset Turnstile token
             turnstileToken = null;
