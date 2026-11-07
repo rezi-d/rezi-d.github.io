@@ -109,11 +109,14 @@
     function updateFabPosition(fabBtn) {
         if (!fabBtn) return;
         const spuBtn = document.getElementById('btnOpenSpu');
+        const spuPlaceholder = document.getElementById('spu-placeholder');
         const backToTopBtn = document.getElementById('btn-back-to-top');
 
-        // Jika tombol Tabel Periodik (SPU) ada di kanan bawah
-        if (spuBtn && window.getComputedStyle(spuBtn).display !== 'none') {
-            // Letakkan FAB di atas tombol SPU
+        // Tombol SPU terdeteksi langsung atau sedang dalam proses muat di spu-placeholder
+        const hasSpu = (spuBtn && window.getComputedStyle(spuBtn).display !== 'none') || (spuPlaceholder !== null);
+
+        if (hasSpu) {
+            // Letakkan FAB tepat di atas tombol SPU (4.75rem = 76px)
             fabBtn.style.bottom = 'calc(4.75rem + env(safe-area-inset-bottom, 0px))';
             if (backToTopBtn) {
                 backToTopBtn.style.bottom = 'calc(8.5rem + env(safe-area-inset-bottom, 0px))';
@@ -258,6 +261,12 @@
         // Hitung posisi aman
         updateFabPosition(fabBtn);
         window.addEventListener('resize', () => updateFabPosition(fabBtn));
+
+        // Pantau pemuatan dinamis elemen lain (misal partials/spu-modal.html via fetch di include.js)
+        if (typeof MutationObserver !== 'undefined') {
+            const observer = new MutationObserver(() => updateFabPosition(fabBtn));
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
 
         // Handler Klik: Lazy load modal dan buka
         fabBtn.addEventListener('click', () => {
