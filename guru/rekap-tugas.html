@@ -460,6 +460,14 @@
 
     <!-- JAVASCRIPT LOGIKA DASHBOARD ADMIN REKAP -->
     <script>
+        // API Base Cloudflare Worker
+        const TASK_API_BASE = (window.TASK_API_BASE) || (
+            window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
+                : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev'
+        );
+        window.TASK_API_BASE = TASK_API_BASE;
+
         // State Global Dashboard (Transient in memory)
         let adminRekapKey = '';
         let allPeriods = [];
@@ -503,17 +511,7 @@
             submitBtn.textContent = 'Memvalidasi Kunci...';
 
             try {
-                // Di local dev Live Server jika backend belum berjalan, berikan akses demo
-                if (isLocalDev && (!enteredKey || enteredKey.length >= 3)) {
-                    adminRekapKey = enteredKey;
-                    sessionStorage.setItem('ak_rekap_key', enteredKey);
-                    document.getElementById('auth-gate-modal').classList.add('hidden');
-                    document.getElementById('dashboard-wrapper').classList.remove('hidden');
-                    loadAllPeriods();
-                    return;
-                }
-
-                const res = await fetch('/api/task/admin/periods', {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/periods`, {
                     headers: { 'X-Rekap-Key': enteredKey }
                 });
 
@@ -527,6 +525,14 @@
                 document.getElementById('dashboard-wrapper').classList.remove('hidden');
                 loadAllPeriods();
             } catch (err) {
+                if (isLocalDev && (!enteredKey || enteredKey.length >= 3) && err.message.includes('fetch')) {
+                    adminRekapKey = enteredKey;
+                    sessionStorage.setItem('ak_rekap_key', enteredKey);
+                    document.getElementById('auth-gate-modal').classList.add('hidden');
+                    document.getElementById('dashboard-wrapper').classList.remove('hidden');
+                    loadAllPeriods();
+                    return;
+                }
                 errorMsg.textContent = err.message;
                 errorMsg.classList.remove('hidden');
             } finally {
@@ -549,7 +555,7 @@
                 if (isLocalDev) {
                     // Coba fetch asli dulu
                     try {
-                        const res = await fetch('/api/task/admin/periods', {
+                        const res = await fetch(`${TASK_API_BASE}/api/task/admin/periods', {
                             headers: { 'X-Rekap-Key': adminRekapKey }
                         });
                         if (res.ok) {
@@ -575,7 +581,7 @@
                         }];
                     }
                 } else {
-                    const res = await fetch('/api/task/admin/periods', {
+                    const res = await fetch(`${TASK_API_BASE}/api/task/admin/periods', {
                         headers: { 'X-Rekap-Key': adminRekapKey }
                     });
                     if (!res.ok) throw new Error('Gagal memuat daftar periode');
@@ -687,7 +693,7 @@
 
                 if (isLocalDev) {
                     try {
-                        const res = await fetch(`/api/task/admin/rekap/${encodeURIComponent(periodId)}?onlyLatest=false`, {
+                        const res = await fetch(`${TASK_API_BASE}/api/task/admin/rekap/${encodeURIComponent(periodId)}?onlyLatest=false`, {
                             headers: { 'X-Rekap-Key': adminRekapKey }
                         });
                         if (res.ok) {
@@ -735,7 +741,7 @@
                         ];
                     }
                 } else {
-                    const res = await fetch(`/api/task/admin/rekap/${encodeURIComponent(periodId)}?onlyLatest=false`, {
+                    const res = await fetch(`${TASK_API_BASE}/api/task/admin/rekap/${encodeURIComponent(periodId)}?onlyLatest=false`, {
                         headers: { 'X-Rekap-Key': adminRekapKey }
                     });
                     if (!res.ok) throw new Error('Gagal mengambil data rekap tugas.');
@@ -1050,7 +1056,7 @@
                     return;
                 }
 
-                const res = await fetch('/api/task/admin/items/verify', {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/items/verify', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1082,7 +1088,7 @@
                     return;
                 }
 
-                const res = await fetch('/api/task/admin/items/verify', {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/items/verify', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1129,7 +1135,7 @@
                     return;
                 }
 
-                const res = await fetch(`/api/task/admin/export/${encodeURIComponent(selectedPeriod.id)}`, {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/export/${encodeURIComponent(selectedPeriod.id)}`, {
                     headers: { 'X-Rekap-Key': adminRekapKey }
                 });
 
@@ -1225,7 +1231,7 @@
                     return;
                 }
 
-                const res = await fetch('/api/task/admin/periods', {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/periods', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1293,7 +1299,7 @@
                     return;
                 }
 
-                const res = await fetch(`/api/task/admin/periods/${encodeURIComponent(selectedPeriod.id)}`, {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/periods/${encodeURIComponent(selectedPeriod.id)}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1335,7 +1341,7 @@
                     return;
                 }
 
-                const res = await fetch(`/api/task/admin/periods/${encodeURIComponent(selectedPeriod.id)}`, {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/periods/${encodeURIComponent(selectedPeriod.id)}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1377,7 +1383,7 @@
                     return;
                 }
 
-                const res = await fetch(`/api/task/admin/purge/${encodeURIComponent(selectedPeriod.id)}`, {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/purge/${encodeURIComponent(selectedPeriod.id)}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1420,7 +1426,7 @@
                     return;
                 }
 
-                const res = await fetch(`/api/task/admin/purge/${encodeURIComponent(selectedPeriod.id)}`, {
+                const res = await fetch(`${TASK_API_BASE}/api/task/admin/purge/${encodeURIComponent(selectedPeriod.id)}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

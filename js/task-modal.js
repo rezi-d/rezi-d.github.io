@@ -614,7 +614,7 @@
         verifyBtn.textContent = 'Memverifikasi...';
 
         try {
-            const res = await fetch('/api/task/auth/verify-code', {
+            const res = await fetch(`${TASK_API_BASE}/api/task/auth/verify-code`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -1051,7 +1051,7 @@
 
         debounceTimer = setTimeout(async () => {
             try {
-                const url = `/api/task/suggestions?periodId=${encodeURIComponent(currentPeriod.id)}&subject=${encodeURIComponent(subject)}&query=${encodeURIComponent(query)}`;
+                const url = `${TASK_API_BASE}/api/task/suggestions?periodId=${encodeURIComponent(currentPeriod.id)}&subject=${encodeURIComponent(subject)}&query=${encodeURIComponent(query)}`;
                 const res = await fetch(url, {
                     headers: { 'X-Task-Session-Token': sessionToken }
                 });
@@ -1174,7 +1174,7 @@
                 return;
             }
 
-            const res = await fetch('/api/task/submit', {
+            const res = await fetch(`${TASK_API_BASE}/api/task/submit`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

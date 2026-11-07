@@ -54,6 +54,13 @@
     const STATUS_CACHE_KEY = 'ak_task_period_status_cache';
     const CACHE_TTL_MS = 60 * 1000;
 
+    const TASK_API_BASE = (window.TASK_API_BASE) || (
+        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? (window.location.port === '8787' ? '' : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev')
+            : 'https://kimia-snbt-api.kimia-ajarkita.workers.dev'
+    );
+    window.TASK_API_BASE = TASK_API_BASE;
+
     async function fetchPeriodStatus() {
         try {
             const cached = sessionStorage.getItem(STATUS_CACHE_KEY);
@@ -68,7 +75,7 @@
         }
 
         try {
-            const res = await fetch('/api/task/public/status', {
+            const res = await fetch(${TASK_API_BASE}/api/task/public/status, {
                 headers: { 'Accept': 'application/json' }
             });
             if (!res.ok) throw new Error(`Status ${res.status}`);

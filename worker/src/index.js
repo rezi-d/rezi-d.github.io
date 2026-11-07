@@ -142,7 +142,7 @@ function corsHeaders(request, env) {
     const headers = {
         'Vary': 'Origin',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Device-Id, X-Admin-Key, X-Teacher-Key',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Device-Id, X-Admin-Key, X-Teacher-Key, X-Rekap-Key',
         'Access-Control-Max-Age': '86400'
     };
     if (origin) headers['Access-Control-Allow-Origin'] = origin;
