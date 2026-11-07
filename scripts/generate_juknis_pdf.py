@@ -44,7 +44,7 @@ class NumberedCanvas(canvas.Canvas):
         self.line(40, 36, A4[0] - 40, 36)
         
         # Teks Footer Kiri & Kanan
-        text_left = "Petunjuk Teknis Pelaporan Tugas AjarKita (kimia.ajarkita.my.id) • Dokumen Resmi"
+        text_left = "Petunjuk Teknis Pelaporan Tugas • SMA IT Ash-Shiddiiqi Islamic Boarding School"
         text_right = f"Halaman {self._pageNumber} dari {page_count}"
         
         self.drawString(40, 24, text_left)
@@ -172,18 +172,26 @@ def build_pdf(output_path):
 
     story = []
 
-    # --- 1. KOP SURAT RESMI ---
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    assets_dir = os.path.join(base_dir, "docs", "assets", "juknis")
+    logo_path = os.path.join(assets_dir, "logo-ash-shiddiiqi.jpg")
+
+    logo_img = Image(logo_path, width=40, height=48) if os.path.exists(logo_path) else Paragraph("<b>LOGO</b>", body_style)
+
+    # --- 1. KOP SURAT RESMI SMA IT ASH-SHIDDIIQI ---
     kop_data = [
         [
-            Paragraph("<b>AJARKITA DIGITAL RECORD &amp; LEARNING PLATFORM</b><br/>"
-                      "<font size='7.5' color='#475569'>Sistem Manajemen Akademik &amp; Pelaporan Tugas Mandiri Siswa<br/>"
+            logo_img,
+            Paragraph("<b><font size='10.5' color='#166534'>SMA IT ASH-SHIDDIIQI</font></b><br/>"
+                      "<b><font size='8.5' color='#0f172a'>ISLAMIC BOARDING SCHOOL</font></b><br/>"
+                      "<font size='7.5' color='#475569'>Sistem Informasi &amp; Manajemen Pelaporan Tugas Siswa<br/>"
                       "Portal Resmi: <b>https://kimia.ajarkita.my.id</b></font>", body_style),
             Paragraph("<b>No. Dokumen:</b> JUKNIS/AK-TGS/2026/01<br/>"
                       "<b>Edisi:</b> Semester Ganjil 2026/2027<br/>"
-                      "<b>Sifat:</b> Terbuka untuk Siswa &amp; Guru", ParagraphStyle('KopMeta', parent=body_style, fontSize=7.5, leading=10, alignment=2))
+                      "<b>Sifat:</b> Terbuka untuk Seluruh Siswa", ParagraphStyle('KopMeta', parent=body_style, fontSize=7.5, leading=10.5, alignment=2))
         ]
     ]
-    kop_table = Table(kop_data, colWidths=[330, 189])
+    kop_table = Table(kop_data, colWidths=[46, 290, 183])
     kop_table.setStyle(TableStyle([
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
         ('BOTTOMPADDING', (0,0), (-1,-1), 4),
@@ -192,7 +200,7 @@ def build_pdf(output_path):
         ('RIGHTPADDING', (0,0), (-1,-1), 0),
     ]))
     story.append(kop_table)
-    story.append(HRFlowable(width="100%", thickness=1.5, color=primary_color, spaceBefore=4, spaceAfter=8))
+    story.append(HRFlowable(width="100%", thickness=1.8, color=colors.HexColor("#166534"), spaceBefore=4, spaceAfter=8))
 
     # --- 2. JUDUL DOKUMEN ---
     title_box_data = [
