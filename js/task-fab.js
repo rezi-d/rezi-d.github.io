@@ -116,16 +116,16 @@
         const hasSpu = (spuBtn && window.getComputedStyle(spuBtn).display !== 'none') || (spuPlaceholder !== null);
 
         if (hasSpu) {
-            // Letakkan FAB tepat di atas tombol SPU (4.75rem = 76px)
-            fabBtn.style.bottom = 'calc(4.75rem + env(safe-area-inset-bottom, 0px))';
+            // Letakkan FAB tepat di atas tombol SPU dengan jarak selaras dan rapat (3.75rem = 60px)
+            fabBtn.style.bottom = 'calc(3.75rem + env(safe-area-inset-bottom, 0px))';
             if (backToTopBtn) {
-                backToTopBtn.style.bottom = 'calc(8.5rem + env(safe-area-inset-bottom, 0px))';
+                backToTopBtn.style.bottom = 'calc(6.75rem + env(safe-area-inset-bottom, 0px))';
             }
         } else {
-            // Posisi default kanan-bawah yang lega dan ramah sentuhan
-            fabBtn.style.bottom = 'calc(1.25rem + env(safe-area-inset-bottom, 0px))';
+            // Posisi default kanan-bawah yang selaras dengan tombol SPU
+            fabBtn.style.bottom = 'calc(1rem + env(safe-area-inset-bottom, 0px))';
             if (backToTopBtn) {
-                backToTopBtn.style.bottom = 'calc(5rem + env(safe-area-inset-bottom, 0px))';
+                backToTopBtn.style.bottom = 'calc(4.5rem + env(safe-area-inset-bottom, 0px))';
             }
         }
     }
@@ -198,60 +198,75 @@
             style.textContent = `
                 .task-reporting-fab-btn {
                     position: fixed;
-                    right: 1.25rem;
+                    right: 1rem;
                     z-index: 45;
                     display: inline-flex;
                     align-items: center;
                     gap: 0.5rem;
-                    min-height: 48px;
-                    padding: 0.625rem 1.125rem;
+                    padding: 0.5rem 1rem;
                     border-radius: 9999px;
-                    background: #0f172a;
+                    background: rgba(15, 23, 42, 0.9);
                     color: #ffffff;
                     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                    font-size: 0.875rem;
+                    font-size: 0.75rem;
                     font-weight: 600;
-                    letter-spacing: -0.01em;
+                    letter-spacing: 0.025em;
                     border: 1px solid rgba(255, 255, 255, 0.2);
-                    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25), 0 2px 6px rgba(0, 0, 0, 0.12);
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     cursor: pointer;
-                    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s, box-shadow 0.2s;
+                    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
                     touch-action: manipulation;
                     -webkit-tap-highlight-color: transparent;
                 }
                 .task-reporting-fab-btn:hover {
-                    background: #1e293b;
-                    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.35);
-                    transform: translateY(-2px);
+                    background: #000000;
+                    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
                 }
                 .task-reporting-fab-btn:active {
-                    transform: scale(0.96) translateY(0);
+                    transform: scale(0.95);
                 }
                 .task-reporting-fab-btn:focus-visible {
                     outline: 2px solid #0071e3;
-                    outline-offset: 3px;
+                    outline-offset: 2px;
+                }
+                /* Target sentuh minimal aksesibilitas (min-height: 48px) */
+                .task-reporting-fab-btn::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    min-height: 48px;
+                    min-width: 48px;
+                    width: 100%;
+                    height: 100%;
                 }
                 .task-fab-icon {
-                    font-size: 1.125rem;
+                    font-size: 1rem;
                     line-height: 1;
                 }
                 .task-fab-label {
                     white-space: nowrap;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    letter-spacing: 0.025em;
                 }
                 .task-fab-pulse {
                     position: absolute;
-                    top: 4px;
+                    top: 2px;
                     right: 4px;
-                    width: 9px;
-                    height: 9px;
+                    width: 7px;
+                    height: 7px;
                     border-radius: 50%;
                     background-color: #10b981;
                     box-shadow: 0 0 0 2px #0f172a;
                 }
                 @media (max-width: 480px) {
                     .task-reporting-fab-btn {
-                        padding: 0.625rem 1rem;
-                        font-size: 0.8125rem;
+                        padding: 0.45rem 0.875rem;
+                        font-size: 0.75rem;
                     }
                 }
             `;

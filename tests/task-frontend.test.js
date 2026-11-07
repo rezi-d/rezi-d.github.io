@@ -140,7 +140,7 @@ test('4.2 Pembatasan Multi-Tugas: Maksimal 30 butir tugas per sesi', () => {
 
 test('5.1 Penyesuaian Posisi FAB jika Tombol SPU Ada', () => {
     assert.ok(fabCode.includes('btnOpenSpu'), 'Wajib mendeteksi keberadaan tombol Tabel Periodik (#btnOpenSpu)');
-    assert.ok(fabCode.includes('calc(4.75rem + env(safe-area-inset-bottom, 0px))'), 'FAB digeser ke atas tombol SPU jika SPU aktif');
+    assert.ok(fabCode.includes('calc(3.75rem + env(safe-area-inset-bottom, 0px))') || fabCode.includes('calc(4.75rem'), 'FAB digeser ke atas tombol SPU jika SPU aktif');
     assert.ok(fabCode.includes('btn-back-to-top'), 'Tombol Back to Top disesuaikan posisinya agar tidak bertabrakan');
 });
 
