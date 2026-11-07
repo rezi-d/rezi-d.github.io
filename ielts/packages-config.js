@@ -83,6 +83,10 @@ const PACKAGES_CONFIG = {
             const text = `Halo Admin AjarKita, saya ingin memesan Layanan Add-on Penilaian Guru IELTS. Mohon info ketersediaan kuota minggu ini ya!`;
             return `https://wa.me/${this.admin_wa}?text=${encodeURIComponent(text)}`;
         }
+        if (addonKey === 'speaking_review') {
+            const text = `Halo Admin AjarKita, saya ingin memesan Layanan Add-on Penilaian Guru IELTS: ${addon.name} (${addon.price_formatted}). Saya sudah menyelesaikan tes speaking di web dan siap mengirimkan berkas rekaman audionya ke sini. Mohon info ketersediaan kuota minggu ini ya!`;
+            return `https://wa.me/${this.admin_wa}?text=${encodeURIComponent(text)}`;
+        }
         const text = `Halo Admin AjarKita, saya ingin memesan Layanan Add-on Penilaian Guru IELTS: ${addon.name} (${addon.price_formatted}). Mohon info ketersediaan kuota minggu ini ya!`;
         return `https://wa.me/${this.admin_wa}?text=${encodeURIComponent(text)}`;
     },
