@@ -1604,6 +1604,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initProgresDanKuis();
     initBackToTop();
 
+    // Inisialisasi Floating Action Button (FAB) Pelaporan Tugas Susulan
+    if (!document.getElementById('task-fab-script')) {
+        const fabScript = document.createElement('script');
+        fabScript.id = 'task-fab-script';
+        fabScript.src = '/js/task-fab.js';
+        fabScript.defer = true;
+        document.head.appendChild(fabScript);
+    }
+
     // Re-render KaTeX untuk elemen yang dibuat dinamis (TOC, Sidebar, dll) jika KaTeX aktif
     
     // Proteksi global: Pastikan .katex-mathml tidak pernah tampil ganda di browser modern
