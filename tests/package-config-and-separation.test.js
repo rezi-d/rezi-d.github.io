@@ -301,6 +301,8 @@ test('B3.7: Halaman UI Premium Saya - File ielts/premium-saya.html memuat kompon
     assert.match(htmlContent, /Maks\. 2 HP\/PC/i, 'Menampilkan info batas 2 perangkat');
     assert.match(htmlContent, /Tanpa Penilaian Personal Guru/i, 'Mencantumkan catatan transparan ketiadaan koreksi guru');
     assert.match(htmlContent, /btn-buy-wa/i, 'Memuat tombol WhatsApp pembelian');
+    assert.doesNotMatch(htmlContent, /localStorage\.getItem\(['"]snbt_premium_token['"]\)/, 'Tidak boleh membaca fallback token SNBT di halaman IELTS');
+    assert.match(htmlContent, /tokenVal\.startsWith\('SNBT-'\)/, 'Memiliki proteksi penolakan cepat jika token SNBT dimasukkan');
 });
 
 test('B3.8: Konfigurasi Add-on Guru - PACKAGES_CONFIG memuat struktur tarif & ketentuan penilaian guru', () => {

@@ -289,7 +289,7 @@
     </footer>
 
     <!-- SCRIPT LOGIKA LISENSI -->
-    <script src="packages-config.js"></script>
+    <script src="/ielts/packages-config.js"></script>
     <script>
         const API_URL = "https://kimia-snbt-api.kimia-ajarkita.workers.dev";
         const STORAGE_KEY_TOKEN = "ielts_premium_token";
@@ -409,15 +409,27 @@
         const btnSubmit = document.getElementById('btn-submit-activate');
         const alertEl = document.getElementById('activate-alert');
 
+        // Sanitasi lisensi IELTS: pastikan token SNBT tidak mengkontaminasi penyimpanan IELTS
+        try {
+            const existingToken = localStorage.getItem(STORAGE_KEY_TOKEN);
+            if (existingToken && existingToken.startsWith('SNBT-')) {
+                localStorage.removeItem(STORAGE_KEY_TOKEN);
+                localStorage.removeItem(STORAGE_KEY_EXPIRES);
+                localStorage.removeItem(STORAGE_KEY_PACKAGE);
+            }
+        } catch (e) {}
+
         let isTokenMasked = true;
-        let activeTokenRaw = localStorage.getItem(STORAGE_KEY_TOKEN) || localStorage.getItem('snbt_premium_token') || '';
+        let activeTokenRaw = localStorage.getItem(STORAGE_KEY_TOKEN) || '';
 
         function renderStatus() {
-            const token = localStorage.getItem(STORAGE_KEY_TOKEN) || localStorage.getItem('snbt_premium_token');
-            const expiresAt = parseInt(localStorage.getItem(STORAGE_KEY_EXPIRES) || localStorage.getItem('snbt_premium_expires_at'), 10);
+            const token = localStorage.getItem(STORAGE_KEY_TOKEN);
+            const expRaw = localStorage.getItem(STORAGE_KEY_EXPIRES);
+            const expiresAt = expRaw ? parseInt(expRaw, 10) : NaN;
             const now = Date.now();
 
-            if (!token || !expiresAt) {
+            if (!token || !expiresAt || isNaN(expiresAt)) {
+                activeTokenRaw = '';
                 badgeEl.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold">Belum Aktif</span>`;
                 remDaysEl.textContent = '0 Hari';
                 remDaysEl.className = 'text-2xl font-black text-slate-400 font-mono';
@@ -470,7 +482,7 @@
 
         // Verifikasi otomatis dengan server
         async function syncWithServer() {
-            const token = localStorage.getItem(STORAGE_KEY_TOKEN) || localStorage.getItem('snbt_premium_token');
+            const token = localStorage.getItem(STORAGE_KEY_TOKEN);
             if (!token) {
                 renderStatus();
                 return;
@@ -488,7 +500,8 @@
                     localStorage.setItem(STORAGE_KEY_EXPIRES, String(data.expiresAt));
                     localStorage.setItem(STORAGE_KEY_PACKAGE, data.packageType || 'ielts');
                 } else if (res.status === 401 || res.status === 403) {
-                    if (data.reason === 'token_revoked' || data.reason === 'token_expired') {
+                    if (data.reason === 'token_revoked' || data.reason === 'token_expired' || data.reason === 'wrong_package' || data.reason === 'token_not_found') {
+                        activeTokenRaw = '';
                         localStorage.removeItem(STORAGE_KEY_TOKEN);
                         localStorage.removeItem(STORAGE_KEY_EXPIRES);
                     }
@@ -514,6 +527,14 @@
 
             const tokenVal = inputToken.value.trim().toUpperCase();
             if (!tokenVal) return;
+
+            // Validasi isolasi paket: cegah token SNBT dipakai di form IELTS
+            if (tokenVal.startsWith('SNBT-')) {
+                alertEl.classList.remove('hidden');
+                alertEl.className = 'text-xs p-3.5 rounded-xl font-medium bg-rose-50 text-rose-800 border border-rose-200 block';
+                alertEl.textContent = 'Kode lisensi ini khusus untuk Paket SNBT, bukan untuk Paket IELTS. Silakan gunakan kode lisensi IELTS (format: IELTS-XXXX-XXXX-XXXX) atau beli Paket IELTS di bawah.';
+                return;
+            }
 
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = `<span>⏳</span> <span>Memverifikasi...</span>`;
