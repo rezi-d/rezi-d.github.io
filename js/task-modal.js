@@ -530,6 +530,26 @@
 
             renderStep2();
         } catch (err) {
+            // Mode Pratinjau Lokal (127.0.0.1 / localhost) jika Worker belum berjalan lokal
+            const isLocalDev = window.location.hostname === 'localhost' || 
+                               window.location.hostname === '127.0.0.1' || 
+                               window.location.protocol === 'file:';
+            if (isLocalDev) {
+                sessionToken = 'mock_dev_session_token_' + Date.now();
+                currentPeriod.classes = (currentPeriod.classes && currentPeriod.classes.length) ? currentPeriod.classes : ['X MIPA 1', 'X MIPA 2', 'XI MIPA 1', 'XI MIPA 2', 'XII MIPA 1', 'XII MIPA 2'];
+                currentPeriod.subjects = (currentPeriod.subjects && currentPeriod.subjects.length) ? currentPeriod.subjects : ['Kimia', 'Fisika', 'Biologi', 'Matematika'];
+                turnstileToken = null;
+                taskRows = [{
+                    id: 'row_' + Date.now(),
+                    subject: currentPeriod.subjects[0] || 'Kimia',
+                    title: '',
+                    submittedDate: new Date().toISOString().split('T')[0],
+                    notes: ''
+                }];
+                renderStep2();
+                return;
+            }
+
             errorEl.textContent = err.message;
             errorEl.style.display = 'block';
             verifyBtn.disabled = false;
@@ -875,6 +895,32 @@
 
                 dropdown.style.display = 'block';
             } catch (e) {
+                const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                if (isLocalDev && query.length >= 2) {
+                    const demoSuggestions = [
+                        'Tugas 1: Termokimia Latihan 3.2',
+                        'Tugas 2: Laju Reaksi Bab 4',
+                        'Tugas 3: Kesetimbangan Kimia'
+                    ].filter(t => t.toLowerCase().includes(query.toLowerCase()));
+                    if (demoSuggestions.length > 0) {
+                        dropdown.innerHTML = demoSuggestions.map(title => `
+                            <div class="task-suggestion-item" data-title="${escapeHtml(title)}">
+                                📝 ${escapeHtml(title)}
+                            </div>
+                        `).join('');
+                        dropdown.querySelectorAll('.task-suggestion-item').forEach(item => {
+                            item.addEventListener('mousedown', (e) => {
+                                e.preventDefault();
+                                const picked = e.currentTarget.dataset.title;
+                                inputEl.value = picked;
+                                if (row) row.title = picked;
+                                dropdown.style.display = 'none';
+                            });
+                        });
+                        dropdown.style.display = 'block';
+                        return;
+                    }
+                }
                 dropdown.style.display = 'none';
             }
         }, 250);
@@ -943,6 +989,14 @@
             // Sukses! Lanjut ke Langkah 4 (Resi)
             renderStep4(data.refCode, payload.tasks.length);
         } catch (err) {
+            const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            if (isLocalDev) {
+                // Di lingkungan Live Server lokal tanpa worker, hasilkan kode demo
+                const mockRefCode = 'TSG-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+                renderStep4(mockRefCode, payload.tasks.length);
+                return;
+            }
+
             errorEl.textContent = err.message;
             errorEl.style.display = 'block';
             submitBtn.disabled = false;

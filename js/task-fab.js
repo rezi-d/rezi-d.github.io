@@ -71,7 +71,7 @@
             const res = await fetch('/api/task/public/status', {
                 headers: { 'Accept': 'application/json' }
             });
-            if (!res.ok) return { ok: false, isOpen: false };
+            if (!res.ok) throw new Error(`Status ${res.status}`);
             const data = await res.json();
             try {
                 sessionStorage.setItem(STATUS_CACHE_KEY, JSON.stringify({
@@ -81,7 +81,26 @@
             } catch (e) {}
             return data;
         } catch (err) {
-            console.warn('[Task-FAB] Status pelaporan tidak dapat diakses:', err.message);
+            // Pratinjau Otomatis di Lingkungan Lokal (127.0.0.1 / localhost / file://)
+            // Memungkinkan pengujian antarmuka langsung tanpa backend Worker lokal
+            const isLocalDev = window.location.hostname === 'localhost' || 
+                               window.location.hostname === '127.0.0.1' || 
+                               window.location.protocol === 'file:' ||
+                               window.location.search.includes('preview_task=1');
+            if (isLocalDev) {
+                return {
+                    ok: true,
+                    isOpen: true,
+                    period: {
+                        id: 'period_preview_demo',
+                        name: 'Pelaporan Tugas Susulan Semester Ganjil',
+                        startsAt: Date.now() - 3600000,
+                        endsAt: Date.now() + (7 * 86400000),
+                        classes: ['X MIPA 1', 'X MIPA 2', 'XI MIPA 1', 'XI MIPA 2', 'XII MIPA 1', 'XII MIPA 2'],
+                        subjects: ['Kimia', 'Fisika', 'Biologi', 'Matematika']
+                    }
+                };
+            }
             return { ok: false, isOpen: false };
         }
     }
