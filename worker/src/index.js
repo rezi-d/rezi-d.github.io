@@ -4325,6 +4325,7 @@ export default {
                 return json(request, env, {
                     ok: true,
                     active: true,
+                    isOpen: true,
                     period: {
                         id: period.id,
                         name: period.name,

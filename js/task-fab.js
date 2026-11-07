@@ -75,7 +75,7 @@
         }
 
         try {
-            const res = await fetch(${TASK_API_BASE}/api/task/public/status, {
+            const res = await fetch(`${TASK_API_BASE}/api/task/public/status`, {
                 headers: { 'Accept': 'application/json' }
             });
             if (!res.ok) throw new Error(`Status ${res.status}`);
@@ -176,7 +176,7 @@
         if (document.getElementById('btn-task-reporting-fab')) return;
 
         const statusRes = await fetchPeriodStatus();
-        if (!statusRes || !statusRes.ok || !statusRes.isOpen || !statusRes.period) {
+        if (!statusRes || !statusRes.ok || !(statusRes.isOpen || statusRes.active) || !statusRes.period) {
             // Periode tidak dibuka atau gagal dimuat -> jangan tampilkan tombol
             return;
         }
