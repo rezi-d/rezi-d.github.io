@@ -45,12 +45,19 @@ export async function handleCreatePeriod(db, body, env, now = Date.now()) {
 
     const retentionDays = Math.max(1, Math.min(365, parseInt(body.retentionDays, 10) || 30));
 
-    const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-    const bytes = new Uint8Array(4);
-    crypto.getRandomValues(bytes);
-    let randPart = '';
-    for (let i = 0; i < 4; i++) randPart += chars[bytes[i] % chars.length];
-    const plainAccessCode = `TGS-${randPart}`;
+    let plainAccessCode = '';
+    if (body.accessCode && typeof body.accessCode === 'string' && body.accessCode.trim().length >= 3) {
+        let clean = body.accessCode.trim().toUpperCase();
+        if (!clean.startsWith('TGS-')) clean = `TGS-${clean}`;
+        plainAccessCode = clean;
+    } else {
+        const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+        const bytes = new Uint8Array(4);
+        crypto.getRandomValues(bytes);
+        let randPart = '';
+        for (let i = 0; i < 4; i++) randPart += chars[bytes[i] % chars.length];
+        plainAccessCode = `TGS-${randPart}`;
+    }
 
     const accessCodeHash = await hashAccessCode(plainAccessCode, env);
     const periodId = 'tp_' + crypto.randomUUID().replace(/-/g, '').slice(0, 16);

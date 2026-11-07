@@ -4373,8 +4373,13 @@ export default {
                     return json(request, env, { ok: false, error: winCheck.error, reason: winCheck.reason }, 403);
                 }
 
-                const expectedHash = await hashAccessCode(accessCode, env);
-                if (!timingSafeEqualHex(expectedHash, period.access_code_hash)) {
+                let normalizedCode = accessCode;
+                if (!normalizedCode.startsWith('TGS-')) {
+                    normalizedCode = `TGS-${normalizedCode}`;
+                }
+                const expectedHash1 = await hashAccessCode(accessCode, env);
+                const expectedHash2 = await hashAccessCode(normalizedCode, env);
+                if (!timingSafeEqualHex(expectedHash1, period.access_code_hash) && !timingSafeEqualHex(expectedHash2, period.access_code_hash)) {
                     return json(request, env, { ok: false, error: 'Kode akses periode salah.', reason: 'invalid_code' }, 403);
                 }
 

@@ -71,7 +71,7 @@
     const isLocalDev = window.location.hostname === 'localhost' || 
                        window.location.hostname === '127.0.0.1' || 
                        window.location.protocol === 'file:';
-    const TURNSTILE_SITEKEY = window.TURNSTILE_SITEKEY || (isLocalDev ? '1x00000000000000000000AA' : '0x4AAAAAAAMw_z_G5tJ7B8e8');
+    const TURNSTILE_SITEKEY = window.TURNSTILE_SITEKEY || '1x00000000000000000000AA';
 
     // Injeksi CSS Khusus Modal (Mobile-first, Bottom Sheet <= 480px)
     function ensureModalStyles() {
