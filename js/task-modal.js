@@ -36,8 +36,11 @@
     // Debounce timer untuk autocomplete
     let debounceTimer = null;
 
-    // Cloudflare Turnstile Sitekey (menggunakan default publik atau dummy untuk pengujian)
-    const TURNSTILE_SITEKEY = window.TURNSTILE_SITEKEY || '0x4AAAAAAAMw_z_G5tJ7B8e8';
+    // Cloudflare Turnstile Sitekey (Gunakan official always-pass testing key pada localhost / 127.0.0.1)
+    const isLocalDev = window.location.hostname === 'localhost' || 
+                       window.location.hostname === '127.0.0.1' || 
+                       window.location.protocol === 'file:';
+    const TURNSTILE_SITEKEY = window.TURNSTILE_SITEKEY || (isLocalDev ? '1x00000000000000000000AA' : '0x4AAAAAAAMw_z_G5tJ7B8e8');
 
     // Injeksi CSS Khusus Modal (Mobile-first, Bottom Sheet <= 480px)
     function ensureModalStyles() {
