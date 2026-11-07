@@ -14,6 +14,29 @@
 
 import { RETENTION_CONFIG } from './retention-config.js';
 import { PACKAGES_CONFIG, getPackageDetails, isFreeMockTest, normalizeTestId, getMockTestConfig, getMockTestPromotionText, getAvailableMockTestsSummary, formatDraftTime, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
+import {
+    getTaskAccessPepper,
+    getTaskSessionSecret,
+    getTaskRekapKey,
+    hashAccessCode,
+    createSessionToken,
+    verifySessionToken,
+    checkPeriodWindow,
+    verifyTurnstileToken,
+    getSafeTaskSuggestions,
+    generateRefCode,
+    submitTaskBatch
+} from './task-reporting/task-engine.js';
+import {
+    verifyAdminRekapKey,
+    handleCreatePeriod,
+    handleUpdatePeriod,
+    handleGetRekap,
+    handleVerifyItems,
+    handleExportCsv,
+    handlePurgePeriod,
+    runTaskRetentionCleanup
+} from './task-reporting/admin-handlers.js';
 export { normalizeTestId, isFreeMockTest, getMockTestConfig, getMockTestPromotionText, getAvailableMockTestsSummary, formatDraftTime, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
 
 function extractRequestToken(request, body = null, url = null) {
@@ -1292,6 +1315,101 @@ function filterSampleAnswers(masterData) {
         });
     }
     return result;
+}
+
+
+// =================================================================
+// Skema D1 & Rate Limiter In-Memory Pelaporan Tugas
+// =================================================================
+const TASK_RATE_LIMITS = new Map();
+
+function checkTaskRateLimitInMemory(ipHash, action = 'task_code', maxHits = 5, windowMs = 60000) {
+    const now = Date.now();
+    const key = `${ipHash}_${action}`;
+    const record = TASK_RATE_LIMITS.get(key) || { count: 0, resetAt: now + windowMs };
+
+    if (now > record.resetAt) {
+        record.count = 0;
+        record.resetAt = now + windowMs;
+    }
+
+    record.count++;
+    TASK_RATE_LIMITS.set(key, record);
+
+    if (record.count > maxHits) {
+        const retryAfter = Math.ceil((record.resetAt - now) / 1000);
+        return { limited: true, retryAfter };
+    }
+    return { limited: false };
+}
+
+async function ensureTaskSchema(env) {
+    if (!env || !env.DB) return;
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS task_periods (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            starts_at INTEGER NOT NULL,
+            ends_at INTEGER NOT NULL,
+            status TEXT NOT NULL DEFAULT 'open',
+            access_code_hash TEXT NOT NULL,
+            classes_json TEXT NOT NULL,
+            subjects_json TEXT NOT NULL,
+            retention_days INTEGER NOT NULL DEFAULT 30,
+            created_at INTEGER NOT NULL,
+            closed_at INTEGER DEFAULT NULL
+        )
+    `).run();
+
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS task_submissions (
+            id TEXT PRIMARY KEY,
+            period_id TEXT NOT NULL,
+            ref_code TEXT NOT NULL UNIQUE,
+            student_name_raw TEXT NOT NULL,
+            student_name_norm TEXT NOT NULL,
+            class_name TEXT NOT NULL,
+            ip_hmac TEXT NOT NULL,
+            user_agent_masked TEXT,
+            created_at INTEGER NOT NULL
+        )
+    `).run();
+
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS task_items (
+            id TEXT PRIMARY KEY,
+            submission_id TEXT NOT NULL,
+            period_id TEXT NOT NULL,
+            student_name_norm TEXT NOT NULL,
+            class_name TEXT NOT NULL,
+            subject_name TEXT NOT NULL,
+            task_title_raw TEXT NOT NULL,
+            task_title_norm TEXT NOT NULL,
+            submitted_date TEXT DEFAULT NULL,
+            notes TEXT DEFAULT NULL,
+            verification_status TEXT NOT NULL DEFAULT 'dilaporkan',
+            is_latest INTEGER NOT NULL DEFAULT 1,
+            created_at INTEGER NOT NULL,
+            updated_at INTEGER NOT NULL
+        )
+    `).run();
+
+    await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS task_audit_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            period_id TEXT NOT NULL,
+            event_type TEXT NOT NULL,
+            rows_affected INTEGER DEFAULT 0,
+            metadata_json TEXT DEFAULT NULL,
+            created_at INTEGER NOT NULL
+        )
+    `).run();
+
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_task_items_period_latest ON task_items(period_id, is_latest)').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_task_items_dedup ON task_items(period_id, class_name, student_name_norm, subject_name, task_title_norm)').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_task_items_suggestions ON task_items(period_id, subject_name, task_title_norm)').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_task_submissions_period ON task_submissions(period_id)').run(); } catch {}
+    try { await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_task_periods_status_window ON task_periods(status, starts_at, ends_at)').run(); } catch {}
 }
 
 // ---------- Handler ----------
@@ -4179,16 +4297,265 @@ export default {
                 }
             }
 
+            
+            // =============================================================
+            // FITUR BERKALA: PELAPORAN TUGAS SUSULAN GOOGLE CLASSROOM
+            // =============================================================
+
+            // 1. Status Publik (0 PII, Cache CDN 60 dtk)
+            if (path === '/api/task/public/status' && request.method === 'GET') {
+                await ensureTaskSchema(env);
+                const now = Date.now();
+                const period = await env.DB.prepare(`
+                    SELECT id, name, starts_at, ends_at, status, classes_json, subjects_json
+                    FROM task_periods
+                    WHERE status = 'open' AND starts_at <= ? AND ends_at >= ?
+                    ORDER BY ends_at ASC
+                    LIMIT 1
+                `).bind(now, now).first();
+
+                if (!period) {
+                    return json(request, env, {
+                        ok: true,
+                        active: false,
+                        message: 'Pelaporan tugas sedang ditutup.'
+                    }, 200, { 'Cache-Control': 'public, max-age=60' });
+                }
+
+                return json(request, env, {
+                    ok: true,
+                    active: true,
+                    period: {
+                        id: period.id,
+                        name: period.name,
+                        classes: JSON.parse(period.classes_json || '[]'),
+                        subjects: JSON.parse(period.subjects_json || '[]'),
+                        startsAt: period.starts_at,
+                        endsAt: period.ends_at
+                    }
+                }, 200, { 'Cache-Control': 'public, max-age=60' });
+            }
+
+            // 2. Verifikasi Kode Akses & Penerbitan Token Sesi Sesaat (HMAC 30 Menit)
+            if (path === '/api/task/auth/verify-code' && request.method === 'POST') {
+                await ensureTaskSchema(env);
+                const now = Date.now();
+                const ipRaw = clientIp(request);
+                const ipHash = await getIpHash(ipRaw, env);
+
+                const rate = checkTaskRateLimitInMemory(ipHash, 'task_code', 5, 60000);
+                if (rate.limited) {
+                    return json(request, env, {
+                        ok: false,
+                        error: `Terlalu banyak percobaan kode akses. Coba lagi dalam ${rate.retryAfter} detik.`,
+                        reason: 'rate_limited'
+                    }, 429);
+                }
+
+                const body = await readJson(request);
+                const periodId = String(body.periodId || '').trim();
+                const accessCode = String(body.accessCode || '').trim().toUpperCase();
+                const turnstileToken = String(body.turnstileToken || '').trim();
+
+                if (!periodId || !accessCode) {
+                    return json(request, env, { ok: false, error: 'ID Periode dan Kode Akses wajib diisi.', reason: 'missing_params' }, 400);
+                }
+
+                const turnCheck = await verifyTurnstileToken(turnstileToken, ipRaw, env);
+                if (!turnCheck.success) {
+                    return json(request, env, { ok: false, error: 'Verifikasi keamanan Turnstile gagal. Silakan coba lagi.', reason: 'turnstile_failed' }, 403);
+                }
+
+                const period = await env.DB.prepare('SELECT * FROM task_periods WHERE id = ?').bind(periodId).first();
+                const winCheck = checkPeriodWindow(period, now);
+                if (!winCheck.ok) {
+                    return json(request, env, { ok: false, error: winCheck.error, reason: winCheck.reason }, 403);
+                }
+
+                const expectedHash = await hashAccessCode(accessCode, env);
+                if (!timingSafeEqualHex(expectedHash, period.access_code_hash)) {
+                    return json(request, env, { ok: false, error: 'Kode akses periode salah.', reason: 'invalid_code' }, 403);
+                }
+
+                const sessionToken = await createSessionToken(period.id, env, now);
+                return json(request, env, {
+                    ok: true,
+                    sessionToken,
+                    expiresInMinutes: 30,
+                    periodName: period.name
+                });
+            }
+
+            // 3. Saran Judul Tugas Aman (Threshold Distinct Siswa >= 2)
+            if (path === '/api/task/suggestions' && request.method === 'GET') {
+                await ensureTaskSchema(env);
+                const authHeader = request.headers.get('Authorization') || '';
+                const sessionToken = authHeader.replace(/^Bearer\s+/i, '').trim();
+                const periodId = url.searchParams.get('periodId') || '';
+                const subject = url.searchParams.get('subject') || '';
+                const q = url.searchParams.get('q') || '';
+
+                const tokenVer = await verifySessionToken(sessionToken, periodId, env);
+                if (!tokenVer.ok) {
+                    return json(request, env, { ok: false, error: tokenVer.error, reason: tokenVer.reason }, 401);
+                }
+
+                const suggestions = await getSafeTaskSuggestions(env.DB, periodId, subject, q);
+                return json(request, env, { ok: true, suggestions });
+            }
+
+            // 4. Pengiriman Tugas Siswa (Multi-Task Batch Atomik)
+            if (path === '/api/task/submit' && request.method === 'POST') {
+                await ensureTaskSchema(env);
+                const now = Date.now();
+                const ipRaw = clientIp(request);
+                const ipHash = await getIpHash(ipRaw, env);
+
+                const rate = checkTaskRateLimitInMemory(ipHash, 'task_submit', 5, 60000);
+                if (rate.limited) {
+                    return json(request, env, {
+                        ok: false,
+                        error: `Terlalu banyak pengiriman tugas dalam waktu singkat. Tunggu ${rate.retryAfter} detik.`,
+                        reason: 'rate_limited'
+                    }, 429);
+                }
+
+                const authHeader = request.headers.get('Authorization') || '';
+                const sessionToken = authHeader.replace(/^Bearer\s+/i, '').trim();
+                const body = await readJson(request);
+                const periodId = String(body.periodId || '').trim();
+
+                const tokenVer = await verifySessionToken(sessionToken, periodId, env, now);
+                if (!tokenVer.ok) {
+                    return json(request, env, { ok: false, error: tokenVer.error, reason: tokenVer.reason }, 401);
+                }
+
+                const period = await env.DB.prepare('SELECT * FROM task_periods WHERE id = ?').bind(periodId).first();
+                const winCheck = checkPeriodWindow(period, now);
+                if (!winCheck.ok) {
+                    return json(request, env, { ok: false, error: winCheck.error, reason: winCheck.reason }, 403);
+                }
+
+                const ua = (request.headers.get('User-Agent') || '').slice(0, 80);
+                const result = await submitTaskBatch(env.DB, {
+                    periodId,
+                    studentNameRaw: body.studentName,
+                    className: body.className,
+                    tasks: body.tasks,
+                    ipHmac: ipHash,
+                    userAgentMasked: ua,
+                    now
+                });
+
+                return json(request, env, {
+                    ok: true,
+                    refCode: result.refCode,
+                    taskCount: result.taskCount,
+                    studentName: result.studentName,
+                    className: result.className,
+                    createdAt: result.createdAt
+                });
+            }
+
+            // =============================================================
+            // ROUTE ADMIN GURU: PELAPORAN TUGAS (X-Rekap-Key Auth)
+            // =============================================================
+            if (path.startsWith('/api/task/admin/')) {
+                await ensureTaskSchema(env);
+                if (!verifyAdminRekapKey(request, env)) {
+                    return json(request, env, {
+                        ok: false,
+                        error: 'Akses ditolak: Kunci Rekap Guru tidak sah atau belum dikonfigurasi.',
+                        reason: 'unauthorized'
+                    }, 401);
+                }
+
+                // Admin: List Semua Periode
+                if (path === '/api/task/admin/periods' && request.method === 'GET') {
+                    const rows = await env.DB.prepare(`
+                        SELECT id, name, starts_at, ends_at, status, classes_json, subjects_json, retention_days, created_at, closed_at
+                        FROM task_periods
+                        ORDER BY created_at DESC
+                    `).all();
+                    return json(request, env, { ok: true, periods: rows.results || [] });
+                }
+
+                // Admin: Buat Periode Baru
+                if (path === '/api/task/admin/periods' && request.method === 'POST') {
+                    const body = await readJson(request);
+                    const res = await handleCreatePeriod(env.DB, body, env);
+                    return json(request, env, res, 201);
+                }
+
+                // Admin: Update Status / Tenggat Periode
+                const patchMatch = path.match(/^\/api\/task\/admin\/periods\/([^/]+)$/);
+                if (patchMatch && request.method === 'PATCH') {
+                    const periodId = patchMatch[1];
+                    const body = await readJson(request);
+                    const res = await handleUpdatePeriod(env.DB, periodId, body);
+                    return json(request, env, res);
+                }
+
+                // Admin: Rekap Komprehensif Periode
+                const rekapMatch = path.match(/^\/api\/task\/admin\/rekap\/([^/]+)$/);
+                if (rekapMatch && request.method === 'GET') {
+                    const periodId = rekapMatch[1];
+                    const filters = {
+                        className: url.searchParams.get('className') || '',
+                        subjectName: url.searchParams.get('subjectName') || '',
+                        verificationStatus: url.searchParams.get('status') || '',
+                        onlyLatest: url.searchParams.get('onlyLatest') !== 'false'
+                    };
+                    const res = await handleGetRekap(env.DB, periodId, filters);
+                    return json(request, env, res);
+                }
+
+                // Admin: Update Status Verifikasi (Single / Bulk)
+                if (path === '/api/task/admin/items/verify' && request.method === 'PATCH') {
+                    const body = await readJson(request);
+                    const res = await handleVerifyItems(env.DB, body);
+                    return json(request, env, res);
+                }
+
+                // Admin: Ekspor CSV dengan Netralisasi Formula
+                const exportMatch = path.match(/^\/api\/task\/admin\/export\/([^/]+)$/);
+                if (exportMatch && request.method === 'GET') {
+                    const periodId = exportMatch[1];
+                    const csvStr = await handleExportCsv(env.DB, periodId);
+                    return new Response(csvStr, {
+                        status: 200,
+                        headers: {
+                            'Content-Type': 'text/csv; charset=utf-8',
+                            'Content-Disposition': `attachment; filename="rekap-tugas-${periodId}.csv"`,
+                            ...corsHeaders(request, env)
+                        }
+                    });
+                }
+
+                // Admin: Purge Periode (Dry-Run Default, Butuh Confirm)
+                const purgeMatch = path.match(/^\/api\/task\/admin\/purge\/([^/]+)$/);
+                if (purgeMatch && request.method === 'POST') {
+                    const periodId = purgeMatch[1];
+                    const body = await readJson(request);
+                    const res = await handlePurgePeriod(env.DB, periodId, body);
+                    return json(request, env, res);
+                }
+            }
+
             return json(request, env, { ok: false, error: 'Endpoint tidak ditemukan.' }, 404);
         } catch (err) {
             return json(request, env, { ok: false, error: 'Terjadi kesalahan server.' }, 500);
         }
     },
     async scheduled(event, env, ctx) {
+        const cleanupPromise = Promise.all([
+            runScheduledRetentionCleanup(env),
+            (env && env.DB) ? runTaskRetentionCleanup(env.DB) : Promise.resolve()
+        ]);
         if (ctx && typeof ctx.waitUntil === 'function') {
-            ctx.waitUntil(runScheduledRetentionCleanup(env));
+            ctx.waitUntil(cleanupPromise);
         } else {
-            await runScheduledRetentionCleanup(env);
+            await cleanupPromise;
         }
     }
 };
@@ -4206,5 +4573,7 @@ export {
     getTokenPrefixPepper,
     hashTokenPrefix,
     resolveAdminLicense,
-    fetchMasterAsset
+    fetchMasterAsset,
+    ensureTaskSchema,
+    runTaskRetentionCleanup
 };
