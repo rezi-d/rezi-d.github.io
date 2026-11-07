@@ -1061,7 +1061,10 @@
             try {
                 const url = `${TASK_API_BASE}/api/task/suggestions?periodId=${encodeURIComponent(currentPeriod.id)}&subject=${encodeURIComponent(subject)}&query=${encodeURIComponent(query)}`;
                 const res = await fetch(url, {
-                    headers: { 'X-Task-Session-Token': sessionToken }
+                    headers: {
+                        'Authorization': `Bearer ${sessionToken}`,
+                        'X-Task-Session-Token': sessionToken
+                    }
                 });
                 if (!res.ok) return;
                 const data = await res.json();
@@ -1186,6 +1189,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionToken}`,
                     'X-Task-Session-Token': sessionToken
                 },
                 body: JSON.stringify(payload)

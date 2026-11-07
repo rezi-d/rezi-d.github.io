@@ -40,7 +40,7 @@ import {
 export { normalizeTestId, isFreeMockTest, getMockTestConfig, getMockTestPromotionText, getAvailableMockTestsSummary, formatDraftTime, getDraftStorageKey, getSessionStorageKey, loadModuleDraft, saveModuleDraft, clearModuleDraft } from './packages-config.js';
 
 function extractRequestToken(request, body = null, url = null) {
-    const authHeader = request.headers.get('Authorization') || '';
+    const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
     if (authHeader.toLowerCase().startsWith('bearer ')) {
         const t = authHeader.slice(7).trim();
         if (t) return t;
@@ -142,7 +142,7 @@ function corsHeaders(request, env) {
     const headers = {
         'Vary': 'Origin',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Device-Id, X-Admin-Key, X-Teacher-Key, X-Rekap-Key',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Device-Id, X-Admin-Key, X-Teacher-Key, X-Rekap-Key, X-Task-Session-Token',
         'Access-Control-Max-Age': '86400'
     };
     if (origin) headers['Access-Control-Allow-Origin'] = origin;
@@ -2468,7 +2468,7 @@ export default {
             if (path === '/writing/status' && request.method === 'GET') {
                 await ensureWritingSchema(env);
                 const sessionId = String(url.searchParams.get('sessionId') || '').trim();
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 let teacherKey = request.headers.get('X-Teacher-Key') || '';
                 if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
                 const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
@@ -2945,7 +2945,7 @@ export default {
             if (path === '/speaking/status' && request.method === 'GET') {
                 await ensureSpeakingSchema(env);
                 const sessionId = String(url.searchParams.get('sessionId') || '').trim();
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 let teacherKey = request.headers.get('X-Teacher-Key') || '';
                 if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
                 const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
@@ -2996,7 +2996,7 @@ export default {
             if (path === '/speaking/detail' && request.method === 'GET') {
                 await ensureSpeakingSchema(env);
                 const sessionId = String(url.searchParams.get('sessionId') || '').trim();
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 let teacherKey = request.headers.get('X-Teacher-Key') || '';
                 if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
                 const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
@@ -3068,7 +3068,7 @@ export default {
             // 6. Generate Short-Lived Audio Token (untuk tag audio browser tanpa mengekspos kunci di URL)
             if (path === '/speaking/audio-token' && request.method === 'POST') {
                 const body = await readJson(request);
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
                 if (authHeader.startsWith('Bearer ')) submittedKey = authHeader.slice(7).trim();
                 if (!submittedKey && body.teacherKey) submittedKey = String(body.teacherKey).trim();
@@ -3108,7 +3108,7 @@ export default {
                 const sessionId = String(url.searchParams.get('sessionId') || '').trim();
                 const questionId = String(url.searchParams.get('questionId') || '').trim();
                 const deviceId = request.headers.get('X-Device-Id') || url.searchParams.get('deviceId') || '';
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 let teacherKey = request.headers.get('X-Teacher-Key') || '';
                 if (authHeader.startsWith('Bearer ')) teacherKey = authHeader.slice(7).trim();
 
@@ -3262,7 +3262,7 @@ export default {
             // 8. Pembersihan / Retensi Rekaman Audio (Protected by TEACHER_KEY)
             if (path === '/speaking/admin/cleanup' && request.method === 'POST') {
                 await ensureSpeakingSchema(env);
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
                 if (authHeader.startsWith('Bearer ')) submittedKey = authHeader.slice(7).trim();
                 const body = await readJson(request);
@@ -3323,7 +3323,7 @@ export default {
             // 8b. Riwayat Audit Log Pembersihan Rekaman
             if (path === '/speaking/admin/cleanup-logs' && (request.method === 'GET' || request.method === 'POST')) {
                 await ensureSpeakingSchema(env);
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 let submittedKey = request.headers.get('X-Teacher-Key') || request.headers.get('X-Admin-Key') || '';
                 if (authHeader.startsWith('Bearer ')) submittedKey = authHeader.slice(7).trim();
                 if (request.method === 'POST') {
@@ -4403,7 +4403,7 @@ export default {
             // 3. Saran Judul Tugas Aman (Threshold Distinct Siswa >= 2)
             if (path === '/api/task/suggestions' && request.method === 'GET') {
                 await ensureTaskSchema(env);
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 const sessionToken = authHeader.replace(/^Bearer\s+/i, '').trim();
                 const periodId = url.searchParams.get('periodId') || '';
                 const subject = url.searchParams.get('subject') || '';
@@ -4434,7 +4434,7 @@ export default {
                     }, 429);
                 }
 
-                const authHeader = request.headers.get('Authorization') || '';
+                const authHeader = request.headers.get('Authorization') || request.headers.get('X-Task-Session-Token') || '';
                 const sessionToken = authHeader.replace(/^Bearer\s+/i, '').trim();
                 const body = await readJson(request);
                 const periodId = String(body.periodId || '').trim();
