@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petunjuk Teknis (Juknis) Pelaporan Tugas Susulan Google Classroom - AjarKita</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --primary-light: #eff6ff;
+            --accent: #0284c7;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --border-dark: #cbd5e1;
+            --bg-card: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            color: var(--text-main);
+            background-color: #f1f5f9;
+            line-height: 1.55;
+            font-size: 10pt;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Tombol Aksi di Layar Komputer */
+        .no-print-bar {
+            background: linear-gradient(135deg, #1e3a8a, #0369a1);
+            color: white;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .btn-print {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print:hover {
+            background-color: #059669;
+            transform: translateY(-1px);
+        }
+
+        /* Container Dokumen Cetak A4 */
+        .doc-page {
+            max-width: 210mm;
+            margin: 20px auto;
+            background: white;
+            padding: 18mm 20mm;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        /* KOP SURAT / HEADER RESMI */
+        .kop-surat {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 3px double #1e3a8a;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+
+        .kop-logo {
+            width: 54px;
+            height: 54px;
+            background: linear-gradient(135deg, #1e40af, #0284c7);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 800;
+            shrink: 0;
+        }
+
+        .kop-teks {
+            flex: 1;
+        }
+
+        .kop-instansi {
+            font-size: 13pt;
+            font-weight: 800;
+            color: var(--primary-dark);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .kop-sub {
+            font-size: 8.5pt;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .kop-meta {
+            text-align: right;
+            font-size: 8pt;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .doc-title-box {
+            background: linear-gradient(to right, #eff6ff, #f8fafc);
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 20px;
+        }
+
+        .doc-title {
+            font-size: 13pt;
+            font-weight: 800;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .doc-subtitle {
+            font-size: 9pt;
+            color: var(--text-muted);
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        /* SECTION STYLING */
+        .section-heading {
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1.5px solid var(--border);
+            padding-bottom: 6px;
+            margin-top: 22px;
+            margin-bottom: 12px;
+        }
+
+        .section-heading span.badge-num {
+            background-color: var(--primary);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9pt;
+            font-weight: 800;
+        }
+
+        p, li {
+            font-size: 9.5pt;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+
+        /* KARTU LANGKAH (STEP CARD) */
+        .step-card {
+            background: #ffffff;
+            border: 1px solid var(--border-dark);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 18px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .step-title {
+            font-size: 10.5pt;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-pill {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 8pt;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* GRID TAMPILAN GAMBAR + PENJELASAN */
+        .step-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .step-media {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .step-media img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .step-media-caption {
+            background: #f8fafc;
+            padding: 6px 10px;
+            font-size: 7.5pt;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* TABEL PENJELASAN ELEMEN */
+        .explain-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.5pt;
+            margin-top: 6px;
+        }
+
+        .explain-table th {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            font-weight: 700;
+            text-align: left;
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            font-size: 8pt;
+        }
+
+        .explain-table td {
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            vertical-align: top;
+            line-height: 1.45;
+        }
+
+        .num-tag {
+            display: inline-block;
+            background: #ef4444;
+            color: white;
+            font-weight: 800;
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-size: 8pt;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .num-tag.star {
+            background: #8b5cf6;
+        }
+
+        /* KOTAK INFORMASI / NOTICE */
+        .info-box {
+            background-color: var(--primary-light);
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid var(--primary);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            color: #1e3a8a;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border: 1px solid #fde68a;
+            border-left: 4px solid var(--warning);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            color: #92400e;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        .success-box {
+            background-color: var(--success-bg);
+            border: 1px solid #a7f3d0;
+            border-left: 4px solid var(--success);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 8.5pt;
+            color: #065f46;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        .code-pill {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 8.5pt;
+        }
+
+        /* FOOTER DOKUMEN */
+        .doc-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 8pt;
+            color: #94a3b8;
+        }
+
+        /* PRINT CONFIGURATION */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+            .no-print-bar {
+                display: none !important;
+            }
+            .doc-page {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 12mm 15mm !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            .page-break {
+                page-break-before: always;
+                break-before: page;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bar Navigasi Cetak Layar -->
+    <div class="no-print-bar">
+        <div>
+            <strong>📄 Dokumen Resmi Juknis Pelaporan Tugas AjarKita</strong>
+            <span style="opacity: 0.8; font-size: 12px; margin-left: 10px;">Format Siap Cetak & Ekspor PDF</span>
+        </div>
+        <div>
+            <button type="button" class="btn-print" onclick="window.print()">
+                <span>🖨️</span> Cetak / Simpan sebagai PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- HALAMAN 1 -->
+    <div class="doc-page">
+        <!-- KOP DOKUMEN -->
+        <header class="kop-surat">
+            <div class="kop-logo">AK</div>
+            <div class="kop-teks">
+                <div class="kop-instansi">AJARKITA DIGITAL RECORD & LEARNING PLATFORM</div>
+                <div class="kop-sub">Sistem Manajemen Akademik & Pelaporan Penugasan Mandiri Siswa</div>
+                <div class="kop-sub" style="color: #0284c7; font-weight: 600;">Portal Resmi: https://kimia.ajarkita.my.id</div>
+            </div>
+            <div class="kop-meta">
+                <strong>No. Dokumen:</strong> JUKNIS/AK-TGS/2026/01<br>
+                <strong>Edisi:</strong> Semester Ganjil 2026/2027<br>
+                <strong>Sifat:</strong> Terbuka untuk Seluruh Siswa
+            </div>
+        </header>
+
+        <!-- KOTAK JUDUL DOKUMEN -->
+        <div class="doc-title-box">
+            <h1 class="doc-title">PETUNJUK TEKNIS (JUKNIS) OPERASIONAL</h1>
+            <div class="doc-subtitle">Tata Cara Pelaporan Tugas Susulan Google Classroom yang Telah Ditutup Melalui Formulir Digital AjarKita</div>
+        </div>
+
+        <!-- 1. LATAR BELAKANG & TUJUAN -->
+        <h2 class="section-heading">
+            <span class="badge-num">1</span>
+            Latar Belakang &amp; Tujuan
+        </h2>
+        <p>
+            Ketika tenggat penugasan di <strong>Google Classroom (GC) telah resmi ditutup</strong>, siswa yang mengumpulkan tugas secara susulan / fisik seringkali mengalami kendala pencatatan nilai yang terselip atau lambat terdata oleh guru mata pelajaran.
+        </p>
+        <p style="margin-top: 6px;">
+            Sistem <strong>Pelaporan Tugas Susulan AjarKita</strong> hadir sebagai jembatan digital resmi yang bertujuan untuk:
+        </p>
+        <ul style="margin-top: 6px;">
+            <li><strong>Mencatat Berkas Fisik Secara Real-Time:</strong> Mengonfirmasi penyerahan fisik tugas di meja guru/wali kelas secara digital.</li>
+            <li><strong>Menghindari Tugas Terselip:</strong> Guru mata pelajaran langsung menerima rekapitulasi nama, kelas, tanggal serah, dan catatan fisik.</li>
+            <li><strong>Bukti Sah Resi Digital:</strong> Setiap siswa yang melapor akan mendapatkan Nomor Resi Unik (<span class="code-pill">TSG-XXXXXX</span>) sebagai tanda bukti pelaporan yang sah.</li>
+        </ul>
+
+        <!-- 2. KETENTUAN UMUM SISWA -->
+        <h2 class="section-heading">
+            <span class="badge-num">2</span>
+            Ketentuan Umum &amp; Persiapan Siswa
+        </h2>
+        <div class="info-box">
+            <strong>⚠️ Syarat Sebelum Mengisi Formulir:</strong>
+            <ol style="margin-top: 6px; padding-left: 18px;">
+                <li>Siswa telah <strong>menyerahkan tugas fisik</strong> (buku latihan, map tugas, atau lembar kerja) kepada guru mata pelajaran atau di tempat yang telah ditentukan di sekolah.</li>
+                <li>Siswa telah memiliki <strong>Kode Akses Periode</strong> (contoh: <span class="code-pill">TGS-SEMGAN</span>) yang diumumkan resmi oleh guru mata pelajaran atau wali kelas.</li>
+                <li>Dapat diakses menggunakan ponsel (HP), tablet, laptop, atau komputer melalui peramban (Chrome, Edge, Safari).</li>
+            </ol>
+        </div>
+
+        <!-- 3. LANGKAH-LANGKAH OPERASIONAL -->
+        <h2 class="section-heading">
+            <span class="badge-num">3</span>
+            Alur Langkah Pelaporan (Step-by-Step)
+        </h2>
+
+        <!-- LANGKAH 0: TOMBOL FAB -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-title">
+                    <span>📌</span> Langkah Awal: Menemukan Tombol "Lapor Tugas"
+                </div>
+                <span class="step-pill">Halaman Utama</span>
+            </div>
+            <div class="step-layout">
+                <div class="step-media">
+                    <img src="assets/juknis/step0-tombol-lapor.jpg" alt="Tombol Lapor Tugas di Halaman Utama">
+                    <div class="step-media-caption">Gambar 1: Posisi tombol mengambang "Lapor Tugas" di kanan bawah layar.</div>
+                </div>
+                <div>
+                    <p><strong>Instruksi:</strong></p>
+                    <ol>
+                        <li>Buka alamat peramban resmi: <br><strong style="color:var(--primary);">https://kimia.ajarkita.my.id</strong></li>
+                        <li>Perhatikan pojok <strong>kanan bawah layar</strong> Anda.</li>
+                        <li>Klik atau ketuk tombol berwarna gelap dengan ikon buku bertuliskan <strong>"Lapor Tugas"</strong> (sesuai panah merah pada gambar).</li>
+                        <li>Jendela dialog formulir pelaporan akan terbuka secara otomatis.</li>
+                    </ol>
+                    <div class="info-box" style="margin-top: 10px;">
+                        <em>Catatan:</em> Tombol ini hanya muncul jika periode pelaporan sedang aktif dibuka oleh pihak sekolah.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER HALAMAN 1 -->
+        <footer class="doc-footer">
+            <span>Petunjuk Teknis Pelaporan Tugas AjarKita &bull; kimia.ajarkita.my.id</span>
+            <span>Halaman 1 dari 3</span>
+        </footer>
+    </div>
+
+    <!-- HALAMAN 2 -->
+    <div class="doc-page page-break">
+        <!-- HEADER KECIL HALAMAN LANJUTAN -->
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #cbd5e1; padding-bottom:8px; margin-bottom:16px; font-size:8pt; color:#64748b;">
+            <span>Petunjuk Teknis (Juknis) Pelaporan Tugas Susulan Google Classroom</span>
+            <span>AjarKita Platform &bull; Halaman 2</span>
+        </div>
+
+        <!-- LANGKAH 1: KODE AKSES -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-title">
+                    <span>🔑</span> Langkah 1: Memasukkan Kode Akses &amp; Keamanan
+                </div>
+                <span class="step-pill">Tahap 1 / 4</span>
+            </div>
+            <div class="step-layout">
+                <div class="step-media">
+                    <img src="assets/juknis/step1-kode-akses.jpg" alt="Langkah 1 Kode Akses dan Turnstile">
+                    <div class="step-media-caption">Gambar 2: Pengisian kode akses periode dan verifikasi bot Cloudflare.</div>
+                </div>
+                <div>
+                    <p><strong>Petunjuk Pengisian Kolom:</strong></p>
+                    <table class="explain-table">
+                        <thead>
+                            <tr>
+                                <th style="width:30px;">No</th>
+                                <th style="width:110px;">Elemen</th>
+                                <th>Keterangan &amp; Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="num-tag">1</span></td>
+                                <td><strong>Kode Akses Periode</strong></td>
+                                <td>Ketik kode akses yang diberikan oleh guru (Contoh: <span class="code-pill">TGS-SEMGAN</span> atau cukup <span class="code-pill">SEMGAN</span>). Huruf besar/kecil tidak berpengaruh.</td>
+                            </tr>
+                            <tr>
+                                <td>-</td>
+                                <td><strong>Verifikasi Keamanan</strong></td>
+                                <td>Centang kotak Cloudflare Turnstile sampai muncul tanda centang hijau <strong style="color:var(--success);">Success!</strong>.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag">2</span></td>
+                                <td><strong>Tombol Lanjut</strong></td>
+                                <td>Klik tombol biru <strong>"Verifikasi Kode &rarr;"</strong> untuk masuk ke tahap identitas.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="warning-box" style="margin-top: 8px;">
+                        <strong>Perhatian:</strong> Sesi pengisian aktif berlaku selama 30 menit. Jangan biarkan layar tidak aktif terlalu lama.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LANGKAH 2: IDENTITAS SISWA -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-title">
+                    <span>👤</span> Langkah 2: Mengisi Identitas Siswa
+                </div>
+                <span class="step-pill">Tahap 2 / 4</span>
+            </div>
+            <div class="step-layout">
+                <div class="step-media">
+                    <img src="assets/juknis/step2-identitas-siswa.png" alt="Langkah 2 Identitas Siswa">
+                    <div class="step-media-caption">Gambar 3: Input Nama Lengkap dan Pilihan Kelas Siswa.</div>
+                </div>
+                <div>
+                    <p><strong>Petunjuk Pengisian Kolom:</strong></p>
+                    <table class="explain-table">
+                        <thead>
+                            <tr>
+                                <th style="width:30px;">No</th>
+                                <th style="width:110px;">Elemen</th>
+                                <th>Keterangan &amp; Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="num-tag">1</span></td>
+                                <td><strong>Nama Lengkap Siswa</strong></td>
+                                <td>Ketik nama lengkap Anda sesuai buku rapor atau daftar hadir kelas resmi (Contoh: <span class="code-pill">Muhammad Fikri Haikal</span>). Hindari nama panggilan atau singkatan tidak baku.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag">2</span></td>
+                                <td><strong>Kelas</strong></td>
+                                <td>Klik menu dropdown dan pilih kelas Anda (Contoh: <span class="code-pill">XI IPA Putra</span> atau <span class="code-pill">XI IPA Putri</span>).</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag">3</span></td>
+                                <td><strong>Tombol Lanjut</strong></td>
+                                <td>Klik tombol biru <strong>"Lanjut ke Rincian Tugas &rarr;"</strong>.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="info-box" style="margin-top: 8px;">
+                        <em>Transparansi:</em> Nama ini akan otomatis dicocokkan oleh guru mata pelajaran saat memeriksa tumpukan berkas tugas di mejanya.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER HALAMAN 2 -->
+        <footer class="doc-footer">
+            <span>Petunjuk Teknis Pelaporan Tugas AjarKita &bull; kimia.ajarkita.my.id</span>
+            <span>Halaman 2 dari 3</span>
+        </footer>
+    </div>
+
+    <!-- HALAMAN 3 -->
+    <div class="doc-page page-break">
+        <!-- HEADER KECIL HALAMAN LANJUTAN -->
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #cbd5e1; padding-bottom:8px; margin-bottom:16px; font-size:8pt; color:#64748b;">
+            <span>Petunjuk Teknis (Juknis) Pelaporan Tugas Susulan Google Classroom</span>
+            <span>AjarKita Platform &bull; Halaman 3</span>
+        </div>
+
+        <!-- LANGKAH 3: RINCIAN TUGAS -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-title">
+                    <span>📝</span> Langkah 3: Mengisi Rincian Butir Tugas yang Diserahkan
+                </div>
+                <span class="step-pill">Tahap 3 / 4</span>
+            </div>
+            <div class="step-layout">
+                <div class="step-media">
+                    <img src="assets/juknis/step3-rincian-tugas.jpg" alt="Langkah 3 Rincian Tugas">
+                    <div class="step-media-caption">Gambar 4: Rincian butir tugas, mapel, tanggal, catatan fisik, & tombol kirim.</div>
+                </div>
+                <div>
+                    <p><strong>Petunjuk Pengisian Kolom:</strong></p>
+                    <table class="explain-table">
+                        <thead>
+                            <tr>
+                                <th style="width:30px;">No</th>
+                                <th style="width:110px;">Elemen</th>
+                                <th>Keterangan &amp; Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="num-tag">1</span></td>
+                                <td><strong>Mata Pelajaran</strong></td>
+                                <td>Pilih mata pelajaran yang tugasnya dilaporkan (tersedia 27 mapel resmi kurikulum sekolah).</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag">2</span></td>
+                                <td><strong>Tanggal Serah</strong></td>
+                                <td>Pilih tanggal saat berkas fisik diserahkan (opsional, bawaan adalah tanggal hari ini).</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag">3</span></td>
+                                <td><strong>Judul / Nama Tugas</strong></td>
+                                <td>Ketik nama tugas dengan lengkap (Contoh: <span class="code-pill">Tugas 1: Termokimia Latihan 3.2</span>). Jika tugas sudah pernah dilaporkan siswa lain, saran judul otomatis akan muncul.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag">4</span></td>
+                                <td><strong>Catatan Fisik</strong></td>
+                                <td>Keterangan lokasi fisik tugas (opsional, maks 200 karakter, misal: <span class="code-pill">Diserahkan di map merah meja guru</span>).</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag star">5*</span></td>
+                                <td><strong>+ Tambah Baris</strong></td>
+                                <td><em>Opsional:</em> Klik tombol ini jika Anda ingin melaporkan lebih dari 1 tugas sekaligus (dapat diisi hingga 30 tugas).</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag">6</span></td>
+                                <td><strong>Kirim Laporan</strong></td>
+                                <td>Klik tombol biru <strong>"Kirim Laporan (X) &rarr;"</strong> untuk menyimpan data ke server.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- LANGKAH 4: RESI DIGITAL -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-title">
+                    <span>🧾</span> Langkah 4: Menerima Nomor Resi Bukti Pelaporan
+                </div>
+                <span class="step-pill">Tahap Selesai</span>
+            </div>
+            <div class="step-layout">
+                <div class="step-media">
+                    <img src="assets/juknis/step4-resi-digital.png" alt="Langkah 4 Tanda Terima Resi Digital">
+                    <div class="step-media-caption">Gambar 5: Bukti tanda terima digital dengan nomor referensi unik.</div>
+                </div>
+                <div>
+                    <div class="success-box" style="margin-top:0;">
+                        <strong>🎉 Laporan Berhasil Diterima!</strong> Data Anda telah otomatis masuk ke sistem rekap guru mata pelajaran secara real-time.
+                    </div>
+                    <table class="explain-table" style="margin-top:8px;">
+                        <tbody>
+                            <tr>
+                                <td style="width:120px;"><strong>Nomor Referensi</strong></td>
+                                <td>Contoh: <strong style="font-size:10pt; color:var(--primary); font-family:'JetBrains Mono';">TSG-TYC4M3</strong>. Klik tombol <strong>"Salin Nomor Referensi"</strong> atau tangkap layar (screenshot) sebagai bukti sah Anda.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="num-tag">1</span> <strong>Selesai &amp; Bersihkan</strong></td>
+                                <td>Klik tombol biru <strong>"Selesai &amp; Bersihkan Sesi"</strong> untuk menutup dialog dan mengosongkan memori browser demi keamanan bersama.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. TANYA JAWAB (FAQ) -->
+        <h2 class="section-heading" style="margin-top:16px;">
+            <span class="badge-num">4</span>
+            Pertanyaan yang Sering Diajukan (FAQ)
+        </h2>
+        <div style="font-size: 8.5pt; color:#334155; line-height: 1.55;">
+            <p><strong>Q: Bagaimana jika saya salah mengetik judul tugas atau lupa memasukkan satu tugas?</strong><br>
+            A: Anda cukup mengisi formulir pelaporan kembali dari awal. Sistem secara otomatis memperlakukan laporan terakhir Anda sebagai revisi data terbaru.</p>
+            <p style="margin-top: 6px;"><strong>Q: Kapan status tugas saya berubah menjadi "Dikonfirmasi"?</strong><br>
+            A: Guru mata pelajaran akan memverifikasi berkas fisik Anda melalui Dashboard Guru. Begitu guru memeriksa tumpukan tugas, status di sistem akan diperbarui menjadi terkonfirmasi.</p>
+        </div>
+
+        <!-- FOOTER HALAMAN 3 -->
+        <footer class="doc-footer">
+            <span>Platform Pembelajaran AjarKita &bull; Dokumen Resmi Juknis Penugasan &bull; 2026</span>
+            <span>Halaman 3 dari 3</span>
+        </footer>
+    </div>
+
+</body>
+</html>
