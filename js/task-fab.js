@@ -96,7 +96,7 @@
                         name: 'Pelaporan Tugas Susulan Semester Ganjil',
                         startsAt: Date.now() - 3600000,
                         endsAt: Date.now() + (7 * 86400000),
-                        classes: ['X MIPA 1', 'X MIPA 2', 'XI MIPA 1', 'XI MIPA 2', 'XII MIPA 1', 'XII MIPA 2'],
+                        classes: ['X Putra', 'X Putri', 'XI IPA Putra', 'XI IPA Putri', 'XII IPA Putra', 'XII IPA Putri', 'XII IPS Putri'],
                         subjects: ['Kimia', 'Fisika', 'Biologi', 'Matematika']
                     }
                 };

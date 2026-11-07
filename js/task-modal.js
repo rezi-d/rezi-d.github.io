@@ -539,7 +539,7 @@
                                window.location.protocol === 'file:';
             if (isLocalDev) {
                 sessionToken = 'mock_dev_session_token_' + Date.now();
-                currentPeriod.classes = (currentPeriod.classes && currentPeriod.classes.length) ? currentPeriod.classes : ['X MIPA 1', 'X MIPA 2', 'XI MIPA 1', 'XI MIPA 2', 'XII MIPA 1', 'XII MIPA 2'];
+                currentPeriod.classes = (currentPeriod.classes && currentPeriod.classes.length) ? currentPeriod.classes : ['X Putra', 'X Putri', 'XI IPA Putra', 'XI IPA Putri', 'XII IPA Putra', 'XII IPA Putri', 'XII IPS Putri'];
                 currentPeriod.subjects = (currentPeriod.subjects && currentPeriod.subjects.length) ? currentPeriod.subjects : ['Kimia', 'Fisika', 'Biologi', 'Matematika'];
                 turnstileToken = null;
                 taskRows = [{
