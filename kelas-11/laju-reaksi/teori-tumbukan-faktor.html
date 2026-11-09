@@ -16,8 +16,17 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💥</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Typografi Persamaan Matematika & Kimia -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false});">
+    </script>
+
     <style>
         body { font-family: 'Inter', sans-serif; }
+        .katex-display { margin: 0.35em 0; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen" data-kelas="11" data-bab="laju-reaksi">
@@ -289,21 +298,21 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
                             <div class="bg-white p-3.5 rounded-xl border border-slate-200">
                                 <span class="font-bold text-teal-800 block mb-1">Rumus Perubahan Laju Reaksi (v):</span>
-                                <div class="font-mono font-bold text-sm text-teal-600 bg-teal-50 py-2 rounded border border-teal-200">
-                                    v<sub>t</sub> = v₀ &times; n<sup>(T<sub>t</sub> &minus; T₀) / &Delta;T</sup>
+                                <div class="font-bold text-sm text-teal-700 bg-teal-50 py-2 rounded border border-teal-200">
+                                    $$v_t = v_0 \times n^{\frac{T_t - T_0}{\Delta T}}$$
                                 </div>
                             </div>
 
                             <div class="bg-white p-3.5 rounded-xl border border-slate-200">
                                 <span class="font-bold text-teal-800 block mb-1">Rumus Perubahan Waktu Reaksi (t):</span>
-                                <div class="font-mono font-bold text-sm text-teal-600 bg-teal-50 py-2 rounded border border-teal-200">
-                                    t<sub>t</sub> = t₀ &times; (1/n)<sup>(T<sub>t</sub> &minus; T₀) / &Delta;T</sup>
+                                <div class="font-bold text-sm text-teal-700 bg-teal-50 py-2 rounded border border-teal-200">
+                                    $$t_t = t_0 \times \left(\frac{1}{n}\right)^{\frac{T_t - T_0}{\Delta T}}$$
                                 </div>
                             </div>
                         </div>
 
                         <p class="text-xs text-slate-500 text-center">
-                            <em>Keterangan: v₀ = laju awal, v<sub>t</sub> = laju akhir, t₀ = waktu awal, t<sub>t</sub> = waktu akhir, n = faktor kelipatan kenaikan, &Delta;T = selang kenaikan suhu.</em>
+                            <em>Keterangan: $v_0$ = laju awal, $v_t$ = laju akhir, $t_0$ = waktu awal, $t_t$ = waktu akhir, $n$ = faktor kelipatan kenaikan, $\Delta T$ = selang kenaikan suhu.</em>
                         </p>
                     </div>
 
@@ -368,9 +377,10 @@
                                 <span id="status-suhu-1" class="text-xs font-semibold"></span>
                             </div>
                             <div id="pembahasan-suhu-1" class="text-xs mt-2 text-slate-600 hidden bg-slate-50 p-3 rounded-lg border border-slate-200">
-                                💡 <strong>Pembahasan:</strong> Kenaikan suhu &Delta;T = 50 &minus; 20 = 30&deg;C.<br>
-                                Jumlah kelipatan = 30 / 10 = 3 kali.<br>
-                                Waktu reaksi akhir t<sub>t</sub> = 64 &times; (½)³ = 64 &times; ⅛ = <strong>8 detik</strong>.
+                                💡 <strong>Pembahasan:</strong> Kenaikan suhu $\Delta T = 50 - 20 = 30^\circ\text{C}$.<br>
+                                Jumlah interval kenaikan $= \frac{30}{10} = 3\text{ kali}$.<br>
+                                Waktu reaksi akhir:
+                                $$t_t = t_0 \times \left(\frac{1}{n}\right)^{\frac{\Delta T}{10}} = 64 \times \left(\frac{1}{2}\right)^3 = 64 \times \frac{1}{8} = \mathbf{8\text{ detik}}$$
                             </div>
                         </div>
 
@@ -436,7 +446,25 @@
     <script>
         // Auto-koreksi Latihan 1
         function cekSuhu1() {
-            pasangAutoKoreksi('input-suhu-1', 'status-suhu-1', 'pembahasan-suhu-1', 8, '✅ Tepat sekali! Waktu reaksi berkurang menjadi 8 detik.');
+            const inputEl = document.getElementById('input-suhu-1');
+            const statusEl = document.getElementById('status-suhu-1');
+            const pemb = document.getElementById('pembahasan-suhu-1');
+            const val = parseFloat(inputEl.value);
+            if (isNaN(val)) {
+                statusEl.innerHTML = '<span class="text-amber-600 text-xs font-semibold">Ketik angka jawaban terlebih dahulu.</span>';
+                return;
+            }
+            if (Math.abs(val - 8) <= 0.1) {
+                statusEl.innerHTML = '<span class="text-emerald-700 bg-emerald-50 px-3 py-1 rounded border border-emerald-200 text-xs font-semibold">✅ Tepat sekali! Waktu akhir = 8 detik</span>';
+            } else {
+                statusEl.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1 rounded border border-rose-200 text-xs font-semibold">❌ Belum tepat. Coba periksa kembali rumus pelipatan waktu.</span>';
+            }
+            if (pemb) {
+                pemb.classList.remove('hidden');
+                if (window.renderMathInElement) {
+                    renderMathInElement(pemb, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false});
+                }
+            }
         }
 
         // Kuis Pilihan Ganda Latihan 2
@@ -600,6 +628,7 @@
 
         // Inisialisasi awal
         window.addEventListener('DOMContentLoaded', () => {
+            pasangAutoKoreksi('input-suhu-1', 'status-suhu-1', 'pembahasan-suhu-1', 8, '✅ Tepat sekali! Waktu akhir = 8 detik.');
             buatPartikel();
             loopPartikel();
         });
