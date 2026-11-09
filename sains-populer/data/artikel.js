@@ -6,6 +6,79 @@
 
 const DAFTAR_ARTIKEL_SAINS = [
     {
+        "id": "cat-pendingin-barium-sulfat",
+        "slug": "cat-pendingin-barium-sulfat",
+        "title": "Cat Ultra-Putih Barium Sulfat: Mendinginkan Bangunan Tanpa AC Lewat Pendinginan Radiatif Pasif",
+        "subtitle": "Ilmuwan Universitas Purdue menciptakan cat paling putih di dunia yang memantulkan 98,1% sinar matahari dan membuang panas langsung ke luar angkasa.",
+        "category": "Material Masa Depan",
+        "categoryColor": "indigo",
+        "icon": "❄️",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-sky-950 to-indigo-950",
+            "badge": "Kimia Koloid × Pendinginan Pasif",
+            "icon": "🎨"
+        },
+        "summary": "Ilmuwan material berhasil merumuskan cat ultra-putih berbahan nanopartikel Barium Sulfat (BaSO₄). Cat ini mampu menurunkan suhu permukaan gedung hingga 4,5°C di bawah suhu udara sekitar di tengah terik matahari tanpa menggunakan daya listrik sama sekali.",
+        "tahukahKamu": "Barium Sulfat (BaSO₄) memiliki nilai Ksp yang sangat kecil (sekitar 1,1 × 10⁻¹⁰), menjadikannya garam yang luar biasa sukar larut dalam air dan sangat tahan terhadap guyuran hujan asam ekstrem di perkotaan!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XI",
+                "bab": "Kelarutan & Hasil Kali Kelarutan (Ksp)",
+                "desc": "Sifat kelarutan garam sukar larut BaSO₄ dan kestabilan kimianya.",
+                "url": "/kelas-11/kelarutan-dan-ksp/konsep-kelarutan-dan-ksp.html"
+            },
+            {
+                "kelas": "Kelas XI",
+                "bab": "Sistem Koloid & Rekayasa Partikel",
+                "desc": "Hamburan cahaya (Mie Scattering) dan distribusi ukuran nanopartikel koloid.",
+                "url": "/kelas-11/sistem-koloid/konsep-dan-jenis-koloid.html"
+            }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Di tengah krisis iklim global dan gelombang panas ekstrem, pendingin ruangan (AC) menyedot tagihan listrik yang sangat besar. Namun bagaimana jika dinding luar rumah kita bisa mendinginkan dirinya sendiri secara alami? Kenalkan, <strong>Cat Ultra-Putih Barium Sulfat</strong>!\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Mengapa Barium Sulfat (BaSO₄), Bukan TiO₂ Biasa?</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Cat putih komersial umumnya menggunakan pigmen Titanium Dioksida (TiO₂). Sayangnya, TiO₂ memiliki celah pita energi (<em>band gap</em>) sekitar 3,2 eV yang menyerap sinar ultraviolet (UV). Penyerapan sinar UV ini justru membuat dinding gedung perlahan-lahan menyerap panas matahari.\n            </p>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Sebaliknya, kristal Barium Sulfat (BaSO₄) memiliki <em>band gap</em> elektronik sangat lebar, sehingga sama sekali tidak menyerap sinar UV. Foton sinar matahari dari spektrum UV, tampak, hingga inframerah dekat dipantulkan balik hingga 98,1%!\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Jendela Transparansi Atmosfer (8–13 Mikrometer)</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Kejeniusan kedua dari cat ini adalah kemampuannya memancarkan radiasi panas pada panjang gelombang inframerah termal 8 hingga 13 mikrometer. Pada rentang ini, atmosfer bumi tidak menyerap panas, melainkan menjadi 'jendela terbuka' yang meneruskan panas bangunan langsung meluncur ke luar angkasa yang bersuhu minus 270°C!\n            </p>\n        ",
+        "diskusi": "Mengapa senyawa pigmen dengan celah pita (band gap) yang sangat lebar lebih disukai untuk aplikasi pendinginan radiatif dibandingkan semikonduktor dengan celah pita sempit?",
+        "publishDate": "9 November 2026"
+    },
+
+    {
+        "id": "membran-grafena-desalinasi",
+        "slug": "membran-grafena-desalinasi",
+        "title": "Membran Nanopori Grafena: Mengubah Air Laut Menjadi Air Minum dalam Sekejap",
+        "subtitle": "Lembaran atom karbon setebal satu atom berpori terkalibrasi yang mampu menyaring ion garam dengan efisiensi energi 100 kali lipat.",
+        "category": "Teknologi Masa Depan",
+        "categoryColor": "amber",
+        "icon": "💧",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-teal-950 to-blue-950",
+            "badge": "Kimia Karbon × Desalinasi Air",
+            "icon": "💎"
+        },
+        "summary": "Krisis air bersih mengancam miliaran manusia. Teknologi desalinasi reverse osmosis konvensional memakan energi listrik raksasa karena membutuhkan tekanan pompa hingga 70 bar. Membran lembaran grafena berpori sub-nanometer hadir sebagai filter atomik yang meloloskan molekul air murni namun memblokir ion Na⁺ dan Cl⁻.",
+        "tahukahKamu": "Diameter molekul air (H₂O) sekitar 0,28 nanometer, sedangkan ion natrium (Na⁺) yang terhidrasi oleh selubung molekul air memiliki diameter efektif sekitar 0,72 nanometer! Dengan membuat lubang pori grafena berukuran persis 0,6 nanometer, molekul air dapat mengalir deras sementara ion garam terblokir 100%!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XII",
+                "bab": "Sifat Koligatif Larutan & Tekanan Osmotik",
+                "desc": "Konsep osmosis balik (reverse osmosis) dan perhitungan tekanan osmotik (π = M·R·T·i).",
+                "url": "/kelas-12/sifat-koligatif/tekanan-osmotik-larutan.html"
+            },
+            {
+                "kelas": "Kelas XI",
+                "bab": "Ikatan Kovalen & Geometri Molekul",
+                "desc": "Jaringan kisi heksagonal karbon sp² grafena dan gaya tolakan elektrostatis.",
+                "url": "/kelas-11/ikatan-kimia/ikatan-kovalen.html"
+            }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Lebih dari 97% air di muka bumi adalah air asin di lautan. Selama ini kita menyaringnya menggunakan membran poliamida sintetis tebal yang membutuhkan tekanan hidrolik raksasa hingga 70 kali tekanan atmosfer. Kini hadir solusi atomik: <strong>Membran Grafena Berpori Nano</strong>.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Filter Tertipis di Alam Semesta</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Grafena hanya setebal satu lapisan atom karbon (0,34 nanometer). Karena sangat tipis, gaya gesek viskositas antara dinding pori dan molekul air menjadi mendekati nol. Molekul air dapat meluncur menembus membran dengan laju aliran ribuan kali lebih cepat dibandingkan membran tebal konvensional.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Selubung Hidrasi: Jebakan untuk Ion Na⁺ dan Cl⁻</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Mengapa ion garam tidak bisa ikut lolos? Meskipun ion Na⁺ telanjang berdiameter 0,102 nm, di dalam air ion ini selalu dikelilingi oleh molekul-molekul air polar (interaksi ion-dipol) membentuk <em>hydration shell</em> dengan diameter efektif 0,72 nm. Lubang pori grafena yang dirancang berukuran 0,6 nm menjadi gerbang yang mustahil ditembus oleh ion garam terhidrasi!\n            </p>\n        ",
+        "diskusi": "Bagaimana interaksi ion-dipol antara ion Na⁺/Cl⁻ dan molekul air mempengaruhi ukuran efektif partikel garam saat melewati membran berpori nano?",
+        "publishDate": "9 November 2026"
+    },
+    {
         "id": "fotosintesis-buatan-daun-artifisial",
         "slug": "fotosintesis-buatan-daun-artifisial",
         "title": "Daun Artifisial: Meniru Fotosintesis Mengubah Karbon Dioksida Menjadi Bahan Bakar Bersih",
