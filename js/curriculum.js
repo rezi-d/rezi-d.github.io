@@ -353,6 +353,19 @@ const kurikulum = {
                     { file: "aplikasi-finansial-bunga-dan-anuitas.html", title: "Aplikasi Finansial: Bunga & Anuitas" },
                     { file: "latihan-pemecahan-masalah-barisan-deret.html", title: "Problem Solving HOTS Barisan & Deret" }
                 ]
+            },
+            {
+                slug: "trigonometri",
+                title: "Perbandingan Trigonometri",
+                deskripsi: "Konsep dasar perbandingan trigonometri siku-siku (sin, cos, tan, csc, sec, cot), nilai sudut istimewa 0°-90°, sudut berelasi di 4 kuadran, identitas dasar Pythagoras, serta aplikasi nyata pemodelan tinggi objek dengan klinometer.",
+                subbab: [
+                    { file: "konsep-dasar-dan-perbandingan-trigonometri.html", title: "Konsep Dasar & 6 Rasio Trigonometri Siku-Siku" },
+                    { file: "nilai-trigonometri-sudut-istimewa.html", title: "Nilai Perbandingan Sudut Istimewa" },
+                    { file: "sudut-berelasi-dan-kuadran.html", title: "Sudut Berelasi di Berbagai Kuadran" },
+                    { file: "identitas-dasar-trigonometri.html", title: "Identitas Dasar & Pembuktian Aljabar" },
+                    { file: "aplikasi-pemodelan-klinometer.html", title: "Aplikasi Nyata: Pemodelan Klinometer" },
+                    { file: "latihan-pemecahan-masalah-trigonometri.html", title: "Problem Solving HOTS Perbandingan Trigonometri" }
+                ]
             }
         ]
     }

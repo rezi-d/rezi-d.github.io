@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Nyata: Pemodelan Klinometer — Matematika Kelas X</title>
+    <meta name="description" content="Kuasai aplikasi klinometer & sudut elevasi/depresi: rumus hitung tinggi pohon, tiang bendera, gedung h = t + d·tan(θ), metode 2 titik pengamatan, dan kuis interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/trigonometri/aplikasi-pemodelan-klinometer.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/trigonometri/aplikasi-pemodelan-klinometer.html">
+    <meta property="og:title" content="🔭 Aplikasi Nyata: Pemodelan Klinometer — Kelas X SMA">
+    <meta property="og:description" content="Pelajari pengukuran jarak dan tinggi objek tak terjangkau menggunakan sudut elevasi dan klinometer dengan kuis auto-koreksi.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔭</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="trigonometri">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Perbandingan Trigonometri
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Aplikasi Nyata: Pemodelan Klinometer
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari implementasi perbandingan trigonometri dalam kehidupan nyata: perbedaan sudut elevasi dan depresi, perancangan klinometer sederhana, rumus tinggi objek $h = t + d \cdot \tan \theta$, hingga metode dua titik pengamatan untuk objek tak terjangkau.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: SUDUT ELEVASI VS DEPRESI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Garis Pandang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    👀 1. Konsep Sudut Elevasi &amp; Sudut Depresi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Elevasi &amp; Depresi</span>
+                        </div>
+
+                        <!-- PENJELASAN GARIS PANDANG HORIZONTAL -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100 space-y-3">
+                            <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider">Garis Acuan: Garis Horizontal Mata Pengamat</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Dalam aplikasi trigonometri, semua sudut pengamatan diukur relatif terhadap <strong>garis pandang mendatar (horizontal)</strong> setinggi mata pengamat.
+                            </p>
+                        </div>
+
+                        <!-- KOMPARASI DUA SUDUT -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">⬆️</span>
+                                    <span class="text-xs font-bold text-emerald-950 uppercase">Sudut Elevasi ($\theta_{\text{elevasi}}$)</span>
+                                </div>
+                                <p class="text-xs text-emerald-900 leading-relaxed">
+                                    Sudut yang dibentuk antara garis horizontal dengan garis pandang pengamat <strong>ke atas</strong> saat melihat objek yang lebih tinggi (puncak pohon, ujung tiang bendera, layang-layang).
+                                </p>
+                            </div>
+
+                            <div class="p-5 bg-indigo-50 rounded-2xl border border-indigo-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">⬇️</span>
+                                    <span class="text-xs font-bold text-indigo-950 uppercase">Sudut Depresi ($\theta_{\text{depresi}}$)</span>
+                                </div>
+                                <p class="text-xs text-indigo-900 leading-relaxed">
+                                    Sudut yang dibentuk antara garis horizontal dengan garis pandang pengamat <strong>ke bawah</strong> saat melihat objek yang berada di bawah (kapal di laut dilihat dari atas mercusuar).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600">
+                            <strong>Teorema Geometri Garis Sejajar:</strong> Sudut depresi seorang pengamat di mercusuar tepat sama besarnya dengan sudut elevasi nahkoda kapal di laut saat melihat ke puncak mercusuar (karena merupakan <em>pasangan sudut dalam berseberangan</em>).
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: CARA KERJA KLINOMETER -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Instrumen Pengukuran</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 2. Prinsip Kerja &amp; Pembuatan Klinometer Sederhana
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Alat Klinometer</span>
+                        </div>
+
+                        <!-- DESAIN KLINOMETER PROYEK -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Komponen Klinometer Sederhana (Proyek STEM Sekolah)</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-blue-900">1. Busur Derajat $180^\circ$</span>
+                                    <p class="text-slate-600">Alat pembaca sudut rotasi.</p>
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-blue-900">2. Pipa Bidik (Sedotan Plastik)</span>
+                                    <p class="text-slate-600">Ditempelkan lurus sejajar garis $0^\circ - 180^\circ$ busur sebagai teropong pengarah.</p>
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-blue-900">3. Benang &amp; Bandul Pemberat</span>
+                                    <p class="text-slate-600">Digantung tepat di titik tengah busur untuk selalu menunjuk garis vertikal gravitasi.</p>
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-blue-900">4. Pembacaan Sudut Elevasi</span>
+                                    <p class="font-mono text-emerald-800 font-bold">$$\theta = |90^\circ - \text{sudut benang}|$$</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-blue-50/70 rounded-xl border border-blue-200 text-xs text-blue-900 space-y-1">
+                            <span class="font-bold">Cara Membaca:</span>
+                            <p>Ketika teropong sedotan diarahkan membidik puncak pohon, gravitasi menjaga bandul tetap tegak lurus ke bawah. Penyimpangan benang dari angka $90^\circ$ pada busur menunjukkan besar sudut elevasi $(\theta)$ pandangan Anda.</p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: FORMULA MENGHITUNG TINGGI OBJEK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Pemodelan Matematika</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌳 3. Menghitung Tinggi Objek: $h = t + d \cdot \tan \theta$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Formula Tinggi</span>
+                        </div>
+
+                        <!-- PENURUNAN RUMUS TINGGI OBJEK -->
+                        <div class="p-5 bg-gradient-to-br from-emerald-50/70 via-slate-50 to-white rounded-2xl border border-emerald-200 space-y-3">
+                            <h3 class="text-sm font-bold text-emerald-950 uppercase tracking-wider">Formula Pemodelan Tinggi Objek Nyata</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Misalkan jarak mendatar pengamat ke objek adalah $d$, tinggi mata pengamat dari permukaan tanah adalah $t_{\text{pengamat}}$, dan sudut elevasi yang terukur adalah $\theta$:
+                            </p>
+                            <div class="p-4 bg-white rounded-xl border border-emerald-300 text-center font-mono text-base font-extrabold text-emerald-950">
+                                $$h_{\text{total}} = t_{\text{pengamat}} + d \cdot \tan \theta$$
+                            </div>
+                            <p class="text-xs text-slate-600 text-center">
+                                Dimana $y = d \cdot \tan \theta$ adalah tinggi puncak objek di atas garis mata pengamat.
+                            </p>
+                        </div>
+
+                        <!-- CONTOH STUDI KASUS NYATA -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2.5">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Contoh Praktis: Pengukuran Tiang Bendera Lapangan</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Ahmad berdiri pada jarak mendatar <strong>$12\text{ meter}$</strong> dari dasar tiang bendera. Dengan klinometer, ia mengukur sudut elevasi ke puncak tiang adalah <strong>$45^\circ$</strong>. Jika tinggi mata Ahmad adalah <strong>$1.5\text{ meter}$</strong>, berapakah tinggi tiang bendera tersebut?
+                            </p>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 font-mono text-xs sm:text-sm text-slate-800 space-y-1">
+                                <p>1. Data: $d = 12\text{ m}$, $\theta = 45^\circ$, $t_{\text{mata}} = 1.5\text{ m}$.</p>
+                                <p>2. Nilai $\tan 45^\circ = 1$.</p>
+                                <div class="text-blue-900 font-bold p-2 bg-blue-50 rounded-lg text-center">
+                                    $$h = 1.5 + (12 \times \tan 45^\circ) = 1.5 + (12 \times 1) = 1.5 + 12 = 13.5\text{ meter}$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: METODE 2 TITIK PENGAMATAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Objek Tak Terjangkau</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🏔️ 4. Metode 2 Titik Pengamatan (Tanpa Mengetahui Jarak $d$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Dua Titik Pantau</span>
+                        </div>
+
+                        <!-- DESKRIPSI SITUASI -->
+                        <div class="bg-gradient-to-br from-purple-50/70 via-slate-50 to-white p-5 sm:p-6 rounded-2xl border border-purple-200 space-y-3">
+                            <h3 class="text-sm font-bold text-purple-950 uppercase tracking-wider">Kasus Objek di Seberang Jurang / Sungai</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Jika dasar objek tidak dapat dicapai untuk diukur jaraknya secara langsung, lakukan dua kali pengamatan pada satu garis lurus dengan memundurkan posisi pengamat sejauh <strong>$s$</strong>:
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+                                <div class="p-3 bg-white rounded-xl border border-purple-200">
+                                    Titik A: Sudut elevasi $\alpha$, jarak $x$.
+                                    $$y = x \cdot \tan \alpha$$
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-purple-200">
+                                    Titik B (mundur $s$): Sudut $\beta$, jarak $x+s$.
+                                    $$y = (x + s) \cdot \tan \beta$$
+                                </div>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-purple-300 font-mono text-center text-sm font-bold text-purple-950">
+                                $$y = \frac{s \cdot \tan \alpha \cdot \tan \beta}{\tan \alpha - \tan \beta}$$
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700">
+                            <strong>Kelebihan Metode:</strong> Anda dapat mengetahui ketinggian gunung, puncak tebing, atau gedung bertingkat di seberang sungai tanpa pernah menginjakkan kaki ke dasar tebing tersebut.
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Latihan Soal Interaktif Aplikasi Klinometer
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Koreksi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman Anda seputar penerapan sudut elevasi, depresi, dan pemodelan klinometer.
+                        </p>
+
+                        <!-- CONTAINER SOAL LATIHAN -->
+                        <div class="space-y-4">
+
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">1</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Rina mengamati puncak pohon dari jarak mendatar $10\sqrt{3}\text{ m}$ dengan sudut elevasi $30^\circ$. Jika tinggi mata Rina adalah $1.6\text{ m}$, tinggi pohon tersebut adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-1" value="a" class="text-blue-600">
+                                        <span>A. $10.0\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-1" value="b" class="text-blue-600">
+                                        <span>B. $11.6\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-1" value="c" class="text-blue-600">
+                                        <span>C. $15.0\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-1" value="d" class="text-blue-600">
+                                        <span>D. $16.6\text{ m}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-trig5-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">2</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Seorang pengamat melihat bayangan sebuah tiang bendera di tanah. Jika panjang bayangan tepat sama dengan tinggi tiang bendera tersebut, maka sudut elevasi matahari saat itu adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-2" value="a" class="text-blue-600">
+                                        <span>A. $30^\circ$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-2" value="b" class="text-blue-600">
+                                        <span>B. $45^\circ$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-2" value="c" class="text-blue-600">
+                                        <span>C. $60^\circ$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-2" value="d" class="text-blue-600">
+                                        <span>D. $90^\circ$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-trig5-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">3</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Dari puncak mercusuar setinggi $60\text{ m}$ di atas permukaan laut, seorang petugas melihat sebuah perahu dengan sudut depresi $30^\circ$. Jarak mendatar perahu ke dasar mercusuar adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-3" value="a" class="text-blue-600">
+                                        <span>A. $20\sqrt{3}\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-3" value="b" class="text-blue-600">
+                                        <span>B. $60\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-3" value="c" class="text-blue-600">
+                                        <span>C. $60\sqrt{3}\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-3" value="d" class="text-blue-600">
+                                        <span>D. $120\text{ m}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-trig5-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">4</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Sebuah tangga sepanjang $6\text{ meter}$ disandarkan ke dinding dengan sudut kemiringan $60^\circ$ terhadap lantai. Tinggi dinding yang dicapai oleh ujung atas tangga adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-4" value="a" class="text-blue-600">
+                                        <span>A. $3\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-4" value="b" class="text-blue-600">
+                                        <span>B. $3\sqrt{2}\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-4" value="c" class="text-blue-600">
+                                        <span>C. $3\sqrt{3}\text{ m}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-trig5-4" value="d" class="text-blue-600">
+                                        <span>D. $6\sqrt{3}\text{ m}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-trig5-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysTrig5 = {
+                                'kuis-trig5-1': { 
+                                    ans: 'b', 
+                                    text: 'y = d · tan 30° = 10√3 · (1/3 √3) = 10 · 1 = 10 m. Tinggi total = y + t_mata = 10 + 1.6 = 11.6 meter.' 
+                                },
+                                'kuis-trig5-2': { 
+                                    ans: 'b', 
+                                    text: 'tan θ = tinggi / bayangan = 1 => θ = 45°.' 
+                                },
+                                'kuis-trig5-3': { 
+                                    ans: 'c', 
+                                    text: 'Sudut elevasi = sudut depresi = 30°. tan 30° = tinggi / d => 1/√3 = 60 / d => d = 60√3 meter.' 
+                                },
+                                'kuis-trig5-4': { 
+                                    ans: 'c', 
+                                    text: 'sin 60° = tinggi / panjang tangga => √3 / 2 = tinggi / 6 => tinggi = 6 · (√3 / 2) = 3√3 meter.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysTrig5).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-trig5-${idx + 1}`);
+                                        const info = kuisKeysTrig5[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat rumus perbandingan tan θ = depan / samping dan sin θ = depan / miring!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Geometri: Pemecahan Masalah Sudut Elevasi dan Klinometer.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Bab 6: Trigonometric Functions: Right Triangle Approach (6.2 Applications of Right Triangles).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="identitas-dasar-trigonometri.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Identitas Dasar
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="latihan-pemecahan-masalah-trigonometri.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
