@@ -18,10 +18,10 @@ class IeltsSlider {
     }
 
     init() {
-        this.container = document.getElementById('ielts-slider-container');
+        this.container = document.getElementById('ielts-slider-container') || document.getElementById('lesson-slider-container');
         if (!this.container) return;
 
-        this.slides = Array.from(this.container.querySelectorAll('.ielts-slide'));
+        this.slides = Array.from(this.container.querySelectorAll('.ielts-slide, .lesson-slide'));
         this.totalSlides = this.slides.length;
         if (this.totalSlides === 0) return;
 
@@ -88,6 +88,11 @@ class IeltsSlider {
 
     getAccentTheme() {
         const themes = {
+            blue: {
+                activeDot: 'bg-blue-600',
+                activeText: 'text-blue-600',
+                nextBtn: 'bg-blue-600 hover:bg-blue-700'
+            },
             indigo: {
                 activeDot: 'bg-indigo-600',
                 activeText: 'text-indigo-600',

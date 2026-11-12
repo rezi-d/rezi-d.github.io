@@ -12,7 +12,7 @@
     <meta property="og:locale" content="id_ID">
     <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/eksponen-dan-logaritma/konsep-eksponen-dan-sifat-operasi.html">
     <meta property="og:title" content="📐 Konsep Eksponen & Sifat-Sifat Operasi Aljabar — Kelas X SMA">
-    <meta property="og:description" content="Kuasai 7 hukum eksponen, pembuktian pangkat nol & negatif, serta teknik penyederhanaan aljabar bertingkat dengan kuis interaktif auto-koreksi.">
+    <meta property="og:description" content="Kuasai 7 hukum eksponen, pembuktian pangkat nol & negatif, serta teknik penyederhanaan aljabar bertingkat dalam tampilan kartu carousel interaktif.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
     
     <!-- Tailwind CSS CDN -->
@@ -43,505 +43,571 @@
         <div id="sidebar-placeholder" class="lg:col-span-1"></div>
 
         <!-- AREA KONTEN UTAMA -->
-        <main class="lg:col-span-3 space-y-8">
-            <article class="bg-white p-6 sm:p-9 rounded-2xl sm:rounded-3xl border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
 
-                <!-- BADGE BAB & JUDUL -->
-                <div class="flex flex-wrap items-center gap-2 mb-3">
-                    <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
-                        Bab 1: Eksponen dan Logaritma
-                    </span>
-                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 1: Eksponen dan Logaritma
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Eksponen &amp; Sifat-Sifat Operasi Aljabar
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai pondasi bilangan berpangkat, pembuktian konsistensi eksponen nol dan negatif, 7 hukum aljabar fundamental, hingga teknik penyederhanaan bertingkat melalui kartu materi interaktif di bawah ini. Gunakan tombol navigasi atau usap layar (swipe) untuk berpindah poin materi.
+                    </p>
                 </div>
 
-                <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
-                    1. Konsep Eksponen &amp; Sifat-Sifat Operasi Aljabar
-                </h1>
-
-                <!-- RINGKASAN INTUITIF -->
-                <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100 mb-8">
-                    <div class="flex items-start gap-3.5">
-                        <span class="text-2xl shrink-0">💡</span>
-                        <div>
-                            <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif Eksponen</h3>
-                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
-                                Jika <strong>penjumlahan berulang</strong> menghasilkan konsep <em>perkalian</em> ($3 + 3 + 3 + 3 = 4 \times 3$), maka <strong>perkalian berulang</strong> dari suatu bilangan yang sama menghasilkan konsep <strong>eksponen (perpangkatan)</strong> ($3 \times 3 \times 3 \times 3 = 3^4$). Eksponen adalah bahasa universal sains dan teknologi untuk memodelkan fenomena yang mengalami percepatan atau pelipatgandaan eksponensial, mulai dari pembelahan sel biologi, pertumbuhan dana investasi, hingga kapasitas komputasi digital.
-                            </p>
-                        </div>
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
                     </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
                 </div>
 
-                <!-- SECTION 1: DEFINISI FORMAL EKSPOEN -->
-                <section class="mb-10">
-                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
-                        <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-mono shrink-0">1</span>
-                        <span>Definisi Formal Bilangan Berpangkat</span>
-                    </h2>
-                    
-                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
-                        Untuk setiap bilangan real $a$ (disebut <strong>basis</strong> atau bilangan pokok) dan bilangan bulat positif $n$ (disebut <strong>eksponen</strong> atau pangkat), perpangkatan $a^n$ didefinisikan sebagai perkalian berulang bilangan $a$ sebanyak $n$ faktor:
-                    </p>
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
 
-                    <div class="bg-slate-50 border-l-4 border-blue-600 p-4 rounded-r-xl my-4 text-center">
-                        <p class="text-base sm:text-lg font-serif text-slate-900">
-                            $$a^n = \underbrace{a \times a \times a \times \dots \times a}_{n \text{ faktor}}$$
-                        </p>
-                        <p class="text-xs text-slate-500 mt-2 font-mono">
-                            dengan $a \in \mathbb{R}$ (basis) dan $n \in \mathbb{Z}^+$ (eksponen bulat positif)
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5 text-xs sm:text-sm">
-                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                            <span class="font-bold text-slate-900 block mb-1">Contoh Basis Positif:</span>
-                            <p class="text-slate-600 leading-relaxed font-mono">
-                                $2^5 = 2 \times 2 \times 2 \times 2 \times 2 = 32$<br>
-                                $\left(\frac{1}{3}\right)^3 = \frac{1}{3} \times \frac{1}{3} \times \frac{1}{3} = \frac{1}{27}$
-                            </p>
-                        </div>
-                        <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/80">
-                            <span class="font-bold text-amber-950 block mb-1">⚠️ Perhatian Khusus Basis Negatif:</span>
-                            <p class="text-slate-700 leading-relaxed font-mono">
-                                $(-3)^4 = (-3) \times (-3) \times (-3) \times (-3) = +81$<br>
-                                $-3^4 = -(3 \times 3 \times 3 \times 3) = -81$<br>
-                                <span class="text-[11px] font-sans text-amber-900 italic">Tanda kurung menentukan apakah tanda minus ikut dipangkatkan!</span>
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SECTION 2: PERLUASAN KE PANGKAT NOL DAN BULAT NEGATIF -->
-                <section class="mb-10">
-                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
-                        <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-mono shrink-0">2</span>
-                        <span>Perluasan: Mengapa $a^0 = 1$ dan $a^{-n} = \frac{1}{a^n}$?</span>
-                    </h2>
-
-                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
-                        Banyak siswa menghafal bahwa bilangan berapapun dipangkatkan nol hasilnya adalah $1$, namun jarang memahami <em>mengapa</em> demikian. Prinsip konsistensi aljabar menuntut bahwa hukum eksponen harus berlaku kontinu saat pangkat berkurang satu demi satu:
-                    </p>
-
-                    <!-- TABEL POLA PEMBAGIAN BERULANG -->
-                    <div class="overflow-x-auto mb-6">
-                        <table class="w-full text-xs sm:text-sm text-left border border-slate-200 rounded-xl overflow-hidden">
-                            <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-[11px] tracking-wider">
-                                <tr>
-                                    <th class="p-3 border-b">Ekspresi</th>
-                                    <th class="p-3 border-b">Nilai Numerik</th>
-                                    <th class="p-3 border-b">Pola Aljabar Penurunan Pangkat</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                <tr class="hover:bg-slate-50">
-                                    <td class="p-3 font-mono font-bold text-blue-700">$2^3$</td>
-                                    <td class="p-3 font-mono">8</td>
-                                    <td class="p-3 text-slate-600">Nilai awal</td>
-                                </tr>
-                                <tr class="hover:bg-slate-50">
-                                    <td class="p-3 font-mono font-bold text-blue-700">$2^2$</td>
-                                    <td class="p-3 font-mono">4</td>
-                                    <td class="p-3 text-slate-600">Dibagi $2$ ($8 \div 2 = 4$)</td>
-                                </tr>
-                                <tr class="hover:bg-slate-50">
-                                    <td class="p-3 font-mono font-bold text-blue-700">$2^1$</td>
-                                    <td class="p-3 font-mono">2</td>
-                                    <td class="p-3 text-slate-600">Dibagi $2$ ($4 \div 2 = 2$)</td>
-                                </tr>
-                                <tr class="bg-blue-50/60 font-semibold">
-                                    <td class="p-3 font-mono font-bold text-blue-800">$2^0$</td>
-                                    <td class="p-3 font-mono font-bold text-emerald-700">1</td>
-                                    <td class="p-3 text-blue-900">Dibagi $2$ ($2 \div 2 = 1$). <strong>Terbukti $2^0 = 1$!</strong></td>
-                                </tr>
-                                <tr class="bg-amber-50/50">
-                                    <td class="p-3 font-mono font-bold text-amber-800">$2^{-1}$</td>
-                                    <td class="p-3 font-mono">$\frac{1}{2} = 0.5$</td>
-                                    <td class="p-3 text-slate-700">Dibagi $2$ ($1 \div 2 = \frac{1}{2}$)</td>
-                                </tr>
-                                <tr class="bg-amber-50/50">
-                                    <td class="p-3 font-mono font-bold text-amber-800">$2^{-2}$</td>
-                                    <td class="p-3 font-mono">$\frac{1}{4} = \frac{1}{2^2}$</td>
-                                    <td class="p-3 text-slate-700">Dibagi $2$ ($\frac{1}{2} \div 2 = \frac{1}{4}$)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- KOTAK TEOREMA PANGKAT NOL & NEGATIF -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase">Teorema 1</span>
-                                <h4 class="font-bold text-slate-900 text-sm">Pangkat Nol ($a^0 = 1$)</h4>
-                            </div>
-                            <p class="text-xs text-slate-600 leading-relaxed mb-3">
-                                Untuk setiap $a \in \mathbb{R}$ dengan $a \neq 0$:
-                            </p>
-                            <p class="text-center font-mono text-base font-bold text-slate-800 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                                $$a^0 = 1 \quad (a \neq 0)$$
-                            </p>
-                            <p class="text-[11px] text-rose-600 mt-2 italic">
-                                *Catatan: Bentuk $0^0$ tidak terdefinisi (indeterminasi aljabar).
-                            </p>
-                        </div>
-
-                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold uppercase">Teorema 2</span>
-                                <h4 class="font-bold text-slate-900 text-sm">Pangkat Bulat Negatif</h4>
-                            </div>
-                            <p class="text-xs text-slate-600 leading-relaxed mb-3">
-                                Eksponen negatif melambangkan <em>invers perkalian</em> (kebalikan):
-                            </p>
-                            <p class="text-center font-mono text-base font-bold text-slate-800 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                                $$a^{-n} = \frac{1}{a^n} \quad \text{dan} \quad \left(\frac{a}{b}\right)^{-n} = \left(\frac{b}{a}\right)^n$$
-                            </p>
-                            <p class="text-[11px] text-slate-500 mt-2">
-                                dengan $a \neq 0, b \neq 0$, dan $n \in \mathbb{Z}^+$.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SECTION 3: 7 HUKUM FUNDAMENTAL EKSPOEN -->
-                <section class="mb-10">
-                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
-                        <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-mono shrink-0">3</span>
-                        <span>7 Hukum Fundamental Eksponen (Laws of Exponents)</span>
-                    </h2>
-
-                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
-                        Untuk memanipulasi bentuk aljabar dan menyederhanakan persamaan kalkulus di jenjang lebih tinggi, Anda wajib menguasai 7 hukum fundamental eksponen berikut dengan lancar:
-                    </p>
-
-                    <div class="space-y-3">
-                        <!-- HUKUM 1 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <!-- SLIDE 1: DEFINISI FORMAL EKSPOEN & IDE INTUITIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                             <div>
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 1 &middot; Perkalian Basis Sama</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Pangkat Dijumlahkan</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Contoh: $x^4 \cdot x^3 = x^{4+3} = x^7$</p>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Pengenalan &amp; Landasan Formal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💡 1. Definisi Formal Bilangan Berpangkat &amp; Ide Intuitif
+                                </h2>
                             </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $$a^m \cdot a^n = a^{m+n}$$
-                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Definisi Dasar</span>
                         </div>
 
-                        <!-- HUKUM 2 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 2 &middot; Pembagian Basis Sama</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Pangkat Dikurangkan</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Contoh: $\frac{y^9}{y^4} = y^{9-4} = y^5$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $$\frac{a^m}{a^n} = a^{m-n} \quad (a \neq 0)$$
-                            </div>
-                        </div>
-
-                        <!-- HUKUM 3 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 3 &middot; Pangkat Dipangkatkan</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Pangkat Dikalikan</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Contoh: $(m^3)^4 = m^{3 \times 4} = m^{12}$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $$(a^m)^n = a^{m \cdot n}$$
-                            </div>
-                        </div>
-
-                        <!-- HUKUM 4 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 4 &middot; Pangkat dari Perkalian</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Distribusikan Pangkat ke Setiap Faktor</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Contoh: $(2x)^4 = 2^4 \cdot x^4 = 16x^4$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $$(a \cdot b)^n = a^n \cdot b^n$$
-                            </div>
-                        </div>
-
-                        <!-- HUKUM 5 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 5 &middot; Pangkat dari Pecahan</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Distribusikan ke Pembilang &amp; Penyebut</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">Contoh: $\left(\frac{3}{5}\right)^3 = \frac{3^3}{5^3} = \frac{27}{125}$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $$\left(\frac{a}{b}\right)^n = \frac{a^n}{b^n} \quad (b \neq 0)$$
-                            </div>
-                        </div>
-
-                        <!-- HUKUM 6 & 7 -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
-                                <span class="text-[10px] font-bold uppercase text-indigo-700">Hukum 6: Pangkat Negatif Pecahan</span>
-                                <div class="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-1">
-                                    $$\left(\frac{a}{b}\right)^{-n} = \left(\frac{b}{a}\right)^n = \frac{b^n}{a^n}$$
-                                </div>
-                            </div>
-                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
-                                <span class="text-[10px] font-bold uppercase text-indigo-700">Hukum 7: Inversi Posisi Eksponen</span>
-                                <div class="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-1">
-                                    $$\frac{1}{a^{-n}} = a^n \quad \text{dan} \quad \frac{a^{-m}}{b^{-n}} = \frac{b^n}{a^m}$$
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SECTION 4: MISKONSEPSI UMUM (COMMON TRAPS) -->
-                <section class="mb-10">
-                    <div class="p-5 sm:p-6 rounded-2xl bg-rose-50/60 border border-rose-200">
-                        <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider mb-2 flex items-center gap-2">
-                            <span>🚫</span> Perangkap Miskonsepsi Fatal Aljabar
-                        </h3>
-                        <div class="space-y-3 text-xs sm:text-sm text-slate-700">
-                            <div class="flex items-start gap-2.5">
-                                <span class="text-rose-600 font-bold font-mono shrink-0">SALAH:</span>
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">💡</span>
                                 <div>
-                                    <span class="font-mono bg-white px-1.5 py-0.5 rounded border border-rose-200 text-rose-700">$(a + b)^n = a^n + b^n$</span> (Kesalahan "Freshman's Dream").
-                                    <p class="text-xs text-slate-600 mt-0.5 font-sans">
-                                        Pangkat <strong>tidak dapat didistribusikan</strong> terhadap penjumlahan! Contoh nyata: $(3 + 4)^2 = 7^2 = 49$, sedangkan $3^2 + 4^2 = 9 + 16 = 25 \neq 49$.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-2.5">
-                                <span class="text-rose-600 font-bold font-mono shrink-0">SALAH:</span>
-                                <div>
-                                    <span class="font-mono bg-white px-1.5 py-0.5 rounded border border-rose-200 text-rose-700">$2^3 \cdot 2^4 = 4^7$</span>
-                                    <p class="text-xs text-slate-600 mt-0.5 font-sans">
-                                        Basisnya tidak berubah! Hukum 1 menyatakan bahwa basis tetap: $2^3 \cdot 2^4 = 2^{3+4} = 2^7 = 128$.
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif Eksponen</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Jika <strong>penjumlahan berulang</strong> melahirkan konsep <em>perkalian</em> ($3 + 3 + 3 + 3 = 4 \times 3$), maka <strong>perkalian berulang</strong> dari bilangan yang sama melahirkan konsep <strong>eksponen (perpangkatan)</strong> ($3 \times 3 \times 3 \times 3 = 3^4$). Eksponen adalah notasi universal sains untuk memodelkan proses percepatan eksponensial: pembelahan sel biologi, pertumbuhan investasi majemuk, intensitas gempa bumi, hingga daya komputasi mikroprosesor.
                                     </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
 
-                <!-- SECTION 5: CONTOH SOAL & STRATEGI PENYELESAIAN BERTAHAP -->
-                <section class="mb-10">
-                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
-                        <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-mono shrink-0">4</span>
-                        <span>Studi Kasus: Teknik Penyederhanaan Aljabar Bertingkat</span>
-                    </h2>
-
-                    <div class="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2.5 py-1 rounded-full">
-                                Kasus Pembahasan Step-by-Step
-                            </span>
-                            <span class="text-xs text-slate-400 font-mono">Standar OpenStax / Stewart</span>
-                        </div>
-
-                        <p class="text-sm font-bold text-slate-800 mb-3">
-                            Sederhanakan bentuk aljabar berikut dan nyatakan hasilnya hanya dalam pangkat bulat positif:
-                        </p>
-                        <p class="text-center font-mono text-base sm:text-lg text-slate-900 py-3 bg-white rounded-xl border border-slate-200 mb-4">
-                            $$\left( \frac{2x^3 y^{-2}}{4x^{-1} y^3} \right)^{-2}$$
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                            Secara matematis murni, untuk setiap bilangan real $a$ (disebut <strong>basis</strong> atau bilangan pokok) dan bilangan bulat positif $n$ (disebut <strong>eksponen</strong> atau pangkat), perpangkatan $a^n$ didefinisikan sebagai perkalian berulang bilangan $a$ sebanyak $n$ faktor:
                         </p>
 
-                        <div class="space-y-3 text-xs sm:text-sm text-slate-700">
-                            <div class="p-3 bg-white rounded-xl border border-slate-100">
-                                <strong class="text-blue-900 block mb-1">Langkah 1: Sederhanakan bagian dalam kurung terlebih dahulu</strong>
-                                <p class="text-slate-600 font-mono">
-                                    Koefisien: $\frac{2}{4} = \frac{1}{2}$<br>
-                                    Variabel $x$: $\frac{x^3}{x^{-1}} = x^{3 - (-1)} = x^4$<br>
-                                    Variabel $y$: $\frac{y^{-2}}{y^3} = y^{-2 - 3} = y^{-5}$<br>
-                                    Maka isi kurung menjadi: $\left( \frac{x^4 y^{-5}}{2} \right)^{-2} = \left( \frac{x^4}{2y^5} \right)^{-2}$
+                        <div class="bg-slate-50 border-l-4 border-blue-600 p-4 rounded-r-xl my-4 text-center">
+                            <p class="text-base sm:text-lg font-serif text-slate-900">
+                                $$a^n = \underbrace{a \times a \times a \times \dots \times a}_{n \text{ faktor}}$$
+                            </p>
+                            <p class="text-xs text-slate-500 mt-2 font-mono">
+                                dengan $a \in \mathbb{R}$ (basis real) dan $n \in \mathbb{Z}^+$ (eksponen bulat positif)
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                                <span class="font-bold text-slate-900 block mb-1">Contoh Basis Positif &amp; Pecahan:</span>
+                                <p class="text-slate-600 leading-relaxed font-mono">
+                                    $2^5 = 2 \times 2 \times 2 \times 2 \times 2 = 32$<br>
+                                    $\left(\frac{1}{3}\right)^3 = \frac{1}{3} \times \frac{1}{3} \times \frac{1}{3} = \frac{1}{27}$
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/80">
+                                <span class="font-bold text-amber-950 block mb-1">⚠️ Perhatian Khusus Basis Negatif:</span>
+                                <p class="text-slate-700 leading-relaxed font-mono">
+                                    $(-3)^4 = (-3) \times (-3) \times (-3) \times (-3) = +81$<br>
+                                    $-3^4 = -(3 \times 3 \times 3 \times 3) = -81$<br>
+                                    <span class="text-[11px] font-sans text-amber-900 italic">Tanda kurung menentukan apakah tanda negatif ikut berulang dipangkatkan!</span>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PEMBUKTIAN PANGKAT NOL DAN PANGKAT NEGATIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Logika &amp; Pembuktian Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 2. Mengapa $a^0 = 1$ dan $a^{-n} = \frac{1}{a^n}$?
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Pembuktian Logis</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                            Banyak siswa sekadar menghafal bahwa bilangan apapun dipangkatkan nol bernilai $1$, tanpa memahami akar alasannya. Prinsip keteraturan aljabar menuntut bahwa operasi perpangkatan harus bersifat kontinu dan konsisten saat eksponen berkurang satu tingkat:
+                        </p>
+
+                        <!-- TABEL POLA PEMBAGIAN BERULANG -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs sm:text-sm text-left border border-slate-200 rounded-xl overflow-hidden">
+                                <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-[11px] tracking-wider">
+                                    <tr>
+                                        <th class="p-3 border-b">Bentuk Eksponen</th>
+                                        <th class="p-3 border-b">Nilai Numerik</th>
+                                        <th class="p-3 border-b">Pola Aljabar Penurunan Pangkat</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 font-mono">
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-blue-700">$2^3$</td>
+                                        <td class="p-3">8</td>
+                                        <td class="p-3 font-sans text-slate-600">Nilai awal ($2 \times 2 \times 2$)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-blue-700">$2^2$</td>
+                                        <td class="p-3">4</td>
+                                        <td class="p-3 font-sans text-slate-600">Dibagi $2$ ($8 \div 2 = 4$)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-blue-700">$2^1$</td>
+                                        <td class="p-3">2</td>
+                                        <td class="p-3 font-sans text-slate-600">Dibagi $2$ ($4 \div 2 = 2$)</td>
+                                    </tr>
+                                    <tr class="bg-blue-50/70">
+                                        <td class="p-3 font-bold text-blue-900">$2^0$</td>
+                                        <td class="p-3 font-bold text-emerald-700">1</td>
+                                        <td class="p-3 font-sans text-blue-950 font-semibold">Dibagi $2$ ($2 \div 2 = 1$). <strong>Terbukti logis $2^0 = 1$!</strong></td>
+                                    </tr>
+                                    <tr class="bg-amber-50/50">
+                                        <td class="p-3 font-bold text-amber-800">$2^{-1}$</td>
+                                        <td class="p-3">$\frac{1}{2} = 0.5$</td>
+                                        <td class="p-3 font-sans text-slate-700">Dibagi $2$ ($1 \div 2 = \frac{1}{2} = \frac{1}{2^1}$)</td>
+                                    </tr>
+                                    <tr class="bg-amber-50/50">
+                                        <td class="p-3 font-bold text-amber-800">$2^{-2}$</td>
+                                        <td class="p-3">$\frac{1}{4} = \frac{1}{2^2}$</td>
+                                        <td class="p-3 font-sans text-slate-700">Dibagi $2$ ($\frac{1}{2} \div 2 = \frac{1}{4} = \frac{1}{2^2}$)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- KOTAK FORMULASI TEOREMA -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase">Teorema 1</span>
+                                    <h4 class="font-bold text-slate-900 text-sm">Pangkat Nol ($a^0 = 1$)</h4>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                                    Untuk setiap bilangan real $a$ dengan syarat mutlak $a \neq 0$:
+                                </p>
+                                <p class="text-center font-mono text-base font-bold text-slate-800 bg-white p-2.5 rounded-xl border border-slate-200">
+                                    $$a^0 = 1 \quad (a \neq 0)$$
+                                </p>
+                                <p class="text-[11px] text-rose-600 mt-2 italic">
+                                    *Peringatan: Bentuk $0^0$ tidak terdefinisi (bentuk tak tentu / indeterminasi aljabar).
                                 </p>
                             </div>
 
-                            <div class="p-3 bg-white rounded-xl border border-slate-100">
-                                <strong class="text-blue-900 block mb-1">Langkah 2: Terapkan sifat pangkat negatif luar (Hukum 6: balik pecahan)</strong>
-                                <p class="text-slate-600 font-mono">
-                                    $$\left( \frac{x^4}{2y^5} \right)^{-2} = \left( \frac{2y^5}{x^4} \right)^2$$
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold uppercase">Teorema 2</span>
+                                    <h4 class="font-bold text-slate-900 text-sm">Pangkat Bulat Negatif</h4>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                                    Eksponen negatif menyatakan <em>invers perkalian</em> (kebalikan fraksional):
+                                </p>
+                                <p class="text-center font-mono text-base font-bold text-slate-800 bg-white p-2.5 rounded-xl border border-slate-200">
+                                    $$a^{-n} = \frac{1}{a^n} \quad \text{dan} \quad \left(\frac{a}{b}\right)^{-n} = \left(\frac{b}{a}\right)^n$$
+                                </p>
+                                <p class="text-[11px] text-slate-500 mt-2">
+                                    dengan $a \neq 0, b \neq 0$, dan $n \in \mathbb{Z}^+$.
                                 </p>
                             </div>
+                        </div>
+                    </section>
 
-                            <div class="p-3 bg-white rounded-xl border border-slate-100">
-                                <strong class="text-blue-900 block mb-1">Langkah 3: Distribusikan pangkat $2$ ke pembilang dan penyebut (Hukum 4 &amp; 5)</strong>
-                                <p class="text-slate-600 font-mono">
-                                    $$\frac{(2y^5)^2}{(x^4)^2} = \frac{2^2 \cdot (y^5)^2}{x^{4 \cdot 2}} = \frac{4y^{10}}{x^8}$$
+                    <!-- SLIDE 3: 7 HUKUM FUNDAMENTAL EKSPOEN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Hukum Operasi Inti</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 3. Tujuh Hukum Fundamental Eksponen (Laws of Exponents)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">7 Hukum Utama</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                            Untuk menyederhanakan ekspresi aljabar dan menyelesaikan persamaan kalkulus, kuasai ke-7 hukum fundamental eksponen berikut:
+                        </p>
+
+                        <div class="space-y-3">
+                            <!-- HUKUM 1 -->
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 1 &middot; Perkalian Basis Sama</span>
+                                    <h4 class="text-sm font-bold text-slate-900 mt-1">Pangkat Dijumlahkan</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">Contoh: $x^4 \cdot x^3 = x^{4+3} = x^7$</p>
+                                </div>
+                                <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
+                                    $$a^m \cdot a^n = a^{m+n}$$
+                                </div>
+                            </div>
+
+                            <!-- HUKUM 2 -->
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 2 &middot; Pembagian Basis Sama</span>
+                                    <h4 class="text-sm font-bold text-slate-900 mt-1">Pangkat Dikurangkan</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">Contoh: $\frac{y^9}{y^4} = y^{9-4} = y^5$</p>
+                                </div>
+                                <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
+                                    $$\frac{a^m}{a^n} = a^{m-n} \quad (a \neq 0)$$
+                                </div>
+                            </div>
+
+                            <!-- HUKUM 3 -->
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 3 &middot; Pangkat Dipangkatkan</span>
+                                    <h4 class="text-sm font-bold text-slate-900 mt-1">Pangkat Dikalikan</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">Contoh: $(m^3)^4 = m^{3 \times 4} = m^{12}$</p>
+                                </div>
+                                <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
+                                    $$(a^m)^n = a^{m \cdot n}$$
+                                </div>
+                            </div>
+
+                            <!-- HUKUM 4 -->
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 4 &middot; Pangkat dari Perkalian</span>
+                                    <h4 class="text-sm font-bold text-slate-900 mt-1">Distribusikan Pangkat ke Setiap Faktor</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">Contoh: $(2x)^4 = 2^4 \cdot x^4 = 16x^4$</p>
+                                </div>
+                                <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
+                                    $$(a \cdot b)^n = a^n \cdot b^n$$
+                                </div>
+                            </div>
+
+                            <!-- HUKUM 5 -->
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded">Hukum 5 &middot; Pangkat dari Pecahan</span>
+                                    <h4 class="text-sm font-bold text-slate-900 mt-1">Distribusikan ke Pembilang &amp; Penyebut</h4>
+                                    <p class="text-xs text-slate-500 mt-0.5">Contoh: $\left(\frac{3}{5}\right)^3 = \frac{3^3}{5^3} = \frac{27}{125}$</p>
+                                </div>
+                                <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
+                                    $$\left(\frac{a}{b}\right)^n = \frac{a^n}{b^n} \quad (b \neq 0)$$
+                                </div>
+                            </div>
+
+                            <!-- HUKUM 6 & 7 -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+                                    <span class="text-[10px] font-bold uppercase text-indigo-700">Hukum 6: Pangkat Negatif Pecahan</span>
+                                    <div class="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-1">
+                                        $$\left(\frac{a}{b}\right)^{-n} = \left(\frac{b}{a}\right)^n = \frac{b^n}{a^n}$$
+                                    </div>
+                                </div>
+                                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+                                    <span class="text-[10px] font-bold uppercase text-indigo-700">Hukum 7: Inversi Posisi Eksponen</span>
+                                    <div class="font-mono text-xs sm:text-sm font-bold text-slate-900 mt-1">
+                                        $$\frac{1}{a^{-n}} = a^n \quad \text{dan} \quad \frac{a^{-m}}{b^{-n}} = \frac{b^n}{a^m}$$
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: MISKONSEPSI & STUDI KASUS BERTINGKAT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 4 &middot; Bedah Soal &amp; Jebakan Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 4. Miskonsepsi Fatal &amp; Studi Kasus Bertingkat
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Studi Kasus</span>
+                        </div>
+
+                        <!-- KOTAK JEBAKAN FATAL -->
+                        <div class="p-5 rounded-2xl bg-rose-50/60 border border-rose-200">
+                            <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider mb-2 flex items-center gap-2">
+                                <span>🚫</span> Perangkap Miskonsepsi Fatal Aljabar
+                            </h3>
+                            <div class="space-y-3 text-xs sm:text-sm text-slate-700">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="text-rose-600 font-bold font-mono shrink-0">SALAH:</span>
+                                    <div>
+                                        <span class="font-mono bg-white px-1.5 py-0.5 rounded border border-rose-200 text-rose-700 font-bold">$(a + b)^n = a^n + b^n$</span> (Kesalahan "Freshman's Dream").
+                                        <p class="text-xs text-slate-600 mt-0.5 font-sans">
+                                            Pangkat <strong>tidak dapat didistribusikan</strong> terhadap penjumlahan! Uji angka: $(3 + 4)^2 = 7^2 = 49$, sedangkan $3^2 + 4^2 = 9 + 16 = 25 \neq 49$.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2.5">
+                                    <span class="text-rose-600 font-bold font-mono shrink-0">SALAH:</span>
+                                    <div>
+                                        <span class="font-mono bg-white px-1.5 py-0.5 rounded border border-rose-200 text-rose-700 font-bold">$2^3 \cdot 2^4 = 4^7$</span>
+                                        <p class="text-xs text-slate-600 mt-0.5 font-sans">
+                                            Basis tidak dikalikan saat eksponen dijumlahkan! Basis tetap sama: $2^3 \cdot 2^4 = 2^{3+4} = 2^7 = 128$.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STUDI KASUS PEMBAHASAN STEP-BY-STEP -->
+                        <div class="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2.5 py-1 rounded-full">
+                                    Contoh Kasus Standar Olimpiade &amp; Kalkulus
+                                </span>
+                                <span class="text-xs text-slate-400 font-mono">Stewart Hal. 15</span>
+                            </div>
+
+                            <p class="text-sm font-bold text-slate-800">
+                                Sederhanakan bentuk aljabar berikut dan nyatakan hasilnya hanya dalam pangkat positif:
+                            </p>
+                            <p class="text-center font-mono text-base sm:text-lg text-slate-900 py-3 bg-white rounded-xl border border-slate-200">
+                                $$\left( \frac{2x^3 y^{-2}}{4x^{-1} y^3} \right)^{-2}$$
+                            </p>
+
+                            <div class="space-y-2.5 text-xs sm:text-sm text-slate-700">
+                                <div class="p-3 bg-white rounded-xl border border-slate-200">
+                                    <strong class="text-blue-900 block mb-1">Langkah 1: Sederhanakan pecahan di dalam kurung terlebih dahulu</strong>
+                                    <p class="text-slate-600 font-mono">
+                                        Koefisien: $\frac{2}{4} = \frac{1}{2}$<br>
+                                        Variabel $x$: $\frac{x^3}{x^{-1}} = x^{3 - (-1)} = x^4$<br>
+                                        Variabel $y$: $\frac{y^{-2}}{y^3} = y^{-2 - 3} = y^{-5} = \frac{1}{y^5}$<br>
+                                        Hasil dalam kurung: $\left( \frac{x^4}{2y^5} \right)^{-2}$
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-white rounded-xl border border-slate-200">
+                                    <strong class="text-blue-900 block mb-1">Langkah 2: Terapkan sifat pangkat negatif (Hukum 6: balik pembilang &amp; penyebut)</strong>
+                                    <p class="text-slate-600 font-mono">
+                                        $$\left( \frac{x^4}{2y^5} \right)^{-2} = \left( \frac{2y^5}{x^4} \right)^2$$
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-white rounded-xl border border-slate-200">
+                                    <strong class="text-blue-900 block mb-1">Langkah 3: Kuadratkan setiap faktor pembilang dan penyebut (Hukum 4 &amp; 5)</strong>
+                                    <p class="text-slate-600 font-mono">
+                                        $$\frac{(2y^5)^2}{(x^4)^2} = \frac{2^2 \cdot (y^5)^2}{x^{4 \cdot 2}} = \frac{4y^{10}}{x^8}$$
+                                    </p>
+                                </div>
+
+                                <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950 font-semibold flex items-center justify-between">
+                                    <span>🎉 Hasil Akhir Bentuk Sederhana:</span>
+                                    <span class="font-mono text-base font-bold text-emerald-800">$$\frac{4y^{10}}{x^8}$$</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: LATIHAN SOAL INTERAKTIF AUTO-KOREKSI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pilihlah salah satu opsi jawaban pada masing-masing soal. Sistem pelacak progres akan merekam nilai secara otomatis saat seluruh soal terjawab.
+                        </p>
+
+                        <div class="space-y-5">
+                            <!-- SOAL 1 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Operasi Perkalian &amp; Pembagian Basis Sama</span>
+                                <p class="text-sm text-slate-800 mb-3 text-justify font-medium">
+                                    Bentuk sederhana dari ekspresi aljabar $\frac{3^5 \times 9^2}{27^3}$ adalah...
                                 </p>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-1" value="a" class="accent-blue-600">
+                                        <span>A. $1$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-1" value="b" class="accent-blue-600">
+                                        <span>B. $3$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-1" value="c" class="accent-blue-600">
+                                        <span>C. $9$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-1" value="d" class="accent-blue-600">
+                                        <span>D. $\frac{1}{3}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-eksp-1" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
                             </div>
 
-                            <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950 font-semibold">
-                                🎉 Hasil Akhir Sederhana: <span class="font-mono text-base font-bold text-emerald-800">$$\frac{4y^{10}}{x^8}$$</span>
+                            <!-- SOAL 2 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Pangkat Nol &amp; Negatif</span>
+                                <p class="text-sm text-slate-800 mb-3 text-justify font-medium">
+                                    Nilai dari operasi aljabar $\left( \frac{1}{2} \right)^{-3} + \left( \frac{2}{3} \right)^{-2} - (2026)^0$ adalah...
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-2" value="a" class="accent-blue-600">
+                                        <span>A. $9\frac{1}{4}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-2" value="b" class="accent-blue-600">
+                                        <span>B. $8\frac{3}{4}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-2" value="c" class="accent-blue-600">
+                                        <span>C. $9\frac{3}{4}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-2" value="d" class="accent-blue-600">
+                                        <span>D. $10\frac{1}{4}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-eksp-2" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Penyederhanaan Variabel Bertingkat</span>
+                                <p class="text-sm text-slate-800 mb-3 text-justify font-medium">
+                                    Bentuk sederhana dari $\frac{(a^{-2} b^3 c)^{-1}}{a^3 b^{-2} c^{-2}}$ dalam pangkat bulat positif adalah...
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-3" value="a" class="accent-blue-600">
+                                        <span>A. $\frac{c}{a b}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-3" value="b" class="accent-blue-600">
+                                        <span>B. $\frac{c}{a^5 b}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-3" value="c" class="accent-blue-600">
+                                        <span>C. $\frac{1}{a b c}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-3" value="d" class="accent-blue-600">
+                                        <span>D. $\frac{a}{b^5 c}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-eksp-3" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Pemodelan Eksponensial Dunia Nyata</span>
+                                <p class="text-sm text-slate-800 mb-3 text-justify font-medium">
+                                    Sebuah koloni bakteri membelah diri menjadi $2$ setiap $20$ menit sekali. Jika pada awal pengamatan ($t = 0$) terdapat $50$ bakteri, berapakah jumlah bakteri setelah $2$ jam?
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-4" value="a" class="accent-blue-600">
+                                        <span>A. $1.600$ bakteri</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-4" value="b" class="accent-blue-600">
+                                        <span>B. $3.200$ bakteri</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-4" value="c" class="accent-blue-600">
+                                        <span>C. $6.400$ bakteri</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-eksp-4" value="d" class="accent-blue-600">
+                                        <span>D. $800$ bakteri</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-eksp-4" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
                             </div>
                         </div>
-                    </div>
-                </section>
 
-                <!-- SECTION 6: LATIHAN SOAL INTERAKTIF DENGAN AUTO-KOREKSI -->
-                <section class="mb-8 pt-4 border-t border-slate-100">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full">
-                                Evaluasi Pemahaman Mandiri
-                            </span>
-                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">Latihan Soal Interaktif</h2>
-                        </div>
-                        <span class="text-xs text-slate-500 font-medium">4 Soal Auto-Koreksi</span>
-                    </div>
+                        <script>
+                            const kuisKeysEksp = {
+                                'kuis-eksp-1': { 
+                                    ans: 'a', 
+                                    text: 'Ubah semua bilangan ke basis prima 3: 9^2 = (3^2)^2 = 3^4; 27^3 = (3^3)^3 = 3^9. Pembilang: 3^5 × 3^4 = 3^9. Maka 3^9 / 3^9 = 3^0 = 1.' 
+                                },
+                                'kuis-eksp-2': { 
+                                    ans: 'a', 
+                                    text: '(1/2)^(-3) = 2^3 = 8. (2/3)^(-2) = (3/2)^2 = 9/4 = 2.25. (2026)^0 = 1. Jadi 8 + 2.25 - 1 = 9.25 = 9 1/4.' 
+                                },
+                                'kuis-eksp-3': { 
+                                    ans: 'a', 
+                                    text: 'Pembilang: (a^(-2) b^3 c)^(-1) = a^2 b^(-3) c^(-1). Bagikan dengan penyebut: a^(2 - 3) = a^(-1); b^(-3 - (-2)) = b^(-1); c^(-1 - (-2)) = c^1. Hasil: a^(-1) b^(-1) c^1 = c / (ab).' 
+                                },
+                                'kuis-eksp-4': { 
+                                    ans: 'b', 
+                                    text: '2 jam = 120 menit. Frekuensi pembelahan n = 120 / 20 = 6 kali. Jumlah bakteri N = 50 × 2^6 = 50 × 64 = 3.200 bakteri.' 
+                                }
+                            };
 
-                    <p class="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
-                        Pilihlah satu jawaban yang paling tepat pada masing-masing soal. Sistem pelacak progres akan merekam akurasi dan menandai sub-materi ini selesai secara otomatis.
-                    </p>
-
-                    <div class="space-y-6">
-                        <!-- SOAL 1 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Operasi Perkalian &amp; Pembagian Eksponen</span>
-                            <p class="text-sm text-slate-800 mb-3 text-justify">
-                                Bentuk sederhana dari ekspresi aljabar $\frac{3^5 \times 9^2}{27^3}$ adalah...
-                            </p>
-                            <div class="space-y-2 text-sm">
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-1" value="a" class="accent-blue-600">
-                                    <span>A. $1$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-1" value="b" class="accent-blue-600">
-                                    <span>B. $3$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-1" value="c" class="accent-blue-600">
-                                    <span>C. $9$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-1" value="d" class="accent-blue-600">
-                                    <span>D. $\frac{1}{3}$</span>
-                                </label>
-                            </div>
-                            <div id="feedback-eksp-1" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
-                        </div>
-
-                        <!-- SOAL 2 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Pangkat Nol &amp; Negatif</span>
-                            <p class="text-sm text-slate-800 mb-3 text-justify">
-                                Nilai dari operasi aljabar $\left( \frac{1}{2} \right)^{-3} + \left( \frac{2}{3} \right)^{-2} - (2026)^0$ adalah...
-                            </p>
-                            <div class="space-y-2 text-sm">
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-2" value="a" class="accent-blue-600">
-                                    <span>A. $9\frac{1}{4}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-2" value="b" class="accent-blue-600">
-                                    <span>B. $8\frac{3}{4}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-2" value="c" class="accent-blue-600">
-                                    <span>C. $9\frac{3}{4}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-2" value="d" class="accent-blue-600">
-                                    <span>D. $10\frac{1}{4}$</span>
-                                </label>
-                            </div>
-                            <div id="feedback-eksp-2" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
-                        </div>
-
-                        <!-- SOAL 3 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Penyederhanaan Variabel Bertingkat</span>
-                            <p class="text-sm text-slate-800 mb-3 text-justify">
-                                Bentuk sederhana dari $\frac{(a^{-2} b^3 c)^{-1}}{a^3 b^{-2} c^{-2}}$ dalam pangkat positif adalah...
-                            </p>
-                            <div class="space-y-2 text-sm">
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-3" value="a" class="accent-blue-600">
-                                    <span>A. $\frac{c}{a b}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-3" value="b" class="accent-blue-600">
-                                    <span>B. $\frac{c}{a^5 b}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-3" value="c" class="accent-blue-600">
-                                    <span>C. $\frac{1}{a b c}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-3" value="d" class="accent-blue-600">
-                                    <span>D. $\frac{a}{b^5 c}$</span>
-                                </label>
-                            </div>
-                            <div id="feedback-eksp-3" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
-                        </div>
-
-                        <!-- SOAL 4 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Pemodelan Eksponensial Dunia Nyata</span>
-                            <p class="text-sm text-slate-800 mb-3 text-justify">
-                                Sebuah koloni bakteri di laboratorium membelah diri menjadi $2$ setiap $20$ menit sekali. Jika pada awal pengamatan ($t = 0$) terdapat $50$ bakteri, berapakah jumlah bakteri setelah $2$ jam?
-                            </p>
-                            <div class="space-y-2 text-sm">
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-4" value="a" class="accent-blue-600">
-                                    <span>A. $1.600$ bakteri</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-4" value="b" class="accent-blue-600">
-                                    <span>B. $3.200$ bakteri</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-4" value="c" class="accent-blue-600">
-                                    <span>C. $6.400$ bakteri</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-eksp-4" value="d" class="accent-blue-600">
-                                    <span>D. $800$ bakteri</span>
-                                </label>
-                            </div>
-                            <div id="feedback-eksp-4" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
-                        </div>
-                    </div>
-
-                    <script>
-                        const kuisKeysEksp = {
-                            'kuis-eksp-1': { 
-                                ans: 'a', 
-                                text: 'Ubah semua bilangan ke basis 3: 9 = 3^2 sehingga 9^2 = (3^2)^2 = 3^4; 27 = 3^3 sehingga 27^3 = (3^3)^3 = 3^9. Pembilang: 3^5 × 3^4 = 3^9. Maka 3^9 / 3^9 = 3^0 = 1.' 
-                            },
-                            'kuis-eksp-2': { 
-                                ans: 'a', 
-                                text: '(1/2)^(-3) = 2^3 = 8. (2/3)^(-2) = (3/2)^2 = 9/4 = 2.25. (2026)^0 = 1. Jadi 8 + 2.25 - 1 = 9.25 = 9 1/4.' 
-                            },
-                            'kuis-eksp-3': { 
-                                ans: 'a', 
-                                text: 'Pembilang: (a^(-2) b^3 c)^(-1) = a^2 b^(-3) c^(-1). Bagikan dengan penyebut: a^(2 - 3) = a^(-1); b^(-3 - (-2)) = b^(-1); c^(-1 - (-2)) = c^1. Hasil: a^(-1) b^(-1) c^1 = c / (ab).' 
-                            },
-                            'kuis-eksp-4': { 
-                                ans: 'b', 
-                                text: '2 jam = 120 menit. Frekuensi pembelahan n = 120 / 20 = 6 kali. Jumlah bakteri N = 50 × 2^6 = 50 × 64 = 3.200 bakteri.' 
-                            }
-                        };
-
-                        Object.keys(kuisKeysEksp).forEach((name, idx) => {
-                            document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
-                                radio.addEventListener('change', (e) => {
-                                    const fb = document.getElementById(`feedback-eksp-${idx + 1}`);
-                                    const info = kuisKeysEksp[name];
-                                    if (e.target.value === info.ans) {
-                                        fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
-                                    } else {
-                                        fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat kembali hukum eksponen dan ubah ke basis bilangan prima yang sama!</span>';
-                                    }
-                                    if (window.renderMathInElement) {
-                                        window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
-                                    }
+                            Object.keys(kuisKeysEksp).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-eksp-${idx + 1}`);
+                                        const info = kuisKeysEksp[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat kembali hukum eksponen dan ubah ke basis bilangan prima yang sama!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
                                 });
                             });
-                        });
-                    </script>
-                </section>
+                        </script>
+                    </section>
 
-                <!-- NAVIGASI BAWAH -->
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mt-8 pt-6 border-t border-slate-100">
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E (Kelas X SMA/MA)</em>. Elemen Bilangan &amp; Aljabar.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Bab 1: Fundamentals (1.2 Exponents and Radicals).</p>
+                    <p><strong>OpenStax College.</strong> (2021). <em>Algebra and Trigonometry 2e</em>. Rice University. Bab 1: Prerequisites (1.2 Exponents and Scientific Notation).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
                     <a href="/matematika/kelas-10/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
                         &larr; Hub Matematika Kelas X
                     </a>
@@ -559,6 +625,8 @@
     <div id="footer-placeholder"></div>
     <div id="spu-placeholder"></div>
 
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
     <script src="/js/mapel-config.js?v=20261112"></script>
     <script src="/js/curriculum.js"></script>
     <script src="/js/spu.js"></script>

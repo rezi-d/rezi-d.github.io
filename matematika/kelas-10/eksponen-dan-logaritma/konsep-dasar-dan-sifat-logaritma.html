@@ -12,7 +12,7 @@
     <meta property="og:locale" content="id_ID">
     <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/eksponen-dan-logaritma/konsep-dasar-dan-sifat-logaritma.html">
     <meta property="og:title" content="📐 Konsep Dasar Logaritma & 7 Sifat Esensial — Kelas X SMA">
-    <meta property="og:description" content="Modul interaktif logaritma: invers eksponen, teorema ganti basis, rantai logaritma, dan aplikasi sains dengan auto-koreksi.">
+    <meta property="og:description" content="Modul interaktif logaritma: invers eksponen, teorema ganti basis, rantai logaritma, dan aplikasi sains dalam kartu materi carousel.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
     
     <!-- Tailwind CSS CDN -->
@@ -40,372 +40,413 @@
         <div id="sidebar-placeholder" class="lg:col-span-1"></div>
 
         <!-- AREA KONTEN UTAMA -->
-        <main class="lg:col-span-3 space-y-8">
-            <article class="bg-white p-6 sm:p-9 rounded-2xl sm:rounded-3xl border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
 
-                <!-- BADGE -->
-                <div class="flex flex-wrap items-center gap-2 mb-3">
-                    <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
-                        Bab 1: Eksponen dan Logaritma
-                    </span>
-                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 1: Eksponen dan Logaritma
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">4 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Konsep Dasar Logaritma &amp; Sifat-Sifat Operasi
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pahami logaritma sebagai operasi invers eksponen, syarat batas basis dan numerus, 7 sifat aljabar logaritma, hingga aplikasi skala logaritmik dalam kimia (pH) dan geofisika (skala Richter).
+                    </p>
                 </div>
 
-                <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
-                    4. Konsep Dasar Logaritma &amp; Sifat-Sifat Operasi
-                </h1>
-
-                <!-- INTUISI -->
-                <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100 mb-8">
-                    <div class="flex items-start gap-3.5">
-                        <span class="text-2xl shrink-0">🔍</span>
-                        <div>
-                            <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Pertanyaan Pembalik: Berapa Pangkatnya?</h3>
-                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
-                                Dalam eksponen, kita bertanya: <em>"Berapakah hasil dari $2$ dipangkatkan $3$?"</em> Jawabannya adalah $8$ ($2^3 = 8$). Logaritma adalah <strong>operasi invers (kebalikan)</strong> yang membalik pertanyaan tersebut: <em>"Bilangan $2$ harus dipangkatkan berapa agar hasilnya sama dengan $8$?"</em> Jawabannya adalah $3$, yang kita tuliskan secara matematis sebagai ${}^2\log 8 = 3$. Penemuan logaritma oleh John Napier pada tahun 1614 dipuji oleh matematikawan Pierre-Simon Laplace sebagai <em>"penemuan yang melipatgandakan umur para astronom karena memangkas waktu kalkulasi perkalian raksasa menjadi penjumlahan sederhana."</em>
-                            </p>
-                        </div>
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 4</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
                     </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
                 </div>
 
-                <!-- SECTION 1: DEFINISI FORMAL LOGARITMA -->
-                <section class="mb-10">
-                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
-                        <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-mono shrink-0">1</span>
-                        <span>Definisi Formal &amp; Syarat Batas Logaritma</span>
-                    </h2>
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
 
-                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
-                        Untuk setiap bilangan pokok (basis) $a$, bilangan yang dicari logaritmanya (numerus) $b$, dan hasil logaritma $c$:
-                    </p>
+                    <!-- SLIDE 1: DEFINISI FORMAL LOGARITMA -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Formal Invers Eksponen</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💡 1. Definisi Formal &amp; Syarat Batas Logaritma
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Definisi Logaritma</span>
+                        </div>
 
-                    <div class="bg-slate-50 border-l-4 border-blue-600 p-4 rounded-r-xl my-4 text-center">
-                        <p class="text-base sm:text-lg font-serif text-slate-900 font-bold">
-                            $${}^a\log b = c \iff a^c = b$$
+                        <!-- KOTAK INTUISI -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🔍</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Pertanyaan Pembalik: Berapa Pangkatnya?</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Dalam eksponen: <em>"Berapakah $2^3$?"</em> Jawabannya $8$. Logaritma membalik pertanyaan itu: <em>"$2$ harus dipangkatkan berapa agar sama dengan $8$?"</em> Jawabannya adalah $3$, ditulis ${}^2\log 8 = 3$. Penemuan logaritma oleh John Napier (1614) melipatgandakan produktivitas astronomi dan navigasi karena menyederhanakan perkalian raksasa menjadi operasi penjumlahan sederhana.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                            Untuk setiap basis $a$, numerus $b$, dan hasil logaritma $c$:
                         </p>
-                        <p class="text-xs text-slate-600 mt-2 font-mono">
-                            Syarat Mutlak: <strong>Basis</strong> $a > 0, a \neq 1$ &bull; <strong>Numerus</strong> $b > 0$ &bull; <strong>Hasil</strong> $c \in \mathbb{R}$
+
+                        <div class="bg-slate-50 border-l-4 border-blue-600 p-4 rounded-r-xl my-4 text-center">
+                            <p class="text-base sm:text-lg font-serif text-slate-900 font-bold">
+                                $${}^a\log b = c \iff a^c = b$$
+                            </p>
+                            <p class="text-xs text-slate-600 mt-2 font-mono">
+                                Syarat Mutlak: <strong>Basis</strong> $a > 0, a \neq 1$ &bull; <strong>Numerus</strong> $b > 0$ &bull; <strong>Hasil</strong> $c \in \mathbb{R}$
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <span class="font-bold text-slate-900 block mb-1">Mengapa Numerus Wajib $b > 0$?</span>
+                                <p class="text-slate-600 leading-relaxed text-justify">
+                                    Karena basis $a > 0$, maka bilangan positif dipangkatkan dengan berapapun ($a^c$) selalu bernilai positif. Oleh sebab itu, ${}^a\log(-4)$ atau ${}^a\log 0$ tidak terdefinisi di semesta bilangan real!
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <span class="font-bold text-slate-900 block mb-1">Dua Basis Istimewa Sains:</span>
+                                <ul class="text-slate-600 space-y-1 font-mono text-xs">
+                                    <li>&bull; <strong>Basis 10:</strong> $\log x = {}^{10}\log x$ (angka 10 lazim tidak ditulis). Digunakan pada skala pH kimia dan Richter gempa.</li>
+                                    <li>&bull; <strong>Basis Natural $e \approx 2.71828$:</strong> $\ln x = {}^e\log x$. Bahasa universal kalkulus diferensial dan machine learning.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: 7 SIFAT FUNDAMENTAL OPERASI LOGARITMA -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Sifat-Sifat Operasi Inti</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 2. Tujuh Sifat Fundamental Operasi Logaritma
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">7 Sifat Utama</span>
+                        </div>
+
+                        <div class="space-y-3">
+                            <!-- SIFAT 1 -->
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 1 &middot; Identitas Basis &amp; Satu</span>
+                                    <h4 class="text-sm font-bold text-slate-900 mt-1">Log 1 Selalu Nol; Log Basis Sendiri adalah 1</h4>
+                                </div>
+                                <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
+                                    $${}^a\log 1 = 0 \quad \text{dan} \quad {}^a\log a = 1$$
+                                </div>
+                            </div>
+
+                            <!-- SIFAT 2 -->
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 2 &middot; Perkalian Numerus</span>
+                                    <h4 class="text-sm font-bold text-slate-900 mt-1">Perkalian Menjadi Penjumlahan Logaritma</h4>
+                                </div>
+                                <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
+                                    $${}^a\log(x \cdot y) = {}^a\log x + {}^a\log y$$
+                                </div>
+                            </div>
+
+                            <!-- SIFAT 3 -->
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 3 &middot; Pembagian Numerus</span>
+                                    <h4 class="text-sm font-bold text-slate-900 mt-1">Pembagian Menjadi Pengurangan Logaritma</h4>
+                                </div>
+                                <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
+                                    $${}^a\log\left(\frac{x}{y}\right) = {}^a\log x - {}^a\log y$$
+                                </div>
+                            </div>
+
+                            <!-- SIFAT 4 & 5 -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70">
+                                    <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 4 &middot; Pangkat Numerus</span>
+                                    <div class="font-mono text-sm font-bold text-blue-900 mt-2">
+                                        $${}^a\log(x^n) = n \cdot {}^a\log x$$
+                                    </div>
+                                </div>
+                                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70">
+                                    <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 5 &middot; Pangkat Basis &amp; Numerus</span>
+                                    <div class="font-mono text-sm font-bold text-blue-900 mt-2">
+                                        $${}^{a^m}\log(b^n) = \frac{n}{m} \cdot {}^a\log b$$
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SIFAT 6 & 7 -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70">
+                                    <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 6 &middot; Ganti Basis</span>
+                                    <div class="font-mono text-xs sm:text-sm font-bold text-blue-900 mt-2">
+                                        $${}^a\log b = \frac{{}^c\log b}{{}^c\log a} = \frac{1}{{}^b\log a}$$
+                                    </div>
+                                </div>
+                                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70">
+                                    <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 7 &middot; Rantai &amp; Pembatalan</span>
+                                    <div class="font-mono text-xs sm:text-sm font-bold text-blue-900 mt-2">
+                                        $${}^a\log b \cdot {}^b\log c = {}^a\log c \quad \text{dan} \quad a^{{}^a\log b} = b$$
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: SKALA LOGARITMIK DI DUNIA SAINS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 3 &middot; Implementasi Sains Terapan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌍 3. Skala Logaritmik: Skala pH Kimia &amp; Gempa Richter
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">Skala Sains</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed text-justify">
+                            Ketika fenomena fisik mencakup rentang nilai raksasa (dari $10^{-14}$ hingga $10^0$ atau dari $1$ hingga jutaan), skala linear gagal menampilkan detail. Skala logaritmik mengompresi rentang ini:
                         </p>
-                    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 text-xs sm:text-sm">
-                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                            <span class="font-bold text-slate-900 block mb-1">Mengapa Numerus Wajib $b > 0$?</span>
-                            <p class="text-slate-600 leading-relaxed text-justify">
-                                Karena basis $a$ adalah bilangan positif ($a > 0$), maka bilangan positif dipangkatkan dengan bilangan real berapapun ($a^c$) <strong>pasti selalu menghasilkan nilai positif</strong>. Oleh karena itu, logaritma dari bilangan nol atau bilangan negatif (seperti ${}^2\log(-4)$ atau ${}^3\log 0$) tidak terdefinisi di semesta bilangan real!
-                            </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 rounded-2xl bg-teal-50/50 border border-teal-200 space-y-2">
+                                <span class="text-xs font-bold text-teal-800 uppercase tracking-wider block">🧪 Kimia Larutan: Skala pH</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Derajat keasaman larutan didefinisikan sebagai logaritma negatif konsentrasi molar ion hidrogen:
+                                </p>
+                                <p class="text-center font-mono font-bold text-sm text-teal-950 bg-white p-2.5 rounded-xl border border-teal-200 my-2">
+                                    $$\text{pH} = -\log [H^+]$$
+                                </p>
+                                <p class="text-[11px] text-slate-600">
+                                    Jika $[H^+] = 10^{-3}\text{ M}$, maka $\text{pH} = -\log(10^{-3}) = 3$. Penurunan 1 satuan pH berarti konsentrasi asam meningkat $10$ kali lipat!
+                                </p>
+                            </div>
+
+                            <div class="p-5 rounded-2xl bg-amber-50/50 border border-amber-200 space-y-2">
+                                <span class="text-xs font-bold text-amber-800 uppercase tracking-wider block">🌍 Geofisika: Skala Richter Gempa</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Kekuatan gempa diukur berdasarkan logaritma perbandingan amplitudo gelombang $A$:
+                                </p>
+                                <p class="text-center font-mono font-bold text-sm text-amber-950 bg-white p-2.5 rounded-xl border border-amber-200 my-2">
+                                    $$M = \log\left(\frac{A}{A_0}\right)$$
+                                </p>
+                                <p class="text-[11px] text-slate-600">
+                                    Gempa magnitude 7 SR melepaskan energi sekitar $31.6$ kali lebih besar dibandingkan gempa 6 SR.
+                                </p>
+                            </div>
                         </div>
-                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                            <span class="font-bold text-slate-900 block mb-1">Dua Basis Istimewa di Dunia Sains:</span>
-                            <ul class="text-slate-600 space-y-1.5 leading-relaxed font-mono text-xs">
-                                <li>&bull; <strong>Logaritma Biasa (Basis 10):</strong> $\log x = {}^{10}\log x$ (angka 10 lazim tidak ditulis). Digunakan pada pH kimia, skala desibel, dan magnitudo gempa.</li>
-                                <li>&bull; <strong>Logaritma Natural (Basis Bilangan Euler $e \approx 2.71828$):</strong> $\ln x = {}^e\log x$. Menjadi bahasa dasar kalkulus, peluruhan nuklir, dan machine learning.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+                    </section>
 
-                <!-- SECTION 2: 7 SIFAT FUNDAMENTAL OPERASI LOGARITMA -->
-                <section class="mb-10">
-                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
-                        <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-mono shrink-0">2</span>
-                        <span>7 Sifat Fundamental Operasi Logaritma</span>
-                    </h2>
-
-                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
-                        Semua sifat logaritma merupakan transformasi langsung dari hukum-hukum eksponen yang telah dipelajari di sub-bab sebelumnya:
-                    </p>
-
-                    <div class="space-y-3">
-                        <!-- SIFAT 1 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <!-- SLIDE 4: LATIHAN SOAL INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
                             <div>
-                                <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 1 &middot; Identitas Basis &amp; Satu</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Logaritma 1 Selalu Nol; Logaritma Basis Sendiri adalah Satu</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 font-mono">Berasal dari $a^0 = 1$ dan $a^1 = a$</p>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 4 &middot; Evaluasi Pemahaman Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 4. Latihan Soal Interaktif (Auto-Koreksi)
+                                </h2>
                             </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $${}^a\log 1 = 0 \quad \text{dan} \quad {}^a\log a = 1$$
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pilihlah salah satu opsi jawaban yang paling tepat. Skor latihan Anda otomatis dicatat di sistem progres.
+                        </p>
+
+                        <div class="space-y-5">
+                            <!-- SOAL 1 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Operasi Penjumlahan &amp; Pengurangan Logaritma</span>
+                                <p class="text-sm text-slate-800 mb-3 text-justify font-medium">
+                                    Nilai dari ${}^2\log 48 + {}^2\log \sqrt{\frac{1}{16}} - {}^2\log 3$ adalah...
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-1" value="a" class="accent-blue-600">
+                                        <span>A. $2$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-1" value="b" class="accent-blue-600">
+                                        <span>B. $4$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-1" value="c" class="accent-blue-600">
+                                        <span>C. $3$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-1" value="d" class="accent-blue-600">
+                                        <span>D. $1$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-log-1" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Sifat Perkalian Berantai &amp; Pangkat Basis</span>
+                                <p class="text-sm text-slate-800 mb-3 text-justify font-medium">
+                                    Nilai dari ${}^3\log 5 \cdot {}^5\log 7 \cdot {}^7\log 81$ adalah...
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-2" value="a" class="accent-blue-600">
+                                        <span>A. $4$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-2" value="b" class="accent-blue-600">
+                                        <span>B. $3$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-2" value="c" class="accent-blue-600">
+                                        <span>C. $2$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-2" value="d" class="accent-blue-600">
+                                        <span>D. $5$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-log-2" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Ganti Basis &amp; Substitusi Variabel</span>
+                                <p class="text-sm text-slate-800 mb-3 text-justify font-medium">
+                                    Jika diketahui ${}^2\log 3 = a$ dan ${}^3\log 5 = b$, maka nilai ${}^6\log 15$ dapat dinyatakan sebagai...
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-3" value="a" class="accent-blue-600">
+                                        <span>A. $\frac{a(1 + b)}{1 + a}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-3" value="b" class="accent-blue-600">
+                                        <span>B. $\frac{a + b}{1 + a}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-3" value="c" class="accent-blue-600">
+                                        <span>C. $\frac{1 + b}{1 + a}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-3" value="d" class="accent-blue-600">
+                                        <span>D. $\frac{ab}{a + 1}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-log-3" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Aplikasi Sains Kimia Larutan</span>
+                                <p class="text-sm text-slate-800 mb-3 text-justify font-medium">
+                                    Suatu larutan asam memiliki konsentrasi ion hidrogen $[H^+] = 2 \times 10^{-4}\text{ M}$. Jika nilai $\log 2 \approx 0.301$, maka nilai $\text{pH}$ larutan tersebut adalah...
+                                </p>
+                                <div class="space-y-2 text-sm">
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-4" value="a" class="accent-blue-600">
+                                        <span>A. $3.699$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-4" value="b" class="accent-blue-600">
+                                        <span>B. $4.301$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-4" value="c" class="accent-blue-600">
+                                        <span>C. $3.301$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded-xl bg-white hover:bg-blue-50/50 border border-slate-200/80 cursor-pointer transition">
+                                        <input type="radio" name="kuis-log-4" value="d" class="accent-blue-600">
+                                        <span>D. $4.699$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-log-4" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
                             </div>
                         </div>
 
-                        <!-- SIFAT 2 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 2 &middot; Perkalian Numerus</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Perkalian Menjadi Penjumlahan Logaritma</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 font-mono">Contoh: ${}^2\log(4 \times 8) = {}^2\log 4 + {}^2\log 8 = 2 + 3 = 5$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $${}^a\log(x \cdot y) = {}^a\log x + {}^a\log y$$
-                            </div>
-                        </div>
+                        <script>
+                            const kuisKeysLog = {
+                                'kuis-log-1': { 
+                                    ans: 'a', 
+                                    text: '√(1/16) = 1/4 = 2^(-2). Maka ^2log √(1/16) = -2. Gabungkan: ^2log 48 - ^2log 3 = ^2log(48/3) = ^2log 16 = 4. Maka 4 + (-2) = 2.' 
+                                },
+                                'kuis-log-2': { 
+                                    ans: 'a', 
+                                    text: 'Gunakan sifat rantai ^a log b · ^b log c = ^a log c: (^3log 5 · ^5log 7 · ^7log 81) = ^3log 81. Karena 81 = 3^4, maka ^3log(3^4) = 4.' 
+                                },
+                                'kuis-log-3': { 
+                                    ans: 'a', 
+                                    text: 'Ganti basis ke basis 3: ^6log 15 = (^3log 15) / (^3log 6) = (^3log 3 + ^3log 5) / (^3log 2 + ^3log 3). Karena ^2log 3 = a -> ^3log 2 = 1/a. Maka (1 + b) / (1/a + 1) = a(1 + b) / (1 + a).' 
+                                },
+                                'kuis-log-4': { 
+                                    ans: 'a', 
+                                    text: 'pH = -log[H+] = -log(2 × 10^(-4)) = -(log 2 + log 10^(-4)) = -(0.301 - 4) = 4 - 0.301 = 3.699.' 
+                                }
+                            };
 
-                        <!-- SIFAT 3 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 3 &middot; Pembagian Numerus</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Pembagian Menjadi Pengurangan Logaritma</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 font-mono">Contoh: ${}^3\log(81 / 9) = {}^3\log 81 - {}^3\log 9 = 4 - 2 = 2$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $${}^a\log\left(\frac{x}{y}\right) = {}^a\log x - {}^a\log y$$
-                            </div>
-                        </div>
-
-                        <!-- SIFAT 4 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 4 &middot; Pangkat Numerus</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Pangkat Turun Menjadi Pengali di Depan</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 font-mono">Contoh: ${}^2\log(2^5) = 5 \cdot {}^2\log 2 = 5 \times 1 = 5$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $${}^a\log(x^n) = n \cdot {}^a\log x$$
-                            </div>
-                        </div>
-
-                        <!-- SIFAT 5 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 5 &middot; Pangkat Basis &amp; Numerus Majemuk</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Rasio Pangkat $\frac{n}{m}$ Keluar ke Depan</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 font-mono">Contoh: ${}^8\log 16 = {}^{2^3}\log(2^4) = \frac{4}{3} \cdot {}^2\log 2 = \frac{4}{3}$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $${}^{a^m}\log(b^n) = \frac{n}{m} \cdot {}^a\log b$$
-                            </div>
-                        </div>
-
-                        <!-- SIFAT 6 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 6 &middot; Ganti Basis (Change of Base)</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Ubah ke Basis Sembarang atau Balik Posisi</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 font-mono">Sangat penting untuk menghitung logaritma di kalkulator!</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $${}^a\log b = \frac{{}^c\log b}{{}^c\log a} = \frac{1}{{}^b\log a}$$
-                            </div>
-                        </div>
-
-                        <!-- SIFAT 7 -->
-                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Sifat 7 &middot; Perkalian Berantai &amp; Pangkat Invers</span>
-                                <h4 class="text-sm font-bold text-slate-900 mt-1">Efek Rantai Logaritma dan Sifat Pembatalan</h4>
-                                <p class="text-xs text-slate-500 mt-0.5 font-mono">Contoh: $5^{{}^5\log 7} = 7$</p>
-                            </div>
-                            <div class="px-4 py-2 rounded-xl bg-white border border-slate-200 font-mono font-bold text-sm text-blue-900 text-center shrink-0">
-                                $${}^a\log b \cdot {}^b\log c = {}^a\log c \quad \text{dan} \quad a^{{}^a\log b} = b$$
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SECTION 3: SKALA LOGARITMIK DI DUNIA SAINS -->
-                <section class="mb-10">
-                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2.5">
-                        <span class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-mono shrink-0">3</span>
-                        <span>Skala Logaritmik: Skala pH Kimia &amp; Gempa Richter</span>
-                    </h2>
-
-                    <p class="text-slate-600 leading-relaxed mb-4 text-justify">
-                        Mengapa para ilmuwan menciptakan skala logaritmik? Ketika suatu kuantitas fisik merentang dalam rentang nilai yang sangat masif (dari $10^{-14}$ hingga $10^0$ atau dari $1$ hingga $1.000.000$), skala linear tidak dapat digambarkan dengan proporsional pada selembar grafik. Skala logaritmik mengompresi angka-angka raksasa tersebut ke rentang yang mudah dibaca:
-                    </p>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-teal-700 uppercase tracking-wider block mb-1">🧪 Kimia Larutan: Skala pH</span>
-                            <p class="text-xs text-slate-600 leading-relaxed mb-2">
-                                Derajat keasaman larutan didefinisikan sebagai logaritma negatif konsentrasi ion hidrogen:
-                            </p>
-                            <p class="text-center font-mono font-bold text-sm text-teal-900 bg-teal-50 p-2.5 rounded-xl border border-teal-100 mb-2">
-                                $$\text{pH} = -\log [H^+]$$
-                            </p>
-                            <p class="text-[11px] text-slate-500">
-                                Jika $[H^+] = 10^{-3}\text{ M}$, maka $\text{pH} = -\log(10^{-3}) = 3$ (asam). Penurunan 1 satuan pH berarti konsentrasi asam meningkat $10$ kali lipat!
-                            </p>
-                        </div>
-
-                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">🌍 Geofisika: Skala Magnitudo Richter</span>
-                            <p class="text-xs text-slate-600 leading-relaxed mb-2">
-                                Kekuatan gempa bumi diukur berdasarkan logaritma amplitudo gelombang seismik maksimum $A$:
-                            </p>
-                            <p class="text-center font-mono font-bold text-sm text-amber-900 bg-amber-50 p-2.5 rounded-xl border border-amber-100 mb-2">
-                                $$M = \log\left(\frac{A}{A_0}\right)$$
-                            </p>
-                            <p class="text-[11px] text-slate-500">
-                                Gempa berkekuatan $7\text{ SR}$ memiliki getaran gelombang $10$ kali lebih kuat daripada gempa $6\text{ SR}$, dan sekitar $31.6$ kali lipat energi yang dilepaskan!
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SECTION 4: LATIHAN SOAL INTERAKTIF -->
-                <section class="mb-8 pt-4 border-t border-slate-100">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full">
-                                Evaluasi Pemahaman Mandiri
-                            </span>
-                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">Latihan Soal Interaktif</h2>
-                        </div>
-                        <span class="text-xs text-slate-500 font-medium">4 Soal Auto-Koreksi</span>
-                    </div>
-
-                    <div class="space-y-6">
-                        <!-- SOAL 1 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Operasi Penjumlahan &amp; Pengurangan Logaritma</span>
-                            <p class="text-sm text-slate-800 mb-3 text-justify">
-                                Nilai dari ${}^2\log 48 + {}^2\log \sqrt{\frac{1}{16}} - {}^2\log 3$ adalah...
-                            </p>
-                            <div class="space-y-2 text-sm">
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-1" value="a" class="accent-blue-600">
-                                    <span>A. $2$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-1" value="b" class="accent-blue-600">
-                                    <span>B. $4$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-1" value="c" class="accent-blue-600">
-                                    <span>C. $3$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-1" value="d" class="accent-blue-600">
-                                    <span>D. $1$</span>
-                                </label>
-                            </div>
-                            <div id="feedback-log-1" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
-                        </div>
-
-                        <!-- SOAL 2 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Sifat Perkalian Berantai &amp; Pangkat Basis</span>
-                            <p class="text-sm text-slate-800 mb-3 text-justify">
-                                Nilai dari ${}^3\log 5 \cdot {}^5\log 7 \cdot {}^7\log 81$ adalah...
-                            </p>
-                            <div class="space-y-2 text-sm">
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-2" value="a" class="accent-blue-600">
-                                    <span>A. $4$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-2" value="b" class="accent-blue-600">
-                                    <span>B. $3$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-2" value="c" class="accent-blue-600">
-                                    <span>C. $2$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-2" value="d" class="accent-blue-600">
-                                    <span>D. $5$</span>
-                                </label>
-                            </div>
-                            <div id="feedback-log-2" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
-                        </div>
-
-                        <!-- SOAL 3 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Ganti Basis &amp; Substitusi Variabel</span>
-                            <p class="text-sm text-slate-800 mb-3 text-justify">
-                                Jika diketahui ${}^2\log 3 = a$ dan ${}^3\log 5 = b$, maka nilai ${}^6\log 15$ dapat dinyatakan sebagai...
-                            </p>
-                            <div class="space-y-2 text-sm">
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-3" value="a" class="accent-blue-600">
-                                    <span>A. $\frac{a(1 + b)}{1 + a}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-3" value="b" class="accent-blue-600">
-                                    <span>B. $\frac{a + b}{1 + a}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-3" value="c" class="accent-blue-600">
-                                    <span>C. $\frac{1 + b}{1 + a}$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-3" value="d" class="accent-blue-600">
-                                    <span>D. $\frac{ab}{a + 1}$</span>
-                                </label>
-                            </div>
-                            <div id="feedback-log-3" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
-                        </div>
-
-                        <!-- SOAL 4 -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
-                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Aplikasi Sains Kimia Larutan</span>
-                            <p class="text-sm text-slate-800 mb-3 text-justify">
-                                Suatu larutan asam memiliki konsentrasi ion hidrogen $[H^+] = 2 \times 10^{-4}\text{ M}$. Jika diketahui nilai $\log 2 \approx 0.301$, maka nilai $\text{pH}$ larutan tersebut adalah...
-                            </p>
-                            <div class="space-y-2 text-sm">
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-4" value="a" class="accent-blue-600">
-                                    <span>A. $3.699$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-4" value="b" class="accent-blue-600">
-                                    <span>B. $4.301$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-4" value="c" class="accent-blue-600">
-                                    <span>C. $3.301$</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="kuis-log-4" value="d" class="accent-blue-600">
-                                    <span>D. $4.699$</span>
-                                </label>
-                            </div>
-                            <div id="feedback-log-4" class="text-xs mt-3 min-h-[16px] font-semibold"></div>
-                        </div>
-                    </div>
-
-                    <script>
-                        const kuisKeysLog = {
-                            'kuis-log-1': { 
-                                ans: 'a', 
-                                text: '√(1/16) = 1/4 = 2^(-2). Maka ^2log √(1/16) = -2. Gabungkan: ^2log 48 - ^2log 3 = ^2log(48/3) = ^2log 16 = 4. Maka 4 + (-2) = 2.' 
-                            },
-                            'kuis-log-2': { 
-                                ans: 'a', 
-                                text: 'Gunakan sifat rantai ^a log b · ^b log c = ^a log c: (^3log 5 · ^5log 7 · ^7log 81) = ^3log 81. Karena 81 = 3^4, maka ^3log(3^4) = 4.' 
-                            },
-                            'kuis-log-3': { 
-                                ans: 'a', 
-                                text: 'Ganti basis ke basis 3: ^6log 15 = (^3log 15) / (^3log 6) = (^3log 3 + ^3log 5) / (^3log 2 + ^3log 3). Karena ^2log 3 = a -> ^3log 2 = 1/a. Maka (1 + b) / (1/a + 1) = (1 + b) / ((1 + a)/a) = a(1 + b) / (1 + a).' 
-                            },
-                            'kuis-log-4': { 
-                                ans: 'a', 
-                                text: 'pH = -log[H+] = -log(2 × 10^(-4)) = -(log 2 + log 10^(-4)) = -(0.301 - 4) = 4 - 0.301 = 3.699.' 
-                            }
-                        };
-
-                        Object.keys(kuisKeysLog).forEach((name, idx) => {
-                            document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
-                                radio.addEventListener('change', (e) => {
-                                    const fb = document.getElementById(`feedback-log-${idx + 1}`);
-                                    const info = kuisKeysLog[name];
-                                    if (e.target.value === info.ans) {
-                                        fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
-                                    } else {
-                                        fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Gunakan sifat ganti basis atau aturan rantai logaritma!</span>';
-                                    }
-                                    if (window.renderMathInElement) {
-                                        window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
-                                    }
+                            Object.keys(kuisKeysLog).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-log-${idx + 1}`);
+                                        const info = kuisKeysLog[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Gunakan sifat ganti basis atau aturan rantai logaritma!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
                                 });
                             });
-                        });
-                    </script>
-                </section>
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 4</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Bilangan &amp; Aljabar.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Bab 4: Exponential and Logarithmic Functions (4.3 Logarithmic Functions, 4.4 Laws of Logarithms).</p>
+                </div>
 
                 <!-- NAVIGASI BAWAH -->
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mt-8 pt-6 border-t border-slate-100">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
                     <a href="fungsi-eksponensial-dan-grafik.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
                         &larr; Sebelumnya: Fungsi Eksponen
                     </a>
@@ -423,6 +464,8 @@
     <div id="footer-placeholder"></div>
     <div id="spu-placeholder"></div>
 
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
     <script src="/js/mapel-config.js?v=20261112"></script>
     <script src="/js/curriculum.js"></script>
     <script src="/js/spu.js"></script>
