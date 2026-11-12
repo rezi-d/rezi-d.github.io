@@ -340,6 +340,19 @@ const kurikulum = {
                     { file: "persamaan-eksponen-dan-logaritma.html", title: "Persamaan & Pertidaksamaan Eksponen dan Logaritma" },
                     { file: "latihan-pemecahan-masalah-eksponen-logaritma.html", title: "Latihan Pemecahan Masalah Eksponen & Logaritma (HOTS & Olimpiade)" }
                 ]
+            },
+            {
+                slug: "barisan-dan-deret",
+                title: "Barisan dan Deret",
+                deskripsi: "Pola bilangan berulang, barisan dan deret aritmetika, barisan dan deret geometri hingga & tak hingga, sifat suku tengah dan sisipan, aplikasi finansial bunga tunggal-majemuk, serta analisis anuitas pinjaman.",
+                subbab: [
+                    { file: "pola-bilangan-dan-barisan-aritmetika.html", title: "Pola Bilangan & Barisan Aritmetika" },
+                    { file: "deret-aritmetika-dan-notasi-sigma.html", title: "Deret Aritmetika & Notasi Sigma" },
+                    { file: "barisan-geometri-dan-rasio.html", title: "Barisan Geometri & Rasio" },
+                    { file: "deret-geometri-hingga-dan-tak-hingga.html", title: "Deret Geometri Hingga & Tak Hingga" },
+                    { file: "aplikasi-finansial-bunga-dan-anuitas.html", title: "Aplikasi Finansial: Bunga & Anuitas" },
+                    { file: "latihan-pemecahan-masalah-barisan-deret.html", title: "Problem Solving HOTS Barisan & Deret" }
+                ]
             }
         ]
     }

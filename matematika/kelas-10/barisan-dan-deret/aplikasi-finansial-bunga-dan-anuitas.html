@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Finansial: Bunga & Anuitas — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari matematika keuangan: komparasi bunga tunggal linier vs bunga majemuk eksponensial, model pertumbuhan-peluruhan, anuitas pinjaman, dan tabel amortisasi kuis interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/barisan-dan-deret/aplikasi-finansial-bunga-dan-anuitas.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/barisan-dan-deret/aplikasi-finansial-bunga-dan-anuitas.html">
+    <meta property="og:title" content="💰 Aplikasi Finansial: Bunga & Anuitas — Kelas X SMA">
+    <meta property="og:description" content="Pahami perbedaan bunga tunggal vs majemuk, depresiasi aset, angsuran pokok dan beban bunga anuitas dengan kuis interaktif auto-koreksi.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="barisan-dan-deret">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Barisan dan Deret
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Aplikasi Finansial: Bunga &amp; Anuitas
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari penerapan praktis barisan aritmetika dan geometri pada bidang ekonomi keuangan: komparasi bunga tunggal vs majemuk, pemodelan pertumbuhan &amp; peluruhan depresiasi aset, konsep anuitas tetap, hingga tabel amortisasi cicilan.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: BUNGA TUNGGAL VS BUNGA MAJEMUK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Fondasi Finansial</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💵 1. Bunga Tunggal (Linier) vs Bunga Majemuk (Eksponensial)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Komparasi Model</span>
+                        </div>
+
+                        <!-- DUA MODEL PERHITUNGAN -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- BUNGA TUNGGAL -->
+                            <div class="p-5 bg-blue-50/80 rounded-2xl border border-blue-200 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider">Bunga Tunggal (Simple Interest)</h3>
+                                    <span class="text-xs bg-blue-200/80 text-blue-900 font-bold px-2 py-0.5 rounded">Barisan Aritmetika</span>
+                                </div>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Bunga hanya dihitung dari <strong>modal awal ($M_0$)</strong>. Setiap periode menghasilkan nominal bunga yang persis sama.
+                                </p>
+                                <div class="bg-white p-3 rounded-xl border border-blue-200 text-center font-mono text-sm font-bold text-blue-950 space-y-1">
+                                    <p>$$B = M_0 \cdot i \cdot n$$</p>
+                                    <p class="text-xs text-blue-800">$$M_n = M_0(1 + n \cdot i)$$</p>
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Grafik pertumbuhan berupa <em>garis lurus linier</em> dengan kemiringan konstan $b = M_0 \cdot i$.
+                                </p>
+                            </div>
+
+                            <!-- BUNGA MAJEMUK -->
+                            <div class="p-5 bg-indigo-50/80 rounded-2xl border border-indigo-200 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-sm font-bold text-indigo-950 uppercase tracking-wider">Bunga Majemuk (Compound Interest)</h3>
+                                    <span class="text-xs bg-indigo-200/80 text-indigo-900 font-bold px-2 py-0.5 rounded">Barisan Geometri</span>
+                                </div>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Bunga periode sebelumnya ditambahkan ke modal pokok, sehingga bunga periode berikutnya <strong>makin membesar (bunga berbunga)</strong>.
+                                </p>
+                                <div class="bg-white p-3 rounded-xl border border-indigo-200 text-center font-mono text-sm font-bold text-indigo-950 space-y-1">
+                                    <p>$$M_n = M_0(1 + i)^n$$</p>
+                                    <p class="text-xs text-indigo-800">Periode $m$ kali setahun: $$M_n = M_0\left(1 + \frac{i}{m}\right)^{m \cdot n}$$</p>
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Grafik pertumbuhan berupa <em>kurva eksponensial</em> dengan rasio pengali $r = (1 + i)$.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- SIMULASI NUMERIK DALAM TABEL -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Simulasi Pertumbuhan Modal Rp 10.000.000 dengan Bunga 10% per Tahun</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left text-slate-700 bg-white rounded-xl border border-slate-200">
+                                    <thead class="bg-slate-100 text-slate-900 font-bold uppercase border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-2.5">Tahun ($n$)</th>
+                                            <th class="p-2.5">Bunga Tunggal ($M_n = 10\text{jt} \cdot (1 + 0.1n)$)</th>
+                                            <th class="p-2.5">Bunga Majemuk ($M_n = 10\text{jt} \cdot (1.1)^n$)</th>
+                                            <th class="p-2.5">Selisih Keuntungan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200 font-mono">
+                                        <tr>
+                                            <td class="p-2.5 font-bold">1</td>
+                                            <td class="p-2.5">Rp 11.000.000</td>
+                                            <td class="p-2.5">Rp 11.000.000</td>
+                                            <td class="p-2.5 text-slate-400">Rp 0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-bold">2</td>
+                                            <td class="p-2.5">Rp 12.000.000</td>
+                                            <td class="p-2.5">Rp 12.100.000</td>
+                                            <td class="p-2.5 text-emerald-600 font-bold">+Rp 100.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-bold">3</td>
+                                            <td class="p-2.5">Rp 13.000.000</td>
+                                            <td class="p-2.5">Rp 13.310.000</td>
+                                            <td class="p-2.5 text-emerald-600 font-bold">+Rp 310.000</td>
+                                        </tr>
+                                        <tr class="bg-blue-50/50">
+                                            <td class="p-2.5 font-bold">5</td>
+                                            <td class="p-2.5">Rp 15.000.000</td>
+                                            <td class="p-2.5">Rp 16.105.100</td>
+                                            <td class="p-2.5 text-emerald-600 font-bold">+Rp 1.105.100</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PERTUMBUHAN & PELURUHAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Eksponensial Terapan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 2. Model Pertumbuhan &amp; Peluruhan Depresiasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Pertumbuhan/Peluruhan</span>
+                        </div>
+
+                        <!-- DUA MODEL: PERTUMBUHAN VS PELURUHAN -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-2.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl">🌱</span>
+                                    <h3 class="text-sm font-bold text-emerald-950 uppercase tracking-wider">Pertumbuhan Eksponensial ($r > 0$)</h3>
+                                </div>
+                                <p class="text-xs text-emerald-900 leading-relaxed">
+                                    Peningkatan kuantitas secara proporsional terhadap ukuran saat itu (populasi penduduk, jumlah bakteri, kenaikan inflasi).
+                                </p>
+                                <div class="bg-white p-3 rounded-xl border border-emerald-200 text-center font-mono text-base font-bold text-emerald-950">
+                                    $$P_n = P_0 (1 + r)^n$$
+                                </div>
+                                <p class="text-xs text-emerald-800">
+                                    $P_0$: kuantitas awal, $r$: laju pertumbuhan per periode, $n$: banyak periode waktu.
+                                </p>
+                            </div>
+
+                            <div class="p-5 bg-rose-50 rounded-2xl border border-rose-200 space-y-2.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl">📉</span>
+                                    <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider">Peluruhan &amp; Depresiasi Aset ($r > 0$)</h3>
+                                </div>
+                                <p class="text-xs text-rose-900 leading-relaxed">
+                                    Penurunan nilai kuantitas secara terus-menerus (penyusutan harga kendaraan/mesin pabrik, radioaktif).
+                                </p>
+                                <div class="bg-white p-3 rounded-xl border border-rose-200 text-center font-mono text-base font-bold text-rose-950">
+                                    $$A_n = A_0 (1 - r)^n$$
+                                </div>
+                                <p class="text-xs text-rose-800">
+                                    $A_0$: harga beli awal, $r$: persentase laju penyusutan, $n$: usia pakai dalam periode tahun.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- STUDI KASUS DEPRESIASI MOBIL -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2.5">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Contoh Praktis: Depresiasi Nilai Jual Mobil</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Sebuah mobil dibeli baru seharga <strong>Rp 200.000.000</strong>. Jika setiap tahun nilai mobil mengalami depresiasi sebesar <strong>$10\%$</strong> dari harga tahun sebelumnya, berapakah perkiraan harga jual mobil setelah pemakaian <strong>$3$ tahun</strong>?
+                            </p>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 font-mono text-xs sm:text-sm text-slate-800 space-y-1">
+                                <p>1. Data: $A_0 = 200.000.000$, laju depresiasi $r = 10\% = 0.1$, waktu $n = 3$.</p>
+                                <p>2. Gunakan formula peluruhan $A_n = A_0 (1 - r)^n$:</p>
+                                <div class="text-blue-900 font-bold p-2 bg-blue-50 rounded-lg text-center">
+                                    $$A_3 = 200.000.000 \times (1 - 0.1)^3 = 200.000.000 \times (0.9)^3 = 200.000.000 \times 0.729 = \text{Rp } 145.800.000$$
+                                </div>
+                                <p class="text-slate-500 text-xs">Nilai mobil setelah 3 tahun pemakaian menyusut menjadi Rp 145.800.000.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: KONSEP DASAR ANUITAS & ANGSURAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Struktur Pinjaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💳 3. Konsep Dasar Anuitas &amp; Angsuran Pinjaman
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Anuitas &amp; Bunga</span>
+                        </div>
+
+                        <!-- DEFINISI ANUITAS -->
+                        <div class="bg-gradient-to-br from-amber-50/80 via-yellow-50/30 to-white p-5 sm:p-6 rounded-2xl border border-amber-200 space-y-3">
+                            <h3 class="text-sm font-bold text-amber-950 uppercase tracking-wider">Definisi Anuitas ($A$)</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                <strong>Anuitas</strong> adalah suatu rangkaian pembayaran atau penerimaan uang dalam <em>jumlah yang sama besar</em> yang dilakukan secara berkala pada setiap interval waktu tertentu (misalnya bulanan pada KPR atau kredit kendaraan).
+                            </p>
+                            <div class="p-3 bg-white rounded-xl border border-amber-200 text-center font-mono text-sm font-bold text-amber-950">
+                                $$A = a_k + b_k = \text{Konstan}$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Dimana <strong>$a_k$</strong> adalah angsuran pokok (pelunasan hutang) pada periode ke-$k$, dan <strong>$b_k$</strong> adalah beban bunga pada periode ke-$k$.
+                            </p>
+                        </div>
+
+                        <!-- DUA SIFAT DINAMIS ANUITAS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider block">Dinamika Beban Bunga ($b_k$)</span>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Beban bunga dihitung dari <strong>sisa pinjaman periode sebelumnya ($S_{k-1}$)</strong>:
+                                </p>
+                                <div class="bg-white p-2 rounded-lg text-center font-mono text-xs font-bold text-slate-900 border border-slate-200">
+                                    $$b_k = S_{k-1} \cdot i$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Karena sisa pinjaman semakin lama semakin berkurang, maka porsi beban bunga <em>selalu menurun</em> setiap bulan.
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider block">Dinamika Angsuran Pokok ($a_k$)</span>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Agar total $A$ selalu tetap, maka angsuran pokok <em>selalu membesar</em> mengikuti barisan geometri:
+                                </p>
+                                <div class="bg-white p-2 rounded-lg text-center font-mono text-xs font-bold text-blue-900 border border-blue-200">
+                                    $$a_k = a_1 (1 + i)^{k-1}$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Rasio pengali pertambahan angsuran pokok adalah persis sama dengan $(1 + i)$.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: FORMULA ANUITAS & TABEL AMORTISASI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Rumus &amp; Simulasi Amortisasi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📊 4. Formula Perhitungan Anuitas &amp; Tabel Amortisasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">Amortisasi</span>
+                        </div>
+
+                        <!-- FORMULA BESAR ANUITAS -->
+                        <div class="p-5 bg-gradient-to-br from-teal-50/70 via-slate-50 to-white rounded-2xl border border-teal-200 space-y-3">
+                            <h3 class="text-sm font-bold text-teal-950 uppercase tracking-wider">Formula Menghitung Nilai Anuitas ($A$)</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Diberikan pinjaman modal sebesar $M$, suku bunga periodik $i$, dan tenor cicilan sebanyak $n$ kali periode pembayaran:
+                            </p>
+                            <div class="p-4 bg-white rounded-xl border border-teal-300 text-center font-mono text-base font-extrabold text-teal-950">
+                                $$A = \frac{M \cdot i}{1 - (1 + i)^{-n}} = \frac{M \cdot i \cdot (1 + i)^n}{(1 + i)^n - 1}$$
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 pt-1">
+                                <p>• Angsuran pokok pertama: $a_1 = A - M \cdot i$</p>
+                                <p>• Sisa hutang periode $k$: $S_k = S_{k-1} - a_k$</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH TABEL AMORTISASI NYATA -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Contoh Tabel Amortisasi Pinjaman Rp 3.000.000 (Bunga 2% per Bulan, Tenor 3 Bulan)</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Perhitungan nilai anuitas bulanan:
+                                $$A = \frac{3.000.000 \cdot 0.02}{1 - (1.02)^{-3}} = \frac{60.000}{1 - 0.9423} = \frac{60.000}{0.0577} \approx \text{Rp } 1.040.231$$
+                            </p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left text-slate-700 bg-white rounded-xl border border-slate-200">
+                                    <thead class="bg-slate-100 text-slate-900 font-bold uppercase border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-2.5">Bulan ($k$)</th>
+                                            <th class="p-2.5">Hutang Awal ($S_{k-1}$)</th>
+                                            <th class="p-2.5">Anuitas ($A$)</th>
+                                            <th class="p-2.5">Bunga ($b_k = 2\% \cdot S_{k-1}$)</th>
+                                            <th class="p-2.5">Angsuran Pokok ($a_k$)</th>
+                                            <th class="p-2.5">Sisa Hutang ($S_k$)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200 font-mono">
+                                        <tr>
+                                            <td class="p-2.5 font-bold">1</td>
+                                            <td class="p-2.5">Rp 3.000.000</td>
+                                            <td class="p-2.5 font-bold text-blue-900">Rp 1.040.231</td>
+                                            <td class="p-2.5 text-rose-600">Rp 60.000</td>
+                                            <td class="p-2.5 text-emerald-600">Rp 980.231</td>
+                                            <td class="p-2.5 font-bold">Rp 2.019.769</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-bold">2</td>
+                                            <td class="p-2.5">Rp 2.019.769</td>
+                                            <td class="p-2.5 font-bold text-blue-900">Rp 1.040.231</td>
+                                            <td class="p-2.5 text-rose-600">Rp 40.395</td>
+                                            <td class="p-2.5 text-emerald-600">Rp 999.836</td>
+                                            <td class="p-2.5 font-bold">Rp 1.019.933</td>
+                                        </tr>
+                                        <tr class="bg-emerald-50/50">
+                                            <td class="p-2.5 font-bold">3</td>
+                                            <td class="p-2.5">Rp 1.019.933</td>
+                                            <td class="p-2.5 font-bold text-blue-900">Rp 1.040.231</td>
+                                            <td class="p-2.5 text-rose-600">Rp 20.399</td>
+                                            <td class="p-2.5 text-emerald-600 font-bold">Rp 1.019.832</td>
+                                            <td class="p-2.5 font-bold text-emerald-700">Rp 0 (Lunas)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Latihan Soal Interaktif Aplikasi Finansial
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Koreksi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilih jawaban yang paling tepat untuk menguji pemahaman Anda seputar aplikasi matematika keuangan, bunga, depresiasi, dan anuitas.
+                        </p>
+
+                        <!-- CONTAINER SOAL LATIHAN -->
+                        <div class="space-y-4">
+
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">1</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Pak Budi menabung uang sebesar Rp 5.000.000 di bank dengan bunga tunggal $6\%$ per tahun. Total saldo tabungan Pak Budi setelah $3$ tahun adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-1" value="a" class="text-blue-600">
+                                        <span>A. Rp 5.600.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-1" value="b" class="text-blue-600">
+                                        <span>B. Rp 5.900.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-1" value="c" class="text-blue-600">
+                                        <span>C. Rp 5.955.080</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-1" value="d" class="text-blue-600">
+                                        <span>D. Rp 6.200.000</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-fin-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">2</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Modal Rp 8.000.000 diinvestasikan dengan bunga majemuk $5\%$ per tahun. Nilai akhir modal setelah $2$ tahun adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-2" value="a" class="text-blue-600">
+                                        <span>A. Rp 8.800.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-2" value="b" class="text-blue-600">
+                                        <span>B. Rp 8.820.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-2" value="c" class="text-blue-600">
+                                        <span>C. Rp 9.000.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-2" value="d" class="text-blue-600">
+                                        <span>D. Rp 9.261.000</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-fin-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">3</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Sebuah mesin pabrik dibeli seharga Rp 50.000.000 dan mengalami peluruhan (depresiasi) harga sebesar $20\%$ per tahun. Perkiraan harga mesin setelah $2$ tahun adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-3" value="a" class="text-blue-600">
+                                        <span>A. Rp 30.000.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-3" value="b" class="text-blue-600">
+                                        <span>B. Rp 32.000.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-3" value="c" class="text-blue-600">
+                                        <span>C. Rp 35.000.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-3" value="d" class="text-blue-600">
+                                        <span>D. Rp 40.000.000</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-fin-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">4</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Suatu pinjaman dilunasi dengan anuitas bulanan sebesar Rp 850.000. Jika bunga pada bulan ke-1 adalah Rp 250.000, maka besar angsuran pokok pada bulan ke-1 adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-4" value="a" class="text-blue-600">
+                                        <span>A. Rp 500.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-4" value="b" class="text-blue-600">
+                                        <span>B. Rp 600.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-4" value="c" class="text-blue-600">
+                                        <span>C. Rp 650.000</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-fin-4" value="d" class="text-blue-600">
+                                        <span>D. Rp 1.100.000</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-fin-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysFin = {
+                                'kuis-fin-1': { 
+                                    ans: 'b', 
+                                    text: 'Bunga tunggal: M_3 = M_0(1 + n · i) = 5.000.000 · (1 + 3 · 0.06) = 5.000.000 · 1.18 = Rp 5.900.000.' 
+                                },
+                                'kuis-fin-2': { 
+                                    ans: 'b', 
+                                    text: 'Bunga majemuk: M_2 = M_0(1 + i)^2 = 8.000.000 · (1.05)^2 = 8.000.000 · 1.1025 = Rp 8.820.000.' 
+                                },
+                                'kuis-fin-3': { 
+                                    ans: 'b', 
+                                    text: 'Peluruhan: A_2 = A_0(1 - r)^2 = 50.000.000 · (1 - 0.2)^2 = 50.000.000 · 0.64 = Rp 32.000.000.' 
+                                },
+                                'kuis-fin-4': { 
+                                    ans: 'b', 
+                                    text: 'Hubungan anuitas: A = a_1 + b_1 => a_1 = A - b_1 = 850.000 - 250.000 = Rp 600.000.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysFin).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-fin-${idx + 1}`);
+                                        const info = kuisKeysFin[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat kembali relasi rumus bunga dan anuitas A = a_k + b_k!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Bilangan: Aplikasi Finansial Bunga Tunggal, Bunga Majemuk, dan Anuitas.</p>
+                    <p><strong>OpenStax Precalculus 2e.</strong> (2021). <em>Chapter 4: Exponential and Logarithmic Functions (Financial Models) &amp; Chapter 13: Sequences and Series</em>.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="deret-geometri-hingga-dan-tak-hingga.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Deret Geometri
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="latihan-pemecahan-masalah-barisan-deret.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
