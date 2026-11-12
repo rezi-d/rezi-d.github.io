@@ -14,6 +14,8 @@
 const kurikulum = {
     "10": {
         label: "Kelas X",
+        mapelNama: "Kimia",
+        icon: "🧪",
         bab: [
             {
                 slug: "kimia-disekitar-kita",
@@ -91,6 +93,8 @@ const kurikulum = {
     },
     "11": {
         label: "Kelas XI",
+        mapelNama: "Kimia",
+        icon: "🧪",
         bab: [
             {
                 slug: "ikatan-kimia",
@@ -232,6 +236,8 @@ const kurikulum = {
     },
     "12": {
         label: "Kelas XII",
+        mapelNama: "Kimia",
+        icon: "🧪",
         bab: [
             {
                 slug: "sifat-koligatif-larutan",
@@ -311,6 +317,28 @@ const kurikulum = {
                     { file: "unsur-unsur-periode-ketiga.html", title: "Unsur-Unsur Periode 3: Tren Sifat, Ikatan & Karakteristik Amfoter" },
                     { file: "logam-transisi-periode-keempat-dan-senyawa-kompleks.html", title: "Logam Transisi Periode 4 & Senyawa Kompleks Koordinasi" },
                     { file: "proses-pengolahan-industri-dan-latihan-chang.html", title: "Proses Metalurgi Industri & Latihan Pemecahan Masalah Chang" }
+                ]
+            }
+        ]
+    },
+    "mtk-10": {
+        label: "Kelas X",
+        mapelNama: "Matematika",
+        mapel: "matematika",
+        icon: "📐",
+        pathPrefix: "/matematika/kelas-10",
+        bab: [
+            {
+                slug: "eksponen-dan-logaritma",
+                title: "Eksponen dan Logaritma",
+                deskripsi: "Konsep bilangan berpangkat bulat dan rasional, sifat-sifat operasi aljabar eksponen, bentuk akar dan rasionalisasi penyebut, karakteristik grafik fungsi eksponensial, sifat-sifat fundamental logaritma, persamaan eksponen-logaritma, serta pemodelan matematika pertumbuhan dan peluruhan.",
+                subbab: [
+                    { file: "konsep-eksponen-dan-sifat-operasi.html", title: "Konsep Eksponen & Sifat-Sifat Operasi Aljabar" },
+                    { file: "bentuk-akar-dan-pangkat-rasional.html", title: "Bentuk Akar & Merasionalkan Penyebut Pecahan" },
+                    { file: "fungsi-eksponensial-dan-grafik.html", title: "Fungsi Eksponensial, Grafik & Model Pertumbuhan-Peluruhan" },
+                    { file: "konsep-dasar-dan-sifat-logaritma.html", title: "Konsep Dasar Logaritma & 7 Sifat Esensial" },
+                    { file: "persamaan-eksponen-dan-logaritma.html", title: "Persamaan & Pertidaksamaan Eksponen dan Logaritma" },
+                    { file: "latihan-pemecahan-masalah-eksponen-logaritma.html", title: "Latihan Pemecahan Masalah Eksponen & Logaritma (HOTS & Olimpiade)" }
                 ]
             }
         ]

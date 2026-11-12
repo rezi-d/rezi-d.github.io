@@ -7,14 +7,21 @@ const mapelConfig = [
     {
         nama: "Matematika",
         slug: "matematika",
-        status: "segera",
+        status: "tersedia",
         group: "Sains",
         materi: true,
         osn: true,
         aktif: true,
         icon: "📐",
-        deskripsi: "Aljabar, Geometri, Teori Bilangan, Trigonometri, dan Kombinatorika tingkat SMA/MA.",
-        jenjang: []
+        deskripsi: "Eksponen, Logaritma, Barisan-Deret, Vektor, Trigonometri, dan Analisis Matematis SMA/MA.",
+        jenjang: [
+            {
+                kelas: "X",
+                label: "Kelas X",
+                sublabel: "Fase E — Eksponen, Logaritma, Barisan & Deret",
+                path: "/matematika/kelas-10/index.html"
+            }
+        ]
     },
     {
         nama: "Fisika",

@@ -86,6 +86,10 @@ function getCurrentSubbabKey() {
         kelasId = kelasId || parts[0].replace('kelas-', '');
         babSlug = babSlug || parts[1];
     }
+    if ((!kelasId || !babSlug) && parts.length >= 4 && parts[0] === 'matematika' && parts[1].startsWith('kelas-')) {
+        kelasId = kelasId || 'mtk-' + parts[1].replace('kelas-', '');
+        babSlug = babSlug || parts[2];
+    }
     if (!kelasId || !babSlug || !halamanIni) return null;
     return `${kelasId}/${babSlug}/${halamanIni}`;
 }
@@ -102,6 +106,12 @@ function bangunSidebar() {
     if ((!kelasId || !babSlug) && pathParts.length >= 3 && pathParts[0].startsWith('kelas-')) {
         kelasId = kelasId || pathParts[0].replace('kelas-', '');
         babSlug = babSlug || pathParts[1];
+        document.body.dataset.kelas = kelasId;
+        document.body.dataset.bab = babSlug;
+    }
+    if ((!kelasId || !babSlug) && pathParts.length >= 4 && pathParts[0] === 'matematika' && pathParts[1].startsWith('kelas-')) {
+        kelasId = kelasId || 'mtk-' + pathParts[1].replace('kelas-', '');
+        babSlug = babSlug || pathParts[2];
         document.body.dataset.kelas = kelasId;
         document.body.dataset.bab = babSlug;
     }
@@ -173,18 +183,19 @@ function bangunSidebar() {
                 <span class="text-[11px] font-mono font-bold text-slate-500 px-1.5 shrink-0">${activeIdx + 1}/${totalSub}</span>
                 ${nextItem
                     ? `<a href="${nextItem.file}" title="Lanjut: ${nextItem.title}" class="flex-1 text-center py-1.5 px-2 rounded-full text-[11px] font-semibold bg-[#0071e3] hover:bg-[#0077ed] text-white transition shadow-2xs truncate">Lanjut &rarr;</a>`
-                    : `<a href="/kelas-${kelasId}/index.html" class="flex-1 text-center py-1.5 px-2 rounded-full text-[11px] font-semibold bg-[#0071e3] hover:bg-[#0077ed] text-white transition shadow-2xs truncate">Hub Kelas &rarr;</a>`
+                    : `<a href="${dataKelas.pathPrefix ? dataKelas.pathPrefix + '/index.html' : '/kelas-' + kelasId + '/index.html'}" class="flex-1 text-center py-1.5 px-2 rounded-full text-[11px] font-semibold bg-[#0071e3] hover:bg-[#0077ed] text-white transition shadow-2xs truncate">Hub Kelas &rarr;</a>`
                 }
             </div>
         </div>
     ` : '';
 
     const levelInfo = getStudentLevel(progres);
+    const kelasHeaderLabel = dataKelas.mapelNama ? `${dataKelas.mapelNama} ${dataKelas.label}` : dataKelas.label;
     container.innerHTML = `
         <aside class="bg-white p-5 rounded-2xl border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.04)] sticky top-16 w-full flex flex-col lg:max-h-[calc(100vh-5rem)]">
             <div class="shrink-0">
                 <div class="flex items-center justify-between mb-1">
-                    <p class="text-xs font-semibold text-teal-600 uppercase tracking-wider">${dataKelas.label}</p>
+                    <p class="text-xs font-semibold text-teal-600 uppercase tracking-wider">${kelasHeaderLabel}</p>
                     <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${pctBab === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${doneCount}/${totalSub} Selesai</span>
                 </div>
                 <h2 class="text-sm sm:text-base font-bold text-slate-900 mb-2.5 flex items-center gap-1.5 leading-snug">
@@ -631,17 +642,19 @@ function bangunMenuBeranda() {
             });
             const pctKelas = totalSubKelas > 0 ? Math.round((doneSubKelas / totalSubKelas) * 100) : 0;
 
-            const url = `/kelas-${kelasId}/index.html`;
+            const url = dataKelas.pathPrefix ? `${dataKelas.pathPrefix}/index.html` : `/kelas-${kelasId}/index.html`;
+            const namaLabel = dataKelas.mapelNama ? `${dataKelas.mapelNama} ${dataKelas.label}` : dataKelas.label;
+            const iconKelas = dataKelas.icon || '🧪';
             html += `
                 <a href="${url}" class="block bg-white p-7 sm:p-8 rounded-[28px] border border-black/[0.06] shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between">
                     <div>
                         <div class="flex items-start justify-between mb-4">
-                            <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100/80 border border-black/[0.04] text-2xl select-none group-hover:scale-105 transition-transform">🧪</span>
+                            <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100/80 border border-black/[0.04] text-2xl select-none group-hover:scale-105 transition-transform">${iconKelas}</span>
                             <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full ${pctKelas === 100 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600 border border-black/[0.04]'}">
                                 ${doneSubKelas}/${totalSubKelas} Sub-bab
                             </span>
                         </div>
-                        <h2 class="text-xl font-bold tracking-tight text-slate-900 group-hover:text-teal-600 transition-colors mb-1.5">${dataKelas.label}</h2>
+                        <h2 class="text-xl font-bold tracking-tight text-slate-900 group-hover:text-teal-600 transition-colors mb-1.5">${namaLabel}</h2>
                         <p class="text-xs text-slate-500 leading-relaxed mb-4">${dataKelas.bab.length} Bab &bull; ${totalSubKelas} Sub-materi interaktif terstruktur</p>
                     </div>
                     <div>
@@ -655,10 +668,12 @@ function bangunMenuBeranda() {
                     </div>
                 </a>`;
         } else {
+            const namaLabel = dataKelas.mapelNama ? `${dataKelas.mapelNama} ${dataKelas.label}` : dataKelas.label;
+            const iconKelas = dataKelas.icon || '🧪';
             html += `
                 <div class="bg-white/60 p-6 sm:p-7 rounded-2xl sm:rounded-3xl border border-dashed border-black/[0.08] opacity-60">
-                    <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100 text-2xl mb-4 select-none">🧪</span>
-                    <h2 class="text-xl font-bold text-slate-400 mb-1.5">${dataKelas.label}</h2>
+                    <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-100 text-2xl mb-4 select-none">${iconKelas}</span>
+                    <h2 class="text-xl font-bold text-slate-400 mb-1.5">${namaLabel}</h2>
                     <p class="text-xs text-slate-400 leading-relaxed">Materi sedang disiapkan sesuai silabus.</p>
                 </div>`;
         }
@@ -1453,7 +1468,8 @@ function initGlobalSearch() {
     // Bangun indeks pencarian otomatis dari seluruh Kelas, Bab, dan Sub-bab di curriculum.js
     const index = [];
     for (const [kelasId, dataKelas] of Object.entries(kurikulum)) {
-        const kelasLabel = dataKelas.label || `Kelas ${kelasId}`;
+        const kelasLabel = dataKelas.mapelNama ? `${dataKelas.mapelNama} ${dataKelas.label}` : (dataKelas.label || `Kelas ${kelasId}`);
+        const pathPrefix = dataKelas.pathPrefix || `/kelas-${kelasId}`;
         if (!Array.isArray(dataKelas.bab)) continue;
         dataKelas.bab.forEach(bab => {
             if (!Array.isArray(bab.subbab)) return;
@@ -1466,7 +1482,7 @@ function initGlobalSearch() {
                     babDesc: bab.deskripsi || '',
                     subTitle: sub.title,
                     subNum: idx + 1,
-                    url: `/kelas-${kelasId}/${bab.slug}/${sub.file}`,
+                    url: `${pathPrefix}/${bab.slug}/${sub.file}`,
                     subKey,
                     searchText: `${kelasLabel} ${bab.title} ${bab.deskripsi || ''} ${sub.title}`.toLowerCase()
                 });

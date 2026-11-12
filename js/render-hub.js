@@ -27,15 +27,18 @@ function renderHubKelas() {
     // Guard: kalau salah satu elemen wajib tidak ada, jangan lanjut (hindari error di console)
     if (!data || !badgeEl || !judulEl || !gridEl) return;
 
-    badgeEl.textContent = data.label;
-    judulEl.textContent = `Materi Kimia ${data.label}`;
+    const mapelNama = data.mapelNama || 'Kimia';
+    const pathPrefix = data.pathPrefix || `/kelas-${kelasKey}`;
+
+    badgeEl.textContent = `${mapelNama} ${data.label}`;
+    judulEl.textContent = `Materi ${mapelNama} ${data.label}`;
 
     // KASUS 1: Kelas ini belum punya bab sama sekali (contoh: Kelas X, XII saat ini)
     // -> satu pesan lebar penuh, karena tidak ada kartu lain untuk dipasangkan di grid
     if (!data.bab || data.bab.length === 0) {
         gridEl.innerHTML = kartuSegeraHadir(
             'Segera Hadir',
-            `Materi ${data.label} sedang dalam pengembangan. Nantikan update selanjutnya!`,
+            `Materi ${mapelNama} ${data.label} sedang dalam pengembangan. Nantikan update selanjutnya!`,
             true
         );
         return;
@@ -62,7 +65,7 @@ function renderHubKelas() {
         }
 
         const deskripsi = bab.deskripsi || (bab.subbab.map(sb => sb.title).join(', ') + '.');
-        const hrefPertama = `/kelas-${kelasKey}/${bab.slug}/${bab.subbab[0].file}`;
+        const hrefPertama = `${pathPrefix}/${bab.slug}/${bab.subbab[0].file}`;
 
         const totalSub = bab.subbab.length;
         let doneSub = 0;
@@ -73,7 +76,7 @@ function renderHubKelas() {
             const scoreObj = progres.scores && progres.scores[key];
             const scoreBadge = scoreObj ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 ml-auto shrink-0">Nilai ${scoreObj.pct}</span>` : '';
             return `
-                <a href="/kelas-${kelasKey}/${bab.slug}/${sb.file}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs ${isDone ? 'bg-emerald-50/70 text-emerald-950 font-medium' : 'text-slate-600 hover:bg-black/[0.03] hover:text-slate-950'} transition-all">
+                <a href="${pathPrefix}/${bab.slug}/${sb.file}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs ${isDone ? 'bg-emerald-50/70 text-emerald-950 font-medium' : 'text-slate-600 hover:bg-black/[0.03] hover:text-slate-950'} transition-all">
                     <span class="shrink-0">${isDone ? '✅' : `<span class="inline-block w-4 text-slate-400 font-mono text-center">${sIdx + 1}.</span>`}</span>
                     <span class="truncate">${sb.title}</span>
                     ${scoreBadge}
