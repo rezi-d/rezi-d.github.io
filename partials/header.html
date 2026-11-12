@@ -1,6 +1,6 @@
 <!-- HEADER / NAVIGASI (Gaya Apple Frosted Glass — Compact & Sticky) -->
 <header class="bg-white/85 backdrop-blur-md supports-[backdrop-filter]:bg-white/80 border-b border-black/[0.07] sticky top-0 z-50 shadow-[0_1px_12px_rgba(0,0,0,0.03)] transition-all">
-    <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 h-11 sm:h-12 flex items-center justify-between gap-2.5 lg:gap-3.5">
+    <div class="max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 h-11 sm:h-12 flex items-center justify-between gap-2 lg:gap-3">
         <!-- BRAND LOGO -->
         <div class="flex items-center space-x-2 shrink-0">
             <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 border border-black/[0.05] text-sm select-none">🎓</span>
@@ -10,77 +10,253 @@
             </a>
         </div>
 
-        <!-- NAV LINKS -->
-        <nav class="hidden md:flex items-center gap-3 lg:gap-3.5 xl:gap-4 text-xs font-medium text-slate-600 shrink-0 whitespace-nowrap">
-            <a href="/index.html" class="hover:text-slate-950 transition-colors">Beranda</a>
+        <!-- NAV LINKS DESKTOP (lg:flex, breakpoint 1024px+) -->
+        <nav class="hidden lg:flex items-center gap-2 xl:gap-3.5 text-xs font-medium text-slate-600 shrink-0 whitespace-nowrap" aria-label="Navigasi Utama">
+            <a href="/index.html" class="hover:text-slate-950 transition-colors py-1">Beranda</a>
 
-            <!-- DROPDOWN MATERI: Kelas X / XI / XII -->
-            <div class="relative group">
-                <button class="hover:text-slate-950 transition-colors flex items-center gap-1 py-1.5 cursor-pointer">
-                    Materi Kimia <span class="text-[8px] opacity-60 mt-0.5">&#9660;</span>
+            <!-- DROPDOWN MATERI: Multi-mapel dari mapel-config.js -->
+            <div class="relative dropdown-container" id="dropdown-materi-container">
+                <button type="button" id="dropdown-materi-btn" aria-haspopup="true" aria-expanded="false" class="hover:text-slate-950 transition-colors flex items-center gap-1 py-1.5 cursor-pointer">
+                    <span>Materi</span>
+                    <span class="text-[8px] opacity-60 transition-transform dropdown-chevron">&#9660;</span>
                 </button>
-                <div class="absolute left-0 top-full hidden group-hover:block z-50 pt-1">
-                    <div class="bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.08)] p-1.5 w-44">
-                        <a href="/kelas-10/index.html" class="flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl transition-all">
-                            <span>Kelas X</span>
+                <div id="dropdown-materi-menu" class="hidden absolute left-0 top-full pt-1 z-50">
+                    <div class="bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.12)] p-2 w-60">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">Pilih Mata Pelajaran</div>
+                        <div id="dropdown-materi-list" class="space-y-0.5">
+                            <!-- Diisi dinamis dari mapel-config.js -->
+                        </div>
+                        <div class="border-t border-slate-100 mt-2 pt-1.5 px-1">
+                            <a href="/materi/index.html" class="flex items-center justify-between px-3 py-1.5 text-[11px] font-semibold text-teal-700 hover:text-teal-800 hover:bg-teal-50/70 rounded-xl transition-all">
+                                <span>Lihat Semua Materi</span>
+                                <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MENU OSN (Menu Utama Mandiri ke /osn/index.html) -->
+            <a href="/osn/index.html" class="hover:text-slate-950 transition-colors py-1 flex items-center gap-1">
+                <span>Olimpiade Sains (OSN)</span>
+            </a>
+
+            <!-- DROPDOWN PERSIAPAN UJIAN -->
+            <div class="relative dropdown-container" id="dropdown-ujian-container">
+                <button type="button" id="dropdown-ujian-btn" aria-haspopup="true" aria-expanded="false" class="hover:text-slate-950 transition-colors flex items-center gap-1 py-1.5 cursor-pointer">
+                    <span>Persiapan Ujian</span>
+                    <span class="text-[8px] opacity-60 transition-transform dropdown-chevron">&#9660;</span>
+                </button>
+                <div id="dropdown-ujian-menu" class="hidden absolute left-0 top-full pt-1 z-50">
+                    <div class="bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.12)] p-2 w-56">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">Simulasi &amp; Latihan</div>
+                        <a href="/snbt/index.html" class="flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl transition-all">
+                            <div class="flex items-center gap-2">
+                                <span>📚</span>
+                                <span>Simulasi SNBT</span>
+                            </div>
                             <span class="text-[10px] text-slate-400 font-mono">&rsaquo;</span>
                         </a>
-                        <a href="/kelas-11/index.html" class="flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl transition-all">
-                            <span>Kelas XI</span>
+                        <a href="/tka/index.html" class="flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl transition-all">
+                            <div class="flex items-center gap-2">
+                                <span>📝</span>
+                                <span>Simulasi TKA</span>
+                            </div>
                             <span class="text-[10px] text-slate-400 font-mono">&rsaquo;</span>
                         </a>
-                        <a href="/kelas-12/index.html" class="flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl transition-all">
-                            <span>Kelas XII</span>
+                        <a href="/ielts/index.html" class="flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl transition-all">
+                            <div class="flex items-center gap-2">
+                                <span>🌐</span>
+                                <span>Persiapan IELTS</span>
+                            </div>
                             <span class="text-[10px] text-slate-400 font-mono">&rsaquo;</span>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- FEATURED MARKETING PILL: PREDIKSI PTN 2026 -->
+            <!-- FEATURED MARKETING PILL: PREDIKSI PTN 2026 (TETAP MENONJOL DI LUAR DROPDOWN) -->
             <a href="/tka/prediksi-ptn.html" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white text-[11px] font-semibold shadow-2xs hover:shadow transition-all group">
                 <span>🎯</span>
                 <span>Prediksi PTN</span>
                 <span class="bg-amber-400 text-slate-950 text-[8px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider leading-none">Hot</span>
             </a>
 
-            <!-- SLOT MODUL LAIN (TKA, ANBK, dst) — diisi otomatis oleh js/include.js dari js/curriculum.js -->
-            <span id="modul-lain-nav" class="contents"></span>
-
-            <a href="/tentang.html" class="hover:text-slate-950 transition-colors">Tentang</a>
+            <!-- SAINS POPULER & TENTANG -->
+            <a href="/sains-populer/index.html" class="hover:text-slate-950 transition-colors py-1">Sains Populer</a>
+            <a href="/tentang.html" class="hover:text-slate-950 transition-colors py-1">Tentang</a>
         </nav>
 
-        <!-- KOLOM PENCARIAN MATERI OTOMATIS (Apple Pill Search Bar) -->
-        <div class="relative flex-1 min-w-[130px] sm:min-w-[165px] max-w-[230px]">
-            <div class="relative">
-                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-[11px] pointer-events-none">🔍</span>
-                <input type="text" id="global-search-input" autocomplete="off"
-                       placeholder="Cari materi, soal, rumus..."
-                       class="w-full pl-8 pr-3 py-1 bg-black/[0.04] hover:bg-black/[0.06] focus:bg-white border border-transparent focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/10 rounded-full text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all">
+        <!-- KOLOM PENCARIAN MATERI (Icon di 1024-1280px lg, Bar Penuh di xl+) -->
+        <div class="hidden lg:flex items-center relative">
+            <!-- Mode Icon Popover di 1024px-1279px (lg:block xl:hidden) -->
+            <div class="xl:hidden relative" id="desktop-search-popover-container">
+                <button type="button" id="desktop-search-toggle-btn" aria-label="Buka Pencarian" aria-expanded="false" class="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-xs text-slate-600 transition-colors cursor-pointer">
+                    🔍
+                </button>
+                <div id="desktop-search-popover" class="hidden absolute right-0 top-full mt-2 w-80 bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.12)] p-2.5 z-50">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-[11px] pointer-events-none">🔍</span>
+                        <input type="text" id="desktop-popover-search-input" autocomplete="off"
+                               placeholder="Cari materi, rumus..."
+                               class="w-full pl-8 pr-3 py-1.5 bg-black/[0.04] focus:bg-white border border-transparent focus:border-teal-500/50 rounded-full text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all">
+                    </div>
+                    <div id="desktop-popover-search-results" class="hidden mt-2 max-h-72 overflow-y-auto divide-y divide-slate-100"></div>
+                </div>
             </div>
-            <div id="global-search-results" class="hidden absolute right-0 left-0 sm:left-auto sm:w-96 mt-2 bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.12)] max-h-80 overflow-y-auto z-50 divide-y divide-slate-100 p-1.5"></div>
+
+            <!-- Mode Bar Penuh di 1280px+ (xl:block) -->
+            <div class="hidden xl:block relative w-48 2xl:w-60">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-[11px] pointer-events-none">🔍</span>
+                    <input type="text" id="global-search-input" autocomplete="off"
+                           placeholder="Cari materi, rumus..."
+                           class="w-full pl-8 pr-3 py-1 bg-black/[0.04] hover:bg-black/[0.06] focus:bg-white border border-transparent focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/10 rounded-full text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all">
+                </div>
+                <div id="global-search-results" class="hidden absolute right-0 left-0 sm:left-auto sm:w-96 mt-2 bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.12)] max-h-80 overflow-y-auto z-50 divide-y divide-slate-100 p-1.5"></div>
+            </div>
         </div>
 
-        <!-- TOMBOL AKSI & TRACKER SNBT (DESKTOP & MOBILE) -->
+        <!-- TOMBOL AKSI & TRACKER SNBT & HAMBURGER (< lg) -->
         <div class="flex items-center space-x-1.5 shrink-0">
-            <!-- Mobile Shortcut: Tracker SNBT -->
-            <a href="/snbt/tracker.html" class="md:hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white text-[11px] font-bold shadow-2xs" title="Study Tracker SNBT 2026">
-                <span>🎯</span> <span>Tracker</span>
-            </a>
-
-            <!-- Tombol Tracker SNBT 2026 (Desktop & Tablet) -->
-            <a href="/snbt/tracker.html" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white text-[11px] font-bold shadow-2xs hover:shadow transition-all group" title="Study Tracker & Log Skor Try Out SNBT 2026">
+            <!-- Tombol Tracker SNBT 2026 Desktop (lg:flex) -->
+            <a href="/snbt/tracker.html" class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white text-[11px] font-bold shadow-2xs hover:shadow transition-all group" title="Study Tracker & Log Skor Try Out SNBT 2026">
                 <span>🎯</span>
                 <span>Tracker SNBT</span>
                 <span class="bg-amber-300 text-slate-900 text-[8px] font-black px-1.5 py-0.5 rounded-full uppercase leading-none">2026</span>
             </a>
 
-            <!-- Tombol Kembali ke Beranda -->
-            <div class="hidden 2xl:flex items-center">
-                <a href="/index.html" id="btn-kembali-beranda" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium text-slate-600 hover:text-slate-950 hover:bg-slate-100/80 transition-all">
-                    <span>&larr;</span> <span>Beranda</span>
-                </a>
+            <!-- Mobile Quick Tracker Icon (< lg) -->
+            <a href="/snbt/tracker.html" class="lg:hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-teal-600 to-emerald-600 text-white text-[11px] font-bold shadow-2xs" title="Study Tracker SNBT 2026">
+                <span>🎯</span> <span>Tracker</span>
+            </a>
+
+            <!-- HAMBURGER BUTTON (< lg, < 1024px) -->
+            <button type="button" id="mobile-menu-btn" aria-label="Buka Navigasi Menu" aria-expanded="false" aria-controls="mobile-drawer" class="lg:hidden w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-slate-700 transition-colors cursor-pointer">
+                <svg id="hamburger-icon-open" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <svg id="hamburger-icon-close" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- MOBILE DRAWER MENU (< lg) -->
+    <div id="mobile-drawer" class="hidden fixed inset-x-0 top-11 sm:top-12 bottom-0 bg-slate-900/40 backdrop-blur-xs z-40 lg:hidden overflow-y-auto" role="dialog" aria-modal="true" aria-label="Menu Navigasi Mobile">
+        <div class="max-w-md mx-auto m-3 bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] p-4 sm:p-5 text-xs text-slate-700 flex flex-col gap-3.5">
+            
+            <!-- 1. SEARCH INSIDE MOBILE DRAWER -->
+            <div class="relative">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs pointer-events-none">🔍</span>
+                    <input type="text" id="mobile-search-input" autocomplete="off"
+                           placeholder="Cari materi, rumus, soal..."
+                           class="w-full pl-8 pr-3 py-2 bg-black/[0.04] focus:bg-white border border-transparent focus:border-teal-500/50 rounded-2xl text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all">
+                </div>
+                <div id="mobile-search-results" class="hidden mt-2 bg-white border border-black/[0.06] rounded-2xl shadow-lg max-h-60 overflow-y-auto divide-y divide-slate-100 p-1"></div>
             </div>
+
+            <!-- 2. TRACKER SNBT BUTTON INSIDE MOBILE DRAWER -->
+            <a href="/snbt/tracker.html" class="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold shadow-xs">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">🎯</span>
+                    <span>Study Tracker SNBT 2026</span>
+                </div>
+                <span class="bg-amber-300 text-slate-900 text-[9px] font-black px-2 py-0.5 rounded-full uppercase">Buka &rarr;</span>
+            </a>
+
+            <!-- 3. NAV LINKS LIST & ACCORDIONS -->
+            <nav class="flex flex-col space-y-1 font-medium text-slate-700 divide-y divide-slate-100" aria-label="Menu Mobile">
+                <div class="py-1">
+                    <a href="/index.html" class="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-100/80 transition-colors font-semibold">
+                        <span>Beranda</span>
+                        <span class="text-slate-400">&rsaquo;</span>
+                    </a>
+                </div>
+
+                <!-- ACCORDION: MATERI -->
+                <div class="py-1">
+                    <button type="button" id="mobile-accordion-materi-btn" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-100/80 transition-colors font-semibold text-left cursor-pointer">
+                        <span class="flex items-center gap-2">
+                            <span>📖</span>
+                            <span>Materi Pelajaran</span>
+                        </span>
+                        <span id="mobile-materi-chevron" class="text-[10px] text-slate-400 transition-transform duration-200">&#9660;</span>
+                    </button>
+                    <div id="mobile-accordion-materi-panel" class="hidden pl-2 pr-1 py-1.5 space-y-1 bg-slate-50/70 rounded-2xl mt-1">
+                        <div id="mobile-materi-list" class="space-y-0.5">
+                            <!-- Diisi dinamis dari mapel-config.js -->
+                        </div>
+                        <div class="pt-1.5 border-t border-slate-200/60 px-2">
+                            <a href="/materi/index.html" class="text-teal-700 font-bold flex items-center justify-between py-1.5 text-[11px]">
+                                <span>Lihat Semua Materi &rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OSN DIRECT LINK -->
+                <div class="py-1">
+                    <a href="/osn/index.html" class="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-100/80 transition-colors font-semibold">
+                        <span class="flex items-center gap-2">
+                            <span>🏆</span>
+                            <span>Olimpiade Sains (OSN)</span>
+                        </span>
+                        <span class="text-slate-400">&rsaquo;</span>
+                    </a>
+                </div>
+
+                <!-- ACCORDION: PERSIAPAN UJIAN -->
+                <div class="py-1">
+                    <button type="button" id="mobile-accordion-ujian-btn" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-100/80 transition-colors font-semibold text-left cursor-pointer">
+                        <span class="flex items-center gap-2">
+                            <span>🎓</span>
+                            <span>Persiapan Ujian</span>
+                        </span>
+                        <span id="mobile-ujian-chevron" class="text-[10px] text-slate-400 transition-transform duration-200">&#9660;</span>
+                    </button>
+                    <div id="mobile-accordion-ujian-panel" class="hidden pl-3 pr-2 py-1 space-y-1 bg-slate-50/70 rounded-2xl mt-1">
+                        <a href="/snbt/index.html" class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100">
+                            <span>📚 Simulasi SNBT</span>
+                            <span class="text-slate-400">&rsaquo;</span>
+                        </a>
+                        <a href="/tka/index.html" class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100">
+                            <span>📝 Simulasi TKA</span>
+                            <span class="text-slate-400">&rsaquo;</span>
+                        </a>
+                        <a href="/ielts/index.html" class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100">
+                            <span>🌐 Persiapan IELTS</span>
+                            <span class="text-slate-400">&rsaquo;</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PREDIKSI PTN (HOT) -->
+                <div class="py-1">
+                    <a href="/tka/prediksi-ptn.html" class="flex items-center justify-between px-3 py-2.5 rounded-xl bg-blue-50/70 text-[#0071e3] font-bold hover:bg-blue-100/60 transition-colors">
+                        <span class="flex items-center gap-2">
+                            <span>🎯</span>
+                            <span>Prediksi PTN 2026</span>
+                        </span>
+                        <span class="bg-amber-400 text-slate-950 text-[8px] font-black px-1.5 py-0.5 rounded-full uppercase leading-none">HOT</span>
+                    </a>
+                </div>
+
+                <!-- SAINS POPULER & TENTANG -->
+                <div class="py-1">
+                    <a href="/sains-populer/index.html" class="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-100/80 transition-colors">
+                        <span>🔬 Sains Populer</span>
+                        <span class="text-slate-400">&rsaquo;</span>
+                    </a>
+                    <a href="/tentang.html" class="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-100/80 transition-colors">
+                        <span>ℹ️ Tentang AjarKita</span>
+                        <span class="text-slate-400">&rsaquo;</span>
+                    </a>
+                </div>
+            </nav>
+
         </div>
     </div>
 </header>

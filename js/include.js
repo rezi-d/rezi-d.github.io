@@ -19,6 +19,16 @@ async function loadPartial(url, targetId, callback) {
         const res = await fetch(url);
         if (!res.ok) throw new Error(`Status ${res.status}`);
         target.innerHTML = await res.text();
+
+        // Inisialisasi otomatis jika header dimuat
+        if (targetId === 'header-placeholder') {
+            bangunModulLainNav();
+            bangunNavigasiMapel();
+            initNavbarInteractivity();
+            aturTombolBeranda();
+            initGlobalSearch();
+        }
+
         if (typeof callback === 'function') callback();
     } catch (err) {
         target.innerHTML = `
@@ -228,8 +238,325 @@ function bangunSidebar() {
     }
 }
 
-// Menyisipkan link modul lain (Simulasi TKA, Persiapan ANBK, dst) ke header,
-// dibaca otomatis dari array `modulLain` di js/curriculum.js
+// =================================================================
+// KONFIGURASI MAPEL & NAVIGASI DINAMIS
+// =================================================================
+
+function ensureMapelConfig() {
+    return new Promise((resolve) => {
+        if (typeof window !== 'undefined' && window.mapelConfig && Array.isArray(window.mapelConfig)) {
+            resolve(window.mapelConfig);
+            return;
+        }
+        let existingScript = document.getElementById('mapel-config-script');
+        if (!existingScript) {
+            const script = document.createElement('script');
+            script.id = 'mapel-config-script';
+            script.src = '/js/mapel-config.js?v=20261112';
+            script.onload = () => resolve(window.mapelConfig || []);
+            script.onerror = () => {
+                console.error('[include.js] Gagal memuat /js/mapel-config.js');
+                resolve([]);
+            };
+            document.head.appendChild(script);
+        } else {
+            if (typeof window !== 'undefined' && window.mapelConfig && Array.isArray(window.mapelConfig)) {
+                resolve(window.mapelConfig);
+            } else {
+                existingScript.addEventListener('load', () => resolve(window.mapelConfig || []));
+            }
+        }
+    });
+}
+
+// Membangun daftar mata pelajaran di dropdown Materi (desktop) dan drawer mobile
+async function bangunNavigasiMapel() {
+    const config = await ensureMapelConfig();
+    const materiList = document.getElementById('dropdown-materi-list');
+    const mobileMateriList = document.getElementById('mobile-materi-list');
+    
+    // Filter mata pelajaran yang aktif dan ditandai materi: true
+    const activeMateri = config.filter(m => m.aktif !== false && m.materi === true);
+
+    if (materiList) {
+        materiList.innerHTML = activeMateri.map(m => {
+            const isTersedia = m.status === 'tersedia';
+            if (isTersedia && Array.isArray(m.jenjang) && m.jenjang.length > 0) {
+                // Flyout sub-menu untuk mapel dengan jenjang (Kimia)
+                return `
+                    <div class="relative group/sub submenu-container">
+                        <button type="button" class="submenu-toggle w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-slate-800 hover:text-teal-700 hover:bg-slate-100/80 rounded-xl transition-all cursor-pointer" aria-haspopup="true" aria-expanded="false">
+                            <span class="flex items-center gap-2">
+                                <span>${m.icon || '📖'}</span>
+                                <span>${m.nama}</span>
+                            </span>
+                            <span class="text-[10px] text-slate-400 font-mono">&rsaquo;</span>
+                        </button>
+                        <div class="submenu-panel hidden group-hover/sub:block absolute left-full top-0 pl-1 z-50">
+                            <div class="bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.12)] p-1.5 w-48">
+                                <div class="text-[9px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">Jenjang ${m.nama}</div>
+                                ${m.jenjang.map(j => `
+                                    <a href="${j.path}" class="flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-100/80 rounded-xl transition-all">
+                                        <span>${j.label}</span>
+                                        <span class="text-[10px] text-slate-400 font-mono">&rsaquo;</span>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>`;
+            } else if (isTersedia) {
+                return `
+                    <a href="/materi/index.html" class="flex items-center justify-between px-3 py-1.5 text-xs font-semibold text-slate-800 hover:text-teal-700 hover:bg-slate-100/80 rounded-xl transition-all">
+                        <span class="flex items-center gap-2">
+                            <span>${m.icon || '📖'}</span>
+                            <span>${m.nama}</span>
+                        </span>
+                        <span class="text-[10px] text-slate-400 font-mono">&rsaquo;</span>
+                    </a>`;
+            } else {
+                return `
+                    <div class="flex items-center justify-between px-3 py-1.5 text-xs text-slate-400 cursor-not-allowed select-none rounded-xl" title="Segera hadir">
+                        <span class="flex items-center gap-2">
+                            <span class="opacity-60">${m.icon || '📖'}</span>
+                            <span>${m.nama}</span>
+                        </span>
+                        <span class="text-[9px] font-medium text-slate-400 bg-slate-100 border border-slate-200/60 px-1.5 py-0.5 rounded-md leading-none">Segera</span>
+                    </div>`;
+            }
+        }).join('');
+    }
+
+    if (mobileMateriList) {
+        mobileMateriList.innerHTML = activeMateri.map(m => {
+            const isTersedia = m.status === 'tersedia';
+            if (isTersedia && Array.isArray(m.jenjang) && m.jenjang.length > 0) {
+                return `
+                    <div class="py-1">
+                        <div class="text-[11px] font-bold text-slate-800 px-3 py-1 flex items-center justify-between">
+                            <span class="flex items-center gap-1.5">
+                                <span>${m.icon || '📖'}</span> <span>${m.nama}</span>
+                            </span>
+                            <span class="text-[9px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Tersedia</span>
+                        </div>
+                        <div class="pl-4 space-y-0.5 mt-0.5">
+                            ${m.jenjang.map(j => `
+                                <a href="${j.path}" class="flex items-center justify-between px-3 py-1.5 text-xs text-slate-600 hover:text-slate-950 hover:bg-slate-200/60 rounded-xl transition-colors">
+                                    <span>${j.label}</span>
+                                    <span class="text-slate-400">&rsaquo;</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>`;
+            } else if (isTersedia) {
+                return `
+                    <a href="/materi/index.html" class="flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100 rounded-xl">
+                        <span class="flex items-center gap-1.5">
+                            <span>${m.icon || '📖'}</span> <span>${m.nama}</span>
+                        </span>
+                        <span class="text-slate-400">&rsaquo;</span>
+                    </a>`;
+            } else {
+                return `
+                    <div class="flex items-center justify-between px-3 py-2 text-xs text-slate-400 select-none">
+                        <span class="flex items-center gap-1.5">
+                            <span class="opacity-60">${m.icon || '📖'}</span>
+                            <span>${m.nama}</span>
+                        </span>
+                        <span class="text-[9px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">Segera</span>
+                    </div>`;
+            }
+        }).join('');
+    }
+}
+
+// Interaktivitas Navbar (Desktop Dropdown, Mobile Drawer, Accordion, Keyboard ESC & ARIA)
+function initNavbarInteractivity() {
+    const materiBtn = document.getElementById('dropdown-materi-btn');
+    if (!materiBtn) return;
+    if (materiBtn.dataset.interactivityInitialized === 'true') return;
+    materiBtn.dataset.interactivityInitialized = 'true';
+
+    // 1. Desktop Dropdowns
+    const materiContainer = document.getElementById('dropdown-materi-container');
+    const materiMenu = document.getElementById('dropdown-materi-menu');
+
+    const ujianContainer = document.getElementById('dropdown-ujian-container');
+    const ujianBtn = document.getElementById('dropdown-ujian-btn');
+    const ujianMenu = document.getElementById('dropdown-ujian-menu');
+
+    const searchToggleBtn = document.getElementById('desktop-search-toggle-btn');
+    const searchPopover = document.getElementById('desktop-search-popover');
+    const searchPopoverContainer = document.getElementById('desktop-search-popover-container');
+
+    let lastMateriOpenTime = 0;
+    let lastUjianOpenTime = 0;
+
+    function closeAllDesktopDropdowns() {
+        if (materiMenu) materiMenu.classList.add('hidden');
+        if (materiBtn) materiBtn.setAttribute('aria-expanded', 'false');
+        if (ujianMenu) ujianMenu.classList.add('hidden');
+        if (ujianBtn) ujianBtn.setAttribute('aria-expanded', 'false');
+        if (searchPopover) searchPopover.classList.add('hidden');
+        if (searchToggleBtn) searchToggleBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    if (materiBtn && materiMenu) {
+        materiBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = !materiMenu.classList.contains('hidden');
+            if (isOpen && Date.now() - lastMateriOpenTime < 350) {
+                return;
+            }
+            closeAllDesktopDropdowns();
+            if (!isOpen) {
+                materiMenu.classList.remove('hidden');
+                materiBtn.setAttribute('aria-expanded', 'true');
+                lastMateriOpenTime = Date.now();
+            }
+        });
+        materiContainer?.addEventListener('mouseleave', () => {
+            materiMenu.classList.add('hidden');
+            materiBtn.setAttribute('aria-expanded', 'false');
+        });
+        materiContainer?.addEventListener('mouseenter', () => {
+            if (ujianMenu) ujianMenu.classList.add('hidden');
+            if (ujianBtn) ujianBtn.setAttribute('aria-expanded', 'false');
+            materiMenu.classList.remove('hidden');
+            materiBtn.setAttribute('aria-expanded', 'true');
+            lastMateriOpenTime = Date.now();
+        });
+    }
+
+    if (ujianBtn && ujianMenu) {
+        ujianBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = !ujianMenu.classList.contains('hidden');
+            if (isOpen && Date.now() - lastUjianOpenTime < 350) {
+                return;
+            }
+            closeAllDesktopDropdowns();
+            if (!isOpen) {
+                ujianMenu.classList.remove('hidden');
+                ujianBtn.setAttribute('aria-expanded', 'true');
+                lastUjianOpenTime = Date.now();
+            }
+        });
+        ujianContainer?.addEventListener('mouseleave', () => {
+            ujianMenu.classList.add('hidden');
+            ujianBtn.setAttribute('aria-expanded', 'false');
+        });
+        ujianContainer?.addEventListener('mouseenter', () => {
+            if (materiMenu) materiMenu.classList.add('hidden');
+            if (materiBtn) materiBtn.setAttribute('aria-expanded', 'false');
+            ujianMenu.classList.remove('hidden');
+            ujianBtn.setAttribute('aria-expanded', 'true');
+            lastUjianOpenTime = Date.now();
+        });
+    }
+
+    if (searchToggleBtn && searchPopover) {
+        searchToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = !searchPopover.classList.contains('hidden');
+            closeAllDesktopDropdowns();
+            if (!isOpen) {
+                searchPopover.classList.remove('hidden');
+                searchToggleBtn.setAttribute('aria-expanded', 'true');
+                const popoverInput = document.getElementById('desktop-popover-search-input');
+                popoverInput?.focus();
+            }
+        });
+    }
+
+    // 2. Mobile Menu Drawer & Accordions
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const hamburgerOpenIcon = document.getElementById('hamburger-icon-open');
+    const hamburgerCloseIcon = document.getElementById('hamburger-icon-close');
+
+    function toggleMobileDrawer(open) {
+        if (!mobileDrawer || !mobileBtn) return;
+        const willOpen = typeof open === 'boolean' ? open : mobileDrawer.classList.contains('hidden');
+        if (willOpen) {
+            mobileDrawer.classList.remove('hidden');
+            mobileBtn.setAttribute('aria-expanded', 'true');
+            hamburgerOpenIcon?.classList.add('hidden');
+            hamburgerCloseIcon?.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden', 'lg:overflow-auto');
+        } else {
+            mobileDrawer.classList.add('hidden');
+            mobileBtn.setAttribute('aria-expanded', 'false');
+            hamburgerOpenIcon?.classList.remove('hidden');
+            hamburgerCloseIcon?.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden', 'lg:overflow-auto');
+        }
+    }
+
+    if (mobileBtn && mobileDrawer) {
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMobileDrawer();
+        });
+        mobileDrawer.addEventListener('click', (e) => {
+            if (e.target === mobileDrawer) {
+                toggleMobileDrawer(false);
+            }
+        });
+    }
+
+    // Mobile Accordion: Materi
+    const accMateriBtn = document.getElementById('mobile-accordion-materi-btn');
+    const accMateriPanel = document.getElementById('mobile-accordion-materi-panel');
+    const accMateriChevron = document.getElementById('mobile-materi-chevron');
+    if (accMateriBtn && accMateriPanel) {
+        accMateriBtn.addEventListener('click', () => {
+            const isHidden = accMateriPanel.classList.toggle('hidden');
+            accMateriBtn.setAttribute('aria-expanded', (!isHidden).toString());
+            if (accMateriChevron) {
+                accMateriChevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        });
+    }
+
+    // Mobile Accordion: Persiapan Ujian
+    const accUjianBtn = document.getElementById('mobile-accordion-ujian-btn');
+    const accUjianPanel = document.getElementById('mobile-accordion-ujian-panel');
+    const accUjianChevron = document.getElementById('mobile-ujian-chevron');
+    if (accUjianBtn && accUjianPanel) {
+        accUjianBtn.addEventListener('click', () => {
+            const isHidden = accUjianPanel.classList.toggle('hidden');
+            accUjianBtn.setAttribute('aria-expanded', (!isHidden).toString());
+            if (accUjianChevron) {
+                accUjianChevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        });
+    }
+
+    // 3. Global Click Outside & ESC Key Support
+    document.addEventListener('click', (e) => {
+        if (materiContainer && !materiContainer.contains(e.target)) {
+            materiMenu?.classList.add('hidden');
+            materiBtn?.setAttribute('aria-expanded', 'false');
+        }
+        if (ujianContainer && !ujianContainer.contains(e.target)) {
+            ujianMenu?.classList.add('hidden');
+            ujianBtn?.setAttribute('aria-expanded', 'false');
+        }
+        if (searchPopoverContainer && !searchPopoverContainer.contains(e.target)) {
+            searchPopover?.classList.add('hidden');
+            searchToggleBtn?.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.key === 'Esc') {
+            closeAllDesktopDropdowns();
+            toggleMobileDrawer(false);
+        }
+    });
+}
+
+// Menyisipkan link modul lain (Simulasi TKA, Persiapan ANBK, dst) ke header bila elemen tersedia
 function bangunModulLainNav() {
     const slot = document.getElementById('modul-lain-nav');
     if (!slot || typeof modulLain === 'undefined') return;
@@ -1118,12 +1445,10 @@ function initSEO() {
 }
 
 // =================================================================
-// PENCARIAN MATERI INSTAN DI HEADER (Otomatis dari js/curriculum.js)
+// PENCARIAN MATERI INSTAN DI HEADER & DRAWER (Otomatis dari js/curriculum.js)
 // =================================================================
 function initGlobalSearch() {
-    const input = document.getElementById('global-search-input');
-    const resultsBox = document.getElementById('global-search-results');
-    if (!input || !resultsBox || typeof kurikulum === 'undefined') return;
+    if (typeof kurikulum === 'undefined') return;
 
     // Bangun indeks pencarian otomatis dari seluruh Kelas, Bab, dan Sub-bab di curriculum.js
     const index = [];
@@ -1149,57 +1474,68 @@ function initGlobalSearch() {
         });
     }
 
-    function renderResults(query) {
-        const q = query.trim().toLowerCase();
-        if (!q) {
-            resultsBox.classList.add('hidden');
-            resultsBox.innerHTML = '';
-            return;
+    function setupSearch(inputId, resultsId) {
+        const input = document.getElementById(inputId);
+        const resultsBox = document.getElementById(resultsId);
+        if (!input || !resultsBox) return;
+
+        function renderResults(query) {
+            const q = query.trim().toLowerCase();
+            if (!q) {
+                resultsBox.classList.add('hidden');
+                resultsBox.innerHTML = '';
+                return;
+            }
+
+            const terms = q.split(/\s+/);
+            const matches = index.filter(item => terms.every(t => item.searchText.includes(t)));
+            const progres = getProgres();
+
+            resultsBox.classList.remove('hidden');
+
+            if (matches.length === 0) {
+                resultsBox.innerHTML = `
+                    <div class="p-4 text-center text-xs text-slate-500">
+                        Materi <b>"${query}"</b> tidak ditemukan.<br>
+                        <button type="button" onclick="toggleSpuModal(true)" class="mt-2 text-teal-600 font-semibold hover:underline">🧪 Cari di Tabel Periodik Unsur &rarr;</button>
+                    </div>`;
+                return;
+            }
+
+            resultsBox.innerHTML = matches.slice(0, 10).map(m => {
+                const isDone = !!progres.completed[m.subKey];
+                const score = progres.scores[m.subKey];
+                return `
+                    <a href="${m.url}" class="block px-3.5 py-2.5 hover:bg-teal-50/70 transition">
+                        <div class="flex items-center justify-between gap-2 mb-0.5">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200/60">
+                                ${m.kelasLabel} &bull; ${m.babTitle}
+                            </span>
+                            <span class="text-[10px] font-bold text-emerald-700">
+                                ${isDone ? '✅ Selesai' : ''}${score ? ` (${score.pct})` : ''}
+                            </span>
+                        </div>
+                        <p class="text-xs font-bold text-slate-800">${m.subNum}. ${m.subTitle}</p>
+                    </a>`;
+            }).join('');
         }
 
-        const terms = q.split(/\s+/);
-        const matches = index.filter(item => terms.every(t => item.searchText.includes(t)));
-        const progres = getProgres();
+        input.addEventListener('input', (e) => renderResults(e.target.value));
+        input.addEventListener('focus', (e) => {
+            if (e.target.value.trim()) renderResults(e.target.value);
+        });
 
-        resultsBox.classList.remove('hidden');
-
-        if (matches.length === 0) {
-            resultsBox.innerHTML = `
-                <div class="p-4 text-center text-xs text-slate-500">
-                    Materi <b>"${query}"</b> tidak ditemukan.<br>
-                    <button type="button" onclick="toggleSpuModal(true)" class="mt-2 text-teal-600 font-semibold hover:underline">🧪 Cari di Tabel Periodik Unsur &rarr;</button>
-                </div>`;
-            return;
-        }
-
-        resultsBox.innerHTML = matches.slice(0, 10).map(m => {
-            const isDone = !!progres.completed[m.subKey];
-            const score = progres.scores[m.subKey];
-            return `
-                <a href="${m.url}" class="block px-3.5 py-2.5 hover:bg-teal-50/70 transition">
-                    <div class="flex items-center justify-between gap-2 mb-0.5">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200/60">
-                            ${m.kelasLabel} &bull; ${m.babTitle}
-                        </span>
-                        <span class="text-[10px] font-bold text-emerald-700">
-                            ${isDone ? '✅ Selesai' : ''}${score ? ` (${score.pct})` : ''}
-                        </span>
-                    </div>
-                    <p class="text-xs font-bold text-slate-800">${m.subNum}. ${m.subTitle}</p>
-                </a>`;
-        }).join('');
+        document.addEventListener('click', (e) => {
+            if (!input.contains(e.target) && !resultsBox.contains(e.target)) {
+                resultsBox.classList.add('hidden');
+            }
+        });
     }
 
-    input.addEventListener('input', (e) => renderResults(e.target.value));
-    input.addEventListener('focus', (e) => {
-        if (e.target.value.trim()) renderResults(e.target.value);
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!input.contains(e.target) && !resultsBox.contains(e.target)) {
-            resultsBox.classList.add('hidden');
-        }
-    });
+    // Hubungkan pencarian di Header Desktop (xl), Popover (lg), dan Drawer Mobile
+    setupSearch('global-search-input', 'global-search-results');
+    setupSearch('desktop-popover-search-input', 'desktop-popover-search-results');
+    setupSearch('mobile-search-input', 'mobile-search-results');
 }
 
 // =================================================================
@@ -1582,6 +1918,7 @@ initGoogleAnalytics();
 
 document.addEventListener('DOMContentLoaded', () => {
     initSEO();
+    ensureMapelConfig();
     const hp = document.getElementById('header-placeholder');
     if (hp) {
         hp.classList.add('sticky', 'top-0', 'z-50');
@@ -1589,13 +1926,15 @@ document.addEventListener('DOMContentLoaded', () => {
         hp.style.top = '0';
         hp.style.zIndex = '50';
     }
-    loadPartial('/partials/header.html', 'header-placeholder', () => {
+    loadPartial('/partials/header.html?v=20261112', 'header-placeholder', () => {
         bangunModulLainNav();
+        bangunNavigasiMapel();
+        initNavbarInteractivity();
         aturTombolBeranda();
         initGlobalSearch();
     });
-    loadPartial('/partials/footer.html', 'footer-placeholder');
-    loadPartial('/partials/spu-modal.html', 'spu-placeholder', () => {
+    loadPartial('/partials/footer.html?v=20261112', 'footer-placeholder');
+    loadPartial('/partials/spu-modal.html?v=20261112', 'spu-placeholder', () => {
         if (typeof initSpu === 'function') initSpu();
     });
     bangunSidebar();
