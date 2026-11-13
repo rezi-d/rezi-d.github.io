@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menggambar & Transformasi Grafik Parabola — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari cara menggambar kurva parabola 4 titik kunci dan konsep transformasi grafik fungsi kuadrat: translasi horizontal-vertikal f(x) = a(x - h)² + k, refleksi sumbu-X, dilatasi regangan, serta penentuan domain dan range.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/fungsi-kuadrat/menggambar-dan-mentransformasi-grafik-kuadrat.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/fungsi-kuadrat/menggambar-dan-mentransformasi-grafik-kuadrat.html">
+    <meta property="og:title" content="📐 Menggambar & Transformasi Grafik Parabola — Kelas X SMA">
+    <meta property="og:description" content="Kuasai teknik sketsa 4 titik kunci, translasi verteks, dan pemetaan range fungsi kuadrat dengan modul interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="fungsi-kuadrat">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 6: Fungsi Kuadrat
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Menggambar &amp; Transformasi Grafik Parabola
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari seni visualisasi fungsi kuadrat: algoritma sistematis 4 titik kunci dalam mensketsa kurva parabola presisi, operasi transformasi geometri fungsi (translasi horizontal-vertikal, refleksi, dilatasi), serta analisis daerah asal (domain) dan daerah hasil (range) pada interval tertutup.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: 4 LANGKAH TITIK KUNCI MENGGAMBAR PARABOLA -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Panduan Sketsa Presisi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✏️ 1. Metode 4 Titik Kunci Menggambar Parabola
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Sketsa Presisi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Untuk menggambar grafik fungsi kuadrat $f(x) = ax^2 + bx + c$ secara rapi tanpa perlu membuat tabel puluhan titik, ikuti 4 titik koordinat krusial berikut:
+                        </p>
+
+                        <!-- 4 LANGKAH TITIK KUNCI -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-1.5">
+                                <span class="font-bold text-blue-900 text-sm block">1. Arah Terbuka &amp; Titik Potong Sumbu-Y</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Cek tanda $a$ (ke atas jika $a>0$, ke bawah jika $a<0$). Substitusikan $x = 0$ untuk mendapatkan titik potong sumbu-$Y$ di koordinat $(0, c)$.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+                                <span class="font-bold text-emerald-900 text-sm block">2. Titik Potong Sumbu-X (Pembuat Nol)</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Atur $f(x) = 0$. Jika $D \ge 0$, faktorkan untuk menemukan akar $(x_1, 0)$ dan $(x_2, 0)$. Jika $D < 0$, kurva tidak memotong sumbu-$X$.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-1.5">
+                                <span class="font-bold text-amber-900 text-sm block">3. Garis Sumbu Simetri</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Gambarkan garis vertikal putus-putus pada $x_p = -\frac{b}{2a}$ sebagai cermin simetri kurva parabola.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 space-y-1.5">
+                                <span class="font-bold text-indigo-900 text-sm block">4. Titik Puncak Verteks Parabola</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Hitung $y_p = f(x_p) = -\frac{D}{4a}$. Plot titik puncak $P(x_p, y_p)$ lalu hubungkan seluruh titik membentuk kurva mulus simetris.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: TRANSFORMASI TRANSLASI HORIZONTAL & VERTIKAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Pergeseran Kurva</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ↔️ 2. Translasi Parabola: $f(x) = a(x - h)^2 + k$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Translasi (h, k)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Setiap grafik fungsi kuadrat dapat dipahami sebagai hasil pergeseran (translasi) dari kurva dasar $y = ax^2$ yang berpuncak di $(0,0)$:
+                        </p>
+
+                        <!-- PENJELASAN H DAN K -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs font-mono text-slate-800 space-y-1">
+                                <div>• <strong>Translasi Horizontal ($h$):</strong> $y = a(x - h)^2$</div>
+                                <div class="text-blue-700 pl-4">Jika $h > 0 \implies$ Bergeser ke <strong>KANAN</strong> sejauh $h$ satuan.</div>
+                                <div class="text-blue-700 pl-4">Jika $h < 0 \implies$ Bergeser ke <strong>KIRI</strong> sejauh $|h|$ satuan.</div>
+                                <div class="pt-2">• <strong>Translasi Vertikal ($k$):</strong> $y = a(x - h)^2 + k$</div>
+                                <div class="text-indigo-700 pl-4">Jika $k > 0 \implies$ Bergeser ke <strong>ATAS</strong> sejauh $k$ satuan.</div>
+                                <div class="text-indigo-700 pl-4">Jika $k < 0 \implies$ Bergeser ke <strong>BAWAH</strong> sejauh $|k|$ satuan.</div>
+                            </div>
+                            <p class="text-xs text-slate-500 italic">
+                                Contoh: $y = (x - 3)^2 + 4$ adalah grafik $y = x^2$ yang digeser 3 satuan ke kanan dan 4 satuan ke atas.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: REFLEKSI & DILATASI VERTIKAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Pencerminan &amp; Peregangan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🪞 3. Refleksi &amp; Dilatasi Kurva Parabola
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Peregangan Vertikal</span>
+                        </div>
+
+                        <!-- REFLEKSI & DILATASI DUA KARTU -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-1.5">
+                                <span class="font-bold text-amber-950 uppercase block">Refleksi Terhadap Sumbu-X</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Fungsi $g(x) = -f(x)$ membalikkan orientasi parabola secara vertikal. Jika $f(x)$ terbuka ke atas, maka $-f(x)$ tercermin terbuka ke bawah dengan puncak yang ikut bertukar tanda ordinatnya.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 space-y-1.5">
+                                <span class="font-bold text-indigo-950 uppercase block">Dilatasi Vertikal Skalar $|a|$</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Fungsi $g(x) = a \cdot f(x)$ mengubah kelangsingan kurva:
+                                    <br>• $|a| > 1$: Peregangan vertikal (parabola semakin sempit/curam).
+                                    <br>• $0 < |a| < 1$: Pemampatan vertikal (parabola semakin lebar/landai).
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: DOMAIN DAN RANGE PADA INTERVAL TERBATAS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Analisis Nilai Interval</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📊 4. Menentukan Range pada Domain Tertutup $[p, q]$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Domain &amp; Range</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Secara alami, domain fungsi kuadrat adalah seluruh bilangan real $\mathbb{R}$ dan rangenya adalah $[y_p, \infty)$ jika $a>0$ atau $(-\infty, y_p]$ jika $a<0$. Namun jika domain dibatasi pada interval tertutup $x \in [p, q]$, perhatikan apakah <strong>sumbu simetri $x_p$ berada di dalam interval</strong>:
+                        </p>
+
+                        <!-- ALGORITMA RANGE INTERVAL -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3 text-xs sm:text-sm">
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs font-mono space-y-1 text-slate-800">
+                                <div>1. Hitung nilai fungsi di kedua ujung interval: $f(p)$ dan $f(q)$.</div>
+                                <div>2. Cek apakah absis puncak $x_p \in [p, q]$:</div>
+                                <div class="pl-4 text-blue-700">• Jika $x_p \in [p, q]$, maka nilai ekstrim $y_p = f(x_p)$ <strong>WAJIB</strong> diikutsertakan dalam perbandingan!</div>
+                                <div class="pl-4 text-slate-600">• Jika $x_p \notin [p, q]$, range hanya dibatasi oleh nilai terkecil dan terbesar antara $f(p)$ dan $f(q)$.</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jawablah 4 pertanyaan evaluasi berikut mengenai gambar dan transformasi grafik parabola.
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- SOAL 1 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 1 &middot; Translasi Horizontal</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Grafik fungsi $y = (x + 4)^2$ diperoleh dengan menggeser grafik $y = x^2$ sejauh ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-1" value="a" class="text-blue-600">
+                                        <span>A. 4 satuan ke kanan</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-1" value="b" class="text-blue-600">
+                                        <span>B. 4 satuan ke kiri</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-1" value="c" class="text-blue-600">
+                                        <span>C. 4 satuan ke atas</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-1" value="d" class="text-blue-600">
+                                        <span>D. 4 satuan ke bawah</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-tr-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 2 &middot; Titik Puncak Transformasi</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Grafik fungsi $f(x) = -3(x - 2)^2 + 7$ memiliki titik puncak di koordinat ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-2" value="a" class="text-blue-600">
+                                        <span>A. $(-2, 7)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-2" value="b" class="text-blue-600">
+                                        <span>B. $(2, -7)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-2" value="c" class="text-blue-600">
+                                        <span>C. $(2, 7)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-2" value="d" class="text-blue-600">
+                                        <span>D. $(-2, -7)$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-tr-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 3 &middot; Range pada Interval Terbatas</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Diberikan fungsi $f(x) = x^2 - 4x + 3$ pada interval domain $0 \le x \le 5$. Daerah hasil (range) fungsi tersebut adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-3" value="a" class="text-blue-600">
+                                        <span>A. $3 \le y \le 8$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-3" value="b" class="text-blue-600">
+                                        <span>B. $-1 \le y \le 8$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-3" value="c" class="text-blue-600">
+                                        <span>C. $-1 \le y \le 3$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-3" value="d" class="text-blue-600">
+                                        <span>D. $0 \le y \le 8$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-tr-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 4 &middot; Refleksi terhadap Sumbu-X</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Jika grafik $y = x^2 - 4x + 3$ dicerminkan terhadap sumbu-$X$, maka persamaan bayangan kurva yang dihasilkan adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-4" value="a" class="text-blue-600">
+                                        <span>A. $y = -x^2 + 4x - 3$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-4" value="b" class="text-blue-600">
+                                        <span>B. $y = -x^2 - 4x + 3$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-4" value="c" class="text-blue-600">
+                                        <span>C. $y = x^2 + 4x + 3$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-tr-4" value="d" class="text-blue-600">
+                                        <span>D. $y = -x^2 + 4x + 3$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-tr-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysTR3 = {
+                                'kuis-tr-1': { 
+                                    ans: 'b', 
+                                    text: 'Bentuk (x - (-4))^2 menandakan pergeseran horizontal sejauh 4 satuan ke arah kiri.' 
+                                },
+                                'kuis-tr-2': { 
+                                    ans: 'c', 
+                                    text: 'Pada bentuk kanonik a(x - h)^2 + k, h = 2 dan k = 7. Maka titik puncak adalah (2, 7).' 
+                                },
+                                'kuis-tr-3': { 
+                                    ans: 'b', 
+                                    text: 'Sumbu simetri x_p = -(-4)/2 = 2 (masuk dalam interval [0, 5]). Nilai puncak y_p = f(2) = 4 - 8 + 3 = -1 (nilai minimum). Ujung domain: f(0) = 3 dan f(5) = 25 - 20 + 3 = 8 (nilai maksimum). Jadi range adalah -1 <= y <= 8.' 
+                                },
+                                'kuis-tr-4': { 
+                                    ans: 'a', 
+                                    text: 'Refleksi terhadap sumbu-X mengubah y menjadi -y: -y = x^2 - 4x + 3 => y = -(x^2 - 4x + 3) = -x^2 + 4x - 3.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysTR3).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-tr-${idx + 1}`);
+                                        const info = kuisKeysTR3[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan pergeseran (x - h) dan posisi titik puncak!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Representasi Grafik dan Transformasi Fungsi.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 2: Functions (2.5 Transformations of Functions).</p>
+                    <p><strong>OpenStax College.</strong> (2021). <em>Precalculus 2e</em>. Rice University. Chapter 5: Polynomial and Rational Functions (5.1 Quadratic Functions).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="diskriminan-dan-titik-potong-sumbu-x.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Diskriminan &amp; Sumbu-X
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="menyusun-persamaan-fungsi-kuadrat.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Menyusun Persamaan &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

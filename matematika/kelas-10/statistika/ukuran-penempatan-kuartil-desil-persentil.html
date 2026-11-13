@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukuran Penempatan: Kuartil &amp; Boxplot — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari ukuran penempatan data statistika: perhitungan kuartil data tunggal dan kelompok, ringkasan lima serangkai (five-number summary), pembuatan dan interpretasi diagram kotak-garis (boxplot), serta deteksi pencilan (outlier) menggunakan jangkauan antarkuartil (IQR).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/statistika/ukuran-penempatan-kuartil-desil-persentil.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/statistika/ukuran-penempatan-kuartil-desil-persentil.html">
+    <meta property="og:title" content="📊 Ukuran Penempatan: Kuartil &amp; Boxplot — Kelas X SMA">
+    <meta property="og:description" content="Kuasai cara menghitung kuartil data kelompok, membaca diagram boxplot, dan mendeteksi outlier data secara matematis.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="statistika">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 7: Statistika
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Ukuran Penempatan: Kuartil &amp; Boxplot
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Eksplorasi pembagian kumpulan data menjadi empat bagian berbobot seimbang melalui kuartil bawah ($Q_1$), kuartil tengah ($Q_2$ / median), dan kuartil atas ($Q_3$). Pelajari formulasi kuartil data kelompok, representasi grafis diagram kotak-garis (*boxplot* / lima serangkai), serta kriteria penentuan pencilan (*outlier*) berdasarkan pagar dalam dan pagar luar jangkauan antarkuartil ($\text{IQR}$).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Kuartil Data Tunggal -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Kuartil Data Tunggal ($Q_1, Q_2, Q_3$)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <strong>Kuartil</strong> adalah nilai-nilai pembatas yang membagi sekumpulan data numerik yang telah diurutkan (*terurut menaik*) menjadi <strong>empat bagian sama banyak</strong> (masing-masing menampung 25% data). Terdapat 3 titik kuartil:
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                <div class="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200/80">
+                                    <div class="font-bold text-blue-900 text-sm mb-1">Kuartil Bawah ($Q_1$)</div>
+                                    <p class="text-slate-600">Membatasi 25% data terendah. Setara dengan persentil ke-25 ($P_{25}$).</p>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-indigo-50/70 border border-indigo-200/80">
+                                    <div class="font-bold text-indigo-900 text-sm mb-1">Kuartil Tengah ($Q_2$)</div>
+                                    <p class="text-slate-600">Membagi data tepat 50% di bawah dan 50% di atas. Identik dengan <strong>Median</strong>.</p>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-purple-50/70 border border-purple-200/80">
+                                    <div class="font-bold text-purple-900 text-sm mb-1">Kuartil Atas ($Q_3$)</div>
+                                    <p class="text-slate-600">Membatasi 75% data di bawahnya atau 25% data tertinggi. Setara dengan $P_{75}$.</p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Formula Penentuan Letak Kuartil Data Tunggal ($n$ Data):</h3>
+                                <div class="text-xs sm:text-sm text-slate-800 font-mono">
+                                    $$\text{Letak } Q_i = \frac{i(n + 1)}{4}, \quad \text{untuk } i = 1, 2, 3$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Jika hasil perhitungan letak berupa bilangan desimal berpecahan, nilai kuartil ditentukan melalui interpolasi linier antar urutan data terdekat.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 space-y-1.5">
+                                <span class="font-bold">Contoh Data Terurut:</span> $3, 5, 7, 8, 10, 11, 14, 15, 18$ ($n = 9$).
+                                <ul class="list-disc list-inside space-y-1 text-slate-700">
+                                    <li>Letak $Q_1 = \frac{1(9 + 1)}{4} = 2{,}5 \implies Q_1 = x_2 + 0{,}5(x_3 - x_2) = 5 + 0{,}5(7 - 5) = \mathbf{6}$.</li>
+                                    <li>Letak $Q_2 = \frac{2(9 + 1)}{4} = 5 \implies Q_2 = x_5 = \mathbf{10}$.</li>
+                                    <li>Letak $Q_3 = \frac{3(9 + 1)}{4} = 7{,}5 \implies Q_3 = x_7 + 0{,}5(x_8 - x_7) = 14 + 0{,}5(15 - 14) = \mathbf{14{,}5}$.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Kuartil Data Kelompok -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Kuartil Data Kelompok (Tabel Distribusi)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Untuk data yang tersusun dalam tabel distribusi frekuensi berkelompok, kuartil ke-$i$ dihitung dengan terlebih dahulu menentukan <strong>kelas kuartil</strong> yang memuat frekuensi kumulatif ke-$\frac{i}{4}N$, lalu menggunakan interpolasi batas tepi bawah:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800">
+                                <div class="text-center font-semibold text-xs text-blue-700 uppercase tracking-wider mb-2">Rumus Kuartil Data Kelompok</div>
+                                <div class="text-sm sm:text-base">
+                                    $$Q_i = L_i + c \cdot \left(\frac{\frac{i \cdot N}{4} - \sum f_{k}}{f_{Q_i}}\right)$$
+                                </div>
+                                <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 border-t border-blue-200/50 pt-3">
+                                    <div>&bull; $L_i$ = Tepi bawah kelas kuartil ke-$i$ (batas bawah $- 0{,}5$)</div>
+                                    <div>&bull; $c$ = Panjang interval kelas (*panjang kelas*)</div>
+                                    <div>&bull; $N$ = Total seluruh frekuensi sampel ($\sum f$)</div>
+                                    <div>&bull; $\sum f_k$ = Jumlah frekuensi kumulatif sebelum kelas kuartil</div>
+                                    <div class="sm:col-span-2">&bull; $f_{Q_i}$ = Frekuensi absolut kelas kuartil ke-$i$ itu sendiri</div>
+                                </div>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border border-slate-200 rounded-xl overflow-hidden">
+                                    <thead class="bg-slate-100 text-slate-700 uppercase tracking-wider font-semibold">
+                                        <tr>
+                                            <th class="p-2.5 border-b border-slate-200">Interval Skor</th>
+                                            <th class="p-2.5 border-b border-slate-200 text-center">Frekuensi ($f$)</th>
+                                            <th class="p-2.5 border-b border-slate-200 text-center">Kumulatif ($f_k$)</th>
+                                            <th class="p-2.5 border-b border-slate-200">Keterangan Letak ($N = 40$)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 text-slate-600">
+                                        <tr>
+                                            <td class="p-2.5 font-medium text-slate-800">41 - 50</td>
+                                            <td class="p-2.5 text-center">4</td>
+                                            <td class="p-2.5 text-center font-mono">4</td>
+                                            <td class="p-2.5 text-slate-500">Data ke 1 - 4</td>
+                                        </tr>
+                                        <tr class="bg-blue-50/60 font-semibold text-blue-900">
+                                            <td class="p-2.5">51 - 60</td>
+                                            <td class="p-2.5 text-center">8</td>
+                                            <td class="p-2.5 text-center font-mono">12</td>
+                                            <td class="p-2.5 text-blue-700">Memuat data ke-10 &rarr; <strong>Kelas $Q_1$</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-medium text-slate-800">61 - 70</td>
+                                            <td class="p-2.5 text-center">14</td>
+                                            <td class="p-2.5 text-center font-mono">26</td>
+                                            <td class="p-2.5 text-slate-500">Memuat data ke-20 &rarr; Kelas Median ($Q_2$)</td>
+                                        </tr>
+                                        <tr class="bg-purple-50/60 font-semibold text-purple-900">
+                                            <td class="p-2.5">71 - 80</td>
+                                            <td class="p-2.5 text-center">10</td>
+                                            <td class="p-2.5 text-center font-mono">36</td>
+                                            <td class="p-2.5 text-purple-700">Memuat data ke-30 &rarr; <strong>Kelas $Q_3$</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-medium text-slate-800">81 - 90</td>
+                                            <td class="p-2.5 text-center">4</td>
+                                            <td class="p-2.5 text-center font-mono">40</td>
+                                            <td class="p-2.5 text-slate-500">Data ke 37 - 40</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-xs text-slate-500 italic">
+                                *Contoh $Q_1$: $L_1 = 50{,}5$; $c = 10$; letak $= \frac{1}{4}(40) = 10$; $\sum f_k = 4$; $f_{Q1} = 8 \implies Q_1 = 50{,}5 + 10 \left(\frac{10 - 4}{8}\right) = 50{,}5 + 7{,}5 = \mathbf{58{,}0}$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: Boxplot & Ringkasan Lima Serangkai -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Diagram Kotak-Garis (Boxplot) &amp; Lima Serangkai</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <strong>Diagram Kotak-Garis (*Box-and-Whisker Plot*)</strong> memvisualisasikan sebaran data secara padat melalui <strong>Ringkasan Lima Serangkai (*Five-Number Summary*)</strong>:
+                            </p>
+
+                            <!-- ILUSTRASI SVG BOXPLOT -->
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-2">
+                                <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Anatomi Standar Diagram Kotak-Garis:</div>
+                                <svg class="w-full max-w-xl mx-auto h-36" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Garis Bilangan Sumbu X -->
+                                    <line x1="40" y1="95" x2="460" y2="95" stroke="#94a3b8" stroke-width="2" />
+                                    <!-- Whisker Kiri -->
+                                    <line x1="70" y1="45" x2="160" y2="45" stroke="#334155" stroke-width="2.5" />
+                                    <!-- Garis batas Min -->
+                                    <line x1="70" y1="30" x2="70" y2="60" stroke="#334155" stroke-width="2.5" />
+                                    <!-- Kotak Utama (Box: Q1 s.d Q3) -->
+                                    <rect x="160" y="20" width="180" height="50" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+                                    <!-- Garis Median Q2 -->
+                                    <line x1="240" y1="20" x2="240" y2="70" stroke="#dc2626" stroke-width="3" />
+                                    <!-- Whisker Kanan -->
+                                    <line x1="340" y1="45" x2="430" y2="45" stroke="#334155" stroke-width="2.5" />
+                                    <!-- Garis batas Max -->
+                                    <line x1="430" y1="30" x2="430" y2="60" stroke="#334155" stroke-width="2.5" />
+                                    
+                                    <!-- Label Teks Lima Serangkai -->
+                                    <text x="70" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">Min ($x_{\min}$)</text>
+                                    <text x="160" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#2563eb">$Q_1$ (25%)</text>
+                                    <text x="240" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#dc2626">$Q_2$ (Median)</text>
+                                    <text x="340" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#2563eb">$Q_3$ (75%)</text>
+                                    <text x="430" y="80" text-anchor="middle" font-size="11" font-weight="bold" fill="#475569">Maks ($x_{\max}$)</text>
+                                    
+                                    <!-- Label Kotak Jangkauan Antarkuartil -->
+                                    <text x="250" y="112" text-anchor="middle" font-size="11" fill="#1e40af" font-weight="bold">&larr; Jangkauan Antarkuartil (IQR = Q3 &minus; Q1) &rarr;</text>
+                                </svg>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                                    <span class="font-bold text-slate-800 text-sm block mb-1">Panjang Kotak (Box Length):</span>
+                                    Menggambarkan konsentrasi 50% data di wilayah tengah ($\text{IQR} = Q_3 - Q_1$). Semakin pendek kotak, data di sekitar median semakin homogen.
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                                    <span class="font-bold text-slate-800 text-sm block mb-1">Panjang Kumis (Whisker Length):</span>
+                                    Menunjukkan bentangan sebaran ekor data terendah dan tertinggi. Kumis yang asimetris menandakan distribusi data yang menjulur (menceng/skewed).
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Pagar & Deteksi Pencilan (Outlier) -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">4</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Jangkauan Antarkuartil ($\text{IQR}$) &amp; Deteksi Pencilan (*Outlier*)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <strong>Pencilan (*Outlier*)</strong> adalah titik data yang nilainya menyimpang secara ekstrem dari mayoritas gugus data lainnya. Statistika modern menggunakan <strong>Aturan $1{,}5 \times \text{IQR}$ (Tukey's Fences)</strong> untuk mendeteksi outlier secara objektif:
+                            </p>
+
+                            <div class="space-y-3">
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="text-xs font-bold text-slate-700 uppercase tracking-wider">Langkah-Langkah Komputasi Pagar Pencilan:</div>
+                                    <ol class="list-decimal list-inside text-xs sm:text-sm text-slate-700 space-y-2">
+                                        <li>
+                                            Hitung <strong>Jangkauan Antarkuartil ($\text{IQR}$)</strong>:
+                                            <div class="my-1 font-mono text-blue-700">$$\text{IQR} = Q_3 - Q_1$$</div>
+                                        </li>
+                                        <li>
+                                            Tentukan <strong>Pagar Dalam Bawah ($PD_B$)</strong>:
+                                            <div class="my-1 font-mono text-slate-800">$$PD_B = Q_1 - 1{,}5 \times \text{IQR}$$</div>
+                                        </li>
+                                        <li>
+                                            Tentukan <strong>Pagar Dalam Atas ($PD_A$)</strong>:
+                                            <div class="my-1 font-mono text-slate-800">$$PD_A = Q_3 + 1{,}5 \times \text{IQR}$$</div>
+                                        </li>
+                                    </ol>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1.5">
+                                    <span class="font-bold text-sm flex items-center gap-1.5">
+                                        <span>🚨 Kriteria Titik Pencilan (Outlier):</span>
+                                    </span>
+                                    <p>Suatu data $x$ diklasifikasikan sebagai <strong>Pencilan Ringan / Luar Biasa</strong> jika:</p>
+                                    <div class="font-bold text-center font-mono py-1 text-rose-700 text-sm">
+                                        $$x < PD_B \quad \text{atau} \quad x > PD_A$$
+                                    </div>
+                                    <p class="text-slate-600">Pada boxplot, titik pencilan tidak disambungkan ke whisker, melainkan digambarkan sebagai titik tersendiri (asterisk $*$ atau lingkaran $\circ$) di luar rentang kumis.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi Pemahaman -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Uji Konsep: Kuartil, Boxplot &amp; Pencilan</h2>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">4 Soal Auto-Check</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Selesaikan 4 soal di bawah ini untuk menguji penguasaan kuartil dan teknik deteksi pencilan. Klik opsi jawaban untuk memeriksa evaluasi instan.
+                            </p>
+
+                            <!-- FORM SOAL QUIZ -->
+                            <form id="quiz-stat-kuartil" class="space-y-6" onsubmit="event.preventDefault();">
+                                
+                                <!-- SOAL 1 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 1: Kuartil Data Tunggal</span>
+                                        <span id="badge-q1" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Diberikan kumpulan data terurut: $4, 6, 8, 10, 12, 14, 16, 18, 20$. Berapakah nilai kuartil atas ($Q_3$) dari gugus data tersebut?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 15</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 16</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 17</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 18</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-q1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 2 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 2: Komputasi IQR</span>
+                                        <span id="badge-q2" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Suatu survei mencatat kuartil bawah penghasilan responden sebesar Rp4.000.000 dan kuartil atasnya Rp9.500.000. Berapakah nilai jangkauan antarkuartil ($\text{IQR}$) data tersebut?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> Rp5.500.000</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> Rp6.750.000</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> Rp2.750.000</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> Rp13.500.000</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-q2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 3 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 3: Pagar Dalam &amp; Deteksi Pencilan</span>
+                                        <span id="badge-q3" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Jika diketahui nilai $Q_1 = 30$ dan $Q_3 = 50$, berapakah batas Pagar Dalam Atas ($PD_A$) untuk menentukan titik data pencilan atas?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 65</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 70</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 80</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 90</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-q3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 4 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 4: Interpretasi Boxplot</span>
+                                        <span id="badge-q4" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Pada diagram kotak-garis, jika garis median ($Q_2$) terletak jauh lebih dekat ke sisi kiri kotak ($Q_1$) dan kumis kanan jauh lebih panjang dari kumis kiri, bagaimanakah bentuk distribusi datanya?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> Simetris sempurna (normal)</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> Menceng positif (menjulur ke kanan / right-skewed)</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> Menceng negatif (menjulur ke kiri / left-skewed)</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_q4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> Bimodal seragam</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-q4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllKuartilQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-overall-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Ukuran Penempatan Data &amp; Boxplot.</p>
+                    <p><strong>Tukey, John W.</strong> (1977). <em>Exploratory Data Analysis</em>. Addison-Wesley. (Konsep Diagram Kotak-Garis dan Pagar Outlier $1{,}5 \times \text{IQR}$).</p>
+                    <p><strong>Triola, Mario F.</strong> (2018). <em>Elementary Statistics</em> (13th ed.). Pearson. Chapter 3: Measures of Relative Standing and Boxplots.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ukuran-pemusatan-data-tunggal-dan-kelompok.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Ukuran Pemusatan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="ukuran-penyebaran-jangkauan-varians-simpangan-baku.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Ukuran Penyebaran &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA KUIS EVALUASI KUARTIL -->
+    <script>
+        function checkAllKuartilQuiz() {
+            const answers = {
+                q1: { correct: 'C', explanation: 'Letak $Q_3 = \\frac{3(9 + 1)}{4} = 7{,}5$. Nilai $Q_3 = x_7 + 0{,}5(x_8 - x_7) = 16 + 0{,}5(18 - 16) = 16 + 1 = \\mathbf{17}$.' },
+                q2: { correct: 'A', explanation: '$\\text{IQR} = Q_3 - Q_1 = 9.500.000 - 4.000.000 = \\mathbf{Rp5.500.000}$.' },
+                q3: { correct: 'C', explanation: '$\\text{IQR} = 50 - 30 = 20$. Pagar Dalam Atas ($PD_A$) = $Q_3 + 1{,}5 \\times \\text{IQR} = 50 + 1{,}5(20) = 50 + 30 = \\mathbf{80}$. Titik data di atas 80 adalah pencilan.' },
+                q4: { correct: 'B', explanation: 'Kumis kanan yang panjang dan posisi median yang condong ke kiri mengindikasikan ekor data membentang ke kanan, yakni distribusi menceng positif (*right-skewed*).' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'q' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-overall-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-stat-kuartil'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

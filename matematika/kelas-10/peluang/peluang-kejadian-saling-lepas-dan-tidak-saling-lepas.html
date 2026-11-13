@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kejadian Saling Lepas &amp; Tidak Saling Lepas — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari perbedaan fundamental antara kejadian saling lepas (mutually exclusive) dan kejadian tidak saling lepas: syarat irisan himpunan kosong A ∩ B = ∅, aksioma penjumlahan peluang P(A ∪ B) = P(A) + P(B), serta analisis kasus kontekstual pelemparan dadu, koin, dan kartu.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/peluang-kejadian-saling-lepas-dan-tidak-saling-lepas.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/peluang-kejadian-saling-lepas-dan-tidak-saling-lepas.html">
+    <meta property="og:title" content="🎲 Kejadian Saling Lepas &amp; Tidak Saling Lepas — Kelas X SMA">
+    <meta property="og:description" content="Pahami kapan menggunakan rumus penjumlahan langsung dan kapan harus mengurangkan irisan dengan modul carousel interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="peluang">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 8: Peluang
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Kejadian Saling Lepas &amp; Tidak Saling Lepas
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari klasifikasi mendalam mengenai keterpisahan dua peristiwa majemuk. Temukan kriteria matematis kejadian <strong>saling lepas (*mutually exclusive*)</strong> di mana irisan keduanya adalah himpunan kosong ($A \cap B = \emptyset$), kontraposisinya terhadap kejadian <strong>tidak saling lepas</strong> yang memiliki elemen bersama, serta aksioma penjumlahan peluangnya.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Definisi Kejadian Saling Lepas -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Kejadian Saling Lepas (*Mutually Exclusive*)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Dua kejadian $A$ dan $B$ dikatakan <strong>saling lepas (*mutually exclusive* / *disjoint*)</strong> jika kedua kejadian tersebut <strong>sama sekali tidak mungkin terjadi secara bersamaan</strong> dalam satu kali percobaan. Secara teori himpunan, irisan kedua kejadian adalah himpunan kosong:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Syarat Kejadian Saling Lepas</div>
+                                <div class="text-base sm:text-xl font-mono text-blue-900 font-bold py-1">
+                                    $$A \cap B = \emptyset \implies P(A \cap B) = 0$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
+                                <span class="font-bold text-slate-900 text-sm">Contoh Nyata:</span>
+                                <p>Pada pelemparan satu buah dadu:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Kejadian $A$ = Muncul mata dadu ganjil: $\{1, 3, 5\}$.</li>
+                                    <li>Kejadian $B$ = Muncul mata dadu genap: $\{2, 4, 6\}$.</li>
+                                </ul>
+                                <p class="text-slate-600">Karena tidak ada angka dadu yang sekaligus ganjil dan genap, maka $A \cap B = \emptyset$. Kejadian $A$ dan $B$ adalah <strong>saling lepas</strong>.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Rumus Peluang Kejadian Saling Lepas -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Aksioma Penjumlahan Peluang Saling Lepas</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Karena $P(A \cap B) = 0$, rumus umum penjumlahan peluang $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ tersederhanakan menjadi penjumlahan langsung:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50/60 border border-emerald-200 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Rumus Peluang Kejadian Saling Lepas</div>
+                                <div class="text-base sm:text-xl font-mono text-emerald-950 font-bold py-1">
+                                    $$P(A \cup B) = P(A) + P(B)$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Tidak ada elemen yang terhitung dua kali, sehingga kedua lingkaran pada diagram Venn terpisah sempurna tanpa tumpang tindih.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 space-y-1.5">
+                                <span class="font-bold">Contoh Soal:</span>
+                                <p>Dari seperangkat kartu bridge, diambil satu kartu secara acak. Berapakah peluang terambil kartu bergambar <strong>Hati</strong> ($13$ lembar) ATAU kartu bergambar <strong>Sekop</strong> ($13$ lembar)?</p>
+                                <ul class="list-disc list-inside space-y-1 text-slate-700">
+                                    <li>Satu lembar kartu mustahil sekaligus bergambar Hati dan Sekop $\implies$ Saling Lepas.</li>
+                                    <li>$P(\text{Hati} \cup \text{Sekop}) = P(\text{Hati}) + P(\text{Sekop}) = \frac{13}{52} + \frac{13}{52} = \frac{26}{52} = \mathbf{\frac{1}{2}}$.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: Kejadian Tidak Saling Lepas -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Kejadian Tidak Saling Lepas (*Non-Disjoint*)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Dua kejadian dikatakan <strong>tidak saling lepas</strong> jika ada sekurang-kurangnya satu titik sampel yang menjadi anggota bersama dari kedua kejadian tersebut ($A \cap B \neq \emptyset$):
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Syarat Kejadian Tidak Saling Lepas</div>
+                                <div class="text-base sm:text-xl font-mono text-blue-900 font-bold py-1">
+                                    $$A \cap B \neq \emptyset \implies P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
+                                <span class="font-bold text-slate-900 text-sm">Contoh Pembuktian Irisan:</span>
+                                <p>Pada pelemparan satu buah dadu:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Kejadian $A$ = Muncul mata dadu bilangan prima: $\{2, 3, 5\}$.</li>
+                                    <li>Kejadian $B$ = Muncul mata dadu ganjil: $\{1, 3, 5\}$.</li>
+                                </ul>
+                                <p class="text-slate-600">Irisannya adalah $A \cap B = \{3, 5\} \neq \emptyset$. Karena ada anggota persekutuan, maka $A$ dan $B$ <strong>tidak saling lepas</strong>.</p>
+                                <p class="font-bold text-blue-700">Peluang gabungan: $P(A \cup B) = \frac{3}{6} + \frac{3}{6} - \frac{2}{6} = \frac{4}{6} = \mathbf{\frac{2}{3}}$.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Tabel Matriks Komparasi Kasus -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">4</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Matriks Diagnostik Klasifikasi Kejadian</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Gunakan tabel checklist berikut untuk menentukan formula yang tepat saat menghadapi kata hubung "ATAU":
+                            </p>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border border-slate-200 rounded-xl overflow-hidden">
+                                    <thead class="bg-slate-100 text-slate-700 uppercase tracking-wider font-semibold">
+                                        <tr>
+                                            <th class="p-3 border-b border-slate-200">Aspek Perbandingan</th>
+                                            <th class="p-3 border-b border-slate-200 text-emerald-800">Kejadian Saling Lepas</th>
+                                            <th class="p-3 border-b border-slate-200 text-blue-800">Kejadian Tidak Saling Lepas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 text-slate-700">
+                                        <tr>
+                                            <td class="p-3 font-semibold text-slate-900">Irisan Himpunan</td>
+                                            <td class="p-3 font-mono font-bold text-emerald-700">$A \cap B = \emptyset$ (Kosong)</td>
+                                            <td class="p-3 font-mono font-bold text-blue-700">$A \cap B \neq \emptyset$ (Ada irisannya)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-semibold text-slate-900">Peluang Irisan $P(A \cap B)$</td>
+                                            <td class="p-3 font-mono font-bold text-emerald-700">$0$</td>
+                                            <td class="p-3 font-mono font-bold text-blue-700">$> 0$</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-semibold text-slate-900">Bentuk Diagram Venn</td>
+                                            <td class="p-3 text-slate-600">Dua lingkaran terpisah tanpa irisan</td>
+                                            <td class="p-3 text-slate-600">Dua lingkaran berpotongan tumpang tindih</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-semibold text-slate-900">Formula Peluang Gabungan</td>
+                                            <td class="p-3 font-mono font-bold text-emerald-800">$P(A) + P(B)$</td>
+                                            <td class="p-3 font-mono font-bold text-blue-800">$P(A) + P(B) - P(A \cap B)$</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi Pemahaman -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Uji Konsep: Saling Lepas vs Tidak Saling Lepas</h2>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">4 Soal Auto-Check</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Selesaikan 4 soal berikut untuk menguji ketelitian Anda membedakan kejadian saling lepas dan tidak saling lepas.
+                            </p>
+
+                            <!-- FORM SOAL QUIZ -->
+                            <form id="quiz-saling-lepas" class="space-y-6" onsubmit="event.preventDefault();">
+                                
+                                <!-- SOAL 1 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 1: Dua Dadu Berjumlah Tertentu</span>
+                                        <span id="badge-ql1" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Dua buah dadu dilempar bersamaan. Berapakah peluang munculnya jumlah kedua mata dadu sama dengan $5$ ATAU berjumlah $10$?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{5}{36}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{7}{36}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{1}{4}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{2}{9}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-ql1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 2 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 2: Identifikasi Sifat Hubungan</span>
+                                        <span id="badge-ql2" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Sebuah kartu diambil dari 52 kartu bridge. Kejadian $A$ = terambil kartu As, dan kejadian $B$ = terambil kartu berwarna Merah. Apakah hubungan antara kejadian $A$ dan $B$?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> Saling lepas, karena As dan warna adalah kategori berbeda</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> Tidak saling lepas, karena ada kartu As Hati dan As Wajik yang berwarna merah</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> Kejadian mustahil</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> Kejadian komplemen murni</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-ql2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 3 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 3: Peluang Kartu Saling Lepas</span>
+                                        <span id="badge-ql3" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Satu kartu diambil dari 52 kartu bridge. Berapakah peluang terambil kartu bergambar Jack (4 lembar) ATAU kartu bernomor 10 (4 lembar)?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{1}{13}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{2}{13}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{4}{13}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{1}{26}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-ql3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 4 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 4: Bilangan Ganjil atau Prima</span>
+                                        <span id="badge-ql4" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Dalam sebuah kotak terdapat 10 kartu bernomor 1 sampai 10. Jika diambil 1 kartu secara acak, berapakah peluang terambil kartu bernomor <strong>ganjil</strong> ATAU bernomor <strong>prima</strong>?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{3}{5}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{7}{10}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{4}{5}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_ql4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{9}{10}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-ql4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllSalingLepasQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-lepas-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Kejadian Saling Lepas dan Tidak Saling Lepas.</p>
+                    <p><strong>Walpole, Ronald E., Myers, Raymond H., &amp; Ye, Keying.</strong> (2016). <em>Probability and Statistics for Engineers and Scientists</em> (9th ed.). Pearson. Chapter 2: Mutually Exclusive Events.</p>
+                    <p><strong>Triola, Mario F.</strong> (2018). <em>Elementary Statistics</em> (13th ed.). Pearson. Chapter 4: Addition Rule and Disjoint Events.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="peluang-komplemen-dan-dua-kejadian-sembarang.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Peluang Komplemen
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="peluang-kejadian-saling-bebas-dan-bersyarat.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kejadian Saling Bebas &amp; Bersyarat &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA KUIS EVALUASI SALING LEPAS -->
+    <script>
+        function checkAllSalingLepasQuiz() {
+            const answers = {
+                ql1: { correct: 'B', explanation: 'Kejadian berjumlah 5 adalah $\{(1,4),(2,3),(3,2),(4,1)\} \\implies 4$ cara. Kejadian berjumlah 10 adalah $\{(4,6),(5,5),(6,4)\} \\implies 3$ cara. Dua dadu mustahil sekaligus berjumlah 5 dan 10 (saling lepas). Peluangnya $= \\frac{4 + 3}{36} = \\mathbf{\\frac{7}{36}}$.' },
+                ql2: { correct: 'B', explanation: 'Karena terdapat kartu yang sekaligus bernilai As dan berwarna merah (yaitu As Hati dan As Wajik), maka irisan keduanya tidak kosong ($A \\cap B \\neq \\emptyset$), sehingga berstatus **tidak saling lepas**.' },
+                ql3: { correct: 'B', explanation: 'Sebuah kartu tidak mungkin sekaligus bernomor 10 dan bernilai Jack $\\implies$ saling lepas. Peluang $= \\frac{4}{52} + \\frac{4}{52} = \\frac{8}{52} = \\mathbf{\\frac{2}{13}}$.' },
+                ql4: { correct: 'A', explanation: 'Ganjil: $\{1, 3, 5, 7, 9\} \\implies n(A) = 5$. Prima: $\{2, 3, 5, 7\} \\implies n(B) = 4$. Irisan ganjil dan prima: $\{3, 5, 7\} \\implies n(A \\cap B) = 3$. Peluangnya $= \\frac{5 + 4 - 3}{10} = \\frac{6}{10} = \\mathbf{\\frac{3}{5}}$.' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'ql' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-lepas-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-saling-lepas'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

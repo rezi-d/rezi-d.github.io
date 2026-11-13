@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukuran Penyebaran: Jangkauan, Varians &amp; Simpangan Baku — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari ukuran penyebaran (dispersi) data statistika: jangkauan (range), simpangan kuartil, simpangan rata-rata (SR), ragam/varians (populasi dan sampel), serta simpangan baku (standar deviasi) data tunggal dan kelompok.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/statistika/ukuran-penyebaran-jangkauan-varians-simpangan-baku.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/statistika/ukuran-penyebaran-jangkauan-varians-simpangan-baku.html">
+    <meta property="og:title" content="📊 Ukuran Penyebaran: Jangkauan, Varians &amp; Simpangan Baku — Kelas X SMA">
+    <meta property="og:description" content="Kuasai cara menghitung varians dan simpangan baku data tunggal maupun kelompok dengan modul carousel interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="statistika">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 7: Statistika
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Ukuran Penyebaran: Jangkauan, Varians &amp; Simpangan Baku
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Dua kelompok data dapat memiliki nilai rata-rata yang sama persis, tetapi derajat keragaman datanya sangat berbeda. Pelajari ukuran penyebaran (*measures of dispersion*): jangkauan (*range*), jangkauan semi-antarkuartil, deviasi rata-rata ($SR$), ragam (varians $\sigma^2$ / $s^2$), serta simpangan baku (*standard deviation* $\sigma$ / $s$) untuk data tunggal dan data kelompok.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Jangkauan dan Simpangan Kuartil -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Jangkauan (Range) &amp; Simpangan Kuartil ($Q_d$)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Ukuran penyebaran mengkuantifikasi seberapa jauh nilai-nilai observasi menyebar atau bervariasi dari nilai pusatnya. Dua ukuran penyebaran berbasis posisi yang paling mendasar adalah:
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-900 text-sm">1. Jangkauan Data (Range / $R$)</div>
+                                    <p class="text-xs text-slate-600">Selisih mutlak antara data terbesar ($x_{\max}$) dan data terkecil ($x_{\min}$):</p>
+                                    <div class="text-sm font-mono text-blue-700 py-1">
+                                        $$R = x_{\max} - x_{\min}$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-500 italic">*Kelemahan: Sangat rentan terdistorsi oleh adanya satu nilai pencilan ekstrem.</p>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-900 text-sm">2. Simpangan Kuartil ($Q_d$ / Semi-IQR)</div>
+                                    <p class="text-xs text-slate-600">Setengah dari jangkauan antarkuartil ($\text{IQR}$), mengukur dispersi 50% data di wilayah sentral:</p>
+                                    <div class="text-sm font-mono text-indigo-700 py-1">
+                                        $$Q_d = \frac{1}{2}\text{IQR} = \frac{1}{2}(Q_3 - Q_1)$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-500 italic">*Keunggulan: Sangat kebal (*robust*) terhadap nilai pencilan ekstrem.</p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200/80 text-xs text-slate-700 space-y-1.5">
+                                <span class="font-bold text-blue-900 text-sm">Ilustrasi Perbandingan Dispersi:</span>
+                                <p>Dua siswa mengikuti 5 kali kuis kimia:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Siswa A: $70, 70, 70, 70, 70 \implies \bar{x} = 70, \quad R = 0$ (konsisten homogen mutlak).</li>
+                                    <li>Siswa B: $40, 60, 70, 80, 100 \implies \bar{x} = 70, \quad R = 60$ (sangat heterogen fluktuatif).</li>
+                                </ul>
+                                <p class="text-slate-600 mt-1">Meskipun nilai rata-rata keduanya sama (70), tingkat dispersi siswa B jauh lebih besar.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Simpangan Rata-Rata (Mean Absolute Deviation) -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Simpangan Rata-Rata ($SR$ / Mean Deviation)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <strong>Simpangan Rata-Rata ($SR$)</strong> adalah rata-rata aritmetika dari jarak mutlak antara setiap nilai datum dengan nilai rata-rata hitung ($\bar{x}$) gugus datanya. Penggunaan tanda nilai mutlak menjamin deviasi tidak saling meniadakan menjadi nol.
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-900 text-xs uppercase tracking-wider">A. Data Tunggal ($n$ Datum):</div>
+                                    <div class="text-sm sm:text-base font-mono text-center text-blue-700 py-2">
+                                        $$SR = \frac{\sum_{i=1}^{n} |x_i - \bar{x}|}{n}$$
+                                    </div>
+                                    <p class="text-xs text-slate-600">Di mana $|x_i - \bar{x}|$ adalah selisih positif antara datum ke-$i$ dan rata-rata.</p>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-900 text-xs uppercase tracking-wider">B. Data Kelompok (Tabel Frekuensi):</div>
+                                    <div class="text-sm sm:text-base font-mono text-center text-indigo-700 py-2">
+                                        $$SR = \frac{\sum_{i=1}^{k} f_i \cdot |x_i - \bar{x}|}{\sum_{i=1}^{k} f_i}$$
+                                    </div>
+                                    <p class="text-xs text-slate-600">Di mana $x_i$ adalah nilai titik tengah kelas interval ke-$i$ dan $f_i$ adalah frekuensinya.</p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 space-y-1.5">
+                                <span class="font-bold">Contoh Data:</span> $4, 6, 8, 10, 12$ ($n = 5$).
+                                <p>Rata-rata: $\bar{x} = \frac{4 + 6 + 8 + 10 + 12}{5} = \frac{40}{5} = 8$.</p>
+                                <p>Deviasi mutlak: $|4 - 8| + |6 - 8| + |8 - 8| + |10 - 8| + |12 - 8| = 4 + 2 + 0 + 2 + 4 = 12$.</p>
+                                <p class="font-bold text-slate-900">$SR = \frac{12}{5} = \mathbf{2{,}4}$. Rata-rata jarak simpangan data terhadap nilai pusat adalah 2,4 satuan.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: Varians & Simpangan Baku Data Tunggal -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Ragam (Varians) &amp; Simpangan Baku Data Tunggal</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Dalam statistika inferensial lanjutan, kuadrat deviasi lebih dipilih dibanding nilai mutlak karena sifat aljabarnya yang diferensiabel. <strong>Ragam / Varians ($s^2$ atau $\sigma^2$)</strong> adalah rata-rata kuadrat deviasi, dan <strong>Simpangan Baku ($s$ atau $\sigma$)</strong> adalah akar kuadrat dari varians.
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 space-y-3">
+                                <div class="text-center font-semibold text-xs text-blue-700 uppercase tracking-wider">Formula Varians &amp; Simpangan Baku Sampel:</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                                    <div class="p-3 bg-white/80 rounded-xl border border-blue-100">
+                                        <span class="text-xs font-bold text-slate-700 block mb-1">Ragam / Varians ($s^2$):</span>
+                                        <div class="text-sm sm:text-base font-mono">
+                                            $$s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}$$
+                                        </div>
+                                    </div>
+                                    <div class="p-3 bg-white/80 rounded-xl border border-blue-100">
+                                        <span class="text-xs font-bold text-slate-700 block mb-1">Simpangan Baku ($s$):</span>
+                                        <div class="text-sm sm:text-base font-mono">
+                                            $$s = \sqrt{s^2} = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n - 1}}$$
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-500 text-center">
+                                    *Catatan: Pembagi $(n - 1)$ disebut <em>Koreksi Bessel</em> untuk menghasilkan estimasi varians sampel yang tidak berbias (*unbiased estimator*). Pada populasi penuh, pembaginya adalah $N$.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                                <span class="font-bold text-slate-900">Interpretasi Fisis Simpangan Baku ($s$):</span>
+                                <p>Simpangan baku memiliki satuan fisik yang persis sama dengan data aslinya (misalnya cm, kg, atau nilai ujian), sehingga memudahkan interpretasi langsung terhadap toleransi penyimpangan data di sekitar nilai mean.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Varians & Simpangan Baku Data Kelompok -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">4</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Varians &amp; Simpangan Baku Data Kelompok</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Untuk data berkelompok dalam tabel distribusi frekuensi, setiap kelas interval diwakili oleh <strong>titik tengah kelas ($x_i$)</strong> yang dibobotkan dengan frekuensinya ($f_i$):
+                            </p>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="text-xs font-bold text-slate-700 uppercase tracking-wider text-center">Rumus Komputasi Data Berkelompok:</div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                                    <div>
+                                        <span class="text-xs font-semibold text-slate-600 block mb-1">Ragam ($s^2$):</span>
+                                        <div class="text-sm font-mono text-blue-700">
+                                            $$s^2 = \frac{\sum f_i (x_i - \bar{x})^2}{\sum f_i - 1}$$
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs font-semibold text-slate-600 block mb-1">Simpangan Baku ($s$):</span>
+                                        <div class="text-sm font-mono text-indigo-700">
+                                            $$s = \sqrt{\frac{\sum f_i (x_i - \bar{x})^2}{\sum f_i - 1}}$$
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border border-slate-200 rounded-xl overflow-hidden">
+                                    <thead class="bg-slate-100 text-slate-700 uppercase tracking-wider font-semibold">
+                                        <tr>
+                                            <th class="p-2.5 border-b border-slate-200">Interval</th>
+                                            <th class="p-2.5 border-b border-slate-200 text-center">Titik Tengah ($x_i$)</th>
+                                            <th class="p-2.5 border-b border-slate-200 text-center">Frekuensi ($f_i$)</th>
+                                            <th class="p-2.5 border-b border-slate-200 text-center">$f_i \cdot x_i$</th>
+                                            <th class="p-2.5 border-b border-slate-200 text-center">$(x_i - \bar{x})^2$</th>
+                                            <th class="p-2.5 border-b border-slate-200 text-center">$f_i (x_i - \bar{x})^2$</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 text-slate-600">
+                                        <tr>
+                                            <td class="p-2.5 font-medium text-slate-800">10 - 14</td>
+                                            <td class="p-2.5 text-center font-mono">12</td>
+                                            <td class="p-2.5 text-center">4</td>
+                                            <td class="p-2.5 text-center font-mono">48</td>
+                                            <td class="p-2.5 text-center font-mono">64</td>
+                                            <td class="p-2.5 text-center font-mono">256</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-medium text-slate-800">15 - 19</td>
+                                            <td class="p-2.5 text-center font-mono">17</td>
+                                            <td class="p-2.5 text-center">6</td>
+                                            <td class="p-2.5 text-center font-mono">102</td>
+                                            <td class="p-2.5 text-center font-mono">9</td>
+                                            <td class="p-2.5 text-center font-mono">54</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-medium text-slate-800">20 - 24</td>
+                                            <td class="p-2.5 text-center font-mono">22</td>
+                                            <td class="p-2.5 text-center">8</td>
+                                            <td class="p-2.5 text-center font-mono">176</td>
+                                            <td class="p-2.5 text-center font-mono">4</td>
+                                            <td class="p-2.5 text-center font-mono">32</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-medium text-slate-800">25 - 29</td>
+                                            <td class="p-2.5 text-center font-mono">27</td>
+                                            <td class="p-2.5 text-center">2</td>
+                                            <td class="p-2.5 text-center font-mono">54</td>
+                                            <td class="p-2.5 text-center font-mono">49</td>
+                                            <td class="p-2.5 text-center font-mono">98</td>
+                                        </tr>
+                                        <tr class="bg-blue-50 font-bold text-blue-950">
+                                            <td class="p-2.5" colspan="2">Total ($\sum$)</td>
+                                            <td class="p-2.5 text-center">20</td>
+                                            <td class="p-2.5 text-center font-mono">380</td>
+                                            <td class="p-2.5 text-center">-</td>
+                                            <td class="p-2.5 text-center font-mono">440</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-xs text-slate-500 italic">
+                                *Mean: $\bar{x} = \frac{380}{20} = 19$. Ragam Sampel: $s^2 = \frac{440}{20 - 1} = \frac{440}{19} \approx \mathbf{23{,}16}$. Simpangan Baku: $s = \sqrt{23{,}16} \approx \mathbf{4{,}81}$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi Pemahaman -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Uji Konsep: Ukuran Penyebaran Data</h2>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">4 Soal Auto-Check</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Kerjakan 4 soal berikut untuk menguji pemahaman Anda mengenai jangkauan, simpangan rata-rata, varians, dan simpangan baku.
+                            </p>
+
+                            <!-- FORM SOAL QUIZ -->
+                            <form id="quiz-stat-sebar" class="space-y-6" onsubmit="event.preventDefault();">
+                                
+                                <!-- SOAL 1 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 1: Simpangan Kuartil ($Q_d$)</span>
+                                        <span id="badge-qs1" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Jika suatu gugus data memiliki nilai $Q_1 = 45$ dan $Q_3 = 85$, berapakah nilai simpangan kuartil ($Q_d$) dari data tersebut?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 15</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 20</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 40</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 65</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qs1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 2 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 2: Simpangan Rata-Rata ($SR$)</span>
+                                        <span id="badge-qs2" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Tentukan nilai simpangan rata-rata ($SR$) dari data tunggal berikut: $2, 3, 6, 8, 11$.
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 2,8</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 3,0</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 3,2</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 3,6</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qs2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 3 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 3: Ragam / Varians Populasi</span>
+                                        <span id="badge-qs3" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Berapakah nilai ragam populasi ($\sigma^2$) dari kumpulan data: $5, 6, 7, 8, 9$?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 1,5</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 2,0</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 2,5</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 4,0</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qs3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 4 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 4: Simpangan Baku</span>
+                                        <span id="badge-qs4" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Jika suatu kumpulan data populasi memiliki nilai ragam $\sigma^2 = 36\text{ cm}^2$, berapakah nilai simpangan baku ($\sigma$) data tersebut?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 6 cm</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 18 cm</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 72 cm</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qs4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 1296 cm</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qs4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllSebarQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-sebar-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Ukuran Penyebaran (Dispersi) Data Berkelompok.</p>
+                    <p><strong>Walpole, Ronald E., Myers, Raymond H., &amp; Ye, Keying.</strong> (2016). <em>Probability and Statistics for Engineers and Scientists</em> (9th ed.). Pearson. Chapter 1: Measures of Variability (Sample Variance &amp; Standard Deviation).</p>
+                    <p><strong>Triola, Mario F.</strong> (2018). <em>Elementary Statistics</em> (13th ed.). Pearson. Chapter 3: Measures of Variation.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ukuran-penempatan-kuartil-desil-persentil.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Ukuran Penempatan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="efek-transformasi-data-dan-distribusi-frekuensi.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Transformasi Data &amp; Distribusi &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA KUIS EVALUASI PENYEBARAN -->
+    <script>
+        function checkAllSebarQuiz() {
+            const answers = {
+                qs1: { correct: 'B', explanation: '$Q_d = \\frac{1}{2}(Q_3 - Q_1) = \\frac{1}{2}(85 - 45) = \\frac{1}{2}(40) = \\mathbf{20}$.' },
+                qs2: { correct: 'A', explanation: 'Rata-rata $\\bar{x} = \\frac{2 + 3 + 6 + 8 + 11}{5} = \\frac{30}{5} = 6$. Simpangan mutlak: $|2-6| + |3-6| + |6-6| + |8-6| + |11-6| = 4 + 3 + 0 + 2 + 5 = 14$. Maka $SR = \\frac{14}{5} = \\mathbf{2{,}8}$.' },
+                qs3: { correct: 'B', explanation: 'Rata-rata $\\bar{x} = 7$. Kuadrat deviasi: $(5-7)^2 + (6-7)^2 + (7-7)^2 + (8-7)^2 + (9-7)^2 = 4 + 1 + 0 + 1 + 4 = 10$. Ragam populasi $\\sigma^2 = \\frac{10}{5} = \\mathbf{2{,}0}$.' },
+                qs4: { correct: 'A', explanation: 'Simpangan baku adalah akar kuadrat dari ragam: $\\sigma = \\sqrt{\\sigma^2} = \\sqrt{36\\text{ cm}^2} = \\mathbf{6\\text{ cm}}$. Satuan ukuran kembali linier (cm).' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'qs' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-sebar-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-stat-sebar'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pertidaksamaan Linear Dua Variabel (SPtLDV) — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari Sistem Pertidaksamaan Linear Dua Variabel (SPtLDV): garis pembatas tegas vs putus-putus, uji titik selidik, metode arsiran bersih vs kotor untuk Daerah Himpunan Penyelesaian (DHP), penentuan titik pojok, dan rekonstruksi model dari grafik.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/sistem-persamaan-dan-pertidaksamaan-linear/sistem-pertidaksamaan-linear-dua-variabel-sptldv.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/sistem-persamaan-dan-pertidaksamaan-linear/sistem-pertidaksamaan-linear-dua-variabel-sptldv.html">
+    <meta property="og:title" content="📐 Sistem Pertidaksamaan Linear Dua Variabel (SPtLDV) — Kelas X SMA">
+    <meta property="og:description" content="Kuasai penentuan DHP, uji titik selidik, titik pojok verteks, dan rekonstruksi grafik SPtLDV dengan modul interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="sistem-persamaan-dan-pertidaksamaan-linear">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Sistem Persamaan &amp; Pertidaksamaan Linear
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Sistem Pertidaksamaan Linear Dua Variabel (SPtLDV)
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari representasi daerah bidang Cartesius yang dibatasi ketidaksamaan aljabar: garis batas tegas vs putus-putus, teknik uji titik selidik $(0,0)$, perbandingan metode arsiran bersih dan arsiran kotor, penentuan koordinat titik pojok (verteks), serta cara merekonstruksi sistem pertidaksamaan dari gambar grafik DHP.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: PERTIDAKSAMAAN LINEAR & GARIS PEMBATAS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Pengantar Pertidaksamaan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 1. Pertidaksamaan Linear &amp; Garis Batas
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Garis Pembatas</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Pertidaksamaan linear dua variabel adalah kalimat terbuka aljabar yang memuat variabel berpangkat satu dengan tanda relasi $\le, <, \ge,$ atau $>$.
+                        </p>
+
+                        <!-- FORMULA BENTUK UMUM -->
+                        <div class="p-5 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 rounded-2xl border border-blue-200 space-y-2 text-center">
+                            <span class="text-xs font-bold text-blue-900 uppercase tracking-widest block">Bentuk Baku PtLDV</span>
+                            <div class="text-base sm:text-lg text-slate-900 font-serif">
+                                $$ax + by \le c \quad \text{atau} \quad ax + by \ge c \quad \text{atau} \quad ax + by < c \quad \text{atau} \quad ax + by > c$$
+                            </div>
+                        </div>
+
+                        <!-- ATURAN GARIS PEMBATAS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <div class="font-bold text-blue-900 flex items-center gap-1.5">
+                                    <span>➖</span> <span>Garis Batas Tegas (Solid Line): $\le$ dan $\ge$</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Titik-titik yang terletak tepat pada garis pembatas $ax + by = c$ <strong>termasuk ke dalam himpunan penyelesaian</strong>. Digambar dengan garis lurus utuh tanpa putus.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <div class="font-bold text-amber-900 flex items-center gap-1.5">
+                                    <span>┈</span> <span>Garis Batas Putus-Putus (Dashed Line): $<$ dan $>$</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Titik-titik pada garis pembatas <strong>tidak termasuk</strong> ke dalam penyelesaian (hanya bertindak sebagai batas tepi terbuka). Digambar dengan garis putus-putus.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: UJI TITIK SELIDIK & TEKNIK ARSIRAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Metode Penentuan Daerah</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 2. Uji Titik Selidik &amp; Konvensi Arsiran
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Uji Titik (0,0)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Untuk menentukan separuh bidang mana yang memenuhi pertidaksamaan, ambil satu titik uji yang tidak dilalui garis batas. Titik paling praktis adalah <strong>titik asal $(0,0)$</strong>:
+                        </p>
+
+                        <!-- TAHAPAN UJI TITIK -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider">Langkah Pengujian Titik Selidik:</h3>
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs font-mono space-y-1 text-slate-800">
+                                <div>1. Ambil contoh pertidaksamaan: $2x + 3y \le 12$</div>
+                                <div>2. Uji titik $(0,0)$: $2(0) + 3(0) \le 12 \implies 0 \le 12$ <span class="text-emerald-700 font-bold">(Pernyataan Benar!)</span></div>
+                                <div>3. Karena pernyataan bernilai benar, maka daerah yang memuat $(0,0)$ adalah daerah penyelesaian.</div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-slate-700 space-y-1.5">
+                                <span class="font-bold text-amber-900 block">💡 Tips Arsiran Bersih vs Arsiran Kotor:</span>
+                                <p class="leading-relaxed">
+                                    Pada sistem dengan 4 atau lebih pertidaksamaan, metode <strong>Arsiran Bersih</strong> (mengarsir daerah yang <em>salah / bukan penyelesaian</em>) jauh lebih rapi, karena <strong>Daerah Himpunan Penyelesaian (DHP)</strong> akhir akan terlihat bersih tanpa coretan silang yang membingungkan.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: IRISAN DHP SISTEM PERTIDAKSAMAAN (SPtLDV) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Gabungan Pertidaksamaan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌐 3. Irisan DHP Sistem Pertidaksamaan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Daerah Poligon</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Sistem Pertidaksamaan Linear Dua Variabel (SPtLDV) menggabungkan beberapa pertidaksamaan sekaligus, umumnya dilengkapi dengan kendala non-negatif: $x \ge 0$ dan $y \ge 0$ (berada di Kuadran I):
+                        </p>
+
+                        <!-- CONTOH SISTEM LENGKAP -->
+                        <div class="p-5 bg-gradient-to-br from-indigo-50/70 to-slate-50 rounded-2xl border border-indigo-200 space-y-3">
+                            <span class="text-xs font-bold text-indigo-900 uppercase tracking-widest block text-center">Bentuk Tipikal SPtLDV</span>
+                            <div class="text-base text-slate-900 font-serif text-center">
+                                $$\begin{cases} a_1 x + b_1 y \le c_1 \\ a_2 x + b_2 y \le c_2 \\ x \ge 0, \quad y \ge 0 \end{cases}$$
+                            </div>
+                            <p class="text-xs text-slate-600 text-justify leading-relaxed">
+                                Daerah Himpunan Penyelesaian (DHP) dari sistem di atas adalah daerah irisan poligon cembung tertutup (bounded region) yang dibatasi oleh sumbu-$X$, sumbu-$Y$, serta kedua garis pembatas.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TITIK POJOK (VERTEKS) & REKONSTRUKSI GRAFIK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Geometri Analitis Lanjutan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 4. Titik Pojok &amp; Rekonstruksi Model dari Grafik
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Trik Intersept</span>
+                        </div>
+
+                        <!-- TRIK INTERSEPT PERSAMAAN GARIS -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-sm font-bold text-amber-950 uppercase">Rumus Cepat Persamaan Garis dari Titik Potong Sumbu:</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Jika sebuah garis memotong sumbu-$Y$ di titik $(0, a)$ dan memotong sumbu-$X$ di titik $(b, 0)$, maka persamaan garis tersebut langsung dapat dituliskan sebagai:
+                            </p>
+                            <div class="p-4 bg-white rounded-xl border border-amber-200 text-center font-serif text-base text-blue-900 font-bold">
+                                $$ax + by = a \cdot b$$
+                            </div>
+                            <p class="text-xs text-slate-500 font-mono text-center">
+                                Contoh: Memotong sumbu-Y di 6 dan sumbu-X di 4 $\implies 6x + 4y = 24 \implies 3x + 2y = 12$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jawablah 4 pertanyaan evaluasi berikut mengenai pertidaksamaan linear dan penentuan DHP.
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- SOAL 1 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 1 &middot; Uji Titik Selidik</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Manakah di antara titik-titik koordinat berikut yang <strong>TERLETAK DI DALAM</strong> daerah himpunan penyelesaian $3x - 2y > 6$?
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-1" value="a" class="text-blue-600">
+                                        <span>A. $(0, 0)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-1" value="b" class="text-blue-600">
+                                        <span>B. $(2, 0)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-1" value="c" class="text-blue-600">
+                                        <span>C. $(4, 1)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-1" value="d" class="text-blue-600">
+                                        <span>D. $(1, 3)$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-sptl-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 2 &middot; Jenis Garis Batas</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Garis pembatas pada bidang koordinat Cartesius digambar dengan <strong>garis putus-putus</strong> apabila tanda pertidaksamaannya adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-2" value="a" class="text-blue-600">
+                                        <span>A. $\le$ atau $\ge$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-2" value="b" class="text-blue-600">
+                                        <span>B. $<$ atau $>$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-2" value="c" class="text-blue-600">
+                                        <span>C. $=$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-2" value="d" class="text-blue-600">
+                                        <span>D. $\ne$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-sptl-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 3 &middot; Titik Pojok Potong Garis</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Titik potong antara garis $x + y = 6$ dan $2x - y = 0$ yang menjadi salah satu verteks DHP adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-3" value="a" class="text-blue-600">
+                                        <span>A. $(2, 4)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-3" value="b" class="text-blue-600">
+                                        <span>B. $(3, 3)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-3" value="c" class="text-blue-600">
+                                        <span>C. $(4, 2)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-3" value="d" class="text-blue-600">
+                                        <span>D. $(1, 5)$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-sptl-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 4 &middot; Rekonstruksi Pertidaksamaan</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Garis $L$ memotong sumbu-$Y$ di titik $(0, 5)$ dan sumbu-$X$ di titik $(3, 0)$. Jika daerah himpunan penyelesaian berada di sebelah kiri/bawah garis dan memuat $(0,0)$, maka pertidaksamaannya adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-4" value="a" class="text-blue-600">
+                                        <span>A. $3x + 5y \le 15$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-4" value="b" class="text-blue-600">
+                                        <span>B. $5x + 3y \le 15$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-4" value="c" class="text-blue-600">
+                                        <span>C. $5x + 3y \ge 15$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-sptl-4" value="d" class="text-blue-600">
+                                        <span>D. $3x + 5y \ge 15$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-sptl-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysSPTL4 = {
+                                'kuis-sptl-1': { 
+                                    ans: 'c', 
+                                    text: 'Uji titik (4, 1): 3(4) - 2(1) = 12 - 2 = 10 > 6 (BENAR). Sedangkan (0,0) menghasilkan 0 > 6 (salah), (2,0) menghasilkan 6 > 6 (salah karena tanda tidak ada sama dengan).' 
+                                },
+                                'kuis-sptl-2': { 
+                                    ans: 'b', 
+                                    text: 'Tanda ketidaksamaan ketat (< atau >) mengindikasikan bahwa titik batas tidak ikut dalam solusi, sehingga digambarkan dengan garis putus-putus.' 
+                                },
+                                'kuis-sptl-3': { 
+                                    ans: 'a', 
+                                    text: 'Dari pers (2): y = 2x. Substitusi ke pers (1): x + 2x = 6 => 3x = 6 => x = 2. Maka y = 2(2) = 4. Titik potongnya adalah (2, 4).' 
+                                },
+                                'kuis-sptl-4': { 
+                                    ans: 'b', 
+                                    text: 'Gunakan rumus intersept ax + by = a * b => 5x + 3y = 5 * 3 = 15. Karena daerah memuat (0,0), uji (0,0): 5(0) + 3(0) = 0 <= 15 (benar). Jadi pertidaksamaannya adalah 5x + 3y <= 15.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysSPTL4).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-sptl-${idx + 1}`);
+                                        const info = kuisKeysSPTL4[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan titik uji (0,0) dan formula intersept ax + by = ab!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Sistem Pertidaksamaan Linear Dua Variabel.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 10: Systems of Inequalities (10.7 Systems of Inequalities).</p>
+                    <p><strong>Barnett, Raymond A., Ziegler, Michael R., &amp; Byleen, Karl E.</strong> (2015). <em>Finite Mathematics for Business, Economics, Life Sciences, and Social Sciences</em> (13th ed.). Pearson. Chapter 5: Linear Inequalities and Linear Programming.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="metode-determinan-matriks-sistem-linear.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Metode Determinan &amp; Aturan Cramer
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="pemodelan-matematika-dan-masalah-kontekstual.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Pemodelan Matematika &amp; Aplikasi &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

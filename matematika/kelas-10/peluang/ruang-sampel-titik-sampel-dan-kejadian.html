@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Sampel &amp; Peluang Teoretis — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari konsep dasar teori peluang: percobaan acak, ruang sampel (S), titik sampel, penentuan semesta dengan diagram pohon dan tabel koordinat, rumus peluang klasik Laplace P(A) = n(A)/n(S), serta frekuensi harapan.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/ruang-sampel-titik-sampel-dan-kejadian.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/ruang-sampel-titik-sampel-dan-kejadian.html">
+    <meta property="og:title" content="🎲 Ruang Sampel &amp; Peluang Teoretis — Kelas X SMA">
+    <meta property="og:description" content="Kuasai cara menentukan ruang sampel majemuk dan menghitung peluang klasik serta frekuensi harapan dengan modul carousel interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="peluang">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 8: Peluang
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Ruang Sampel &amp; Peluang Teoretis
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Peluang (*probability*) adalah cabang matematika yang mengkuantifikasi derajat kepastian terjadinya suatu peristiwa acak. Awali dengan memahami percobaan acak (*random experiment*), teknik enumerasi ruang sampel ($S$) dan titik sampel dengan diagram pohon serta tabel silang, definisi peluang klasik Laplace $P(A) = \frac{n(A)}{n(S)}$, batas rentang peluang, serta frekuensi harapan kejadian.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Ruang Sampel & Titik Sampel -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Percobaan Acak, Ruang Sampel &amp; Titik Sampel</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Suatu aktivitas disebut <strong>percobaan acak</strong> jika hasil akhirnya tidak dapat dipastikan sebelumnya, tetapi seluruh kemungkinan hasilnya dapat didaftar secara lengkap:
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-900 text-sm">1. Ruang Sampel ($S$)</div>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Himpunan semesta dari <strong>semua kemungkinan hasil</strong> yang dapat terjadi pada suatu percobaan acak. Jumlah anggota ruang sampel disimbolkan dengan $n(S)$.
+                                    </p>
+                                    <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-xs font-mono text-blue-700">
+                                        Contoh Dadu: $S = \{1, 2, 3, 4, 5, 6\} \implies n(S) = 6$
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-900 text-sm">2. Titik Sampel</div>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Setiap anggota tunggal (elemen individual) dari ruang sampel $S$. Misalnya, angka $4$ adalah salah satu titik sampel pada pelemparan sebuah dadu.
+                                    </p>
+                                    <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-xs font-mono text-indigo-700">
+                                        Contoh Koin: Angka ($A$) &amp; Gambar ($G$) &rarr; $n(S) = 2$
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200/80 text-xs text-slate-700 space-y-2">
+                                <span class="font-bold text-blue-900 text-sm block">Metode Penentuan Ruang Sampel Kejadian Majemuk:</span>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><strong>Diagram Pohon:</strong> Sangat efektif untuk percobaan berurutan bertingkat (misal: melempar 3 koin berturut-turut menghasilkan $2 \times 2 \times 2 = 8$ titik sampel).</li>
+                                    <li><strong>Tabel Silang (Grid Dua Arah):</strong> Sangat ideal untuk dua objek berinteraksi simultan, seperti melempar dua buah dadu bermata 6 sekaligus: $n(S) = 6 \times 6 = 36$ pasangan $(x, y)$.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Peluang Teoretis Klasik Laplace -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Definisi Peluang Teoretis Klasik (Laplace)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Suatu <strong>kejadian</strong> $A$ didefinisikan sebagai himpunan bagian dari ruang sampel ($A \subseteq S$). Jika setiap titik sampel dalam ruang sampel $S$ memiliki <strong>kesempatan yang sama untuk muncul</strong> (*equally likely outcomes*), maka nilai peluang terjadinya kejadian $A$, dilambangkan $P(A)$, dihitung dengan rumus klasik Pierre-Simon Laplace:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Rumus Peluang Klasik Laplace</div>
+                                <div class="text-base sm:text-xl font-mono text-blue-900 font-bold py-1">
+                                    $$P(A) = \frac{n(A)}{n(S)}$$
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 border-t border-blue-200/50 pt-2 text-left sm:text-center">
+                                    <div>&bull; $n(A)$ = Banyaknya titik sampel yang menyusun kejadian $A$</div>
+                                    <div>&bull; $n(S)$ = Total seluruh titik sampel dalam ruang sampel $S$</div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 space-y-1.5">
+                                <span class="font-bold">Contoh Soal:</span>
+                                <p>Pada pelemparan sebuah dadu bersisi enam yang seimbang, berapakah peluang munculnya mata dadu bilangan prima?</p>
+                                <ul class="list-disc list-inside space-y-1 text-slate-700">
+                                    <li>Ruang sampel: $S = \{1, 2, 3, 4, 5, 6\} \implies n(S) = 6$.</li>
+                                    <li>Kejadian prima: $A = \{2, 3, 5\} \implies n(A) = 3$.</li>
+                                    <li>Peluang: $P(A) = \frac{n(A)}{n(S)} = \frac{3}{6} = \mathbf{\frac{1}{2}} = \mathbf{0{,}5}$ (atau $50\%$).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: Batang Rentang Nilai Peluang -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Kisaran Nilai Peluang: Kepastian vs Kemustahilan</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Nilai peluang suatu kejadian $A$ merupakan bilangan riil non-negatif yang dibatasi dalam interval tertutup antara $0$ sampai $1$:
+                            </p>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center space-y-3">
+                                <div class="text-lg sm:text-xl font-mono font-bold text-slate-900">
+                                    $$0 \le P(A) \le 1$$
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-left">
+                                    <div class="p-3 rounded-lg bg-rose-50 border border-rose-200 space-y-1">
+                                        <div class="font-bold text-rose-900">$P(A) = 0$ : Kejadian Mustahil</div>
+                                        <p class="text-slate-600">Peristiwa yang secara logika matematis atau fisis tidak mungkin pernah terjadi. Contoh: Muncul mata dadu $7$ pada sebuah dadu bersisi 6.</p>
+                                    </div>
+                                    <div class="p-3 rounded-lg bg-emerald-50 border border-emerald-200 space-y-1">
+                                        <div class="font-bold text-emerald-900">$P(A) = 1$ : Kejadian Pasti</div>
+                                        <p class="text-slate-600">Peristiwa yang pasti terjadi tanpa pengecualian. Contoh: Muncul mata dadu bilangan bulat positif lebih kecil dari $7$.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
+                                <span class="font-bold text-slate-800">Interpretasi Nilai Peluang Lainnya:</span>
+                                <p>&bull; $P(A) = 0{,}5$: Peluang seimbang 50-50 (*fair coin toss*).</p>
+                                <p>&bull; Semakin mendekati angka $1$, kemungkinan kejadian tersebut terjadi semakin besar.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Frekuensi Relatif & Frekuensi Harapan -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">4</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Frekuensi Harapan ($F_h$) &amp; Hukum Bilangan Besar</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Jika suatu percobaan diulang sebanyak $n$ kali secara independen, berapa kali suatu kejadian $A$ diharapkan muncul secara statistik? Jawabannya ditentukan oleh <strong>Frekuensi Harapan ($F_h$)</strong>:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Rumus Frekuensi Harapan</div>
+                                <div class="text-base sm:text-lg font-mono text-blue-900 font-bold py-1">
+                                    $$F_h(A) = n \times P(A)$$
+                                </div>
+                                <div class="text-xs text-slate-600">
+                                    Di mana $n$ adalah banyaknya percobaan yang dilakukan, dan $P(A)$ adalah peluang teoretis kejadian $A$.
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-700">
+                                <span class="font-bold text-slate-900 text-sm block">Hukum Bilangan Besar (*Law of Large Numbers*):</span>
+                                <p class="leading-relaxed">
+                                    Jika percobaan diulang dalam jumlah yang sangat besar ($n \to \infty$), <strong>frekuensi relatif empiris</strong> ($\frac{\text{banyak muncul}}{n}$) akan berkonvergensi mendekati nilai <strong>peluang teoretis</strong> $P(A)$.
+                                </p>
+                                <p class="text-slate-500 italic">
+                                    Contoh: Jika Anda melempar koin 10 kali, mungkin muncul 7 Angka. Namun jika Anda melemparnya 10.000 kali, proporsi munculnya Angka akan berada sangat dekat dengan $50\%$.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi Pemahaman -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Uji Konsep: Ruang Sampel &amp; Peluang Dasar</h2>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">4 Soal Auto-Check</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Jawab 4 soal di bawah ini untuk menguji pemahaman Anda mengenai ruang sampel, peluang klasik, dan frekuensi harapan.
+                            </p>
+
+                            <!-- FORM SOAL QUIZ -->
+                            <form id="quiz-peluang-dasar" class="space-y-6" onsubmit="event.preventDefault();">
+                                
+                                <!-- SOAL 1 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 1: Titik Sampel Pelemparan Koin</span>
+                                        <span id="badge-qp1" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Tiga buah keping uang logam dilempar secara bersamaan satu kali. Berapakah total banyaknya titik sampel dalam ruang sampel $n(S)$ percobaan tersebut?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 6</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 8</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 9</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 12</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qp1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 2 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 2: Peluang Pelemparan Dua Dadu</span>
+                                        <span id="badge-qp2" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Dua buah dadu bersisi enam dilempar bersamaan. Berapakah peluang munculnya jumlah kedua mata dadu sama dengan $9$?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{1}{12}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{1}{9}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{5}{36}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{1}{6}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qp2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 3 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 3: Frekuensi Harapan</span>
+                                        <span id="badge-qp3" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Sebuah dadu seimbang dilemparkan sebanyak $180$ kali. Berapakah frekuensi harapan munculnya mata dadu faktor dari $6$?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 60 kali</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 90 kali</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 120 kali</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 150 kali</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qp3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 4 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 4: Logika Peluang Klasik</span>
+                                        <span id="badge-qp4" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Dalam sebuah kantong terdapat 5 kelereng merah, 3 kelereng biru, dan 2 kelereng hijau. Jika diambil 1 kelereng secara acak, berapakah peluang terambilnya kelereng BUKAN hijau?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{1}{5}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{3}{10}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{4}{5}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qp4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{7}{10}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qp4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllPeluangDasarQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-peluang-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Analisis Data dan Peluang.</p>
+                    <p><strong>Walpole, Ronald E., Myers, Raymond H., &amp; Ye, Keying.</strong> (2016). <em>Probability and Statistics for Engineers and Scientists</em> (9th ed.). Pearson. Chapter 2: Probability (Sample Space and Events).</p>
+                    <p><strong>Ross, Sheldon.</strong> (2014). <em>A First Course in Probability</em> (9th ed.). Pearson. Axioms of Probability.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-10/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Beranda Matematika Kelas X
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="aturan-penjumlahan-dan-perkalian.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Aturan Penjumlahan &amp; Perkalian &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA KUIS EVALUASI PELUANG DASAR -->
+    <script>
+        function checkAllPeluangDasarQuiz() {
+            const answers = {
+                qp1: { correct: 'B', explanation: 'Setiap keping koin memiliki 2 hasil (A, G). Untuk 3 koin: $n(S) = 2^3 = 2 \\times 2 \\times 2 = \\mathbf{8}$ titik sampel.' },
+                qp2: { correct: 'B', explanation: 'Total ruang sampel 2 dadu $n(S) = 36$. Pasangan berjumlah 9 adalah $A = \\{(3,6), (4,5), (5,4), (6,3)\\} \\implies n(A) = 4$. Maka $P(A) = \\frac{4}{36} = \\mathbf{\\frac{1}{9}}$.' },
+                qp3: { correct: 'C', explanation: 'Faktor dari 6 pada dadu adalah $\{1, 2, 3, 6\} \\implies n(A) = 4$. Peluang $P(A) = \\frac{4}{6} = \\frac{2}{3}$. Frekuensi harapan $F_h = 180 \\times \\frac{2}{3} = \\mathbf{120\\text{ kali}}$.' },
+                qp4: { correct: 'C', explanation: 'Total kelereng $n(S) = 5 + 3 + 2 = 10$. Kelereng bukan hijau adalah merah atau biru: $5 + 3 = 8$. Peluangnya $= \\frac{8}{10} = \\mathbf{\\frac{4}{5}}$ (atau $80\\%$, setara $1 - \\frac{2}{10}$).' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'qp' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-peluang-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-peluang-dasar'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

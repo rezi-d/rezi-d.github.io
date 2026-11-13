@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efek Transformasi Data &amp; Distribusi Frekuensi — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari efek operasi aljabar transformasi linier pada ukuran pemusatan dan penyebaran data, pembuatan kurva histogram, poligon frekuensi, ogive kumulatif, serta analisis bentuk distribusi kemencengan kurva (skewness).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/statistika/efek-transformasi-data-dan-distribusi-frekuensi.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/statistika/efek-transformasi-data-dan-distribusi-frekuensi.html">
+    <meta property="og:title" content="📊 Efek Transformasi Data &amp; Distribusi Frekuensi — Kelas X SMA">
+    <meta property="og:description" content="Pahami bagaimana pergeseran dan penskalaan data mengubah mean, varians, serta cara membaca kemencengan kurva distribusi statistik.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="statistika">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 7: Statistika
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Efek Transformasi Data &amp; Distribusi Frekuensi
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari dinamika perubahan parameter statistik saat seluruh data mengalami transformasi linier aljabar ($y_i = a x_i + b$). Kuasai pembuatan representasi grafis histogram, poligon frekuensi, kurva ogive kumulatif, serta identifikasi karakteristik bentuk kemencengan distribusi (*skewness*).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Efek Penjumlahan dan Pengurangan Data -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Efek Penjumlahan &amp; Pengurangan Konstan ($x_i \pm c$)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Apa yang terjadi jika setiap datum dalam suatu kelas ditambah atau dikurangi dengan bilangan konstan yang sama $c$ (misalnya semua siswa mendapat bonus $+5$ poin)?
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 space-y-2">
+                                    <div class="font-bold text-emerald-950 text-sm">1. Ukuran Pemusatan &amp; Letak: BERUBAH</div>
+                                    <p class="text-xs text-slate-700">Seluruh ukuran posisi bergeser (*translasi*) sebesar $\pm c$:</p>
+                                    <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+                                        <li>$\bar{x}_{\text{baru}} = \bar{x}_{\text{lama}} \pm c$</li>
+                                        <li>$\text{Med}_{\text{baru}} = \text{Med}_{\text{lama}} \pm c$</li>
+                                        <li>$\text{Mod}_{\text{baru}} = \text{Mod}_{\text{lama}} \pm c$</li>
+                                        <li>$Q_{i,\text{baru}} = Q_{i,\text{lama}} \pm c$</li>
+                                    </ul>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-blue-50/80 border border-blue-200 space-y-2">
+                                    <div class="font-bold text-blue-950 text-sm">2. Ukuran Penyebaran: TETAP (TIDAK BERUBAH!)</div>
+                                    <p class="text-xs text-slate-700">Karena seluruh data bergeser serentak sejauh jarak yang sama, jarak relatif antardata tidak berubah sama sekali:</p>
+                                    <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+                                        <li>$R_{\text{baru}} = R_{\text{lama}}$</li>
+                                        <li>$\text{IQR}_{\text{baru}} = \text{IQR}_{\text{lama}}$ dan $Q_{d,\text{baru}} = Q_{d,\text{lama}}$</li>
+                                        <li>$SR_{\text{baru}} = SR_{\text{lama}}$</li>
+                                        <li>Varians $s^2_{\text{baru}} = s^2_{\text{lama}}$ dan Simpangan Baku $s_{\text{baru}} = s_{\text{lama}}$</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                                <span class="font-bold text-slate-900 text-sm">Intuisi Geometris:</span>
+                                <p>Menambah setiap nilai dengan $+c$ setara dengan menggeser (*translasi murni*) seluruh bukit kurva frekuensi ke kanan sejauh $c$ satuan pada sumbu-$X$. Lebar kurva, tinggi kurva, dan keragaman datanya tetap sama persis.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Efek Perkalian dan Transformasi Linier Lengkap -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Efek Transformasi Linier Lengkap ($y_i = a x_i + b$)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Jika seluruh nilai dikalikan dengan faktor skala $a$ kemudian ditambah konstanta $b$ ($y_i = a x_i + b$), respons statistikanya terbagi ke dalam aturan matriks transformasi:
+                            </p>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border border-slate-200 rounded-xl overflow-hidden">
+                                    <thead class="bg-slate-100 text-slate-700 uppercase tracking-wider font-semibold">
+                                        <tr>
+                                            <th class="p-3 border-b border-slate-200">Parameter Statistik</th>
+                                            <th class="p-3 border-b border-slate-200">Kondisi Awal ($x$)</th>
+                                            <th class="p-3 border-b border-slate-200">Setelah Transformasi ($y = a x + b$)</th>
+                                            <th class="p-3 border-b border-slate-200">Pengaruh Konstanta $b$</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 text-slate-700">
+                                        <tr>
+                                            <td class="p-3 font-medium text-slate-900">Rata-rata Hitung (Mean)</td>
+                                            <td class="p-3 font-mono">$\bar{x}$</td>
+                                            <td class="p-3 font-mono font-bold text-blue-700">$\bar{y} = a\bar{x} + b$</td>
+                                            <td class="p-3 text-emerald-600 font-semibold">Ikut Berubah ($+b$)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-medium text-slate-900">Median &amp; Modus</td>
+                                            <td class="p-3 font-mono">$\text{Med}, \text{Mod}$</td>
+                                            <td class="p-3 font-mono font-bold text-blue-700">$a(\text{Med}) + b, \quad a(\text{Mod}) + b$</td>
+                                            <td class="p-3 text-emerald-600 font-semibold">Ikut Berubah ($+b$)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-medium text-slate-900">Kuartil ($Q_1, Q_2, Q_3$)</td>
+                                            <td class="p-3 font-mono">$Q_i$</td>
+                                            <td class="p-3 font-mono font-bold text-blue-700">$Q_{i,\text{baru}} = a Q_i + b$</td>
+                                            <td class="p-3 text-emerald-600 font-semibold">Ikut Berubah ($+b$)</td>
+                                        </tr>
+                                        <tr class="bg-amber-50/50">
+                                            <td class="p-3 font-medium text-amber-950">Jangkauan ($R$) &amp; IQR</td>
+                                            <td class="p-3 font-mono">$R, \text{IQR}$</td>
+                                            <td class="p-3 font-mono font-bold text-amber-800">$R_{\text{baru}} = |a| \cdot R$</td>
+                                            <td class="p-3 text-rose-600 font-semibold">Tidak Terpengaruh $b$!</td>
+                                        </tr>
+                                        <tr class="bg-amber-50/50">
+                                            <td class="p-3 font-medium text-amber-950">Simpangan Baku ($s$ atau $\sigma$)</td>
+                                            <td class="p-3 font-mono">$s$</td>
+                                            <td class="p-3 font-mono font-bold text-amber-800">$s_{\text{baru}} = |a| \cdot s$</td>
+                                            <td class="p-3 text-rose-600 font-semibold">Tidak Terpengaruh $b$!</td>
+                                        </tr>
+                                        <tr class="bg-rose-50/50">
+                                            <td class="p-3 font-medium text-rose-950">Ragam / Varians ($s^2$)</td>
+                                            <td class="p-3 font-mono">$s^2$</td>
+                                            <td class="p-3 font-mono font-bold text-rose-800">$s^2_{\text{baru}} = a^2 \cdot s^2$</td>
+                                            <td class="p-3 text-rose-600 font-semibold">Tidak Terpengaruh $b$!</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-xs text-slate-500 italic">
+                                *Catatan HOTS UTBK: Perhatikan nilai ragam (varians) berlipat ganda sebesar kuadrat faktor pengali ($a^2$), bukan $a$ linier!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: Histogram, Poligon Frekuensi & Ogive -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Histogram, Poligon Frekuensi &amp; Kurva Ogive</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Untuk menyajikan data distribusi frekuensi secara visual, statistika menggunakan tiga format kurva grafis utama:
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                    <span class="font-bold text-slate-900 text-sm block">1. Histogram</span>
+                                    <p class="text-slate-600">Diagram batang yang saling berimpitan tanpa jeda. Sumbu mendatar mewakili tepi kelas ($L$ dan $U$), sedangkan tinggi batang mewakili frekuensi kelas.</p>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                    <span class="font-bold text-slate-900 text-sm block">2. Poligon Frekuensi</span>
+                                    <p class="text-slate-600">Grafik garis yang menghubungkan titik-titik tengah di puncak setiap batang histogram, lalu ditutup ke sumbu horizontal di tepi luar.</p>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                    <span class="font-bold text-slate-900 text-sm block">3. Kurva Ogive</span>
+                                    <p class="text-slate-600">Grafik garis mulus dari frekuensi kumulatif. Terbagi menjadi <strong>Ogive Positif</strong> (kumulatif &le;, menaik) dan <strong>Ogive Negatif</strong> (kumulatif &ge;, menurun).</p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200/80 text-xs text-slate-700 space-y-1.5">
+                                <span class="font-bold text-blue-900 text-sm">Titik Potong Ogive Positif &amp; Ogive Negatif:</span>
+                                <p>Jika kurva ogive positif dan ogive negatif digambar pada satu bidang koordinat kartesius yang sama, absis ($x$) dari perpotongan kedua kurva tersebut tepat bernilai sama dengan <strong>Median ($Q_2$)</strong> dari data tersebut.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Kemencengan Distribusi (Skewness) -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">4</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Bentuk Distribusi &amp; Kemencengan (Skewness)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <strong>Kemencengan (*Skewness*)</strong> mendeskripsikan derajat asimetri kurva frekuensi di sekitar nilai pusat. Kita dapat mendiagnosis bentuk distribusi dengan membandingkan posisi ketiga ukuran pemusatan:
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-center">
+                                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Bentuk 1</span>
+                                    <div class="font-bold text-slate-900 text-sm">Menceng Kiri (Negatif)</div>
+                                    <div class="text-xs font-mono font-bold text-blue-700 py-1">
+                                        $$\text{Mean} < \text{Med} < \text{Mod}$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-600 text-left">
+                                        Ekor kurva menjulur panjang ke sebelah kiri. Menandakan mayoritas data bernilai tinggi, dengan sedikit data bernilai sangat rendah.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2 text-center">
+                                    <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block">Bentuk 2</span>
+                                    <div class="font-bold text-emerald-950 text-sm">Simetris (Normal)</div>
+                                    <div class="text-xs font-mono font-bold text-emerald-800 py-1">
+                                        $$\text{Mean} \approx \text{Med} \approx \text{Mod}$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-600 text-left">
+                                        Kurva menyerupai lonceng seimbang (*bell curve*). Nilai mean, median, dan modus berada tepat di satu titik puncak tengah.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-center">
+                                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Bentuk 3</span>
+                                    <div class="font-bold text-slate-900 text-sm">Menceng Kanan (Positif)</div>
+                                    <div class="text-xs font-mono font-bold text-blue-700 py-1">
+                                        $$\text{Mod} < \text{Med} < \text{Mean}$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-600 text-left">
+                                        Ekor kurva menjulur panjang ke sebelah kanan. Menandakan mayoritas data berkumpul di nilai rendah, dengan sedikit pencilan sangat tinggi (misal: gaji penduduk).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi Pemahaman -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Uji Konsep: Transformasi &amp; Distribusi</h2>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">4 Soal Auto-Check</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Jawab 4 soal di bawah ini untuk menguji kemampuan Anda menganalisis transformasi aljabar data dan interpretasi kurva distribusi frekuensi.
+                            </p>
+
+                            <!-- FORM SOAL QUIZ -->
+                            <form id="quiz-stat-transform" class="space-y-6" onsubmit="event.preventDefault();">
+                                
+                                <!-- SOAL 1 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 1: Efek Penjumlahan pada Simpangan Baku</span>
+                                        <span id="badge-qt1" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Suatu tes matematika memiliki rata-rata $65$ dan simpangan baku $12$. Guru memutuskan menambahkan bonus $+8$ poin ke setiap siswa. Berapakah nilai rata-rata dan simpangan baku baru kelas tersebut?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> Mean = 73, Simpangan Baku = 20</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> Mean = 73, Simpangan Baku = 12</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> Mean = 65, Simpangan Baku = 12</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> Mean = 73, Simpangan Baku = 15</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qt1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 2 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 2: Transformasi Linier Lengkap</span>
+                                        <span id="badge-qt2" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Data nilai ulangan memiliki jangkauan $R = 25$ dan simpangan kuartil $Q_d = 8$. Setiap nilai diubah dengan rumus transformasi $y = 3x - 10$. Berapakah nilai jangkauan dan simpangan kuartil yang baru?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $R = 65$ dan $Q_d = 14$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $R = 75$ dan $Q_d = 24$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $R = 65$ dan $Q_d = 24$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $R = 75$ dan $Q_d = 14$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qt2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 3 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 3: Efek Perkalian pada Ragam (Varians)</span>
+                                        <span id="badge-qt3" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Suatu sekumpulan data memiliki ragam $s^2 = 4$. Jika setiap data dikalikan $3$ kemudian dikurangi $5$, berapakah nilai ragam yang baru?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 7</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 12</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 36</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 31</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qt3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 4 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 4: Mendiagnosis Kemencengan (Skewness)</span>
+                                        <span id="badge-qt4" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Suatu survei mencatat nilai Modus $= 55$, Median $= 68$, dan Rata-rata $= 78$. Apakah kesimpulan tentang bentuk distribusi data tersebut?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> Menceng positif (ekor menjulur ke kanan)</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> Menceng negatif (ekor menjulur ke kiri)</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> Simetris normal</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qt4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> Bimodal asimetris</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qt4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllTransformQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-transform-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Transformasi Data &amp; Distribusi Frekuensi.</p>
+                    <p><strong>Triola, Mario F.</strong> (2018). <em>Elementary Statistics</em> (13th ed.). Pearson. Chapter 2: Exploring Data with Tables and Graphs (2.2 Histograms, Ogives, &amp; Skewness).</p>
+                    <p><strong>Walpole, Ronald E., Myers, Raymond H., &amp; Ye, Keying.</strong> (2016). <em>Probability and Statistics for Engineers and Scientists</em> (9th ed.). Pearson. Linear Transformations of Random Variables.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ukuran-penyebaran-jangkauan-varians-simpangan-baku.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Ukuran Penyebaran
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="latihan-pemecahan-masalah-statistika.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA KUIS EVALUASI TRANSFORMASI -->
+    <script>
+        function checkAllTransformQuiz() {
+            const answers = {
+                qt1: { correct: 'B', explanation: 'Menambah konstan $+8$ mengubah rata-rata menjadi $65 + 8 = \\mathbf{73}$, tetapi TIDAK mengubah ukuran penyebaran sama sekali. Simpangan baku tetap $\\mathbf{12}$.' },
+                qt2: { correct: 'B', explanation: 'Ukuran penyebaran hanya terpengaruh oleh faktor pengali $|a| = 3$ dan TIDAK terpengaruh oleh konstanta $-10$. Jangkauan baru $= 3 \\times 25 = \\mathbf{75}$, dan simpangan kuartil baru $= 3 \\times 8 = \\mathbf{24}$.' },
+                qt3: { correct: 'C', explanation: 'Ragam baru adalah $a^2 \\cdot s^2$. Faktor pengali $a = 3 \\implies a^2 = 9$. Maka ragam baru $= 9 \\times 4 = \\mathbf{36}$. Pengurangan 5 tidak memengaruhi ragam.' },
+                qt4: { correct: 'A', explanation: 'Karena urutannya $\\text{Modus} (55) < \\text{Median} (68) < \\text{Mean} (78)$, ekor kurva ditarik memanjang ke sebelah kanan oleh nilai-nilai tinggi, sehingga berdistribusi **menceng positif (*right-skewed*)**.' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'qt' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-transform-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-stat-transform'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

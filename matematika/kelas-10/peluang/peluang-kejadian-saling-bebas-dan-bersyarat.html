@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peluang Kejadian Saling Bebas &amp; Peluang Bersyarat — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari perbedaan esensial antara kejadian saling bebas (independent events) P(A ∩ B) = P(A) · P(B) dan kejadian bersyarat (conditional probability) P(A|B) = P(A ∩ B) / P(B), pengambilan bola dengan vs tanpa pengembalian, serta interpretasi tabel kontingensi frekuensi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/peluang-kejadian-saling-bebas-dan-bersyarat.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/peluang-kejadian-saling-bebas-dan-bersyarat.html">
+    <meta property="og:title" content="🎲 Peluang Saling Bebas &amp; Bersyarat — Kelas X SMA">
+    <meta property="og:description" content="Kuasai cara membedakan pengambilan dengan vs tanpa pengembalian dan rumus peluang bersyarat P(A|B) dengan modul carousel interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="peluang">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 8: Peluang
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Peluang Saling Bebas &amp; Bersyarat
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari bagaimana keterkaitan informasi mempengaruhi probabilitas kejadian kedua. Bedakan peristiwa <strong>saling bebas (*independent*)</strong> di mana hasil sebelumnya tidak mengubah peluang hasil berikutnya, dengan peristiwa <strong>bersyarat (*dependent / conditional probability*)</strong> yang timbul akibat perubahan ruang sampel (seperti pengambilan bola tanpa pengembalian).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Kejadian Saling Bebas (Independent Events) -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Kejadian Saling Bebas (*Independent Events*)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Dua kejadian $A$ dan $B$ dikatakan <strong>saling bebas (*independent*)</strong> jika terjadinya atau tidak terjadinya kejadian $A$ <strong>sama sekali tidak memengaruhi peluang terjadinya kejadian $B$</strong>. Formula perkalian peluang dua kejadian saling bebas adalah:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Hukum Perkalian Peluang Saling Bebas</div>
+                                <div class="text-base sm:text-xl font-mono text-blue-900 font-bold py-1">
+                                    $$P(A \cap B) = P(A) \times P(B)$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Peluang kejadian $A$ DAN kejadian $B$ terjadi bersamaan sama dengan hasil kali masing-masing peluangnya.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
+                                <span class="font-bold text-slate-900 text-sm">Contoh Koin &amp; Dadu:</span>
+                                <p>Satu keping koin dan satu buah dadu dilempar bersamaan. Berapakah peluang munculnya sisi <strong>Gambar</strong> pada koin dan mata dadu <strong>bilangan prima</strong> pada dadu?</p>
+                                <ul class="list-disc list-inside space-y-1 font-mono text-slate-800">
+                                    <li>Peluang Gambar: $P(A) = \frac{1}{2}$.</li>
+                                    <li>Peluang Prima $\{2, 3, 5\}$: $P(B) = \frac{3}{6} = \frac{1}{2}$.</li>
+                                    <li class="font-bold text-blue-700">Peluang keduanya: $P(A \cap B) = \frac{1}{2} \times \frac{1}{2} = \mathbf{\frac{1}{4}}$.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Dengan vs Tanpa Pengembalian -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Pengambilan: Dengan vs Tanpa Pengembalian</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Model pengambilan bola/kartu adalah contoh klasik untuk menguji apakah suatu percobaan tergolong saling bebas atau bersyarat:
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 space-y-2">
+                                    <div class="font-bold text-emerald-950 text-sm">1. DENGAN Pengembalian (Saling Bebas)</div>
+                                    <p class="text-xs text-slate-700">
+                                        Bola yang diambil dicatat warnanya lalu <strong>dimasukkan kembali</strong> ke dalam kotak. Total ruang sampel $n(S)$ dan komposisi bola tetap utuh untuk pengambilan berikutnya.
+                                    </p>
+                                    <div class="p-2 bg-white rounded border border-emerald-200 text-xs font-mono text-emerald-800">
+                                        Peluang konstan di tiap tahap: $P(A \cap B) = P(A) \times P(B)$
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-rose-50/80 border border-rose-200 space-y-2">
+                                    <div class="font-bold text-rose-950 text-sm">2. TANPA Pengembalian (Bersyarat / Dependen)</div>
+                                    <p class="text-xs text-slate-700">
+                                        Bola yang diambil <strong>tidak dikembalikan</strong>. Akibatnya, total ruang sampel berkurang satu ($n(S) - 1$) dan peluang pengambilan kedua bergantung pada warna apa yang terambil di tahap pertama.
+                                    </p>
+                                    <div class="p-2 bg-white rounded border border-rose-200 text-xs font-mono text-rose-800">
+                                        Peluang berubah: $P(A \cap B) = P(A) \times P(B|A)$
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 space-y-1.5">
+                                <span class="font-bold">Ilustrasi Kasus:</span> Kotak berisi 4 bola merah dan 6 bola putih (total 10 bola). Dua bola diambil satu per satu.
+                                <ul class="list-disc list-inside space-y-1 text-slate-800">
+                                    <li><strong>Dengan pengembalian:</strong> $P(\text{Merah ke-1 dan Merah ke-2}) = \frac{4}{10} \times \frac{4}{10} = \frac{16}{100} = \mathbf{0{,}16}$.</li>
+                                    <li><strong>Tanpa pengembalian:</strong> $P(\text{Merah ke-1 dan Merah ke-2}) = \frac{4}{10} \times \frac{3}{9} = \frac{12}{90} = \mathbf{\frac{2}{15}} \approx \mathbf{0{,}133}$.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: Peluang Bersyarat Formal -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Peluang Bersyarat (*Conditional Probability*)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <strong>Peluang Bersyarat $P(A|B)$</strong> dibaca *"peluang terjadinya $A$ jika diketahui kejadian $B$ sudah pasti terjadi"*. Kehadiran informasi bahwa $B$ telah terjadi <strong>mempersempit ruang sampel</strong> menjadi hanya himpunan $B$:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Definisi Peluang Bersyarat</div>
+                                <div class="text-base sm:text-xl font-mono text-blue-900 font-bold py-1">
+                                    $$P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{n(A \cap B)}{n(B)}, \quad \text{dengan } P(B) > 0$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Jika $A$ dan $B$ saling bebas, maka $P(A|B) = P(A)$, mengonfirmasi bahwa kepastian $B$ tidak berpengaruh terhadap $A$.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
+                                <span class="font-bold text-slate-900 text-sm">Contoh Reduksi Ruang Sampel:</span>
+                                <p>Sebuah dadu dilempar. Jika diketahui hasilnya adalah <em>bilangan genap</em> ($B = \{2, 4, 6\}$), berapakah peluang munculnya mata dadu <em>lebih besar dari 3</em> ($A = \{4, 5, 6\}$)?</p>
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-slate-800 space-y-1">
+                                    <div>&bull; Ruang semesta baru hanya $B = \{2, 4, 6\} \implies n(B) = 3$.</div>
+                                    <div>&bull; Dari anggota $B$, yang lebih besar dari 3 adalah $\{4, 6\} \implies n(A \cap B) = 2$.</div>
+                                    <div class="font-bold text-blue-700">&bull; Peluang bersyarat: $P(A|B) = \frac{2}{3}$.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Tabel Kontingensi Dua Arah -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">4</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Tabel Kontingensi &amp; Ekstraksi Peluang Bersyarat</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Dalam aplikasi riset sosial dan medis, data sering kali disajikan dalam bentuk <strong>Tabel Kontingensi 2 &times; 2</strong>:
+                            </p>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border border-slate-200 rounded-xl overflow-hidden">
+                                    <thead class="bg-slate-100 text-slate-700 uppercase tracking-wider font-semibold">
+                                        <tr>
+                                            <th class="p-3 border-b border-slate-200">Kategori Siswa</th>
+                                            <th class="p-3 border-b border-slate-200 text-center">Gemar Matematika ($M$)</th>
+                                            <th class="p-3 border-b border-slate-200 text-center">Tidak Gemar ($M'$)</th>
+                                            <th class="p-3 border-b border-slate-200 text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 text-slate-700">
+                                        <tr>
+                                            <td class="p-3 font-medium text-slate-900">Siswa Laki-laki ($L$)</td>
+                                            <td class="p-3 text-center font-mono">18</td>
+                                            <td class="p-3 text-center font-mono">12</td>
+                                            <td class="p-3 text-center font-mono font-bold">30</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-3 font-medium text-slate-900">Siswa Perempuan ($P$)</td>
+                                            <td class="p-3 text-center font-mono">12</td>
+                                            <td class="p-3 text-center font-mono">8</td>
+                                            <td class="p-3 text-center font-mono font-bold">20</td>
+                                        </tr>
+                                        <tr class="bg-blue-50/70 font-bold text-blue-950">
+                                            <td class="p-3">Total Seluruh Siswa</td>
+                                            <td class="p-3 text-center font-mono">30</td>
+                                            <td class="p-3 text-center font-mono">20</td>
+                                            <td class="p-3 text-center font-mono">50</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                                <span class="font-bold text-slate-900 text-sm">Contoh Pembacaan Bersyarat:</span>
+                                <p>&bull; Peluang seorang siswa terpilih gemar matematika jika diketahui siswa tersebut perempuan: $P(M|P) = \frac{n(M \cap P)}{n(P)} = \frac{12}{20} = \mathbf{0{,}6}$ (atau $60\%$).</p>
+                                <p>&bull; Peluang seorang siswa perempuan jika diketahui gemar matematika: $P(P|M) = \frac{12}{30} = \mathbf{0{,}4}$ (atau $40\%$).</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi Pemahaman -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Uji Konsep: Saling Bebas &amp; Bersyarat</h2>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">4 Soal Auto-Check</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Jawab 4 soal di bawah ini untuk menguji pemahaman Anda mengenai perkalian peluang saling bebas dan perhitungan peluang bersyarat.
+                            </p>
+
+                            <!-- FORM SOAL QUIZ -->
+                            <form id="quiz-peluang-bebas" class="space-y-6" onsubmit="event.preventDefault();">
+                                
+                                <!-- SOAL 1 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 1: Dua Kejadian Saling Bebas</span>
+                                        <span id="badge-qb1" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Peluang siswa A lulus ujian adalah $0{,}8$ dan peluang siswa B lulus ujian adalah $0{,}7$. Jika hasil ujian keduanya saling bebas, berapakah peluang <strong>keduanya lulus bersama-sama</strong>?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 0,56</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 0,75</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 0,84</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 1,50</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qb1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 2 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 2: Pengambilan Tanpa Pengembalian</span>
+                                        <span id="badge-qb2" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Sebuah kantong berisi 5 kelereng biru dan 3 kelereng kuning (total 8 kelereng). Diambil 2 kelereng satu demi satu <strong>tanpa pengembalian</strong>. Berapakah peluang kedua kelereng yang terambil berwarna biru?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{25}{64}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{5}{14}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{15}{56}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{5}{8}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qb2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 3 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 3: Komputasi Peluang Bersyarat</span>
+                                        <span id="badge-qb3" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Jika diketahui nilai peluang kejadian $P(A) = 0{,}4$, $P(B) = 0{,}5$, dan peluang irisan $P(A \cap B) = 0{,}2$. Berapakah nilai peluang bersyarat $P(A|B)$?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 0,25</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 0,40</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 0,50</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 0,80</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qb3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 4 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 4: Uji Sifat Kebebasan</span>
+                                        <span id="badge-qb4" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Diberikan $P(X) = 0{,}3$ dan $P(Y) = 0{,}6$. Agar kejadian $X$ dan $Y$ berstatus <strong>saling bebas</strong>, berapakah nilai peluang irisan $P(X \cap Y)$ yang harus dipenuhi?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 0</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 0,18</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 0,30</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qb4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 0,90</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qb4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllSalingBebasQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-bebas-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Kejadian Saling Bebas dan Peluang Bersyarat.</p>
+                    <p><strong>Walpole, Ronald E., Myers, Raymond H., &amp; Ye, Keying.</strong> (2016). <em>Probability and Statistics for Engineers and Scientists</em> (9th ed.). Pearson. Chapter 2: Conditional Probability and Independent Events.</p>
+                    <p><strong>Ross, Sheldon.</strong> (2014). <em>A First Course in Probability</em> (9th ed.). Pearson. Chapter 3: Conditional Probability and Independence.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="peluang-kejadian-saling-lepas-dan-tidak-saling-lepas.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Kejadian Saling Lepas
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="latihan-pemecahan-masalah-peluang.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS Peluang &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA KUIS EVALUASI SALING BEBAS -->
+    <script>
+        function checkAllSalingBebasQuiz() {
+            const answers = {
+                qb1: { correct: 'A', explanation: 'Karena kedua kejadian saling bebas: $P(A \\cap B) = P(A) \\times P(B) = 0{,}8 \\times 0{,}7 = \\mathbf{0{,}56}$.' },
+                qb2: { correct: 'B', explanation: 'Pengambilan ke-1 biru $= \\frac{5}{8}$. Karena tidak dikembalikan, sisa 4 biru dari 7 kelereng. Pengambilan ke-2 biru $= \\frac{4}{7}$. Peluangnya $= \\frac{5}{8} \\times \\frac{4}{7} = \\frac{20}{56} = \\mathbf{\\frac{5}{14}}$.' },
+                qb3: { correct: 'B', explanation: '$P(A|B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{0{,}2}{0{,}5} = \\mathbf{0{,}40}$.' },
+                qb4: { correct: 'B', explanation: 'Syarat saling bebas adalah $P(X \\cap Y) = P(X) \\times P(Y) = 0{,}3 \\times 0{,}6 = \\mathbf{0{,}18}$.' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'qb' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-bebas-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-peluang-bebas'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

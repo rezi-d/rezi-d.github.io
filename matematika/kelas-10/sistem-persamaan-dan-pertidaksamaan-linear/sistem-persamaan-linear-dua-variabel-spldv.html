@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Persamaan Linear Dua Variabel (SPLDV) — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari konsep dasar Sistem Persamaan Linear Dua Variabel (SPLDV): interpretasi geometris dua garis di R2, metode substitusi, eliminasi, gabungan, serta analisis rasio koefisien konsistensi solusi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/sistem-persamaan-dan-pertidaksamaan-linear/sistem-persamaan-linear-dua-variabel-spldv.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/sistem-persamaan-dan-pertidaksamaan-linear/sistem-persamaan-linear-dua-variabel-spldv.html">
+    <meta property="og:title" content="📐 Sistem Persamaan Linear Dua Variabel (SPLDV) — Kelas X SMA">
+    <meta property="og:description" content="Kuasai metode eliminasi, substitusi, grafik, dan analisis rasio koefisien SPLDV dengan modul carousel interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="sistem-persamaan-dan-pertidaksamaan-linear">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Sistem Persamaan &amp; Pertidaksamaan Linear
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Sistem Persamaan Linear Dua Variabel (SPLDV)
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pahami konsep fundamental kesetaraan aljabar dua variabel: definisi bentuk baku, interpretasi geometri kedudukan dua garis lurus di bidang $\mathbb{R}^2$, metode penyelesaian substitusi dan eliminasi murni, metode gabungan, serta teknik analisis cepat rasio koefisien untuk menguji konsistensi solusi.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI & INTERPRETASI GEOMETRIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Fondasi Teori</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📏 1. Definisi &amp; Interpretasi Geometris SPLDV
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Bentuk Baku</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Sistem Persamaan Linear Dua Variabel (SPLDV) adalah kumpulan dua atau lebih persamaan linear yang memuat dua variabel yang sama (umumnya dinotasikan sebagai $x$ dan $y$). Bentuk umum SPLDV dalam dua persamaan adalah:
+                        </p>
+
+                        <!-- FORMULA BENTUK UMUM -->
+                        <div class="p-5 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 rounded-2xl border border-blue-200 space-y-2 text-center">
+                            <span class="text-xs font-bold text-blue-900 uppercase tracking-widest block">Bentuk Standar SPLDV</span>
+                            <div class="text-base sm:text-lg text-slate-900 font-serif">
+                                $$\begin{cases} a_1 x + b_1 y = c_1 \\ a_2 x + b_2 y = c_2 \end{cases}$$
+                            </div>
+                            <p class="text-xs text-slate-500 font-mono mt-1">
+                                dengan $a_1, b_1, c_1, a_2, b_2, c_2 \in \mathbb{R}$ dan $(a_1^2 + b_1^2 \ne 0, a_2^2 + b_2^2 \ne 0)$
+                            </p>
+                        </div>
+
+                        <!-- 3 KEMUNGKINAN GEOMETRI -->
+                        <div class="space-y-3">
+                            <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">3 Kemungkinan Kedudukan Geometris di Bidang Cartesius:</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                                <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+                                    <div class="font-bold text-emerald-900 flex items-center gap-1.5">
+                                        <span>✂️</span> <span>1. Berpotongan (Tepat 1 Solusi)</span>
+                                    </div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Kedua garis memiliki gradien berbeda ($m_1 \ne m_2$). Menghasilkan tepat satu pasangan solusi $(x_0, y_0)$ yang disebut <em>sistem konsisten &amp; independen</em>.
+                                    </p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-1.5">
+                                    <div class="font-bold text-amber-900 flex items-center gap-1.5">
+                                        <span>⏸️</span> <span>2. Sejajar (Tidak Ada Solusi)</span>
+                                    </div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Kedua garis memiliki gradien sama ($m_1 = m_2$) tetapi konstanta berbeda ($c_1 \ne c_2$). Garis tidak pernah bertemu, disebut <em>sistem inkonsisten</em> ($\emptyset$).
+                                    </p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 space-y-1.5">
+                                    <div class="font-bold text-indigo-900 flex items-center gap-1.5">
+                                        <span>🔗</span> <span>3. Berhimpit (Tak Hingga Solusi)</span>
+                                    </div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Kedua persamaan saling kelipatan sempurna. Setiap titik pada garis adalah solusi, disebut <em>sistem konsisten &amp; dependen</em>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: METODE SUBSTITUSI & ELIMINASI MURNI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Metode Aljabar Klasik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚙️ 2. Metode Substitusi &amp; Eliminasi Murni
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Dua Pendekatan</span>
+                        </div>
+
+                        <!-- PERBANDINGAN METODE -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- SUBSTITUSI -->
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-sm font-bold text-blue-900 uppercase">Metode Substitusi</h3>
+                                    <span class="text-[11px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-mono">Menyatakan 1 Variabel</span>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Nyatakan salah satu variabel dalam variabel lainnya dari persamaan pertama, lalu gantikan ekspresi tersebut ke persamaan kedua:
+                                </p>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs font-mono space-y-1">
+                                    <div>Contoh: $x + 2y = 8 \implies x = 8 - 2y$</div>
+                                    <div>Substitusi ke: $3x - y = 3$</div>
+                                    <div>$3(8 - 2y) - y = 3 \implies 24 - 7y = 3$</div>
+                                    <div>$-7y = -21 \implies y = 3 \implies x = 8 - 2(3) = 2$</div>
+                                </div>
+                                <span class="text-[11px] text-slate-500 italic block">💡 Paling efisien jika terdapat salah satu koefisien bernilai 1 atau -1.</span>
+                            </div>
+
+                            <!-- ELIMINASI -->
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-sm font-bold text-indigo-900 uppercase">Metode Eliminasi</h3>
+                                    <span class="text-[11px] bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-mono">Menghilangkan Variabel</span>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Samakan nilai mutlak koefisien salah satu variabel melalui KPK pengali skalar, lalu jumlahkan/kurangkan kedua persamaan:
+                                </p>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs font-mono space-y-1">
+                                    <div>Persamaan (1): $2x + 3y = 12 \quad (\times 1)$</div>
+                                    <div>Persamaan (2): $x - y = 1 \quad (\times 3)$</div>
+                                    <div>$\implies 2x + 3y = 12$</div>
+                                    <div>$\implies 3x - 3y = 3 \quad (+)$</div>
+                                    <div>$5x = 15 \implies x = 3$</div>
+                                </div>
+                                <span class="text-[11px] text-slate-500 italic block">💡 Sangat tangguh saat seluruh koefisien berupa bilangan bulat besar atau pecahan.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: METODE GABUNGAN & TRIK KOEFISIEN PECAHAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Efisiensi Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 3. Metode Gabungan &amp; Penanganan Pecahan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Teknik Standar</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Metode paling populer dalam ujian kompetisi dan ujian nasional adalah <strong>Metode Campuran (Eliminasi-Substitusi)</strong>: eliminasi digunakan di tahap awal untuk menemukan nilai 1 variabel, kemudian nilai tersebut langsung disubstitusikan ke persamaan yang paling sederhana.
+                        </p>
+
+                        <!-- STUDI KASUS PECAHAN & PEMISALAN -->
+                        <div class="bg-gradient-to-br from-amber-50/70 via-slate-50 to-white p-5 sm:p-6 rounded-2xl border border-amber-200 space-y-3">
+                            <h3 class="text-sm font-bold text-amber-950 uppercase tracking-wider">Trik Penanganan SPLDV Bentuk Pecahan Aljabar</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Jika variabel berada di posisi penyebut (misal $\frac{a}{x} + \frac{b}{y} = c$), <strong>JANGAN</strong> menyamakan penyebut secara silang karena akan memunculkan suku tak linear $xy$. Gunakan <em>variabel substitusi baru</em>:
+                            </p>
+                            <div class="p-3 bg-white rounded-xl border border-amber-200 text-xs font-mono text-slate-800">
+                                Misalkan: $u = \frac{1}{x}$ dan $v = \frac{1}{y}$. Maka sistem menjadi SPLDV linear baku dalam $u$ dan $v$. Setelah nilai $u, v$ diperoleh, kembalikan: $x = \frac{1}{u}$ dan $y = \frac{1}{v}$.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: ANALISIS RASIO KOEFISIEN KONSISTENSI SOLUSI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Analisis Deterministik Cepat</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 4. Uji Konsistensi Cepat via Rasio Koefisien
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Trik UTBK/SNBT</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Tanpa perlu menyelesaikan sistem persamaan secara lengkap, jumlah solusi SPLDV $\begin{cases} a_1 x + b_1 y = c_1 \\ a_2 x + b_2 y = c_2 \end{cases}$ dapat diprediksi seketika menggunakan perbandingan koefisien:
+                        </p>
+
+                        <!-- TABEL RASIO KOEFISIEN -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-300">
+                                        <th class="p-3">Kondisi Perbandingan Rasio</th>
+                                        <th class="p-3">Kedudukan Geometris</th>
+                                        <th class="p-3">Karakteristik Solusi</th>
+                                        <th class="p-3">Status Sistem</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 text-slate-700">
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-mono font-bold text-blue-700">$$\frac{a_1}{a_2} \ne \frac{b_1}{b_2}$$</td>
+                                        <td class="p-3">Dua garis berpotongan di 1 titik</td>
+                                        <td class="p-3 font-semibold text-emerald-700">Tepat Satu Solusi Unik $(x_0, y_0)$</td>
+                                        <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono">Konsisten Independen</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-mono font-bold text-amber-700">$$\frac{a_1}{a_2} = \frac{b_1}{b_2} \ne \frac{c_1}{c_2}$$</td>
+                                        <td class="p-3">Dua garis sejajar (jarak $> 0$)</td>
+                                        <td class="p-3 font-semibold text-rose-700">Tidak Ada Solusi / Himpunan Kosong ($\emptyset$)</td>
+                                        <td class="p-3"><span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-mono">Inkonsisten</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-mono font-bold text-indigo-700">$$\frac{a_1}{a_2} = \frac{b_1}{b_2} = \frac{c_1}{c_2}$$</td>
+                                        <td class="p-3">Dua garis berhimpit menjadi satu</td>
+                                        <td class="p-3 font-semibold text-indigo-700">Tak Hingga Banyak Solusi</td>
+                                        <td class="p-3"><span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 font-mono">Konsisten Dependen</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Ujilah penguasaan konsep SPLDV Anda dengan menjawab 4 pertanyaan berikut. Setiap pilihan langsung dinilai secara otomatis disertai pembahasan langkah demi langkah.
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- SOAL 1 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 1 &middot; Metode Gabungan</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Diberikan SPLDV $\begin{cases} 3x + 2y = 19 \\ 2x - y = 8 \end{cases}$. Nilai dari $x + y$ adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-1" value="a" class="text-blue-600">
+                                        <span>A. 5</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-1" value="b" class="text-blue-600">
+                                        <span>B. 7</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-1" value="c" class="text-blue-600">
+                                        <span>C. 9</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-1" value="d" class="text-blue-600">
+                                        <span>D. 11</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-spldv-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 2 &middot; Analisis Parameter Solusi</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Sistem persamaan linear $\begin{cases} 2x + ky = 6 \\ 4x + 6y = 12 \end{cases}$ memiliki <strong>tak hingga banyak solusi</strong> jika nilai $k$ bernilai ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-2" value="a" class="text-blue-600">
+                                        <span>A. $k = 2$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-2" value="b" class="text-blue-600">
+                                        <span>B. $k = 3$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-2" value="c" class="text-blue-600">
+                                        <span>C. $k = 4$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-2" value="d" class="text-blue-600">
+                                        <span>D. $k = 6$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-spldv-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 3 &middot; Sistem Inkonsisten</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Manakah pasangan persamaan di bawah ini yang <strong>tidak memiliki solusi</strong> sama sekali?
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-3" value="a" class="text-blue-600">
+                                        <span>A. $x + y = 4$ dan $x - y = 2$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-3" value="b" class="text-blue-600">
+                                        <span>B. $2x - 3y = 5$ dan $4x - 6y = 10$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-3" value="c" class="text-blue-600">
+                                        <span>C. $3x + 2y = 8$ dan $6x + 4y = 15$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-3" value="d" class="text-blue-600">
+                                        <span>D. $x + 2y = 7$ dan $2x + y = 8$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-spldv-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 4 &middot; Pecahan Aljabar</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Diketahui $\begin{cases} \frac{2}{x} + \frac{3}{y} = 8 \\ \frac{1}{x} - \frac{1}{y} = -1 \end{cases}$. Nilai dari $x \cdot y$ adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-4" value="a" class="text-blue-600">
+                                        <span>A. $\frac{1}{2}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-4" value="b" class="text-blue-600">
+                                        <span>B. $\frac{1}{3}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-4" value="c" class="text-blue-600">
+                                        <span>C. $\frac{1}{6}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spldv-4" value="d" class="text-blue-600">
+                                        <span>D. $1$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-spldv-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysSPLDV1 = {
+                                'kuis-spldv-1': { 
+                                    ans: 'b', 
+                                    text: 'Dari pers (2): y = 2x - 8. Substitusi ke pers (1): 3x + 2(2x - 8) = 19 => 7x - 16 = 19 => 7x = 35 => x = 5. Maka y = 2(5) - 8 = 2. Jadi x + y = 5 + 2 = 7.' 
+                                },
+                                'kuis-spldv-2': { 
+                                    ans: 'b', 
+                                    text: 'Syarat tak hingga solusi adalah a1/a2 = b1/b2 = c1/c2. Di sini 2/4 = k/6 = 6/12 => 1/2 = k/6 => k = 3.' 
+                                },
+                                'kuis-spldv-3': { 
+                                    ans: 'c', 
+                                    text: 'Pada opsi C, rasio a1/a2 = 3/6 = 1/2 dan b1/b2 = 2/4 = 1/2, sedangkan c1/c2 = 8/15. Karena 1/2 = 1/2 != 8/15, kedua garis sejajar dan tidak memiliki solusi.' 
+                                },
+                                'kuis-spldv-4': { 
+                                    ans: 'c', 
+                                    text: 'Misalkan u = 1/x dan v = 1/y. Sistem menjadi 2u + 3v = 8 dan u - v = -1 (=> u = v - 1). Substitusi: 2(v - 1) + 3v = 8 => 5v = 10 => v = 2 => u = 1. Maka x = 1/u = 1 dan y = 1/v = 1/2. Hasil kali x . y = 1 . 1/2... tunggu: u - v = -1 => u = 1, v = 2 => x = 1, y = 1/2 => x . y = 1/2.' 
+                                }
+                            };
+
+                            // Update jawaban soal 4 ke opsi a jika x.y = 1/2
+                            kuisKeysSPLDV1['kuis-spldv-4'].ans = 'a';
+                            kuisKeysSPLDV1['kuis-spldv-4'].text = 'Misalkan u = 1/x dan v = 1/y. Sistem menjadi 2u + 3v = 8 dan u - v = -1 (=> u = v - 1). Substitusi: 2(v - 1) + 3v = 8 => 5v = 10 => v = 2 => u = 1. Maka x = 1/u = 1 dan y = 1/v = 1/2. Jadi x . y = 1 . 1/2 = 1/2.';
+
+                            Object.keys(kuisKeysSPLDV1).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-spldv-${idx + 1}`);
+                                        const info = kuisKeysSPLDV1[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Coba telaah kembali metode eliminasi/substitusi dan rasio koefisiennya!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Aljabar dan Fungsi: Sistem Persamaan Linear.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 10: Systems of Equations and Inequalities (10.1 Systems of Linear Equations in Two Variables).</p>
+                    <p><strong>Larson, Ron.</strong> (2018). <em>Algebra and Trigonometry</em> (10th ed.). Cengage Learning. Chapter 7: Systems of Equations and Inequalities.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-10/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Beranda Matematika Kelas X
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="sistem-persamaan-linear-tiga-variabel-spltv.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: SPLTV &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

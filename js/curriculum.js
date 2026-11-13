@@ -379,6 +379,58 @@ const kurikulum = {
                     { file: "proyeksi-vektor-ortogonal.html", title: "Proyeksi Vektor Ortogonal" },
                     { file: "latihan-pemecahan-masalah-vektor.html", title: "Problem Solving HOTS & Pemodelan Vektor" }
                 ]
+            },
+            {
+                slug: "sistem-persamaan-dan-pertidaksamaan-linear",
+                title: "Sistem Persamaan dan Pertidaksamaan Linear",
+                deskripsi: "Sistem Persamaan Linear Dua Variabel (SPLDV), Sistem Persamaan Linear Tiga Variabel (SPLTV), metode aljabar eliminasi-substitusi, aturan determinan matriks Cramer, sistem pertidaksamaan linear dua variabel (SPtLDV), penentuan Daerah Himpunan Penyelesaian (DHP), serta pemodelan matematika kontekstual.",
+                subbab: [
+                    { file: "sistem-persamaan-linear-dua-variabel-spldv.html", title: "Sistem Persamaan Linear Dua Variabel (SPLDV)" },
+                    { file: "sistem-persamaan-linear-tiga-variabel-spltv.html", title: "Sistem Persamaan Linear Tiga Variabel (SPLTV)" },
+                    { file: "metode-determinan-matriks-sistem-linear.html", title: "Metode Determinan Matriks & Aturan Cramer" },
+                    { file: "sistem-pertidaksamaan-linear-dua-variabel-sptldv.html", title: "Sistem Pertidaksamaan Linear Dua Variabel (SPtLDV)" },
+                    { file: "pemodelan-matematika-dan-masalah-kontekstual.html", title: "Pemodelan Matematika & Aplikasi Kontekstual" },
+                    { file: "latihan-pemecahan-masalah-sistem-linear.html", title: "Problem Solving HOTS Sistem Linear" }
+                ]
+            },
+            {
+                slug: "fungsi-kuadrat",
+                title: "Fungsi Kuadrat",
+                deskripsi: "Karakteristik grafik parabola f(x) = ax² + bx + c, pengaruh koefisien a, b, c, sumbu simetri & titik puncak (ekstrim), analisis diskriminan D terhadap perpotongan sumbu-X, sifat definit positif/negatif, teknik menyusun persamaan fungsi kuadrat, transformasi grafik, serta pemodelan nilai optimum.",
+                subbab: [
+                    { file: "konsep-dasar-dan-karakteristik-fungsi-kuadrat.html", title: "Konsep Dasar & Karakteristik Fungsi Kuadrat" },
+                    { file: "diskriminan-dan-titik-potong-sumbu-x.html", title: "Diskriminan & Kedudukan Sumbu-X" },
+                    { file: "menggambar-dan-mentransformasi-grafik-kuadrat.html", title: "Menggambar & Transformasi Grafik Parabola" },
+                    { file: "menyusun-persamaan-fungsi-kuadrat.html", title: "Menyusun Persamaan Fungsi Kuadrat" },
+                    { file: "pemodelan-matematika-dan-aplikasi-fungsi-kuadrat.html", title: "Pemodelan Matematika & Nilai Optimum" },
+                    { file: "latihan-pemecahan-masalah-fungsi-kuadrat.html", title: "Problem Solving HOTS Fungsi Kuadrat" }
+                ]
+            },
+            {
+                slug: "statistika",
+                title: "Statistika",
+                deskripsi: "Representasi dan interpretasi data bivariat dengan diagram pencar (scatter plot), ukuran pemusatan (mean, median, modus), ukuran penempatan (kuartil & boxplot), ukuran penyebaran (jangkauan, IQR, varians, simpangan baku), deteksi pencilan (outlier), efek transformasi data aljabar, serta analisis bentuk distribusi kemencengan data.",
+                subbab: [
+                    { file: "diagram-pencar-dan-korelasi-data-bivariat.html", title: "Diagram Pencar & Korelasi Data Bivariat" },
+                    { file: "ukuran-pemusatan-data-tunggal-dan-kelompok.html", title: "Ukuran Pemusatan: Mean, Median & Modus" },
+                    { file: "ukuran-penempatan-kuartil-desil-persentil.html", title: "Ukuran Penempatan: Kuartil & Boxplot" },
+                    { file: "ukuran-penyebaran-jangkauan-varians-simpangan-baku.html", title: "Ukuran Penyebaran: Jangkauan, Varians & Simpangan Baku" },
+                    { file: "efek-transformasi-data-dan-distribusi-frekuensi.html", title: "Efek Transformasi Data & Distribusi Frekuensi" },
+                    { file: "latihan-pemecahan-masalah-statistika.html", title: "Problem Solving HOTS Statistika" }
+                ]
+            },
+            {
+                slug: "peluang",
+                title: "Peluang",
+                deskripsi: "Konsep dasar ruang sampel dan titik sampel kejadian majemuk, aturan penjumlahan dan perkalian (kaidah pencacahan dasar), peluang teoretis klasik, frekuensi harapan, komplemen suatu kejadian, hukum penjumlahan peluang kejadian saling lepas dan tidak saling lepas, peluang kejadian saling bebas, peluang bersyarat, serta aplikasi problem solving HOTS.",
+                subbab: [
+                    { file: "ruang-sampel-titik-sampel-dan-kejadian.html", title: "Ruang Sampel & Peluang Teoretis" },
+                    { file: "aturan-penjumlahan-dan-perkalian.html", title: "Aturan Penjumlahan & Perkalian" },
+                    { file: "peluang-komplemen-dan-dua-kejadian-sembarang.html", title: "Peluang Komplemen & Dua Kejadian" },
+                    { file: "peluang-kejadian-saling-lepas-dan-tidak-saling-lepas.html", title: "Kejadian Saling Lepas & Tidak Saling Lepas" },
+                    { file: "peluang-kejadian-saling-bebas-dan-bersyarat.html", title: "Peluang Saling Bebas & Bersyarat" },
+                    { file: "latihan-pemecahan-masalah-peluang.html", title: "Problem Solving HOTS Peluang" }
+                ]
             }
         ]
     }

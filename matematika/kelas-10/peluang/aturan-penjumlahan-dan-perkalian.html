@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aturan Penjumlahan &amp; Perkalian — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari kaidah pencacahan dasar dalam teori peluang: aturan penjumlahan untuk pilihan alternatif independen, aturan perkalian untuk tahapan berurutan berseri (metode pengisian tempat / slot filling), serta penerapannya pada penyusunan kode, sandi, dan rute perjalanan.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/aturan-penjumlahan-dan-perkalian.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/aturan-penjumlahan-dan-perkalian.html">
+    <meta property="og:title" content="🎲 Aturan Penjumlahan &amp; Perkalian — Kelas X SMA">
+    <meta property="og:description" content="Pahami perbedaan logika 'ATAU' (penjumlahan) dan 'DAN' (perkalian) dalam mencacah titik sampel dengan modul carousel interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="peluang">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 8: Peluang
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Aturan Penjumlahan &amp; Perkalian
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Fondasi menghitung ruang sampel tanpa harus mendaftar anggotanya satu per satu secara manual bertumpu pada <strong>Kaidah Pencacahan Dasar (*Fundamental Counting Principles*)</strong>. Kuasai distingsi konseptual antara Aturan Penjumlahan (operasi disjungtif "ATAU" untuk opsi alternatif) dan Aturan Perkalian (operasi sekuensial "DAN" untuk tahapan berurutan).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Pembeda Logika Penjumlahan vs Perkalian -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Perbedaan Prinsip: "ATAU" vs "DAN"</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Kunci utama ketepatan menghitung banyak cara terletak pada mengidentifikasi apakah peristiwa tersebut merupakan <strong>pilihan alternatif</strong> atau <strong>rangkaian proses bersama</strong>:
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 space-y-2">
+                                    <div class="font-bold text-emerald-950 text-sm flex items-center gap-2">
+                                        <span>➕ Aturan Penjumlahan</span>
+                                    </div>
+                                    <p class="text-xs text-slate-700">
+                                        Digunakan ketika kejadian-kejadian bersifat <strong>saling lepas (alternatif)</strong>. Anda hanya memilih <em>satu</em> di antara opsi-opsi yang tersedia.
+                                    </p>
+                                    <div class="p-2.5 bg-white rounded-lg border border-emerald-200 text-xs font-mono text-emerald-800">
+                                        Kata Kunci: <strong>"ATAU"</strong> &rarr; Jumlahkan: $k_1 + k_2$
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-blue-50/80 border border-blue-200 space-y-2">
+                                    <div class="font-bold text-blue-950 text-sm flex items-center gap-2">
+                                        <span>✖️ Aturan Perkalian</span>
+                                    </div>
+                                    <p class="text-xs text-slate-700">
+                                        Digunakan ketika aktivitas terdiri atas <strong>tahapan-tahapan berurutan</strong> yang semuanya harus terlaksana secara simultan atau berkala.
+                                    </p>
+                                    <div class="p-2.5 bg-white rounded-lg border border-blue-200 text-xs font-mono text-blue-800">
+                                        Kata Kunci: <strong>"DAN"</strong> &rarr; Kalikan: $k_1 \times k_2$
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                                <span class="font-bold text-slate-900 text-sm">Analogi Sehari-Hari:</span>
+                                <p>&bull; <strong>Penjumlahan:</strong> Di sebuah kafe, ada 4 jenis kopi dan 3 jenis teh. Jika Anda hanya memesan 1 cangkir minuman, pilihannya adalah $4 + 3 = 7$ pilihan.</p>
+                                <p>&bull; <strong>Perkalian:</strong> Jika Anda ingin memesan 1 cangkir minuman (4 opsi) <em>dan</em> 1 potong kue (3 opsi), kombinasinya adalah $4 \times 3 = 12$ paket pasangan.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Aturan Penjumlahan Formal -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Aturan Penjumlahan (*The Addition Rule*)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Jika suatu pekerjaan dapat diselesaikan dengan cara ke-1 sebanyak $k_1$ pilihan, cara ke-2 sebanyak $k_2$ pilihan, ..., dan cara ke-$m$ sebanyak $k_m$ pilihan, di mana <strong>tidak ada satu pun pilihan yang dapat dipilih secara serentak</strong>, maka total cara memilih adalah:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50/60 border border-emerald-200 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Formula Aturan Penjumlahan</div>
+                                <div class="text-base sm:text-xl font-mono text-emerald-950 font-bold py-1">
+                                    $$\text{Total Cara} = k_1 + k_2 + k_3 + \dots + k_m$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
+                                <span class="font-bold text-slate-900 text-sm">Contoh Masalah Transportasi:</span>
+                                <p>Seseorang hendak bepergian dari Jakarta ke Surabaya. Terdapat 3 maskapai penerbangan, 2 jalur kereta api eksekutif, dan 4 operator bus antarkota. Berapa banyak cara memilih moda transportasi tersebut?</p>
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-blue-700">
+                                    $$\text{Banyak Cara} = 3 \text{ (pesawat)} + 2 \text{ (kereta)} + 4 \text{ (bus)} = \mathbf{9 \text{ cara}}.$$
+                                </div>
+                                <p class="text-slate-500 italic">*Alasan penjumlahan: Orang tersebut tidak mungkin menaiki pesawat sekaligus bus secara bersamaan untuk satu perjalanan yang sama.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: Aturan Perkalian Formal -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Aturan Perkalian (*The Multiplication Rule*)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Jika suatu prosedur memerlukan $n$ tahap berurutan secara teratur, di mana tahap pertama memiliki $k_1$ kemungkinan, tahap kedua memiliki $k_2$ kemungkinan setelah tahap pertama terlaksana, ..., dan tahap ke-$n$ memiliki $k_n$ kemungkinan, maka total susunan gabungan adalah:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Formula Aturan Perkalian</div>
+                                <div class="text-base sm:text-xl font-mono text-blue-900 font-bold py-1">
+                                    $$\text{Total Susunan} = k_1 \times k_2 \times k_3 \times \dots \times k_n$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
+                                <span class="font-bold text-slate-900 text-sm">Contoh Rute Jalur Bertingkat:</span>
+                                <p>Kota A terhubung ke Kota B oleh 4 jalan berbeda, dan Kota B terhubung ke Kota C oleh 3 jalan berbeda. Berapa banyak rute perjalanan dari Kota A ke Kota C melalui B?</p>
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-indigo-700">
+                                    $$\text{Banyak Rute} = 4 \times 3 = \mathbf{12 \text{ rute berlainan}}.$$
+                                </div>
+                                <p class="text-slate-500 italic">*Alasan perkalian: Perjalanan dari A ke C menuntut orang tersebut melewati rute tahap 1 DAN rute tahap 2.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Metode Pengisian Tempat (Slot Filling) -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">4</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Metode Pengisian Tempat (*Slot Filling*) &amp; Sandi PIN</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Metode pengisian kotak (*slot filling*) adalah penerapan praktis aturan perkalian untuk menyusun kombinasi kode sandi, nomor plat, atau nomor urut dengan batasan syarat:
+                            </p>
+
+                            <div class="space-y-3">
+                                <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-950 space-y-2">
+                                    <span class="font-bold text-sm">Studi Kasus Pembentukan Bilangan:</span>
+                                    <p>Dari angka-angka $\{1, 2, 3, 4, 5, 6\}$, hendak disusun bilangan yang terdiri dari 3 digit. Berapa banyak bilangan yang dapat dibentuk jika:</p>
+                                    
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                        <div class="p-3 bg-white rounded-lg border border-amber-200 space-y-1">
+                                            <span class="font-bold text-slate-900 block">A. Angka Boleh Berulang:</span>
+                                            <p class="text-slate-600">Setiap digit bebas memilih dari 6 angka:</p>
+                                            <div class="font-mono font-bold text-blue-700">$$\text{Slot: } [6] \times [6] \times [6] = \mathbf{216 \text{ bilangan}}$$</div>
+                                        </div>
+                                        <div class="p-3 bg-white rounded-lg border border-amber-200 space-y-1">
+                                            <span class="font-bold text-slate-900 block">B. Angka Berbeda (Tanpa Pengulangan):</span>
+                                            <p class="text-slate-600">Digit yang sudah terpakai tidak boleh dipilih lagi:</p>
+                                            <div class="font-mono font-bold text-indigo-700">$$\text{Slot: } [6] \times [5] \times [4] = \mathbf{120 \text{ bilangan}}$$</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
+                                    <span class="font-bold text-slate-800">Kiat Pengisian Bersyarat:</span>
+                                    <p>Jika ada syarat khusus (misalnya bilangan harus genap, kelipatan 5, atau lebih besar dari 400), <strong>isilah kotak yang memiliki syarat khusus terlebih dahulu</strong>, baru kemudian mengisi kotak-kotak lainnya.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi Pemahaman -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Uji Konsep: Aturan Penjumlahan &amp; Perkalian</h2>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">4 Soal Auto-Check</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Jawablah 4 soal latihan di bawah ini untuk menguji kemampuan analisis kombinatorik dasar Anda.
+                            </p>
+
+                            <!-- FORM SOAL QUIZ -->
+                            <form id="quiz-aturan-hitung" class="space-y-6" onsubmit="event.preventDefault();">
+                                
+                                <!-- SOAL 1 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 1: Pilihan Menu Pakaian</span>
+                                        <span id="badge-qa1" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Seorang siswa memiliki 5 kemeja putih berbeda, 3 celana panjang warna hitam berbeda, dan 2 pasang sepatu hitam berbeda. Berapakah banyak variasi setelan seragam lengkap (kemeja, celana, dan sepatu) yang dapat ia kenakan?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 10 variasi</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 15 variasi</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 30 variasi</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 60 variasi</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qa1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 2 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 2: Aturan Penjumlahan Opsi</span>
+                                        <span id="badge-qa2" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Di rak perpustakaan terdapat 6 buku matematika, 4 buku fisika, dan 5 buku kimia. Seorang siswa hanya diperbolehkan meminjam 1 buah buku sains untuk tugas baca mandiri. Berapa banyak pilihan buku yang dapat ia pinjam?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 15 pilihan</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 24 pilihan</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 120 pilihan</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 150 pilihan</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qa2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 3 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 3: Bilangan Ganjil Tanpa Pengulangan</span>
+                                        <span id="badge-qa3" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Dari angka-angka $\{2, 3, 5, 7, 8\}$ akan disusun bilangan 3 digit yang bernilai <strong>ganjil</strong> dan semua angkanya berlainan (tidak boleh berulang). Berapakah banyak bilangan yang dapat dibuat?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 24 bilangan</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 36 bilangan</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 48 bilangan</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 60 bilangan</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qa3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 4 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 4: Rute Perjalanan Pulang-Pergi</span>
+                                        <span id="badge-qa4" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Dari kota X ke kota Y ada 4 jalur bus. Seseorang pergi dari X ke Y lalu pulang kembali ke X. Jika saat pulang ia <strong>tidak boleh</strong> menaiki bus pada jalur yang sama dengan saat berangkat, berapa banyak pilihan rute pulang-pergi tersebut?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 7 cara</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 12 cara</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 16 cara</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qa4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 20 cara</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qa4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllAturanHitungQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-aturan-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Aturan Penjumlahan dan Perkalian.</p>
+                    <p><strong>Rosen, Kenneth H.</strong> (2019). <em>Discrete Mathematics and Its Applications</em> (8th ed.). McGraw-Hill. Chapter 6: Counting (The Basics of Counting).</p>
+                    <p><strong>Walpole, Ronald E., Myers, Raymond H., &amp; Ye, Keying.</strong> (2016). <em>Probability and Statistics for Engineers and Scientists</em> (9th ed.). Pearson. Chapter 2: Multiplication Rule &amp; Permutations.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ruang-sampel-titik-sampel-dan-kejadian.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Ruang Sampel &amp; Peluang Dasar
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="peluang-komplemen-dan-dua-kejadian-sembarang.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Peluang Komplemen &amp; Dua Kejadian &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA KUIS EVALUASI ATURAN HITUNG -->
+    <script>
+        function checkAllAturanHitungQuiz() {
+            const answers = {
+                qa1: { correct: 'C', explanation: 'Setelan lengkap menuntut kemeja DAN celana DAN sepatu &rarr; gunakan aturan perkalian: $5 \\times 3 \\times 2 = \\mathbf{30\\text{ variasi}}$.' },
+                qa2: { correct: 'A', explanation: 'Siswa hanya meminjam 1 buku (opsi alternatif ATAU) &rarr; gunakan aturan penjumlahan: $6 + 4 + 5 = \\mathbf{15\\text{ pilihan buku}}$.' },
+                qa3: { correct: 'B', explanation: 'Isi kotak satuan dulu dengan angka ganjil $\{3, 5, 7\} \\implies 3$ opsi. Lalu kotak ratusan sisa $5 - 1 = 4$ opsi, dan kotak puluhan sisa $3$ opsi. Total: $4 \\times 3 \\times 3 = \\mathbf{36\\text{ bilangan}}$.' },
+                qa4: { correct: 'B', explanation: 'Berangkat ada 4 jalur bus. Pulang tidak boleh naik jalur yang sama, tersisa $4 - 1 = 3$ jalur. Rute PP adalah kejadian berseri (pergi DAN pulang): $4 \\times 3 = \\mathbf{12\\text{ cara}}$.' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'qa' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-aturan-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-aturan-hitung'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

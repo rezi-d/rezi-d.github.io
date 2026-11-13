@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Persamaan Linear Tiga Variabel (SPLTV) — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari Sistem Persamaan Linear Tiga Variabel (SPLTV): bentuk baku, geometri 3 bidang di R3, algoritma eliminasi bertingkat, teknik substitusi pemisalan pecahan, serta analisis sistem inkonsisten dan dependen.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/sistem-persamaan-dan-pertidaksamaan-linear/sistem-persamaan-linear-tiga-variabel-spltv.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/sistem-persamaan-dan-pertidaksamaan-linear/sistem-persamaan-linear-tiga-variabel-spltv.html">
+    <meta property="og:title" content="📐 Sistem Persamaan Linear Tiga Variabel (SPLTV) — Kelas X SMA">
+    <meta property="og:description" content="Kuasai eliminasi bertingkat, geometri ruang tiga bidang, dan trik pecahan variabel dengan modul interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="sistem-persamaan-dan-pertidaksamaan-linear">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Sistem Persamaan &amp; Pertidaksamaan Linear
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Sistem Persamaan Linear Tiga Variabel (SPLTV)
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari perluasan aljabar linear ke tiga dimensi ruang $\mathbb{R}^3$: bentuk baku SPLTV, visualisasi interaksi tiga bidang datar, algoritma eliminasi bertingkat terstruktur, substitusi pemisalan pecahan, serta identifikasi sistem dengan solusi berparameter (tak hingga) atau sistem yang tidak konsisten.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: BENTUK BAKU & GEOMETRI BIDANG RUANG -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Fondasi Dimensi Tiga</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📦 1. Bentuk Baku SPLTV &amp; Geometri Ruang $\mathbb{R}^3$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Bentuk Baku</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Sebuah persamaan linear satu derajat dengan tiga variabel $ax + by + cz = d$ merepresentasikan sebuah <strong>bidang datar tak terbatas</strong> pada ruang tiga dimensi Cartesius $\mathbb{R}^3$. Sistem Persamaan Linear Tiga Variabel (SPLTV) terdiri dari tiga persamaan:
+                        </p>
+
+                        <!-- FORMULA BENTUK UMUM SPLTV -->
+                        <div class="p-5 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 rounded-2xl border border-blue-200 space-y-2 text-center">
+                            <span class="text-xs font-bold text-blue-900 uppercase tracking-widest block">Bentuk Baku SPLTV</span>
+                            <div class="text-base sm:text-lg text-slate-900 font-serif">
+                                $$\begin{cases} a_1 x + b_1 y + c_1 z = d_1 \\ a_2 x + b_2 y + c_2 z = d_2 \\ a_3 x + b_3 y + c_3 z = d_3 \end{cases}$$
+                            </div>
+                            <p class="text-xs text-slate-500 font-mono mt-1">
+                                dengan $a_i, b_i, c_i, d_i \in \mathbb{R}$ dan setiap persamaan memiliki minimal satu koefisien tak nol
+                            </p>
+                        </div>
+
+                        <!-- 3 KATEGORI SOLUSI GEOMETRIS -->
+                        <div class="space-y-3">
+                            <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Interpretasi Geometris Pertemuan 3 Bidang Datar:</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                                <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+                                    <div class="font-bold text-emerald-900 flex items-center gap-1.5">
+                                        <span>📍</span> <span>1. Berpotongan di 1 Titik</span>
+                                    </div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Ketiga bidang bertemu tepat pada satu koordinat unik $(x_0, y_0, z_0)$. Sistem konsisten independen dengan solusi tunggal.
+                                    </p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 space-y-1.5">
+                                    <div class="font-bold text-indigo-900 flex items-center gap-1.5">
+                                        <span>➖</span> <span>2. Berpotongan di 1 Garis</span>
+                                    </div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Ketiga bidang bertemu membentuk satu garis lurus bersama. Sistem konsisten dependen dengan <strong>tak hingga banyak solusi</strong> berparameter $t$.
+                                    </p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-1.5">
+                                    <div class="font-bold text-rose-900 flex items-center gap-1.5">
+                                        <span>🚫</span> <span>3. Tidak Memiliki Titik Temu</span>
+                                    </div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Bidang saling sejajar atau membentuk prisma segitiga terbuka. Tidak ada titik persekutuan simultan bagi ketiganya ($\emptyset$).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: ALGORITMA ELIMINASI BERTINGKAT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Metode Aljabar Sistematis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 2. Algoritma Eliminasi Bertingkat ($3 \times 3 \rightarrow 2 \times 2$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Reduksi Sistem</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Kunci utama menyelesaikan SPLTV tanpa kesalahan adalah <strong>konsistensi variabel target eliminasi</strong>. Jangan mengeliminasi variabel yang berbeda pada pasangan persamaan berbeda!
+                        </p>
+
+                        <!-- LANGKAH-LANGKAH ALGORITMA -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider">Tahapan Baku Penyelesaian:</h3>
+                            <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                <li><strong>Pilih 1 Variabel Target:</strong> Tentukan satu variabel yang koefisiennya paling ramah (misal $x$ yang bernilai $\pm 1$).</li>
+                                <li><strong>Eliminasi Pasangan 1 &amp; 2:</strong> Eliminasi variabel target dari persamaan (1) dan (2) untuk menghasilkan persamaan baru (4) dalam dua variabel.</li>
+                                <li><strong>Eliminasi Pasangan 1 &amp; 3 (atau 2 &amp; 3):</strong> Eliminasi <em>variabel target yang SAMA</em> dari persamaan (1) dan (3) untuk menghasilkan persamaan baru (5).</li>
+                                <li><strong>Selesaikan SPLDV (4) &amp; (5):</strong> Cari nilai kedua variabel menggunakan eliminasi atau substitusi sederhana.</li>
+                                <li><strong>Substitusi Mundur (Back-Substitution):</strong> Masukkan nilai dua variabel yang diperoleh ke salah satu persamaan awal (1, 2, atau 3) untuk memperoleh nilai variabel ketiga.</li>
+                            </ol>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: TEKNIK SUBSTITUSI & PECAHAN ALFABETIK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Manipulasi Aljabar Lanjutan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧩 3. Substitusi Pemisalan Pecahan Aljabar
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Trik Pecahan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Dalam soal ujian sekolah dan seleksi perguruan tinggi, sering dijumpai sistem non-linear pecahan seperti $\frac{1}{x} + \frac{2}{y} - \frac{1}{z} = 1$. Cara termudah adalah transformasi variabel:
+                        </p>
+
+                        <!-- KOTAK CONTOH PEMISALAN -->
+                        <div class="p-5 bg-gradient-to-br from-amber-50/80 to-slate-50 rounded-2xl border border-amber-200 space-y-3">
+                            <h3 class="text-sm font-bold text-amber-950 uppercase">Transformasi Invers Variabel:</h3>
+                            <div class="p-4 bg-white rounded-xl border border-amber-200 font-mono text-xs text-slate-800 space-y-2">
+                                <div>Misalkan: $\quad u = \frac{1}{x}, \quad v = \frac{1}{y}, \quad w = \frac{1}{z}$</div>
+                                <div>Maka sistem menjadi SPLTV linear baku:</div>
+                                <div>$$\begin{cases} u + 2v - w = 1 \\ 2u - v + 3w = 11 \\ 3u + 3v + w = 12 \end{cases}$$</div>
+                                <div>Setelah $(u, v, w)$ diperoleh (misal $u=2, v=1, w=3$), kembalikan ke variabel asal:</div>
+                                <div>$$x = \frac{1}{u} = \frac{1}{2}, \quad y = \frac{1}{v} = 1, \quad z = \frac{1}{w} = \frac{1}{3}$$</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: KASUS KHUSUS & SOLUSI BERPARAMETER -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Analisis Kontradiksi &amp; Ketergantungan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 4. Deteksi Sistem Inkonsisten vs Solusi Banyak
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">Kasus Khusus</span>
+                        </div>
+
+                        <!-- DUA SKENARIO -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-5 rounded-2xl bg-rose-50 border border-rose-200 space-y-2">
+                                <div class="font-bold text-rose-900 flex items-center gap-1.5">
+                                    <span>⚠️</span> <span>1. Muncul Kontradiksi: $0 = k \quad (k \ne 0)$</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Jika saat eliminasi seluruh variabel hilang di ruas kiri ($0$) dan ruas kanan menghasilkan bilangan tak nol (misal $0 = 7$), sistem tersebut <strong>tidak memiliki solusi ($\emptyset$)</strong>.
+                                </p>
+                            </div>
+                            <div class="p-5 rounded-2xl bg-indigo-50 border border-indigo-200 space-y-2">
+                                <div class="font-bold text-indigo-900 flex items-center gap-1.5">
+                                    <span>♾️</span> <span>2. Muncul Tautologi: $0 = 0$</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Jika muncul kesamaan sejati $0 = 0$, artinya salah satu persamaan adalah kombinasi linear persamaan lain. Terdapat <strong>tak hingga solusi</strong>. Salah satu variabel dijadikan parameter bebas (misal $z = t$).
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jawablah 4 pertanyaan evaluasi berikut untuk menguji pemahaman Anda mengenai SPLTV.
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- SOAL 1 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 1 &middot; SPLTV Standar</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Diberikan SPLTV:
+                                    $$\begin{cases} x + y + z = 6 \\ 2x - y + z = 3 \\ x + 2y - z = 2 \end{cases}$$
+                                    Nilai dari $x \cdot y \cdot z$ adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-1" value="a" class="text-blue-600">
+                                        <span>A. 4</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-1" value="b" class="text-blue-600">
+                                        <span>B. 6</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-1" value="c" class="text-blue-600">
+                                        <span>C. 8</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-1" value="d" class="text-blue-600">
+                                        <span>D. 12</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-spltv-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 2 &middot; Trik Penjumlahan Simultan</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Diketahui:
+                                    $$\begin{cases} x + y = 7 \\ y + z = 11 \\ x + z = 10 \end{cases}$$
+                                    Berapakah nilai dari $x + y + z$?
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-2" value="a" class="text-blue-600">
+                                        <span>A. 14</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-2" value="b" class="text-blue-600">
+                                        <span>B. 16</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-2" value="c" class="text-blue-600">
+                                        <span>C. 21</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-2" value="d" class="text-blue-600">
+                                        <span>D. 28</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-spltv-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 3 &middot; Karakteristik Inkonsistensi</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Ketika sebuah SPLTV dieliminasi dan menghasilkan baris aljabar $0x + 0y + 0z = 5$, maka kesimpulan geometris yang paling tepat adalah ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-3" value="a" class="text-blue-600">
+                                        <span>A. Ketiga bidang berpotongan pada satu garis</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-3" value="b" class="text-blue-600">
+                                        <span>B. Ketiga bidang berhimpit menjadi satu bidang datar</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-3" value="c" class="text-blue-600">
+                                        <span>C. Tidak ada titik persekutuan yang memenuhi ketiga bidang sekaligus</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-3" value="d" class="text-blue-600">
+                                        <span>D. Sistem memiliki solusi berparameter $z = 5$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-spltv-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 4 &middot; Pecahan Invers</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Jika $\frac{1}{x} + \frac{1}{y} = 5$, $\frac{1}{y} + \frac{1}{z} = 7$, dan $\frac{1}{x} + \frac{1}{z} = 6$, berapakah nilai $x$?
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-4" value="a" class="text-blue-600">
+                                        <span>A. $\frac{1}{2}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-4" value="b" class="text-blue-600">
+                                        <span>B. $\frac{1}{3}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-4" value="c" class="text-blue-600">
+                                        <span>C. $\frac{1}{4}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-spltv-4" value="d" class="text-blue-600">
+                                        <span>D. $2$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-spltv-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysSPLTV2 = {
+                                'kuis-spltv-1': { 
+                                    ans: 'b', 
+                                    text: 'Jumlahkan pers (1) dan (3): 2x + 3y = 8. Dari pers (1) dan (2): (x+y+z) - (2x-y+z) = 6 - 3 => -x + 2y = 3. Selesaikan sistem: x = 1, y = 2. Masukkan ke pers (1): 1 + 2 + z = 6 => z = 3. Maka x . y . z = 1 . 2 . 3 = 6.' 
+                                },
+                                'kuis-spltv-2': { 
+                                    ans: 'a', 
+                                    text: 'Jumlahkan ketiga persamaan: (x+y) + (y+z) + (x+z) = 7 + 11 + 10 => 2(x + y + z) = 28 => x + y + z = 14.' 
+                                },
+                                'kuis-spltv-3': { 
+                                    ans: 'c', 
+                                    text: 'Persamaan 0 = 5 adalah sebuah kontradiksi mutlak. Ini berarti sistem tidak memiliki solusi persekutuan (inkonsisten).' 
+                                },
+                                'kuis-spltv-4': { 
+                                    ans: 'a', 
+                                    text: 'Misalkan u = 1/x, v = 1/y, w = 1/z. Maka u+v = 5, v+w = 7, u+w = 6. Jumlahkan ketiganya: 2(u+v+w) = 18 => u+v+w = 9. Karena v+w = 7, maka u + 7 = 9 => u = 2. Maka x = 1/u = 1/2.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysSPLTV2).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-spltv-${idx + 1}`);
+                                        const info = kuisKeysSPLTV2[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Coba periksa kembali langkah eliminasi atau substitusi mundur Anda!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Aljabar: Sistem Persamaan Linear Tiga Variabel.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 10: Systems of Linear Equations in Several Variables (10.2).</p>
+                    <p><strong>Anton, Howard, Bivens, Irl, &amp; Davis, Stephen.</strong> (2012). <em>Calculus: Early Transcendentals</em> (10th ed.). Wiley. Appendix: Systems of Linear Equations.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="sistem-persamaan-linear-dua-variabel-spldv.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: SPLDV
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="metode-determinan-matriks-sistem-linear.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Metode Determinan &amp; Aturan Cramer &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

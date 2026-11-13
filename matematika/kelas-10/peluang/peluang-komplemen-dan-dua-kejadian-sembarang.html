@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peluang Komplemen &amp; Dua Kejadian Sembarang — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari konsep peluang komplemen P(A') = 1 - P(A), strategi menyelesaikan soal 'minimal satu', diagram Venn dua himpunan kejadian, serta aturan penjumlahan umum peluang dua kejadian sembarang P(A ∪ B) = P(A) + P(B) - P(A ∩ B).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/peluang-komplemen-dan-dua-kejadian-sembarang.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/peluang/peluang-komplemen-dan-dua-kejadian-sembarang.html">
+    <meta property="og:title" content="🎲 Peluang Komplemen &amp; Dua Kejadian Sembarang — Kelas X SMA">
+    <meta property="og:description" content="Kuasai trik komplemen 'minimal satu' dan rumus inklusi-eksklusi peluang gabungan dua kejadian dengan modul carousel interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="peluang">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 8: Peluang
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Peluang Komplemen &amp; Dua Kejadian Sembarang
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Tidak semua peluang lebih mudah dihitung secara langsung. Pelajari kekuatan <strong>Hukum Komplemen ($A'$)</strong> untuk menyederhanakan perhitungan peristiwa majemuk bertingkat (khususnya kasus *"paling sedikit satu"*), representasi Diagram Venn dua himpunan, serta formulasi umum peluang gabungan dua kejadian sembarang ($P(A \cup B)$) menggunakan prinsip inklusi-eksklusi.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Konsep Peluang Komplemen -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Peluang Komplemen Suatu Kejadian ($A'$)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Jika $A$ adalah suatu kejadian di dalam ruang sampel $S$, maka <strong>komplemen kejadian $A$</strong> (dilambangkan dengan $A'$ atau $A^c$) adalah himpunan semua titik sampel di $S$ yang <strong>bukan anggota $A$</strong> (*kejadian di mana $A$ TIDAK terjadi*):
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Hukum Peluang Komplemen</div>
+                                <div class="text-base sm:text-xl font-mono text-blue-900 font-bold py-1">
+                                    $$P(A) + P(A') = 1 \iff P(A') = 1 - P(A)$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Karena $A$ dan $A'$ saling lepas serta gabungannya membentuk seluruh semesta ruang sampel ($A \cup A' = S$).
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                                <span class="font-bold text-slate-900 text-sm">Contoh Praktis:</span>
+                                <p>Jika peluang seorang siswa lulus seleksi perguruan tinggi negeri adalah $P(A) = 0{,}72$, maka peluang siswa tersebut tidak lulus adalah:</p>
+                                <div class="font-mono font-bold text-blue-700">
+                                    $$P(A') = 1 - 0{,}72 = \mathbf{0{,}28} \quad (28\%)$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Strategi "Paling Sedikit Satu" -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Strategi Komplemen: Kasus "Paling Sedikit Satu"</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Menghitung peluang terjadinya *"paling sedikit satu"* secara langsung sering kali sangat panjang karena harus menjumlahkan banyak kemungkinan (1 sukses, 2 sukses, ..., $n$ sukses). Trik matematika paling elegan adalah menggunakan <strong>negasi komplemen</strong>:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-950 text-center space-y-2">
+                                <div class="text-xs font-bold uppercase tracking-wider text-amber-800">Trik Cepat Komplemen</div>
+                                <div class="text-sm sm:text-base font-mono font-bold py-1">
+                                    $$P(\text{Paling Sedikit } 1) = 1 - P(\text{Tidak Ada Sama Sekali / Nol})$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2">
+                                <span class="font-bold text-slate-900 text-sm">Studi Kasus Pelemparan Koin:</span>
+                                <p>Empat keping uang logam dilempar bersamaan. Berapakah peluang muncul <em>paling sedikit satu sisi Angka ($A$)</em>?</p>
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono space-y-1 text-slate-800">
+                                    <div>&bull; Ruang sampel 4 koin: $n(S) = 2^4 = 16$.</div>
+                                    <div>&bull; Lawan/komplemen dari "minimal 1 Angka" adalah <strong>"sama sekali tidak ada Angka"</strong>, yakni keempatnya Gambar $(G, G, G, G) \implies n(A') = 1$.</div>
+                                    <div>&bull; Peluang komplemen: $P(A') = \frac{1}{16}$.</div>
+                                    <div class="font-bold text-blue-700">&bull; Peluang yang dicari: $P(A) = 1 - P(A') = 1 - \frac{1}{16} = \mathbf{\frac{15}{16}}$.</div>
+                                </div>
+                                <p class="text-slate-500 italic">*Jauh lebih cepat dibanding menjumlahkan peluang 1 angka (4/16), 2 angka (6/16), 3 angka (4/16), dan 4 angka (1/16)!</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: Diagram Venn Dua Kejadian -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Operasi Irisan ($A \cap B$) &amp; Gabungan ($A \cup B$)</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Ketika kita mengamati dua kejadian $A$ dan $B$ dalam ruang sampel yang sama, relasi himpunan visualnya dapat dinyatakan dengan <strong>Diagram Venn</strong>:
+                            </p>
+
+                            <!-- ILUSTRASI SVG DIAGRAM VENN DUA HIMPUNAN -->
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-2">
+                                <div class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Visualisasi Diagram Venn Irisan &amp; Gabungan:</div>
+                                <svg class="w-full max-w-md mx-auto h-36" viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Kotak Semesta S -->
+                                    <rect x="10" y="10" width="340" height="120" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" />
+                                    <text x="25" y="30" font-size="12" font-weight="bold" fill="#64748b">Semesta (S)</text>
+                                    
+                                    <!-- Lingkaran Himpunan A -->
+                                    <circle cx="140" cy="70" r="48" fill="#93c5fd" fill-opacity="0.5" stroke="#2563eb" stroke-width="2" />
+                                    <!-- Lingkaran Himpunan B -->
+                                    <circle cx="220" cy="70" r="48" fill="#c4b5fd" fill-opacity="0.5" stroke="#7c3aed" stroke-width="2" />
+                                    
+                                    <!-- Label Teks -->
+                                    <text x="110" y="75" font-size="12" font-weight="bold" fill="#1e40af">A saja</text>
+                                    <text x="180" y="75" text-anchor="middle" font-size="11" font-weight="bold" fill="#4338ca">A &cap; B</text>
+                                    <text x="250" y="75" font-size="12" font-weight="bold" fill="#5b21b6">B saja</text>
+                                </svg>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                                    <span class="font-bold text-blue-900 text-sm block mb-1">Irisan ($A \cap B$):</span>
+                                    Peristiwa di mana kejadian $A$ <strong>DAN</strong> kejadian $B$ terjadi secara berbarengan (irisan di tengah diagram).
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                                    <span class="font-bold text-purple-900 text-sm block mb-1">Gabungan ($A \cup B$):</span>
+                                    Peristiwa di mana kejadian $A$ <strong>ATAU</strong> kejadian $B$ (atau keduanya) terjadi (mencakup seluruh area kedua lingkaran).
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Hukum Penjumlahan Umum -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                                <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">4</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Hukum Penjumlahan Dua Kejadian Sembarang</h2>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Jika kita menjumlahkan $P(A)$ dan $P(B)$, wilayah irisan ($A \cap B$) akan <strong>terhitung dua kali (*double counting*)</strong>. Oleh karena itu, prinsip inklusi-eksklusi mewajibkan kita mengurangkan irisan tersebut satu kali:
+                            </p>
+
+                            <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/70 text-slate-800 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-800 uppercase tracking-wider">Hukum Penjumlahan Umum Peluang</div>
+                                <div class="text-base sm:text-xl font-mono text-blue-950 font-bold py-1">
+                                    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Berlaku untuk dua kejadian sembarang, baik yang beririsan maupun yang saling lepas.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 space-y-1.5">
+                                <span class="font-bold">Contoh Kartu Bridge (52 Lembar):</span>
+                                <p>Satu kartu diambil acak dari seperangkat kartu bridge standar. Berapakah peluang terambilnya kartu <strong>Hati</strong> ($A$) ATAU kartu <strong>King</strong> ($B$)?</p>
+                                <ul class="list-disc list-inside space-y-1 text-slate-700">
+                                    <li>Banyak kartu Hati: $n(A) = 13 \implies P(A) = \frac{13}{52}$.</li>
+                                    <li>Banyak kartu King: $n(B) = 4 \implies P(B) = \frac{4}{52}$.</li>
+                                    <li>Irisan kartu Hati DAN King (King Hati): $n(A \cap B) = 1 \implies P(A \cap B) = \frac{1}{52}$.</li>
+                                    <li class="font-bold text-blue-700">Peluang gabungan: $P(A \cup B) = \frac{13}{52} + \frac{4}{52} - \frac{1}{52} = \frac{16}{52} = \mathbf{\frac{4}{13}}$.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi Pemahaman -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Uji Konsep: Komplemen &amp; Peluang Gabungan</h2>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">4 Soal Auto-Check</span>
+                            </div>
+
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Ujilah pemahaman Anda dalam menghitung peluang komplemen dan penerapan rumus penjumlahan gabungan dua kejadian.
+                            </p>
+
+                            <!-- FORM SOAL QUIZ -->
+                            <form id="quiz-peluang-komplemen" class="space-y-6" onsubmit="event.preventDefault();">
+                                
+                                <!-- SOAL 1 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 1: Peluang Komplemen Dadu</span>
+                                        <span id="badge-qk1" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Sebuah dadu seimbang dilempar satu kali. Berapakah peluang munculnya mata dadu BUKAN kelipatan 3?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{1}{3}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{1}{2}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{2}{3}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{5}{6}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qk1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 2 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 2: Trik Paling Sedikit Satu</span>
+                                        <span id="badge-qk2" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Tiga keping uang logam dilempar bersama-sama. Berapakah peluang muncul paling sedikit satu sisi Gambar?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{1}{8}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{3}{8}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{7}{8}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{3}{4}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qk2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 3 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 3: Rumus Inklusi-Eksklusi</span>
+                                        <span id="badge-qk3" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Jika diketahui nilai peluang $P(A) = 0{,}6$, $P(B) = 0{,}5$, dan peluang irisannya $P(A \cap B) = 0{,}3$, berapakah nilai peluang gabungan $P(A \cup B)$?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 0,7</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 0,8</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 0,9</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 1,1</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qk3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- SOAL 4 -->
+                                <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Soal 4: Peluang Kartu Remi</span>
+                                        <span id="badge-qk4" class="hidden text-xs px-2 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-900">
+                                        Dari 52 kartu bridge, diambil 1 kartu acak. Berapakah peluang terambil kartu berwarna <strong>Hitam</strong> (26 lembar) ATAU kartu bernomor <strong>As</strong> (4 lembar)?
+                                    </p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> $\frac{7}{13}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> $\frac{15}{26}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> $\frac{8}{13}$</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qk4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> $\frac{1}{2}$</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qk4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllKomplemenQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-komplemen-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Peluang Komplemen dan Kejadian Majemuk.</p>
+                    <p><strong>Walpole, Ronald E., Myers, Raymond H., &amp; Ye, Keying.</strong> (2016). <em>Probability and Statistics for Engineers and Scientists</em> (9th ed.). Pearson. Chapter 2: Additive Rules &amp; Complements.</p>
+                    <p><strong>Ross, Sheldon.</strong> (2014). <em>A First Course in Probability</em> (9th ed.). Pearson. Inclusion-Exclusion Identity.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="aturan-penjumlahan-dan-perkalian.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Aturan Penjumlahan &amp; Perkalian
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="peluang-kejadian-saling-lepas-dan-tidak-saling-lepas.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kejadian Saling Lepas &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA KUIS EVALUASI KOMPLEMEN -->
+    <script>
+        function checkAllKomplemenQuiz() {
+            const answers = {
+                qk1: { correct: 'C', explanation: 'Kelipatan 3 pada dadu adalah $\{3, 6\} \\implies P(\\text{kelipatan 3}) = \\frac{2}{6} = \\frac{1}{3}$. Peluang komplemennya adalah $1 - \\frac{1}{3} = \\mathbf{\\frac{2}{3}}$.' },
+                qk2: { correct: 'C', explanation: 'Total kemungkinan $2^3 = 8$. Kejadian komplemen "tidak ada Gambar sama sekali" adalah $(A, A, A)$ yang berpeluang $\\frac{1}{8}$. Maka $P(\\text{minimal 1 G}) = 1 - \\frac{1}{8} = \\mathbf{\\frac{7}{8}}$.' },
+                qk3: { correct: 'B', explanation: '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0{,}6 + 0{,}5 - 0{,}3 = \\mathbf{0{,}8}$.' },
+                qk4: { correct: 'A', explanation: '$P(\\text{Hitam}) = \\frac{26}{52}$, $P(\\text{As}) = \\frac{4}{52}$, dan irisan As Hitam (As Sekop & As Keriting) ada $2 \\implies P(\\text{As Hitam}) = \\frac{2}{52}$. Peluangnya $= \\frac{26 + 4 - 2}{52} = \\frac{28}{52} = \\mathbf{\\frac{7}{13}}$.' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'qk' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-komplemen-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-peluang-komplemen'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram Pencar & Korelasi Data Bivariat — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari analisis data bivariat dengan diagram pencar (scatter plot): variabel independen vs dependen, arah tren korelasi positif/negatif, kekuatan pola linear dan kurvalinear, serta konsep garis best-fit.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/statistika/diagram-pencar-dan-korelasi-data-bivariat.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/statistika/diagram-pencar-dan-korelasi-data-bivariat.html">
+    <meta property="og:title" content="📊 Diagram Pencar & Korelasi Data Bivariat — Kelas X SMA">
+    <meta property="og:description" content="Kuasai pembacaan scatter plot, korelasi positif/negatif, dan garis best-fit dengan modul carousel interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="statistika">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 7: Statistika
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Diagram Pencar &amp; Korelasi Data Bivariat
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari analisis hubungan antara dua variabel kuantitatif: konsep data bivariat, pemetaan titik pada diagram pencar (*scatter plot*), identifikasi arah tren korelasi (positif, negatif, nol), kekuatan keterikatan pola linear, serta penarikan garis taksiran terbaik (*line of best fit*).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DATA BIVARIAT & DIAGRAM PENCAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Pengantar Data Dua Variabel</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 1. Konsep Data Bivariat &amp; Diagram Pencar
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Data Bivariat</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            <strong>Data Bivariat</strong> adalah kumpulan data yang terdiri dari pasangan dua variabel kuantitatif $(x_i, y_i)$ dari objek yang sama (misal: lama waktu belajar $x$ dan nilai ujian $y$, atau tinggi badan $x$ dan berat badan $y$).
+                        </p>
+
+                        <!-- DUA PERAN VARIABEL -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-1.5">
+                                <span class="font-bold text-blue-900 block">Variabel Independen / Penjelas ($X$)</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Diletakkan pada <strong>sumbu horizontal (sumbu-$X$)</strong>. Merupakan variabel penyebab atau faktor yang diduga mempengaruhi nilai variabel lainnya.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 space-y-1.5">
+                                <span class="font-bold text-indigo-900 block">Variabel Dependen / Respon ($Y$)</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Diletakkan pada <strong>sumbu vertikal (sumbu-$Y$)</strong>. Merupakan variabel akibat atau hasil ukur yang nilainya dipengaruhi oleh variabel penjelas.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700">
+                            <strong>Diagram Pencar (*Scatter Plot*)</strong> adalah grafik visual di mana setiap pasangan data $(x, y)$ diplot sebagai satu titik tunggal pada bidang koordinat Cartesius.
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: ARAH TREN KORELASI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Arah Asosiasi Data</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧭 2. Arah Tren Korelasi (Asosiasi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Arah Korelasi</span>
+                        </div>
+
+                        <!-- 3 KARTU KORELASI -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+                                <div class="font-bold text-emerald-900 flex items-center gap-1.5">
+                                    <span>↗️</span> <span>1. Korelasi Positif</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Titik-titik data condong naik dari kiri bawah ke kanan atas. Jika nilai $X$ bertambah besar, nilai $Y$ juga cenderung bertambah besar.
+                                    <br><em>Contoh: Pengalaman kerja vs Gaji.</em>
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-1.5">
+                                <div class="font-bold text-rose-900 flex items-center gap-1.5">
+                                    <span>↘️</span> <span>2. Korelasi Negatif</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Titik-titik data condong turun dari kiri atas ke kanan bawah. Jika nilai $X$ bertambah besar, nilai $Y$ cenderung menurun.
+                                    <br><em>Contoh: Ketinggian gunung vs Suhu udara.</em>
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <div class="font-bold text-slate-900 flex items-center gap-1.5">
+                                    <span>⚪</span> <span>3. Nihil Korelasi (Nol)</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Titik-titik tersebar acak melingkar tanpa membentuk pola garis atau kemiringan tertentu. Tidak ada hubungan linear antara $X$ dan $Y$.
+                                    <br><em>Contoh: Ukuran sepatu vs Nilai fisika.</em>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: BENTUK & KEKUATAN KORELASI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Kekuatan Pola Sebaran</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💪 3. Bentuk &amp; Kekuatan Korelasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Kekuatan Hubungan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Kekuatan korelasi mengukur seberapa rapat titik-titik data mengelompok mengikuti garis tren:
+                        </p>
+
+                        <!-- DUA PERBANDINGAN KEKUATAN -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-blue-900 block">Korelasi Linear Kuat vs Lemah</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    • <strong>Kuat:</strong> Titik-titik data berada sangat dekat dan merapat ke garis lurus tren bayangan.
+                                    <br>• <strong>Sedang / Lemah:</strong> Titik-titik data menunjukkan tren naik/turun tetapi lebih menyebar melebar menjauhi garis tengah.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-indigo-900 block">Bentuk Pola: Linear vs Non-Linear</span>
+                                <p class="text-slate-600 leading-relaxed">
+                                    • <strong>Linear:</strong> Titik-titik membentuk garis lurus.
+                                    <br>• <strong>Kurvalinear (Non-Linear):</strong> Titik-titik membentuk lengkungan kurva parabola (fungsi kuadrat) atau kurva eksponensial.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: GARIS BEST-FIT (LINE OF BEST FIT) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Garis Taksiran Regresi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📏 4. Menarik Garis Best-Fit &amp; Interpolasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Best-Fit Line</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            <strong>Garis Best-Fit</strong> (garis regresi linear) adalah garis lurus yang ditarik membelah kumpulan titik data sehingga jarak titik-titik di atas garis dan di bawah garis seimbang seminimal mungkin:
+                        </p>
+
+                        <!-- ATURAN GARIS BEST FIT -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-sm font-bold text-indigo-950 uppercase">Karakteristik Garis Best-Fit:</h3>
+                            <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-700 leading-relaxed">
+                                <li>Garis ideal selalu melalui titik koordinat rata-rata data: $(\bar{x}, \bar{y})$.</li>
+                                <li>Jumlah titik di atas garis dan di bawah garis kira-kira sama banyak.</li>
+                                <li><strong>Interpolasi:</strong> Mengestimasi nilai di dalam rentang data yang sudah diketahui (sangat akurat).</li>
+                                <li><strong>Ekstrapolasi:</strong> Mengestimasi nilai jauh di luar rentang data pengamatan (berisiko kurang akurat).</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jawablah 4 pertanyaan evaluasi berikut mengenai diagram pencar dan analisis korelasi bivariat.
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- SOAL 1 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 1 &middot; Menentukan Variabel Independen</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Dalam penelitian pengaruh dosis pupuk nitrogen terhadap hasil panen padi per hektar, manakah yang merupakan variabel independen (sumbu-X)?
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-1" value="a" class="text-blue-600">
+                                        <span>A. Hasil panen padi per hektar</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-1" value="b" class="text-blue-600">
+                                        <span>B. Dosis pupuk nitrogen</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-1" value="c" class="text-blue-600">
+                                        <span>C. Luas lahan sawah</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-1" value="d" class="text-blue-600">
+                                        <span>D. Jenis varietas bibit padi</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-stat-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 2 &middot; Identifikasi Arah Korelasi</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Jika semakin tinggi kecepatan kendaraan bermotor, maka jarak tempuh per liter bahan bakar semakin berkurang, hubungan kedua variabel ini menunjukkan ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-2" value="a" class="text-blue-600">
+                                        <span>A. Korelasi positif</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-2" value="b" class="text-blue-600">
+                                        <span>B. Korelasi negatif</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-2" value="c" class="text-blue-600">
+                                        <span>C. Nihil korelasi</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-2" value="d" class="text-blue-600">
+                                        <span>D. Korelasi konstan</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-stat-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 3 &middot; Titik Rata-Rata Best-Fit</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Garis best-fit yang representatif secara matematis pasti melalui titik koordinat khusus, yaitu ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-3" value="a" class="text-blue-600">
+                                        <span>A. Titik asal $(0, 0)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-3" value="b" class="text-blue-600">
+                                        <span>B. Titik nilai maksimum $(x_{\text{maks}}, y_{\text{maks}})$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-3" value="c" class="text-blue-600">
+                                        <span>C. Titik koordinat rata-rata $(\bar{x}, \bar{y})$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-3" value="d" class="text-blue-600">
+                                        <span>D. Titik nilai minimum $(x_{\text{min}}, y_{\text{min}})$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-stat-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Soal 4 &middot; Interpolasi vs Ekstrapolasi</span>
+                                <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                    Jika data pengamatan tinggi kecambah dicatat pada hari ke-1 sampai hari ke-10, maka perkiraan tinggi kecambah pada hari ke-6 disebut proses ...
+                                </p>
+                                <div class="space-y-2 text-xs sm:text-sm">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-4" value="a" class="text-blue-600">
+                                        <span>A. Ekstrapolasi</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-4" value="b" class="text-blue-600">
+                                        <span>B. Interpolasi</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-4" value="c" class="text-blue-600">
+                                        <span>C. Eliminasi</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-stat-4" value="d" class="text-blue-600">
+                                        <span>D. Diferensiasi</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-stat-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysStat1 = {
+                                'kuis-stat-1': { 
+                                    ans: 'b', 
+                                    text: 'Dosis pupuk nitrogen adalah variabel penjelas/bebas (independen) yang diatur oleh peneliti untuk melihat dampaknya terhadap hasil panen (dependen).' 
+                                },
+                                'kuis-stat-2': { 
+                                    ans: 'b', 
+                                    text: 'Jika variabel X meningkat dan variabel Y menurun, hubungan keduanya menunjukkan korelasi negatif.' 
+                                },
+                                'kuis-stat-3': { 
+                                    ans: 'c', 
+                                    text: 'Secara prinsip regresi kuadrat terkecil, garis best-fit selalu melintasi titik pusat rata-rata data (x_bar, y_bar).' 
+                                },
+                                'kuis-stat-4': { 
+                                    ans: 'b', 
+                                    text: 'Menaksir nilai di dalam batas rentang data yang sudah diamati (hari ke-6 di antara hari ke-1 dan 10) disebut interpolasi.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysStat1).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-stat-${idx + 1}`);
+                                        const info = kuisKeysStat1[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat konsep variabel bebas/terikat dan arah korelasi!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Analisis Data dan Peluang: Diagram Pencar Bivariat.</p>
+                    <p><strong>Triola, Mario F.</strong> (2018). <em>Elementary Statistics</em> (13th ed.). Pearson. Chapter 10: Correlation and Regression (10.1 Correlation, Scatterplots).</p>
+                    <p><strong>Moore, David S., Notz, William I., &amp; Fligner, Michael A.</strong> (2021). <em>The Basic Practice of Statistics</em> (9th ed.). Macmillan Learning. Chapter 4: Scatterplots and Correlation.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-10/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Beranda Matematika Kelas X
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="ukuran-pemusatan-data-tunggal-dan-kelompok.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Ukuran Pemusatan &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>
