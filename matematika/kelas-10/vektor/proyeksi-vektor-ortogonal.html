@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyeksi Vektor Ortogonal — Matematika Kelas X</title>
+    <meta name="description" content="Kuasai konsep proyeksi vektor ortogonal: proyeksi skalar (panjang proyeksi), vektor proyeksi ortogonal, dekomposisi vektor sejajar & tegak lurus, serta contoh perhitungan lengkap.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/proyeksi-vektor-ortogonal.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/proyeksi-vektor-ortogonal.html">
+    <meta property="og:title" content="📐 Proyeksi Vektor Ortogonal — Kelas X SMA">
+    <meta property="og:description" content="Modul interaktif proyeksi skalar dan vektor proyeksi ortogonal dengan slider KaTeX dan kuis evaluasi auto-koreksi.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="vektor">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor dan Operasinya
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Proyeksi Vektor Ortogonal
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari konsep geometri proyeksi tegak lurus suatu vektor pada garis penyangga vektor lain: perbedaan proyeksi skalar ortogonal (nilai panjang bertanda) dan vektor proyeksi ortogonal, formula kalkulasi berbasis perkalian skalar, serta aplikasi dekomposisi vektor menjadi komponen sejajar dan komponen ortogonal.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: INTUISI GEOMETRIS PROYEKSI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Intuisi Geometris</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔦 1. Konsep Geometris Bayangan Tegak Lurus
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Konsep Proyeksi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Secara fisik, bayangkan sebuah sumber cahaya tepat tegak lurus di atas vektor $\vec{v}$. Bayangan yang dijatuhkan oleh vektor $\vec{u}$ ke atas garis penyangga vektor $\vec{v}$ disebut sebagai <strong>proyeksi ortogonal dari $\vec{u}$ pada $\vec{v}$</strong>.
+                        </p>
+
+                        <!-- DUA JENIS PROYEKSI -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 bg-gradient-to-br from-blue-50/70 to-white rounded-2xl border border-blue-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs">1</span>
+                                    <h4 class="text-sm font-bold text-slate-900">Proyeksi Skalar Ortogonal</h4>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Menghasilkan sebuah <strong>bilangan riil (skalar)</strong> yang menyatakan panjang bayangan bertanda. Positif jika searah $\vec{v}$ dan negatif jika berlawanan arah.
+                                </p>
+                            </div>
+
+                            <div class="p-5 bg-gradient-to-br from-indigo-50/70 to-white rounded-2xl border border-indigo-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-800 font-bold flex items-center justify-center text-xs">2</span>
+                                    <h4 class="text-sm font-bold text-slate-900">Vektor Proyeksi Ortogonal</h4>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Menghasilkan sebuah <strong>vektor baru</strong> ($\vec{c} = \text{proj}_{\vec{v}}\vec{u}$) yang terletak pada garis penyangga vektor $\vec{v}$ dan memiliki arah serta panjang sesuai bayangannya.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CATATAN PENTING -->
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-950 space-y-1">
+                            <span class="font-bold">⚠️ Perhatikan Arah Proyeksi:</span>
+                            <p>Proyeksi $\vec{u}$ <strong>pada $\vec{v}$</strong> memiliki pembagi panjang vektor tujuan ($|\vec{v}|$). Sebaliknya, proyeksi $\vec{v}$ <strong>pada $\vec{u}$</strong> memiliki pembagi $|\vec{u}|$. Jangan sampai terbalik!</p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PROYEKSI SKALAR ORTOGONAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Panjang Proyeksi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📏 2. Proyeksi Skalar Ortogonal
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Skalar Proyeksi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Berdasarkan trigonometri segitiga siku-siku, panjang bayangan $\vec{u}$ pada garis $\vec{v}$ adalah $|\vec{u}|\cos\theta$. Dari definisi dot product $\vec{u} \cdot \vec{v} = |\vec{u}||\vec{v}|\cos\theta$, kita peroleh $|\vec{u}|\cos\theta = \frac{\vec{u} \cdot \vec{v}}{|\vec{v}|}$.
+                        </p>
+
+                        <!-- FORMULA SKALAR PROYEKSI -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800 text-center">Formula Proyeksi Skalar $\vec{u}$ pada $\vec{v}$:</h3>
+                            <div class="p-4 bg-white rounded-xl border border-emerald-300 text-center font-mono text-base font-bold text-emerald-950 shadow-2xs">
+                                $$|\vec{c}| = \text{comp}_{\vec{v}}\vec{u} = \frac{\vec{u} \cdot \vec{v}}{|\vec{v}|} = \frac{u_x v_x + u_y v_y}{\sqrt{v_x^2 + v_y^2}}$$
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL SKALAR -->
+                        <div class="p-4 bg-blue-50/70 rounded-xl border border-blue-100 text-xs text-slate-700 space-y-1.5">
+                            <span class="font-bold text-blue-900">Contoh Perhitungan:</span>
+                            <p>Diketahui $\vec{u} = \begin{pmatrix} 8 \\ 4 \end{pmatrix}$ dan $\vec{v} = \begin{pmatrix} 3 \\ -4 \end{pmatrix}$. Tentukan proyeksi skalar $\vec{u}$ pada $\vec{v}$!</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-blue-200 font-mono text-[11px] text-blue-950 space-y-1">
+                                <p>1. Dot product: $\vec{u} \cdot \vec{v} = (8)(3) + (4)(-4) = 24 - 16 = 8$.</p>
+                                <p>2. Panjang vektor $\vec{v}$: $|\vec{v}| = \sqrt{3^2 + (-4)^2} = \sqrt{9 + 16} = 5$.</p>
+                                <p>3. Proyeksi skalar: $|\vec{c}| = \frac{8}{5} = 1{,}6\text{ satuan}$.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: VEKTOR PROYEKSI ORTOGONAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Vektor Hasil</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🏹 3. Formula Vektor Proyeksi Ortogonal
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Vektor Proyeksi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Vektor proyeksi $\vec{c}$ adalah perkalian antara <strong>panjang proyeksi skalar</strong> dengan <strong>vektor satuan dari $\vec{v}$ ($\hat{v}$)</strong>:
+                            $$\vec{c} = \left(\frac{\vec{u} \cdot \vec{v}}{|\vec{v}|}\right) \hat{v} = \left(\frac{\vec{u} \cdot \vec{v}}{|\vec{v}|}\right) \left(\frac{\vec{v}}{|\vec{v}|}\right)$$
+                        </p>
+
+                        <!-- FORMULA VEKTOR PROYEKSI -->
+                        <div class="p-5 bg-gradient-to-br from-indigo-50/70 to-white rounded-2xl border border-indigo-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-950 text-center">Formula Vektor Proyeksi $\vec{u}$ pada $\vec{v}$:</h3>
+                            <div class="p-4 bg-white rounded-xl border border-indigo-300 text-center font-mono text-base font-bold text-indigo-950 shadow-2xs">
+                                $$\vec{c} = \text{proj}_{\vec{v}}\vec{u} = \left( \frac{\vec{u} \cdot \vec{v}}{|\vec{v}|^2} \right) \vec{v}$$
+                            </div>
+                            <p class="text-xs text-slate-600 text-center">
+                                Karena $|\vec{v}|^2 = v_x^2 + v_y^2$, rumus ini tidak memerlukan akar kuadrat pada penyebutnya!
+                            </p>
+                        </div>
+
+                        <!-- CONTOH SOAL VEKTOR PROYEKSI -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                            <span class="font-bold text-slate-900">Contoh Hitung Vektor:</span>
+                            <p>Tentukan vektor proyeksi dari $\vec{u} = \begin{pmatrix} 4 \\ 2 \end{pmatrix}$ pada $\vec{v} = \begin{pmatrix} 1 \\ 3 \end{pmatrix}$!</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-[11px] text-slate-800 space-y-1">
+                                <p>1. Dot product: $\vec{u} \cdot \vec{v} = (4)(1) + (2)(3) = 4 + 6 = 10$.</p>
+                                <p>2. Kuadrat panjang: $|\vec{v}|^2 = 1^2 + 3^2 = 1 + 9 = 10$.</p>
+                                <p>3. Vektor proyeksi: $\vec{c} = \left(\frac{10}{10}\right)\begin{pmatrix} 1 \\ 3 \end{pmatrix} = 1 \begin{pmatrix} 1 \\ 3 \end{pmatrix} = \begin{pmatrix} 1 \\ 3 \end{pmatrix}$.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: DEKOMPOSISI ORTOGONAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Analisis Komponen</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚙️ 4. Dekomposisi Vektor Tegak Lurus (Orthogonal Component)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Dekomposisi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Setiap vektor $\vec{u}$ dapat diuraikan secara unik menjadi dua komponen: satu komponen yang <strong>sejajar $\vec{v}$</strong> ($\vec{u}_{\parallel}$) dan satu komponen yang <strong>tegak lurus $\vec{v}$</strong> ($\vec{u}_{\perp}$):
+                        </p>
+
+                        <!-- FORMULA DEKOMPOSISI -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="bg-white p-3 rounded-xl border border-purple-200 text-center font-mono text-base font-bold text-purple-950">
+                                $$\vec{u} = \vec{u}_{\parallel} + \vec{u}_{\perp}$$
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
+                                <div class="p-3 bg-purple-50/70 rounded-xl border border-purple-100">
+                                    <span class="font-bold text-purple-900 block mb-1">1. Komponen Sejajar:</span>
+                                    $$\vec{u}_{\parallel} = \text{proj}_{\vec{v}}\vec{u}$$
+                                </div>
+                                <div class="p-3 bg-purple-50/70 rounded-xl border border-purple-100">
+                                    <span class="font-bold text-purple-900 block mb-1">2. Komponen Tegak Lurus:</span>
+                                    $$\vec{u}_{\perp} = \vec{u} - \text{proj}_{\vec{v}}\vec{u}$$
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 text-center">
+                                Uji kebenaran: Selalu berlaku $\vec{u}_{\perp} \cdot \vec{v} = 0$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✅ 5. Kuis Pemahaman: Proyeksi Vektor
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <div class="space-y-4">
+
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">1</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Panjang proyeksi skalar vektor $\vec{u} = \begin{pmatrix} 6 \\ 2 \end{pmatrix}$ pada vektor $\vec{v} = \begin{pmatrix} 4 \\ 3 \end{pmatrix}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-1" value="a" class="text-blue-600">
+                                        <span>A. $5$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-1" value="b" class="text-blue-600">
+                                        <span>B. $6$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-1" value="c" class="text-blue-600">
+                                        <span>C. $\frac{30}{\sqrt{40}}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-1" value="d" class="text-blue-600">
+                                        <span>D. $30$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek5-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">2</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Vektor proyeksi ortogonal dari $\vec{a} = \begin{pmatrix} 2 \\ 4 \end{pmatrix}$ pada $\vec{b} = \begin{pmatrix} 3 \\ 1 \end{pmatrix}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-2" value="a" class="text-blue-600">
+                                        <span>A. $\begin{pmatrix} 3 \\ 1 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-2" value="b" class="text-blue-600">
+                                        <span>B. $\begin{pmatrix} 2 \\ 4 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-2" value="c" class="text-blue-600">
+                                        <span>C. $\begin{pmatrix} 1 \\ 3 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-2" value="d" class="text-blue-600">
+                                        <span>D. $\begin{pmatrix} 6 \\ 2 \end{pmatrix}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek5-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">3</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Jika vektor proyeksi $\vec{u}$ pada $\vec{v}$ adalah $\vec{c} = \begin{pmatrix} 2 \\ -1 \end{pmatrix}$ dan $\vec{u} = \begin{pmatrix} 5 \\ 3 \end{pmatrix}$, maka komponen tegak lurus $\vec{u}_{\perp}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-3" value="a" class="text-blue-600">
+                                        <span>A. $\begin{pmatrix} 3 \\ 4 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-3" value="b" class="text-blue-600">
+                                        <span>B. $\begin{pmatrix} 7 \\ 2 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-3" value="c" class="text-blue-600">
+                                        <span>C. $\begin{pmatrix} -3 \\ -4 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-3" value="d" class="text-blue-600">
+                                        <span>D. $\begin{pmatrix} 3 \\ 2 \end{pmatrix}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek5-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">4</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Kapan proyeksi skalar dari $\vec{u}$ pada $\vec{v}$ bernilai nol?
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-4" value="a" class="text-blue-600">
+                                        <span>A. Ketika $\vec{u}$ dan $\vec{v}$ searah ($\theta = 0^\circ$)</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-4" value="b" class="text-blue-600">
+                                        <span>B. Ketika $\vec{u}$ dan $\vec{v}$ saling tegak lurus ($\theta = 90^\circ$)</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-4" value="c" class="text-blue-600">
+                                        <span>C. Ketika $|\vec{u}| = |\vec{v}|$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek5-4" value="d" class="text-blue-600">
+                                        <span>D. Ketika $\theta = 180^\circ$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek5-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysVek5 = {
+                                'kuis-vek5-1': { 
+                                    ans: 'b', 
+                                    text: 'u · v = (6)(4) + (2)(3) = 24 + 6 = 30. |v| = √(4^2 + 3^2) = 5. Maka proyeksi skalar = 30 / 5 = 6.' 
+                                },
+                                'kuis-vek5-2': { 
+                                    ans: 'a', 
+                                    text: 'a · b = (2)(3) + (4)(1) = 6 + 4 = 10. |b|^2 = 3^2 + 1^2 = 10. Vektor proyeksi = (10/10) b = (3, 1)^T.' 
+                                },
+                                'kuis-vek5-3': { 
+                                    ans: 'a', 
+                                    text: 'u_perp = u - c = (5 - 2, 3 - (-1))^T = (3, 4)^T.' 
+                                },
+                                'kuis-vek5-4': { 
+                                    ans: 'b', 
+                                    text: 'Karena dot product u · v = 0 saat tegak lurus (θ = 90°), maka panjang bayangan / proyeksi skalarnya adalah 0.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysVek5).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-vek5-${idx + 1}`);
+                                        const info = kuisKeysVek5[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat rumus proyeksi skalar = (u · v) / |v|!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Geometri: Proyeksi Vektor.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 9: Vectors (9.2 Projections of Vectors, Scalar and Vector Components).</p>
+                    <p><strong>OpenStax College.</strong> (2021). <em>Precalculus 2e</em>. Rice University. Chapter 10: Further Applications of Trigonometry (10.8 Finding Vector Projections).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="perkalian-skalar-dot-product-dan-sudut.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Perkalian Skalar &amp; Sudut
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="latihan-pemecahan-masalah-vektor.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

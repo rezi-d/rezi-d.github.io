@@ -366,6 +366,19 @@ const kurikulum = {
                     { file: "aplikasi-pemodelan-klinometer.html", title: "Aplikasi Nyata: Pemodelan Klinometer" },
                     { file: "latihan-pemecahan-masalah-trigonometri.html", title: "Problem Solving HOTS Perbandingan Trigonometri" }
                 ]
+            },
+            {
+                slug: "vektor",
+                title: "Vektor dan Operasinya",
+                deskripsi: "Konsep dasar besaran vektor, notasi & vektor posisi di R², panjang (magnitudo) vektor, vektor satuan, operasi aljabar & geometris, perkalian skalar (dot product), sudut antara dua vektor, proyeksi ortogonal, serta aplikasi kontekstual resultan gaya dan navigasi.",
+                subbab: [
+                    { file: "konsep-dasar-vektor-dan-vektor-posisi.html", title: "Konsep Dasar Vektor & Vektor Posisi" },
+                    { file: "panjang-vektor-dan-vektor-satuan.html", title: "Panjang Vektor & Vektor Satuan" },
+                    { file: "operasi-aljabar-dan-geometris-vektor.html", title: "Operasi Aljabar & Geometris Vektor" },
+                    { file: "perkalian-skalar-dot-product-dan-sudut.html", title: "Perkalian Skalar (Dot Product) & Sudut Vektor" },
+                    { file: "proyeksi-vektor-ortogonal.html", title: "Proyeksi Vektor Ortogonal" },
+                    { file: "latihan-pemecahan-masalah-vektor.html", title: "Problem Solving HOTS & Pemodelan Vektor" }
+                ]
             }
         ]
     }

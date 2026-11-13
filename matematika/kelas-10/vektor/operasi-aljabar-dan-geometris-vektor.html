@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operasi Aljabar & Geometris Vektor — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari operasi penjumlahan dan pengurangan vektor secara geometris (metode segitiga & jajaran genjang) dan analitis, perkalian skalar, syarat kolinearitas, serta rumus titik bagi ruas garis.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/operasi-aljabar-dan-geometris-vektor.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/operasi-aljabar-dan-geometris-vektor.html">
+    <meta property="og:title" content="📐 Operasi Aljabar & Geometris Vektor — Kelas X SMA">
+    <meta property="og:description" content="Pahami metode segitiga, jajaran genjang, sifat aljabar vektor, dan perbandingan ruas garis dengan kuis interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="vektor">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor dan Operasinya
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Operasi Aljabar &amp; Geometris Vektor
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari kaidah penggabungan vektor secara grafis menggunakan metode segitiga dan jajaran genjang, operasi aljabar penjumlahan dan pengurangan komponen matriks baris/kolom, sifat perkalian skalar, konsep vektor sejajar (kolinear), serta formula perbandingan titik pembagi ruas garis.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: PENJUMLAHAN GEOMETRIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Metode Grafis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔺 1. Penjumlahan Vektor Geometris (Grafis)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Metode Grafis</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Penjumlahan vektor secara visual (geometris) tidak dilakukan dengan menjumlahkan panjangnya secara langsung, melainkan memperhatikan orientasi arah dengan dua metode baku:
+                        </p>
+
+                        <!-- METODE SEGITIGA VS JAJARAN GENJANG -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded bg-blue-600 text-white flex items-center justify-center text-xs font-bold">A</span>
+                                    <h4 class="text-xs font-bold text-slate-900 uppercase">Metode Segitiga (Tip-to-Tail)</h4>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Pindahkan titik pangkal vektor kedua ($\vec{v}$) berhimpit pada titik ujung vektor pertama ($\vec{u}$). Resultan $\vec{u} + \vec{v}$ adalah ruas garis dari <strong>pangkal awal ke ujung akhir</strong>:
+                                </p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-center font-mono text-xs font-bold text-blue-800">
+                                    $$\vec{AB} + \vec{BC} = \vec{AC}$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">B</span>
+                                    <h4 class="text-xs font-bold text-slate-900 uppercase">Metode Jajaran Genjang</h4>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Satukan titik pangkal kedua vektor ($\vec{u}$ dan $\vec{v}$) pada satu titik temu, lalu buat garis bayangan sejajar sehingga membentuk jajaran genjang. Resultan adalah <strong>diagonal utama</strong> yang berawal dari titik pangkal bersama tersebut.
+                                </p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-center font-mono text-xs font-bold text-indigo-800">
+                                    $$|\vec{u} + \vec{v}| = \sqrt{|\vec{u}|^2 + |\vec{v}|^2 + 2|\vec{u}||\vec{v}|\cos\theta}$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- LAWAN VEKTOR -->
+                        <div class="p-4 bg-blue-50/70 rounded-xl border border-blue-100 space-y-2">
+                            <h4 class="text-xs font-bold text-blue-950 uppercase">Vektor Lawan (Negatif Vektor) &amp; Pengurangan</h4>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Lawan dari vektor $\vec{v}$ adalah $-\vec{v}$, yaitu vektor yang panjangnya persis sama namun <strong>arahnya berbalik $180^\circ$</strong>. Pengurangan vektor didefinisikan sebagai penjumlahan dengan lawannya:
+                            </p>
+                            <div class="bg-white p-2.5 rounded-lg border border-blue-200 text-center font-mono text-sm font-bold text-blue-900">
+                                $$\vec{u} - \vec{v} = \vec{u} + (-\vec{v})$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: OPERASI ALFABAR ANALITIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Komponen Matriks</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ➕ 2. Penjumlahan &amp; Pengurangan Analitis
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Aljabar Komponen</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Secara analitis pada bidang $\mathbb{R}^2$, operasi penjumlahan dan pengurangan dilakukan secara langsung dengan <strong>menjumlahkan atau mengurangkan komponen yang bersesuaian</strong> (komponen horizontal dengan horizontal, vertikal dengan vertikal).
+                        </p>
+
+                        <!-- FORMULA KOMPONEN -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="bg-white p-4 rounded-xl border border-slate-200 text-center font-mono">
+                                    <span class="text-xs text-slate-500 uppercase block mb-1">Penjumlahan Komponen:</span>
+                                    <div class="text-base font-bold text-blue-900">
+                                        $$\begin{pmatrix} u_x \\ u_y \end{pmatrix} + \begin{pmatrix} v_x \\ v_y \end{pmatrix} = \begin{pmatrix} u_x + v_x \\ u_y + v_y \end{pmatrix}$$
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl border border-slate-200 text-center font-mono">
+                                    <span class="text-xs text-slate-500 uppercase block mb-1">Pengurangan Komponen:</span>
+                                    <div class="text-base font-bold text-indigo-900">
+                                        $$\begin{pmatrix} u_x \\ u_y \end{pmatrix} - \begin{pmatrix} v_x \\ v_y \end{pmatrix} = \begin{pmatrix} u_x - v_x \\ u_y - v_y \end{pmatrix}$$
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SIFAT-SIFAT OPERASI -->
+                            <div class="pt-2 text-xs text-slate-600 space-y-1">
+                                <span class="font-bold text-slate-800 block">Sifat Aljabar Penjumlahan Vektor:</span>
+                                <ul class="list-disc pl-5 space-y-0.5">
+                                    <li><strong>Komutatif:</strong> $\vec{u} + \vec{v} = \vec{v} + \vec{u}$</li>
+                                    <li><strong>Asosiatif:</strong> $(\vec{u} + \vec{v}) + \vec{w} = \vec{u} + (\vec{v} + \vec{w})$</li>
+                                    <li><strong>Identitas:</strong> $\vec{u} + \vec{0} = \vec{u}$</li>
+                                    <li><strong>Invers Tambah:</strong> $\vec{u} + (-\vec{u}) = \vec{0}$</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL -->
+                        <div class="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-slate-700 space-y-1">
+                            <span class="font-bold text-emerald-950">Contoh Hitung:</span>
+                            <p>Diketahui $\vec{a} = 3\hat{i} - 2\hat{j}$ dan $\vec{b} = -5\hat{i} + 7\hat{j}$. Tentukan $\vec{a} + \vec{b}$ dan $\vec{a} - \vec{b}$!</p>
+                            <div class="bg-white p-2 rounded border border-emerald-200 font-mono text-[11px] text-emerald-900 space-y-0.5">
+                                <p>$\vec{a} + \vec{b} = (3 + (-5))\hat{i} + (-2 + 7)\hat{j} = -2\hat{i} + 5\hat{j}$</p>
+                                <p>$\vec{a} - \vec{b} = (3 - (-5))\hat{i} + (-2 - 7)\hat{j} = 8\hat{i} - 9\hat{j}$</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: PERKALIAN SKALAR DENGAN VEKTOR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Skalasi &amp; Kolinearitas</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✖️ 3. Perkalian Skalar &amp; Vektor Kolinear
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Skalasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Jika $k$ adalah bilangan real (skalar) dan $\vec{v} = \begin{pmatrix} v_x \\ v_y \end{pmatrix}$ adalah vektor, maka hasil kali skalar $k\vec{v}$ diperoleh dengan mengalikan setiap komponen dengan $k$:
+                        </p>
+
+                        <!-- FORMULA PERKALIAN SKALAR -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-center font-mono">
+                            <div class="text-base font-bold text-blue-900">
+                                $$k\vec{v} = k \begin{pmatrix} v_x \\ v_y \end{pmatrix} = \begin{pmatrix} k v_x \\ k v_y \end{pmatrix}$$
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Panjang vektor hasil: $|k\vec{v}| = |k| \cdot |\vec{v}|$.</p>
+                        </div>
+
+                        <!-- EFEK NILAI K -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                            <div class="p-3 bg-blue-50 rounded-xl border border-blue-200 space-y-1">
+                                <span class="font-bold text-blue-900 block">$k > 0$ (Positif):</span>
+                                <p class="text-slate-600">Arah vektor tetap <strong>sama</strong>, panjang berubah sebesar faktor $k$.</p>
+                            </div>
+                            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200 space-y-1">
+                                <span class="font-bold text-rose-900 block">$k < 0$ (Negatif):</span>
+                                <p class="text-slate-600">Arah vektor <strong>berbalik $180^\circ$</strong>, panjang berubah sebesar $|k|$.</p>
+                            </div>
+                            <div class="p-3 bg-slate-100 rounded-xl border border-slate-300 space-y-1">
+                                <span class="font-bold text-slate-900 block">$k = 0$:</span>
+                                <p class="text-slate-600">Menghasilkan vektor nol $\vec{0} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}$.</p>
+                            </div>
+                        </div>
+
+                        <!-- SYARAT VEKTOR SEJAJAR / KOLINEAR -->
+                        <div class="p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 space-y-1.5">
+                            <h4 class="text-xs font-bold text-amber-950 uppercase">Syarat Dua Vektor Sejajar / Kolinear:</h4>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Dua vektor tak-nol $\vec{u}$ dan $\vec{v}$ dikatakan <strong>sejajar (kolinear)</strong> jika dan hanya jika salah satu vektor merupakan kelipatan skalar dari vektor lainnya:
+                            </p>
+                            <div class="p-2.5 bg-white rounded-lg border border-amber-200 text-center font-mono text-sm font-bold text-amber-900">
+                                $$\vec{u} \parallel \vec{v} \iff \vec{u} = k\vec{v} \iff \frac{u_x}{v_x} = \frac{u_y}{v_y} = k$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: PEMBAGIAN RUAS GARIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Geometri Titik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📍 4. Rumus Pembagian Ruas Garis dalam Bentuk Vektor
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Titik Bagi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Misalkan titik $P$ terletak pada ruas garis $AB$ sedemikian rupa sehingga membagi ruas garis tersebut dengan rasio perbandingan $AP : PB = m : n$.
+                        </p>
+
+                        <!-- FORMULA TITIK BAGI -->
+                        <div class="p-5 bg-gradient-to-br from-purple-50/70 to-white rounded-2xl border border-purple-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-purple-950">Formula Vektor Posisi Titik Bagi $P$:</h3>
+                            <div class="p-4 bg-white rounded-xl border border-purple-300 text-center font-mono text-base font-bold text-purple-950 shadow-2xs">
+                                $$\vec{p} = \frac{m\vec{b} + n\vec{a}}{m + n}$$
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed text-center">
+                                Ingat kaidah perkalian silang: perbandingan $m$ dikalikan dengan vektor titik seberangnya ($\vec{b}$), dan $n$ dikalikan dengan $\vec{a}$.
+                            </p>
+                        </div>
+
+                        <!-- KASUS KHUSUS: TITIK TENGAH -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                            <h4 class="text-xs font-bold text-slate-800 uppercase">Kasus Khusus Titik Tengah (Midpoint):</h4>
+                            <p class="text-xs text-slate-600">
+                                Jika titik $M$ berada tepat di tengah-tengah $AB$ (rasio $1 : 1$), maka vektor posisi titik tengah adalah rata-rata kedua vektor posisi:
+                            </p>
+                            <div class="text-center font-mono text-sm font-bold text-blue-900 py-1 bg-white rounded-lg border border-slate-200">
+                                $$\vec{m} = \frac{\vec{a} + \vec{b}}{2} = \begin{pmatrix} \frac{x_A + x_B}{2} \\ \frac{y_A + y_B}{2} \end{pmatrix}$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✅ 5. Kuis Pemahaman: Operasi Vektor
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <div class="space-y-4">
+
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">1</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Diketahui $\vec{u} = \begin{pmatrix} 4 \\ -1 \end{pmatrix}$ dan $\vec{v} = \begin{pmatrix} -2 \\ 3 \end{pmatrix}$. Hasil dari $2\vec{u} - 3\vec{v}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-1" value="a" class="text-blue-600">
+                                        <span>A. $\begin{pmatrix} 2 \\ 7 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-1" value="b" class="text-blue-600">
+                                        <span>B. $\begin{pmatrix} 14 \\ -11 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-1" value="c" class="text-blue-600">
+                                        <span>C. $\begin{pmatrix} 14 \\ -7 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-1" value="d" class="text-blue-600">
+                                        <span>D. $\begin{pmatrix} 2 \\ -11 \end{pmatrix}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek3-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">2</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Jika vektor $\vec{a} = \begin{pmatrix} 6 \\ m \end{pmatrix}$ sejajar dengan vektor $\vec{b} = \begin{pmatrix} -3 \\ 4 \end{pmatrix}$, maka nilai $m$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-2" value="a" class="text-blue-600">
+                                        <span>A. $-8$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-2" value="b" class="text-blue-600">
+                                        <span>B. $8$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-2" value="c" class="text-blue-600">
+                                        <span>C. $-2$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-2" value="d" class="text-blue-600">
+                                        <span>D. $-4$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek3-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">3</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Dua buah vektor gaya $|\vec{F}_1| = 3\text{ N}$ dan $|\vec{F}_2| = 5\text{ N}$ bekerja pada satu titik dan membentuk sudut $60^\circ$. Besar resultan $|\vec{F}_1 + \vec{F}_2|$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-3" value="a" class="text-blue-600">
+                                        <span>A. $6\text{ N}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-3" value="b" class="text-blue-600">
+                                        <span>B. $7\text{ N}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-3" value="c" class="text-blue-600">
+                                        <span>C. $\sqrt{34}\text{ N}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-3" value="d" class="text-blue-600">
+                                        <span>D. $8\text{ N}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek3-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">4</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Titik $P$ membagi ruas garis $AB$ dengan perbandingan $AP : PB = 2 : 1$. Jika $A(1, 4)$ dan $B(7, 1)$, koordinat titik $P$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-4" value="a" class="text-blue-600">
+                                        <span>A. $(5, 2)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-4" value="b" class="text-blue-600">
+                                        <span>B. $(4, 3)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-4" value="c" class="text-blue-600">
+                                        <span>C. $(3, 2)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek3-4" value="d" class="text-blue-600">
+                                        <span>D. $(5, 3)$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek3-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysVek3 = {
+                                'kuis-vek3-1': { 
+                                    ans: 'b', 
+                                    text: '2u = (8, -2)^T, 3v = (-6, 9)^T. Maka 2u - 3v = (8 - (-6), -2 - 9)^T = (14, -11)^T.' 
+                                },
+                                'kuis-vek3-2': { 
+                                    ans: 'a', 
+                                    text: 'Karena sejajar: 6 / (-3) = m / 4 => -2 = m / 4 => m = -8.' 
+                                },
+                                'kuis-vek3-3': { 
+                                    ans: 'b', 
+                                    text: 'R = √(3^2 + 5^2 + 2(3)(5) cos 60°) = √(9 + 25 + 30(1/2)) = √(34 + 15) = √49 = 7 N.' 
+                                },
+                                'kuis-vek3-4': { 
+                                    ans: 'a', 
+                                    text: 'p = (2b + 1a) / (2 + 1) = (2(7, 1)^T + (1, 4)^T) / 3 = ((14 + 1)/3, (2 + 4)/3)^T = (15/3, 6/3)^T = (5, 2).' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysVek3).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-vek3-${idx + 1}`);
+                                        const info = kuisKeysVek3[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Cek kembali perhitungan aljabar komponen Anda!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Geometri: Operasi Vektor.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 9: Vectors (9.1 Geometric and Algebraic Vector Operations).</p>
+                    <p><strong>OpenStax College.</strong> (2021). <em>Precalculus 2e</em>. Rice University. Chapter 10: Further Applications of Trigonometry (10.8 Adding and Subtracting Vectors, Scalar Multiplication).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="panjang-vektor-dan-vektor-satuan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Panjang &amp; Vektor Satuan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="perkalian-skalar-dot-product-dan-sudut.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Perkalian Skalar (Dot Product) &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

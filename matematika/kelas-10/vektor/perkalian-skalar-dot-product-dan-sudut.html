@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perkalian Skalar (Dot Product) & Sudut Vektor — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari perkalian skalar (dot product) vektor secara geometris dan analitis, sifat aljabar distributif & komutatif, syarat dua vektor saling tegak lurus (ortogonal), serta penentuan besar sudut antar vektor.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/perkalian-skalar-dot-product-dan-sudut.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/perkalian-skalar-dot-product-dan-sudut.html">
+    <meta property="og:title" content="📐 Perkalian Skalar (Dot Product) & Sudut Vektor — Kelas X SMA">
+    <meta property="og:description" content="Modul interaktif perkalian titik (dot product), keortogonalan, dan kalkulasi sudut antara dua vektor berformat slider dengan kuis auto-koreksi.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="vektor">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor dan Operasinya
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Perkalian Skalar (Dot Product) &amp; Sudut Vektor
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari operasi perkalian titik (inner product / dot product) antara dua vektor yang menghasilkan besaran skalar: definisi geometris kosinus sudut, formula aljabar analitis komponen bidang, syarat uji keortogonalan (dua vektor tegak lurus), serta metode kalkulasi besar sudut apit antara dua vektor.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI DOT PRODUCT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Operasi Perkalian Titik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔘 1. Definisi Geometris &amp; Analitis Dot Product
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Dot Product</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Perkalian skalar antara dua vektor $\vec{u}$ dan $\vec{v}$ (sering disebut <strong>dot product</strong>) menghasilkan <strong>sebuah bilangan real (skalar)</strong>, bukan sebuah vektor baru. Operasi ini memiliki dua perspektif ekuivalen:
+                        </p>
+
+                        <!-- DUA FORMULA FUNDAMENTAL -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 bg-gradient-to-br from-blue-50/70 to-white rounded-2xl border border-blue-200 space-y-2">
+                                <h4 class="text-xs font-bold text-blue-900 uppercase">1. Definisi Geometris (Sudut $\theta$):</h4>
+                                <div class="p-3 bg-white rounded-xl border border-blue-200 text-center font-mono text-base font-bold text-blue-950">
+                                    $$\vec{u} \cdot \vec{v} = |\vec{u}| |\vec{v}| \cos\theta$$
+                                </div>
+                                <p class="text-[11px] text-slate-600 leading-relaxed">
+                                    $\theta$ adalah sudut apit terkecil antara vektor $\vec{u}$ dan $\vec{v}$ dengan $0^\circ \le \theta \le 180^\circ$.
+                                </p>
+                            </div>
+
+                            <div class="p-5 bg-gradient-to-br from-indigo-50/70 to-white rounded-2xl border border-indigo-200 space-y-2">
+                                <h4 class="text-xs font-bold text-indigo-900 uppercase">2. Definisi Analitis (Komponen):</h4>
+                                <div class="p-3 bg-white rounded-xl border border-indigo-200 text-center font-mono text-base font-bold text-indigo-950">
+                                    $$\vec{u} \cdot \vec{v} = u_x v_x + u_y v_y$$
+                                </div>
+                                <p class="text-[11px] text-slate-600 leading-relaxed">
+                                    Dihitung dengan mengalikan komponen horizontal yang bersesuaian, lalu dijumlahkan dengan perkalian komponen vertikalnya.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL -->
+                        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-slate-700 space-y-1">
+                            <span class="font-bold text-emerald-900">Contoh Hitung Langsung:</span>
+                            <p>Diketahui $\vec{a} = \begin{pmatrix} 3 \\ -4 \end{pmatrix}$ dan $\vec{b} = \begin{pmatrix} 2 \\ 5 \end{pmatrix}$. Tentukan $\vec{a} \cdot \vec{b}$!</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-emerald-200 font-mono text-[11px] text-emerald-950">
+                                $$\vec{a} \cdot \vec{b} = (3)(2) + (-4)(5) = 6 - 20 = -14$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: SIFAT-SIFAT DOT PRODUCT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Hukum Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ 2. Sifat-Sifat Aljabar Dot Product
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-800 font-semibold px-2.5 py-1 rounded-full font-mono">Sifat Aljabar</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Perkalian titik mematuhi sejumlah hukum aljabar fundamental yang mempermudah penyederhanaan ekspresi vektor dan pembuktian geometri:
+                        </p>
+
+                        <!-- DAFTAR SIFAT -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+                            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                <span class="font-bold text-blue-900 block">1. Sifat Komutatif</span>
+                                <div class="font-mono text-slate-800 font-bold bg-white p-1.5 rounded border border-slate-200 text-center">
+                                    $$\vec{u} \cdot \vec{v} = \vec{v} \cdot \vec{u}$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Urutan perkalian tidak memengaruhi hasil skalar.</p>
+                            </div>
+
+                            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                <span class="font-bold text-blue-900 block">2. Sifat Distributif</span>
+                                <div class="font-mono text-slate-800 font-bold bg-white p-1.5 rounded border border-slate-200 text-center">
+                                    $$\vec{u} \cdot (\vec{v} + \vec{w}) = \vec{u} \cdot \vec{v} + \vec{u} \cdot \vec{w}$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Dot product dapat didistribusikan ke dalam penjumlahan.</p>
+                            </div>
+
+                            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                <span class="font-bold text-blue-900 block">3. Perkalian dengan Diri Sendiri (Self Dot)</span>
+                                <div class="font-mono text-slate-800 font-bold bg-white p-1.5 rounded border border-slate-200 text-center">
+                                    $$\vec{u} \cdot \vec{u} = |\vec{u}|^2 \iff |\vec{u}| = \sqrt{\vec{u} \cdot \vec{u}}$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Dot product vektor dengan dirinya sendiri adalah kuadrat panjangnya.</p>
+                            </div>
+
+                            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                <span class="font-bold text-blue-900 block">4. Perkalian dengan Skalar $k$</span>
+                                <div class="font-mono text-slate-800 font-bold bg-white p-1.5 rounded border border-slate-200 text-center">
+                                    $$(k\vec{u}) \cdot \vec{v} = k(\vec{u} \cdot \vec{v}) = \vec{u} \cdot (k\vec{v})$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Skalar dapat dikelompokkan secara bebas.</p>
+                            </div>
+                        </div>
+
+                        <!-- PERKALIAN VEKTOR BASIS -->
+                        <div class="p-4 bg-blue-50/70 rounded-xl border border-blue-200 text-xs text-slate-700 space-y-1">
+                            <span class="font-bold text-blue-950">Dot Product Vektor Basis Standar:</span>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono font-bold text-blue-900 pt-1">
+                                <div class="bg-white p-1.5 rounded border border-blue-200">$\hat{i} \cdot \hat{i} = 1$</div>
+                                <div class="bg-white p-1.5 rounded border border-blue-200">$\hat{j} \cdot \hat{j} = 1$</div>
+                                <div class="bg-white p-1.5 rounded border border-blue-200">$\hat{i} \cdot \hat{j} = 0$</div>
+                                <div class="bg-white p-1.5 rounded border border-blue-200">$\hat{j} \cdot \hat{i} = 0$</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: SYARAT KEORTOGONALAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Keortogonalan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 3. Syarat Dua Vektor Saling Tegak Lurus (Ortogonal)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">Ortogonal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Karena $\cos 90^\circ = 0$, jika dua vektor tak-nol saling tegak lurus ($\theta = 90^\circ$), maka hasil dot product keduanya <strong>selalu sama dengan nol</strong>. Ini adalah uji analitis paling penting dalam aljabar linear:
+                        </p>
+
+                        <!-- TEOREMA ORTOGONAL -->
+                        <div class="p-5 bg-gradient-to-r from-rose-50/80 to-red-50/40 rounded-2xl border border-rose-200 space-y-2 text-center">
+                            <span class="text-xs font-bold uppercase tracking-wider text-rose-900">Teorema Keortogonalan:</span>
+                            <div class="p-3 bg-white rounded-xl border border-rose-300 font-mono text-base font-bold text-rose-950 shadow-2xs">
+                                $$\vec{u} \perp \vec{v} \iff \vec{u} \cdot \vec{v} = 0 \iff u_x v_x + u_y v_y = 0$$
+                            </div>
+                            <p class="text-xs text-slate-600">Berlaku untuk sembarang dua vektor bukan nol.</p>
+                        </div>
+
+                        <!-- CONTOH SOAL VARIABEL -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                            <span class="font-bold text-slate-900">Contoh Ujian:</span>
+                            <p>Diketahui $\vec{u} = \begin{pmatrix} 2p \\ 4 \end{pmatrix}$ dan $\vec{v} = \begin{pmatrix} 6 \\ -3 \end{pmatrix}$. Tentukan nilai $p$ agar kedua vektor saling tegak lurus!</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-[11px] space-y-1 text-slate-800">
+                                <p>$$\vec{u} \cdot \vec{v} = 0 \implies (2p)(6) + (4)(-3) = 0$$</p>
+                                <p>$$12p - 12 = 0 \implies 12p = 12 \implies p = 1$$</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: MENGHITUNG BESAR SUDUT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Geometri Sudut</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧭 4. Menghitung Besar Sudut Antara Dua Vektor
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Sudut Antara Vektor</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Dengan menggabungkan definisi geometris dan analitis dot product, kita memperoleh rumus elegan untuk mencari nilai kosinus sudut antara dua vektor:
+                        </p>
+
+                        <!-- FORMULA KOSINUS SUDUT -->
+                        <div class="p-5 bg-gradient-to-br from-amber-50/70 to-white rounded-2xl border border-amber-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-950">Formula Kosinus Sudut Apit $\theta$:</h3>
+                            <div class="p-4 bg-white rounded-xl border border-amber-300 text-center font-mono text-base font-bold text-amber-950 shadow-2xs">
+                                $$\cos \theta = \frac{\vec{u} \cdot \vec{v}}{|\vec{u}| |\vec{v}|} = \frac{u_x v_x + u_y v_y}{\sqrt{u_x^2 + u_y^2} \sqrt{v_x^2 + v_y^2}}$$
+                            </div>
+                        </div>
+
+                        <!-- KLASIFIKASI SUDUT DARI TANDA DOT PRODUCT -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 space-y-1">
+                                <span class="font-bold text-emerald-900 block">$\vec{u} \cdot \vec{v} > 0$</span>
+                                <p class="text-slate-600">Sudut <strong>Lancip</strong> ($0^\circ \le \theta < 90^\circ$).</p>
+                            </div>
+                            <div class="p-3 bg-slate-100 rounded-xl border border-slate-300 space-y-1">
+                                <span class="font-bold text-slate-900 block">$\vec{u} \cdot \vec{v} = 0$</span>
+                                <p class="text-slate-600">Sudut <strong>Siku-Siku</strong> ($\theta = 90^\circ$).</p>
+                            </div>
+                            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200 space-y-1">
+                                <span class="font-bold text-rose-900 block">$\vec{u} \cdot \vec{v} < 0$</span>
+                                <p class="text-slate-600">Sudut <strong>Tumpul</strong> ($90^\circ < \theta \le 180^\circ$).</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH HITUNG SUDUT -->
+                        <div class="p-4 bg-blue-50/70 rounded-xl border border-blue-100 text-xs text-slate-700 space-y-1.5">
+                            <span class="font-bold text-blue-900">Contoh Hitung Sudut:</span>
+                            <p>Tentukan sudut antara $\vec{u} = \begin{pmatrix} 2 \\ 2 \end{pmatrix}$ dan $\vec{v} = \begin{pmatrix} 0 \\ 3 \end{pmatrix}$!</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-blue-200 font-mono text-[11px] text-blue-950 space-y-1">
+                                <p>1. Dot product: $\vec{u} \cdot \vec{v} = (2)(0) + (2)(3) = 6$.</p>
+                                <p>2. Panjang: $|\vec{u}| = \sqrt{2^2 + 2^2} = \sqrt{8} = 2\sqrt{2}$, dan $|\vec{v}| = 3$.</p>
+                                <p>3. Kosinus: $\cos\theta = \frac{6}{(2\sqrt{2})(3)} = \frac{6}{6\sqrt{2}} = \frac{1}{\sqrt{2}} = \frac{1}{2}\sqrt{2} \implies \theta = 45^\circ$.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✅ 5. Kuis Pemahaman: Perkalian Skalar &amp; Sudut
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <div class="space-y-4">
+
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">1</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Hasil perkalian skalar antara $\vec{u} = 4\hat{i} - 3\hat{j}$ dan $\vec{v} = 2\hat{i} + 5\hat{j}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-1" value="a" class="text-blue-600">
+                                        <span>A. $-7$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-1" value="b" class="text-blue-600">
+                                        <span>B. $23$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-1" value="c" class="text-blue-600">
+                                        <span>C. $-23$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-1" value="d" class="text-blue-600">
+                                        <span>D. $7$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek4-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">2</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Diketahui vektor $\vec{a} = \begin{pmatrix} x \\ 3 \end{pmatrix}$ dan $\vec{b} = \begin{pmatrix} 6 \\ -4 \end{pmatrix}$. Jika $\vec{a} \perp \vec{b}$, maka nilai $x$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-2" value="a" class="text-blue-600">
+                                        <span>A. $-2$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-2" value="b" class="text-blue-600">
+                                        <span>B. $2$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-2" value="c" class="text-blue-600">
+                                        <span>C. $4$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-2" value="d" class="text-blue-600">
+                                        <span>D. $-4$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek4-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">3</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Dua buah vektor $\vec{u}$ dan $\vec{v}$ masing-masing memiliki panjang $4$ dan $6$. Jika $\vec{u} \cdot \vec{v} = 12$, besar sudut antara kedua vektor tersebut adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-3" value="a" class="text-blue-600">
+                                        <span>A. $30^\circ$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-3" value="b" class="text-blue-600">
+                                        <span>B. $45^\circ$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-3" value="c" class="text-blue-600">
+                                        <span>C. $60^\circ$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-3" value="d" class="text-blue-600">
+                                        <span>D. $90^\circ$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek4-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">4</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Jika $|\vec{u}| = 5$, maka nilai dari $\vec{u} \cdot \vec{u}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-4" value="a" class="text-blue-600">
+                                        <span>A. $5$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-4" value="b" class="text-blue-600">
+                                        <span>B. $10$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-4" value="c" class="text-blue-600">
+                                        <span>C. $25$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek4-4" value="d" class="text-blue-600">
+                                        <span>D. $\sqrt{5}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek4-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysVek4 = {
+                                'kuis-vek4-1': { 
+                                    ans: 'a', 
+                                    text: 'u · v = (4)(2) + (-3)(5) = 8 - 15 = -7.' 
+                                },
+                                'kuis-vek4-2': { 
+                                    ans: 'b', 
+                                    text: 'a · b = 0 => 6x + (3)(-4) = 0 => 6x - 12 = 0 => 6x = 12 => x = 2.' 
+                                },
+                                'kuis-vek4-3': { 
+                                    ans: 'c', 
+                                    text: 'cos θ = (u · v) / (|u||v|) = 12 / (4 · 6) = 12 / 24 = 1/2. Maka θ = arccos(1/2) = 60°.' 
+                                },
+                                'kuis-vek4-4': { 
+                                    ans: 'c', 
+                                    text: 'u · u = |u|^2 = 5^2 = 25.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysVek4).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-vek4-${idx + 1}`);
+                                        const info = kuisKeysVek4[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat rumus u · v = |u||v|cos θ dan u · v = 0 untuk tegak lurus!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Geometri: Perkalian Skalar Vektor.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 9: Vectors (9.2 The Dot Product, Angle Between Vectors, Orthogonal Vectors).</p>
+                    <p><strong>OpenStax College.</strong> (2021). <em>Precalculus 2e</em>. Rice University. Chapter 10: Further Applications of Trigonometry (10.8 The Dot Product and Orthogonal Vectors).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="operasi-aljabar-dan-geometris-vektor.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Operasi Aljabar &amp; Geometris
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="proyeksi-vektor-ortogonal.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Proyeksi Vektor Ortogonal &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

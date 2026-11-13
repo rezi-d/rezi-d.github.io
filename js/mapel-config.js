@@ -18,7 +18,7 @@ const mapelConfig = [
             {
                 kelas: "X",
                 label: "Kelas X",
-                sublabel: "Fase E — Eksponen, Logaritma, Barisan & Deret",
+                sublabel: "Fase E — Eksponen, Deret, Trigonometri & Vektor",
                 path: "/matematika/kelas-10/index.html"
             }
         ]

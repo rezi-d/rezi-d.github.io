@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panjang Vektor & Vektor Satuan — Matematika Kelas X</title>
+    <meta name="description" content="Kuasai perhitungan panjang (norm) vektor dengan teorema Pythagoras, representasi kombinasi linear vektor basis i dan j, rumus normalisasi vektor satuan, serta sudut arah bentuk polar.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/panjang-vektor-dan-vektor-satuan.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/panjang-vektor-dan-vektor-satuan.html">
+    <meta property="og:title" content="📐 Panjang Vektor & Vektor Satuan — Kelas X SMA">
+    <meta property="og:description" content="Modul interaktif panjang (magnitudo) vektor, vektor satuan, dan sudut arah polar dengan slider materi auto-koreksi.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="vektor">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor dan Operasinya
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Panjang Vektor &amp; Vektor Satuan
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari cara menghitung panjang (magnitudo atau norma euclidian) vektor pada bidang dua dimensi, dekomposisi ke dalam vektor basis standar $\hat{i}$ dan $\hat{j}$, teknik normalisasi vektor berpanjang 1 satuan, serta representasi trigonometri bentuk sudut arah polar.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: PANJANG / MAGNITUDO VEKTOR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Magnitudo Vektor</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📏 1. Panjang (Norm) Vektor pada $\mathbb{R}^2$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Pythagoras</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Panjang atau besar (magnitudo) suatu vektor adalah <strong>jarak skalar tak-negatif</strong> dari titik pangkal ke titik ujungnya. Karena komponen $v_x$ dan $v_y$ saling tegak lurus membentuk segitiga siku-siku, panjang vektor diturunkan langsung dari <strong>Teorema Pythagoras</strong>.
+                        </p>
+
+                        <!-- FORMULA PANJANG VEKTOR -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 bg-gradient-to-br from-blue-50/70 to-white rounded-2xl border border-blue-200 space-y-2">
+                                <h4 class="text-xs font-bold text-blue-900 uppercase">Vektor Komponen $\vec{v} = \begin{pmatrix} v_x \\ v_y \end{pmatrix}$:</h4>
+                                <div class="p-3 bg-white rounded-xl border border-blue-200 text-center font-mono text-base font-bold text-blue-950">
+                                    $$|\vec{v}| = \sqrt{v_x^2 + v_y^2}$$
+                                </div>
+                                <p class="text-[11px] text-slate-600 leading-relaxed">Panjang vektor selalu bernilai riil tak-negatif ($|\vec{v}| \ge 0$). Vektor dengan panjang nol hanya vektor nol $\vec{0}$.</p>
+                            </div>
+
+                            <div class="p-5 bg-gradient-to-br from-slate-50 to-white rounded-2xl border border-slate-200 space-y-2">
+                                <h4 class="text-xs font-bold text-slate-800 uppercase">Vektor Antara Dua Titik $A(x_1, y_1)$ &amp; $B(x_2, y_2)$:</h4>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 text-center font-mono text-base font-bold text-slate-900">
+                                    $$|\vec{AB}| = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$
+                                </div>
+                                <p class="text-[11px] text-slate-600 leading-relaxed">Formula ini identik dengan rumus jarak Euclidian antara dua titik pada geometri analitik bidang.</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL -->
+                        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-slate-700 space-y-1.5">
+                            <span class="font-bold text-emerald-900">Contoh Praktis:</span>
+                            <p>Tentukan panjang vektor $\vec{u} = \begin{pmatrix} 6 \\ -8 \end{pmatrix}$!</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-emerald-200 font-mono text-[11px] text-emerald-950">
+                                $$|\vec{u}| = \sqrt{6^2 + (-8)^2} = \sqrt{36 + 64} = \sqrt{100} = 10\text{ satuan}$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: VEKTOR BASIS STANDAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Basis Standar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧩 2. Vektor Basis Standar $\hat{i}$ dan $\hat{j}$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Kombinasi Linear</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Pada sistem koordinat Kartesius $\mathbb{R}^2$, didefinisikan dua vektor satuan fundamental yang saling tegak lurus sepanjang sumbu koordinat:
+                        </p>
+
+                        <!-- KARTU BASIS STANDAR -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-900 uppercase">Vektor Basis Sumbu-X:</span>
+                                    <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded">$\hat{i}$</span>
+                                </div>
+                                <div class="text-center font-mono text-base font-bold text-blue-900 bg-white p-2 rounded-lg border border-slate-200">
+                                    $$\hat{i} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \quad |\hat{i}| = 1$$
+                                </div>
+                                <p class="text-[11px] text-slate-600">Vektor berpanjang $1$ satuan searah sumbu-$x$ positif.</p>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-900 uppercase">Vektor Basis Sumbu-Y:</span>
+                                    <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] font-bold rounded">$\hat{j}$</span>
+                                </div>
+                                <div class="text-center font-mono text-base font-bold text-indigo-900 bg-white p-2 rounded-lg border border-slate-200">
+                                    $$\hat{j} = \begin{pmatrix} 0 \\ 1 \end{pmatrix}, \quad |\hat{j}| = 1$$
+                                </div>
+                                <p class="text-[11px] text-slate-600">Vektor berpanjang $1$ satuan searah sumbu-$y$ positif.</p>
+                            </div>
+                        </div>
+
+                        <!-- REPRESENTASI KOMBINASI LINEAR -->
+                        <div class="p-5 bg-gradient-to-r from-blue-50/70 to-indigo-50/60 rounded-2xl border border-blue-200 space-y-2">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-blue-950">Teorema Dekomposisi Linear:</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Setiap vektor $\vec{v} = \begin{pmatrix} v_x \\ v_y \end{pmatrix}$ dapat dituliskan secara tunggal sebagai <strong>kombinasi linear</strong> dari vektor basis $\hat{i}$ dan $\hat{j}$:
+                            </p>
+                            <div class="p-3 bg-white rounded-xl border border-blue-200 text-center font-mono text-base font-bold text-blue-900">
+                                $$\vec{v} = v_x \hat{i} + v_y \hat{j}$$
+                            </div>
+                            <p class="text-[11px] text-slate-600 text-center">
+                                Contoh: $\begin{pmatrix} 4 \\ -3 \end{pmatrix} = 4\hat{i} - 3\hat{j}$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: NORMALISASI VEKTOR SATUAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Normalisasi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 3. Vektor Satuan &amp; Teknik Normalisasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Normalisasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            <strong>Vektor Satuan (Unit Vector)</strong> dari suatu vektor tak-nol $\vec{v}$ adalah vektor yang <strong>searah dengan $\vec{v}$</strong> tetapi memiliki <strong>panjang tepat $1$ satuan</strong>. Vektor satuan dinotasikan dengan tanda topi / sirkumfleks ($\hat{v}$ atau $\vec{e}_v$).
+                        </p>
+
+                        <!-- FORMULA NORMALISASI -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Rumus Normalisasi Vektor:</h3>
+                            <div class="p-4 bg-white rounded-xl border border-emerald-300 text-center font-mono text-base font-bold text-emerald-950 shadow-2xs">
+                                $$\hat{v} = \frac{\vec{v}}{|\vec{v}|} = \frac{1}{\sqrt{v_x^2 + v_y^2}} \begin{pmatrix} v_x \\ v_y \end{pmatrix}$$
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                <strong>Bukti panjangnya sama dengan 1:</strong>
+                                $$|\hat{v}| = \left| \frac{\vec{v}}{|\vec{v}|} \right| = \frac{|\vec{v}|}{|\vec{v}|} = 1$$
+                            </p>
+                        </div>
+
+                        <!-- CONTOH SOAL NORMALISASI -->
+                        <div class="p-4 bg-blue-50/70 rounded-xl border border-blue-100 text-xs text-slate-700 space-y-2">
+                            <span class="font-bold text-blue-900">Contoh Soal Langkah Demi Langkah:</span>
+                            <p>Tentukan vektor satuan dari $\vec{a} = 3\hat{i} + 4\hat{j}$!</p>
+                            <ol class="list-decimal pl-5 space-y-1 font-mono text-[11px] text-slate-800">
+                                <li>Hitung panjang vektor: $|\vec{a}| = \sqrt{3^2 + 4^2} = \sqrt{25} = 5$.</li>
+                                <li>Bagi vektor dengan panjangnya: $\hat{a} = \frac{1}{5}(3\hat{i} + 4\hat{j}) = \frac{3}{5}\hat{i} + \frac{4}{5}\hat{j}$.</li>
+                                <li>Verifikasi: $|\hat{a}| = \sqrt{(3/5)^2 + (4/5)^2} = \sqrt{9/25 + 16/25} = \sqrt{25/25} = 1$ ✅.</li>
+                            </ol>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: SUDUT ARAH & BENTUK POLAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Orientasi Sudut</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧭 4. Sudut Arah &amp; Bentuk Trigonometrik (Polar)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Bentuk Polar</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Setiap vektor $\vec{v} = \begin{pmatrix} v_x \\ v_y \end{pmatrix}$ memiliki <strong>sudut arah $\theta$</strong> yang diukur berlawanan arah jarum jam dari sumbu-$x$ positif ($0^\circ \le \theta < 360^\circ$).
+                        </p>
+
+                        <!-- RUMUS SUDUT & HUBUNGAN TRIGONOMETRI -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-slate-900 uppercase">1. Menentukan Sudut Arah $\theta$:</span>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200 text-center font-mono text-sm font-bold text-amber-900">
+                                    $$\tan \theta = \frac{v_y}{v_x} \implies \theta = \arctan\left(\frac{v_y}{v_x}\right)$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Sesuaikan kuadran berdasarkan tanda $v_x$ dan $v_y$ (Kuadran I, II, III, atau IV).</p>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-slate-900 uppercase">2. Bentuk Trigonometrik / Polar:</span>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200 text-center font-mono text-sm font-bold text-blue-900">
+                                    $$\vec{v} = |\vec{v}|\cos\theta \hat{i} + |\vec{v}|\sin\theta \hat{j}$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Komponen aljabar: $v_x = |\vec{v}|\cos\theta$ dan $v_y = |\vec{v}|\sin\theta$.</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH KONVERSI POLAR KE KARTESIUS -->
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-xs text-slate-700 space-y-1.5">
+                            <span class="font-bold text-amber-950">Aplikasi Contoh:</span>
+                            <p>Sebuah vektor gaya $\vec{F}$ bernilai $20\text{ N}$ membentuk sudut $60^\circ$ terhadap sumbu-$x$ positif. Nyatakan $\vec{F}$ dalam vektor basis!</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-amber-200 font-mono text-[11px] text-amber-950">
+                                $$F_x = 20 \cos 60^\circ = 20 \cdot \frac{1}{2} = 10\text{ N}$$
+                                $$F_y = 20 \sin 60^\circ = 20 \cdot \frac{1}{2}\sqrt{3} = 10\sqrt{3}\text{ N}$$
+                                $$\vec{F} = 10\hat{i} + 10\sqrt{3}\hat{j}\text{ (N)}$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✅ 5. Kuis Pemahaman: Panjang &amp; Vektor Satuan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <div class="space-y-4">
+
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">1</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Panjang dari vektor $\vec{v} = -5\hat{i} + 12\hat{j}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-1" value="a" class="text-blue-600">
+                                        <span>A. $7$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-1" value="b" class="text-blue-600">
+                                        <span>B. $13$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-1" value="c" class="text-blue-600">
+                                        <span>C. $17$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-1" value="d" class="text-blue-600">
+                                        <span>D. $169$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek2-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">2</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Vektor satuan yang searah dengan $\vec{u} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-2" value="a" class="text-blue-600">
+                                        <span>A. $\begin{pmatrix} \frac{1}{2} \\ -\frac{1}{2} \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-2" value="b" class="text-blue-600">
+                                        <span>B. $\begin{pmatrix} \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-2" value="c" class="text-blue-600">
+                                        <span>C. $\begin{pmatrix} 1 \\ 0 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-2" value="d" class="text-blue-600">
+                                        <span>D. $\begin{pmatrix} \sqrt{2} \\ -\sqrt{2} \end{pmatrix}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek2-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">3</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Sebuah vektor $\vec{w}$ memiliki panjang $8$ satuan dan membentuk sudut $150^\circ$ terhadap sumbu-$x$ positif. Bentuk komponen $\vec{w}$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-3" value="a" class="text-blue-600">
+                                        <span>A. $-4\sqrt{3}\hat{i} + 4\hat{j}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-3" value="b" class="text-blue-600">
+                                        <span>B. $4\sqrt{3}\hat{i} - 4\hat{j}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-3" value="c" class="text-blue-600">
+                                        <span>C. $-4\hat{i} + 4\sqrt{3}\hat{j}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-3" value="d" class="text-blue-600">
+                                        <span>D. $-4\sqrt{3}\hat{i} - 4\hat{j}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek2-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">4</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Jika vektor $\vec{v} = k\hat{i} + 6\hat{j}$ memiliki panjang sama dengan $10$, maka nilai positif $k$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-4" value="a" class="text-blue-600">
+                                        <span>A. $4$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-4" value="b" class="text-blue-600">
+                                        <span>B. $6$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-4" value="c" class="text-blue-600">
+                                        <span>C. $8$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek2-4" value="d" class="text-blue-600">
+                                        <span>D. $64$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek2-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysVek2 = {
+                                'kuis-vek2-1': { 
+                                    ans: 'b', 
+                                    text: '|v| = √((-5)^2 + 12^2) = √(25 + 144) = √169 = 13.' 
+                                },
+                                'kuis-vek2-2': { 
+                                    ans: 'b', 
+                                    text: '|u| = √(1^2 + (-1)^2) = √2. Maka u-hat = (1/√2, -1/√2)^T.' 
+                                },
+                                'kuis-vek2-3': { 
+                                    ans: 'a', 
+                                    text: 'w_x = 8 cos(150°) = 8 · (-√3/2) = -4√3, dan w_y = 8 sin(150°) = 8 · (1/2) = 4. Maka w = -4√3 i + 4 j.' 
+                                },
+                                'kuis-vek2-4': { 
+                                    ans: 'c', 
+                                    text: 'k^2 + 6^2 = 10^2 => k^2 + 36 = 100 => k^2 = 64 => k = 8.' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysVek2).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-vek2-${idx + 1}`);
+                                        const info = kuisKeysVek2[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat teorema Pythagoras dan sifat sudut di Kuadran II!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Geometri: Vektor Satuan &amp; Magnitudo.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 9: Vectors (9.1 Length and Direction, Unit Vectors).</p>
+                    <p><strong>OpenStax College.</strong> (2021). <em>Precalculus 2e</em>. Rice University. Chapter 10: Further Applications of Trigonometry (10.8 Component Form and Unit Vectors).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="konsep-dasar-vektor-dan-vektor-posisi.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Konsep Dasar Vektor
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="operasi-aljabar-dan-geometris-vektor.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Operasi Aljabar &amp; Geometris &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

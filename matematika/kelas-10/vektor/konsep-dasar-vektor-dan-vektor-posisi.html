@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Dasar Vektor & Vektor Posisi — Matematika Kelas X</title>
+    <meta name="description" content="Pelajari konsep dasar vektor pada bidang R2: perbedaan skalar vs vektor, notasi arah dan grafis panah, representasi komponen aljabar, serta vektor posisi dari titik asal dan dua titik sebarang.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/konsep-dasar-vektor-dan-vektor-posisi.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/vektor/konsep-dasar-vektor-dan-vektor-posisi.html">
+    <meta property="og:title" content="📐 Konsep Dasar Vektor & Vektor Posisi — Kelas X SMA">
+    <meta property="og:description" content="Pahami notasi, representasi komponen kolom/baris, dan vektor posisi pada bidang koordinat Cartesius dengan modul slider interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="vektor">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor dan Operasinya
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Dasar Vektor &amp; Vektor Posisi
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari hakikat besaran fisika dan matematika: pembedaan besaran skalar dan besaran vektor, anatomi geometri ruas garis berarah (titik pangkal, panjang, dan arah), representasi komponen aljabar pada bidang Kartesius $\mathbb{R}^2$, serta konsep vektor posisi dari titik asal dan dua titik berlainan.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: BESARAN SKALAR VS BESARAN VEKTOR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Pengantar Besaran</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧭 1. Skalar vs Vektor dalam Sains &amp; Matematika
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Dasar Konsep</span>
+                        </div>
+
+                        <!-- PERBANDINGAN FUNDAMENTAL -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-slate-50 to-white p-5 sm:p-6 rounded-2xl border border-blue-100 space-y-3">
+                            <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider">Perbedaan Fundamental</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Dalam sains dan matematika analitis, seluruh besaran terbagi menjadi dua klasifikasi utama berdasarkan orientasinya:
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">1</span>
+                                        <h4 class="text-sm font-bold text-slate-900">Besaran Skalar</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Besaran yang <strong>hanya memiliki nilai (besar/magnitudo)</strong> dan satuan, tanpa bergantung pada arah mana pun.
+                                    </p>
+                                    <div class="text-[11px] bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100">
+                                        <strong>Contoh:</strong> Massa ($5\text{ kg}$), Waktu ($10\text{ s}$), Suhu ($28^\circ\text{C}$), Jarak tempuh ($100\text{ m}$), Kelajuan ($20\text{ m/s}$).
+                                    </div>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl border border-blue-200 shadow-2xs space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs">2</span>
+                                        <h4 class="text-sm font-bold text-blue-950">Besaran Vektor</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Besaran yang <strong>memiliki nilai (magnitudo) DAN arah</strong> tertentu di dalam ruang.
+                                    </p>
+                                    <div class="text-[11px] bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100">
+                                        <strong>Contoh:</strong> Perpindahan ($50\text{ m}$ ke timur), Kecepatan ($20\text{ m/s}$ ke utara), Gaya dorong ($30\text{ N}$ menyudut $45^\circ$), Percepatan, Momentum.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ANATOMI RUAS GARIS BERARAH -->
+                        <div class="p-5 bg-white rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Anatomi Geometris Vektor</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Secara geometris, vektor digambarkan sebagai <strong>ruas garis berarah (anak panah)</strong>:
+                            </p>
+                            <ul class="space-y-2 text-xs sm:text-sm text-slate-700 pl-4 list-disc">
+                                <li><strong>Titik Pangkal (Initial Point):</strong> Titik awal tempat vektor bermula (misal titik $A$).</li>
+                                <li><strong>Titik Ujung / Terminal (Terminal Point):</strong> Ujung panah tempat vektor berakhir (misal titik $B$).</li>
+                                <li><strong>Panjang Ruas Garis:</strong> Merepresentasikan besar atau magnitudo vektor, ditulis $|\vec{AB}|$ atau $\|\vec{AB}\|$.</li>
+                                <li><strong>Arah Mata Panah:</strong> Menunjukkan orientasi ke mana vektor mengarah.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: NOTASI VEKTOR & REPRESENTASI MATEMATIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Tata Nama &amp; Simbol</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 2. Standar Notasi &amp; Penulisan Vektor
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-800 font-semibold px-2.5 py-1 rounded-full font-mono">Notasi</span>
+                        </div>
+
+                        <!-- 3 CARA NOTASI -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <h4 class="text-xs font-bold text-slate-800 uppercase">1. Tanda Panah Atas</h4>
+                                <div class="text-lg font-mono font-bold text-blue-700 bg-white p-2 text-center rounded-lg border border-slate-200">
+                                    $\vec{v} \quad \text{atau} \quad \vec{AB}$
+                                </div>
+                                <p class="text-[11px] text-slate-600">Paling umum dalam tulisan tangan dan buku ajar SMA/MA untuk menghindari kebingungan dengan skalar.</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <h4 class="text-xs font-bold text-slate-800 uppercase">2. Huruf Tebal (Bold)</h4>
+                                <div class="text-lg font-mono font-bold text-blue-700 bg-white p-2 text-center rounded-lg border border-slate-200">
+                                    $\mathbf{v} \quad \text{atau} \quad \mathbf{u}$
+                                </div>
+                                <p class="text-[11px] text-slate-600">Standar internasional dalam literatur cetak sains (James Stewart, Halliday-Resnick, OpenStax).</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <h4 class="text-xs font-bold text-slate-800 uppercase">3. Huruf Garis Bawah</h4>
+                                <div class="text-lg font-mono font-bold text-blue-700 bg-white p-2 text-center rounded-lg border border-slate-200">
+                                    $\underline{v} \quad \text{atau} \quad \underline{u}$
+                                </div>
+                                <p class="text-[11px] text-slate-600">Sering digunakan pada papan tulis sekolah saat simbol panah terlalu memakan waktu.</p>
+                            </div>
+                        </div>
+
+                        <!-- KESAMAAN DUA VEKTOR -->
+                        <div class="p-5 bg-blue-50/70 rounded-2xl border border-blue-100 space-y-2">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-blue-900">Konsep Kesetaraan Vektor (Equivalent Vectors)</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Dua vektor dikatakan <strong>sama ($\vec{u} = \vec{v}$)</strong> jika dan hanya jika keduanya memiliki <strong>panjang yang sama DAN arah yang sama</strong>, tanpa memedulikan letak titik pangkalnya di ruang (vektor bebas / <em>free vector</em>).
+                            </p>
+                            <div class="p-3 bg-white rounded-xl border border-blue-200 text-xs text-blue-950 font-mono text-center">
+                                $$\vec{u} = \vec{v} \iff |\vec{u}| = |\vec{v}| \text{ dan } \theta_u = \theta_v$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: VEKTOR PADA BIDANG KARTESIUS R^2 -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Representasi Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📊 3. Komponen Vektor pada Bidang $\mathbb{R}^2$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Bidang Koordinat</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Ketika vektor ditempatkan pada bidang koordinat Kartesius dua dimensi ($\mathbb{R}^2$), pergerakannya dapat diuraikan menjadi dua komponen saling tegak lurus:
+                            komponen horizontal ($\Delta x$) di sumbu-$x$ dan komponen vertikal ($\Delta y$) di sumbu-$y$.
+                        </p>
+
+                        <!-- FORMAT PENULISAN KOMPONEN -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-slate-800 uppercase block">Bentuk Vektor Kolom (Matrix Form):</span>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200 text-center font-mono text-base font-bold text-blue-800">
+                                    $$\vec{v} = \begin{pmatrix} v_x \\ v_y \end{pmatrix}$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">$v_x$: pergeseran ke kanan ($+$) atau kiri ($-$).<br>$v_y$: pergeseran ke atas ($+$) atau bawah ($-$).</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-slate-800 uppercase block">Bentuk Vektor Baris (Ordered Pair):</span>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200 text-center font-mono text-base font-bold text-indigo-800">
+                                    $$\vec{v} = (v_x, v_y) \quad \text{atau} \quad \langle v_x, v_y \rangle$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Notasi tanda kurung sudut $\langle v_x, v_y \rangle$ umum digunakan untuk membedakan vektor dari koordinat titik $(x, y)$.</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH KONKRET PERGESERAN -->
+                        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200 space-y-2">
+                            <span class="text-xs font-bold text-emerald-900 uppercase">Contoh Praktis:</span>
+                            <p class="text-xs sm:text-sm text-emerald-950 leading-relaxed">
+                                Jika sebuah partikel bergerak dari titik awal ke arah <strong>$4$ satuan ke kanan</strong> dan <strong>$3$ satuan ke atas</strong>, vektor perpindahannya ditulis:
+                            </p>
+                            <div class="text-center font-mono text-sm font-bold text-emerald-900 py-1 bg-white rounded-lg border border-emerald-200">
+                                $$\vec{v} = \begin{pmatrix} 4 \\ 3 \end{pmatrix} = \langle 4, 3 \rangle$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: VEKTOR POSISI DARI DUA TITIK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Geometri Titik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 4. Vektor Posisi &amp; Vektor dari Dua Titik
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Vektor Posisi</span>
+                        </div>
+
+                        <!-- DEFINISI VEKTOR POSISI -->
+                        <div class="p-5 bg-gradient-to-r from-amber-50/70 to-orange-50/50 rounded-2xl border border-amber-200 space-y-2">
+                            <h3 class="text-sm font-bold text-amber-950 uppercase tracking-wider">Definisi Vektor Posisi</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                <strong>Vektor Posisi</strong> adalah vektor yang titik pangkalnya selalu berada pada <strong>titik asal koordinat $O(0, 0)$</strong> dan titik ujungnya berada pada suatu titik tertentu $P(x, y)$. Vektor posisi biasanya dinotasikan dengan huruf kecil $\vec{p}$ atau $\vec{OP}$:
+                            </p>
+                            <div class="p-3 bg-white rounded-xl border border-amber-200 text-center font-mono text-base font-bold text-amber-900">
+                                $$\vec{OP} = \vec{p} = \begin{pmatrix} x_P \\ y_P \end{pmatrix}$$
+                            </div>
+                        </div>
+
+                        <!-- RUMUS VEKTOR DUA TITIK SEBARANG -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Formula Vektor dari Titik $A$ ke Titik $B$</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Jika titik awal $A(x_1, y_1)$ dengan vektor posisi $\vec{a}$ dan titik akhir $B(x_2, y_2)$ dengan vektor posisi $\vec{b}$, maka vektor perpindahan $\vec{AB}$ dihitung dengan rumus selisih:
+                            </p>
+                            <div class="p-4 bg-white rounded-xl border border-blue-200 text-center font-mono text-base font-bold text-blue-900 shadow-2xs">
+                                $$\vec{AB} = \vec{b} - \vec{a} = \begin{pmatrix} x_2 - x_1 \\ y_2 - y_1 \end{pmatrix}$$
+                            </div>
+                            
+                            <!-- CONTOH SOAL LANGKAH DEMI LANGKAH -->
+                            <div class="p-3.5 bg-blue-50/60 rounded-xl border border-blue-100 text-xs text-slate-700 space-y-1">
+                                <span class="font-bold text-blue-900">Contoh Perhitungan:</span>
+                                <p>Diketahui titik $A(2, -3)$ dan $B(7, 9)$. Tentukan komponen vektor $\vec{AB}$ dan $\vec{BA}$!</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-[11px] space-y-1 text-slate-800">
+                                    <p>$\vec{AB} = \begin{pmatrix} 7 - 2 \\ 9 - (-3) \end{pmatrix} = \begin{pmatrix} 5 \\ 12 \end{pmatrix}$</p>
+                                    <p>$\vec{BA} = \begin{pmatrix} 2 - 7 \\ -3 - 9 \end{pmatrix} = \begin{pmatrix} -5 \\ -12 \end{pmatrix} = -\vec{AB}$ (arah berlawanan)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✅ 5. Kuis Pemahaman: Konsep Dasar Vektor
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Latihan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat pada masing-masing pertanyaan di bawah ini untuk menguji pemahaman konsep dasar dan vektor posisi:
+                        </p>
+
+                        <!-- DAFTAR SOAL -->
+                        <div class="space-y-4">
+
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">1</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Di antara besaran-besaran berikut, kelompok yang seluruhnya merupakan besaran vektor adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-1" value="a" class="text-blue-600">
+                                        <span>A. Massa, Waktu, dan Jarak</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-1" value="b" class="text-blue-600">
+                                        <span>B. Perpindahan, Kecepatan, dan Gaya</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-1" value="c" class="text-blue-600">
+                                        <span>C. Kelajuan, Suhu, dan Energi</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-1" value="d" class="text-blue-600">
+                                        <span>D. Volume, Luas, dan Tekanan</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek1-1" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">2</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Diketahui titik $A(3, -2)$ dan titik $B(-1, 5)$. Komponen vektor $\vec{AB}$ dalam bentuk kolom adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-2" value="a" class="text-blue-600">
+                                        <span>A. $\begin{pmatrix} -4 \\ 7 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-2" value="b" class="text-blue-600">
+                                        <span>B. $\begin{pmatrix} 4 \\ -7 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-2" value="c" class="text-blue-600">
+                                        <span>C. $\begin{pmatrix} 2 \\ 3 \end{pmatrix}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-2" value="d" class="text-blue-600">
+                                        <span>D. $\begin{pmatrix} -4 \\ 3 \end{pmatrix}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek1-2" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">3</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Jika vektor $\vec{u} = \begin{pmatrix} 2x - 1 \\ 8 \end{pmatrix}$ sama dengan vektor $\vec{v} = \begin{pmatrix} 5 \\ y + 3 \end{pmatrix}$, maka nilai $x + y$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-3" value="a" class="text-blue-600">
+                                        <span>A. $6$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-3" value="b" class="text-blue-600">
+                                        <span>B. $7$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-3" value="c" class="text-blue-600">
+                                        <span>C. $8$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-3" value="d" class="text-blue-600">
+                                        <span>D. $11$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek1-3" class="text-xs"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <div class="flex items-start gap-2.5">
+                                    <span class="px-2 py-0.5 bg-blue-600 text-white rounded-md text-xs font-bold">4</span>
+                                    <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                        Diketahui vektor posisi titik $P$ adalah $\vec{p} = \begin{pmatrix} -3 \\ 4 \end{pmatrix}$ dan $\vec{PQ} = \begin{pmatrix} 7 \\ 2 \end{pmatrix}$. Koordinat titik $Q$ adalah...
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-4" value="a" class="text-blue-600">
+                                        <span>A. $(4, 6)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-4" value="b" class="text-blue-600">
+                                        <span>B. $(10, -2)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-4" value="c" class="text-blue-600">
+                                        <span>C. $(-10, 2)$</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer">
+                                        <input type="radio" name="kuis-vek1-4" value="d" class="text-blue-600">
+                                        <span>D. $(-4, -6)$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-vek1-4" class="text-xs"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- FEEDBACK SCRIPT -->
+                        <script>
+                            const kuisKeysVek1 = {
+                                'kuis-vek1-1': { 
+                                    ans: 'b', 
+                                    text: 'Perpindahan, kecepatan, dan gaya semuanya memiliki besar dan arah (besaran vektor).' 
+                                },
+                                'kuis-vek1-2': { 
+                                    ans: 'a', 
+                                    text: 'vec(AB) = b - a = (-1 - 3, 5 - (-2))^T = (-4, 7)^T.' 
+                                },
+                                'kuis-vek1-3': { 
+                                    ans: 'c', 
+                                    text: '2x - 1 = 5 => 2x = 6 => x = 3. Lalu y + 3 = 8 => y = 5. Jadi x + y = 3 + 5 = 8.' 
+                                },
+                                'kuis-vek1-4': { 
+                                    ans: 'a', 
+                                    text: 'vec(PQ) = q - p => q = vec(PQ) + p = (7 + (-3), 2 + 4)^T = (4, 6)^T. Maka koordinat Q adalah (4, 6).' 
+                                }
+                            };
+
+                            Object.keys(kuisKeysVek1).forEach((name, idx) => {
+                                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                    radio.addEventListener('change', (e) => {
+                                        const fb = document.getElementById(`feedback-vek1-${idx + 1}`);
+                                        const info = kuisKeysVek1[name];
+                                        if (e.target.value === info.ans) {
+                                            fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                        } else {
+                                            fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat konsep selisih koordinat terminal - initial!</span>';
+                                        }
+                                        if (window.renderMathInElement) {
+                                            window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Matematika Fase E</em>. Elemen Geometri: Vektor dan Operasinya.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 9: Vectors in Two and Three Dimensions (9.1 Vectors in Two Dimensions).</p>
+                    <p><strong>OpenStax College.</strong> (2021). <em>Precalculus 2e</em>. Rice University. Chapter 10: Further Applications of Trigonometry (10.8 Vectors).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-10/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Beranda Matematika Kelas X
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="panjang-vektor-dan-vektor-satuan.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Panjang &amp; Vektor Satuan &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>
