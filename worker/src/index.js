@@ -4481,7 +4481,14 @@ export default {
             // =============================================================
             if (path.startsWith('/api/task/admin/')) {
                 await ensureTaskSchema(env);
-                if (!verifyAdminRekapKey(request, env)) {
+                let isAuthorized = verifyAdminRekapKey(request, env);
+                if (!isAuthorized) {
+                    const providedKey = (request.headers.get('X-Rekap-Key') || request.headers.get('X-Teacher-Key') || '').trim();
+                    if (providedKey) {
+                        isAuthorized = await verifyTeacherKey(providedKey, env);
+                    }
+                }
+                if (!isAuthorized) {
                     return json(request, env, {
                         ok: false,
                         error: 'Akses ditolak: Kunci Rekap Guru tidak sah atau belum dikonfigurasi.',
