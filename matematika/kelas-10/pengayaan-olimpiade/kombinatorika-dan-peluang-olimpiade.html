@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kombinatorika &amp; Peluang Olimpiade: Pigeonhole, Stars &amp; Bars, Derangements — Matematika Kelas X</title>
+    <meta name="description" content="Modul Pengayaan Olimpiade Sains (OSN-K &amp; OSN-P) Kombinatorika Matematika SMA: Prinsip Sarang Merpati (Pigeonhole Principle), metode sekat Stars and Bars, Prinsip Inklusi-Eksklusi, pengacakan total subfaktorial (derangements), lintasan kisi Catalan, dan kuis interaktif dengan audio narasi per materi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-10/pengayaan-olimpiade/kombinatorika-dan-peluang-olimpiade.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-10/pengayaan-olimpiade/kombinatorika-dan-peluang-olimpiade.html">
+    <meta property="og:title" content="🎲 Kombinatorika Olimpiade: Pigeonhole &amp; Stars-Bars — AjarKita">
+    <meta property="og:description" content="Kuasai prinsip sarang merpati (PHP), sekat Stars and Bars, dan derangements dengan audio penjelasan per materi untuk kompetisi matematika OSN.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-10" data-bab="pengayaan-olimpiade">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 9: Pengayaan Olimpiade Sains (OSN)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Kombinatorika &amp; Peluang: Pigeonhole Principle, Stars &amp; Bars &amp; Derangements
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kombinatorika olimpiade melatih daya abstraksi dan partisi matematis. Di bab ini, Anda akan mendalami Prinsip Sarang Merpati (<em>Pigeonhole Principle</em>) dari bentuk dasar hingga perampatan, metode sekat bola dan kotak (<em>Stars and Bars</em>) untuk pembagian objek identik, Prinsip Inklusi-Eksklusi (PIE), permutasi tanpa posisi awal (<em>derangements</em>), serta analisis lintasan kisi terpendek.
+                    </p>
+
+                    <!-- KARTU AUDIO PENJELASAN GURU PEMBINA PER MATERI (STUDIO ID) -->
+                    <div id="audio-player-card" class="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border border-blue-200/90 shadow-xs space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-base shadow-xs shrink-0">
+                                    🎙️
+                                </span>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                                        <span id="audio-track-title">Poin 1: Prinsip Sarang Merpati (PHP)</span>
+                                        <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-extrabold uppercase tracking-wide">Studio ID</span>
+                                    </div>
+                                    <p id="audio-track-desc" class="text-[11px] text-slate-600">Dengarkan cara merumuskan objek merpati dan sarang dari soal cerita abstrak</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <select id="audio-speed-select" onchange="changeAudioSpeed(this.value)" class="text-xs font-bold bg-white border border-slate-300 rounded-lg px-2 py-1 text-slate-700 hover:border-blue-400 focus:outline-none">
+                                    <option value="1">1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                </select>
+                                <button type="button" onclick="toggleTranscript()" class="text-xs font-bold bg-white border border-slate-300 hover:bg-slate-50 rounded-lg px-2.5 py-1 text-slate-700 transition">
+                                    📜 Naskah
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Audio Tag -->
+                        <audio id="audio-olimpiade" preload="metadata" src="/storage/audio/matematika/kelas-10/olimpiade/kombinatorika-poin-1-pigeonhole-php.mp3"></audio>
+
+                        <div class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                            <button type="button" id="audio-play-btn" onclick="togglePlayAudio()" class="w-9 h-9 rounded-lg bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center font-bold text-sm transition shrink-0 shadow-xs" aria-label="Putar Audio">
+                                ▶️
+                            </button>
+                            <div class="flex-grow flex items-center gap-2">
+                                <input type="range" id="audio-seek" min="0" max="100" value="0" oninput="seekAudio(this.value)" class="w-full accent-blue-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg">
+                            </div>
+                            <span id="audio-time" class="font-mono text-xs font-bold text-slate-600 shrink-0">00:00 / 00:00</span>
+                        </div>
+
+                        <!-- Transkrip Dinamis per Materi -->
+                        <div id="audio-transcript-box" class="hidden p-3.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 leading-relaxed font-sans">
+                            <strong id="audio-transcript-title" class="text-slate-900 block mb-1">📝 Transkrip Suara Pembina:</strong>
+                            <p id="audio-transcript-text" class="italic text-slate-600 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER CONTAINER -->
+                <div id="ielts-slider-container" data-accent="blue" class="relative">
+
+                    <!-- SLIDE 1: Pigeonhole Principle (PHP) -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm shrink-0">1</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Prinsip Sarang Merpati (Pigeonhole Principle - PHP)</h2>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                    <span>🎙️</span> <span>Dengarkan Penjelasan Poin 1</span>
+                                </button>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Dikenal juga sebagai Prinsip Laci Dirichlet (*Dirichlet Box Principle*), prinsip ini adalah teknik pembuktian keberadaan (*existence proof*) paling fundamental dalam matematika diskrit.
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-900 text-sm">1. Bentuk Dasar (Basic PHP)</div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Jika $n + 1$ ekor merpati dimasukkan ke dalam $n$ buah sarang, maka setidaknya ada satu sarang yang memuat <strong>minimal 2 ekor merpati</strong>.
+                                    </p>
+                                    <div class="p-2 bg-white rounded border border-slate-200 text-blue-700 font-mono">
+                                        Bukti Kontradiksi: Jika semua sarang memuat $\le 1$ merpati, total merpati $\le n \times 1 = n$ (kontradiksi!).
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-900 text-sm">2. Bentuk Umum (Generalized PHP)</div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Jika $N$ objek dimasukkan ke dalam $k$ buah wadah, maka setidaknya ada satu wadah yang memuat <strong>minimal $\lceil \frac{N}{k} \rceil$</strong> objek.
+                                    </p>
+                                    <div class="p-2 bg-white rounded border border-slate-200 text-indigo-700 font-mono">
+                                        Notasi $\lceil x \rceil$ adalah fungsi ceiling (pembulatan ke atas terdekat).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200/80 text-xs text-slate-800 space-y-2">
+                                <span class="font-bold text-blue-900 text-sm block">💡 Contoh Aplikasi Nyata:</span>
+                                <p>Dalam sekelompok $25$ orang mahasiswa, berapa jumlah minimal mahasiswa yang pasti lahir di hari yang sama?</p>
+                                <p class="font-mono bg-white p-2.5 rounded-lg border border-slate-200 text-slate-800">
+                                    Merpati: $N = 25$ mahasiswa.<br>
+                                    Sarang: $k = 7$ hari dalam seminggu.<br>
+                                    Hasil minimal: $\lceil \frac{25}{7} \rceil = \lceil 3{,}57 \rceil = \mathbf{4\text{ orang}}$. Pasti ada minimal 4 orang berhari lahir sama!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: Stars and Bars -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm shrink-0">2</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Metode Sekat Bola &amp; Kotak (Stars and Bars)</h2>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                    <span>🎙️</span> <span>Dengarkan Penjelasan Poin 2</span>
+                                </button>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Metode Stars and Bars digunakan untuk menghitung banyaknya cara mendistribusikan $n$ objek yang <strong>identik</strong> (tak dapat dibedakan) ke dalam $k$ kelompok yang <strong>berbeda</strong> (dapat dibedakan).
+                            </p>
+
+                            <div class="space-y-4 text-xs">
+                                <div class="p-4 rounded-xl bg-slate-900 text-white space-y-2">
+                                    <span class="font-bold text-amber-400 text-sm block font-sans">Kasus A: Pembagian Bebas (Boleh Mendapat 0 / Bilangan Bulat Non-Negatif)</span>
+                                    <p class="text-slate-300">
+                                        Banyaknya solusi bilangan bulat non-negatif $(x_1, x_2, \dots, x_k)$ dari persamaan $x_1 + x_2 + \dots + x_k = n$ dengan $x_i \ge 0$ adalah:
+                                    </p>
+                                    <div class="text-center font-bold text-base text-cyan-300 font-mono py-1">
+                                        $$\binom{n + k - 1}{k - 1} = \binom{n + k - 1}{n}$$
+                                    </div>
+                                    <p class="text-slate-400">Visualisasi: Menyisipkan $k - 1$ sekat pemisah di antara $n$ bola bintang.</p>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 text-purple-950 space-y-2">
+                                    <span class="font-bold text-sm block">Kasus B: Setiap Kelompok Wajib Mendapat Minimal 1 (Bilangan Bulat Positif)</span>
+                                    <p>
+                                        Banyaknya solusi bulat positif dari $x_1 + x_2 + \dots + x_k = n$ dengan $x_i \ge 1$ adalah:
+                                    </p>
+                                    <div class="text-center font-bold text-base text-purple-900 font-mono py-1">
+                                        $$\binom{n - 1}{k - 1}$$
+                                    </div>
+                                    <p class="text-slate-600">Visualisasi: Menyisipkan $k - 1$ sekat di antara $n - 1$ celah antar-bintang.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: PIE & Derangements -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm shrink-0">3</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Prinsip Inklusi-Eksklusi &amp; Subfaktorial (Derangements)</h2>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                    <span>🎙️</span> <span>Dengarkan Penjelasan Poin 3</span>
+                                </button>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                <strong>Derangement</strong> ($!n$ atau $D_n$) adalah permutasi dari himpunan $\{1, 2, \dots, n\}$ sedemikian sehingga tidak ada satu pun elemen yang menempati posisi aslinya.
+                            </p>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3 text-xs">
+                                <span class="font-bold text-slate-900 text-sm block">Formula Eksplisit Subfaktorial via Inklusi-Eksklusi:</span>
+                                <div class="text-center font-bold text-base text-indigo-900 font-mono py-1">
+                                    $$D_n = n! \sum_{k=0}^n \frac{(-1)^k}{k!} = n! \left(1 - \frac{1}{1!} + \frac{1}{2!} - \frac{1}{3!} + \dots + \frac{(-1)^n}{n!}\right)$$
+                                </div>
+                                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center pt-2 font-mono">
+                                    <div class="p-2 bg-white rounded border border-slate-200">$D_1 = 0$</div>
+                                    <div class="p-2 bg-white rounded border border-slate-200">$D_2 = 1$</div>
+                                    <div class="p-2 bg-white rounded border border-slate-200">$D_3 = 2$</div>
+                                    <div class="p-2 bg-white rounded border border-slate-200 font-bold text-blue-700">$D_4 = 9$</div>
+                                    <div class="p-2 bg-white rounded border border-slate-200 font-bold text-purple-700">$D_5 = 44$</div>
+                                </div>
+                                <p class="text-slate-600 pt-1">
+                                    <strong>Rumus Rekursi:</strong> $D_n = (n - 1)(D_{n - 1} + D_{n - 2})$. Sangat cepat untuk menghitung nilai suku-suku berikutnya tanpa faktorial!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: Lintasan Kisi (Grid Paths) -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm shrink-0">4</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Analisis Lintasan Kisi Terpendek (Grid Walks)</h2>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                    <span>🎙️</span> <span>Dengarkan Penjelasan Poin 4</span>
+                                </button>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Menghitung banyak jalur dari titik awal $(0, 0)$ ke titik tujuan $(m, n)$ pada bidang kartesius dengan langkah hanya boleh ke Kanan ($R$) atau ke Atas ($U$).
+                            </p>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200/80 text-xs text-slate-800 space-y-2">
+                                <span class="font-bold text-blue-900 text-sm block">Formula Kombinatorial Lintasan Kisi:</span>
+                                <p>Setiap lintasan terdiri atas total $m$ langkah ke kanan dan $n$ langkah ke atas, sehingga total panjang perjalanan adalah $m + n$ langkah.</p>
+                                <div class="text-center font-bold text-base text-blue-950 font-mono py-1">
+                                    $$\text{Banyak Jalur} = \binom{m + n}{m} = \binom{m + n}{n} = \frac{(m + n)!}{m! \cdot n!}$$
+                                </div>
+                                <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                                    <strong>Contoh Lintasan dari $(0, 0)$ ke $(4, 4)$:</strong><br>
+                                    Total langkah $= 4 + 4 = 8$ langkah.<br>
+                                    Banyak cara memilih 4 langkah ke kanan dari 8 total posisi $= \binom{8}{4} = \frac{8 \times 7 \times 6 \times 5}{4 \times 3 \times 2 \times 1} = \mathbf{70\text{ jalur}}$.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: Kuis Evaluasi OSN-K Kombinatorika -->
+                    <section class="ielts-slide space-y-6">
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-sm shrink-0">5</span>
+                                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Simulasi Soal OSN-K Kombinatorika (Auto-Koreksi)</h2>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                    <span>🎙️</span> <span>Dengarkan Panduan Kuis</span>
+                                </button>
+                            </div>
+
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Uji daya analisis kombinatorika Anda dengan 4 soal seleksi OSN-K berikut:
+                            </p>
+
+                            <form id="quiz-kombin-osn" class="space-y-6">
+                                <!-- Soal 1 -->
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-bold text-slate-900 text-xs sm:text-sm">Soal 1 (Generalized Pigeonhole)</span>
+                                        <span id="badge-qkom1" class="hidden text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                        Terdapat 25 mahasiswa dalam satu kelas. Berapakah jumlah minimal mahasiswa yang dijamin memiliki hari lahir (Senin–Minggu) yang sama?
+                                    </p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom1" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 3</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom1" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 4</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom1" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 5</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom1" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 7</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qkom1" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- Soal 2 -->
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-bold text-slate-900 text-xs sm:text-sm">Soal 2 (Stars and Bars)</span>
+                                        <span id="badge-qkom2" class="hidden text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                        Banyaknya tupel bilangan bulat non-negatif $(x, y, z)$ yang memenuhi persamaan $x + y + z = 8$ adalah...
+                                    </p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom2" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 36</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom2" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 45</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom2" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 55</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom2" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 66</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qkom2" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- Soal 3 -->
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-bold text-slate-900 text-xs sm:text-sm">Soal 3 (Derangements $D_4$)</span>
+                                        <span id="badge-qkom3" class="hidden text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                        Empat peserta saling menukar bingkisan kado secara acak. Banyaknya cara pembagian sehingga tidak ada seorang pun yang menerima bingkisan miliknya sendiri adalah...
+                                    </p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom3" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 6</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom3" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 8</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom3" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 9</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom3" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 12</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qkom3" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <!-- Soal 4 -->
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-bold text-slate-900 text-xs sm:text-sm">Soal 4 (Lintasan Kisi)</span>
+                                        <span id="badge-qkom4" class="hidden text-xs px-2.5 py-0.5 rounded-full font-bold"></span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                        Banyaknya jalur terpendek dari titik $(0,0)$ ke titik $(4,4)$ jika langkah yang diizinkan hanya satu satuan ke Kanan atau satu satuan ke Atas adalah...
+                                    </p>
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom4" value="A" class="text-blue-600">
+                                            <span><strong>A.</strong> 56</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom4" value="B" class="text-blue-600">
+                                            <span><strong>B.</strong> 70</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom4" value="C" class="text-blue-600">
+                                            <span><strong>C.</strong> 84</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50/50 cursor-pointer transition">
+                                            <input type="radio" name="opt_qkom4" value="D" class="text-blue-600">
+                                            <span><strong>D.</strong> 128</span>
+                                        </label>
+                                    </div>
+                                    <div id="feedback-qkom4" class="hidden text-xs p-3 rounded-xl leading-relaxed"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between pt-2">
+                                    <button type="button" onclick="checkAllKombinOsnQuiz()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs">
+                                        Periksa Seluruh Jawaban
+                                    </button>
+                                    <span id="quiz-kombin-score" class="text-xs font-bold text-slate-700"></span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER NAVIGATION CONTROLS (BOTTOM) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr; Poin Sebelumnya</span>
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar Olimpiade:</span>
+                    </p>
+                    <p><strong>Puspresnas Kemendikbudristek RI.</strong> (2024). <em>Silabus dan Kumpulan Soal Resmi Olimpiade Sains Nasional Tingkat Kabupaten/Kota (OSN-K) Matematika SMA</em>.</p>
+                    <p><strong>Brualdi, Richard A.</strong> (2009). <em>Introductory Combinatorics</em> (5th ed.). Pearson Prentice Hall.</p>
+                    <p><strong>Bóna, Miklós.</strong> (2011). <em>A Walk Through Combinatorics: An Introduction to Enumeration and Graph Theory</em> (3rd ed.). World Scientific.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="geometri-dan-trigonometri-olimpiade.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-Bab Sebelumnya: Geometri Olimpiade
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="bedah-soal-asli-osnk-matematika.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Bedah Soal Asli OSN-K &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI -->
+    <script>
+        const slideAudios = [
+            {
+                title: "Poin 1: Prinsip Sarang Merpati (PHP)",
+                desc: "Dengarkan cara merumuskan objek merpati dan sarang dari soal cerita abstrak",
+                src: "/storage/audio/matematika/kelas-10/olimpiade/kombinatorika-poin-1-pigeonhole-php.mp3",
+                text: "Poin pertama membahas Prinsip Sarang Merpati atau Pigeonhole Principle. Prinsip ini menyatakan bahwa jika n tambah satu objek dimasukkan ke dalam n kotak, pasti ada minimal satu kotak yang memuat lebih dari satu objek. Kunci sukses menyelesaikan soal PHP di olimpiade adalah bagaimana Anda mendefinisikan siapa objek merpatinya dan apa kriteria sarangnya dari cerita soal yang diberikan."
+            },
+            {
+                title: "Poin 2: Metode Sekat Stars and Bars",
+                desc: "Dengarkan perbedaan pembagian bebas vs wajib minimal satu objek",
+                src: "/storage/audio/matematika/kelas-10/olimpiade/kombinatorika-poin-2-stars-and-bars.mp3",
+                text: "Di poin kedua, kita mempelajari metode sekat Stars and Bars untuk membagikan n objek identik ke dalam k kelompok yang berbeda. Bedakan dengan cermat dua kasusnya: jika setiap kelompok boleh menerima nol atau bilangan bulat non-negatif, rumusnya adalah kombinasi n tambah k minus satu terhadap k minus satu. Namun jika setiap kelompok wajib menerima minimal satu, rumusnya adalah kombinasi n minus satu terhadap k minus satu."
+            },
+            {
+                title: "Poin 3: Inklusi-Eksklusi & Derangements",
+                desc: "Dengarkan konsep pengacakan kado tanpa posisi awal dan rumus rekursi Dn",
+                src: "/storage/audio/matematika/kelas-10/olimpiade/kombinatorika-poin-3-pie-derangements.mp3",
+                text: "Pada poin ketiga, kita mempelajari Prinsip Inklusi-Eksklusi dan subfaktorial atau derangements. Derangement adalah banyaknya permutasi di mana tidak ada satupun elemen yang menempati posisi aslinya, seperti menukar kado silang secara acak. Pelajari pola bilangannya: D1 nol, D2 satu, D3 dua, D4 sembilan, dan D5 empat puluh empat, serta rumus rekursinya."
+            },
+            {
+                title: "Poin 4: Analisis Lintasan Kisi (Grid Walks)",
+                desc: "Dengarkan pemodelan jalur terpendek kartesius via permutasi kombinasi berulang",
+                src: "/storage/audio/matematika/kelas-10/olimpiade/kombinatorika-poin-4-lintasan-kisi.mp3",
+                text: "Poin keempat menganalisis lintasan kisi terpendek atau grid walks. Perjalanan dari titik 0 koma 0 ke titik m koma n pada kisi koordinat dapat dimodelkan sebagai permutasi dengan elemen berulang, yaitu memilih m langkah ke kanan dari total m tambah n langkah. Konsep ini adalah dasar dari perjalanan acak dan bilangan Catalan dalam kombinatorika tingkat tinggi."
+            },
+            {
+                title: "Poin 5: Panduan Simulasi Kuis Kombinatorika OSN-K",
+                desc: "Dengarkan tips partisi himpunan dan formulasi kombinasi kuis kombinatorika",
+                src: "/storage/audio/matematika/kelas-10/olimpiade/kombinatorika-poin-5-kuis-evaluasi.mp3",
+                text: "Mari kita asah logika pencacahan Anda di kuis poin kelima! Kuis ini mencakup sarang merpati umum, sekat Stars and Bars, derangement empat orang, dan lintasan kisi 4 kali 4. Pahami model matematikanya sebelum menghitung. Selamat mengerjakan!"
+            }
+        ];
+
+        const audioEl = document.getElementById('audio-olimpiade');
+        const playBtn = document.getElementById('audio-play-btn');
+        const seekBar = document.getElementById('audio-seek');
+        const timeDisplay = document.getElementById('audio-time');
+        let currentSlideIdx = 0;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        function loadSlideAudio(idx, autoPlay = false) {
+            if (idx < 0 || idx >= slideAudios.length) return;
+            currentSlideIdx = idx;
+            const item = slideAudios[idx];
+            
+            document.getElementById('audio-track-title').textContent = item.title;
+            document.getElementById('audio-track-desc').textContent = item.desc;
+            document.getElementById('audio-transcript-title').textContent = '📝 Transkrip Suara Pembina (' + item.title + '):';
+            document.getElementById('audio-transcript-text').textContent = '"' + item.text + '"';
+
+            const wasPlaying = !audioEl.paused;
+            if (!audioEl.src.endsWith(item.src)) {
+                audioEl.src = item.src;
+                audioEl.load();
+                seekBar.value = 0;
+                timeDisplay.textContent = '00:00 / 00:00';
+            }
+
+            if (autoPlay || wasPlaying) {
+                audioEl.play().then(() => {
+                    playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    playBtn.textContent = '▶️';
+                });
+            } else {
+                playBtn.textContent = '▶️';
+            }
+        }
+
+        function playCurrentSlideAudio(idx) {
+            loadSlideAudio(idx, true);
+            const card = document.getElementById('audio-player-card');
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function togglePlayAudio() {
+            if (!audioEl) return;
+            if (audioEl.paused) {
+                audioEl.play();
+                playBtn.textContent = '⏸️';
+            } else {
+                audioEl.pause();
+                playBtn.textContent = '▶️';
+            }
+        }
+
+        if (audioEl) {
+            audioEl.addEventListener('timeupdate', () => {
+                if (!isNaN(audioEl.duration) && audioEl.duration > 0) {
+                    const pct = (audioEl.currentTime / audioEl.duration) * 100;
+                    seekBar.value = pct;
+                    timeDisplay.textContent = formatTime(audioEl.currentTime) + ' / ' + formatTime(audioEl.duration);
+                }
+            });
+
+            audioEl.addEventListener('ended', () => {
+                playBtn.textContent = '▶️';
+                seekBar.value = 0;
+                timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+
+            audioEl.addEventListener('loadedmetadata', () => {
+                timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+        }
+
+        function seekAudio(val) {
+            if (!audioEl || isNaN(audioEl.duration)) return;
+            audioEl.currentTime = (val / 100) * audioEl.duration;
+        }
+
+        function changeAudioSpeed(val) {
+            if (!audioEl) return;
+            audioEl.playbackRate = parseFloat(val);
+        }
+
+        function toggleTranscript() {
+            const box = document.getElementById('audio-transcript-box');
+            if (!box) return;
+            box.classList.toggle('hidden');
+        }
+
+        // LOGIKA KUIS EVALUASI OSN-K KOMBINATORIKA
+        function checkAllKombinOsnQuiz() {
+            const answers = {
+                qkom1: { correct: 'B', explanation: 'Berdasarkan Generalized Pigeonhole Principle: $N = 25$ mahasiswa ditempatkan ke dalam $k = 7$ hari sarang. Jumlah minimal yang terjamin $= \\lceil \\frac{25}{7} \\rceil = \\lceil 3{,}57 \\rceil = \\mathbf{4\\text{ orang}}$.' },
+                qkom2: { correct: 'B', explanation: 'Gunakan metode Stars and Bars untuk solusi bilangan bulat non-negatif ($n=8, k=3$): $\\binom{n + k - 1}{k - 1} = \\binom{8 + 3 - 1}{3 - 1} = \\binom{10}{2} = \\frac{10 \\times 9}{2} = \\mathbf{45}$.' },
+                qkom3: { correct: 'C', explanation: 'Pengacakan total kado 4 orang adalah derangement $D_4$. $D_4 = 4! \\left(1 - \\frac{1}{1!} + \\frac{1}{2!} - \\frac{1}{3!} + \\frac{1}{4!}\\right) = 24 \\left(0 + \\frac{1}{2} - \\frac{1}{6} + \\frac{1}{24}\\right) = 24 \\times \\frac{9}{24} = \\mathbf{9}$.' },
+                qkom4: { correct: 'B', explanation: 'Lintasan dari $(0,0)$ ke $(4,4)$ membutuhkan tepat 4 langkah ke kanan ($R$) dan 4 langkah ke atas ($U$). Total permutasi dengan elemen berulang: $\\binom{4 + 4}{4} = \\binom{8}{4} = \\frac{8 \\times 7 \\times 6 \\times 5}{4 \\times 3 \\times 2 \\times 1} = \\mathbf{70}$.' }
+            };
+
+            let score = 0;
+            const total = 4;
+
+            for (let i = 1; i <= total; i++) {
+                const qKey = 'qkom' + i;
+                const radios = document.getElementsByName('opt_' + qKey);
+                let selectedVal = null;
+                for (const r of radios) {
+                    if (r.checked) { selectedVal = r.value; break; }
+                }
+
+                const badge = document.getElementById('badge-' + qKey);
+                const feedback = document.getElementById('feedback-' + qKey);
+                badge.classList.remove('hidden');
+                feedback.classList.remove('hidden');
+
+                if (selectedVal === answers[qKey].correct) {
+                    score++;
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                    badge.textContent = 'Benar (+1)';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-emerald-50 text-emerald-900 border border-emerald-200';
+                    feedback.innerHTML = '<strong>Jawaban Tepat!</strong> ' + answers[qKey].explanation;
+                } else {
+                    badge.className = 'text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800';
+                    badge.textContent = 'Kurang Tepat';
+                    feedback.className = 'text-xs p-3 rounded-xl leading-relaxed bg-rose-50 text-rose-900 border border-rose-200';
+                    feedback.innerHTML = '<strong>Kunci Jawaban: ' + answers[qKey].correct + '.</strong> ' + answers[qKey].explanation;
+                }
+            }
+
+            const scoreDisplay = document.getElementById('quiz-kombin-score');
+            scoreDisplay.textContent = 'Skor Anda: ' + score + ' / ' + total + ' (' + Math.round((score / total) * 100) + '%)';
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.getElementById('quiz-kombin-osn'), {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        window.addEventListener('load', () => {
+            loadSlideAudio(0, false);
+
+            if (window.ieltsSlider) {
+                const origUpdate = window.ieltsSlider.updateSlide.bind(window.ieltsSlider);
+                window.ieltsSlider.updateSlide = function(shouldScroll) {
+                    origUpdate(shouldScroll);
+                    loadSlideAudio(window.ieltsSlider.currentIndex, false);
+                };
+            }
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>

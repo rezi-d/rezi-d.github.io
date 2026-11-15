@@ -431,6 +431,19 @@ const kurikulum = {
                     { file: "peluang-kejadian-saling-bebas-dan-bersyarat.html", title: "Peluang Saling Bebas & Bersyarat" },
                     { file: "latihan-pemecahan-masalah-peluang.html", title: "Problem Solving HOTS Peluang" }
                 ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN)",
+                deskripsi: "Sesi pengayaan khusus persiapan Olimpiade Sains Nasional (OSN-K dan OSN-P) jenjang SMA: Aljabar (ketaksamaan AM-GM & Cauchy-Schwarz), Teori Bilangan (keterbagian & kongruensi modulo), Geometri & Trigonometri lanjutan (Dalil Ceva, Menelaus, Ptolemy), Kombinatorika (Prinsip Sarang Merpati & Stars and Bars), bedah soal asli OSN-K, trik pembuktian esai OSN-P, serta audio panduan berpikir guru.",
+                subbab: [
+                    { file: "aljabar-olimpiade-ketaksamaan-dan-polinomial.html", title: "Aljabar: Ketaksamaan AM-GM & Polinomial" },
+                    { file: "teori-bilangan-keterbagian-dan-modulo.html", title: "Teori Bilangan: Keterbagian & Modulo" },
+                    { file: "geometri-dan-trigonometri-olimpiade.html", title: "Geometri: Dalil Ceva, Menelaus & Siklik" },
+                    { file: "kombinatorika-dan-peluang-olimpiade.html", title: "Kombinatorika: Pigeonhole & Stars-Bars" },
+                    { file: "bedah-soal-asli-osnk-matematika.html", title: "Bedah Soal Asli OSN-K (Trik Cepat)" },
+                    { file: "simulasi-dan-trik-pembuktian-osnp.html", title: "Simulasi & Pembuktian Rigor OSN-P" }
+                ]
             }
         ]
     }
