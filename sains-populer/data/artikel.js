@@ -6,6 +6,79 @@
 
 const DAFTAR_ARTIKEL_SAINS = [
     {
+        "id": "daur-ulang-baterai-litium-hidrometalurgi",
+        "slug": "daur-ulang-baterai-litium-hidrometalurgi",
+        "title": "Daur Ulang Baterai Mobil Listrik dengan Hidrometalurgi Kimia Hijau",
+        "subtitle": "Mengekstraksi kembali logam berharga Kobalt, Nikel, dan Litium dari limbah baterai menggunakan asam sitrat dan hidrogen peroksida ramah lingkungan.",
+        "category": "Material Masa Depan",
+        "categoryColor": "indigo",
+        "icon": "🔄",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-indigo-950 to-emerald-950",
+            "badge": "Kimia Hijau × Sirkular Ekonomi",
+            "icon": "♻️"
+        },
+        "summary": "Ledakan populasi kendaraan listrik melahirkan gunung limbah baterai lithium-ion. Metode pirometalurgi konvensional (pembakaran tungku 1.400°C) boros energi dan melepas gas beracun. Kimiawan kini mengembangkan hidrometalurgi ramah lingkungan berbasis asam organik buah sitrun (asam sitrat) untuk melarutkan dan memisahkan kembali ion logam murni dengan kemurnian 99,8%.",
+        "tahukahKamu": "Dari 1 ton batuan tambang bijih litium alami di bumi rata-rata hanya diperoleh 5 hingga 10 kilogram litium murni. Namun dari 1 ton baterai mobil listrik bekas (black mass), para kimiawan bisa mengekstraksi hingga 150 kg litium, kobalt, dan nikel berkualitas baterai!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas X",
+                "bab": "Reaksi Redoks & Bilangan Oksidasi",
+                "desc": "Reaksi pelindian redoks pelarutan logam transisi dan penyetaraan reaksi.",
+                "url": "/kelas-10/reaksi-redoks/aturan-dan-penentuan-bilangan-oksidasi.html"
+            },
+            {
+                "kelas": "Kelas XII",
+                "bab": "Kimia Unsur Logam Transisi & Kompleks",
+                "desc": "Sifat unsur logam transisi periode 4 (Co, Ni) dan pembentukan ion kompleks khelat.",
+                "url": "/kelas-12/kimia-unsur/logam-transisi-periode-keempat-dan-senyawa-kompleks.html"
+            }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Mobil listrik ramah emisi, namun bagaimana dengan baterainya saat rusak setelah 10 tahun pemakaian? Jika dibuang ke TPA, logam berat beracun akan mencemari air tanah. Solusi paling elegan adalah <strong>Hidrometalurgi Sirkular Kimia Hijau</strong>.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Melarutkan Logam Tanpa Asam Keras Beracun</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Dahulu, industri menggunakan asam klorida pekat (HCl) atau asam sulfat (H₂SO₄) yang korosif dan menghasilkan limbah gas klorin berbahaya. Kimiawan kini beralih ke <strong>asam sitrat</strong> yang diekstrak dari buah jeruk dikombinasikan dengan <strong>hidrogen peroksida (H₂O₂)</strong>.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Reaksi Redoks Pelindian Kobalt</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Kobalt dalam serbuk katode LiCoO₂ berada pada biloks Co³⁺ yang sukar larut. Di sinilah peran H₂O₂ sebagai reduktor ramah lingkungan: mereduksi Co³⁺ menjadi Co²⁺ yang larut dengan cepat dalam air. Asam sitrat kemudian bertindak sebagai agen pengkhelat (<em>chelating agent</em>) yang membungkus ion Co²⁺ menjadi senyawa kompleks yang stabil untuk siap dipresipitasi kembali.\n            </p>\n        ",
+        "diskusi": "Mengapa hidrogen peroksida (H₂O₂) yang biasanya dikenal sebagai zat pengoksidasi kuat (oksidator) justru bertindak sebagai reduktor saat mereaksikan LiCoO₂ dalam suasana asam?",
+        "publishDate": "16 November 2026"
+    },
+
+    {
+        "id": "biohidrogen-mikroalga-energi",
+        "slug": "biohidrogen-mikroalga-energi",
+        "title": "Biohidrogen dari Mikroalga: Pabrik Bahan Bakar Bersih Bertenaga Fotosintesis",
+        "subtitle": "Rekayasa biokimia mikroalga hijau Chlamydomonas reinhardtii yang mengubah air dan sinar matahari menjadi gas hidrogen murni tanpa jejak karbon.",
+        "category": "Nobel & Terobosan Sains",
+        "categoryColor": "teal",
+        "icon": "🌱",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-emerald-950 to-teal-950",
+            "badge": "Bioenergi × Katalisis Enzim",
+            "icon": "🧪"
+        },
+        "summary": "Gas hidrogen (H₂) digadang-gadang sebagai bahan bakar masa depan karena hasil pembakarannya hanyalah uap air murni (H₂O). Melalui pemanfaatan enzim hidrogenase pada mikroalga bersel satu, ilmuwan berhasil mengalihkan aliran elektron fotosintesis untuk memproduksi gas biohidrogen berkelanjutan.",
+        "tahukahKamu": "Satu kilogram gas hidrogen murni memiliki kandungan energi sekitar 120–142 MJ/kg—hampir 3 kali lipat lebih padat energi dibanding 1 kg bensin bensin ron 98 yang hanya sekitar 44 MJ/kg!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XI",
+                "bab": "Termokimia & Energi Ikatan",
+                "desc": "Entalpi pembakaran gas hidrogen (H₂ + ½O₂ → H₂O) yang sangat eksoterm.",
+                "url": "/kelas-11/termokimia/energi-ikatan-dan-penentuan-entalpi.html"
+            },
+            {
+                "kelas": "Kelas XI",
+                "bab": "Laju Reaksi & Katalis",
+                "desc": "Peran enzim sebagai biokatalis yang menurunkan energi aktivasi reaksi biokimia.",
+                "url": "/kelas-11/laju-reaksi/faktor-penentu-laju-reaksi.html"
+            }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Sebagian besar gas hidrogen industri saat ini masih dibuat dari gas alam metana (steam methane reforming) yang menghasilkan polusi karbon dioksida. Namun mikroalga hijau mikroskopis <em>Chlamydomonas reinhardtii</em> punya kemampuan magis: memproduksi gas hidrogen hanya bermodalkan air laut dan sinar matahari!\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Pembajakan Aliran Elektron Fotosintesis</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Pada fotosintesis normal, foton matahari mengeksitasi elektron dari molekul air di Fotosistem II menuju feredoksin untuk mereduksi CO₂ menjadi gula glukosa. Namun saat mikroalga diberi kejutan lingkungan tanpa sulfur, biosintesis oksigen terhenti. Alga kemudian mengaktifkan enzim purba: <strong>[FeFe]-Hydrogenase</strong>.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Reaksi Reduksi Ion H⁺ Menjadi Gas H₂</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Enzim hidrogenase mengambil kelebihan elektron dari feredoksin tereduksi dan menggabungkannya dengan ion hidrogen di dalam sel:\n            </p>\n            <div class=\"p-4 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm font-mono mb-4 text-center\">\n                2 H⁺ + 2 e⁻ &rarr; H₂ (gas menggelembung ke permukaan)\n            </div>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Gelembung gas hidrogen murni ini dapat langsung dipanen dari bioreaktor untuk mengisi tangki mobil berbahan bakar hidrogen (Fuel Cell)!\n            </p>\n        ",
+        "diskusi": "Mengapa enzim hidrogenase pada mikroalga langsung mati atau terinaktivasi jika terkena gas oksigen (O₂)? Tinjau dari struktur situs aktif besi-belerang [Fe-Fe] pada enzim!",
+        "publishDate": "16 November 2026"
+    },
+    {
         "id": "cat-pendingin-barium-sulfat",
         "slug": "cat-pendingin-barium-sulfat",
         "title": "Cat Ultra-Putih Barium Sulfat: Mendinginkan Bangunan Tanpa AC Lewat Pendinginan Radiatif Pasif",
