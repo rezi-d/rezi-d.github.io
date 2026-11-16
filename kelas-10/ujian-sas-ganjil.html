@@ -1877,6 +1877,480 @@
     <div id="footer-placeholder"></div>
     <div id="spu-placeholder"></div>
 
+    
+    <!-- SCRIPT INTERAKTIF KELAS X -->
+    <script>
+        // Data Kunci Jawaban Resmi PG Kelas X
+        const PG_KEYS_X = {
+            1: 'C', 2: 'A', 3: 'B', 4: 'D', 5: 'B',
+            6: 'B', 7: 'B', 8: 'C', 9: 'A', 10: 'B',
+            11: 'C', 12: 'B', 13: 'B', 14: 'B', 15: 'A'
+        };
+
+        const UR_RUBRIK_X = {
+            1: { judul: "Uraian 1: Identifikasi Lambang Bahaya", max: 12, poin: ["Menyebutkan lambang A (Toxic) dan B (Corrosive) dengan tepat (4 poin)", "Menyebutkan 2 contoh bahan kimia laboratorium masing-masing (4 poin)", "Menjelaskan tindakan K3/APD yang wajib dilakukan (4 poin)"] },
+            2: { judul: "Uraian 2: Analisis Variabel Percobaan Metode Ilmiah", max: 14, poin: ["Menentukan variabel bebas dengan benar: massa katalis / jenis zat (4 poin)", "Menentukan variabel terikat: laju/waktu reaksi atau volume gas (4 poin)", "Menyebutkan 2 variabel kontrol yang harus dijaga konstan (3 poin)", "Menuliskan rumusan hipotesis ilmiah yang tepat (3 poin)"] },
+            3: { judul: "Uraian 3: Notasi Atom, Partikel Subatom & Konfigurasi", max: 14, poin: ["Menentukan jumlah proton, elektron, dan neutron dengan tepat (4 poin)", "Menuliskan konfigurasi elektron Bohr atau Aufbau (4 poin)", "Menentukan elektron valensi dan jumlah kulit atom (3 poin)", "Menentukan letak golongan dan periode dalam SPU (3 poin)"] },
+            4: { judul: "Uraian 4: Pasangan Isotop, Isobar, dan Isoton", max: 15, poin: ["Mengidentifikasi pasangan isotop dengan tepat beserta alasannya (5 poin)", "Mengidentifikasi pasangan isobar dengan tepat beserta alasannya (5 poin)", "Mengidentifikasi pasangan isoton dengan tepat beserta alasannya (5 poin)"] },
+            5: { judul: "Uraian 5: Analisis Sifat Keperiodikan Unsur", max: 15, poin: ["Menentukan urutan jari-jari atom dari yang terbesar ke terkecil (5 poin)", "Menentukan urutan energi ionisasi pertama dari yang terendah ke tertinggi (5 poin)", "Menjelaskan dasar teori muatan inti efektif dan jumlah kulit elektron (5 poin)"] }
+        };
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+            const targetContent = document.getElementById('tab-content-' + tabId);
+            if (targetContent) targetContent.classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn flex-1 min-w-[130px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100";
+            });
+            const activeBtn = document.getElementById('tab-btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn flex-1 min-w-[130px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all bg-teal-600 text-white shadow-sm";
+            }
+
+            // Scroll to top of tab container
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+
+            // Re-render KaTeX if available
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        // Toggle Pembahasan Accordion
+        function toggleExp(id) {
+            const expEl = document.getElementById(id);
+            const iconEl = document.getElementById('icon-' + id);
+            if (!expEl) return;
+            const isHidden = expEl.classList.contains('hidden');
+            if (isHidden) {
+                expEl.classList.remove('hidden');
+                if (iconEl) iconEl.textContent = '▴';
+            } else {
+                expEl.classList.add('hidden');
+                if (iconEl) iconEl.textContent = '▾';
+            }
+        }
+
+        // Toggle Semua Pembahasan
+        function toggleAllExplanations(show) {
+            document.querySelectorAll('[id^="exp-"]').forEach(el => {
+                const icon = document.getElementById('icon-' + el.id);
+                if (show) {
+                    el.classList.remove('hidden');
+                    if (icon) icon.textContent = '▴';
+                } else {
+                    el.classList.add('hidden');
+                    if (icon) icon.textContent = '▾';
+                }
+            });
+        }
+
+        // Filter Matriks Kisi-Kisi
+        function filterKisi(cat) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200";
+            });
+            const activeBtn = document.getElementById('filter-btn-' + cat);
+            if (activeBtn) {
+                activeBtn.className = "filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-teal-600 text-white shadow-xs";
+            }
+
+            const rows = document.querySelectorAll('.kisi-row');
+            rows.forEach(row => {
+                if (cat === 'all' || row.getAttribute('data-materi') === cat) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Navigasi ke Soal Tertentu di Tab 2
+        function goToQuestion(qId) {
+            switchTab('bedah-soal');
+            setTimeout(() => {
+                const el = document.getElementById(qId);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.classList.add('ring-2', 'ring-teal-500');
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-teal-500'), 2500);
+                }
+            }, 100);
+        }
+
+        // CBT Simulator State
+        let cbtTimer = null;
+        let cbtSecondsLeft = 90 * 60; // 90 menit
+        let cbtAnswers = {}; // { 1: 'C', 2: 'A', ... }
+        let cbtUraianAnswers = {}; // { 1: 'jawaban teks...', ... }
+        let cbtRagu = {}; // { 1: true, ... }
+
+        function startCBTSimulation() {
+            const nama = document.getElementById('cbt-nama').value.trim() || 'Santri Berprestasi';
+            const kelas = document.getElementById('cbt-kelas').value.trim() || 'X (Fase E)';
+
+            document.getElementById('cbt-start-card').classList.add('hidden');
+            document.getElementById('cbt-active-arena').classList.remove('hidden');
+            document.getElementById('cbt-peserta-display').textContent = nama + ' (' + kelas + ')';
+
+            // Build CBT Questions dynamically from Tab 2 questions
+            buildCBTQuestionDeck();
+
+            // Build Navigation Grid
+            buildCBTNavGrid();
+
+            // Start Timer
+            cbtSecondsLeft = 90 * 60;
+            updateTimerDisplay();
+            if (cbtTimer) clearInterval(cbtTimer);
+            cbtTimer = setInterval(() => {
+                cbtSecondsLeft--;
+                updateTimerDisplay();
+                if (cbtSecondsLeft <= 0) {
+                    clearInterval(cbtTimer);
+                    alert('Waktu ujian 90 menit telah habis! Sistem akan mengumpulkan lembar jawaban Anda secara otomatis.');
+                    submitCBTFinal();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(cbtSecondsLeft / 60);
+            const secs = cbtSecondsLeft % 60;
+            const text = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+            const timerEl = document.getElementById('cbt-timer-display');
+            if (timerEl) {
+                timerEl.textContent = text;
+                if (cbtSecondsLeft <= 300) {
+                    timerEl.parentElement.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-600 text-white font-mono font-bold text-sm sm:text-base animate-pulse";
+                } else if (cbtSecondsLeft <= 900) {
+                    timerEl.parentElement.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 text-white font-mono font-bold text-sm sm:text-base";
+                }
+            }
+        }
+
+        function buildCBTQuestionDeck() {
+            const container = document.getElementById('cbt-questions-container');
+            container.innerHTML = '';
+
+            // Render 15 PG
+            for (let i = 1; i <= 15; i++) {
+                const srcArticle = document.getElementById('pg-' + i);
+                if (!srcArticle) continue;
+
+                // Extract question text and options
+                const qTextEl = srcArticle.querySelector('.text-slate-800');
+                const qText = qTextEl ? qTextEl.innerHTML : '';
+                
+                // Extract options texts
+                const optEls = srcArticle.querySelectorAll('.grid > div');
+                let optionsHtml = '';
+                const letters = ['A', 'B', 'C', 'D', 'E'];
+                
+                optEls.forEach((optDiv, idx) => {
+                    const letter = letters[idx];
+                    const spans = optDiv.querySelectorAll('span');
+                    const textSpan = spans.length > 1 ? spans[1].innerHTML : optDiv.textContent;
+
+                    optionsHtml += `
+                        <label class="cbt-opt-label flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-teal-400 bg-white hover:bg-teal-50/30 transition-all cursor-pointer" id="cbt-opt-wrapper-${i}-${letter}">
+                            <input type="radio" name="cbt-pg-${i}" value="${letter}" onchange="selectCBTOption(${i}, '${letter}')" class="mt-1 w-4 h-4 text-teal-600 focus:ring-teal-500">
+                            <span class="font-bold text-slate-600 w-5 text-sm">${letter}.</span>
+                            <span class="text-xs sm:text-sm text-slate-800 leading-relaxed">${textSpan}</span>
+                        </label>
+                    `;
+                });
+
+                const qCard = document.createElement('div');
+                qCard.id = 'cbt-q-card-' + i;
+                qCard.className = "bg-white rounded-3xl p-6 sm:p-7 shadow-xs border border-slate-200/90 space-y-4";
+                qCard.innerHTML = `
+                    <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-900 text-white font-bold text-xs">${i}</span>
+                            <span class="text-xs font-bold text-slate-700">Soal Pilihan Ganda (2 Poin)</span>
+                        </div>
+                        <label class="flex items-center gap-2 cursor-pointer text-xs font-semibold text-amber-700">
+                            <input type="checkbox" onchange="toggleCBTRagu(${i}, this.checked)" class="w-4 h-4 text-amber-500 rounded focus:ring-amber-400">
+                            <span>Ragu-ragu</span>
+                        </label>
+                    </div>
+                    <div class="text-xs sm:text-sm text-slate-800 leading-relaxed">${qText}</div>
+                    <div class="grid grid-cols-1 gap-2 pt-2">${optionsHtml}</div>
+                `;
+                container.appendChild(qCard);
+            }
+
+            // Render 5 Uraian
+            for (let u = 1; u <= 5; u++) {
+                const srcArticle = document.getElementById('ur-' + u);
+                if (!srcArticle) continue;
+
+                const qTextEl = srcArticle.querySelector('.text-slate-800');
+                const qText = qTextEl ? qTextEl.innerHTML : '';
+                const rubrikInfo = UR_RUBRIK_X[u];
+
+                const uCard = document.createElement('div');
+                uCard.id = 'cbt-u-card-' + u;
+                uCard.className = "bg-white rounded-3xl p-6 sm:p-7 shadow-xs border border-slate-200/90 space-y-4";
+                uCard.innerHTML = `
+                    <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex items-center justify-center px-3 py-1 rounded-xl bg-purple-700 text-white font-bold text-xs">Uraian ${u}</span>
+                            <span class="text-xs font-bold text-purple-900">${rubrikInfo ? rubrikInfo.judul : 'Soal Uraian'}</span>
+                        </div>
+                        <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-lg">Bobot: ${rubrikInfo ? rubrikInfo.max : 14} Poin</span>
+                    </div>
+                    <div class="text-xs sm:text-sm text-slate-800 leading-relaxed">${qText}</div>
+                    <div class="pt-2 space-y-2">
+                        <label class="block text-xs font-bold text-slate-700">Ketik Uraian Jawaban Anda:</label>
+                        <textarea rows="5" oninput="inputCBTUraian(${u}, this.value)" placeholder="Tuliskan langkah-langkah, rumus, dan penjelasan konseptual secara terperinci..." class="w-full p-4 text-xs sm:text-sm rounded-2xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none leading-relaxed"></textarea>
+                    </div>
+                `;
+                container.appendChild(uCard);
+            }
+
+            if (window.renderMathInElement) {
+                renderMathInElement(container, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+
+        function buildCBTNavGrid() {
+            const navContainer = document.getElementById('cbt-nav-grid');
+            if (!navContainer) return;
+            navContainer.innerHTML = '';
+
+            // 15 PG
+            for (let i = 1; i <= 15; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.id = 'cbt-nav-btn-' + i;
+                btn.className = "h-9 rounded-xl border border-slate-300 bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center hover:border-teal-500 transition-all";
+                btn.textContent = i;
+                btn.onclick = () => scrollToCBTCard('cbt-q-card-' + i);
+                navContainer.appendChild(btn);
+            }
+
+            // 5 Uraian
+            for (let u = 1; u <= 5; u++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.id = 'cbt-nav-btn-u' + u;
+                btn.className = "h-9 rounded-xl border border-purple-200 bg-purple-50 text-purple-800 font-bold text-xs flex items-center justify-center hover:border-purple-500 transition-all";
+                btn.textContent = 'U' + u;
+                btn.onclick = () => scrollToCBTCard('cbt-u-card-' + u);
+                navContainer.appendChild(btn);
+            }
+
+            updateCBTProgress();
+        }
+
+        function scrollToCBTCard(cardId) {
+            const el = document.getElementById(cardId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function selectCBTOption(qNum, letter) {
+            cbtAnswers[qNum] = letter;
+
+            // Highlight label
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            letters.forEach(l => {
+                const wrap = document.getElementById('cbt-opt-wrapper-' + qNum + '-' + l);
+                if (wrap) {
+                    if (l === letter) {
+                        wrap.className = "cbt-opt-label flex items-start gap-3 p-3.5 rounded-xl border-2 border-teal-600 bg-teal-50/70 shadow-xs transition-all cursor-pointer";
+                    } else {
+                        wrap.className = "cbt-opt-label flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-teal-400 bg-white hover:bg-teal-50/30 transition-all cursor-pointer";
+                    }
+                }
+            });
+
+            // Update nav button if not ragu
+            const navBtn = document.getElementById('cbt-nav-btn-' + qNum);
+            if (navBtn) {
+                if (cbtRagu[qNum]) {
+                    navBtn.className = "h-9 rounded-xl bg-amber-400 text-amber-950 font-bold text-xs flex items-center justify-center shadow-xs transition-all";
+                } else {
+                    navBtn.className = "h-9 rounded-xl bg-teal-600 text-white font-bold text-xs flex items-center justify-center shadow-xs transition-all";
+                }
+            }
+
+            updateCBTProgress();
+        }
+
+        function toggleCBTRagu(qNum, isRagu) {
+            cbtRagu[qNum] = isRagu;
+            const navBtn = document.getElementById('cbt-nav-btn-' + qNum);
+            if (navBtn) {
+                if (isRagu) {
+                    navBtn.className = "h-9 rounded-xl bg-amber-400 text-amber-950 font-bold text-xs flex items-center justify-center shadow-xs transition-all";
+                } else if (cbtAnswers[qNum]) {
+                    navBtn.className = "h-9 rounded-xl bg-teal-600 text-white font-bold text-xs flex items-center justify-center shadow-xs transition-all";
+                } else {
+                    navBtn.className = "h-9 rounded-xl border border-slate-300 bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center hover:border-teal-500 transition-all";
+                }
+            }
+        }
+
+        function inputCBTUraian(uNum, val) {
+            cbtUraianAnswers[uNum] = val.trim();
+            const navBtn = document.getElementById('cbt-nav-btn-u' + uNum);
+            if (navBtn) {
+                if (val.trim().length > 5) {
+                    navBtn.className = "h-9 rounded-xl bg-purple-700 text-white font-bold text-xs flex items-center justify-center shadow-xs transition-all";
+                } else {
+                    navBtn.className = "h-9 rounded-xl border border-purple-200 bg-purple-50 text-purple-800 font-bold text-xs flex items-center justify-center hover:border-purple-500 transition-all";
+                }
+            }
+            updateCBTProgress();
+        }
+
+        function updateCBTProgress() {
+            const answeredPG = Object.keys(cbtAnswers).length;
+            const answeredUR = Object.values(cbtUraianAnswers).filter(v => v.length > 5).length;
+            const totalAnswered = answeredPG + answeredUR;
+            const totalQuestions = 20;
+
+            const progText = document.getElementById('cbt-progress-text');
+            const progBar = document.getElementById('cbt-progress-bar');
+            if (progText) progText.textContent = totalAnswered + ' / ' + totalQuestions + ' Soal';
+            if (progBar) progBar.style.width = ((totalAnswered / totalQuestions) * 100) + '%';
+        }
+
+        function submitCBTConfirm() {
+            const answeredPG = Object.keys(cbtAnswers).length;
+            const answeredUR = Object.values(cbtUraianAnswers).filter(v => v.length > 5).length;
+            const totalAnswered = answeredPG + answeredUR;
+
+            let msg = `Anda telah menjawab ${totalAnswered} dari 20 soal (${answeredPG} PG dan ${answeredUR} Uraian).\n`;
+            if (totalAnswered < 20) {
+                msg += `Masih ada ${20 - totalAnswered} butir soal yang belum Anda selesaikan.\n\n`;
+            }
+            msg += 'Apakah Anda yakin ingin mengumpulkan dan melihat evaluasi hasil ujian?';
+
+            if (confirm(msg)) {
+                submitCBTFinal();
+            }
+        }
+
+        function submitCBTFinal() {
+            if (cbtTimer) clearInterval(cbtTimer);
+
+            // Compute PG score
+            let correctCount = 0;
+            const breakdownContainer = document.getElementById('cbt-pg-breakdown');
+            if (breakdownContainer) breakdownContainer.innerHTML = '';
+
+            for (let i = 1; i <= 15; i++) {
+                const userAns = cbtAnswers[i] || 'Belum dijawab';
+                const correctAns = PG_KEYS_X[i];
+                const isCorrect = userAns === correctAns;
+                if (isCorrect) correctCount++;
+
+                if (breakdownContainer) {
+                    const item = document.createElement('div');
+                    item.className = "p-3 rounded-xl border " + (isCorrect ? "bg-emerald-50 border-emerald-200 text-emerald-950" : "bg-rose-50 border-rose-200 text-rose-950") + " flex items-center justify-between";
+                    item.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-lg ${isCorrect ? 'bg-emerald-600' : 'bg-rose-600'} text-white font-bold text-[11px] flex items-center justify-center">${i}</span>
+                            <span>Jawaban Anda: <b>${userAns}</b></span>
+                        </div>
+                        <span class="font-bold">${isCorrect ? '✓ Benar (+2)' : '✗ Salah (Kunci: ' + correctAns + ')'}</span>
+                    `;
+                    breakdownContainer.appendChild(item);
+                }
+            }
+
+            const pgScore = correctCount * 2; // max 30
+            const pct = Math.round((correctCount / 15) * 100);
+
+            // Populate Scorecard
+            document.getElementById('cbt-score-pg').textContent = pgScore + ' / 30';
+            document.getElementById('cbt-correct-count').textContent = correctCount + ' Benar dari 15 Soal';
+            document.getElementById('cbt-score-pct').textContent = pct + '%';
+
+            const nama = document.getElementById('cbt-nama').value.trim() || 'Santri Berprestasi';
+            const kelas = document.getElementById('cbt-kelas').value.trim() || 'X (Fase E)';
+            document.getElementById('cbt-result-peserta-info').textContent = 'Peserta: ' + nama + ' • ' + kelas + ' • Selesai pada: ' + new Date().toLocaleTimeString('id-ID');
+
+            // Populate Uraian Self-Evaluation Checklist
+            const urContainer = document.getElementById('cbt-uraian-self-eval');
+            if (urContainer) {
+                urContainer.innerHTML = '';
+                for (let u = 1; u <= 5; u++) {
+                    const rub = UR_RUBRIK_X[u];
+                    const userText = cbtUraianAnswers[u] || '(Anda tidak mengisi jawaban untuk soal ini)';
+                    const card = document.createElement('div');
+                    card.className = "p-4 rounded-xl bg-white border border-slate-200 space-y-2";
+                    
+                    let poinHtml = '';
+                    rub.poin.forEach(p => {
+                        poinHtml += `<li class="flex items-start gap-1.5"><span class="text-purple-600 font-bold">✔</span> <span>${p}</span></li>`;
+                    });
+
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <span class="font-bold text-slate-800">${rub.judul}</span>
+                            <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-bold text-[10px]">Maks: ${rub.max} Poin</span>
+                        </div>
+                        <div class="text-[11px] text-slate-600 italic bg-slate-50 p-2.5 rounded-lg border border-slate-200/60">
+                            <b>Jawaban Anda:</b><br>${userText.replace(/\n/g, '<br>')}
+                        </div>
+                        <div class="pt-1">
+                            <span class="font-bold text-slate-700 text-[11px]">Rubrik Poin Guru:</span>
+                            <ul class="text-[11px] text-slate-600 mt-1 space-y-1">${poinHtml}</ul>
+                        </div>
+                    `;
+                    urContainer.appendChild(card);
+                }
+            }
+
+            // Hide Arena, Show Result
+            document.getElementById('cbt-active-arena').classList.add('hidden');
+            document.getElementById('cbt-result-card').classList.remove('hidden');
+            document.getElementById('cbt-result-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetCBT() {
+            cbtAnswers = {};
+            cbtUraianAnswers = {};
+            cbtRagu = {};
+            if (cbtTimer) clearInterval(cbtTimer);
+
+            document.getElementById('cbt-result-card').classList.add('hidden');
+            document.getElementById('cbt-active-arena').classList.add('hidden');
+            document.getElementById('cbt-start-card').classList.remove('hidden');
+            document.getElementById('cbt-start-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Initialize KaTeX on window load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        });
+    </script>
+
     <!-- SCRIPT SISTEM AJARKITA -->
     <script src="/js/curriculum.js"></script>
     <script src="/js/include.js"></script>
