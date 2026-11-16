@@ -6,6 +6,79 @@
 
 const DAFTAR_ARTIKEL_SAINS = [
     {
+        "id": "penyimpanan-data-dna",
+        "slug": "penyimpanan-data-dna",
+        "title": "Hard Disk Biologis: Menyimpan Jutaan Gigabyte Data Digital ke Dalam Rantai Molekul DNA",
+        "subtitle": "Mengkodekan file biner 0 dan 1 ke dalam urutan basa nitrogen Adenin, Timin, Guanin, dan Sitosin untuk arsip pengetahuan ribuan tahun.",
+        "category": "Nobel & Terobosan Sains",
+        "categoryColor": "teal",
+        "icon": "💾",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-indigo-950 to-teal-950",
+            "badge": "Kimia Asam Nukleat × Bio-Komputasi",
+            "icon": "🧬"
+        },
+        "summary": "Seluruh data digital di pusat data dunia kini membengkak hingga puluhan zettabyte dan boros listrik raksasa. Meniru alam, para ilmuwan berhasil menyimpan dokumen, musik, dan video ke dalam molekul asam deoksiribonukleat (DNA) sintetik. Hanya dengan beberapa gram DNA kering, seluruh film dan buku di dunia dapat disimpan selama ribuan tahun tanpa rusak.",
+        "tahukahKamu": "Secara teoritis, 1 gram molekul DNA mampu menyimpan hingga 215 petabyte (215 juta gigabyte) data digital! Sebagai perbandingan, hard disk komputer terbesar saat ini membutuhkan lemari server raksasa untuk kapasitas yang sama!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XII",
+                "bab": "Makromolekul: Protein & Asam Amino",
+                "desc": "Struktur polimer nukleotida, ikatan fosfodiester, dan basa nitrogen purin-pirimidin.",
+                "url": "/kelas-12/makromolekul/protein-asam-amino-dan-uji-identifikasi.html"
+            },
+            {
+                "kelas": "Kelas XI",
+                "bab": "Teori Hibridisasi & Gaya Antarmolekul",
+                "desc": "Ikatan hidrogen spesifik A-T (2 ikatan) dan G-C (3 ikatan) yang menjaga heliks ganda.",
+                "url": "/kelas-11/ikatan-kimia/teori-hibridisasi.html"
+            }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Pita magnetik dan SSD hanya bertahan 5 hingga 10 tahun sebelum datanya mengalami kerusakan (data rot). Namun fosil tulang mammoth purba yang terkubur es selama puluhan ribu tahun masih menyimpan molekul DNA yang bisa dibaca sempurna oleh para peneliti. Mengapa kita tidak menyimpan arsip digital internet ke dalam DNA?\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Dari Biner (0 & 1) ke Kuartener (A, C, G, T)</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Komputer menyimpan data dalam bit biner 0 dan 1. Kimiawan mengonversi kode biner tersebut menjadi 4 huruf basa nitrogen: 00 menjadi Adenin (A), 01 menjadi Sitosin (C), 10 menjadi Guanin (G), dan 11 menjadi Timin (T).\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Sintesis Kimiawi Fosforamidit</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Rantai nukleotida kemudian dirangkai secara kimiawi di lab menggunakan mesin sintesis DNA solid-phase. Hasilnya adalah serbuk kristal DNA kering berbobot mikrogram yang tahan panas, tidak membutuhkan pasokan listrik sepeser pun untuk menjaga datanya, dan dapat dibaca ulang kapan saja menggunakan mesin sekuensing DNA modern!\n            </p>\n        ",
+        "diskusi": "Mengapa pasangan basa Guanin-Sitosin (G≡C) memiliki kestabilan termal lebih tinggi daripada Adenin-Timin (A=T) saat rantai heliks DNA dipanaskan?",
+        "publishDate": "16 November 2026"
+    },
+
+    {
+        "id": "beton-biomineralisasi-bakteri",
+        "slug": "beton-biomineralisasi-bakteri",
+        "title": "Beton Hidup yang Bisa Menambal Retak Sendiri Berkat Bakteri dan Kalsium Karbonat",
+        "subtitle": "Inovasi 'Bio-concrete' memanfaatkan spora bakteri tahan basa ekstrem yang aktif memicu presipitasi kristal kalsit saat retakan jalan kemasukan air hujan.",
+        "category": "Material Masa Depan",
+        "categoryColor": "indigo",
+        "icon": "🧱",
+        "readTime": "5 menit baca",
+        "author": "Tim Litbang KimiaInteraktif",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-slate-900 via-amber-950 to-stone-950",
+            "badge": "Biomineralisasi × Kimia Semen",
+            "icon": "🔬"
+        },
+        "summary": "Retak rambut pada jembatan dan gedung beton merupakan pintu masuk air yang menyebabkan korosi besi tulangan di dalamnya. Ahli kimia bangunan di Belanda menciptakan beton pintar berisi mikro-kapsul berisi spora bakteri Bacillus pseudofirmus dan nutrisi kalsium laktat. Begitu retak terbentuk dan air merembes, bakteri terbangun dan mengubah kalsium laktat menjadi kristal batu kapur (CaCO₃) yang menyegel retakan secara permanen!",
+        "tahukahKamu": "Bakteri Bacillus pseudofirmus dapat bertahan hidup dalam keadaan dorman (tidur panjang) di lingkungan super basa dengan pH 12–13 di dalam adukan beton kering selama lebih dari 200 tahun tanpa mati!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XI",
+                "bab": "Kelarutan & Hasil Kali Kelarutan (Ksp)",
+                "desc": "Reaksi kesetimbangan pengendapan kalsium karbonat (CaCO₃) dan nilai Ksp kalsit.",
+                "url": "/kelas-11/kelarutan-dan-ksp/konsep-kelarutan-dan-ksp.html"
+            },
+            {
+                "kelas": "Kelas XII",
+                "bab": "Elektrolisis & Korosi Logam",
+                "desc": "Pencegahan korosi besi tulangan beton dengan mengisolasi air dan gas oksigen.",
+                "url": "/kelas-12/elektrolisis/hukum-faraday-dan-perhitungan.html"
+            }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Beton adalah material buatan manusia yang paling banyak diproduksi di dunia setelah air. Namun musuh utama beton adalah retakan mikro. Jika retakan dibiarkan, air hujan dan garam klorida akan menyusup masuk, merusak struktur besi tulangan hingga roboh. Kini lahir <strong>Bio-Beton yang Mampu Menyembuhkan Dirinya Sendiri</strong>.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Spora Bakteri yang Dorman Puluhan Tahun</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Ilmuwan mencampurkan spora bakteri <em>Bacillus pseudofirmus</em> bersama butiran nutrisi kalsium laktat ke dalam semen. Selama beton utuh dan kering, spora ini tidur lelap tanpa metabolisme.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Reaksi Pengendapan Kalsit (CaCO₃)</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Saat terjadi gempa atau retak mikro, air hujan merembes masuk membawa gas oksigen. Air ini langsung 'membangunkan' spora bakteri. Bakteri mengonsumsi kalsium laktat dan mengubahnya menjadi ion karbonat:\n            </p>\n            <div class=\"p-4 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm font-mono mb-4 text-center\">\n                Ca(C₃H₅O₃)₂ + 5 O₂ &rarr; CaCO₃ (endapan kristal kalsit putih) + 5 CO₂ + 5 H₂O\n            </div>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Kristal kalsium karbonat (CaCO₃) yang sukar larut mengendap dan tumbuh memenuhi celah retakan, merekatkan kembali beton seperti semen baru hanya dalam waktu 3 pekan!\n            </p>\n        ",
+        "diskusi": "Bagaimana proses pengendapan kalsium karbonat (CaCO₃) dapat mencegah laju korosi besi tulangan di dalam beton? Tinjau dari peran oksigen dan air sebagai agen perusak!",
+        "publishDate": "16 November 2026"
+    },
+    {
         "id": "daur-ulang-baterai-litium-hidrometalurgi",
         "slug": "daur-ulang-baterai-litium-hidrometalurgi",
         "title": "Daur Ulang Baterai Mobil Listrik dengan Hidrometalurgi Kimia Hijau",
