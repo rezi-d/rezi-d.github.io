@@ -148,7 +148,7 @@ git tag pre-multi-test <COMMIT_STABIL_TERAKHIR>
 git push origin pre-multi-test
 ```
 
-#### Langkah 5.2: Jalankan Seluruh Suite Pengujian Otomatis (Wajib Lulus ≥ 215)
+#### Langkah 5.2: Jalankan Seluruh Suite Pengujian Otomatis (Wajib Lulus ≥ 221)
 *(Wajib dijalankan dari **root repositori**)*
 
 Jalankan pengujian regresi dan integrasi multi-tes:
@@ -156,7 +156,7 @@ Jalankan pengujian regresi dan integrasi multi-tes:
 # Pastikan berada di root repositori:
 node --test tests/*.test.js
 ```
-*Syarat Mutlak: Seluruh rangkaian tes (**wajib lulus ≥ 215 tes** dari 30 berkas tes) tanpa ada kegagalan sama sekali (0 fails). Jika ada satu pun tes yang gagal, rilis DIBATALKAN seketika.*
+*Syarat Mutlak: Seluruh rangkaian tes (**wajib lulus ≥ 221 tes** dari 31 berkas tes) tanpa ada kegagalan sama sekali (0 fails). Jika ada satu pun tes yang gagal, rilis DIBATALKAN seketika.*
 
 #### Langkah 5.3: Audit Bebas Secret & Periksa Status Git
 *(Wajib dijalankan dari **root repositori**)*
