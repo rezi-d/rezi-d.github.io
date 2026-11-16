@@ -451,6 +451,7 @@ const kurikulum = {
 
 // Modul di luar struktur Kelas/Bab (tampil sebagai menu terpisah di header)
 const modulLain = [
+    { slug: "sas-x",         title: "SAS Kimia X",     path: "/kelas-10/ujian-sas-ganjil.html", icon: "🧪", status: "aktif", desc: "Kisi-kisi resmi, bedah 20 butir soal & simulasi CBT SAS Ganjil Kimia Kelas X T.P. 2026/2027.", action: "Buka kisi-kisi & CBT" },
     { slug: "tracker-snbt", title: "Tracker SNBT",    path: "/snbt/tracker.html",      icon: "🎯", status: "aktif", desc: "Study Tracker 7 subtes UTBK SNBT 2026, checklist materi & evaluasi skor try out.", action: "Buka tracker" },
     { slug: "snbt",         title: "Simulasi SNBT",   path: "/snbt/index.html",        icon: "📚", status: "aktif", desc: "Simulasi Tes Potensi Skolastik (TPS) dan Literasi SNBT resmi interaktif.", action: "Mulai simulasi" },
     { slug: "tka",          title: "Simulasi TKA",    path: "/tka/index.html",         icon: "📝", status: "aktif", desc: "Simulasi CBT 15 mata pelajaran TKA SMA resmi BPPP lengkap dengan timer.", action: "Mulai simulasi" },
