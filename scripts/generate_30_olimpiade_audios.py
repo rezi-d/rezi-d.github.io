@@ -28,44 +28,74 @@ AUDIOS = [
             "Di poin pertama ini, kita mempelajari Ketaksamaan Rataan Aritmetika dan Geometri atau AM-GM. "
             "Teorema ini menyatakan bahwa jumlahan bilangan non-negatif dibagi n selalu lebih besar atau sama dengan akar pangkat n dari perkaliannya. "
             "Kunci penting dalam olimpiade adalah kapan kesamaan itu tercapai, yaitu saat semua variabel bernilai sama. "
-            "Jika Anda ingin mencari nilai minimum dari bentuk pecahan aljabar, pecahlah suku variabelnya agar saat dikalikan, variabel di pembilang dan penyebut saling menghilangkan secara sempurna."
+            "Perhatikan trik olimpiade penting saat meminimalkan pecahan aljabar, seperti fungsi x ditambah 16 per x kuadrat untuk x positif. "
+            "Jika Anda langsung menerapkan AM-GM dua suku, hasil perkaliannya masih menyisakan variabel x, sehingga bukan nilai minimum konstan. "
+            "Trik rahasianya adalah menyeimbangkan derajat variabel. Karena penyebut memiliki x kuadrat, kita membutuhkan pembilang berderajat dua. "
+            "Oleh sebab itu, suku x dipecah menjadi dua bagian sama besar, yaitu x per dua ditambah x per dua. "
+            "Mengapa harus dibagi sama rata? Karena syarat kesamaan AM-GM mewajibkan semua suku bernilai sama. "
+            "Dengan tiga suku berbobot sama: x per dua, x per dua, dan 16 per x kuadrat, saat dikalikan di dalam akar pangkat tiga AM-GM, "
+            "variabel x kuadrat saling membagi habis menghasilkan nilai minimum pasti yaitu tiga kali akar pangkat tiga dari empat. "
+            "Nilai ini terbukti sah karena kesamaan tercapai pada saat x sama dengan dua kali akar pangkat tiga dari empat, yang berada di dalam domain positif."
         )
     },
     {
         "filename": "aljabar-poin-2-cauchy-schwarz.mp3",
         "text": (
-            "Pada poin kedua, kita berkenalan dengan Ketaksamaan Cauchy-Schwarz dan bentuk turunannya, Titu's Lemma atau Engel form. "
-            "Titu's Lemma adalah senjata rahasia olimpiade untuk menyelesaikan pecahan aljabar berpenyebut linier tanpa perlu menyamakan penyebut. "
-            "Cukup kuadratkan pembilang, lalu jumlahkan pembilang dan jumlahkan penyebut. "
-            "Syarat kesamaannya adalah rasio antar-suku harus konstan dan sebanding."
+            "Di poin kedua ini, kita mempelajari Ketaksamaan Cauchy-Schwarz dan bentuk fraksionalnya yang sangat terkenal di kompetisi olimpiade, yaitu Titu's Lemma atau Engel Form. "
+            "Secara geometris, Cauchy-Schwarz terinspirasi dari konsep perkalian titik dua vektor, di mana kuadrat dot product selalu lebih kecil atau sama dengan perkalian kuadrat panjang vektornya. "
+            "Kesamaan tercapai jika dan hanya jika kedua barisan variabel saling proporsional atau sebanding. "
+            "Keajaiban terbesar hadir saat kita mentransformasikan Cauchy-Schwarz menjadi Titu's Lemma untuk menyelesaikan soal-soal pecahan aljabar. "
+            "Dalam kompetisi OSN, menyamakan penyebut pada pecahan aljabar bertingkat seringkali memicu persamaan polinomial derajat tinggi yang sangat rumit dan rawan kesalahan hitung. "
+            "Dengan Titu's Lemma, Anda cukup mengumpulkan suku-suku pembilang menjadi kuadrat dari jumlahan pembilang, lalu membaginya dengan jumlahan seluruh suku penyebut. "
+            "Jika pembilang pada soal belum berbentuk kuadrat sempurna, gunakan trik manipulasi aljabar dengan mengalikan pembilang dan penyebut dengan variabel yang sama, atau mengubah angka satu menjadi satu kuadrat. "
+            "Contohnya, untuk membuktikan satu per a ditambah satu per b ditambah satu per c bernilai minimal sembilan jika a tambah b tambah c sama dengan satu, ubah pembilang menjadi satu kuadrat. "
+            "Hasilnya langsung terbukti instan: satu tambah satu tambah satu dikuadratkan menghasilkan sembilan, dibagi satu, sama dengan sembilan. Kesamaan tercapai saat a sama dengan b sama dengan c, yaitu sepertiga. Sangat elegan dan menghemat waktu!"
         )
     },
     {
         "filename": "aljabar-poin-3-vieta-polinomial.mp3",
         "text": (
-            "Di poin ketiga, kita membedah Teorema Vieta untuk polinomial tingkat tinggi, khususnya derajat tiga dan empat. "
-            "Ingat, dalam soal olimpiade, Anda jarang sekali diminta mencari akar-akarnya satu per satu. "
-            "Soal justru menguji kejelian Anda mencari jumlahan simetris akar, seperti jumlahan kuadrat atau jumlahan kubik. "
-            "Manfaatkan hubungan rekursif Newton's Sums untuk menghitung pangkat tinggi akar dengan sangat cepat."
+            "Di poin ketiga ini, kita membedah Teorema Vieta untuk polinomial tingkat tinggi serta senjata rahasia olimpiade, yaitu Rumus Rekursi Newton's Sums. "
+            "Pelajaran paling mendasar bagi peserta olimpiade adalah: jangan pernah mencoba mencari nilai akar satu per satu! "
+            "Pada kompetisi OSN, akar-akar dari persamaan derajat tiga atau empat hampir selalu berupa bilangan irasional rumit atau bilangan kompleks. "
+            "Yang sesungguhnya diuji oleh juri bukanlah kemampuan Anda menebak akar, melainkan kejelian Anda mengeksploitasi polinomial simetris dasar melalui koefisien persamaannya. "
+            "Untuk polinomial kubik a x pangkat tiga ditambah b x kuadrat ditambah c x ditambah d sama dengan nol, Teorema Vieta memberikan tiga hubungan dasar: "
+            "pertama, jumlahan tunggal e1 sama dengan minus b per a. "
+            "Kedua, jumlahan perkalian berpasangan e2 sama dengan c per a. "
+            "Dan ketiga, hasil kali ketiga akarnya e3 sama dengan minus d per a. Perhatikan bahwa tanda koefisien selalu bergantian, dimulai dari negatif, positif, lalu negatif. "
+            "Dari bentuk dasar ini, jumlahan kuadrat x1 kuadrat tambah x2 kuadrat tambah x3 kuadrat dapat langsung diperoleh dari e1 kuadrat dikurang dua e2. "
+            "Sedangkan jumlahan kebalikan satu per x1 ditambah satu per x2 ditambah satu per x3 sama dengan e2 dibagi e3, yang setara dengan minus c per d. "
+            "Lalu, bagaimana jika soal menanyakan jumlahan pangkat tiga, pangkat empat, atau pangkat lima dari akar-akarnya? "
+            "Jangan pernah menjabarkan perkalian aljabar yang panjang! Gunakan Newton's Sums. "
+            "Karena setiap akar x memenuhi persamaan awal, jika kita kalikan dengan x pangkat k lalu jumlahkan untuk seluruh akar, kita memperoleh hubungan rekursif: "
+            "a dikali P k ditambah b dikali P k minus satu ditambah c dikali P k minus dua ditambah d dikali P k minus tiga sama dengan nol, dengan P k adalah jumlahan akar berpangkat k. "
+            "Perhatikan bahwa P nol bernilai tiga, yaitu satu tambah satu tambah satu. "
+            "Dengan rumus rekursi ini, Anda dapat menghitung jumlahan pangkat tiga dan empat hanya dalam dua baris aritmetika sederhana!"
         )
     },
     {
         "filename": "aljabar-poin-4-identitas-euler.mp3",
         "text": (
-            "Poin keempat membahas faktorisasi simetris non-rutin. "
-            "Salah satu yang paling legendaris adalah Identitas Euler kubik: a pangkat tiga tambah b pangkat tiga tambah c pangkat tiga dikurang 3 a b c. "
-            "Perhatikan konsekuensi emasnya: jika a tambah b tambah c sama dengan nol, maka jumlahan pangkat tiga tersebut langsung sama dengan 3 a b c. "
-            "Pelajari juga Identitas Sophie Germain untuk memfaktorkan bentuk a pangkat empat tambah 4 b pangkat empat."
+            "Di poin keempat ini, kita membedah manipulasi faktorisasi simetris non-rutin, dengan dua senjata legendaris olimpiade: Identitas Euler Kubik dan Identitas Sophie Germain. "
+            "Identitas Euler menyatakan bahwa a pangkat tiga ditambah b pangkat tiga ditambah c pangkat tiga dikurang tiga a b c dapat difaktorkan menjadi a tambah b tambah c dikali jumlahan kuadrat dikurang jumlahan perkalian pasangan. "
+            "Namun, bentuk paling sakti di olimpiade adalah bentuk kedua: setengah dikali a tambah b tambah c, dikali kurung siku a minus b kuadrat ditambah b minus c kuadrat ditambah c minus a kuadrat. "
+            "Bentuk kuadrat ini memberikan dua konsekuensi emas yang sangat sering keluar di seleksi OSN. "
+            "Konsekuensi pertama: jika a tambah b tambah c sama dengan nol, maka jumlahan pangkat tiga langsung sama dengan tiga a b c. Trik ini membunuh soal pecahan bersarang dalam hitungan detik. Contohnya, jika Anda melihat jumlahan x minus y dipangkatkan tiga, ditambah y minus z pangkat tiga, ditambah z minus x pangkat tiga, jumlahan suku-suku dalamnya tepat nol. Maka pembilangnya langsung berubah menjadi tiga dikali perkalian ketiga selisih tersebut, sehingga jika dibagi dengan penyebutnya, hasilnya langsung tiga tanpa perlu penjabaran suku banyak! "
+            "Konsekuensi kedua: karena kuadrat bilangan real selalu non-negatif, untuk bilangan positif, a pangkat tiga tambah b pangkat tiga tambah c pangkat tiga selalu lebih besar atau sama dengan tiga a b c. Kesamaan tercapai jika dan hanya jika a sama dengan b sama dengan c. Ini adalah bukti murni ketaksamaan AM-GM tiga variabel. "
+            "Senjata kedua adalah Identitas Sophie Germain, yaitu memfaktorkan a pangkat empat ditambah empat b pangkat empat. Trik rahasianya adalah rekayasa kuadrat sempurna: tambahkan empat a kuadrat b kuadrat lalu kurangkan kembali, sehingga tercipta selisih dua kuadrat. Identitas ini menjadi kunci elegan untuk membuktikan bahwa bentuk n pangkat empat ditambah empat pangkat n selalu merupakan bilangan komposit untuk semua n lebih dari satu."
         )
     },
     {
         "filename": "aljabar-poin-5-kuis-evaluasi.mp3",
         "text": (
-            "Selamat tiba di kuis evaluasi aljabar! Ada empat soal pilihan ganda standar OSN-K di sini. "
-            "Strategi pengerjaannya: pada soal AM-GM, pastikan syarat kesamaan memenuhi domain soal. "
-            "Pada soal pecahan kuadrat, coba aplikasikan Titu's Lemma. "
-            "Dan pada soal Vieta, susun bentuk simetris dasar sebelum menghitung. "
-            "Kerjakan secara mandiri lalu klik tombol periksa jawaban untuk melihat analisis rigor."
+            "Selamat tiba di sesi simulasi dan kuis evaluasi aljabar kompetisi OSN-K! "
+            "Di slide penutup ini, Anda disajikan empat soal pilihan ganda berstandar seleksi olimpiade yang menguji pemahaman dari empat materi utama yang telah kita pelajari. "
+            "Sebelum Anda mulai memilih jawaban, dengarkan empat panduan taktis dari pembina olimpiade berikut ini: "
+            "Pertama, pada soal ketaksamaan AM-GM, jangan hanya fokus mencari nilai batas bawah dari perkalian suku-sukunya. Periksa selalu apakah nilai variabel saat kesamaan tercapai berada di dalam domain yang sah, yaitu bilangan real positif. "
+            "Kedua, pada soal pecahan aljabar, hindari godaan untuk langsung menyamakan penyebut! Carilah pola kuadrat di bagian pembilang. Jika pembilang berupa kuadrat dan penyebut berupa jumlahan linear, pasang Bentuk Engel atau Titu's Lemma untuk memangkas waktu hitung hingga separuh. "
+            "Ketiga, pada soal polinomial tingkat tinggi, jangan sekali-kali mencoba mencari nilai akar satu per satu. Fokuskan pada identitas simetris dasar Teorema Vieta, yaitu jumlahan akar e1 dan jumlahan pasangan e2, lalu kaitkan dengan jumlahan kuadrat. "
+            "Dan keempat, pada soal faktorisasi simetris dan pecahan bersarang, selalu uji apakah jumlahan suku-suku dalamnya bernilai nol. Jika jumlahan variabelnya nol, pasang konsekuensi emas Identitas Euler bahwa jumlahan pangkat tiga tepat sama dengan tiga a b c. "
+            "Sekarang, kerjakan keempat soal ini secara mandiri dan cermat, lalu klik tombol Periksa Seluruh Jawaban untuk menguji skor dan membaca pembahasan matematis yang rigor. Selamat berjuang!"
         )
     },
 

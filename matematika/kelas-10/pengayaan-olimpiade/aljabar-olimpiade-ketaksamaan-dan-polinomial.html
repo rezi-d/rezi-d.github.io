@@ -180,15 +180,107 @@
                                 </div>
                             </div>
 
-                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-2">
-                                <span class="font-bold text-amber-900 text-sm block">💡 Trik Olimpiade: Pemecahan Suku untuk Menghilangkan Variabel</span>
-                                <p class="text-xs text-slate-700 leading-relaxed">
-                                    Misalkan kita diminta mencari nilai minimum dari $f(x) = x + \frac{16}{x^2}$ untuk $x > 0$.<br>
-                                    Jika langsung memakai AM-GM dua suku: $x + \frac{16}{x^2} \ge 2\sqrt{x \cdot \frac{16}{x^2}} = 2\sqrt{\frac{16}{x}}$ (masih bergantung pada variabel $x$!).<br>
-                                    <strong>Trik:</strong> Pecah suku $x$ menjadi dua bagian sama besar:
-                                    $$f(x) = \frac{x}{2} + \frac{x}{2} + \frac{16}{x^2} \ge 3 \sqrt[3]{\frac{x}{2} \cdot \frac{x}{2} \cdot \frac{16}{x^2}} = 3 \sqrt[3]{\frac{16}{4}} = 3 \sqrt[3]{4}$$
-                                    Kesamaan tercapai saat $\frac{x}{2} = \frac{16}{x^2} \implies x^3 = 32 \implies x = 2\sqrt[3]{4}$.
-                                </p>
+                            <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg">💡</span>
+                                        <div>
+                                            <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Pemecahan Suku untuk Menghilangkan Variabel</h3>
+                                            <p class="text-[11px] text-amber-800 font-medium">Strategi eliminasi variabel aljabar &amp; penjaminan syarat kesamaan AM-GM</p>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                        <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                    </button>
+                                </div>
+
+                                <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                    <p>
+                                        <strong>Studi Kasus Soal:</strong> Tentukan nilai minimum dari fungsi $f(x) = x + \frac{16}{x^2}$ untuk seluruh bilangan real $x > 0$.
+                                    </p>
+
+                                    <!-- Kenapa cara biasa gagal -->
+                                    <div class="p-3.5 bg-white/90 rounded-xl border border-rose-200/90 space-y-2 shadow-2xs">
+                                        <div class="font-bold text-rose-900 text-xs flex items-center gap-1.5">
+                                            <span>⚠️</span> <span>Mengapa Penerapan AM-GM Langsung (2 Suku) Gagal?</span>
+                                        </div>
+                                        <p class="text-slate-600">
+                                            Jika kita langsung memasang AM-GM pada kedua suku ($n=2$):
+                                        </p>
+                                        <div class="text-center font-bold text-slate-800 py-0.5">
+                                            $$x + \frac{16}{x^2} \ge 2\sqrt{x \cdot \frac{16}{x^2}} = 2\sqrt{\frac{16}{x}} = \frac{8}{\sqrt{x}}$$
+                                        </div>
+                                        <p class="text-[11px] text-rose-800 bg-rose-50/80 p-2.5 rounded-lg leading-relaxed">
+                                            <strong>Kelemahan Fatal:</strong> Ruas kanan masih memuat variabel $x$ ($\frac{8}{\sqrt{x}}$). Batas bawah (<em>lower bound</em>) dari suatu nilai minimum <strong>wajib berupa konstanta numerik murni</strong>, bukan fungsi variabel yang nilainya masih dapat terus berubah.
+                                        </p>
+                                    </div>
+
+                                    <!-- Narasi Logika Pemecahan Suku -->
+                                    <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2.5 shadow-2xs">
+                                        <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                            <span>🧠</span> <span>Narasi Penjelasan &amp; Intuisi Pemecahan Suku:</span>
+                                        </div>
+                                        <ul class="space-y-2 text-slate-700">
+                                            <li class="flex items-start gap-2">
+                                                <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                                                <div>
+                                                    <strong class="text-slate-900">Analisis Derajat Variabel (Penyetaraan Pangkat):</strong><br>
+                                                    Penyebut pada suku kedua adalah $x^2$ (derajat 2 di bawah). Agar variabel $x$ dapat lenyap saat dikalikan di dalam akar rataan geometris, kita membutuhkan total pembilang sebesar $x^2$. Karena suku yang tersedia adalah $x$ (derajat 1), maka kita harus mengalikan <strong>dua buah suku berderajat 1</strong> ($x \cdot x = x^2$). Artinya, suku linear $x$ harus dipecah menjadi <strong>2 suku baru</strong>.
+                                                </div>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                                                <div>
+                                                    <strong class="text-slate-900">Mengapa Wajib Dibagi Sama Rata ($\frac{x}{2}$ dan $\frac{x}{2}$)?</strong><br>
+                                                    Ingat bahwa nilai minimum dari ketaksamaan AM-GM <strong>hanya dapat tercapai jika semua suku yang dioperasikan bernilai sama</strong> ($a_1 = a_2 = \dots = a_n$). Jika suku $x$ dipecah secara tidak seimbang (misalnya $0{,}4x + 0{,}6x$), maka syarat kesamaan $0{,}4x = 0{,}6x$ hanya mungkin terjadi saat $x=0$, yang mana mustahil karena domain soal mensyaratkan $x > 0$. Oleh karena itu, suku $x$ <strong>wajib dibelah tepat sama besar</strong> menjadi $\frac{x}{2} + \frac{x}{2}$.
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Eksekusi AM-GM 3 Suku -->
+                                    <div class="p-3.5 bg-amber-100/70 rounded-xl border border-amber-300 space-y-2">
+                                        <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                            <span>⚡</span> <span>Eksekusi AM-GM Tiga Suku ($n = 3$):</span>
+                                        </div>
+                                        <p class="text-slate-700">
+                                            Kini kita memiliki 3 suku positif: $\frac{x}{2}$, $\frac{x}{2}$, dan $\frac{16}{x^2}$. Terapkan AM-GM untuk $n=3$:
+                                        </p>
+                                        <div class="text-center font-bold text-slate-900 py-1">
+                                            $$\frac{\frac{x}{2} + \frac{x}{2} + \frac{16}{x^2}}{3} \ge \sqrt[3]{\frac{x}{2} \cdot \frac{x}{2} \cdot \frac{16}{x^2}}$$
+                                        </div>
+                                        <div class="text-center font-bold text-amber-950 py-0.5">
+                                            $$f(x) \ge 3 \sqrt[3]{\frac{16x^2}{4x^2}} = 3 \sqrt[3]{4}$$
+                                        </div>
+                                        <p class="text-emerald-800 font-semibold text-[11px] bg-emerald-50/90 border border-emerald-200/70 p-2 rounded-lg">
+                                            ✓ Variabel $x^2$ di pembilang dan penyebut saling membagi habis (<em>cancel out</em>), menyisakan nilai numerik konstan $3\sqrt[3]{4}$!
+                                        </p>
+                                    </div>
+
+                                    <!-- Verifikasi Kesamaan & Kaidah Umum -->
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                        <div class="p-3 bg-white/90 rounded-xl border border-slate-200 space-y-1">
+                                            <span class="font-bold text-slate-900 text-xs flex items-center gap-1">
+                                                <span>🎯</span> <span>Uji Syarat Kesamaan (Validitas Titik Kritis):</span>
+                                            </span>
+                                            <p class="text-[11px] text-slate-600 leading-relaxed">
+                                                Kesamaan tercapai saat ketiga suku bernilai identik:<br>
+                                                $$\frac{x}{2} = \frac{16}{x^2} \iff x^3 = 32 \iff x = 2\sqrt[3]{4}$$
+                                                Karena $x = 2\sqrt[3]{4} > 0$ berada di dalam domain asal, maka nilai minimum <strong>$3\sqrt[3]{4}$ terbukti sah dan dapat dicapai</strong>.
+                                            </p>
+                                        </div>
+
+                                        <div class="p-3 bg-white/90 rounded-xl border border-indigo-200 space-y-1 bg-gradient-to-br from-indigo-50/40 to-purple-50/40">
+                                            <span class="font-bold text-indigo-950 text-xs flex items-center gap-1">
+                                                <span>📐</span> <span>Kaidah Umum Pemecahan Suku (Trik Kilat):</span>
+                                            </span>
+                                            <p class="text-[11px] text-slate-600 leading-relaxed">
+                                                Untuk mencari nilai minimum bentuk umum $Ax^m + \frac{B}{x^k}$ ($x > 0$):<br>
+                                                Pecah suku $Ax^m$ menjadi <strong>$k$ bagian sama</strong>, dan pecah $\frac{B}{x^k}$ menjadi <strong>$m$ bagian sama</strong>. Lalu terapkan AM-GM untuk total $(m+k)$ suku!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -221,28 +313,104 @@
                                 </p>
                             </div>
 
-                            <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 space-y-2">
-                                <span class="font-bold text-purple-950 text-sm block">Bentuk Engel / Titu's Lemma (Alat Rahasia Pecahan Olimpiade):</span>
-                                <p class="text-xs text-purple-900 leading-relaxed">
-                                    Substitusikan $a_i = \frac{u_i}{\sqrt{v_i}}$ dan $b_i = \sqrt{v_i}$ ke Cauchy-Schwarz dengan $v_i > 0$:
-                                </p>
-                                <div class="text-center font-bold text-sm sm:text-base text-purple-950 py-1">
-                                    $$\frac{u_1^2}{v_1} + \frac{u_2^2}{v_2} + \dots + \frac{u_n^2}{v_n} \ge \frac{(u_1 + u_2 + \dots + u_n)^2}{v_1 + v_2 + \dots + v_n}$$
+                            <!-- Kotak Trik Olimpiade & Narasi Penjelasan Titu's Lemma -->
+                            <div class="p-5 rounded-2xl bg-purple-50/90 border border-purple-200/90 space-y-4 shadow-xs">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-purple-200/80 gap-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg">💡</span>
+                                        <div>
+                                            <h3 class="font-bold text-purple-950 text-sm sm:text-base">Trik Olimpiade: Bentuk Engel / Titu's Lemma (Pembunuh Pecahan)</h3>
+                                            <p class="text-[11px] text-purple-800 font-medium">Strategi menyelesaikan ketaksamaan pecahan tanpa menyamakan penyebut</p>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                        <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                    </button>
                                 </div>
-                                <p class="text-xs text-slate-600">
-                                    Sangat sakti untuk membuktikan ketaksamaan pecahan berpenyebut linier tanpa perlu menyamakan penyebut!
-                                </p>
-                            </div>
 
-                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
-                                <div class="font-bold text-slate-900 text-sm">Contoh Soal Pembuktian OSN:</div>
-                                <p class="text-slate-700">
-                                    Diberikan $a, b, c > 0$ dengan $a + b + c = 1$. Buktikan bahwa $\frac{1}{a} + \frac{1}{b} + \frac{1}{c} \ge 9$.
-                                </p>
-                                <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
-                                    <p class="font-semibold text-slate-800">Solusi Instan dengan Titu's Lemma:</p>
-                                    <p>$$\frac{1^2}{a} + \frac{1^2}{b} + \frac{1^2}{c} \ge \frac{(1 + 1 + 1)^2}{a + b + c} = \frac{3^2}{1} = 9$$</p>
-                                    <p class="text-slate-600">Kesamaan tercapai saat $\frac{1}{a} = \frac{1}{b} = \frac{1}{c} \implies a = b = c = \frac{1}{3}$. Terbukti secara elegan!</p>
+                                <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                    <!-- Rumus Titu -->
+                                    <div class="p-3 bg-white/90 rounded-xl border border-purple-200 space-y-2">
+                                        <div class="font-semibold text-purple-950 text-xs flex items-center gap-1.5">
+                                            <span>⚡</span> <span>Formulasi Titu's Lemma (Bentuk Fraksional Cauchy-Schwarz):</span>
+                                        </div>
+                                        <p class="text-slate-600">
+                                            Untuk bilangan real $u_1, u_2, \dots, u_n$ dan bilangan real positif $v_1, v_2, \dots, v_n > 0$:
+                                        </p>
+                                        <div class="text-center font-bold text-sm sm:text-base text-purple-950 py-1">
+                                            $$\frac{u_1^2}{v_1} + \frac{u_2^2}{v_2} + \dots + \frac{u_n^2}{v_n} \ge \frac{(u_1 + u_2 + \dots + u_n)^2}{v_1 + v_2 + \dots + v_n}$$
+                                        </div>
+                                        <p class="text-[11px] text-purple-900 bg-purple-100/70 p-2.5 rounded-lg">
+                                            <strong>Syarat Kesamaan:</strong> Kesamaan berlaku jika dan hanya jika rasio antar-suku bernilai konstan: $\frac{u_1}{v_1} = \frac{u_2}{v_2} = \dots = \frac{u_n}{v_n}$.
+                                        </p>
+                                    </div>
+
+                                    <!-- Narasi Penjelasan Kenapa Sangat Sakti -->
+                                    <div class="p-3.5 bg-white/90 rounded-xl border border-purple-200/90 space-y-2.5 shadow-2xs">
+                                        <div class="font-bold text-purple-950 text-xs flex items-center gap-1.5">
+                                            <span>🧠</span> <span>Narasi Penjelasan &amp; Intuisi Mengapa Trik Ini Sakti:</span>
+                                        </div>
+                                        <ul class="space-y-2 text-slate-700">
+                                            <li class="flex items-start gap-2">
+                                                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                                                <div>
+                                                    <strong class="text-slate-900">Mencegah Ledakan Polinomial (Tanpa Samakan Penyebut):</strong><br>
+                                                    Pada soal pecahan aljabar olimpiade, menyamakan penyebut sering kali menghasilkan perkalian silang berderajat 3 atau 4 yang sangat rumit dan mudah memicu kekeliruan aljabar. Titu's Lemma memusnahkan masalah ini: <strong>seluruh pembilang dikumpulkan dan dikuadratkan di atas, sementara seluruh penyebut cukup dijumlahkan secara linier di bawah</strong>.
+                                                </div>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                                                <div>
+                                                    <strong class="text-slate-900">Jurus "Memaksa Bentuk Kuadrat" (*Squaring Trick*):</strong><br>
+                                                    Titu's Lemma mensyaratkan pembilang berupa bentuk kuadrat ($u_i^2$). Jika pembilang pada soal belum kuadrat:
+                                                    <ul class="list-disc list-inside mt-1 space-y-1 text-[11px] text-slate-600 pl-1">
+                                                        <li>Bila pembilang konstanta $1$: ubah menjadi $1^2$.</li>
+                                                        <li>Bila pembilang variabel linear $x$: kalikan pembilang dan penyebut dengan $x$ agar menjadi $\frac{x^2}{x \cdot (\text{penyebut})}$.</li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Contoh Soal Pembuktian OSN -->
+                                    <div class="p-3.5 bg-purple-100/70 rounded-xl border border-purple-300 space-y-2.5">
+                                        <div class="font-bold text-purple-950 text-xs flex items-center gap-1.5">
+                                            <span>🏆</span> <span>Studi Kasus Pembuktian OSN:</span>
+                                        </div>
+                                        <p class="text-slate-800">
+                                            Diberikan bilangan real positif $a, b, c > 0$ dengan $a + b + c = 1$. Buktikan bahwa:
+                                            $$\frac{1}{a} + \frac{1}{b} + \frac{1}{c} \ge 9$$
+                                        </p>
+                                        <div class="p-3 bg-white rounded-lg border border-purple-200 space-y-1.5">
+                                            <p class="font-semibold text-purple-900 text-[11px]">Langkah Eksekusi Kilat dengan Titu's Lemma:</p>
+                                            <p class="text-slate-700">1. Nyatakan setiap pembilang sebagai bentuk kuadrat: $\frac{1^2}{a} + \frac{1^2}{b} + \frac{1^2}{c}$.</p>
+                                            <p class="text-slate-700">2. Pasang rumus Titu's Lemma secara langsung:</p>
+                                            <div class="text-center font-bold text-slate-900 py-1">
+                                                $$\frac{1^2}{a} + \frac{1^2}{b} + \frac{1^2}{c} \ge \frac{(1 + 1 + 1)^2}{a + b + c} = \frac{3^2}{1} = \frac{9}{1} = \mathbf{9}$$
+                                            </div>
+                                            <p class="text-slate-700">3. <strong>Uji Syarat Kesamaan:</strong> Kesamaan tercapai saat $\frac{1}{a} = \frac{1}{b} = \frac{1}{c} \iff a = b = c$. Karena $a+b+c=1$, maka $a = b = c = \frac{1}{3} > 0$ (terpenuhi sempurna!).</p>
+                                            <p class="text-emerald-800 font-semibold text-[11px] bg-emerald-50 p-2 rounded-lg mt-1">
+                                                ✓ Soal terselesaikan secara rigor hanya dalam 3 baris tanpa menyamakan penyebut!
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bonus Trik: Ketaksamaan Nesbitt -->
+                                    <div class="p-3 bg-white/90 rounded-xl border border-slate-200 space-y-1.5">
+                                        <div class="font-bold text-indigo-950 text-xs flex items-center gap-1.5">
+                                            <span>💎</span> <span>Bonus Trik Klasik: Bukti 2 Baris Ketaksamaan Nesbitt (1903)</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-600 leading-relaxed">
+                                            Buktikan $\frac{a}{b+c} + \frac{b}{c+a} + \frac{c}{a+b} \ge \frac{3}{2}$ untuk $a, b, c > 0$:<br>
+                                            Kalikan pembilang dan penyebut dengan variabelnya masing-masing, lalu pasang Titu's Lemma:
+                                        </p>
+                                        <div class="text-center font-mono text-[11px] text-indigo-900 py-0.5">
+                                            $$\sum \frac{a^2}{ab+ca} \ge \frac{(a+b+c)^2}{2(ab+bc+ca)} \ge \frac{3(ab+bc+ca)}{2(ab+bc+ca)} = \frac{3}{2}$$
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 italic">
+                                            *Catatan: Menggunakan identitas $(a+b+c)^2 \ge 3(ab+bc+ca)$.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -262,36 +430,139 @@
                             </div>
 
                             <p class="text-sm text-slate-600 leading-relaxed">
-                                Dalam soal OSN, polinomial derajat 3 atau 4 sering diuji bukan untuk dicari akarnya secara eksplisit, melainkan untuk mengeksploitasi jumlahan simetris akar-akarnya melalui <strong>Teorema Vieta</strong>.
+                                Dalam soal OSN, polinomial derajat 3 atau 4 sering diuji bukan untuk dicari akarnya secara eksplisit, melainkan untuk mengeksploitasi jumlahan simetris akar-akarnya melalui <strong>Teorema Vieta</strong> dan relasi rekursif <strong>Newton's Sums</strong>.
                             </p>
 
-                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                                <span class="font-bold text-slate-900 text-sm block">Teorema Vieta untuk Kubik $ax^3 + bx^2 + cx + d = 0$ (Akar: $x_1, x_2, x_3$):</span>
+                            <!-- THEORETICAL BOX: VIETA THEOREM -->
+                            <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-slate-900 text-sm">Teorema Vieta untuk Kubik $ax^3 + bx^2 + cx + d = 0$ (Akar: $x_1, x_2, x_3$):</span>
+                                    <span class="text-[11px] font-semibold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded">Pola Tanda: $-, +, -$</span>
+                                </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                                    <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-center">
-                                        <span class="text-slate-500 block">Jumlahan Tunggal ($e_1$)</span>
-                                        <span class="font-bold text-blue-700 text-sm">$$x_1 + x_2 + x_3 = -\frac{b}{a}$$</span>
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 text-center shadow-2xs">
+                                        <span class="text-slate-500 block text-[11px] font-medium">Jumlahan Tunggal ($e_1$)</span>
+                                        <div class="font-bold text-blue-700 text-sm py-1">$$x_1 + x_2 + x_3 = -\frac{b}{a}$$</div>
+                                        <span class="text-[10px] text-slate-400">Minus koefisien ke-2 per $a$</span>
                                     </div>
-                                    <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-center">
-                                        <span class="text-slate-500 block">Jumlahan Pasangan ($e_2$)</span>
-                                        <span class="font-bold text-indigo-700 text-sm">$$x_1 x_2 + x_2 x_3 + x_3 x_1 = \frac{c}{a}$$</span>
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 text-center shadow-2xs">
+                                        <span class="text-slate-500 block text-[11px] font-medium">Jumlahan Pasangan ($e_2$)</span>
+                                        <div class="font-bold text-indigo-700 text-sm py-1">$$x_1 x_2 + x_2 x_3 + x_3 x_1 = \frac{c}{a}$$</div>
+                                        <span class="text-[10px] text-slate-400">Plus koefisien ke-3 per $a$</span>
                                     </div>
-                                    <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-center">
-                                        <span class="text-slate-500 block">Hasil Kali Tiga Akar ($e_3$)</span>
-                                        <span class="font-bold text-purple-700 text-sm">$$x_1 x_2 x_3 = -\frac{d}{a}$$</span>
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 text-center shadow-2xs">
+                                        <span class="text-slate-500 block text-[11px] font-medium">Hasil Kali Tiga Akar ($e_3$)</span>
+                                        <div class="font-bold text-purple-700 text-sm py-1">$$x_1 x_2 x_3 = -\frac{d}{a}$$</div>
+                                        <span class="text-[10px] text-slate-400">Minus konstanta per $a$</span>
                                     </div>
                                 </div>
+                                <p class="text-[11px] text-slate-600 bg-blue-50/60 p-2.5 rounded-lg border border-blue-100">
+                                    💡 <em>Prinsip Universal Derajat $n$:</em> Nilai $e_k$ selalu bernilai $(-1)^k \cdot \frac{a_{n-k}}{a_n}$. Untuk kuartik ($ax^4+bx^3+cx^2+dx+e=0$), hasil kali keempat akar bernilai $e_4 = \frac{e}{a}$ (tanda positif).
+                                </p>
                             </div>
 
-                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200/80 text-xs text-slate-800 space-y-2">
-                                <span class="font-bold text-blue-900 text-sm block">Konstruksi Bentuk Simetris Kuadrat dan Kubik:</span>
-                                <ul class="list-disc list-inside space-y-1.5">
-                                    <li><strong>Jumlahan Kuadrat:</strong> $x_1^2 + x_2^2 + x_3^2 = (x_1+x_2+x_3)^2 - 2(x_1 x_2 + x_2 x_3 + x_3 x_1) = e_1^2 - 2e_2$.</li>
-                                    <li><strong>Jumlahan Kubik:</strong> Karena setiap $x_i$ memenuhi persamaan $a x_i^3 + b x_i^2 + c x_i + d = 0$, jumlahkan untuk $i=1,2,3$:
-                                        $$a(x_1^3+x_2^3+x_3^3) + b(x_1^2+x_2^2+x_3^2) + c(x_1+x_2+x_3) + 3d = 0$$
-                                        Rumus rekursif ini disebut <em>Newton's Sums</em>, sangat menghemat waktu pengerjaan!
-                                    </li>
-                                </ul>
+                            <!-- TRIK OLIMPIADE: NARASI & PENJELASAN MENDALAM -->
+                            <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-xs text-slate-800 space-y-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-amber-200/60 gap-2">
+                                    <span class="font-bold text-amber-950 text-sm sm:text-base flex items-center gap-1.5">
+                                        <span>💡</span> <span>Trik Olimpiade: Jumlahan Simetris Cepat &amp; Senjata Rekursif Newton's Sums</span>
+                                    </span>
+                                    <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-bold transition text-xs shrink-0 self-start sm:self-auto">
+                                        <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                    </button>
+                                </div>
+
+                                <!-- Bagian 1: Jebakan & Larangan Mencari Akar -->
+                                <div class="p-3 bg-white/80 rounded-xl border border-amber-200/60 space-y-1.5">
+                                    <div class="font-bold text-amber-900 flex items-center gap-1">
+                                        <span>⚠️</span> <span>Jebakan Terbesar: Jangan Pernah Mencari Akar Satu per Satu!</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Pada kompetisi OSN, akar-akar dari polinomial berderajat $\ge 3$ hampir selalu berupa bilangan irasional rumit atau bilangan kompleks. Dewan juri merancang soal bukan untuk menguji hafalan rumus kubik Cardano, melainkan untuk menguji kejelian Anda mengeksploitasi <strong>bentuk simetris akar</strong> melalui koefisien polinomial.
+                                    </p>
+                                </div>
+
+                                <!-- Bagian 2: Jumlahan Kuadrat dan Resiprokal Kilat -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="p-3 bg-white/90 rounded-xl border border-amber-200/60 space-y-1.5">
+                                        <span class="font-bold text-slate-900 block text-xs">1. Jumlahan Kuadrat ($x_1^2 + x_2^2 + x_3^2$):</span>
+                                        <div class="font-mono text-[11px] text-blue-900 bg-slate-50 p-2 rounded border border-slate-200 text-center">
+                                            $$p_2 = e_1^2 - 2e_2 = \frac{b^2 - 2ac}{a^2}$$
+                                        </div>
+                                        <p class="text-[11px] text-slate-600">
+                                            Diperoleh dari ekspansi $(x_1+x_2+x_3)^2 = \sum x_i^2 + 2\sum x_i x_j$.
+                                        </p>
+                                    </div>
+
+                                    <div class="p-3 bg-white/90 rounded-xl border border-amber-200/60 space-y-1.5">
+                                        <span class="font-bold text-slate-900 block text-xs">2. Trik Resiprokal ($\frac{1}{x_1} + \frac{1}{x_2} + \frac{1}{x_3}$):</span>
+                                        <div class="font-mono text-[11px] text-indigo-900 bg-slate-50 p-2 rounded border border-slate-200 text-center">
+                                            $$\sum \frac{1}{x_i} = \frac{e_2}{e_3} = \frac{c/a}{-d/a} = -\frac{c}{d}$$
+                                        </div>
+                                        <p class="text-[11px] text-slate-600">
+                                            <em>Trik Kilat:</em> Membalik urutan koefisien ($dx^3+cx^2+bx+a=0$) langsung menghasilkan persamaan berakar $\frac{1}{x_i}$!
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Bagian 3: Senjata Pamungkas Newton's Sums -->
+                                <div class="space-y-2">
+                                    <div class="font-bold text-slate-900 flex items-center gap-1.5 text-xs sm:text-sm">
+                                        <span>⚡</span> <span>Senjata Pamungkas: Rumus Rekursi Newton's Sums ($p_k = \sum x_i^k$)</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed text-xs">
+                                        Bagaimana jika soal meminta $x_1^3 + x_2^3 + x_3^3$ atau jumlahan pangkat 4 dan 5? Jangan pernah melakukan ekspansi aljabar manual yang memakan puluhan suku! Manfaatkan fakta bahwa setiap akar $x_i$ memenuhi persamaan $ax_i^3 + bx_i^2 + cx_i + d = 0$.
+                                    </p>
+                                    <div class="p-3 bg-white rounded-xl border border-amber-300 space-y-2">
+                                        <p class="text-slate-800 leading-relaxed">
+                                            Kalikan persamaan tersebut dengan $x_i^{k-3}$, lalu jumlahkan untuk ketiga akar ($i = 1, 2, 3$):
+                                        </p>
+                                        <div class="text-center font-bold text-xs sm:text-sm text-amber-950 py-1 bg-amber-50/50 rounded border border-amber-200">
+                                            $$a \cdot p_k + b \cdot p_{k-1} + c \cdot p_{k-2} + d \cdot p_{k-3} = 0$$
+                                        </div>
+                                        <div class="flex flex-col sm:flex-row gap-2 text-[11px] text-slate-600 pt-1">
+                                            <span class="bg-slate-100 px-2 py-1 rounded border border-slate-200 font-semibold">
+                                                📌 $p_0 = x_1^0 + x_2^0 + x_3^0 = 1 + 1 + 1 = 3$
+                                            </span>
+                                            <span class="bg-slate-100 px-2 py-1 rounded border border-slate-200 font-semibold">
+                                                📌 $p_1 = x_1 + x_2 + x_3 = e_1$
+                                            </span>
+                                            <span class="bg-slate-100 px-2 py-1 rounded border border-slate-200 font-semibold">
+                                                📌 $p_2 = e_1^2 - 2e_2$
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bagian 4: Contoh Soal Nyata OSN -->
+                                <div class="p-4 bg-white/95 rounded-xl border border-amber-300 space-y-2.5">
+                                    <div class="font-bold text-slate-900 text-xs sm:text-sm">
+                                        Contoh Eksekusi Cepat OSN:
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed text-xs">
+                                        Diberikan persamaan kubik $x^3 - 4x^2 + x + 6 = 0$ dengan akar-akar $\alpha, \beta, \gamma$. Tentukan nilai $\alpha^3 + \beta^3 + \gamma^3$ dan $\alpha^4 + \beta^4 + \gamma^4$!
+                                    </p>
+                                    <div class="space-y-1.5 pl-2 border-l-2 border-amber-400 text-xs text-slate-700">
+                                        <p>
+                                            <strong>Langkah 1 (Karakteristik Awal):</strong> $a=1, b=-4, c=1, d=6$.<br>
+                                            $p_0 = 3$, $p_1 = -\frac{-4}{1} = 4$, $e_2 = \frac{1}{1} = 1$.<br>
+                                            $p_2 = p_1^2 - 2e_2 = 4^2 - 2(1) = 16 - 2 = 14$.
+                                        </p>
+                                        <p>
+                                            <strong>Langkah 2 (Hitung Pangkat 3 via Newton's Sums $k=3$):</strong><br>
+                                            $$p_3 - 4p_2 + 1p_1 + 6p_0 = 0 \implies p_3 - 4(14) + 1(4) + 6(3) = 0$$
+                                            $$p_3 - 56 + 4 + 18 = 0 \implies p_3 - 34 = 0 \implies \mathbf{p_3 = 34}$$
+                                        </p>
+                                        <p>
+                                            <strong>Langkah 3 (Hitung Pangkat 4 via Newton's Sums $k=4$):</strong><br>
+                                            $$p_4 - 4p_3 + 1p_2 + 6p_1 = 0 \implies p_4 - 4(34) + 1(14) + 6(4) = 0$$
+                                            $$p_4 - 136 + 14 + 24 = 0 \implies p_4 - 98 = 0 \implies \mathbf{p_4 = 98}$$
+                                        </p>
+                                    </div>
+                                    <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-xs text-emerald-900 font-semibold">
+                                        ✓ Jumlahan pangkat 3 dan 4 terselesaikan dalam hitungan detik secara rigor tanpa perlu mencari akar-akarnya satu per satu!
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -310,29 +581,137 @@
                             </div>
 
                             <p class="text-sm text-slate-600 leading-relaxed">
-                                Peserta olimpiade wajib mengenali identitas aljabar tingkat tinggi yang sering tersembunyi dalam persamaan non-linier.
+                                Peserta olimpiade wajib mengenali identitas aljabar tingkat tinggi yang sering tersembunyi dalam persamaan non-linier dan soal teori bilangan. Dua senjata paling legendaris adalah <strong>Identitas Euler Kubik</strong> dan <strong>Identitas Sophie Germain</strong>.
                             </p>
 
-                            <div class="space-y-4">
-                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                                    <div class="font-bold text-slate-900 text-sm">1. Identitas Euler Kubik</div>
-                                    <div class="text-center font-bold text-sm sm:text-base text-blue-900 py-1">
-                                        $$a^3 + b^3 + c^3 - 3abc = (a+b+c)(a^2+b^2+c^2 - ab - bc - ca)$$
-                                        $$= \frac{1}{2}(a+b+c)[(a-b)^2 + (b-c)^2 + (c-a)^2]$$
+                            <!-- THEORETICAL BOX: EULER & SOPHIE GERMAIN -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Card 1: Identitas Euler Kubik -->
+                                <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-bold text-slate-900 text-sm">1. Identitas Euler Kubik</span>
+                                        <span class="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Raja Faktorisasi</span>
                                     </div>
-                                    <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-900 font-semibold">
-                                        ✨ Sifat Emas: Jika $a+b+c = 0$, maka $a^3 + b^3 + c^3 = 3abc$. Sebaliknya, jika $a, b, c > 0$ dan $a^3+b^3+c^3 = 3abc$, maka haruslah $a = b = c$.
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 text-center font-mono text-xs text-blue-900 space-y-1 shadow-2xs">
+                                        <div>$$a^3 + b^3 + c^3 - 3abc = (a+b+c)(a^2+b^2+c^2 - ab - bc - ca)$$</div>
+                                        <div class="text-indigo-800 font-bold">$$= \frac{1}{2}(a+b+c)\left[(a-b)^2 + (b-c)^2 + (c-a)^2\right]$$</div>
+                                    </div>
+                                    <p class="text-[11px] text-slate-600 leading-relaxed">
+                                        Bentuk kedua mengelompokkan suku menjadi jumlahan kuadrat. Karena $(x-y)^2 \ge 0$, faktor kuadrat tersebut selalu non-negatif untuk semua bilangan real!
+                                    </p>
+                                </div>
+
+                                <!-- Card 2: Identitas Sophie Germain -->
+                                <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-bold text-slate-900 text-sm">2. Identitas Sophie Germain</span>
+                                        <span class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">Selisih Kuadrat Buatan</span>
+                                    </div>
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 text-center font-mono text-xs text-purple-900 space-y-1 shadow-2xs">
+                                        <div>$$a^4 + 4b^4 = (a^2+2b^2)^2 - (2ab)^2$$</div>
+                                        <div class="text-purple-950 font-bold">$$= (a^2 - 2ab + 2b^2)(a^2 + 2ab + 2b^2)$$</div>
+                                    </div>
+                                    <p class="text-[11px] text-slate-600 leading-relaxed">
+                                        Trik rekayasa aljabar: Tambahkan $4a^2b^2$ lalu kurangkan kembali untuk menciptakan selisih dua kuadrat $A^2 - B^2 = (A-B)(A+B)$.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- TRIK OLIMPIADE: NARASI & PENJELASAN MENDALAM -->
+                            <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-xs text-slate-800 space-y-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-amber-200/60 gap-2">
+                                    <span class="font-bold text-amber-950 text-sm sm:text-base flex items-center gap-1.5">
+                                        <span>💡</span> <span>Trik Olimpiade: Aplikasi Kilat Euler Kubik &amp; Pembuktian Komposit Sophie Germain</span>
+                                    </span>
+                                    <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-bold transition text-xs shrink-0 self-start sm:self-auto">
+                                        <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                    </button>
+                                </div>
+
+                                <!-- Bagian 1: Dua Sifat Emas Euler Kubik -->
+                                <div class="space-y-2">
+                                    <div class="font-bold text-slate-900 flex items-center gap-1.5 text-xs sm:text-sm">
+                                        <span>✨</span> <span>Dua Konsekuensi Emas Identitas Euler Kubik di Kompetisi Sains</span>
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <div class="p-3.5 bg-white rounded-xl border border-amber-200/80 space-y-1.5">
+                                            <span class="font-bold text-amber-950 block text-xs">Konsekuensi 1: Syarat Jumlahan Nol ($a+b+c=0$)</span>
+                                            <div class="font-mono text-xs text-blue-900 bg-blue-50/60 p-2 rounded border border-blue-200 text-center font-bold">
+                                                $$a+b+c = 0 \implies a^3 + b^3 + c^3 = 3abc$$
+                                            </div>
+                                            <p class="text-[11px] text-slate-600 leading-relaxed">
+                                                Jika jumlah ketiga variabel bernilai 0, maka jumlahan pangkat tiga langsung sama dengan 3 kali perkaliannya!
+                                            </p>
+                                        </div>
+
+                                        <div class="p-3.5 bg-white rounded-xl border border-amber-200/80 space-y-1.5">
+                                            <span class="font-bold text-amber-950 block text-xs">Konsekuensi 2: Bukti Murni AM-GM ($a, b, c > 0$)</span>
+                                            <div class="font-mono text-xs text-indigo-900 bg-indigo-50/60 p-2 rounded border border-indigo-200 text-center font-bold">
+                                                $$\frac{a^3+b^3+c^3}{3} \ge abc$$
+                                            </div>
+                                            <p class="text-[11px] text-slate-600 leading-relaxed">
+                                                Karena $(a-b)^2 + (b-c)^2 + (c-a)^2 \ge 0$, maka $a^3+b^3+c^3 \ge 3abc$. Kesamaan terjadi jika dan hanya jika $a = b = c$.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                                    <div class="font-bold text-slate-900 text-sm">2. Identitas Sophie Germain</div>
-                                    <div class="text-center font-bold text-sm sm:text-base text-purple-900 py-1">
-                                        $$a^4 + 4b^4 = (a^2 + 2b^2)^2 - (2ab)^2 = (a^2 - 2ab + 2b^2)(a^2 + 2ab + 2b^2)$$
+                                <!-- Bagian 2: Trik Membunuh Pecahan Bersarang 3 Detik -->
+                                <div class="p-4 bg-white/95 rounded-xl border border-amber-300 space-y-2">
+                                    <div class="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-1.5">
+                                        <span>🎯</span> <span>Trik 3 Detik: Menyelesaikan Pecahan Bersarang Tanpa Penjabaran Aljabar</span>
                                     </div>
-                                    <p class="text-xs text-slate-600">
-                                        Identitas ini membuktikan bahwa bentuk $n^4 + 4^n$ selalu komposit untuk semua bilangan bulat $n > 1$ (soal klasik seleksi OSN).
+                                    <p class="text-slate-700 leading-relaxed text-xs">
+                                        Perhatikan soal klasik seleksi OSN-K berikut: <em>"Tentukan nilai sederhana dari pecahan aljabar:"</em>
                                     </p>
+                                    <div class="text-center font-mono text-xs sm:text-sm text-indigo-950 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                                        $$P = \frac{(x-y)^3 + (y-z)^3 + (z-x)^3}{(x-y)(y-z)(z-x)}$$
+                                    </div>
+                                    <div class="space-y-1.5 pl-2 border-l-2 border-amber-400 text-xs text-slate-700">
+                                        <p>
+                                            <strong>Trik Juri:</strong> Siswa yang menjabarkan pangkat 3 suku banyak akan menghabiskan waktu 15 menit dan rawan keliru tanda.
+                                        </p>
+                                        <p>
+                                            <strong>Eksekusi Cepat Euler:</strong> Misalkan $A = x-y$, $B = y-z$, dan $C = z-x$.<br>
+                                            Perhatikan jumlahan ketiga variabel:
+                                            $$A + B + C = (x-y) + (y-z) + (z-x) = 0$$
+                                            Karena $A+B+C = 0$, berdasarkan Konsekuensi Emas Euler, pembilangnya langsung bernilai:
+                                            $$A^3 + B^3 + C^3 = 3ABC = 3(x-y)(y-z)(z-x)$$
+                                            Sehingga nilai pecahan:
+                                            $$P = \frac{3(x-y)(y-z)(z-x)}{(x-y)(y-z)(z-x)} = \mathbf{3}$$
+                                        </p>
+                                    </div>
+                                    <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-xs text-emerald-900 font-semibold">
+                                        ✓ Soal terselesaikan secara rigor hanya dalam 3 detik tanpa satu pun coretan ekspansi aljabar!
+                                    </div>
+                                </div>
+
+                                <!-- Bagian 3: Bukti Teori Bilangan Sophie Germain -->
+                                <div class="p-4 bg-white/95 rounded-xl border border-amber-300 space-y-2">
+                                    <div class="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-1.5">
+                                        <span>🛡️</span> <span>Aplikasi Teori Bilangan: Bukti $n^4 + 4^n$ Selalu Komposit ($n > 1$)</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed text-xs">
+                                        Soal seleksi OSN sering menanyakan apakah $n^4 + 4^n$ bisa bernilai prima untuk bilangan bulat $n > 1$.
+                                    </p>
+                                    <div class="space-y-1.5 pl-2 border-l-2 border-purple-400 text-xs text-slate-700">
+                                        <p>
+                                            <strong>Kasus 1 ($n$ Genap):</strong> Jika $n$ genap, maka $n^4$ genap dan $4^n$ genap. Jumlahan dua bilangan genap menghasilkan bilangan genap $> 2$, sehingga pasti komposit (bukan prima).
+                                        </p>
+                                        <p>
+                                            <strong>Kasus 2 ($n$ Ganjil):</strong> Tulis $n = 2k+1$. Maka suku pangkat dapat direkayasa:
+                                            $$4^n = 4^{2k+1} = 4 \cdot 4^{2k} = 4 \cdot (2^k)^4$$
+                                            Substitusikan ke bentuk awal dengan menetapkan $b = 2^k$:
+                                            $$n^4 + 4^n = n^4 + 4(2^k)^4 = n^4 + 4b^4$$
+                                            Pasang Identitas Sophie Germain:
+                                            $$n^4 + 4b^4 = \underbrace{(n^2 - 2nb + 2b^2)}_{\text{Faktor 1}} \cdot \underbrace{(n^2 + 2nb + 2b^2)}_{\text{Faktor 2}}$$
+                                            Perhatikan faktor pertama: $(n-b)^2 + b^2 = (n - 2^k)^2 + 4^k \ge 4^k > 1$ untuk setiap $k \ge 1$.<br>
+                                            Karena bilangan ini terbukti dapat dipecah menjadi perkalian dua bilangan bulat yang masing-masing $> 1$, maka $n^4 + 4^n$ <strong>selalu bilangan komposit</strong>!
+                                        </p>
+                                    </div>
+                                    <div class="p-2.5 bg-blue-50 rounded-lg border border-blue-200 text-xs text-blue-900 font-semibold">
+                                        📌 Bonus Identitas Siklik: $(a+b)(b+c)(c+a) = (a+b+c)(ab+bc+ca) - abc \ge 8abc$ untuk $a, b, c > 0$.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -352,8 +731,55 @@
                             </div>
 
                             <p class="text-sm text-slate-600 leading-relaxed">
-                                Uji ketajaman intuisi aljabar Anda dengan 4 soal pilihan standar seleksi OSN-K. Klik <strong>Periksa Seluruh Jawaban</strong> untuk melihat skor dan pembahasan rigor.
+                                Uji ketajaman intuisi aljabar Anda dengan 4 butir soal pilihan ganda berstandar seleksi OSN-K. Selesaikan soal secara mandiri, lalu klik <strong>Periksa Seluruh Jawaban</strong> untuk melihat skor otomatis serta pembahasan matematis yang rigor.
                             </p>
+
+                            <!-- STRATEGI & PANDUAN TAKTIS PENGERJAAN -->
+                            <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-xs text-slate-800 space-y-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-amber-200/60 gap-2">
+                                    <span class="font-bold text-amber-950 text-sm sm:text-base flex items-center gap-1.5">
+                                        <span>💡</span> <span>Strategi Pembina OSN: 4 Pilar Taktik Mengerjakan Soal Aljabar Kompetisi</span>
+                                    </span>
+                                    <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-bold transition text-xs shrink-0 self-start sm:self-auto">
+                                        <span>🎙️</span> <span>Dengarkan Panduan Kuis</span>
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="p-3 bg-white/90 rounded-xl border border-amber-200/60 space-y-1">
+                                        <div class="font-bold text-amber-900 flex items-center gap-1 text-xs">
+                                            <span>1.</span> <span>Pilar AM-GM &amp; Domain Positif</span>
+                                        </div>
+                                        <p class="text-slate-600 text-[11px] leading-relaxed">
+                                            Jangan hanya mencari nilai bawah perkalian. Selalu uji syarat kesamaan $a_1 = a_2 = \dots = a_n$ dan pastikan nilai variabel berada di dalam domain soal ($x > 0$).
+                                        </p>
+                                    </div>
+                                    <div class="p-3 bg-white/90 rounded-xl border border-amber-200/60 space-y-1">
+                                        <div class="font-bold text-amber-900 flex items-center gap-1 text-xs">
+                                            <span>2.</span> <span>Pilar Pecahan &amp; Titu's Lemma</span>
+                                        </div>
+                                        <p class="text-slate-600 text-[11px] leading-relaxed">
+                                            Hindari menyamakan penyebut linier yang memicu polinomial derajat tinggi! Gunakan Titu's Lemma $\sum \frac{u_i^2}{v_i} \ge \frac{(\sum u_i)^2}{\sum v_i}$ untuk eksekusi 2 baris.
+                                        </p>
+                                    </div>
+                                    <div class="p-3 bg-white/90 rounded-xl border border-amber-200/60 space-y-1">
+                                        <div class="font-bold text-amber-900 flex items-center gap-1 text-xs">
+                                            <span>3.</span> <span>Pilar Polinomial &amp; Vieta Lanjutan</span>
+                                        </div>
+                                        <p class="text-slate-600 text-[11px] leading-relaxed">
+                                            Jangan mencari akar secara manual! Gunakan kombinasi simetris dasar $e_1, e_2$ untuk $p_2 = e_1^2 - 2e_2$, atau relasi rekursi Newton's Sums untuk pangkat $\ge 3$.
+                                        </p>
+                                    </div>
+                                    <div class="p-3 bg-white/90 rounded-xl border border-amber-200/60 space-y-1">
+                                        <div class="font-bold text-amber-900 flex items-center gap-1 text-xs">
+                                            <span>4.</span> <span>Pilar Faktorisasi &amp; Syarat $a+b+c=0$</span>
+                                        </div>
+                                        <p class="text-slate-600 text-[11px] leading-relaxed">
+                                            Waspadai bentuk jumlahan dalam yang bernilai nol. Jika jumlahan variabel $= 0$, maka $a^3+b^3+c^3 = 3abc$, memotong waktu perhitungan menjadi seketika.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
                             <form id="quiz-aljabar-osn" class="space-y-6">
                                 <!-- Soal 1 -->
@@ -541,31 +967,31 @@
                 title: "Poin 1: Ketaksamaan AM-GM",
                 desc: "Dengarkan arahan intuisi, strategi eliminasi variabel, dan syarat kesamaan AM-GM",
                 src: "/storage/audio/matematika/kelas-10/olimpiade/aljabar-poin-1-amgm.mp3",
-                text: "Di poin pertama ini, kita mempelajari Ketaksamaan Rataan Aritmetika dan Geometri atau AM-GM. Teorema ini menyatakan bahwa jumlahan bilangan non-negatif dibagi n selalu lebih besar atau sama dengan akar pangkat n dari perkaliannya. Kunci penting dalam olimpiade adalah kapan kesamaan itu tercapai, yaitu saat semua variabel bernilai sama. Jika Anda ingin mencari nilai minimum dari bentuk pecahan aljabar, pecahlah suku variabelnya agar saat dikalikan, variabel di pembilang dan penyebut saling menghilangkan secara sempurna."
+                text: "Di poin pertama ini, kita mempelajari Ketaksamaan Rataan Aritmetika dan Geometri atau AM-GM. Teorema ini menyatakan bahwa jumlahan bilangan non-negatif dibagi n selalu lebih besar atau sama dengan akar pangkat n dari perkaliannya. Kunci penting dalam olimpiade adalah kapan kesamaan itu tercapai, yaitu saat semua variabel bernilai sama. Perhatikan trik olimpiade penting saat meminimalkan pecahan aljabar, seperti fungsi x ditambah 16 per x kuadrat untuk x positif. Jika Anda langsung menerapkan AM-GM dua suku, hasil perkaliannya masih menyisakan variabel x, sehingga bukan nilai minimum konstan. Trik rahasianya adalah menyeimbangkan derajat variabel. Karena penyebut memiliki x kuadrat, kita membutuhkan pembilang berderajat dua. Oleh sebab itu, suku x dipecah menjadi dua bagian sama besar, yaitu x per dua ditambah x per dua. Mengapa harus dibagi sama rata? Karena syarat kesamaan AM-GM mewajibkan semua suku bernilai sama. Dengan tiga suku berbobot sama: x per dua, x per dua, dan 16 per x kuadrat, saat dikalikan di dalam akar pangkat tiga AM-GM, variabel x kuadrat saling membagi habis menghasilkan nilai minimum pasti yaitu tiga kali akar pangkat tiga dari empat. Nilai ini terbukti sah karena kesamaan tercapai pada saat x sama dengan dua kali akar pangkat tiga dari empat, yang berada di dalam domain positif."
             },
             {
                 title: "Poin 2: Cauchy-Schwarz & Titu's Lemma",
                 desc: "Dengarkan trik menyelesaikan pecahan aljabar berpenyebut linier tanpa menyamakan penyebut",
                 src: "/storage/audio/matematika/kelas-10/olimpiade/aljabar-poin-2-cauchy-schwarz.mp3",
-                text: "Pada poin kedua, kita berkenalan dengan Ketaksamaan Cauchy-Schwarz dan bentuk turunannya, Titu's Lemma atau Engel form. Titu's Lemma adalah senjata rahasia olimpiade untuk menyelesaikan pecahan aljabar berpenyebut linier tanpa perlu menyamakan penyebut. Cukup kuadratkan pembilang, lalu jumlahkan pembilang dan jumlahkan penyebut. Syarat kesamaannya adalah rasio antar-suku harus konstan dan sebanding."
+                text: "Di poin kedua ini, kita mempelajari Ketaksamaan Cauchy-Schwarz dan bentuk fraksionalnya yang sangat terkenal di kompetisi olimpiade, yaitu Titu's Lemma atau Engel Form. Secara geometris, Cauchy-Schwarz terinspirasi dari konsep perkalian titik dua vektor, di mana kuadrat dot product selalu lebih kecil atau sama dengan perkalian kuadrat panjang vektornya. Kesamaan tercapai jika dan hanya jika kedua barisan variabel saling proporsional atau sebanding. Keajaiban terbesar hadir saat kita mentransformasikan Cauchy-Schwarz menjadi Titu's Lemma untuk menyelesaikan soal-soal pecahan aljabar. Dalam kompetisi OSN, menyamakan penyebut pada pecahan aljabar bertingkat seringkali memicu persamaan polinomial derajat tinggi yang sangat rumit dan rawan kesalahan hitung. Dengan Titu's Lemma, Anda cukup mengumpulkan suku-suku pembilang menjadi kuadrat dari jumlahan pembilang, lalu membaginya dengan jumlahan seluruh suku penyebut. Jika pembilang pada soal belum berbentuk kuadrat sempurna, gunakan trik manipulasi aljabar dengan mengalikan pembilang dan penyebut dengan variabel yang sama, atau mengubah angka satu menjadi satu kuadrat. Contohnya, untuk membuktikan satu per a ditambah satu per b ditambah satu per c bernilai minimal sembilan jika a tambah b tambah c sama dengan satu, ubah pembilang menjadi satu kuadrat. Hasilnya langsung terbukti instan: satu tambah satu tambah satu dikuadratkan menghasilkan sembilan, dibagi satu, sama dengan sembilan. Kesamaan tercapai saat a sama dengan b sama dengan c, yaitu sepertiga. Sangat elegan dan menghemat waktu!"
             },
             {
                 title: "Poin 3: Polinomial Vieta Lanjutan",
                 desc: "Dengarkan cara cepat menghitung jumlahan simetris akar dan rumus rekursi Newton's Sums",
                 src: "/storage/audio/matematika/kelas-10/olimpiade/aljabar-poin-3-vieta-polinomial.mp3",
-                text: "Di poin ketiga, kita membedah Teorema Vieta untuk polinomial tingkat tinggi, khususnya derajat tiga dan empat. Ingat, dalam soal olimpiade, Anda jarang sekali diminta mencari akar-akarnya satu per satu. Soal justru menguji kejelian Anda mencari jumlahan simetris akar, seperti jumlahan kuadrat atau jumlahan kubik. Manfaatkan hubungan rekursif Newton's Sums untuk menghitung pangkat tinggi akar dengan sangat cepat."
+                text: "Di poin ketiga ini, kita membedah Teorema Vieta untuk polinomial tingkat tinggi serta senjata rahasia olimpiade, yaitu Rumus Rekursi Newton's Sums. Pelajaran paling mendasar bagi peserta olimpiade adalah: jangan pernah mencoba mencari nilai akar satu per satu! Pada kompetisi OSN, akar-akar dari persamaan derajat tiga atau empat hampir selalu berupa bilangan irasional rumit atau bilangan kompleks. Yang sesungguhnya diuji oleh juri bukanlah kemampuan Anda menebak akar, melainkan kejelian Anda mengeksploitasi polinomial simetris dasar melalui koefisien persamaannya. Untuk polinomial kubik a x pangkat tiga ditambah b x kuadrat ditambah c x ditambah d sama dengan nol, Teorema Vieta memberikan tiga hubungan dasar: pertama, jumlahan tunggal e1 sama dengan minus b per a. Kedua, jumlahan perkalian berpasangan e2 sama dengan c per a. Dan ketiga, hasil kali ketiga akarnya e3 sama dengan minus d per a. Perhatikan bahwa tanda koefisien selalu bergantian, dimulai dari negatif, positif, lalu negatif. Dari bentuk dasar ini, jumlahan kuadrat x1 kuadrat tambah x2 kuadrat tambah x3 kuadrat dapat langsung diperoleh dari e1 kuadrat dikurang dua e2. Sedangkan jumlahan kebalikan satu per x1 ditambah satu per x2 ditambah satu per x3 sama dengan e2 dibagi e3, yang setara dengan minus c per d. Lalu, bagaimana jika soal menanyakan jumlahan pangkat tiga, pangkat empat, atau pangkat lima dari akar-akarnya? Jangan pernah menjabarkan perkalian aljabar yang panjang! Gunakan Newton's Sums. Karena setiap akar x memenuhi persamaan awal, jika kita kalikan dengan x pangkat k lalu jumlahkan untuk seluruh akar, kita memperoleh hubungan rekursif: a dikali P k ditambah b dikali P k minus satu ditambah c dikali P k minus dua ditambah d dikali P k minus tiga sama dengan nol, dengan P k adalah jumlahan akar berpangkat k. Perhatikan bahwa P nol bernilai tiga, yaitu satu tambah satu tambah satu. Dengan rumus rekursi ini, Anda dapat menghitung jumlahan pangkat tiga dan empat hanya dalam dua baris aritmetika sederhana!"
             },
             {
                 title: "Poin 4: Faktorisasi Simetris Non-Rutin",
                 desc: "Dengarkan sifat emas Identitas Euler kubik dan faktorisasi Sophie Germain",
                 src: "/storage/audio/matematika/kelas-10/olimpiade/aljabar-poin-4-identitas-euler.mp3",
-                text: "Poin keempat membahas faktorisasi simetris non-rutin. Salah satu yang paling legendaris adalah Identitas Euler kubik: a pangkat tiga tambah b pangkat tiga tambah c pangkat tiga dikurang 3 a b c. Perhatikan konsekuensi emasnya: jika a tambah b tambah c sama dengan nol, maka jumlahan pangkat tiga tersebut langsung sama dengan 3 a b c. Pelajari juga Identitas Sophie Germain untuk memfaktorkan bentuk a pangkat empat tambah 4 b pangkat empat."
+                text: "Di poin keempat ini, kita membedah manipulasi faktorisasi simetris non-rutin, dengan dua senjata legendaris olimpiade: Identitas Euler Kubik dan Identitas Sophie Germain. Identitas Euler menyatakan bahwa a pangkat tiga ditambah b pangkat tiga ditambah c pangkat tiga dikurang tiga a b c dapat difaktorkan menjadi a tambah b tambah c dikali jumlahan kuadrat dikurang jumlahan perkalian pasangan. Namun, bentuk paling sakti di olimpiade adalah bentuk kedua: setengah dikali a tambah b tambah c, dikali kurung siku a minus b kuadrat ditambah b minus c kuadrat ditambah c minus a kuadrat. Bentuk kuadrat ini memberikan dua konsekuensi emas yang sangat sering keluar di seleksi OSN. Konsekuensi pertama: jika a tambah b tambah c sama dengan nol, maka jumlahan pangkat tiga langsung sama dengan tiga a b c. Trik ini membunuh soal pecahan bersarang dalam hitungan detik. Contohnya, jika Anda melihat jumlahan x minus y dipangkatkan tiga, ditambah y minus z pangkat tiga, ditambah z minus x pangkat tiga, jumlahan suku-suku dalamnya tepat nol. Maka pembilangnya langsung berubah menjadi tiga dikali perkalian ketiga selisih tersebut, sehingga jika dibagi dengan penyebutnya, hasilnya langsung tiga tanpa perlu penjabaran suku banyak! Konsekuensi kedua: karena kuadrat bilangan real selalu non-negatif, untuk bilangan positif, a pangkat tiga tambah b pangkat tiga tambah c pangkat tiga selalu lebih besar atau sama dengan tiga a b c. Kesamaan tercapai jika dan hanya jika a sama dengan b sama dengan c. Ini adalah bukti murni ketaksamaan AM-GM tiga variabel. Senjata kedua adalah Identitas Sophie Germain, yaitu memfaktorkan a pangkat empat ditambah empat b pangkat empat. Trik rahasianya adalah rekayasa kuadrat sempurna: tambahkan empat a kuadrat b kuadrat lalu kurangkan kembali, sehingga tercipta selisih dua kuadrat. Identitas ini menjadi kunci elegan untuk membuktikan bahwa bentuk n pangkat empat ditambah empat pangkat n selalu merupakan bilangan komposit untuk semua n lebih dari satu."
             },
             {
                 title: "Poin 5: Panduan Simulasi Kuis Aljabar OSN-K",
                 desc: "Dengarkan tips eliminasi opsi, domain kesamaan, dan eksekusi komputasi kuis aljabar",
                 src: "/storage/audio/matematika/kelas-10/olimpiade/aljabar-poin-5-kuis-evaluasi.mp3",
-                text: "Selamat tiba di kuis evaluasi aljabar! Ada empat soal pilihan ganda standar OSN-K di sini. Strategi pengerjaannya: pada soal AM-GM, pastikan syarat kesamaan memenuhi domain soal. Pada soal pecahan kuadrat, coba aplikasikan Titu's Lemma. Dan pada soal Vieta, susun bentuk simetris dasar sebelum menghitung. Kerjakan secara mandiri lalu klik tombol periksa jawaban untuk melihat analisis rigor."
+                text: "Selamat tiba di sesi simulasi dan kuis evaluasi aljabar kompetisi OSN-K! Di slide penutup ini, Anda disajikan empat soal pilihan ganda berstandar seleksi olimpiade yang menguji pemahaman dari empat materi utama yang telah kita pelajari. Sebelum Anda mulai memilih jawaban, dengarkan empat panduan taktis dari pembina olimpiade berikut ini: Pertama, pada soal ketaksamaan AM-GM, jangan hanya fokus mencari nilai batas bawah dari perkalian suku-sukunya. Periksa selalu apakah nilai variabel saat kesamaan tercapai berada di dalam domain yang sah, yaitu bilangan real positif. Kedua, pada soal pecahan aljabar, hindari godaan untuk langsung menyamakan penyebut! Carilah pola kuadrat di bagian pembilang. Jika pembilang berupa kuadrat dan penyebut berupa jumlahan linear, pasang Bentuk Engel atau Titu's Lemma untuk memangkas waktu hitung hingga separuh. Ketiga, pada soal polinomial tingkat tinggi, jangan sekali-kali mencoba mencari nilai akar satu per satu. Fokuskan pada identitas simetris dasar Teorema Vieta, yaitu jumlahan akar e1 dan jumlahan pasangan e2, lalu kaitkan dengan jumlahan kuadrat. Dan keempat, pada soal faktorisasi simetris dan pecahan bersarang, selalu uji apakah jumlahan suku-suku dalamnya bernilai nol. Jika jumlahan variabelnya nol, pasang konsekuensi emas Identitas Euler bahwa jumlahan pangkat tiga tepat sama dengan tiga a b c. Sekarang, kerjakan keempat soal ini secara mandiri dan cermat, lalu klik tombol Periksa Seluruh Jawaban untuk menguji skor dan membaca pembahasan matematis yang rigor. Selamat berjuang!"
             }
         ];
 
