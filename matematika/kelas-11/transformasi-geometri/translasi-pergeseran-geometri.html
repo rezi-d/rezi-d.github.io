@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translasi (Pergeseran): Vektor, Garis & Kurva — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari konsep translasi geometri, vektor pergeseran T=(a, b), translasi titik, garis, kurva parabola dengan metode substitusi balik, serta komposisi translasi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/translasi-pergeseran-geometri.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/translasi-pergeseran-geometri.html">
+    <meta property="og:title" content="📐 Translasi (Pergeseran) Geometri — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai vektor translasi T=(a,b), pergeseran kurva aljabar y-b = f(x-a), dan komposisi translasi.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="transformasi-geometri">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 6: Transformasi Geometri
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Translasi (Pergeseran): Vektor, Garis &amp; Kurva
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari transformasi geometri paling mendasar: Translasi (Pergeseran)! Pahami konsep vektor translasi $T = \begin{pmatrix} a \\ b \end{pmatrix}$, pemetaan titik koordinat, pergeseran garis dan kurva aljabar dengan teknik substitusi balik, serta akumulasi pergeseran melalui komposisi translasi.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="rose" class="space-y-6">
+
+                    <!-- SLIDE 1: HAKIKAT TRANSLASI & VEKTOR PERGESERAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 1 &middot; Landasan Teori</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🚀 1. Hakikat Translasi &amp; Vektor Pergeseran
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">T = \begin{pmatrix} a \\ b \end{pmatrix}</span>
+                        </div>
+
+                        <!-- DEFINISI TRANSLASI -->
+                        <div class="bg-gradient-to-br from-rose-50/80 via-pink-50/40 to-white p-5 sm:p-6 rounded-2xl border border-rose-100 space-y-3">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">📍</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider mb-1">Apa itu Translasi?</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-3">
+                                        <strong>Translasi (pergeseran)</strong> adalah transformasi geometri jenis <strong>isometri</strong> yang memindahkan setiap titik pada bidang datar sepanjang jarak dan arah tertentu. Translasi <em>tidak mengubah</em> ukuran maupun bentuk objek geometri (panjang sisi dan besar sudut selalu konstan).
+                                    </p>
+                                    <div class="bg-white/90 p-4 rounded-xl border border-rose-200 text-center font-mono text-xs sm:text-sm text-rose-950">
+                                        $$P(x, y) \xrightarrow{T = \begin{pmatrix} a \\ b \end{pmatrix}} P'(x', y') = P'(x + a, \, y + b)$$
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ARTI KOMPONEN a DAN b -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-700">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-rose-900 block">Komponen Horizontal ($a$):</span>
+                                <p>• Jika $a > 0 \implies$ Bergeser ke arah <strong>kanan</strong> sejauh $a$ satuan.</p>
+                                <p>• Jika $a < 0 \implies$ Bergeser ke arah <strong>kiri</strong> sejauh $|a|$ satuan.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-rose-900 block">Komponen Vertikal ($b$):</span>
+                                <p>• Jika $b > 0 \implies$ Bergeser ke arah <strong>atas</strong> sejauh $b$ satuan.</p>
+                                <p>• Jika $b < 0 \implies$ Bergeser ke arah <strong>bawah</strong> sejauh $|b|$ satuan.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: TRANSLASI TITIK & BANGUN DATAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 2 &middot; Pemetaan Titik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 2. Translasi Titik &amp; Titik Sudut Bangun Datar
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">(x', y') = (x+a, y+b)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Untuk mentranslasikan sebuah bangun datar (segitiga, persegi, poligon), cukup translasikan masing-masing titik sudutnya dengan vektor yang sama:
+                        </p>
+
+                        <!-- CONTOH SOAL BANGUN DATAR SEGITIGA -->
+                        <div class="border border-slate-200 rounded-2xl p-5 space-y-3">
+                            <span class="text-xs font-bold text-slate-900 uppercase tracking-wider block">
+                                📝 Contoh Translasi Segitiga:
+                            </span>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                Segitiga $ABC$ memiliki koordinat titik sudut $A(2, 1)$, $B(5, 3)$, dan $C(3, 6)$. Jika segitiga tersebut ditranslasikan oleh $T = \begin{pmatrix} -4 \\ 2 \end{pmatrix}$, tentukan bayangan titik sudutnya!
+                            </p>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 space-y-1.5">
+                                <div>• $A'(2 + (-4), \, 1 + 2) = A'(-2, 3)$</div>
+                                <div>• $B'(5 + (-4), \, 3 + 2) = B'(1, 5)$</div>
+                                <div>• $C'(3 + (-4), \, 6 + 2) = C'(-1, 8)$</div>
+                                <div class="text-rose-900 font-bold pt-1">
+                                    Luas segitiga bayangan $A'B'C'$ identik sama dengan luas segitiga awal $ABC$!
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: TRANSLASI GARIS & KURVA ALJABAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 3 &middot; Metode Substitusi Balik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 3. Translasi Garis &amp; Kurva Parabola
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">y - b = f(x - a)</span>
+                        </div>
+
+                        <!-- METODE SUBSTITUSI BALIK -->
+                        <div class="bg-gradient-to-br from-rose-950 to-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block">Kunci Emas: Metode Substitusi Balik</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Karena $x' = x + a$ dan $y' = y + b$, maka koordinat awal dapat dinyatakan dalam koordinat bayangan:
+                            </p>
+                            <div class="bg-white/10 p-3 rounded-xl border border-white/20 text-center font-mono text-xs sm:text-sm text-rose-200">
+                                $$x = x' - a \quad \text{dan} \quad y = y' - b$$
+                            </div>
+                            <p class="text-xs text-slate-300">
+                                Untuk mencari persamaan garis/kurva bayangan, gantilah setiap variabel $x$ dengan $(x - a)$ dan $y$ dengan $(y - b)$ pada persamaan awal!
+                            </p>
+                        </div>
+
+                        <!-- CONTOH TRANSLASI PARABOLA -->
+                        <div class="border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Contoh Translasi Parabola:</span>
+                            <p>Tentukan bayangan kurva parabola $y = x^2 - 4x + 1$ oleh translasi $T = \begin{pmatrix} 2 \\ -3 \end{pmatrix}$!</p>
+                            <div class="font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1">
+                                <div>Substitusi: $x \to (x - 2)$ dan $y \to (y - (-3)) = (y + 3)$</div>
+                                <div>$y + 3 = (x - 2)^2 - 4(x - 2) + 1$</div>
+                                <div>$y + 3 = (x^2 - 4x + 4) - 4x + 8 + 1$</div>
+                                <div>$y + 3 = x^2 - 8x + 13$</div>
+                                <div class="text-rose-900 font-bold pt-1">
+                                    Bayangan kurva: $y = x^2 - 8x + 10$.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: KOMPOSISI DUA TRANSLASI BERURUTAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 4 &middot; Komposisi Geometri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ➕ 4. Komposisi Dua Translasi Berurutan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">T_2 \circ T_1 = T_1 + T_2</span>
+                        </div>
+
+                        <!-- ATURAN JUMLAH VEKTOR -->
+                        <div class="bg-gradient-to-br from-rose-50 to-white p-5 rounded-2xl border border-rose-200 space-y-3">
+                            <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider">Penjumlahan Aljabar Vektor Translasi</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Jika translasi pertama $T_1 = \begin{pmatrix} a \\ b \end{pmatrix}$ dilanjutkan oleh translasi kedua $T_2 = \begin{pmatrix} c \\ d \end{pmatrix}$, maka translasi tunggal ekuivalennya adalah penjumlahan langsung kedua vektor:
+                            </p>
+                            <div class="bg-white p-3.5 rounded-xl border border-rose-200 text-center font-mono text-sm text-rose-950">
+                                $$T = T_2 \circ T_1 = T_1 + T_2 = \begin{pmatrix} a + c \\ b + d \end{pmatrix}$$
+                            </div>
+                            <p class="text-xs text-slate-600 text-center">
+                                Translasi bersifat <strong>komutatif</strong>: $T_2 \circ T_1 = T_1 \circ T_2$. Urutan pergeseran mana yang dilakukan lebih dahulu tidak memengaruhi posisi akhir!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Translasi Geometri
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman translasi titik, garis, dan komposisi vektor.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 1 &middot; Translasi Titik</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Titik Koordinat</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Bayangan titik $P(-3, 5)$ oleh translasi $T = \begin{pmatrix} 4 \\ -2 \end{pmatrix}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(1, 3)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(-7, 7)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(1, 7)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(-1, 3)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 2 &middot; Translasi Garis Linier</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Substitusi Balik</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Persamaan bayangan garis $3x - 2y + 5 = 0$ oleh translasi $T = \begin{pmatrix} 1 \\ -4 \end{pmatrix}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $3x - 2y - 6 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $3x - 2y + 10 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $3x - 2y + 6 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $3x - 2y - 10 = 0$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 3 &middot; Komposisi Translasi</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Vektor Majemuk</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Titik $A(1, -2)$ ditranslasikan berturut-turut oleh $T_1 = \begin{pmatrix} -3 \\ 5 \end{pmatrix}$ dan $T_2 = \begin{pmatrix} 6 \\ -1 \end{pmatrix}$. Koordinat bayangan akhir titik $A$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(4, 2)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(4, -2)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(2, 4)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(-2, 2)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! P\'(x + a, y + b) = P\'(-3 + 4, 5 + (-2)) = P\'(1, 3).' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Substitusikan x = x\' - 1 dan y = y\' - (-4) = y\' + 4 ke garis 3x - 2y + 5 = 0: 3(x - 1) - 2(y + 4) + 5 = 0 ⇒ 3x - 3 - 2y - 8 + 5 = 0 ⇒ 3x - 2y - 6 = 0.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Komposisi translasi T = T₁ + T₂ = [[-3 + 6], [5 + (-1)]] = [[3], [4]]. Bayangan akhir: A\'(1 + 3, -2 + 4) = A\'(4, 2).' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-rose-800 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan substitusi balik (x - a, y - b) dan penjumlahan vektor!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 4: Transformasi Geometri - Translasi.</p>
+                    <p><strong>Larson, Ron &amp; Falvo, David C.</strong> (2020). <em>Elementary Linear Algebra</em> (8th ed.). Cengage. Chapter 6: Linear Transformations.</p>
+                    <p><strong>Coxeter, H.S.M.</strong> (1969). <em>Introduction to Geometry</em> (2nd ed.). Wiley.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-11/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-rose-600 transition">
+                        &larr; Kembali ke Hub Matematika Kelas XI
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="refleksi-pencerminan-geometri.html" class="bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Refleksi (Pencerminan) Geometri &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

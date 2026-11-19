@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotasi (Perputaran): Sudut, Pusat & Matriks Rotasi — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari rotasi geometri berpusat di O(0,0) dan P(a,b), aturan sudut arah jarum jam, matriks rotasi R_theta, dan rotasi sudut istimewa secara interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/rotasi-perputaran-geometri.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/rotasi-perputaran-geometri.html">
+    <meta property="og:title" content="📐 Rotasi (Perputaran) Geometri — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai matriks rotasi cos-sin, sudut istimewa 90/180/270, serta rotasi berpusat di titik sembarang P(a,b).">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="transformasi-geometri">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 6: Transformasi Geometri
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Rotasi (Perputaran): Sudut, Pusat &amp; Matriks Rotasi
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Putar dan orientasikan objek geometri pada bidang koordinat: pahami konvensi tanda sudut putaran trigonometri, matriks rotasi standar $R_\theta$, rumus kilat sudut istimewa ($90^\circ, 180^\circ, 270^\circ$), hingga teknik rotasi dengan titik pusat sembarang $P(a, b)$.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="rose" class="space-y-6">
+
+                    <!-- SLIDE 1: KONSEP DASAR ROTASI & ARAH SUDUT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 1 &middot; Konvensi Trigonometri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 1. Konsep Rotasi &amp; Aturan Arah Sudut Putar
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">[P, \theta]</span>
+                        </div>
+
+                        <!-- KOTAK DEFINISI ROTASI -->
+                        <div class="bg-gradient-to-br from-rose-50/80 via-pink-50/40 to-white p-5 sm:p-6 rounded-2xl border border-rose-100 space-y-3">
+                            <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider">Hakikat Rotasi Geometri</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                <strong>Rotasi (perputaran)</strong> adalah transformasi isometri yang memutar setiap titik sebesar sudut $\theta$ terhadap sebuah <strong>titik pusat</strong> yang tetap. Jarak setiap titik ke pusat putaran tidak pernah berubah ($OP = OP'$).
+                            </p>
+                        </div>
+
+                        <!-- ATURAN TANDA SUDUT -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-700">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-emerald-800 block">Sudut Positif ($+\theta$):</span>
+                                <p>Diputar <strong>BERLAWANAN ARAH</strong> putaran jarum jam (*counter-clockwise*). Ini adalah konvensi baku dalam matematika!</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-rose-800 block">Sudut Negatif ($-\theta$):</span>
+                                <p>Diputar <strong>SEARAH</strong> putaran jarum jam (*clockwise*).</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: MATRIKS ROTASI BERPUSAT DI O(0,0) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 2 &middot; Matriks Rotasi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 2. Matriks Rotasi Berpusat di Titik Asal $O(0, 0)$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">R_\theta</span>
+                        </div>
+
+                        <!-- FORMULA MATRIKS ROTASI STANDAR -->
+                        <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block">Matriks Rotasi Standar $R_\theta$:</span>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-center font-mono text-sm text-rose-200">
+                                $$\begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}$$
+                            </div>
+                            <p class="text-xs text-slate-300">
+                                Sifat Istimewa: $\det(R_\theta) = \cos^2\theta - (-\sin^2\theta) = \cos^2\theta + \sin^2\theta = 1$. Karena $\det = 1$, rotasi selalu <strong>mengawetkan orientasi dan luas bangun datar</strong> secara sempurna!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: ROTASI DENGAN SUDUT ISTIMEWA POPULER -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 3 &middot; Formula Cepat</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 3. Formula Cepat Sudut Istimewa ($90^\circ, 180^\circ, 270^\circ$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">\pm 90^\circ, 180^\circ</span>
+                        </div>
+
+                        <!-- TABEL 3 SUDUT ISTIMEWA -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-700">
+                            <!-- Rotasi +90 atau -270 -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center space-y-1.5">
+                                <span class="font-bold text-rose-900 block text-xs">Rotasi $+90^\circ$ (atau $-270^\circ$)</span>
+                                <div class="font-mono text-xs text-slate-800">
+                                    $$R_{90^\circ} = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$$
+                                </div>
+                                <div class="bg-white p-2 rounded-lg border border-slate-200 font-bold text-rose-950 font-mono">
+                                    $(x, y) \to (-y, x)$
+                                </div>
+                            </div>
+
+                            <!-- Rotasi 180 -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center space-y-1.5">
+                                <span class="font-bold text-rose-900 block text-xs">Rotasi $180^\circ$ (atau $-180^\circ$)</span>
+                                <div class="font-mono text-xs text-slate-800">
+                                    $$R_{180^\circ} = \begin{pmatrix} -1 & 0 \\ 0 & -1 \end{pmatrix}$$
+                                </div>
+                                <div class="bg-white p-2 rounded-lg border border-slate-200 font-bold text-rose-950 font-mono">
+                                    $(x, y) \to (-x, -y)$
+                                </div>
+                            </div>
+
+                            <!-- Rotasi +270 atau -90 -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center space-y-1.5">
+                                <span class="font-bold text-rose-900 block text-xs">Rotasi $+270^\circ$ (atau $-90^\circ$)</span>
+                                <div class="font-mono text-xs text-slate-800">
+                                    $$R_{270^\circ} = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$$
+                                </div>
+                                <div class="bg-white p-2 rounded-lg border border-slate-200 font-bold text-rose-950 font-mono">
+                                    $(x, y) \to (y, -x)$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: ROTASI BERPUSAT DI TITIK SEMBARANG P(A, B) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 4 &middot; Pusat Sembarang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 4. Rotasi Berpusat di Titik Sembarang $P(a, b)$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">[P(a,b), \theta]</span>
+                        </div>
+
+                        <!-- FORMULA PUSAT P(a, b) -->
+                        <div class="bg-gradient-to-br from-rose-50 to-white p-5 rounded-2xl border border-rose-200 space-y-3">
+                            <span class="text-xs font-bold text-rose-950 uppercase tracking-wider block">Formula Rotasi Pusat $(a, b)$:</span>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Kurangkan titik dengan pusat rotasi terlebih dahulu, kalikan dengan matriks rotasi, lalu tambahkan kembali koordinat pusat:
+                            </p>
+                            <div class="bg-white p-3.5 rounded-xl border border-rose-200 text-center font-mono text-xs sm:text-sm text-rose-950">
+                                $$\begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} x - a \\ y - b \end{pmatrix} + \begin{pmatrix} a \\ b \end{pmatrix}$$
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL ROTASI PUSAT (a, b) -->
+                        <div class="border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Contoh Soal:</span>
+                            <p>Tentukan bayangan titik $A(5, 2)$ dirotasikan sebesar $90^\circ$ berlawanan arah jarum jam terhadap pusat $P(1, -1)$!</p>
+                            <div class="font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1">
+                                <div>$x - a = 5 - 1 = 4, \quad y - b = 2 - (-1) = 3$</div>
+                                <div>Rotasi $90^\circ$: $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix} \begin{pmatrix} 4 \\ 3 \end{pmatrix} = \begin{pmatrix} -3 \\ 4 \end{pmatrix}$</div>
+                                <div>Tambahkan pusat: $\begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} -3 \\ 4 \end{pmatrix} + \begin{pmatrix} 1 \\ -1 \end{pmatrix} = \begin{pmatrix} -2 \\ 3 \end{pmatrix}$</div>
+                                <div class="text-rose-900 font-bold pt-1">Diperoleh bayangan akhir $A'(-2, 3)$.</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Rotasi Geometri
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji pemahaman Anda tentang rotasi titik asal dan rotasi berpusat di $P(a, b)$ dengan menjawab 3 soal berikut.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 1 &middot; Rotasi 90 Derajat Titik Asal</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Sudut Istimewa</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Bayangan titik $K(4, -2)$ yang dirotasikan sebesar $90^\circ$ berlawanan arah jarum jam dengan pusat $O(0, 0)$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(2, 4)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(-2, -4)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(-4, 2)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(2, -4)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 2 &middot; Rotasi 180 Derajat Pusat Sembarang</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Pusat P(a, b)</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Bayangan titik $M(3, 5)$ oleh rotasi $180^\circ$ dengan pusat rotasi $P(1, 2)$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(-1, -1)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(-3, -5)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(1, 1)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(-1, 1)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 3 &middot; Rotasi Garis</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Bayangan Garis</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Persamaan bayangan garis $x + 2y - 4 = 0$ jika dirotasikan sebesar $90^\circ$ searah jarum jam (sudut $-90^\circ$) terhadap titik pusat $O(0, 0)$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $2x - y - 4 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $2x + y - 4 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $-2x + y - 4 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $x - 2y + 4 = 0$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Rotasi 90° berlawanan arah jarum jam memetakan (x, y) menjadi (-y, x). Karena x = 4 dan y = -2, maka K\'(-(-2), 4) = K\'(2, 4).' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Rotasi 180° ekuivalen dengan cermin terhadap titik P(a, b): x\' = 2a - x dan y\' = 2b - y. Maka x\' = 2(1) - 3 = -1, dan y\' = 2(2) - 5 = -1. Bayangan akhir adalah M\'(-1, -1).' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Rotasi -90° memetakan x\' = y dan y\' = -x, sehingga y = x\' dan x = -y\'. Substitusi ke persamaan garis: (-y) + 2(x) - 4 = 0 ⇒ 2x - y - 4 = 0.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-rose-800 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Perhatikan tanda arah putaran jarum jam (-90°) dan rumus rotasi!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 4: Rotasi Geometri.</p>
+                    <p><strong>Larson, Ron &amp; Falvo, David C.</strong> (2020). <em>Elementary Linear Algebra</em> (8th ed.). Cengage. Section 6.1: Matrices of Rotations.</p>
+                    <p><strong>Coxeter, H.S.M.</strong> (1969). <em>Introduction to Geometry</em> (2nd ed.). Wiley.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="refleksi-pencerminan-geometri.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-rose-600 transition">
+                        &larr; Sub-Materi 2: Refleksi (Pencerminan)
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="dilatasi-perkalian-geometri.html" class="bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Dilatasi (Perkalian Skala) Geometri &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

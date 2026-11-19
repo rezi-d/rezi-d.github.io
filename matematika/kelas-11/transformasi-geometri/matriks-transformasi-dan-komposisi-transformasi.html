@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriks Transformasi & Komposisi Transformasi — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari matriks transformasi geometri 2x2, aturan komposisi majemuk M = M2 x M1, transformasi kurva dengan invers matriks, dan komposisi dua refleksi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/matriks-transformasi-dan-komposisi-transformasi.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/matriks-transformasi-dan-komposisi-transformasi.html">
+    <meta property="og:title" content="📐 Matriks Transformasi &amp; Komposisi — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai perkalian matriks komposisi M2 . M1, invers transformasi kurva, dan teorema dua refleksi.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="transformasi-geometri">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 6: Transformasi Geometri
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Matriks Transformasi &amp; Komposisi Transformasi
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Satukan aljabar linier dan geometri analitik! Pelajari representasi transformasi dengan matriks sembarang $2 \times 2$, aturan perkalian komposisi transformasi majemuk $M = M_2 \cdot M_1$, metode invers matriks untuk menentukan bayangan kurva aljabar, serta teorema klasik dua refleksi berurutan.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="rose" class="space-y-6">
+
+                    <!-- SLIDE 1: TRANSFORMASI DENGAN MATRIKS SEMBARANG 2X2 -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 1 &middot; Pemetaan Matriks</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📊 1. Transformasi Menggunakan Matriks Sembarang $2 \times 2$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">\begin{pmatrix} x' \\ y' \end{pmatrix} = M \begin{pmatrix} x \\ y \end{pmatrix}</span>
+                        </div>
+
+                        <!-- KOTAK FORMULA DASAR -->
+                        <div class="bg-gradient-to-br from-rose-50/80 via-pink-50/40 to-white p-5 sm:p-6 rounded-2xl border border-rose-100 space-y-3">
+                            <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider">Pemetaan Titik oleh Matriks $M$</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Suatu titik $P(x, y)$ yang ditransformasikan oleh matriks $M = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$ menghasilkan bayangan $P'(x', y')$ melalui perkalian matriks:
+                            </p>
+                            <div class="bg-white/90 p-4 rounded-xl border border-rose-200 text-center font-mono text-xs sm:text-sm text-rose-950">
+                                $$\begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} ax + by \\ cx + dy \end{pmatrix}$$
+                            </div>
+                        </div>
+
+                        <!-- TRIK MENENTUKAN MATRIKS DARI 2 TITIK BAYANGAN -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                            <span class="font-bold text-slate-900 block">Trik Menentukan Matriks Transformasi Jika Bayangan 2 Titik Diketahui:</span>
+                            <p>Jika titik $A$ dan $B$ dipetakan menjadi $A'$ dan $B'$, susun persamaan matriks:</p>
+                            <div class="font-mono text-center text-xs text-rose-900 font-bold bg-white p-2 rounded-lg border border-slate-200">
+                                $$M \cdot \begin{pmatrix} x_A & x_B \\ y_A & y_B \end{pmatrix} = \begin{pmatrix} x'_A & x'_B \\ y'_A & y'_B \end{pmatrix} \implies M = \begin{pmatrix} x'_A & x'_B \\ y'_A & y'_B \end{pmatrix} \begin{pmatrix} x_A & x_B \\ y_A & y_B \end{pmatrix}^{-1}$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: KOMPOSISI TRANSFORMASI BERURUTAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 2 &middot; Komposisi Majemuk</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 2. Komposisi Transformasi: $M = M_2 \cdot M_1$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">T_2 \circ T_1</span>
+                        </div>
+
+                        <!-- KUNCI PERKALIAN DARI KANAN KE KIRI -->
+                        <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block">Kaidah Urutan Perkalian Matriks:</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Jika transformasi pertama $T_1$ memiliki matriks $M_1$ dan transformasi kedua $T_2$ memiliki matriks $M_2$, maka komposisi $T_2 \circ T_1$ (transformasi $T_1$ dilakukan <strong>terlebih dahulu</strong>, lalu dilanjutkan oleh $T_2$) bersesuaian dengan matriks:
+                            </p>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-center font-mono text-sm text-rose-200">
+                                $$M = M_2 \cdot M_1$$
+                            </div>
+                            <p class="text-xs text-rose-300 font-semibold text-center">
+                                ⚠️ Perhatikan: Urutan penulisan matriks DIBALIK dari urutan kejadian (matriks transformasi pertama ditaruh di sebelah KANAN)!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: TRANSFORMASI KURVA DENGAN INVERS MATRIKS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 3 &middot; Transformasi Kurva</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 3. Bayangan Garis &amp; Kurva Menggunakan Invers Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">\begin{pmatrix} x \\ y \end{pmatrix} = M^{-1} \begin{pmatrix} x' \\ y' \end{pmatrix}</span>
+                        </div>
+
+                        <!-- METODE INVERS SUBSTITUSI BALIK -->
+                        <div class="bg-gradient-to-br from-rose-50 to-white p-5 rounded-2xl border border-rose-200 space-y-3">
+                            <span class="text-xs font-bold text-rose-950 uppercase tracking-wider block">Alur Sistematis Pencarian Bayangan Kurva:</span>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Karena kita ingin menggantikan variabel $x$ dan $y$ pada persamaan awal kurva $f(x, y) = 0$, kalikan persamaan matriks dengan $M^{-1}$ dari kiri:
+                            </p>
+                            <div class="bg-white p-3.5 rounded-xl border border-rose-200 text-center font-mono text-xs sm:text-sm text-rose-950">
+                                $$\begin{pmatrix} x \\ y \end{pmatrix} = M^{-1} \begin{pmatrix} x' \\ y' \end{pmatrix} = \frac{1}{\det(M)} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix} \begin{pmatrix} x' \\ y' \end{pmatrix}$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Dapatkan ekspresi $x$ dan $y$ dalam bentuk $(x', y')$, lalu substitusikan kembali ke persamaan kurva/garis awal.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TEOREMA DUA REFLEKSI BERURUTAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 4 &middot; Teorema Geometri Murni</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🪞 4. Teorema Dua Refleksi Berurutan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">2d \text{ dan } 2\alpha</span>
+                        </div>
+
+                        <!-- DUA TEOREMA REFLEKSI -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-700">
+                            <!-- Refleksi Garis Sejajar -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                                <span class="font-bold text-rose-900 uppercase tracking-wide block">1. Dua Garis Cermin Sejajar:</span>
+                                <p class="text-slate-600">Pencerminan terhadap dua garis sejajar berjarak $d$ menghasilkan <strong>TRANSLASI</strong> sejauh $2d$ tegak lurus garis cermin:</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-center text-rose-950 font-bold">
+                                    $$M_{x=h_2} \circ M_{x=h_1} \equiv T = \begin{pmatrix} 2(h_2 - h_1) \\ 0 \end{pmatrix}$$
+                                </div>
+                            </div>
+
+                            <!-- Refleksi Garis Berpotongan -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                                <span class="font-bold text-rose-900 uppercase tracking-wide block">2. Dua Garis Cermin Berpotongan:</span>
+                                <p class="text-slate-600">Pencerminan terhadap dua garis yang berpotongan dan membentuk sudut $\alpha$ menghasilkan <strong>ROTASI</strong> sebesar $2\alpha$ dengan pusat di titik potong kedua garis cermin!</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-center text-rose-950 font-bold">
+                                    $$\theta = 2\alpha \quad \text{dengan pusat } P(x_0, y_0)$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Matriks &amp; Komposisi Transformasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman komposisi matriks transformasi dan dua refleksi garis.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 1 &middot; Matriks Komposisi M2 x M1</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Perkalian Matriks</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Matriks tunggal yang mewakili transformasi refleksi terhadap sumbu-$x$ ($M_1$) dilanjutkan oleh rotasi $90^\circ$ berlawanan arah jarum jam dengan pusat $O(0, 0)$ ($M_2$) adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $\begin{pmatrix} 0 & -1 \\ -1 & 0 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $\begin{pmatrix} -1 & 0 \\ 0 & -1 \end{pmatrix}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 2 &middot; Bayangan Titik oleh Matriks Transformasi</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Titik Koordinat</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Titik $P(2, -1)$ ditransformasikan oleh matriks $M = \begin{pmatrix} 3 & 1 \\ 0 & 2 \end{pmatrix}$. Bayangan titik $P$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(5, -2)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(7, -2)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(5, 2)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(6, -2)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 3 &middot; Komposisi Dua Refleksi Sejajar</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Teorema Translasi 2d</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Pencerminan berturut-turut terhadap garis $x = 2$ dilanjutkan oleh pencerminan terhadap garis $x = 5$ setara dengan translasi tunggal sebesar ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $T = \begin{pmatrix} 6 \\ 0 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $T = \begin{pmatrix} 3 \\ 0 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $T = \begin{pmatrix} -6 \\ 0 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $T = \begin{pmatrix} 0 \\ 6 \end{pmatrix}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Matriks refleksi sumbu-x adalah M₁ = [[1, 0], [0, -1]] dan matriks rotasi 90° adalah M₂ = [[0, -1], [1, 0]]. Komposisi M = M₂ · M₁ = [[0, -1], [1, 0]] · [[1, 0], [0, -1]] = [[0, 1], [1, 0]]. Hasilnya setara dengan refleksi terhadap garis y = x!' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! [[x\'], [y\']] = [[3, 1], [0, 2]] · [[2], [-1]] = [[(3)(2) + (1)(-1)], [(0)(2) + (2)(-1)]] = [[6 - 1], [0 - 2]] = [[5], [-2]]. Bayangan titik P adalah (5, -2).' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Komposisi dua refleksi terhadap garis sejajar x = h₁ lalu x = h₂ menghasilkan translasi T = [[2(h₂ - h₁)], [0]]. Karena h₁ = 2 dan h₂ = 5, maka T = [[2(5 - 2)], [0]] = [[6], [0]].' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-rose-800 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan urutan perkalian matriks M₂ · M₁ dan translasi 2(h₂ - h₁)!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 4: Matriks Komposisi Transformasi.</p>
+                    <p><strong>Anton, Howard &amp; Rorres, Chris.</strong> (2019). <em>Elementary Linear Algebra</em> (12th ed.). Wiley. Section 4.9: Geometry of Matrix Transformations.</p>
+                    <p><strong>Coxeter, H.S.M.</strong> (1969). <em>Introduction to Geometry</em> (2nd ed.). Wiley.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="dilatasi-perkalian-geometri.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-rose-600 transition">
+                        &larr; Sub-Materi 4: Dilatasi (Perkalian Skala)
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="pemodelan-dan-problem-solving-hots-transformasi.html" class="bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS &amp; Pemodelan &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

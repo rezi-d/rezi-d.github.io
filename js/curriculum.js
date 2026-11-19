@@ -518,6 +518,19 @@ const kurikulum = {
                     { file: "aturan-cramer-dan-sistem-persamaan-linier.html", title: "Sistem Persamaan Linier & Aturan Cramer" },
                     { file: "pemodelan-dan-problem-solving-hots-matriks.html", title: "Problem Solving HOTS & Pemodelan Matriks" }
                 ]
+            },
+            {
+                slug: "transformasi-geometri",
+                title: "Transformasi Geometri",
+                deskripsi: "Konsep pemetaan geometri pada bidang koordinat: translasi vektor pergeseran, 7 jenis refleksi pencerminan (sumbu-x/y, titik asal, y=±x, x=h, y=k), rotasi berpusat di O(0,0) dan P(a,b), dilatasi faktor skala k dan perbesaran luas bangun, representasi matriks transformasi 2x2, invers transformasi kurva/garis, komposisi transformasi berurutan, serta pemodelan desain dan problem solving HOTS.",
+                subbab: [
+                    { file: "translasi-pergeseran-geometri.html", title: "Translasi (Pergeseran): Vektor, Garis & Kurva" },
+                    { file: "refleksi-pencerminan-geometri.html", title: "Refleksi (Pencerminan): 7 Garis Cermin & Matriks" },
+                    { file: "rotasi-perputaran-geometri.html", title: "Rotasi (Perputaran): Sudut, Pusat & Matriks Rotasi" },
+                    { file: "dilatasi-perkalian-geometri.html", title: "Dilatasi (Perkalian Skala): Faktor k & Luas Bangun" },
+                    { file: "matriks-transformasi-dan-komposisi-transformasi.html", title: "Matriks Transformasi & Komposisi Majemuk" },
+                    { file: "pemodelan-dan-problem-solving-hots-transformasi.html", title: "Problem Solving HOTS & Pemodelan Transformasi" }
+                ]
             }
         ]
     }

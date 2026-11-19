@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dilatasi (Perkalian Skala): Faktor k & Luas Bangun — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari dilatasi geometri dengan faktor skala k, perbesaran/pengecilan berpusat di O(0,0) dan P(a,b), serta pengaruh kuadratik k^2 terhadap luas bangun datar.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/dilatasi-perkalian-geometri.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/dilatasi-perkalian-geometri.html">
+    <meta property="og:title" content="📐 Dilatasi (Perkalian Skala) Geometri — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai rumus dilatasi [O, k] dan [P(a,b), k], matriks skalar, serta perubahan luas bangun L' = k^2 L.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="transformasi-geometri">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 6: Transformasi Geometri
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Dilatasi (Perkalian Skala): Faktor $k$ &amp; Luas Bangun
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari transformasi geometri non-isometri yang mengubah ukuran objek: Dilatasi (Perkalian Skala)! Pahami makna tanda dan magnitudo faktor skala $k$, dilatasi berpusat di $O(0, 0)$ dan titik sembarang $P(a, b)$, representasi matriks skalar, serta rasio kuadratik perubahan luas bangun ($\text{Luas}' = k^2 \cdot \text{Luas}$).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="rose" class="space-y-6">
+
+                    <!-- SLIDE 1: HAKIKAT DILATASI & FAKTOR SKALA K -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 1 &middot; Landasan Konseptual</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 1. Hakikat Dilatasi &amp; Makna Faktor Skala $k$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">[P, k]</span>
+                        </div>
+
+                        <!-- DEFINISI DILATASI -->
+                        <div class="bg-gradient-to-br from-rose-50/80 via-pink-50/40 to-white p-5 sm:p-6 rounded-2xl border border-rose-100 space-y-3">
+                            <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider">Transformasi Pengubah Skala</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                <strong>Dilatasi (perkalian)</strong> adalah transformasi geometri yang memperbesar atau memperkecil suatu bangun geometri dengan faktor skala $k$ tertentu dari suatu titik pusat, tetapi <strong>tidak mengubah bentuk dasar</strong> dari bangun tersebut (kedua bangun bersifat sebangun/<em>similar</em>).
+                            </p>
+                        </div>
+
+                        <!-- 4 KELUARGA NILAI K -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs text-slate-700">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-rose-900 block mb-1">$k > 1$ (Perbesaran Searah):</span>
+                                Bangun diperbesar dan terletak pada sisi yang sama dengan titik asal terhadap pusat.
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-rose-900 block mb-1">$0 < k < 1$ (Pengecilan Searah):</span>
+                                Bangun diperkecil dan terletak pada sisi yang sama dengan titik asal.
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-rose-900 block mb-1">$k < -1$ (Perbesaran Terbalik):</span>
+                                Bangun diperbesar dan posisinya berbalik arah $180^\circ$ di seberang titik pusat.
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-rose-900 block mb-1">$-1 < k < 0$ (Pengecilan Terbalik):</span>
+                                Bangun diperkecil dan posisinya berbalik arah $180^\circ$ di seberang titik pusat.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: DILATASI BERPUSAT DI O(0, 0) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 2 &middot; Pusat Titik Asal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 2. Dilatasi Berpusat di Titik Asal $[O, k]$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">P'(kx, ky)</span>
+                        </div>
+
+                        <!-- FORMULA DILATASI [O, k] -->
+                        <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block">Formula Analitik &amp; Matriks Dilatasi:</span>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-center font-mono text-sm text-rose-200">
+                                $$\begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} k & 0 \\ 0 & k \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} kx \\ ky \end{pmatrix}$$
+                            </div>
+                            <p class="text-xs text-slate-300">
+                                Setiap koordinat $x$ dan $y$ cukup dikalikan langsung dengan faktor pengali skalar $k$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: DILATASI BERPUSAT DI TITIK P(A, B) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 3 &middot; Pusat Sembarang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 3. Dilatasi Berpusat di Titik Sembarang $[P(a, b), k]$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">x' = a + k(x - a)</span>
+                        </div>
+
+                        <!-- FORMULA PUSAT P(a, b) -->
+                        <div class="bg-gradient-to-br from-rose-50 to-white p-5 rounded-2xl border border-rose-200 space-y-3">
+                            <span class="text-xs font-bold text-rose-950 uppercase tracking-wider block">Formula Titik Pusat $(a, b)$:</span>
+                            <div class="bg-white p-3.5 rounded-xl border border-rose-200 text-center font-mono text-xs sm:text-sm text-rose-950">
+                                $$\begin{pmatrix} x' \\ y' \end{pmatrix} = \begin{pmatrix} k & 0 \\ 0 & k \end{pmatrix} \begin{pmatrix} x - a \\ y - b \end{pmatrix} + \begin{pmatrix} a \\ b \end{pmatrix} \iff \begin{cases} x' = a + k(x - a) \\ y' = b + k(y - b) \end{cases}$$
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL DILATASI PUSAT (a, b) -->
+                        <div class="border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Contoh Perhitungan:</span>
+                            <p>Tentukan bayangan titik $A(6, -2)$ oleh dilatasi dengan pusat $P(2, 1)$ dan faktor skala $k = 3$!</p>
+                            <div class="font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1">
+                                <div>$x' = 2 + 3(6 - 2) = 2 + 3(4) = 2 + 12 = 14$</div>
+                                <div>$y' = 1 + 3(-2 - 1) = 1 + 3(-3) = 1 - 9 = -8$</div>
+                                <div class="text-rose-900 font-bold pt-1">Diperoleh koordinat bayangan $A'(14, -8)$.</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: PENGARUH DILATASI TERHADAP LUAS BANGUN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 4 &middot; Teorema Luas</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📊 4. Pengaruh Kuadratik Dilatasi terhadap Luas Bangun
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">L' = k^2 \cdot L</span>
+                        </div>
+
+                        <!-- TEOREMA KUADRAT LUAS -->
+                        <div class="bg-gradient-to-br from-rose-950 to-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block">Teorema Perubahan Luas Bangun Datar:</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Jika sebuah bangun datar memiliki luas awal $L$ dan mengalami dilatasi dengan faktor skala $k$, maka luas bangun bayangan ($L'$) berubah secara <strong>kuadratik</strong>:
+                            </p>
+                            <div class="bg-rose-900/50 p-3.5 rounded-xl border border-rose-500/30 text-center font-mono text-sm text-rose-200">
+                                $$L' = k^2 \cdot L = |\det(D_k)| \cdot L$$
+                            </div>
+                            <p class="text-xs text-slate-300">
+                                Karena $k^2$ selalu bernilai positif, tanda negatif pada faktor skala ($k < 0$) tidak membuat luas menjadi negatif!
+                            </p>
+                        </div>
+
+                        <!-- CONTOH SOAL LUAS -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 space-y-1.5">
+                            <span class="font-bold text-slate-900 block">Aplikasi Soal Ujian:</span>
+                            <p>Sebuah segitiga memiliki luas $12\text{ cm}^2$. Tentukan luas bayangannya jika didilatasikan dengan faktor skala $k = -4$!</p>
+                            <div class="font-mono text-xs text-rose-900 font-bold bg-white p-2.5 rounded-lg border border-slate-200">
+                                $L' = (-4)^2 \cdot 12 = 16 \cdot 12 = 192\text{ cm}^2$.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Dilatasi Geometri
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji pemahaman Anda tentang dilatasi titik asal, dilatasi pusat sembarang, dan perubahan kuadratik luas bangun.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 1 &middot; Dilatasi Pusat O(0, 0)</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Titik Koordinat</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Bayangan titik $A(-2, 4)$ oleh dilatasi dengan pusat $O(0, 0)$ dan faktor skala $k = -3$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(6, -12)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(-6, 12)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(6, 12)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(-5, 1)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 2 &middot; Dilatasi Pusat P(a, b)</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Pusat Sembarang</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Bayangan titik $B(5, -1)$ oleh dilatasi dengan pusat $P(2, 3)$ dan faktor skala $k = 2$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(8, -5)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(10, -2)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(7, 2)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(8, 5)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 3 &middot; Perubahan Luas Bangun</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Rasio Luas k^2</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Suatu persegi panjang memiliki luas $15\text{ cm}^2$. Jika persegi panjang tersebut didilatasi dengan faktor skala $k = -3$, maka luas bayangannya adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $135\text{ cm}^2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $45\text{ cm}^2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $-45\text{ cm}^2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $-135\text{ cm}^2$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Dilatasi [O, -3] memetakan x\' = -3x dan y\' = -3y. Maka A\'((-3)(-2), (-3)(4)) = A\'(6, -12).' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! x\' = a + k(x - a) = 2 + 2(5 - 2) = 2 + 6 = 8. y\' = b + k(y - b) = 3 + 2(-1 - 3) = 3 - 8 = -5. Maka B\'(8, -5).' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Luas bayangan L\' = k² · L. Karena k = -3, maka L\' = (-3)² · 15 = 9 · 15 = 135 cm².' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-rose-800 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat rumus dilatasi dan kuadrat faktor skala k²!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 4: Dilatasi Geometri.</p>
+                    <p><strong>Larson, Ron &amp; Falvo, David C.</strong> (2020). <em>Elementary Linear Algebra</em> (8th ed.). Cengage. Section 6.1: Dilation and Area Scaling.</p>
+                    <p><strong>Coxeter, H.S.M.</strong> (1969). <em>Introduction to Geometry</em> (2nd ed.). Wiley.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="rotasi-perputaran-geometri.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-rose-600 transition">
+                        &larr; Sub-Materi 3: Rotasi (Perputaran)
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="matriks-transformasi-dan-komposisi-transformasi.html" class="bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Matriks Transformasi &amp; Komposisi &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

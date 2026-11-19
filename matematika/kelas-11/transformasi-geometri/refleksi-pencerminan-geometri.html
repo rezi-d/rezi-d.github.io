@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refleksi (Pencerminan): 7 Garis Cermin & Matriks — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari 7 jenis refleksi pencerminan geometri (sumbu-x, sumbu-y, titik asal, y=x, y=-x, x=h, y=k) beserta representasi matriksnya secara interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/refleksi-pencerminan-geometri.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/transformasi-geometri/refleksi-pencerminan-geometri.html">
+    <meta property="og:title" content="📐 Refleksi (Pencerminan) Geometri — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai 7 garis cermin, matriks refleksi, rumus 2h-x dan 2k-y, serta bayangan kurva aljabar.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="transformasi-geometri">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 6: Transformasi Geometri
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Refleksi (Pencerminan): 7 Garis Cermin &amp; Matriks
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai tuntas transformasi isometri pencerminan: mulai dari cermin sumbu koordinat, titik pusat $O(0, 0)$, garis identitas $y = x$ dan $y = -x$, hingga garis sejajar sumbu $x = h$ dan $y = k$. Pelajari pula representasi matriks pencerminan untuk menghitung bayangan kurva secara sistematis.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="rose" class="space-y-6">
+
+                    <!-- SLIDE 1: PENCERMINAN TERHADAP SUMBU-X DAN SUMBU-Y -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 1 &middot; Cermin Sumbu Koordinat</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🪞 1. Refleksi terhadap Sumbu-$x$ dan Sumbu-$y$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">M_x \text{ dan } M_y</span>
+                        </div>
+
+                        <!-- DUA CERMIN SUMBU -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Refleksi sumbu-x -->
+                            <div class="bg-gradient-to-br from-rose-50/70 to-white p-5 rounded-2xl border border-rose-200 space-y-2 text-xs">
+                                <span class="font-bold text-rose-950 uppercase tracking-wide block">1. Cermin Sumbu-$x$ ($y = 0$):</span>
+                                <p class="text-slate-700">Koordinat $x$ tetap, koordinat $y$ berbalik tanda negatif:</p>
+                                <div class="bg-white p-3 rounded-xl border border-rose-200 font-mono text-center text-sm text-rose-950 font-bold">
+                                    $$P(x, y) \to P'(x, -y)$$
+                                </div>
+                                <div class="font-mono text-center text-slate-600 pt-1">
+                                    Matriks: $M_x = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$
+                                </div>
+                            </div>
+
+                            <!-- Refleksi sumbu-y -->
+                            <div class="bg-gradient-to-br from-rose-50/70 to-white p-5 rounded-2xl border border-rose-200 space-y-2 text-xs">
+                                <span class="font-bold text-rose-950 uppercase tracking-wide block">2. Cermin Sumbu-$y$ ($x = 0$):</span>
+                                <p class="text-slate-700">Koordinat $y$ tetap, koordinat $x$ berbalik tanda negatif:</p>
+                                <div class="bg-white p-3 rounded-xl border border-rose-200 font-mono text-center text-sm text-rose-950 font-bold">
+                                    $$P(x, y) \to P'(-x, y)$$
+                                </div>
+                                <div class="font-mono text-center text-slate-600 pt-1">
+                                    Matriks: $M_y = \begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PENCERMINAN TERHADAP TITIK ASAL & TITIK SEMBARANG -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 2 &middot; Cermin Titik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📍 2. Refleksi terhadap Titik Asal $O(0, 0)$ &amp; Titik $(p, q)$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">P'(2p-x, 2q-y)</span>
+                        </div>
+
+                        <!-- TITIK ASAL VS TITIK SEMBARANG -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Titik Asal O -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-rose-900 uppercase tracking-wide block">3. Cermin Titik Asal $O(0, 0)$:</span>
+                                <p class="text-slate-700">Kedua koordinat berbalik tanda sekaligus:</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-center text-sm text-rose-950 font-bold">
+                                    $$P(x, y) \to P'(-x, -y)$$
+                                </div>
+                                <p class="text-[11px] text-slate-500 font-mono text-center">Matriks: $M_O = \begin{pmatrix} -1 & 0 \\ 0 & -1 \end{pmatrix}$ (Ekuivalen rotasi $180^\circ$)</p>
+                            </div>
+
+                            <!-- Titik Sembarang P(p, q) -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-rose-900 uppercase tracking-wide block">4. Cermin Titik Sembarang $(p, q)$:</span>
+                                <p class="text-slate-700">Titik $(p, q)$ bertindak sebagai titik tengah antara $P$ dan $P'$:</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-center text-sm text-rose-950 font-bold">
+                                    $$P(x, y) \to P'(2p - x, \, 2q - y)$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: PENCERMINAN TERHADAP Y = X DAN Y = -X -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 3 &middot; Garis Diagonal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ 3. Refleksi terhadap Garis $y = x$ dan $y = -x$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">y = x \implies \text{Invers}</span>
+                        </div>
+
+                        <!-- KOTAK Y=X DAN Y=-X -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- y = x -->
+                            <div class="bg-gradient-to-br from-rose-50/70 to-white p-5 rounded-2xl border border-rose-200 space-y-2 text-xs">
+                                <span class="font-bold text-rose-950 uppercase tracking-wide block">5. Garis Diagonal $y = x$:</span>
+                                <p class="text-slate-700">Kedua koordinat bertukar posisi ($x$ dan $y$ saling bertukar):</p>
+                                <div class="bg-white p-3 rounded-xl border border-rose-200 font-mono text-center text-sm text-rose-950 font-bold">
+                                    $$P(x, y) \to P'(y, x)$$
+                                </div>
+                                <div class="font-mono text-center text-slate-600 pt-1">
+                                    Matriks: $M_{y=x} = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$
+                                </div>
+                                <p class="text-[11px] text-teal-800 font-semibold mt-1">
+                                    ★ Fondasi Geometris Fungsi Invers: Grafik $y = f^{-1}(x)$ adalah cerminan dari $y = f(x)$ terhadap garis $y = x$!
+                                </p>
+                            </div>
+
+                            <!-- y = -x -->
+                            <div class="bg-gradient-to-br from-rose-50/70 to-white p-5 rounded-2xl border border-rose-200 space-y-2 text-xs">
+                                <span class="font-bold text-rose-950 uppercase tracking-wide block">6. Garis Diagonal $y = -x$:</span>
+                                <p class="text-slate-700">Kedua koordinat bertukar posisi sekaligus berbalik tanda:</p>
+                                <div class="bg-white p-3 rounded-xl border border-rose-200 font-mono text-center text-sm text-rose-950 font-bold">
+                                    $$P(x, y) \to P'(-y, -x)$$
+                                </div>
+                                <div class="font-mono text-center text-slate-600 pt-1">
+                                    Matriks: $M_{y=-x} = \begin{pmatrix} 0 & -1 \\ -1 & 0 \end{pmatrix}$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: PENCERMINAN TERHADAP X = H DAN Y = K -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 4 &middot; Garis Sejajar Sumbu</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📏 4. Refleksi terhadap Garis $x = h$ dan $y = k$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">P'(2h-x, y)</span>
+                        </div>
+
+                        <!-- 7. GARIS X=H DAN Y=K -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- x = h -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-rose-900 uppercase tracking-wide block">7a. Cermin Garis Vertikal $x = h$:</span>
+                                <p class="text-slate-700">Koordinat $y$ tidak berubah, koordinat $x$ berubah menjadi $2h - x$:</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-center text-sm text-rose-950 font-bold">
+                                    $$P(x, y) \to P'(2h - x, \, y)$$
+                                </div>
+                            </div>
+
+                            <!-- y = k -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-rose-900 uppercase tracking-wide block">7b. Cermin Garis Horisontal $y = k$:</span>
+                                <p class="text-slate-700">Koordinat $x$ tidak berubah, koordinat $y$ berubah menjadi $2k - y$:</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-center text-sm text-rose-950 font-bold">
+                                    $$P(x, y) \to P'(x, \, 2k - y)$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL PENCERMINAN GARIS -->
+                        <div class="border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Contoh Pencerminan Garis terhadap $x = 3$:</span>
+                            <p>Tentukan persamaan bayangan garis $2x - 3y + 4 = 0$ jika dicerminkan terhadap garis $x = 3$!</p>
+                            <div class="font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1">
+                                <div>$x' = 2(3) - x = 6 - x \implies x = 6 - x'$</div>
+                                <div>$y' = y \implies y = y'$</div>
+                                <div>Substitusikan: $2(6 - x) - 3y + 4 = 0 \implies 12 - 2x - 3y + 4 = 0$</div>
+                                <div class="text-rose-900 font-bold pt-1">
+                                    Bayangan garis: $-2x - 3y + 16 = 0 \iff 2x + 3y - 16 = 0$.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Refleksi Geometri
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman 7 jenis garis cermin refleksi.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 1 &middot; Refleksi terhadap Garis y = -x</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Titik Koordinat</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Bayangan titik $A(3, -5)$ jika dicerminkan terhadap garis $y = -x$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(5, -3)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(-5, 3)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(-3, 5)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(3, 5)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 2 &middot; Cermin Titik terhadap Garis x = h</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Rumus 2h - x</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Titik $B(-2, 7)$ dicerminkan terhadap garis $x = 4$. Koordinat bayangan titik $B$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $(10, 7)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $(6, 7)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $(-2, 1)$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $(8, 7)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">Soal 3 &middot; Pencerminan Garis terhadap Sumbu-x</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Bayangan Garis</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Bayangan garis $4x - 5y + 20 = 0$ jika dicerminkan terhadap sumbu-$x$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>A.</strong> $4x + 5y + 20 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>B.</strong> $-4x - 5y + 20 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>C.</strong> $4x - 5y - 20 = 0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-rose-600 focus:ring-rose-500">
+                                    <span><strong>D.</strong> $5x - 4y + 20 = 0$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Pencerminan terhadap y = -x memetakan (x, y) menjadi (-y, -x). Maka A\'(-(-5), -3) = A\'(5, -3).' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Rumus refleksi terhadap x = h adalah (2h - x, y). Dengan h = 4 dan x = -2: x\' = 2(4) - (-2) = 8 + 2 = 10, y\' = 7. Maka B\'(10, 7).' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Pencerminan terhadap sumbu-x memetakan x\' = x dan y\' = -y ⇒ y = -y\'. Substitusi ke garis: 4(x) - 5(-y) + 20 = 0 ⇒ 4x + 5y + 20 = 0.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-rose-800 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan (-y, -x) atau rumus 2h - x!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 4: Refleksi Geometri.</p>
+                    <p><strong>Larson, Ron &amp; Falvo, David C.</strong> (2020). <em>Elementary Linear Algebra</em> (8th ed.). Cengage. Section 6.1: Matrices of Reflections.</p>
+                    <p><strong>Coxeter, H.S.M.</strong> (1969). <em>Introduction to Geometry</em> (2nd ed.). Wiley.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="translasi-pergeseran-geometri.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-rose-600 transition">
+                        &larr; Sub-Materi 1: Translasi (Pergeseran)
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="rotasi-perputaran-geometri.html" class="bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Rotasi (Perputaran) Geometri &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
