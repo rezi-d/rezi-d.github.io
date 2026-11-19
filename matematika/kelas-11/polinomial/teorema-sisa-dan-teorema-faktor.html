@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teorema Sisa & Teorema Faktor — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari Teorema Sisa I & II, sisa pembagian oleh (x-a)(x-b) berbentuk px+q, Teorema Faktor P(k)=0, dan penentuan faktor linier suku banyak dengan modul interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/polinomial/teorema-sisa-dan-teorema-faktor.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/polinomial/teorema-sisa-dan-teorema-faktor.html">
+    <meta property="og:title" content="📐 Teorema Sisa & Teorema Faktor — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai Teorema Sisa, penentuan sisa px+q tanpa membagi, dan Teorema Faktor P(k)=0.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="polinomial">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Polinomial (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Teorema Sisa &amp; Teorema Faktor Polinomial
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai dua teorema paling sakti dalam aljabar polinomial: cara instan menentukan sisa pembagian tanpa melakukan pembagian bersusun via Teorema Sisa, eliminasi sisa berbentuk $px + q$ pada pembagi kuadratik, serta uji akar pemfaktoran tuntas dengan Teorema Faktor $P(k) = 0$ melalui modul interaktif berikut.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="indigo" class="space-y-6">
+
+                    <!-- SLIDE 1: TEOREMA SISA I & II -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 1 &middot; Teorema Fundamental</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💡 1. Teorema Sisa (Remainder Theorem) &amp; Bukti Runtunnya
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">S = P(k)</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-indigo-50/80 via-blue-50/40 to-white p-5 sm:p-6 rounded-2xl border border-indigo-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🎯</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-indigo-950 uppercase tracking-wider mb-1">Ide Intuitif: Mengetahui Sisa Tanpa Harus Membagi</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Pernahkah Anda membayangkan bisa mengetahui berapa sisa pembagian dari suku banyak derajat 100 tanpa perlu membaginya sama sekali? Itulah kehebatan Teorema Sisa: sisa pembagian oleh faktor linier $(x - k)$ tepat sama dengan nilai fungsi polinomial saat dievaluasi pada pembuat nol pembaginya, yaitu $P(k)$!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <div class="p-4 rounded-xl bg-slate-50 border-l-4 border-indigo-600 space-y-2">
+                                <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Teorema Sisa I &amp; II:</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="font-bold text-indigo-900 block mb-1">1. Pembagi $(x - k)$:</span>
+                                        <p class="text-xs">Sisa pembagian $P(x)$ oleh $(x - k)$ adalah:</p>
+                                        <div class="font-mono text-center font-bold text-sm text-indigo-900 py-1">$$S = P(k)$$</div>
+                                    </div>
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200">
+                                        <span class="font-bold text-indigo-900 block mb-1">2. Pembagi $(ax + b)$:</span>
+                                        <p class="text-xs">Sisa pembagian $P(x)$ oleh $(ax + b)$ adalah:</p>
+                                        <div class="font-mono text-center font-bold text-sm text-indigo-900 py-1">$$S = P\left(-\frac{b}{a}\right)$$</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BUKTI MATEMATIS RIGOR -->
+                            <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-2">
+                                <span class="font-bold text-slate-900 text-xs sm:text-sm block">Bukti Matematis yang Sangat Elegan:</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Berdasarkan algoritma pembagian: $P(x) \equiv (x - k) \cdot H(x) + S$. Karena pembagi $(x - k)$ berderajat 1, maka sisa $S$ adalah sebuah konstanta murni (tidak memuat $x$).<br>
+                                    Substitusikan nilai pembuat nol pembagi, yaitu $x = k$:
+                                </p>
+                                <div class="font-mono text-xs bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-center font-bold text-indigo-900">
+                                    $$P(k) = (k - k) \cdot H(k) + S = 0 \cdot H(k) + S \implies \mathbf{S = P(k)}$$
+                                </div>
+                                <p class="text-[11px] text-emerald-800 font-semibold">
+                                    ✓ Terbukti sah secara mutlak! Suku hasil bagi $H(k)$ otomatis tereliminasi karena dikalikan dengan nol.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: SISA PEMBAGI DERAJAT DUA (px + q) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 2 &middot; Tipe Soal Favorit UTBK / TKA</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 2. Menentukan Sisa Pembagi Derajat Dua: $S(x) = px + q$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Model Eliminasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Ketika pembagi berderajat dua $Q(x) = (x - a)(x - b)$, sisa pembagiannya berderajat maksimal 1, sehingga dimisalkan berbentuk linier $\mathbf{S(x) = px + q}$.
+                        </p>
+
+                        <!-- PROSEDUR SISTEM LINIER -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs">
+                            <span class="font-bold text-slate-900 text-xs sm:text-sm block">Hubungan Identitas Utama:</span>
+                            <div class="font-mono text-center font-bold text-indigo-900 text-xs sm:text-sm py-1 bg-white p-2 rounded border border-slate-200">
+                                $$P(x) \equiv (x - a)(x - b) \cdot H(x) + (px + q)$$
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                                <div class="p-2.5 bg-white rounded border border-slate-200">
+                                    Substitusi $x = a \implies \mathbf{P(a) = p(a) + q}$
+                                </div>
+                                <div class="p-2.5 bg-white rounded border border-slate-200">
+                                    Substitusi $x = b \implies \mathbf{P(b) = p(b) + q}$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL KLASIK SELEKSI PTN -->
+                        <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-300 space-y-2 text-xs text-slate-800">
+                            <span class="font-bold text-amber-950 text-xs sm:text-sm block">Contoh Klasik Ujian Nasional / Seleksi PTN:</span>
+                            <p>
+                                Suatu suku banyak $P(x)$ jika dibagi oleh $(x - 1)$ bersisa $3$, dan jika dibagi oleh $(x + 2)$ bersisa $-6$. Tentukan sisa pembagian jika $P(x)$ dibagi oleh $(x^2 + x - 2)$!
+                            </p>
+                            <div class="space-y-1.5 pl-3 border-l-2 border-amber-400 font-mono text-xs">
+                                <p>• Faktorkan pembagi: $x^2 + x - 2 = (x - 1)(x + 2)$. Misalkan sisa $S(x) = px + q$.</p>
+                                <p>• Dari soal: $P(1) = 3$ dan $P(-2) = -6$.</p>
+                                <p>• Pasang ke rumus sisa:</p>
+                                <div class="pl-2 space-y-0.5">
+                                    <div>$x = 1 \implies 1p + q = 3$ &nbsp; &nbsp; &nbsp;(Persamaan 1)</div>
+                                    <div>$x = -2 \implies -2p + q = -6$ &nbsp; (Persamaan 2)</div>
+                                </div>
+                                <p>• Kurangkan kedua persamaan:</p>
+                                <div class="font-bold text-indigo-900 pl-2">
+                                    $3p = 9 \implies \mathbf{p = 3}$<br>
+                                    $1(3) + q = 3 \implies \mathbf{q = 0}$
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 font-bold">
+                                ✓ Jadi, sisa pembagiannya adalah $S(x) = 3x + 0 = \mathbf{3x}$.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: TEOREMA FAKTOR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 3 &middot; Pembuat Nol &amp; Keterbagian</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧩 3. Teorema Faktor (Factor Theorem) &amp; Makna Geometrisnya
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">P(k) = 0</span>
+                        </div>
+
+                        <!-- DEFINISI TEOREMA FAKTOR -->
+                        <div class="p-4 rounded-xl bg-slate-50 border-l-4 border-emerald-600 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Teorema Faktor:</h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Misalkan $P(x)$ adalah polinomial. Maka suku linier $(x - k)$ merupakan <strong>faktor</strong> dari $P(x)$ jika dan hanya jika nilai fungsi di titik tersebut nol:
+                            </p>
+                            <div class="p-2.5 rounded-lg bg-emerald-50 text-emerald-950 font-mono text-xs sm:text-sm border border-emerald-200 text-center font-bold">
+                                $$(x - k) \text{ adalah faktor dari } P(x) \iff P(k) = 0$$
+                            </div>
+                        </div>
+
+                        <!-- 4 MAKNA EKUIVALEN -->
+                        <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-2 text-xs text-slate-700">
+                            <span class="font-bold text-slate-900 text-xs sm:text-sm block">Empat Wajah Konsep yang Saling Ekuivalen:</span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                                <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                                    <strong>1. Keterbagian Aljabar:</strong> $(x - k)$ membagi habis $P(x)$ tanpa sisa ($S = 0$).
+                                </div>
+                                <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                                    <strong>2. Pembuat Nol:</strong> $x = k$ adalah pembuat nol fungsi ($P(k) = 0$).
+                                </div>
+                                <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                                    <strong>3. Akar Persamaan:</strong> $x = k$ adalah akar dari persamaan polinomial $P(x) = 0$.
+                                </div>
+                                <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                                    <strong>4. Titik Potong Grafik:</strong> Titik koordinat $(k, 0)$ adalah titik potong grafik dengan sumbu-X.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: STRATEGI PEMFAKTORAN TUNTAS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 4 &middot; Teknik Solusi Lengkap</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 4. Strategi Pemfaktoran Tuntas &amp; Menentukan Koefisien Parameter
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Faktorisasi Lengkap</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Ketika sebuah soal memuat parameter konstanta yang belum diketahui tetapi diketahui salah satu faktornya, gunakan Teorema Faktor untuk menemukan konstanta tersebut, lalu lanjutkan dengan bagan Horner untuk menemukan seluruh faktor lainnya!
+                        </p>
+
+                        <!-- CONTOH STUDI KASUS -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs text-slate-800">
+                            <span class="font-bold text-slate-900 text-xs sm:text-sm block">Contoh Pemfaktoran Lengkap:</span>
+                            <p>
+                                Diketahui $(x - 2)$ adalah faktor dari $P(x) = 2x^3 - 5x^2 - px + 6$. Tentukan nilai $p$ dan carilah faktor-faktor linier lainnya!
+                            </p>
+                            <div class="space-y-1.5 pl-3 border-l-2 border-indigo-400 font-mono text-xs">
+                                <p><strong>Langkah 1 (Cari nilai p via Teorema Faktor P(2) = 0):</strong></p>
+                                <div>$P(2) = 2(2)^3 - 5(2)^2 - p(2) + 6 = 0$</div>
+                                <div>$16 - 20 - 2p + 6 = 0 \implies 2 - 2p = 0 \implies \mathbf{p = 1}$</div>
+                                
+                                <p class="pt-1"><strong>Langkah 2 (Bagi P(x) dengan Horner untuk k = 2):</strong></p>
+                                <div>Koefisien suku banyak: $[2, -5, -1, 6]$</div>
+                                <pre class="bg-white p-2 rounded border border-slate-300">
+ 2 |  2   -5   -1    6
+   |  *    4   -2   -6   (+)
+   --------------------
+      2   -1   -3  | 0 | (Sisa 0, terbukti faktor!)</pre>
+                                <p>Hasil bagi adalah polinomial kuadratik: $H(x) = 2x^2 - x - 3$.</p>
+
+                                <p class="pt-1"><strong>Langkah 3 (Faktorkan persamaan kuadrat hasil bagi):</strong></p>
+                                <div>$2x^2 - x - 3 = (2x - 3)(x + 1)$</div>
+                            </div>
+                            <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 font-bold">
+                                ✓ Bentuk faktorisasi tuntas: $P(x) = (x - 2)(2x - 3)(x + 1)$.<br>
+                                Faktor-faktor lainnya adalah $(2x - 3)$ dan $(x + 1)$.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Asesmen Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Teorema Sisa &amp; Teorema Faktor
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Pemahaman</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pilihlah salah satu jawaban yang paling tepat. Pembahasan konsep dan umpan balik otomatis akan langsung muncul seketika setelah opsi dipilih.
+                        </p>
+
+                        <!-- Soal 1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                1. Jika suku banyak $P(x) = 2x^3 - ax^2 + bx - 6$ habis dibagi oleh $(x - 2)$ dan bersisa $-12$ jika dibagi oleh $(x + 1)$, maka nilai $a + b$ adalah...
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio">
+                                    <span>A. $-4$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio">
+                                    <span>B. $2$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio">
+                                    <span>C. $3$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio">
+                                    <span>D. $4$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- Soal 2 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                2. Suatu polinomial $P(x)$ bersisa $5$ jika dibagi $(x - 2)$ dan bersisa $-1$ jika dibagi $(x + 1)$. Sisa pembagian $P(x)$ oleh $(x^2 - x - 2)$ adalah...
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio">
+                                    <span>A. $2x + 1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio">
+                                    <span>B. $2x - 1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio">
+                                    <span>C. $3x - 1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio">
+                                    <span>D. $x + 3$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- Soal 3 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                3. Manakah di antara suku linier berikut yang merupakan salah satu faktor dari suku banyak $f(x) = x^3 - 7x + 6$?
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio">
+                                    <span>A. $(x + 2)$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio">
+                                    <span>B. $(x - 3)$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio">
+                                    <span>C. $(x + 3)$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio">
+                                    <span>D. $(x - 4)$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'D', text: 'Tepat! Habis dibagi (x - 2) ⇒ P(2) = 0: 2(8) - 4a + 2b - 6 = 0 ⇒ 2a - b = 5. Dibagi (x + 1) bersisa -12 ⇒ P(-1) = -12: 2(-1) - a - b - 6 = -12 ⇒ a + b = 4. Jumlahkan kedua persamaan: 3a = 9 ⇒ a = 3, maka b = 1. Jadi nilai a + b = 3 + 1 = 4.' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Pembagi x² - x - 2 = (x - 2)(x + 1). Misalkan sisa S(x) = px + q. Maka S(2) = 2p + q = 5, dan S(-1) = -p + q = -1. Kurangkan: 3p = 6 ⇒ p = 2. Lalu q = 5 - 2(2) = 1. Jadi sisanya adalah S(x) = 2x + 1.' },
+                                    'kuis-3': { ans: 'C', text: 'Tepat sekali! Uji opsi C dengan x = -3: f(-3) = (-3)³ - 7(-3) + 6 = -27 + 21 + 6 = 0. Karena f(-3) = 0, berdasarkan Teorema Faktor, (x + 3) adalah faktor dari f(x). Faktorisasi lengkapnya adalah (x - 1)(x - 2)(x + 3).' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan Teorema Sisa dan syarat Teorema Faktor P(k) = 0!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 2: Teorema Sisa dan Teorema Faktor.</p>
+                    <p><strong>Larson, Ron.</strong> (2022). <em>Precalculus with Limits</em> (5th ed.). Cengage Learning. Section 2.3: The Remainder and Factor Theorems.</p>
+                    <p><strong>Sullivan, Michael.</strong> (2020). <em>Algebra and Trigonometry</em> (11th ed.). Pearson. Section 5.5: The Remainder and Factor Theorems.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="pembagian-polinomial-bersusun-dan-skema-horner.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-indigo-600 transition">
+                        &larr; Sub-Materi 3: Pembagian Polinomial &amp; Horner
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="akar-akar-rasional-dan-teorema-vieta-polinomial.html" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Akar Rasional &amp; Teorema Vieta &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

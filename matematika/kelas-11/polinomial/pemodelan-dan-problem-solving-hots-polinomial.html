@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemodelan Matematika & Problem Solving HOTS Polinomial — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Kuasai pemodelan matematika nyata dengan fungsi suku banyak, optimasi volume karton, analisis perilaku ujung grafik, dan trik bedah soal HOTS UTBK/Olimpiade.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/polinomial/pemodelan-dan-problem-solving-hots-polinomial.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/polinomial/pemodelan-dan-problem-solving-hots-polinomial.html">
+    <meta property="og:title" content="📐 Pemodelan &amp; Problem Solving HOTS Polinomial — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI: Pemodelan kontekstual geometri, end behavior grafik polinomial, dan trik fungsi bantuan soal HOTS UTBK.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="polinomial">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Polinomial (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Tuntas)</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        6. Pemodelan &amp; Problem Solving HOTS Polinomial
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Terapkan seluruh konsep aljabar polinomial ke dunia nyata dan uji kemampuan bernalar kritis Anda: mulai dari perancangan wadah kemasan optimal, pemodelan trajektori gerak, visualisasi perilaku ujung grafik (*end behavior*), hingga teknik sakti fungsi pembantu untuk membedah soal-soal HOTS UTBK-SNBT, SIMAK UI, dan Olimpiade Matematika.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="indigo" class="space-y-6">
+
+                    <!-- SLIDE 1: PEMODELAN GEOMETRI & INDUSTRI KEMASAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 1 &middot; Aplikasi Kontekstual</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📦 1. Pemodelan Geometri &amp; Optimasi Kemasan Industri
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">V(x) = p \cdot l \cdot t</span>
+                        </div>
+
+                        <!-- STUDI KASUS WADAH TERBUKA -->
+                        <div class="bg-gradient-to-br from-indigo-50/80 via-blue-50/40 to-white p-5 sm:p-6 rounded-2xl border border-indigo-100 space-y-3">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">📐</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-indigo-950 uppercase tracking-wider mb-1">Masalah Klasik: Pembuatan Kotak Tanpa Tutup</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                        Sebuah pabrik kemasan ingin membuat wadah berbentuk balok terbuka dari selembar seng persegi panjang berukuran panjang $a$ cm dan lebar $b$ cm (dengan $a \ge b$). Pada setiap keempat pojok seng, dipotong bujur sangkar identik berukuran sisi $x$ cm, lalu sisi-sisinya ditekuk ke atas membentuk kotak.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- FORMULASI POLINOMIAL & DOMAIN FISIK -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                                <div class="bg-white p-3.5 rounded-xl border border-indigo-100 text-center">
+                                    <span class="text-xs font-bold text-slate-500 block mb-1">Dimensi Kotak</span>
+                                    <div class="text-xs text-slate-800 space-y-1">
+                                        <div>Panjang: $p = a - 2x$</div>
+                                        <div>Lebar: $l = b - 2x$</div>
+                                        <div>Tinggi: $t = x$</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-3.5 rounded-xl border border-indigo-100 text-center">
+                                    <span class="text-xs font-bold text-slate-500 block mb-1">Fungsi Polinomial Volume</span>
+                                    <div class="font-mono font-bold text-xs text-indigo-950">
+                                        $$V(x) = x(a - 2x)(b - 2x)$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-500 mt-1">Suku banyak kubik ($n = 3$).</p>
+                                </div>
+
+                                <div class="bg-white p-3.5 rounded-xl border border-indigo-100 text-center">
+                                    <span class="text-xs font-bold text-slate-500 block mb-1">Domain Fisik ($D_V$)</span>
+                                    <div class="font-mono font-bold text-xs text-emerald-800">
+                                        $$0 < x < \frac{b}{2}$$
+                                    </div>
+                                    <p class="text-[11px] text-slate-500 mt-1">Panjang &amp; lebar harus selalu bernilai positif!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH ANGKA NYATA -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <span class="text-xs font-bold text-slate-900 uppercase tracking-wider block">Contoh Nyata Perhitungan:</span>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                Jika seng berukuran $20 \text{ cm} \times 12 \text{ cm}$, maka fungsi volume kotak adalah:
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 text-center">
+                                $$V(x) = x(20 - 2x)(12 - 2x) = x(240 - 64x + 4x^2) = 4x^3 - 64x^2 + 240x$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Domain fisik adalah $0 < x < 6$. Melalui evaluasi polinomial atau kurva grafik, volume maksimum sebesar $262{,}7 \text{ cm}^3$ tercapai saat $x \approx 2{,}43 \text{ cm}$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PEMODELAN FISIKA & KINEMATIKA GERAK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 2 &middot; Integrasi STEM</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🚀 2. Pemodelan Kinematika Fisika &amp; Roket Air
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">h(t) \text{ dan } s(t)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Dalam mekanika klasik, gerak benda sering kali diwakili oleh fungsi polinomial waktu $t$:
+                        </p>
+
+                        <!-- TINGKATAN MODEL POLINOMIAL DALAM FISIKA -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Gerak Kuadratik -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                                <span class="font-bold text-xs text-indigo-900 uppercase tracking-wide block">1. GLBB / Gerak Vertikal ($n = 2$):</span>
+                                <p class="text-xs text-slate-600">Percepatan konstan gravitasi $g$ menghasilkan fungsi kuadratik:</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-xs text-indigo-950 text-center">
+                                    $$h(t) = h_0 + v_0 t - \frac{1}{2} g t^2$$
+                                </div>
+                                <p class="text-xs text-slate-600">Akar positif dari $h(t) = 0$ menyatakan saat tepat proyektil mendarat kembali di tanah.</p>
+                            </div>
+
+                            <!-- Gerak Derajat 3 / Jerk Konstan -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                                <span class="font-bold text-xs text-indigo-900 uppercase tracking-wide block">2. Gerak dengan Jerk Konstan ($n = 3$):</span>
+                                <p class="text-xs text-slate-600">Saat percepatan bertambah secara linier terhadap waktu ($a(t) = j \cdot t$):</p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 font-mono text-xs text-indigo-950 text-center">
+                                    $$s(t) = \frac{1}{6} j t^3 + \frac{1}{2} a_0 t^2 + v_0 t + s_0$$
+                                </div>
+                                <p class="text-xs text-slate-600">Digunakan dalam desain lift modern dan wahana roller coaster untuk transisi percepatan yang mulus tanpa sentakan tiba-tiba.</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL TRAJEKTORI ROKET AIR -->
+                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-200 text-xs sm:text-sm text-slate-700 space-y-2">
+                            <span class="font-bold text-blue-950 block">Contoh Masalah HOTS Trajektori:</span>
+                            <p>
+                                Ketinggian roket air eksperimental (dalam meter) dimodelkan oleh $h(t) = -t^3 + 6t^2 + 16t$ untuk $t \ge 0$ detik. Kapan roket tersebut jatuh kembali ke permukaan tanah?
+                            </p>
+                            <div class="bg-white p-3 rounded-lg border border-blue-200 font-mono text-xs text-slate-800 space-y-1">
+                                <div>Syarat menyentuh tanah: $h(t) = 0$</div>
+                                <div>$-t(t^2 - 6t - 16) = 0$</div>
+                                <div>$-t(t - 8)(t + 2) = 0 \implies t = 0, \, t = 8, \text{ atau } t = -2$</div>
+                                <div class="text-emerald-800 font-bold">Karena waktu $t > 0$, maka roket mendarat di tanah pada $t = 8$ detik!</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: END BEHAVIOR & TITIK BALIK GRAFIK POLINOMIAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 3 &middot; Analisis Kurva Grafik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 3. Perilaku Ujung Grafik (*End Behavior*) &amp; Titik Balik
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">x \to \pm \infty</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Ketika $x$ menuju bilangan yang sangat besar positif ($x \to +\infty$) atau sangat kecil negatif ($x \to -\infty$), suku dengan pangkat tertinggilah ($a_n x^n$) yang sepenuhnya mengontrol arah kurva. Ini disebut <strong>Uji Koefisien Utama (*Leading Coefficient Test*)</strong>:
+                        </p>
+
+                        <!-- MATRIKS 4 KASUS END BEHAVIOR -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Derajat Genap, an > 0 -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-xs font-bold text-slate-800">Derajat Genap &middot; $a_n > 0$</span>
+                                    <span class="text-xs bg-indigo-100 text-indigo-800 font-mono px-2 py-0.5 rounded font-bold">$\nwarrow \nearrow$</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Kedua ujung grafik melesat ke atas (seperti parabola $y = x^2$).</p>
+                                <div class="mt-2 text-[11px] font-mono text-slate-500">Contoh: $y = 2x^4 - 3x^2 + 1$</div>
+                            </div>
+
+                            <!-- Derajat Genap, an < 0 -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-xs font-bold text-slate-800">Derajat Genap &middot; $a_n < 0$</span>
+                                    <span class="text-xs bg-indigo-100 text-indigo-800 font-mono px-2 py-0.5 rounded font-bold">$\swarrow \searrow$</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Kedua ujung grafik menukik ke bawah (seperti parabola terbalik $y = -x^2$).</p>
+                                <div class="mt-2 text-[11px] font-mono text-slate-500">Contoh: $y = -x^4 + 5x$</div>
+                            </div>
+
+                            <!-- Derajat Ganjil, an > 0 -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-xs font-bold text-slate-800">Derajat Ganjil &middot; $a_n > 0$</span>
+                                    <span class="text-xs bg-indigo-100 text-indigo-800 font-mono px-2 py-0.5 rounded font-bold">$\swarrow \nearrow$</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Turun di ujung kiri ($x \to -\infty$), naik di ujung kanan ($x \to +\infty$).</p>
+                                <div class="mt-2 text-[11px] font-mono text-slate-500">Contoh: $y = x^3 - 4x$</div>
+                            </div>
+
+                            <!-- Derajat Ganjil, an < 0 -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-xs font-bold text-slate-800">Derajat Ganjil &middot; $a_n < 0$</span>
+                                    <span class="text-xs bg-indigo-100 text-indigo-800 font-mono px-2 py-0.5 rounded font-bold">$\nwarrow \searrow$</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Naik di ujung kiri ($x \to -\infty$), turun di ujung kanan ($x \to +\infty$).</p>
+                                <div class="mt-2 text-[11px] font-mono text-slate-500">Contoh: $y = -2x^5 + x^3$</div>
+                            </div>
+                        </div>
+
+                        <!-- ATURAN TITIK BALIK EKSTRIM -->
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-amber-950 space-y-1">
+                            <span class="font-bold flex items-center gap-1.5">
+                                <span>⚡</span> Teorema Titik Balik (Turning Points):
+                            </span>
+                            <p class="text-xs text-slate-700">
+                                Grafik polinomial berderajat $n$ memiliki <strong>paling banyak $(n - 1)$ titik balik lokal</strong> (puncak atau lembah) dan memotong sumbu-$x$ paling banyak di $n$ titik potong real. Kurva polinomial selalu halus (*smooth*) dan kontinu tanpa ada sudut lancip (*cusp*) maupun celah patahan.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TRIK SAKTI BEDAH SOAL HOTS SELEKSI PTN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 4 &middot; Senjata Rahasia Ujian</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧠 4. Trik Sakti Soal HOTS: Polinomial Bantuan (*Auxiliary Function*)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Q(x) = P(x) - R(x)</span>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-indigo-950 to-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider block">Trik Juara Olimpiade &amp; UTBK-SNBT:</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Sering kali soal memberikan nilai suku banyak $P(x)$ yang berurutan, misalnya $P(1) = 2, P(2) = 3, P(3) = 4$. Jangan pernah membuat sistem persamaan linier 4 variabel! Gunakan <strong>fungsi bantuan selisih</strong>:
+                            </p>
+                            <div class="bg-white/10 p-3 rounded-xl border border-white/20 text-center font-mono text-sm text-indigo-200">
+                                $$Q(x) = P(x) - (x + 1)$$
+                            </div>
+                            <p class="text-xs text-slate-300">
+                                Perhatikan bahwa $Q(1) = 0, Q(2) = 0, Q(3) = 0$. Artinya, $1, 2,$ dan $3$ adalah <strong>akar-akar langsung</strong> dari $Q(x)$!
+                            </p>
+                            <div class="bg-indigo-900/60 p-2.5 rounded-lg border border-indigo-400/30 font-mono text-xs text-center text-indigo-100">
+                                $$P(x) = c(x - 1)(x - 2)(x - 3) + (x + 1)$$
+                            </div>
+                            <p class="text-xs text-emerald-300 font-semibold">
+                                ✓ Masalah terselesaikan dalam hitungan detik tanpa proses eliminasi yang melelahkan!
+                            </p>
+                        </div>
+
+                        <!-- TRIK SISA BERTINGKAT KUADRATIK TAK DAPAT DIFAKTORKAN -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <span class="text-xs font-bold text-slate-900 uppercase tracking-wider block">Trik 2: Pembagi Kuadratik Irasional / Kompleks</span>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                Jika suku banyak $P(x)$ dibagi $(x^2 + 1)$, gunakan kesetaraan aljabar $x^2 \equiv -1$. Gantilah setiap kemunculan $x^2$ dengan $-1$:
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 font-mono text-xs text-slate-800">
+                                <div>Contoh: Tentukan sisa jika $P(x) = x^{2026} + x^{2025} + 2$ dibagi oleh $(x^2 + 1)$!</div>
+                                <div class="mt-1 text-indigo-900 font-bold">
+                                    $$x^2 \equiv -1 \implies x^{2026} = (x^2)^{1013} \equiv (-1)^{1013} = -1$$
+                                    $$x^{2025} = x \cdot (x^2)^{1012} \equiv x \cdot (-1)^{1012} = x$$
+                                    $$\text{Sisa } S(x) = (-1) + x + 2 = x + 1$$
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-500">
+                                Soal bernilai pangkat ribuan dapat dijawab secara instan hanya dalam 2 baris penalaran aljabar modular!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri Bab 4</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Pemodelan &amp; HOTS Polinomial
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal HOTS</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji pemahaman pemodelan matematika dan teknik problem solving lanjutan Anda melalui 3 tantangan soal berikut.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Soal 1 &middot; Pemodelan Geometri</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Aplikasi Nyata</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Selembar karton berukuran $16\text{ cm} \times 10\text{ cm}$ dipotong bujur sangkar dengan panjang sisi $x\text{ cm}$ pada keempat pojoknya, lalu dilipat membentuk kotak terbuka. Fungsi volume wadah $V(x)$ dan domain fisik $x$ yang tepat adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>A.</strong> $V(x) = 4x^3 - 52x^2 + 160x$ dengan $0 < x < 5$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>B.</strong> $V(x) = 2x^3 - 26x^2 + 80x$ dengan $0 < x < 8$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>C.</strong> $V(x) = 4x^3 - 52x^2 + 160x$ dengan $0 < x < 10$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>D.</strong> $V(x) = x^3 - 26x^2 + 160x$ dengan $0 < x < 5$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Soal 2 &middot; Trik Fungsi Pembantu</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">HOTS UTBK</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Suatu polinomial monik berderajat 3, $P(x)$, memenuhi $P(1) = 2$, $P(2) = 3$, dan $P(3) = 4$. Nilai dari $P(4)$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>A.</strong> $5$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>B.</strong> $9$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>C.</strong> $11$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>D.</strong> $14$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Soal 3 &middot; Sisa Pembagi Kuadratik Irasional</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Aljabar Modular</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Sisa pembagian suku banyak $P(x) = x^5 - x^3 + 2x^2 - 4x + 7$ oleh $(x^2 - 2)$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>A.</strong> $-2x + 11$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>B.</strong> $2x + 11$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>C.</strong> $-6x + 3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-indigo-600 focus:ring-indigo-500">
+                                    <span><strong>D.</strong> $11$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Panjang = 16 - 2x, Lebar = 10 - 2x, Tinggi = x. Volume V(x) = x(16 - 2x)(10 - 2x) = x(160 - 52x + 4x²) = 4x³ - 52x² + 160x. Agar lebar 10 - 2x > 0, batas fisik sisi potong adalah 0 < x < 5.' },
+                                    'kuis-2': { ans: 'C', text: 'Benar! Ambil fungsi bantuan Q(x) = P(x) - (x + 1). Karena Q(1) = Q(2) = Q(3) = 0 dan P(x) monik berderajat 3 (koefisien x³ adalah 1), maka Q(x) = (x - 1)(x - 2)(x - 3). Akibatnya P(x) = (x - 1)(x - 2)(x - 3) + (x + 1). Untuk x = 4: P(4) = (3)(2)(1) + (4 + 1) = 6 + 5 = 11.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat! Pembagi x² - 2 ⇒ gunakan reduksi x² ≡ 2. Maka: x⁵ = (x²)² · x ≡ (2)² · x = 4x. -x³ = -(x²) · x ≡ -(2) · x = -2x. 2x² ≡ 2(2) = 4. Substitusikan seluruh suku: S(x) = 4x - 2x + 4 - 4x + 7 = -2x + 11.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Cermati kembali substitusi aljabar modular atau fungsi bantuan!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 2: Pemodelan Fungsi Polinomial.</p>
+                    <p><strong>Larson, Ron.</strong> (2022). <em>Precalculus with Limits</em> (5th ed.). Cengage Learning. Section 2.2: Polynomial Functions of Higher Degree.</p>
+                    <p><strong>Hall, H. S. &amp; Knight, S. R.</strong> (2018). <em>Higher Algebra: A Sequel to Elementary Algebra for Schools</em>. Arihant Publications.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="akar-akar-rasional-dan-teorema-vieta-polinomial.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-indigo-600 transition">
+                        &larr; Sub-Materi 5: Akar Rasional &amp; Teorema Vieta
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Tuntas)</span>
+                    <a href="/matematika/kelas-11/index.html" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs flex items-center gap-1.5">
+                        <span>🎉 Kembali ke Hub Matematika Kelas XI</span> &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

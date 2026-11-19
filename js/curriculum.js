@@ -492,6 +492,19 @@ const kurikulum = {
                     { file: "koefisien-determinasi-dan-interpretasi-model.html", title: "Koefisien Determinasi (r²) & Evaluasi Residu" },
                     { file: "latihan-pemecahan-masalah-statistika-bivariat.html", title: "Problem Solving HOTS Analisis Data Bivariat" }
                 ]
+            },
+            {
+                slug: "polinomial",
+                title: "Aljabar: Polinomial (Suku Banyak)",
+                deskripsi: "Konsep dasar bentuk umum suku banyak derajat n, operasi aljabar polinomial, kesamaan identitas aljabar, penentuan nilai dengan skema Horner, algoritma pembagian polinomial bersusun & Horner-Kino, Teorema Sisa & Teorema Faktor, penentuan akar-akar rasional, Teorema Vieta polinomial tingkat tinggi, serta pemodelan kontekstual.",
+                subbab: [
+                    { file: "konsep-dasar-dan-operasi-aljabar-polinomial.html", title: "Konsep Dasar & Operasi Aljabar Polinomial" },
+                    { file: "nilai-polinomial-dan-metode-substitusi-horner.html", title: "Nilai Polinomial & Skema Sintetik Horner" },
+                    { file: "pembagian-polinomial-bersusun-dan-skema-horner.html", title: "Pembagian Polinomial & Metode Horner-Kino" },
+                    { file: "teorema-sisa-dan-teorema-faktor.html", title: "Teorema Sisa & Teorema Faktor" },
+                    { file: "akar-akar-rasional-dan-teorema-vieta-polinomial.html", title: "Akar-Akar Rasional & Teorema Vieta Lanjutan" },
+                    { file: "pemodelan-dan-problem-solving-hots-polinomial.html", title: "Problem Solving HOTS & Pemodelan Polinomial" }
+                ]
             }
         ]
     }

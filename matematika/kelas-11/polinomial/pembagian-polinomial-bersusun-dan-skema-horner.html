@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembagian Polinomial & Metode Horner-Kino — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari algoritma pembagian polinomial P(x) = Q(x)·H(x) + S(x), metode bersusun panjang, pembagian oleh (ax+b), dan skema bertingkat Horner-Kino dengan modul interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/polinomial/pembagian-polinomial-bersusun-dan-skema-horner.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/polinomial/pembagian-polinomial-bersusun-dan-skema-horner.html">
+    <meta property="og:title" content="📐 Pembagian Polinomial & Metode Horner-Kino — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai pembagian bersusun, trik pembagi (ax+b), dan metode Horner-Kino untuk pembagi kuadratik.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="polinomial">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Polinomial (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Pembagian Polinomial Bersusun &amp; Metode Horner-Kino
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai algoritma formal pembagian polinomial: hubungan matematis $P(x) = Q(x) \cdot H(x) + S(x)$, pembagian bersusun panjang (*porogapit* aljabar), trik pembagian oleh $(ax+b)$ via Horner, serta metode pembagian bertingkat Horner-Kino untuk pembagi kuadratik melalui modul interaktif berikut.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="indigo" class="space-y-6">
+
+                    <!-- SLIDE 1: ALGORITMA PEMBAGIAN POLINOMIAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 1 &middot; Teorema Fundamental</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💡 1. Algoritma Pembagian Polinomial &amp; Karakteristik Sisa
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">P = Q·H + S</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-indigo-50/80 via-blue-50/40 to-white p-5 sm:p-6 rounded-2xl border border-indigo-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">➗</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-indigo-950 uppercase tracking-wider mb-1">Ide Intuitif: Analog Pembagian Bilangan Bulat Euclid</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Ketika Anda membagi $23$ dengan $5$, hasilnya adalah $4$ dengan sisa $3$, ditulis $23 = 5 \times 4 + 3$, di mana sisa $3 < 5$. Dalam aljabar suku banyak, hal yang persis sama berlaku: polinomial yang dibagi adalah hasil kali pembagi dengan hasil bagi, ditambah sisa, di mana <strong>derajat sisa pembagian selalu lebih kecil dari derajat pembagi</strong>!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                Jika suatu polinomial $P(x)$ berderajat $n$ dibagi oleh polinomial $Q(x)$ berderajat $m$ (dengan $m \le n$), maka terdapat secara unik polinomial hasil bagi $H(x)$ dan polinomial sisa $S(x)$ sedemikian rupa sehingga:
+                            </p>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center font-mono text-sm sm:text-base text-indigo-900 font-bold">
+                                $$P(x) \equiv Q(x) \cdot H(x) + S(x)$$
+                            </div>
+
+                            <!-- ATURAN DERAJAT -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                                <div class="p-3.5 bg-blue-50/70 rounded-xl border border-blue-200 space-y-1">
+                                    <span class="font-bold text-blue-900 text-xs block">1. Derajat Hasil Bagi $H(x)$:</span>
+                                    <p class="text-xs text-slate-700">
+                                        $$\text{deg}(H) = \text{deg}(P) - \text{deg}(Q) = n - m$$
+                                        Hasil bagi memiliki derajat selisih dari derajat awal dikurangi derajat pembagi.
+                                    </p>
+                                </div>
+                                <div class="p-3.5 bg-emerald-50/70 rounded-xl border border-emerald-200 space-y-1">
+                                    <span class="font-bold text-emerald-900 text-xs block">2. Derajat Maksimum Sisa $S(x)$:</span>
+                                    <p class="text-xs text-slate-700">
+                                        $$\text{deg}(S) \le \text{deg}(Q) - 1 = m - 1$$
+                                        Jika pembagi berderajat 1 $\implies$ sisa konstan ($k$). Jika pembagi berderajat 2 $\implies$ sisa linier ($px + q$).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PEMBAGIAN BERSUSUN PANJANG (POROGAPIT) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 2 &middot; Metode Universal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 2. Metode Pembagian Bersusun Panjang (Long Division)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Porogapit Aljabar</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Metode pembagian bersusun panjang adalah metode paling universal karena dapat digunakan untuk <strong>segala jenis pembagi</strong>, baik berderajat satu, dua, tiga, maupun pembagi yang tidak dapat difaktorkan atas bilangan real.
+                        </p>
+
+                        <!-- CONTOH LANGKAH BERSUSUN -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-800">
+                            <span class="font-bold text-slate-900 text-xs sm:text-sm block">Contoh Perhitungan:</span>
+                            <p>
+                                Tentukan hasil bagi dan sisa dari pembagian $(2x^3 - 3x^2 + x + 5)$ oleh $(x^2 - x - 2)$!
+                            </p>
+                            <div class="font-mono text-xs bg-white p-4 rounded-xl border border-slate-300 overflow-x-auto">
+                                <pre class="leading-relaxed">
+                  2x - 1          <-- HASIL BAGI H(x)
+             ___________________
+x^2 - x - 2 | 2x^3 - 3x^2 +  x + 5
+              2x^3 - 2x^2 - 4x    (-) [dikali 2x]
+              ------------------
+                    - x^2 + 5x + 5
+                    - x^2 +  x + 2 (-) [dikali -1]
+                    --------------
+                            4x + 3  <-- SISA PEMBAGIAN S(x)</pre>
+                            </div>
+                            <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200 space-y-1">
+                                <p class="text-emerald-900 font-bold">Hasil Akhir Pembagian:</p>
+                                <p class="text-slate-700">
+                                    • Hasil bagi: $H(x) = 2x - 1$<br>
+                                    • Sisa pembagian: $S(x) = 4x + 3$ (karena derajat sisa $1 < 2$, proses berhenti).
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: PEMBAGIAN DENGAN HORNER (x - k) DAN (ax + b) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 3 &middot; Skema Pembagi Linier</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 3. Pembagian Linier via Horner &amp; Jebakan Pembagi $(ax + b)$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">Wajib Dibagi a</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Pembagian dengan skema Horner jauh lebih cepat daripada cara bersusun. Namun, ada perbedaan mendasar antara pembagi koefisien utama satu $(x - k)$ dan pembagi koefisien utama bukan satu $(ax + b)$.
+                        </p>
+
+                        <!-- DUA KASUS PEMBAGI LINIER -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <!-- Kasus 1: (x - k) -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-indigo-900 text-xs sm:text-sm block">Kasus A: Pembagi $(x - k)$</span>
+                                <p class="text-slate-600">Nilai masukan skema Horner adalah $x = k$.</p>
+                                <div class="p-2.5 bg-white rounded border border-slate-200 space-y-1">
+                                    <p>• Hasil bagi: $H(x)$ langsung dari koefisien baris bawah.</p>
+                                    <p>• Sisa: $S = P(k)$ (angka paling kanan).</p>
+                                </div>
+                                <p class="text-[11px] text-emerald-700 font-semibold">Tidak memerlukan modifikasi pembagian tambahan.</p>
+                            </div>
+
+                            <!-- Kasus 2: (ax + b) -->
+                            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-300 space-y-2">
+                                <span class="font-bold text-amber-950 text-xs sm:text-sm block">Kasus B: Pembagi $(ax + b)$ dengan $a \neq 1$</span>
+                                <p class="text-slate-700">Nilai masukan skema Horner adalah $x = -\frac{b}{a}$.</p>
+                                <div class="p-2.5 bg-white rounded border border-amber-200 space-y-1">
+                                    <p class="font-bold text-rose-700">• Hasil bagi sesungguhnya: $H(x) = \frac{H'(x)}{a}$</p>
+                                    <p>• Sisa pembagian: $S = P\left(-\frac{b}{a}\right)$ (tetap sama).</p>
+                                </div>
+                                <p class="text-[11px] text-rose-800 font-semibold">
+                                    ⚠️ JEBAKAN UTAMA: Baris bawah Horner $H'(x)$ WAJIB dibagi $a$ terlebih dahulu!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH KASUS PEMBAGI (2x - 1) -->
+                        <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs space-y-2 text-xs text-slate-800">
+                            <span class="font-bold text-slate-900 text-xs block">Contoh Kasus: Bagi $2x^3 + 5x^2 - 4x + 3$ oleh $(2x - 1)$</span>
+                            <div class="font-mono text-xs bg-slate-50 p-2.5 rounded border border-slate-200">
+                                <pre class="leading-relaxed">
+ 1/2 |   2    5   -4    3
+     |   *    1    3   -1/2  (+)
+     +----------------------
+         2    6   -1  | 5/2 |
+         ÷ 2 (karena a = 2)
+     -----------------------
+         1    3   -1/2</pre>
+                            </div>
+                            <p class="text-slate-700">
+                                • Hasil bagi $H(x) = x^2 + 3x - \frac{1}{2}$<br>
+                                • Sisa $S = \frac{5}{2}$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: PEMBAGIAN OLEH PEMBAGI KUADRATIK & HORNER-KINO -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 4 &middot; Teknik Tingkat Lanjut</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🚀 4. Pembagi Kuadratik &amp; Skema Bertingkat Horner-Kino
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Horner-Kino</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Bagaimana jika pembaginya adalah persamaan kuadrat $ax^2 + bx + c$? Selain cara bersusun panjang, kita dapat menggunakan <strong>Metode Horner-Kino</strong>, yaitu bagan Horner yang dimodifikasi menjadi dua baris pengali bertingkat.
+                        </p>
+
+                        <!-- PANDUAN HORNER-KINO -->
+                        <div class="p-4 rounded-xl bg-slate-50 border-l-4 border-purple-600 space-y-2 text-xs text-slate-800">
+                            <span class="font-bold text-slate-900 text-xs sm:text-sm block">Prinsip Kerja Horner-Kino:</span>
+                            <p>
+                                Untuk pembagi $Q(x) = ax^2 + bx + c$, siapkan dua nilai pengali di sebelah kiri:
+                            </p>
+                            <div class="grid grid-cols-2 gap-2 text-center font-mono font-bold py-1">
+                                <div class="p-2 bg-white rounded border border-purple-200 text-purple-900">
+                                    Pengali Atas: $k_1 = -\frac{c}{a}$
+                                </div>
+                                <div class="p-2 bg-white rounded border border-purple-200 text-purple-900">
+                                    Pengali Bawah: $k_2 = -\frac{b}{a}$
+                                </div>
+                            </div>
+                            <p class="leading-relaxed">
+                                Pengisian hasil perkalian dilakukan secara <em>diagonal bertingkat</em>. Dua kolom paling kanan di bagian akhir langsung memberikan koefisien sisa berbentuk $S(x) = px + q$.
+                            </p>
+                        </div>
+
+                        <div class="p-3 bg-purple-50 rounded-xl border border-purple-200 text-xs text-purple-950 font-semibold">
+                            ✨ Keunggulan Horner-Kino: Dapat langsung membagi polinomial dengan suku kuadrat tanpa perlu mencari faktor akarnya terlebih dahulu!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Asesmen Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Pembagian Bersusun &amp; Horner
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Pemahaman</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pilihlah salah satu jawaban yang paling tepat. Pembahasan konsep dan umpan balik otomatis akan langsung muncul seketika setelah opsi dipilih.
+                        </p>
+
+                        <!-- Soal 1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                1. Jika polinomial $P(x) = x^3 - 4x^2 + 7x - 5$ dibagi oleh $(x - 3)$, maka sisa pembagiannya adalah...
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio">
+                                    <span>A. $4$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio">
+                                    <span>B. $7$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio">
+                                    <span>C. $10$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio">
+                                    <span>D. $-2$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- Soal 2 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                2. Suatu suku banyak $P(x)$ berderajat 5 dibagi oleh polinomial $Q(x)$ berderajat 2. Manakah pernyataan yang <b>PALING TEPAT</b> mengenai derajat hasil bagi $H(x)$ dan derajat maksimum sisa $S(x)$?
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio">
+                                    <span>A. Derajat $H(x) = 3$, dan derajat maksimum $S(x) = 2$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio">
+                                    <span>B. Derajat $H(x) = 3$, dan derajat maksimum $S(x) = 1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio">
+                                    <span>C. Derajat $H(x) = 2.5$, dan derajat maksimum $S(x) = 1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio">
+                                    <span>D. Derajat $H(x) = 7$, dan derajat maksimum $S(x) = 1$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- Soal 3 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                3. Pada pembagian polinomial oleh pembagi $(3x + 1)$ menggunakan skema Horner, baris bawah menghasilkan koefisien $[6, -9, 12 \mid 4]$. Manakah hasil bagi $H(x)$ yang sebenarnya?
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio">
+                                    <span>A. $H(x) = 6x^2 - 9x + 12$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio">
+                                    <span>B. $H(x) = 2x^2 - 3x + 4$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio">
+                                    <span>C. $H(x) = 18x^2 - 27x + 36$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio">
+                                    <span>D. $H(x) = 2x^2 - 3x + 4$ dengan sisa $\frac{4}{3}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'B', text: 'Tepat! Berdasarkan Teorema Sisa, sisa pembagian oleh (x - 3) adalah P(3) = (3)³ - 4(3)² + 7(3) - 5 = 27 - 36 + 21 - 5 = 7.' },
+                                    'kuis-2': { ans: 'B', text: 'Benar! Derajat hasil bagi adalah deg(P) - deg(Q) = 5 - 2 = 3. Derajat sisa pembagian maksimal deg(Q) - 1 = 2 - 1 = 1 (sisa berbentuk linier px + q).' },
+                                    'kuis-3': { ans: 'B', text: 'Tepat sekali! Karena pembaginya adalah (3x + 1) dengan a = 3, koefisien baris bawah Horner harus dibagi dengan 3: [6/3, -9/3, 12/3] = [2, -3, 4], sehingga H(x) = 2x² - 3x + 4. Sisa pembagian tetap 4 (tidak dibagi 3).' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan pembagian derajat dan aturan pembagi (ax + b)!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 2: Pembagian Polinomial.</p>
+                    <p><strong>Sukino.</strong> (2017). <em>Matematika untuk SMA/MA Kelas XI Kelompok Peminatan Matematika dan Ilmu-Ilmu Alam</em>. Penerbit Erlangga.</p>
+                    <p><strong>Larson, Ron.</strong> (2022). <em>Precalculus with Limits</em> (5th ed.). Cengage Learning. Section 2.3: Polynomial and Synthetic Division.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="nilai-polinomial-dan-metode-substitusi-horner.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-indigo-600 transition">
+                        &larr; Sub-Materi 2: Nilai Polinomial &amp; Horner
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="teorema-sisa-dan-teorema-faktor.html" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Teorema Sisa &amp; Teorema Faktor &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

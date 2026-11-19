@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Dasar & Operasi Aljabar Polinomial — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari konsep bentuk umum polinomial derajat n, suku utama, koefisien, identitas kesamaan dua polinomial, operasi aljabar, dan trik jumlahan koefisien dengan modul interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/polinomial/konsep-dasar-dan-operasi-aljabar-polinomial.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/polinomial/konsep-dasar-dan-operasi-aljabar-polinomial.html">
+    <meta property="og:title" content="📐 Konsep Dasar & Operasi Aljabar Polinomial — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Pahami bentuk umum derajat n, kesamaan identitas, operasi aljabar, dan trik jumlahan koefisien.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="polinomial">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Polinomial (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Dasar, Derajat &amp; Operasi Aljabar Polinomial
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai fondasi aljabar suku banyak: bentuk umum polinomial berderajat $n$, kriteria pembeda ekspresi polinomial vs non-polinomial, teknik menentukan koefisien tak tentu melalui kesamaan identitas ($\equiv$), aturan operasi aljabar, serta trik kilat evaluasi jumlahan koefisien melalui kartu materi interaktif di bawah ini.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="indigo" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI FORMAL & BENTUK UMUM POLINOMIAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 1 &middot; Landasan Teori Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💡 1. Bentuk Umum &amp; Anatomi Polinomial Derajat $n$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Bentuk Baku</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-indigo-50/80 via-blue-50/40 to-white p-5 sm:p-6 rounded-2xl border border-indigo-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🏛️</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-indigo-950 uppercase tracking-wider mb-1">Ide Intuitif: Bangunan Rantai Aljabar Penjumlahan Pangkat Cacah</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Kata <strong>Polinomial</strong> berasal dari bahasa Yunani <em>poly</em> (banyak) dan bahasa Latin <em>nomen</em> (nama/suku). Polinomial adalah ekspresi aljabar yang hanya dibangun oleh operasi penjumlahan, pengurangan, dan perkalian variabel berpangkat <strong>bilangan cacah non-negatif</strong> ($0, 1, 2, 3, \dots$). Tidak ada variabel di dalam penyebut, di bawah tanda akar, atau memiliki pangkat pecahan/negatif.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                Secara formal, <strong>polinomial (suku banyak)</strong> dalam variabel real $x$ berderajat $n$ dinyatakan dalam bentuk baku:
+                            </p>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center font-mono text-sm sm:text-base text-indigo-900 font-bold">
+                                $$P(x) = a_n x^n + a_{n-1} x^{n-1} + a_{n-2} x^{n-2} + \dots + a_1 x + a_0$$
+                            </div>
+                            <p class="text-xs text-slate-600 text-center">
+                                dengan $a_n \neq 0$, koefisien $a_i \in \mathbb{R}$, dan eksponen $n \in \{0, 1, 2, 3, \dots\}$ (bilangan cacah).
+                            </p>
+
+                            <!-- ANATOMI SUKU BANYAK -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs text-center space-y-1">
+                                    <span class="text-[11px] font-bold text-indigo-600 block">Derajat ($n$)</span>
+                                    <p class="text-xs text-slate-700">Pangkat tertinggi variabel $x$ yang koefisiennya tidak nol.</p>
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs text-center space-y-1">
+                                    <span class="text-[11px] font-bold text-blue-600 block">Suku Utama</span>
+                                    <p class="text-xs text-slate-700">Suku yang memuat pangkat tertinggi: $a_n x^n$.</p>
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs text-center space-y-1">
+                                    <span class="text-[11px] font-bold text-emerald-600 block">Koefisien Utama</span>
+                                    <p class="text-xs text-slate-700">Koefisien dari suku utama, yaitu konstanta $a_n$.</p>
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs text-center space-y-1">
+                                    <span class="text-[11px] font-bold text-amber-600 block">Suku Tetap / Konstan</span>
+                                    <p class="text-xs text-slate-700">Suku berderajat 0 yang tidak memuat variabel: $a_0$.</p>
+                                </div>
+                            </div>
+
+                            <!-- TABEL PEMBEDA POLINOMIAL VS BUKAN POLINOMIAL -->
+                            <div class="pt-3">
+                                <h4 class="font-bold text-slate-900 text-xs sm:text-sm mb-2">Uji Identifikasi: Polinomial vs Bukan Polinomial</h4>
+                                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                                    <table class="w-full text-left text-xs text-slate-700">
+                                        <thead class="bg-slate-100 text-slate-900 font-bold border-b border-slate-200">
+                                            <tr>
+                                                <th class="p-2.5">Ekspresi Aljabar</th>
+                                                <th class="p-2.5">Status</th>
+                                                <th class="p-2.5">Alasan Matematis</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-slate-100">
+                                            <tr class="hover:bg-slate-50/60">
+                                                <td class="p-2.5 font-mono text-indigo-900 font-semibold">$3x^4 - 5x^2 + 7x - 2$</td>
+                                                <td class="p-2.5"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[10px]">Polinomial</span></td>
+                                                <td class="p-2.5">Eksponen seluruh variabel adalah bilangan cacah ($4, 2, 1, 0$). Derajat 4.</td>
+                                            </tr>
+                                            <tr class="hover:bg-slate-50/60">
+                                                <td class="p-2.5 font-mono text-slate-800">$2x^3 - \frac{4}{x} + 1$</td>
+                                                <td class="p-2.5"><span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[10px]">Bukan Polinomial</span></td>
+                                                <td class="p-2.5">Suku $\frac{4}{x} = 4x^{-1}$ memiliki eksponen negatif ($-1 \notin \mathbb{N}_0$).</td>
+                                            </tr>
+                                            <tr class="hover:bg-slate-50/60">
+                                                <td class="p-2.5 font-mono text-slate-800">$5x^2 + 3\sqrt{x} - 9$</td>
+                                                <td class="p-2.5"><span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[10px]">Bukan Polinomial</span></td>
+                                                <td class="p-2.5">Suku $\sqrt{x} = x^{1/2}$ memiliki eksponen pecahan bukan bilangan bulat.</td>
+                                            </tr>
+                                            <tr class="hover:bg-slate-50/60">
+                                                <td class="p-2.5 font-mono text-slate-800">$\frac{x^2 - 4}{x - 2}$</td>
+                                                <td class="p-2.5"><span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[10px]">Bukan Polinomial</span></td>
+                                                <td class="p-2.5">Merupakan fungsi rasional (pecahan). Tidak terdefinisi pada $x = 2$.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: KESAMAAN DUA POLINOMIAL (IDENTITAS ALIABAR) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 2 &middot; Sifat Kesamaan Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ 2. Kesamaan Dua Polinomial &amp; Penentuan Koefisien Tak Tentu
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Identitas &equiv;</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Dua buah polinomial $P(x)$ dan $Q(x)$ dikatakan <strong>identik (sama secara aljabar)</strong>, dinotasikan $P(x) \equiv Q(x)$, jika dan hanya jika keduanya menghasilkan nilai yang sama untuk <em>setiap</em> bilangan real $x$.
+                        </p>
+
+                        <!-- TEOREMA KESAMAAN -->
+                        <div class="p-4 rounded-xl bg-slate-50 border-l-4 border-indigo-600 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Teorema Kesamaan Koefisien:</h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Misalkan $P(x) = a_n x^n + \dots + a_1 x + a_0$ dan $Q(x) = b_m x^m + \dots + b_1 x + b_0$.<br>
+                                Maka $P(x) \equiv Q(x)$ jika dan hanya jika:
+                            </p>
+                            <div class="p-2.5 rounded-lg bg-indigo-50/70 text-indigo-950 font-mono text-xs border border-indigo-200 text-center font-bold">
+                                1. Derajat kedua polinomial sama: $n = m$<br>
+                                2. Koefisien suku-suku berderajat sama bernilai sama: $a_k = b_k$ untuk setiap $k = 0, 1, 2, \dots, n$
+                            </div>
+                        </div>
+
+                        <!-- DUA STRATEGI MENENTUKAN KOEFISIEN TAK TENTU -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                            <!-- Metode 1 -->
+                            <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs space-y-2">
+                                <span class="font-bold text-indigo-700 text-xs sm:text-sm block">Metode 1: Menyamakan Koefisien Suku Sejenis</span>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Jabarkan perkalian kedua ruas hingga tersusun dalam bentuk baku, kelompokkan variabel berpangkat sama, lalu buat sistem persamaan aljabar dari koefisien masing-masing pangkat.
+                                </p>
+                            </div>
+
+                            <!-- Metode 2 -->
+                            <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs space-y-2">
+                                <span class="font-bold text-blue-700 text-xs sm:text-sm block">Metode 2: Substitusi Nilai Pembuat Nol Strategis</span>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Karena kesamaan berlaku untuk setiap $x \in \mathbb{R}$, pilih nilai $x$ pembuat nol dari faktor-faktor pengali untuk langsung mengeliminasi variabel lain dalam sekejap!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH STUDI KASUS PECAHAN PARSIAL -->
+                        <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-200 space-y-2 text-xs text-slate-800">
+                            <span class="font-bold text-amber-950 text-xs sm:text-sm block">Contoh Terbimbing (Dekomposisi Pecahan Parsial):</span>
+                            <p>
+                                Tentukan konstanta $A$ dan $B$ agar berlaku kesamaan identitas:
+                                $$\frac{7x - 1}{(x - 1)(x + 2)} \equiv \frac{A}{x - 1} + \frac{B}{x + 2}$$
+                            </p>
+                            <div class="space-y-1.5 pl-3 border-l-2 border-amber-400">
+                                <p><strong>Langkah 1:</strong> Kalikan kedua ruas dengan penyebut $(x-1)(x+2)$:</p>
+                                <div class="font-mono text-center font-bold text-indigo-900">$$7x - 1 \equiv A(x + 2) + B(x - 1)$$</div>
+                                <p><strong>Langkah 2 (Substitusi Strategis $x = 1$ untuk membunuh $B$):</strong></p>
+                                <div class="font-mono">$7(1) - 1 = A(1 + 2) + B(0) \implies 6 = 3A \implies \mathbf{A = 2}$</div>
+                                <p><strong>Langkah 3 (Substitusi Strategis $x = -2$ untuk membunuh $A$):</strong></p>
+                                <div class="font-mono">$7(-2) - 1 = A(0) + B(-2 - 1) \implies -15 = -3B \implies \mathbf{B = 5}$</div>
+                            </div>
+                            <p class="font-semibold text-emerald-800 pt-1">
+                                ✓ Nilai konstan diperoleh instan: $A = 2$ dan $B = 5$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: OPERASI ALJABAR POLINOMIAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 3 &middot; Algoritma Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ➕ 3. Operasi Aljabar pada Polinomial &amp; Derajat Hasil Operasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Penjumlahan, Pengurangan &amp; Perkalian</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Sama halnya dengan bilangan real, himpunan seluruh polinomial tertutup di bawah operasi penjumlahan, pengurangan, dan perkalian. Artinya, hasil operasi tersebut selalu menghasilkan polinomial baru.
+                        </p>
+
+                        <!-- DUA OPERASI UTAMA -->
+                        <div class="space-y-4">
+                            <!-- Penjumlahan & Pengurangan -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <h4 class="font-bold text-slate-900 text-xs sm:text-sm">A. Penjumlahan &amp; Pengurangan (Mengelompokkan Suku Sejenis)</h4>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Suku sejenis adalah suku-suku yang memiliki variabel dengan pangkat yang tepat sama. Penjumlahan/pengurangan dilakukan dengan menjumlahkan/mengurangkan koefisien suku-suku sejenis tersebut.
+                                </p>
+                                <div class="p-2.5 rounded-lg bg-blue-50 text-blue-900 text-xs font-semibold border border-blue-200">
+                                    📌 <strong>Teorema Derajat Jumlahan/Selisih:</strong><br>
+                                    Jika $P(x)$ berderajat $m$ dan $Q(x)$ berderajat $n$, maka:
+                                    $$\text{deg}(P \pm Q) \le \max(\text{deg}(P), \text{deg}(Q))$$
+                                    <em>Perhatian:</em> Derajat bisa berkurang jika suku berpangkat tertinggi saling meniadakan ($a_n = -b_n$).
+                                </div>
+                            </div>
+
+                            <!-- Perkalian -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <h4 class="font-bold text-slate-900 text-xs sm:text-sm">B. Perkalian Polinomial (Distributif Total)</h4>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Perkalian dilakukan dengan mengalikan setiap suku pada polinomial pertama dengan setiap suku pada polinomial kedua, memanfaatkan hukum eksponen: $x^a \cdot x^b = x^{a+b}$.
+                                </p>
+                                <div class="p-2.5 rounded-lg bg-emerald-50 text-emerald-900 text-xs font-semibold border border-emerald-200">
+                                    📌 <strong>Teorema Derajat Hasil Kali:</strong><br>
+                                    Jika $P(x)$ berderajat $m$ dan $Q(x)$ berderajat $n$ (dengan $P, Q \neq 0$), maka derajat hasil kalinya adalah jumlahan kedua derajat:
+                                    $$\text{deg}(P \cdot Q) = \text{deg}(P) + \text{deg}(Q) = m + n$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH HITUNG PERKALIAN -->
+                        <div class="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs space-y-2 text-xs text-slate-800">
+                            <span class="font-bold text-slate-900 text-xs sm:text-sm block">Contoh Eksekusi Perkalian:</span>
+                            <p>
+                                Misalkan $f(x) = 2x^2 - 3x + 1$ (derajat 2) dan $g(x) = x^3 - 2x$ (derajat 3). Tentukan $f(x) \cdot g(x)$ dan derajatnya!
+                            </p>
+                            <div class="font-mono text-xs bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1">
+                                <div>$f(x) \cdot g(x) = (2x^2 - 3x + 1)(x^3 - 2x)$</div>
+                                <div>$= 2x^2(x^3 - 2x) - 3x(x^3 - 2x) + 1(x^3 - 2x)$</div>
+                                <div>$= (2x^5 - 4x^3) - (3x^4 - 6x^2) + (x^3 - 2x)$</div>
+                                <div class="font-bold text-indigo-900">$= 2x^5 - 3x^4 - 3x^3 + 6x^2 - 2x$</div>
+                            </div>
+                            <p class="text-slate-600">
+                                Derajat hasil kali adalah $\text{deg}(f \cdot g) = 2 + 3 = \mathbf{5}$, dengan koefisien utama $2$ dan suku tetap $0$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: KASUS KHUSUS & TRIK RAHASIA KOEFISIEN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 4 &middot; Trik Ujian &amp; Kompetisi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 4. Trik Rahasia Menghitung Koefisien Tanpa Ekspansi Manual
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">Trik Cepat TKA</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            Dalam soal ujian sekolah dan seleksi masuk perguruan tinggi (TKA/UTBK), sering muncul bentuk pangkat tinggi seperti $(3x^2 - 4x + 2)^{2026}$. Dewan penguji tidak mengharapkan Anda menjabarkan aljabar ribuan suku, melainkan mengeksploitasi substitusi nilai variabel khusus!
+                        </p>
+
+                        <!-- TIGA TRIK RAHASIA -->
+                        <div class="space-y-3">
+                            <div class="p-3.5 bg-gradient-to-r from-amber-50 to-white rounded-xl border border-amber-200 space-y-1.5">
+                                <div class="flex items-center gap-2 font-bold text-amber-950 text-xs sm:text-sm">
+                                    <span>🎯</span> <span>Trik 1: Jumlahan Seluruh Koefisien $\implies$ Substitusi $x = 1$</span>
+                                </div>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Perhatikan bahwa jika $x = 1$, maka setiap $x^k = 1^k = 1$. Akibatnya:
+                                    $$P(1) = a_n(1)^n + a_{n-1}(1)^{n-1} + \dots + a_1(1) + a_0 = a_n + a_{n-1} + \dots + a_1 + a_0$$
+                                    <strong>Rumus Sakti:</strong> Jumlahan seluruh koefisien $P(x)$ tepat sama dengan $\mathbf{P(1)}$.
+                                </p>
+                            </div>
+
+                            <div class="p-3.5 bg-gradient-to-r from-blue-50 to-white rounded-xl border border-blue-200 space-y-1.5">
+                                <div class="flex items-center gap-2 font-bold text-blue-950 text-xs sm:text-sm">
+                                    <span>🎯</span> <span>Trik 2: Suku Tetap / Konstanta $\implies$ Substitusi $x = 0$</span>
+                                </div>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Jika $x = 0$, seluruh suku yang memiliki variabel $x$ lenyap menjadi 0:
+                                    $$P(0) = a_n(0) + \dots + a_1(0) + a_0 = a_0$$
+                                    <strong>Rumus Sakti:</strong> Suku tetap dari ekspansi suku banyak adalah $\mathbf{P(0)}$.
+                                </p>
+                            </div>
+
+                            <div class="p-3.5 bg-gradient-to-r from-indigo-50 to-white rounded-xl border border-indigo-200 space-y-1.5">
+                                <div class="flex items-center gap-2 font-bold text-indigo-950 text-xs sm:text-sm">
+                                    <span>🎯</span> <span>Trik 3: Jumlahan Koefisien Pangkat Genap vs Pangkat Ganjil</span>
+                                </div>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Karena $(-1)^{\text{genap}} = +1$ dan $(-1)^{\text{ganjil}} = -1$, dengan mengombinasikan $P(1)$ dan $P(-1)$ kita peroleh:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-center font-mono text-xs font-bold pt-1">
+                                    <div class="p-2 bg-white rounded border border-indigo-200 text-indigo-900">
+                                        $$\sum a_{\text{genap}} = \frac{P(1) + P(-1)}{2}$$
+                                    </div>
+                                    <div class="p-2 bg-white rounded border border-indigo-200 text-indigo-900">
+                                        $$\sum a_{\text{ganjil}} = \frac{P(1) - P(-1)}{2}$$
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH EKSEKUSI TRIK -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-800">
+                            <span class="font-bold text-slate-900 text-xs sm:text-sm block">Uji Coba Trik Cepat:</span>
+                            <p>
+                                Tentukan jumlah seluruh koefisien dari ekspansi $(2x^2 - 3x + 2)^{100}$!
+                            </p>
+                            <div class="p-2 bg-white rounded border border-slate-200 font-mono text-xs">
+                                Cukup hitung $P(1) = (2(1)^2 - 3(1) + 2)^{100} = (2 - 3 + 2)^{100} = (1)^{100} = \mathbf{1}$.
+                            </div>
+                            <p class="text-emerald-700 font-semibold">
+                                ✓ Terjawab hanya dalam 3 detik tanpa mengalikan suku-suku binomial raksasa!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">Poin 5 &middot; Asesmen Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Konsep &amp; Operasi Polinomial
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Pemahaman</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pilihlah salah satu jawaban yang paling tepat. Umpan balik analitis dan pembahasan konsep akan otomatis muncul seketika setelah opsi dipilih.
+                        </p>
+
+                        <!-- Soal 1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                1. Manakah di antara bentuk aljabar berikut yang <b>BUKAN</b> merupakan suku banyak (polinomial)?
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio">
+                                    <span>A. $f(x) = \frac{1}{2}x^3 - \sqrt{5}x^2 + 7$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio">
+                                    <span>B. $g(x) = 4x^4 - 2x^2 + \frac{3}{x} - 1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio">
+                                    <span>C. $h(x) = (x^2 - 1)(2x + 3)$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio">
+                                    <span>D. $k(x) = 15$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- Soal 2 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                2. Diketahui kesamaan identitas polinomial: $(x - 2)(ax + b) \equiv 3x^2 - 4x - 4$. Nilai dari $a + b$ adalah...
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio">
+                                    <span>A. $1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio">
+                                    <span>B. $3$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio">
+                                    <span>C. $5$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio">
+                                    <span>D. $7$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- Soal 3 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                3. Jumlah seluruh koefisien dari ekspresi polinomial $P(x) = (4x^3 - 5x + 2)^{2025}$ adalah...
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio">
+                                    <span>A. $0$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio">
+                                    <span>B. $1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio">
+                                    <span>C. $2^{2025}$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio">
+                                    <span>D. $-1$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'B', text: 'Tepat! Suku 3/x setara dengan 3x⁻¹ yang memiliki pangkat negatif (-1 ∉ ℕ₀). Koefisien pecahan seperti 1/2 atau akar konstanta √5 pada opsi A tetap sah sebagai polinomial asalkan pangkat variabelnya bilangan cacah.' },
+                                    'kuis-2': { ans: 'C', text: 'Benar! Jabarkan ruas kiri: ax² + (b - 2a)x - 2b ≡ 3x² - 4x - 4. Samakan koefisien: a = 3, lalu suku tetap -2b = -4 ⇒ b = 2. Uji suku tengah: b - 2a = 2 - 2(3) = -4 (cocok sempurna). Maka a + b = 3 + 2 = 5.' },
+                                    'kuis-3': { ans: 'B', text: 'Tepat sekali! Gunakan trik jumlahan seluruh koefisien P(1): P(1) = (4(1)³ - 5(1) + 2)²⁰²⁵ = (4 - 5 + 2)²⁰²⁵ = (1)²⁰²⁵ = 1.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Periksa kembali konsep kesamaan aljabar dan pangkat variabel!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. Badan Standar, Kurikulum, dan Asesmen Pendidikan (BSKAP). Bab 2: Polinomial.</p>
+                    <p><strong>Sullivan, Michael.</strong> (2020). <em>Algebra and Trigonometry</em> (11th ed.). Pearson. Chapter 5: Polynomial and Rational Functions (5.1 Polynomial Functions and Models, 5.2 Properties of Rational Functions).</p>
+                    <p><strong>Larson, Ron.</strong> (2022). <em>Precalculus with Limits</em> (5th ed.). Cengage Learning. Chapter 2: Polynomial and Rational Functions.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-11/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-indigo-600 transition">
+                        &larr; Hub Matematika Kelas XI
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="nilai-polinomial-dan-metode-substitusi-horner.html" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Nilai Polinomial &amp; Skema Horner &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
