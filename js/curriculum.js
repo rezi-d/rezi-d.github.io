@@ -531,6 +531,19 @@ const kurikulum = {
                     { file: "matriks-transformasi-dan-komposisi-transformasi.html", title: "Matriks Transformasi & Komposisi Majemuk" },
                     { file: "pemodelan-dan-problem-solving-hots-transformasi.html", title: "Problem Solving HOTS & Pemodelan Transformasi" }
                 ]
+            },
+            {
+                slug: "trigonometri-lanjutan",
+                title: "Fungsi Trigonometri Lanjutan",
+                deskripsi: "Eksplorasi mendalam fungsi dan persamaan trigonometri: grafik fungsi sinus, cosinus, & tangen (amplitudo, periode, & pergeseran fasa), rumus jumlah dan selisih sudut sin/cos/tan(α ± β), sudut ganda & setengah sudut, rumus perkalian ke jumlahan dan sebaliknya (Werner & Simpson), penyelesaian persamaan trigonometri dasar & bentuk a cos x + b sin x = c, serta pemodelan gelombang fisika dan fenomena periodik.",
+                subbab: [
+                    { file: "grafik-fungsi-trigonometri-dan-karakteristiknya.html", title: "Grafik Fungsi Sinus, Cosinus, Tangen & Pergeseran Fasa" },
+                    { file: "rumus-jumlah-dan-selisih-dua-sudut-trigonometri.html", title: "Rumus Jumlah & Selisih Dua Sudut Trigonometri" },
+                    { file: "rumus-sudut-ganda-dan-setengah-sudut-trigonometri.html", title: "Rumus Sudut Ganda & Setengah Sudut" },
+                    { file: "rumus-perkalian-dan-penjumlahan-trigonometri.html", title: "Konversi Perkalian & Penjumlahan Trigonometri (Werner)" },
+                    { file: "persamaan-trigonometri-dasar-dan-lanjutan.html", title: "Persamaan Trigonometri Dasar & Bentuk a cos x + b sin x = c" },
+                    { file: "pemodelan-dan-problem-solving-hots-trigonometri.html", title: "Problem Solving HOTS & Pemodelan Fenomena Periodik" }
+                ]
             }
         ]
     }

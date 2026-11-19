@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumus Jumlah & Selisih Dua Sudut Trigonometri — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari pembuktian geometris rumus sin(α±β), cos(α±β), tan(α±β), komputasi nilai eksak sudut non-istimewa 15° dan 75°, serta manipulasi identitas aljabar.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/trigonometri-lanjutan/rumus-jumlah-dan-selisih-dua-sudut-trigonometri.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/trigonometri-lanjutan/rumus-jumlah-dan-selisih-dua-sudut-trigonometri.html">
+    <meta property="og:title" content="📐 Rumus Jumlah & Selisih Dua Sudut — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai identitas sin(α±β), cos(α±β), tan(α±β), trik sudut relasi, dan problem solving nilai eksak.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="trigonometri-lanjutan">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-sky-100 text-sky-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 7: Fungsi Trigonometri Lanjutan
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                        Rumus Jumlah &amp; Selisih Dua Sudut Trigonometri
+                    </h1>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Kerap kali kita harus menghitung nilai perbandingan sudut non-istimewa seperti $15^\circ$, $75^\circ$, atau $105^\circ$ tanpa bantuan kalkulator. Pelajari pembuktian geometris rumus jumlah dan selisih sudut $\cos(\alpha \pm \beta)$, $\sin(\alpha \pm \beta)$, dan $\tan(\alpha \pm \beta)$ serta strategi aljabar penerapannya.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="sky" class="space-y-6">
+
+                    <!-- SLIDE 1: PENURUNAN RUMUS COSINUS SELISIH & JUMLAH -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 1 &middot; Penurunan Geometris</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔘 1. Penurunan Rumus Cosinus Jumlah &amp; Selisih Sudut
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">cos(α ± β)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Batu loncatan fundamental dari seluruh rumus sudut trigonometri adalah rumus cosinus selisih dua sudut. Pembuktian resminya dilakukan menggunakan <strong>lingkaran satuan</strong> berpusat di $O(0,0)$ dengan jari-jari $r = 1$:
+                        </p>
+
+                        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs sm:text-sm">
+                            <h3 class="font-bold text-slate-900 text-sm">Langkah Pembuktian Melalui Jarak Dua Titik (Euclidean Distance):</h3>
+                            <p class="text-slate-700 leading-relaxed">
+                                Misalkan titik $A(\cos\alpha, \sin\alpha)$ dan $B(\cos\beta, \sin\beta)$ membentuk sudut pusat $(\alpha - \beta)$. Jika tali busur ini dirotasi ke posisi awal dengan titik $P(1, 0)$ dan $Q(\cos(\alpha - \beta), \sin(\alpha - \beta))$, maka panjang tali busur $AB$ sama dengan tali busur $PQ$:
+                            </p>
+                            <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-center text-slate-800">
+                                $$(AB)^2 = (PQ)^2$$
+                                $$(\cos\alpha - \cos\beta)^2 + (\sin\alpha - \sin\beta)^2 = [\cos(\alpha - \beta) - 1]^2 + [\sin(\alpha - \beta) - 0]^2$$
+                            </div>
+                            <p class="text-slate-700 leading-relaxed">
+                                Jabarkan kuadrat suku-suku dan gunakan identitas Pythagoras $\cos^2\theta + \sin^2\theta = 1$:
+                            </p>
+                            <div class="p-3 bg-sky-50 rounded-lg border border-sky-200 font-mono text-center text-sky-950 font-bold">
+                                $$2 - 2(\cos\alpha\cos\beta + \sin\alpha\sin\beta) = 2 - 2\cos(\alpha - \beta)$$
+                                $$\Downarrow$$
+                                $$\cos(\alpha - \beta) = \cos\alpha\cos\beta + \sin\alpha\sin\beta$$
+                            </div>
+                        </div>
+
+                        <!-- RUMUS COSINUS JUMLAH -->
+                        <div class="p-4 bg-sky-50/70 rounded-xl border border-sky-200 space-y-2 text-xs sm:text-sm">
+                            <span class="font-bold text-sky-900 block">Menurunkan Cosinus Penjumlahan: $\cos(\alpha + \beta)$</span>
+                            <p class="text-slate-700">
+                                Gantilah $\beta$ dengan $-\beta$. Karena $\cos(-\beta) = \cos\beta$ dan $\sin(-\beta) = -\sin\beta$, kita dapatkan:
+                            </p>
+                            <div class="p-2.5 bg-white rounded-lg border border-sky-200 font-mono text-center text-sky-900 font-bold text-sm">
+                                $$\cos(\alpha + \beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta$$
+                            </div>
+                            <p class="text-xs text-sky-800">
+                                📌 <em>Perhatikan perubahan tanda:</em> Cosinus jumlah menghasilkan tanda <strong>negatif (berlawanan)</strong> di antara perkalian fungsinya!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: RUMUS SINUS JUMLAH & SELISIH -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 2 &middot; Identitas Sudut Komplementer</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 2. Rumus Sinus Jumlah &amp; Selisih Dua Sudut
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">sin(α ± β)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Dengan memanfaatkan relasi sudut komplemen $\sin\theta = \cos(90^\circ - \theta)$, rumus sinus jumlah dapat diturunkan langsung dari rumus cosinus selisih:
+                        </p>
+
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-mono text-center">
+                                $$\sin(\alpha + \beta) = \cos[90^\circ - (\alpha + \beta)] = \cos[(90^\circ - \alpha) - \beta]$$
+                                $$= \cos(90^\circ - \alpha)\cos\beta + \sin(90^\circ - \alpha)\sin\beta$$
+                                $$= \sin\alpha\cos\beta + \cos\alpha\sin\beta$$
+                            </p>
+                        </div>
+
+                        <!-- DUA FORMULA RESMI SINUS -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-center space-y-1.5">
+                                <span class="text-xs font-bold text-sky-800 uppercase tracking-wider">Sinus Jumlah</span>
+                                <div class="font-mono text-sm sm:text-base font-bold text-sky-950">
+                                    $$\sin(\alpha + \beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta$$
+                                </div>
+                                <span class="text-xs text-sky-700">Tanda tanda tetap sama (positif $\to$ positif)</span>
+                            </div>
+
+                            <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-center space-y-1.5">
+                                <span class="text-xs font-bold text-sky-800 uppercase tracking-wider">Sinus Selisih</span>
+                                <div class="font-mono text-sm sm:text-base font-bold text-sky-950">
+                                    $$\sin(\alpha - \beta) = \sin\alpha\cos\beta - \cos\alpha\sin\beta$$
+                                </div>
+                                <span class="text-xs text-sky-700">Tanda tanda tetap sama (negatif $\to$ negatif)</span>
+                            </div>
+                        </div>
+
+                        <!-- JEMBATAN KELEDAI / MNEMONIK -->
+                        <div class="p-4 bg-white rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2">
+                            <h3 class="font-bold text-slate-900 flex items-center gap-1.5">
+                                🧠 Mnemonik Menghafal Sinus vs Cosinus:
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-700">
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <strong class="text-sky-700 block mb-1">Sinus = Saling Silang, Tanda Tetap</strong>
+                                    Fungsi bersilangan $\sin \cdot \cos$ lalu $\cos \cdot \sin$. Tanda operasi di tengah tidak berubah ($+$ tetap $+$, $-$ tetap $-$).
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                                    <strong class="text-indigo-700 block mb-1">Cosinus = Kumpul Bersama, Tanda Balik</strong>
+                                    Fungsi mengelompok $\cos \cdot \cos$ lalu $\sin \cdot \sin$. Tanda operasi di tengah berlawanan ($+$ menjadi $-$, $-$ menjadi $+$).
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: RUMUS TANGEN JUMLAH & SELISIH -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 3 &middot; Rasio Pembagian</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ 3. Rumus Tangen Jumlah &amp; Selisih Dua Sudut
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">tan(α ± β)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Dengan membagi $\sin(\alpha \pm \beta)$ terhadap $\cos(\alpha \pm \beta)$, lalu membagi seluruh pembilang dan penyebut dengan faktor $\cos\alpha\cos\beta$, kita peroleh:
+                        </p>
+
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-mono text-center">
+                                $$\tan(\alpha + \beta) = \frac{\sin(\alpha + \beta)}{\cos(\alpha + \beta)} = \frac{\sin\alpha\cos\beta + \cos\alpha\sin\beta}{\cos\alpha\cos\beta - \sin\alpha\sin\beta}$$
+                            </p>
+                            <p class="text-center text-xs text-slate-500">
+                                Bagi pembilang dan penyebut dengan $\cos\alpha\cos\beta$:
+                            </p>
+                            <p class="font-mono text-center text-sky-900 font-bold">
+                                $$\tan(\alpha + \beta) = \frac{\frac{\sin\alpha\cos\beta}{\cos\alpha\cos\beta} + \frac{\cos\alpha\sin\beta}{\cos\alpha\cos\beta}}{\frac{\cos\alpha\cos\beta}{\cos\alpha\cos\beta} - \frac{\sin\alpha\sin\beta}{\cos\alpha\cos\beta}} = \frac{\tan\alpha + \tan\beta}{1 - \tan\alpha\tan\beta}$$
+                            </p>
+                        </div>
+
+                        <!-- RINGKASAN RUMUS TANGEN -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-center space-y-1">
+                                <span class="font-bold text-sky-800 uppercase tracking-wider text-xs">Tangen Jumlah</span>
+                                <div class="font-mono text-base font-bold text-sky-950">
+                                    $$\tan(\alpha + \beta) = \frac{\tan\alpha + \tan\beta}{1 - \tan\alpha\tan\beta}$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-center space-y-1">
+                                <span class="font-bold text-sky-800 uppercase tracking-wider text-xs">Tangen Selisih</span>
+                                <div class="font-mono text-base font-bold text-sky-950">
+                                    $$\tan(\alpha - \beta) = \frac{\tan\alpha - \tan\beta}{1 + \tan\alpha\tan\beta}$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-800">
+                            <strong>⚠️ Syarat Domain Berlakunya Rumus:</strong><br>
+                            Sudut $\alpha, \beta, (\alpha \pm \beta) \ne 90^\circ + k \cdot 180^\circ$ (karena $\tan 90^\circ$ tidak terdefinisi) serta penyebut $1 \mp \tan\alpha\tan\beta \ne 0$.
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: APLIKASI NILAI EKSAK SUDUT NON-ISTIMEWA -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 4 &middot; Komputasi Analitik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧮 4. Menghitung Nilai Eksak Sudut 15°, 75°, 105°
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">15° &amp; 75°</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Sudut $15^\circ$ dan $75^\circ$ dapat dipecah menjadi kombinasi sudut istimewa $45^\circ$ dan $30^\circ$:
+                        </p>
+
+                        <!-- TABEL SUDUT NON-ISTIMEWA EKSAK -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs sm:text-sm text-left border-collapse border border-slate-200 rounded-xl overflow-hidden">
+                                <thead class="bg-slate-100 text-slate-800 font-bold">
+                                    <tr>
+                                        <th class="p-3 border border-slate-200">Sudut</th>
+                                        <th class="p-3 border border-slate-200">Kombinasi Sudut</th>
+                                        <th class="p-3 border border-slate-200">Ekspansi Formula</th>
+                                        <th class="p-3 border border-slate-200">Nilai Eksak Sederhana</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 text-slate-700 font-mono">
+                                    <tr class="bg-white hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-sky-700">$\sin 75^\circ$</td>
+                                        <td class="p-3">$\sin(45^\circ + 30^\circ)$</td>
+                                        <td class="p-3">$\sin 45^\circ\cos 30^\circ + \cos 45^\circ\sin 30^\circ$</td>
+                                        <td class="p-3 font-bold">$\frac{\sqrt{6} + \sqrt{2}}{4}$</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/50 hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-sky-700">$\cos 75^\circ$</td>
+                                        <td class="p-3">$\cos(45^\circ + 30^\circ)$</td>
+                                        <td class="p-3">$\cos 45^\circ\cos 30^\circ - \sin 45^\circ\sin 30^\circ$</td>
+                                        <td class="p-3 font-bold">$\frac{\sqrt{6} - \sqrt{2}}{4}$</td>
+                                    </tr>
+                                    <tr class="bg-white hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-sky-700">$\sin 15^\circ$</td>
+                                        <td class="p-3">$\sin(45^\circ - 30^\circ)$</td>
+                                        <td class="p-3">$\sin 45^\circ\cos 30^\circ - \cos 45^\circ\sin 30^\circ$</td>
+                                        <td class="p-3 font-bold">$\frac{\sqrt{6} - \sqrt{2}}{4}$</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/50 hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-sky-700">$\cos 15^\circ$</td>
+                                        <td class="p-3">$\cos(45^\circ - 30^\circ)$</td>
+                                        <td class="p-3">$\cos 45^\circ\cos 30^\circ + \sin 45^\circ\sin 30^\circ$</td>
+                                        <td class="p-3 font-bold">$\frac{\sqrt{6} + \sqrt{2}}{4}$</td>
+                                    </tr>
+                                    <tr class="bg-white hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-sky-700">$\tan 15^\circ$</td>
+                                        <td class="p-3">$\tan(45^\circ - 30^\circ)$</td>
+                                        <td class="p-3">$\frac{1 - \frac{1}{\sqrt{3}}}{1 + 1 \cdot \frac{1}{\sqrt{3}}} = \frac{\sqrt{3}-1}{\sqrt{3}+1}$</td>
+                                        <td class="p-3 font-bold">$2 - \sqrt{3}$</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/50 hover:bg-slate-50">
+                                        <td class="p-3 font-bold text-sky-700">$\tan 75^\circ$</td>
+                                        <td class="p-3">$\tan(45^\circ + 30^\circ)$</td>
+                                        <td class="p-3">$\frac{1 + \frac{1}{\sqrt{3}}}{1 - 1 \cdot \frac{1}{\sqrt{3}}} = \frac{\sqrt{3}+1}{\sqrt{3}-1}$</td>
+                                        <td class="p-3 font-bold">$2 + \sqrt{3}$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- TRIK REKAYASA SUDUT KUADRAN -->
+                        <div class="p-4 bg-sky-50/50 rounded-xl border border-sky-100 text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-sky-900 block">💡 Tips Penentuan Tanda di Berbagai Kuadran:</span>
+                            <p class="text-slate-700">
+                                Saat menghitung $\cos(\alpha + \beta)$ dengan $\alpha$ di kuadran II dan $\beta$ di kuadran I, ingat bahwa nilai $\cos\alpha < 0$ dan $\sin\alpha > 0$. Selalu gambarkan segitiga siku-siku pembantu untuk mencari panjang sisi yang belum diketahui dengan teorema Pythagoras sebelum memasukkan ke rumus!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Jumlah &amp; Selisih Sudut
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-100 text-sky-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman rumus jumlah dan selisih sudut trigonometri.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 1 &middot; Nilai Eksak Sinus</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Sudut 75°</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Nilai eksak dari $\sin 75^\circ$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $\frac{\sqrt{6} + \sqrt{2}}{4}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $\frac{\sqrt{6} - \sqrt{2}}{4}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $\frac{\sqrt{3} + 1}{2}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $\frac{\sqrt{2} - \sqrt{6}}{4}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 2 &middot; Sudut Beda Kuadran</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Kuadran II &amp; I</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui $\sin\alpha = \frac{3}{5}$ dengan $\alpha$ adalah sudut tumpul ($90^\circ < \alpha < 180^\circ$) dan $\cos\beta = \frac{12}{13}$ dengan $\beta$ sudut lancip ($0^\circ < \beta < 90^\circ$). Nilai dari $\cos(\alpha + \beta)$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $-\frac{63}{65}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $-\frac{33}{65}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $\frac{33}{65}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $\frac{63}{65}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 3 &middot; Penyederhanaan Tangen</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">tan(A - B)</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Nilai dari bentuk $\frac{\tan 105^\circ - \tan 60^\circ}{1 + \tan 105^\circ \tan 60^\circ}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $1$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $\sqrt{3}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $\frac{1}{\sqrt{3}}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $-1$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SCRIPT LOGIKA KUIS -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! sin 75° = sin(45° + 30°) = sin 45° cos 30° + cos 45° sin 30° = (√2/2)(√3/2) + (√2/2)(1/2) = (√6 + √2)/4.' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Di kuadran II, cos α = -4/5. Di kuadran I, sin β = 5/13. Maka cos(α + β) = cos α cos β - sin α sin β = (-4/5)(12/13) - (3/5)(5/13) = -48/65 - 15/65 = -63/65.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Menggunakan identitas tan(A - B) = (tan A - tan B)/(1 + tan A tan B), bentuk tersebut bernilai tan(105° - 60°) = tan 45° = 1.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-sky-900 bg-sky-50 px-3 py-1.5 rounded-lg border border-sky-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Cermati tanda formula (ingat cosinus berlawanan tanda) serta nilai sin/cos di kuadran II!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab Rumus Jumlah dan Selisih Sudut.</p>
+                    <p><strong>Larson, Ron.</strong> (2021). <em>Trigonometry</em> (11th ed.). Cengage Learning. Chapter 3: Analytic Trigonometry.</p>
+                    <p><strong>Lial, Margaret L., Hornsby, John, &amp; Schneider, David I.</strong> (2020). <em>Trigonometry</em> (12th ed.). Pearson.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="grafik-fungsi-trigonometri-dan-karakteristiknya.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-sky-600 transition">
+                        &larr; Kembali: Grafik Fungsi Trigonometri
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="rumus-sudut-ganda-dan-setengah-sudut-trigonometri.html" class="bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Rumus Sudut Ganda &amp; Setengah Sudut &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

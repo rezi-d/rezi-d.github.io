@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafik Fungsi Sinus, Cosinus, Tangen & Pergeseran Fasa — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Kuasai karakteristik grafik fungsi trigonometri baku, bentuk umum gelombang sinusoidal y = A sin(Bx - C) + D, amplitudo, periode, pergeseran fasa, dan asimtot tegak.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/trigonometri-lanjutan/grafik-fungsi-trigonometri-dan-karakteristiknya.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/trigonometri-lanjutan/grafik-fungsi-trigonometri-dan-karakteristiknya.html">
+    <meta property="og:title" content="📐 Grafik Fungsi Trigonometri & Pergeseran Fasa — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Eksplorasi gelombang sinusoidal y = A sin(Bx - C) + D, amplitudo, periode, pergeseran fasa dan asimtot grafik.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="trigonometri-lanjutan">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-sky-100 text-sky-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 7: Fungsi Trigonometri Lanjutan
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                        Grafik Fungsi Sinus, Cosinus, Tangen &amp; Karakteristik Gelombang
+                    </h1>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Fungsi trigonometri merepresentasikan fenomena osilasi berulang (periodik) di alam semesta. Pelajari konstruksi kurva baku sinus, cosinus, dan tangen, parameter gelombang amplitudo $|A|$, frekuensi sudut $B$, pergeseran fasa horizontal $C/B$, translasi vertikal $D$, serta asimtot kurva tangen.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="sky" class="space-y-6">
+
+                    <!-- SLIDE 1: HAKIKAT FUNGSI PERIODIK & GRAFIK BAKU -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 1 &middot; Fondasi Konseptual</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌊 1. Hakikat Fungsi Periodik &amp; Siklus Baku
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">Periode &amp; Domain</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Suatu fungsi $f(x)$ dikatakan <strong>periodik</strong> jika terdapat konstanta real positif terkecil $T > 0$ (disebut <em>periode dasar</em>) sedemikian rupa sehingga:
+                        </p>
+
+                        <div class="p-4 bg-sky-50/60 rounded-xl border border-sky-200 text-center font-mono text-sm sm:text-base text-sky-900 font-bold">
+                            $$f(x + T) = f(x), \quad \forall x \in D_f$$
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <!-- Sinus -->
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
+                                    Fungsi Sinus: $y = \sin x$
+                                </h3>
+                                <ul class="space-y-1.5 text-slate-600 list-disc list-inside">
+                                    <li><strong>Domain:</strong> $x \in \mathbb{R}$</li>
+                                    <li><strong>Range:</strong> $-1 \le y \le 1$</li>
+                                    <li><strong>Periode:</strong> $2\pi$ atau $360^\circ$</li>
+                                    <li><strong>Titik potong sumbu-x:</strong> $(k\pi, 0)$</li>
+                                    <li><strong>Sifat Simetri:</strong> Fungsi ganjil, $\sin(-x) = -\sin x$ (simetri titik asal $(0,0)$).</li>
+                                </ul>
+                            </div>
+
+                            <!-- Cosinus -->
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                                    Fungsi Cosinus: $y = \cos x$
+                                </h3>
+                                <ul class="space-y-1.5 text-slate-600 list-disc list-inside">
+                                    <li><strong>Domain:</strong> $x \in \mathbb{R}$</li>
+                                    <li><strong>Range:</strong> $-1 \le y \le 1$</li>
+                                    <li><strong>Periode:</strong> $2\pi$ atau $360^\circ$</li>
+                                    <li><strong>Titik potong sumbu-x:</strong> $(\frac{\pi}{2} + k\pi, 0)$</li>
+                                    <li><strong>Sifat Simetri:</strong> Fungsi genap, $\cos(-x) = \cos x$ (simetris terhadap sumbu-y).</li>
+                                </ul>
+                            </div>
+
+                            <!-- Tangen -->
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                    Fungsi Tangen: $y = \tan x$
+                                </h3>
+                                <ul class="space-y-1.5 text-slate-600 list-disc list-inside">
+                                    <li><strong>Domain:</strong> $x \ne \frac{\pi}{2} + k\pi$</li>
+                                    <li><strong>Range:</strong> $y \in \mathbb{R}$ ($-\infty < y < \infty$)</li>
+                                    <li><strong>Periode:</strong> $\pi$ atau $180^\circ$</li>
+                                    <li><strong>Asimtot Tegak:</strong> $x = \frac{\pi}{2} + k\pi$</li>
+                                    <li><strong>Sifat Simetri:</strong> Fungsi ganjil, $\tan(-x) = -\tan x$.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- VISUALISASI SVG PERBANDINGAN SINUS VS COSINUS -->
+                        <div class="p-4 bg-white rounded-xl border border-slate-200">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">Visualisasi Gelombang Baku ($0 \le x \le 2\pi$)</span>
+                            <div class="overflow-x-auto py-2">
+                                <svg viewBox="0 0 600 200" class="w-full max-w-2xl mx-auto text-xs" style="min-width: 480px;">
+                                    <!-- Grid lines -->
+                                    <line x1="50" y1="100" x2="570" y2="100" stroke="#94a3b8" stroke-width="1.5" />
+                                    <line x1="50" y1="20" x2="50" y2="180" stroke="#94a3b8" stroke-width="1.5" />
+                                    
+                                    <line x1="50" y1="40" x2="570" y2="40" stroke="#e2e8f0" stroke-dasharray="4" />
+                                    <line x1="50" y1="160" x2="570" y2="160" stroke="#e2e8f0" stroke-dasharray="4" />
+                                    <text x="35" y="45" fill="#64748b" font-weight="bold">1</text>
+                                    <text x="32" y="105" fill="#64748b" font-weight="bold">0</text>
+                                    <text x="30" y="165" fill="#64748b" font-weight="bold">-1</text>
+
+                                    <!-- X-ticks -->
+                                    <line x1="180" y1="95" x2="180" y2="105" stroke="#94a3b8" />
+                                    <text x="170" y="120" fill="#64748b">π/2</text>
+                                    <line x1="310" y1="95" x2="310" y2="105" stroke="#94a3b8" />
+                                    <text x="305" y="120" fill="#64748b">π</text>
+                                    <line x1="440" y1="95" x2="440" y2="105" stroke="#94a3b8" />
+                                    <text x="430" y="120" fill="#64748b">3π/2</text>
+                                    <line x1="570" y1="95" x2="570" y2="105" stroke="#94a3b8" />
+                                    <text x="560" y="120" fill="#64748b">2π</text>
+
+                                    <!-- Sinus (Sky) -->
+                                    <path d="M 50,100 C 115,20 115,20 180,40 C 245,60 245,100 310,100 C 375,100 375,180 440,160 C 505,140 505,100 570,100" fill="none" stroke="#0284c7" stroke-width="3" />
+                                    
+                                    <!-- Cosinus (Indigo dashed) -->
+                                    <path d="M 50,40 C 115,40 115,100 180,100 C 245,100 245,160 310,160 C 375,160 375,100 440,100 C 505,100 505,40 570,40" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-dasharray="5 3" />
+                                </svg>
+                            </div>
+                            <div class="flex items-center justify-center gap-6 text-xs font-semibold pt-1">
+                                <span class="flex items-center gap-1.5 text-sky-700">
+                                    <span class="w-4 h-1 bg-sky-600 rounded"></span> $y = \sin x$ (Mulai dari 0)
+                                </span>
+                                <span class="flex items-center gap-1.5 text-indigo-700">
+                                    <span class="w-4 h-1 bg-indigo-500 border-dashed border-t-2 border-indigo-600"></span> $y = \cos x$ (Mulai dari puncak 1)
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: BENTUK UMUM GELOMBANG SINUSOIDAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 2 &middot; Transformasi Parameter</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 2. Bentuk Umum Gelombang Sinusoidal
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">y = A sin(Bx - C) + D</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Gelombang harmonik dalam fisika dan matematika dinyatakan dalam bentuk umum parameter:
+                        </p>
+
+                        <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-center font-mono text-base sm:text-lg text-sky-900 font-bold">
+                            $$y = A \sin(Bx - C) + D \quad \text{atau} \quad y = A \cos(Bx - C) + D$$
+                        </div>
+
+                        <!-- 4 PARAMETER MATEMATIS -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">1. Amplitudo ($|A|$)</span>
+                                <p class="text-slate-700 font-medium">Jarak vertikal dari garis keseimbangan ke puncak atau lembah.</p>
+                                <p class="text-slate-600">
+                                    $$\text{Amplitudo} = |A| = \frac{y_{\text{maks}} - y_{\text{min}}}{2}$$
+                                </p>
+                                <p class="text-slate-500 text-xs">Jika $A < 0$, kurva mengalami pembalikan/refleksi terhadap garis keseimbangan.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">2. Periode ($T$) &amp; Faktor $B$</span>
+                                <p class="text-slate-700 font-medium">Panjang satu siklus gelombang lengkap di sepanjang sumbu horizontal.</p>
+                                <p class="text-slate-600">
+                                    $$T = \frac{2\pi}{|B|} \quad (\text{radian}) \quad \text{atau} \quad T = \frac{360^\circ}{|B|} \quad (\text{derajat})$$
+                                </p>
+                                <p class="text-slate-500 text-xs">Nilai $B$ menyatakan frekuensi sudut atau banyak gelombang dalam interval $2\pi$ ($360^\circ$).</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">3. Pergeseran Vertikal / Sumbu ($D$)</span>
+                                <p class="text-slate-700 font-medium">Garis keseimbangan (midline) gelombang berada pada garis mendatar:</p>
+                                <p class="text-slate-600">
+                                    $$y = D = \frac{y_{\text{maks}} + y_{\text{min}}}{2}$$
+                                </p>
+                                <p class="text-slate-500 text-xs">Kurva bergeser ke atas jika $D > 0$ dan bergeser ke bawah jika $D < 0$.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">4. Nilai Ekstrem (Maksimum &amp; Minimum)</span>
+                                <p class="text-slate-700 font-medium">Nilai tertinggi dan terendah yang dapat dicapai kurva:</p>
+                                <p class="text-slate-600">
+                                    $$y_{\text{maks}} = D + |A| \quad \text{dan} \quad y_{\text{min}} = D - |A|$$
+                                </p>
+                                <p class="text-slate-500 text-xs">Rentang nilai fungsi (range) adalah: $R_f = [D - |A|, \, D + |A|]$.</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL LANGSUNG -->
+                        <div class="p-4 bg-sky-50/50 rounded-xl border border-sky-100 text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-sky-900 block">💡 Contoh Komputasi Parameter:</span>
+                            <p class="text-slate-700">
+                                Tentukan amplitudo, periode, nilai maksimum, dan nilai minimum dari $y = -5\cos(4x) + 3$!
+                            </p>
+                            <div class="space-y-1 text-slate-600">
+                                <p>&bull; $A = -5 \implies \text{Amplitudo } |A| = |-5| = 5$.</p>
+                                <p>&bull; $B = 4 \implies \text{Periode } T = \frac{360^\circ}{4} = 90^\circ$ (atau $\frac{2\pi}{4} = \frac{\pi}{2}$ rad).</p>
+                                <p>&bull; $D = 3 \implies \text{Garis tengah } y = 3$.</p>
+                                <p>&bull; $y_{\text{maks}} = 3 + 5 = 8$ dan $y_{\text{min}} = 3 - 5 = -2$.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: PERGESERAN FASA HORIZONTAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 3 &middot; Fasa &amp; Translasi Horizontal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧭 3. Pergeseran Fasa (Phase Shift) Horizontal
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">x_shift = C/B</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Banyak siswa terjebak mengira bahwa pergeseran horizontal gelombang adalah sejauh $C$. Padahal, faktor $B$ mengalikan variabel $x$. Untuk melihat pergeseran fasa murni, fungsi harus difaktorkan ke bentuk kanonik:
+                        </p>
+
+                        <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-center font-mono text-base sm:text-lg text-sky-900 font-bold">
+                            $$y = A \sin\left(B\left(x - \frac{C}{B}\right)\right) + D$$
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-amber-200 bg-amber-50/60 text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-amber-900 flex items-center gap-1.5">
+                                ⚠️ Aturan Arah Pergeseran Fasa:
+                            </span>
+                            <p class="text-amber-800">
+                                &bull; Jika $\frac{C}{B} > 0$ (tanda di dalam kurung negatif: $x - \theta$), grafik bergeser ke <strong>kanan</strong> sejauh $\frac{C}{B}$.<br>
+                                &bull; Jika $\frac{C}{B} < 0$ (tanda di dalam kurung positif: $x + \theta$), grafik bergeser ke <strong>kiri</strong> sejauh $\left|\frac{C}{B}\right|$.
+                            </p>
+                        </div>
+
+                        <!-- BEDAH KASUS PERGESERAN FASA -->
+                        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs sm:text-sm">
+                            <h3 class="font-bold text-slate-900 text-sm">
+                                🔍 Bedah Kasus: $f(x) = 2\sin(3x - 45^\circ) + 1$
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-700">
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <span class="text-xs font-bold text-sky-700 block">Langkah 1: Faktorkan argumen</span>
+                                    $3x - 45^\circ = 3(x - 15^\circ)$
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <span class="text-xs font-bold text-sky-700 block">Langkah 2: Ambil pergeseran fasa</span>
+                                    Pergeseran fasa $= \frac{45^\circ}{3} = 15^\circ$ ke kanan.
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <span class="text-xs font-bold text-sky-700 block">Langkah 3: Hitung Periode</span>
+                                    $T = \frac{360^\circ}{3} = 120^\circ$.
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <span class="text-xs font-bold text-sky-700 block">Langkah 4: Titik Puncak Pertama</span>
+                                    Puncak normal sinus ada di $x_0 = 90^\circ / 3 = 30^\circ$. Ditambah pergeseran $15^\circ$: $x_{\text{puncak}} = 30^\circ + 15^\circ = 45^\circ$.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-sky-50/50 rounded-xl border border-sky-100 text-xs sm:text-sm text-slate-700">
+                            <strong>💡 Relasi Fasa Sinus &amp; Cosinus:</strong><br>
+                            Fungsi cosinus sesungguhnya adalah fungsi sinus yang telah digeser fasa ke kiri sebesar $90^\circ$ ($\frac{\pi}{2}$ rad):
+                            $$\cos x = \sin\left(x + 90^\circ\right) = \sin\left(x + \frac{\pi}{2}\right)$$
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: KARAKTERISTIK GRAFIK TANGEN & ASIMTOT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 4 &middot; Asimtot &amp; Fungsi Khusus</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 4. Karakteristik Grafik Tangen &amp; Asimtot Tegak
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">x = asimtot</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Fungsi tangen didefinisikan sebagai $\tan x = \frac{\sin x}{\cos x}$. Karena nilai penyebut $\cos x = 0$ saat $x = 90^\circ, 270^\circ, \dots$, maka grafik fungsi tangen <strong>terputus</strong> dan memiliki <em>asimtot tegak (vertical asymptote)</em>.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                                <h3 class="font-bold text-slate-900">Karakteristik Gelombang Tangen</h3>
+                                <ul class="space-y-1.5 text-slate-600 list-disc list-inside">
+                                    <li><strong>Periode Dasar:</strong> $T = \frac{\pi}{|B|} = \frac{180^\circ}{|B|}$ (setengah dari periode sin/cos!).</li>
+                                    <li><strong>Tidak Memiliki Amplitudo:</strong> Kurva melesat hingga $+\infty$ dan $-\infty$, sehingga nilai maksimum dan minimum tidak terdefinisi.</li>
+                                    <li><strong>Titik Belok / Titik Tengah:</strong> Terjadi pada perpotongan garis keseimbangan $y = D$.</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                                <h3 class="font-bold text-slate-900">Menentukan Rumus Asimtot Tegak</h3>
+                                <p class="text-slate-600">
+                                    Untuk fungsi $y = A \tan(Bx - C) + D$, asimtot tegak dicapai ketika argumennya sama dengan sudut ketidakterdefinisian tangen:
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200 font-mono text-center text-sky-800 font-bold">
+                                    $$Bx - C = 90^\circ + k \cdot 180^\circ, \quad k \in \mathbb{Z}$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FUNGSI INVERS TRIGONOMETRI -->
+                        <div class="p-4 bg-sky-50/60 rounded-xl border border-sky-200 text-xs sm:text-sm space-y-2">
+                            <h3 class="font-bold text-sky-950 text-sm">🔄 Pembatasan Domain untuk Fungsi Invers Trigonometri</h3>
+                            <p class="text-slate-700">
+                                Agar fungsi trigonometri bersifat bijektif (satu-satu) dan memiliki invers, domain asalnya harus dipotong (dibatasi):
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 font-mono text-xs">
+                                <div class="bg-white p-2.5 rounded-lg border border-sky-200 text-center">
+                                    <span class="font-bold text-slate-800 block mb-1">Arcsin ($y = \sin^{-1} x$)</span>
+                                    Domain: $[-1, 1]$<br>
+                                    Range: $[-\frac{\pi}{2}, \frac{\pi}{2}]$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-sky-200 text-center">
+                                    <span class="font-bold text-slate-800 block mb-1">Arccos ($y = \cos^{-1} x$)</span>
+                                    Domain: $[-1, 1]$<br>
+                                    Range: $[0, \pi]$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-sky-200 text-center">
+                                    <span class="font-bold text-slate-800 block mb-1">Arctan ($y = \tan^{-1} x$)</span>
+                                    Domain: $\mathbb{R}$<br>
+                                    Range: $(-\frac{\pi}{2}, \frac{\pi}{2})$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Grafik &amp; Karakteristik Gelombang
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-100 text-sky-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman amplitudo, periode, pergeseran fasa, dan asimtot kurva trigonometri.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 1 &middot; Parameter Gelombang</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Amplitudo &amp; Periode</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diberikan fungsi $y = -4\sin(3x - \pi) + 2$. Nilai amplitudo, periode, dan nilai maksimum dari fungsi tersebut berturut-turut adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $4$, $\frac{2\pi}{3}$, dan $6$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $-4$, $3\pi$, dan $2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $4$, $\frac{\pi}{3}$, dan $2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $2$, $\frac{2\pi}{3}$, dan $4$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 2 &middot; Analisis Kurva Gelombang</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Puncak &amp; Lembah</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Suatu gelombang sinusoidal memiliki titik puncak di $(30^\circ, 8)$ dan titik lembah terdekat berikutnya di $(90^\circ, 2)$. Nilai amplitudo ($A$), periode ($T$), dan garis sumbu keseimbangan ($D$) adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $A = 3$, $T = 120^\circ$, dan $D = 5$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $A = 6$, $T = 60^\circ$, dan $D = 5$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $A = 3$, $T = 60^\circ$, dan $D = 6$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $A = 8$, $T = 120^\circ$, dan $D = 2$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 3 &middot; Asimtot Tangen</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Fungsi Tangen</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Letak asimtot tegak pertama pada interval $0^\circ \le x \le 90^\circ$ dari fungsi $y = \tan(2x - 30^\circ)$ adalah pada absis $x = \dots$
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $60^\circ$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $30^\circ$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $45^\circ$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $75^\circ$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SCRIPT LOGIKA KUIS -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Amplitudo = |-4| = 4. Periode T = 2π/3. Nilai maksimum = D + |A| = 2 + 4 = 6.' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Jarak puncak ke lembah adalah setengah periode: T/2 = 90° - 30° = 60° ⇒ T = 120°. Amplitudo A = (8 - 2)/2 = 3. Sumbu tengah D = (8 + 2)/2 = 5.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Asimtot tangen: 2x - 30° = 90° + k·180° ⇒ 2x = 120° + k·180° ⇒ x = 60° + k·90°. Untuk k = 0 diperoleh x = 60°.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-sky-900 bg-sky-50 px-3 py-1.5 rounded-lg border border-sky-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Periksa kembali rumus amplitudo |A|, periode T = 360°/B, dan syarat asimtot argumen = 90° + k·180°!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab Trigonometri Lanjutan.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Chapter 1: Functions and Models &amp; Trigonometric Functions.</p>
+                    <p><strong>Sullivan, Michael.</strong> (2020). <em>Precalculus: Enhanced with Graphing Utilities</em> (8th ed.). Pearson. Chapter 6: Trigonometric Functions.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-11/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-sky-600 transition">
+                        &larr; Kembali ke Hub Matematika Kelas XI
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="rumus-jumlah-dan-selisih-dua-sudut-trigonometri.html" class="bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Rumus Jumlah &amp; Selisih Sudut &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

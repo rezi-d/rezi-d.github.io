@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persamaan Trigonometri Dasar & Bentuk a cos x + b sin x = c — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari penyelesaian persamaan trigonometri dasar, persamaan bentuk kuadrat, transformasi k cos(x - α) = c, syarat eksistensi solusi c² ≤ a² + b², dan faktorisasi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/trigonometri-lanjutan/persamaan-trigonometri-dasar-dan-lanjutan.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/trigonometri-lanjutan/persamaan-trigonometri-dasar-dan-lanjutan.html">
+    <meta property="og:title" content="📐 Persamaan Trigonometri Dasar & Lanjutan — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai solusi periodik k·360°, persamaan kuadratik trigonometri, dan bentuk k cos(x - α) = c.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="trigonometri-lanjutan">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-sky-100 text-sky-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 7: Fungsi Trigonometri Lanjutan
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                        Persamaan Trigonometri Dasar &amp; Bentuk Khusus $a\cos x + b\sin x = c$
+                    </h1>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Menemukan sudut-sudut yang memenuhi kesamaan trigonometri memerlukan pemahaman mendalam tentang sifat periodisitas gelombang dan kuadran sudut. Kuasai himpunan penyelesaian persamaan trigonometri dasar, persamaan bentuk kuadrat aljabar, transformasi kanonik $k\cos(x - \alpha) = c$, serta syarat eksistensi penyelesaian real.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="sky" class="space-y-6">
+
+                    <!-- SLIDE 1: PERSAMAAN TRIGONOMETRI DASAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 1 &middot; Fondasi Solusi Periodik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 1. Persamaan Trigonometri Dasar (Derajat &amp; Radian)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">k ∈ ℤ</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Karena fungsi trigonometri berulang tanpa henti setiap periode, satu persamaan trigonometri memiliki <strong>tak berhingga banyaknya solusi</strong>. Solusi umum dinyatakan dengan parameter bilangan bulat $k \in \{\dots, -2, -1, 0, 1, 2, \dots\}$:
+                        </p>
+
+                        <!-- 3 FORMULA DASAR PERSAMAAN -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs sm:text-sm">
+                            <!-- Sinus -->
+                            <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 space-y-2">
+                                <span class="text-xs font-bold text-sky-800 uppercase tracking-wider block">1. Persamaan Sinus: $\sin x = \sin\alpha$</span>
+                                <p class="text-slate-700 text-xs">Memiliki 2 cabang sudut (Kuadran I &amp; II):</p>
+                                <div class="p-2 bg-white rounded-lg border border-sky-200 font-mono text-xs text-sky-950 font-bold space-y-1">
+                                    <p>① $x = \alpha + k \cdot 360^\circ$</p>
+                                    <p>② $x = (180^\circ - \alpha) + k \cdot 360^\circ$</p>
+                                </div>
+                                <span class="text-[11px] text-slate-500 block">Radian: $\alpha + 2k\pi$ atau $(\pi - \alpha) + 2k\pi$</span>
+                            </div>
+
+                            <!-- Cosinus -->
+                            <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 space-y-2">
+                                <span class="text-xs font-bold text-sky-800 uppercase tracking-wider block">2. Persamaan Cosinus: $\cos x = \cos\alpha$</span>
+                                <p class="text-slate-700 text-xs">Memiliki 2 cabang sudut (Kuadran I &amp; IV):</p>
+                                <div class="p-2 bg-white rounded-lg border border-sky-200 font-mono text-xs text-sky-950 font-bold space-y-1">
+                                    <p>① $x = \alpha + k \cdot 360^\circ$</p>
+                                    <p>② $x = -\alpha + k \cdot 360^\circ$</p>
+                                </div>
+                                <span class="text-[11px] text-slate-500 block">Radian: $\pm\alpha + 2k\pi$</span>
+                            </div>
+
+                            <!-- Tangen -->
+                            <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 space-y-2">
+                                <span class="text-xs font-bold text-sky-800 uppercase tracking-wider block">3. Persamaan Tangen: $\tan x = \tan\alpha$</span>
+                                <p class="text-slate-700 text-xs">Hanya 1 cabang sudut (Periode $180^\circ$):</p>
+                                <div class="p-2 bg-white rounded-lg border border-sky-200 font-mono text-xs text-sky-950 font-bold space-y-1">
+                                    <p>① $x = \alpha + k \cdot 180^\circ$</p>
+                                </div>
+                                <span class="text-[11px] text-slate-500 block">Radian: $\alpha + k\pi$</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-1">
+                            <span class="font-bold text-slate-900 block">💡 Prosedur Penyelesaian Soal Interval:</span>
+                            <p class="text-slate-700">
+                                1. Ubah ruas kanan ke fungsi trigonometri yang sama: misal $\sin 2x = \frac{1}{2} \iff \sin 2x = \sin 30^\circ$.<br>
+                                2. Tulis kedua rumus cabang solusi lengkap dengan parameter $+ k \cdot 360^\circ$.<br>
+                                3. Selesaikan untuk $x$ murni (bagi koefisien $x$ terlebih dahulu sebelum memasukkan nilai $k$).<br>
+                                4. Uji nilai $k = 0, 1, 2, -1, \dots$ dan catat nilai $x$ yang berada dalam interval permintaan.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PERSAMAAN TRIGONOMETRI BENTUK KUADRAT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 2 &middot; Aljabar Kuadratik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 2. Persamaan Trigonometri Bentuk Kuadrat
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">a u² + b u + c = 0</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Bila persamaan memuat suku berpangkat dua, samakan terlebih dahulu seluruh jenis fungsinya (misal semua menjadi $\cos x$ menggunakan $\sin^2 x = 1 - \cos^2 x$), lalu gunakan pemisalan variabel aljabar:
+                        </p>
+
+                        <!-- BEDAH KASUS PERSAMAAN KUADRAT -->
+                        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 text-sm block">Contoh Bedah Kasus: $2\cos^2 x - 3\cos x + 1 = 0$ untuk $0 \le x \le 2\pi$</span>
+                            
+                            <div class="space-y-2 text-slate-700">
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <strong>Langkah 1: Substitusi Pemisalan</strong><br>
+                                    Misalkan $u = \cos x$. Persamaan bertransformasi menjadi:
+                                    $$2u^2 - 3u + 1 = 0$$
+                                </div>
+
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <strong>Langkah 2: Faktorkan Persamaan Kuadrat</strong><br>
+                                    $$(2u - 1)(u - 1) = 0 \implies u = \frac{1}{2} \quad \text{atau} \quad u = 1$$
+                                </div>
+
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <strong>Langkah 3: Periksa Domain Validitas &amp; Cari Solusi Sudut</strong><br>
+                                    Kedua nilai $u$ memenuhi syarat interval tertutup $-1 \le \cos x \le 1$.
+                                    <ul class="list-disc list-inside mt-1 space-y-1">
+                                        <li>Untuk $\cos x = 1 \implies x = 0, 2\pi$.</li>
+                                        <li>Untuk $\cos x = \frac{1}{2} \implies x = \frac{\pi}{3}$ (Kuadran I) dan $x = 2\pi - \frac{\pi}{3} = \frac{5\pi}{3}$ (Kuadran IV).</li>
+                                    </ul>
+                                    <p class="font-mono text-sky-900 font-bold mt-1">Himpunan Penyelesaian: $HP = \left\{0, \frac{\pi}{3}, \frac{5\pi}{3}, 2\pi\right\}$</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
+                            <strong>⚠️ Waspada Akar Semu (Extraneous Roots):</strong> Jika faktorisasi menghasilkan nilai akar $u = 2$ atau $u = -1.5$, akar tersebut <strong>tidak memiliki solusi</strong> (kosong) karena rentang nilai $\sin x$ dan $\cos x$ terbatas mutlak pada $[-1, 1]$.
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: BENTUK KHUSUS a cos x + b sin x = c -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 3 &middot; Bentuk Kanonik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 3. Persamaan Bentuk $a\cos x + b\sin x = c$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">k cos(x - α) = c</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Penjumlahan linear antara sinus dan cosinus dengan sudut yang sama selalu dapat diubah menjadi satu fungsi cosinus tunggal dengan pergeseran fasa:
+                        </p>
+
+                        <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-center font-mono text-sm sm:text-base text-sky-950 font-bold">
+                            $$a\cos x + b\sin x = k\cos(x - \alpha)$$
+                        </div>
+
+                        <!-- PARAMETER k DAN ALPHA -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Nilai Pengali $k$</span>
+                                <div class="font-mono text-sm font-bold text-slate-900">
+                                    $$k = \sqrt{a^2 + b^2} \quad (k > 0)$$
+                                </div>
+                                <p class="text-slate-600 text-xs">Berasal dari teorema Pythagoras pada bidang koordinat Cartesius titik $(a, b)$.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Sudut Fasa $\alpha$</span>
+                                <div class="font-mono text-sm font-bold text-slate-900">
+                                    $$\tan\alpha = \frac{b}{a}$$
+                                </div>
+                                <p class="text-slate-600 text-xs">Kuadran $\alpha$ ditentukan secara eksklusif oleh tanda koordinat Cartesius $(a, b)$.</p>
+                            </div>
+                        </div>
+
+                        <!-- SYARAT EKSISTENSI SOLUSI REAL -->
+                        <div class="p-4 bg-sky-50/70 rounded-xl border border-sky-200 text-xs sm:text-sm space-y-2">
+                            <h3 class="font-bold text-sky-950 text-sm">⚖️ Syarat Agar Persamaan Memiliki Penyelesaian:</h3>
+                            <p class="text-slate-700">
+                                Karena persamaan dapat ditulis sebagai $\cos(x - \alpha) = \frac{c}{k}$ dan nilai cosinus berada pada $[-1, 1]$, maka syarat mutlak eksistensi penyelesaian real adalah:
+                            </p>
+                            <div class="p-2.5 bg-white rounded-lg border border-sky-200 font-mono text-center text-sm font-bold text-sky-950">
+                                $$\left|\frac{c}{k}\right| \le 1 \iff |c| \le \sqrt{a^2 + b^2} \iff c^2 \le a^2 + b^2$$
+                            </div>
+                            <p class="text-xs text-sky-800">
+                                Jika nilai $c^2 > a^2 + b^2$, maka persamaan <strong>tidak memiliki solusi real</strong> ($HP = \emptyset$).
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TEKNIK FAKTORISASI & KESALAHAN UMUM -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 4 &middot; Faktorisasi Lanjutan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚠️ 4. Persamaan dengan Sudut Berbeda &amp; Jebakan Coret
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-50 text-sky-700 font-semibold px-2.5 py-1 rounded-full border border-sky-200 font-mono">Faktorisasi vs Coret</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Bila persamaan trigonometri memuat sudut berbeda seperti $\sin 3x + \sin x = \cos x$, strategi terbaik adalah mengonversi jumlahan ke perkalian (Werner), lalu memindahkan seluruh suku ke satu ruas untuk difaktorkan:
+                        </p>
+
+                        <!-- LANGKAH KERJA TELADAN -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 block">Langkah Penyelesaian Terstruktur:</span>
+                            <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-slate-800 space-y-1.5 text-xs sm:text-sm">
+                                <p>$$\sin 3x + \sin x = \cos x$$</p>
+                                <p>$$2\sin\left(\frac{3x+x}{2}\right)\cos\left(\frac{3x-x}{2}\right) = \cos x$$</p>
+                                <p>$$2\sin 2x \cos x = \cos x$$</p>
+                                <p>Pindahkan ke ruas kiri: $$2\sin 2x \cos x - \cos x = 0$$</p>
+                                <p>Faktorkan $\cos x$: $$\cos x (2\sin 2x - 1) = 0$$</p>
+                                <p class="text-sky-900 font-bold">Cabang 1: $\cos x = 0$ &emsp; atau &emsp; Cabang 2: $\sin 2x = \frac{1}{2}$</p>
+                            </div>
+                        </div>
+
+                        <!-- JEBAKAN DILARANG CORET -->
+                        <div class="p-4 bg-rose-50 rounded-xl border border-rose-200 text-xs text-rose-900 space-y-1.5">
+                            <span class="font-bold text-sm flex items-center gap-1.5">🚫 JEBAKAN FATAL: JANGAN MENCORET FUNGSI DI KEDUA RUAS!</span>
+                            <p>
+                                Jika pada baris $2\sin 2x \cos x = \cos x$ Anda mencoret $\cos x$, Anda mengasumsikan $\cos x \ne 0$. Akibatnya, seluruh akar penyelesaian dari cabang $\cos x = 0$ (yaitu $x = 90^\circ, 270^\circ, \dots$) akan <strong>hilang selamanya</strong>!
+                            </p>
+                            <p class="font-semibold text-rose-800">
+                                🔑 Selalu pindahkan ke ruas nol lalu faktorkan!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Persamaan Trigonometri
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-sky-100 text-sky-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman solusi persamaan trigonometri dasar, persamaan kuadrat, dan bentuk $a\cos x + b\sin x = c$.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 1 &middot; Persamaan Dasar</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Sudut Ganda</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Himpunan penyelesaian dari $\sin 2x = \frac{1}{2}$ untuk interval $0^\circ \le x \le 180^\circ$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $\{15^\circ, 75^\circ\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $\{30^\circ, 150^\circ\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $\{15^\circ, 45^\circ, 75^\circ\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $\{30^\circ, 60^\circ\}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 2 &middot; Persamaan Bentuk Kuadrat</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Radian [0, 2π]</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Himpunan penyelesaian dari $2\cos^2 x - 3\cos x + 1 = 0$ untuk selang $0 \le x \le 2\pi$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $\left\{0, \frac{\pi}{3}, \frac{5\pi}{3}, 2\pi\right\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $\left\{\frac{\pi}{3}, \frac{2\pi}{3}\right\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $\left\{0, \frac{\pi}{6}, \frac{11\pi}{6}, 2\pi\right\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $\left\{\frac{\pi}{3}, \frac{5\pi}{3}\right\}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">Soal 3 &middot; Bentuk a cos x + b sin x = c</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">k cos(x - α)</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Himpunan penyelesaian persamaan $\sqrt{3}\cos x + \sin x = \sqrt{2}$ untuk $0^\circ \le x \le 360^\circ$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>A.</strong> $\{75^\circ, 345^\circ\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>B.</strong> $\{15^\circ, 75^\circ\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>C.</strong> $\{45^\circ, 315^\circ\}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-sky-600 focus:ring-sky-500">
+                                    <span><strong>D.</strong> $\{105^\circ, 285^\circ\}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SCRIPT LOGIKA KUIS -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! sin 2x = sin 30°. Cabang 1: 2x = 30° + k·360° ⇒ x = 15° + k·180° (k=0 ⇒ 15°). Cabang 2: 2x = 150° + k·360° ⇒ x = 75° + k·180° (k=0 ⇒ 75°). Jadi HP = {15°, 75°}.' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! (2 cos x - 1)(cos x - 1) = 0. cos x = 1 menghasilkan x = 0 dan 2π. cos x = 1/2 menghasilkan x = π/3 dan 5π/3. Gabungan solusi: {0, π/3, 5π/3, 2π}.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! a = √3, b = 1 ⇒ k = √(3+1) = 2. tan α = 1/√3 ⇒ α = 30°. Persamaan menjadi 2 cos(x - 30°) = √2 ⇒ cos(x - 30°) = √2/2 = cos 45°. Cabang 1: x - 30° = 45° ⇒ x = 75°. Cabang 2: x - 30° = -45° + 360° ⇒ x = 345°.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-sky-900 bg-sky-50 px-3 py-1.5 rounded-lg border border-sky-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat bahwa sin 2x harus dibagi 2 sebelum menguji interval, dan periksa kedua cabang periodik!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab Persamaan Trigonometri.</p>
+                    <p><strong>Larson, Ron.</strong> (2021). <em>Trigonometry</em> (11th ed.). Cengage Learning. Chapter 3: Solving Trigonometric Equations.</p>
+                    <p><strong>Lial, Margaret L., Hornsby, John, &amp; Schneider, David I.</strong> (2020). <em>Trigonometry</em> (12th ed.). Pearson.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="rumus-perkalian-dan-penjumlahan-trigonometri.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-sky-600 transition">
+                        &larr; Kembali: Konversi Perkalian &amp; Penjumlahan (Werner)
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="pemodelan-dan-problem-solving-hots-trigonometri.html" class="bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS &amp; Pemodelan &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
