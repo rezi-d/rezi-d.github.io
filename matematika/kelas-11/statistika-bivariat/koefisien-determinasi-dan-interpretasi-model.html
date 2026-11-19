@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koefisien Determinasi (r²) & Evaluasi Residu — Matematika Kelas XI</title>
+    <meta name="description" content="Pelajari koefisien determinasi r², dekomposisi variasi SST = SSR + SSE, interpretasi persentase model, serta evaluasi kelayakan model melalui residual plot.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/koefisien-determinasi-dan-interpretasi-model.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/koefisien-determinasi-dan-interpretasi-model.html">
+    <meta property="og:title" content="📊 Koefisien Determinasi (r²) & Evaluasi Residu — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Kuasai analisis goodness-of-fit r², proporsi variansi terjelaskan, dan diagnostik residual plot secara profesional.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="statistika-bivariat">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Statistika Bivariat
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Koefisien Determinasi ($r^2$) &amp; Evaluasi Residu
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Seberapa andal model garis regresi menjelaskan fenomena yang sedang diteliti? Pelajari koefisien determinasi ($r^2$), pembagian variasi total ($SST = SSR + SSE$), interpretasi persentase daya jelas model, serta diagnostik <em>residual plot</em> untuk mendeteksi pelanggaran asumsi linearitas.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: HAKIKAT & MAKNA r^2 -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Konsep</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 Hakikat Koefisien Determinasi ($r^2$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Goodness of Fit</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🍰</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Berapa Persen "Kue Variasi" yang Terjelaskan?</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                        Nilai variabel terikat $y$ selalu berfluktuasi naik-turun pada tiap individu sampel. Koefisien determinasi ($r^2$ atau $R^2$) mengukur berapa porsi persentase dari keseluruhan fluktuasi naik-turun $y$ tersebut yang berhasil diterangkan secara masuk akal oleh pergerakan variabel bebas $x$ melalui model garis regresi.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DEFINISI & SIFAT NILAI r^2 -->
+                        <div class="space-y-4">
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900">1. Formula Relasi &amp; Batasan Nilai</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Pada analisis regresi linear sederhana, nilai koefisien determinasi merupakan <strong>kuadrat dari koefisien korelasi Pearson</strong> ($r$):
+                            </p>
+
+                            <div class="p-4 bg-slate-900 text-slate-100 rounded-xl font-mono text-center text-sm shadow-inner">
+                                $$r^2 = (r)^2 \quad \text{dengan jangkauan} \quad 0 \le r^2 \le 1 \quad (0\% \le r^2 \le 100\%)$$
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 space-y-1">
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-800">Variasi Terjelaskan ($r^2 \times 100\%$)</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Persentase keragaman $y$ yang disebabkan secara linear oleh variabel penjelas $x$. Semakin mendekati $100\%$, semakin tinggi daya prediksi model.
+                                    </p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600">Variasi Tidak Terjelaskan ($(1 - r^2) \times 100\%$)</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Porsi keragaman yang tidak mampu ditangkap oleh garis linier. Bagian ini disebabkan oleh faktor-faktor lain di luar model, galat acak (<em>noise</em>), atau instrumen pengukuran.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- PERHATIAN PENTING -->
+                            <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1.5">
+                                <h4 class="font-bold text-amber-950 flex items-center gap-1.5">
+                                    <span>⚠️</span> Catatan Arah: $r^2$ Selalu Non-Negatif
+                                </h4>
+                                <p>
+                                    Karena dipangkatkan dua, nilai $r^2$ <strong>selalu bernilai positif atau nol</strong> ($r^2 \ge 0$), sekalipun korelasi aslinya bertanda negatif ($r < 0$). Contohnya, jika $r = -0.80$, maka $r^2 = (-0.80)^2 = 0.64$ ($64\%$). Oleh karena itu, $r^2$ menunjukkan <em>kekuatan kesesuaian model (goodness-of-fit)</em>, bukan arah tren.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: DEKOMPOSISI VARIANSI (SST = SSR + SSE) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Landasan Analitis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧮 Dekomposisi Jumlah Kuadrat: $SST = SSR + SSE$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">ANOVA Partitioning</span>
+                        </div>
+
+                        <!-- PENJELASAN PARTISI VARIASI -->
+                        <div class="space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <p>
+                                Secara fundamental matematika lanjut, deviasi setiap titik data terhadap nilai rata-ratanya $(y_i - \bar{y})$ dapat diurai menjadi dua bagian independen:
+                            </p>
+
+                            <div class="p-3 bg-slate-100 rounded-xl font-mono text-center text-slate-800 text-xs sm:text-sm">
+                                $$(y_i - \bar{y}) = \underbrace{(\hat{y}_i - \bar{y})}_{\text{Deviasi Model Regresi}} + \underbrace{(y_i - \hat{y}_i)}_{\text{Deviasi Residu/Galat}}$$
+                            </div>
+
+                            <p>
+                                Ketika kedua ruas dikuadratkan dan dijumlahkan untuk seluruh $n$ data pengamatan, suku perkalian silangnya saling meniadakan menjadi $0$. Diperoleh <strong>Persamaan Identitas Partisi Variasi</strong>:
+                            </p>
+
+                            <!-- TIGA PILAR SST, SSR, SSE -->
+                            <div class="p-5 bg-gradient-to-r from-blue-50 to-indigo-50/60 rounded-2xl border border-blue-200 space-y-3">
+                                <div class="text-center font-bold text-slate-900 text-base sm:text-lg">
+                                    $$SST = SSR + SSE$$
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs">
+                                    <div class="bg-white p-3 rounded-xl border border-blue-100">
+                                        <span class="font-bold text-blue-900 block mb-1">Total Sum of Squares ($SST$)</span>
+                                        <p class="font-mono text-slate-700">$$\sum (y_i - \bar{y})^2$$</p>
+                                        <p class="text-[11px] text-slate-500 mt-1">Total variasi data aktual $y$ di sekitar nilai rata-rata sampel.</p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded-xl border border-emerald-100">
+                                        <span class="font-bold text-emerald-900 block mb-1">Regression Sum of Squares ($SSR$)</span>
+                                        <p class="font-mono text-emerald-700">$$\sum (\hat{y}_i - \bar{y})^2$$</p>
+                                        <p class="text-[11px] text-slate-500 mt-1">Variasi yang berhasil dijelaskan oleh garis regresi linear.</p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded-xl border border-amber-100">
+                                        <span class="font-bold text-amber-900 block mb-1">Error Sum of Squares ($SSE$)</span>
+                                        <p class="font-mono text-amber-700">$$\sum (y_i - \hat{y}_i)^2$$</p>
+                                        <p class="text-[11px] text-slate-500 mt-1">Jumlah kuadrat residu (variasi yang gagal dijelaskan model).</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DEFINISI r^2 BERDASARKAN RASIO -->
+                            <div class="p-4 rounded-xl bg-slate-900 text-slate-100 text-center space-y-1">
+                                <p class="text-xs uppercase tracking-wider text-slate-400 font-bold">Definisi Matematis Baku Koefisien Determinasi</p>
+                                <div class="font-mono text-sm sm:text-base">
+                                    $$r^2 = \frac{SSR}{SST} = 1 - \frac{SSE}{SST}$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: EVALUASI KELAYAKAN DENGAN PLOT RESIDU -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Diagnostik Model</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 Analisis Plot Residu &amp; Uji Asumsi Linearitas
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Residual Plot</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Apakah nilai $r^2$ tinggi (misalnya $0.95$) menjamin bahwa model garis linear sudah pasti tepat? <strong>Jawabannya TIDAK!</strong> Kita wajib memvalidasi bentuk residu menggunakan <em>Plot Residu</em> (grafik nilai $x$ vs residu $e_i$).
+                        </p>
+
+                        <!-- TIGA TIPE POLA RESIDUAL PLOT -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- KASUS 1: IDEAL (LINEAR COCOK) -->
+                            <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-bold text-xs">✓ Ideal</span>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-950">Acak &amp; Merata</h4>
+                                </div>
+                                <div class="h-24 bg-white rounded-lg border border-emerald-100 flex items-center justify-center p-2">
+                                    <svg viewBox="0 0 160 80" class="w-full h-full">
+                                        <line x1="10" y1="40" x2="150" y2="40" stroke="#94a3b8" stroke-dasharray="2,2"/>
+                                        <circle cx="25" cy="30" r="3" fill="#059669"/>
+                                        <circle cx="45" cy="55" r="3" fill="#059669"/>
+                                        <circle cx="70" cy="35" r="3" fill="#059669"/>
+                                        <circle cx="95" cy="48" r="3" fill="#059669"/>
+                                        <circle cx="115" cy="25" r="3" fill="#059669"/>
+                                        <circle cx="140" cy="52" r="3" fill="#059669"/>
+                                    </svg>
+                                </div>
+                                <p class="text-[11px] text-slate-600 leading-relaxed">
+                                    Titik-titik tersebar tanpa pola di atas dan di bawah garis $e = 0$. <strong>Asumsi linearitas terpenuhi dengan sempurna.</strong>
+                                </p>
+                            </div>
+
+                            <!-- KASUS 2: POLA KURVA (BUKAN LINEAR) -->
+                            <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded-full bg-rose-600 text-white font-bold text-xs">✗ Bahaya</span>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-rose-950">Pola Melengkung (U-Shape)</h4>
+                                </div>
+                                <div class="h-24 bg-white rounded-lg border border-rose-100 flex items-center justify-center p-2">
+                                    <svg viewBox="0 0 160 80" class="w-full h-full">
+                                        <line x1="10" y1="40" x2="150" y2="40" stroke="#94a3b8" stroke-dasharray="2,2"/>
+                                        <circle cx="25" cy="22" r="3" fill="#e11d48"/>
+                                        <circle cx="50" cy="35" r="3" fill="#e11d48"/>
+                                        <circle cx="80" cy="62" r="3" fill="#e11d48"/>
+                                        <circle cx="110" cy="38" r="3" fill="#e11d48"/>
+                                        <circle cx="135" cy="20" r="3" fill="#e11d48"/>
+                                    </svg>
+                                </div>
+                                <p class="text-[11px] text-slate-600 leading-relaxed">
+                                    Membentuk kurva parabola atau gelombang. Menandakan data asli sebenarnya non-linear (kuadratik). Model garis lurus tidak valid!
+                                </p>
+                            </div>
+
+                            <!-- KASUS 3: POLA CORONG (HETEROSKEDASTISITAS) -->
+                            <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded-full bg-amber-600 text-white font-bold text-xs">⚠ Waspada</span>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-950">Pola Corong (Fan Shape)</h4>
+                                </div>
+                                <div class="h-24 bg-white rounded-lg border border-amber-100 flex items-center justify-center p-2">
+                                    <svg viewBox="0 0 160 80" class="w-full h-full">
+                                        <line x1="10" y1="40" x2="150" y2="40" stroke="#94a3b8" stroke-dasharray="2,2"/>
+                                        <circle cx="25" cy="38" r="3" fill="#d97706"/>
+                                        <circle cx="45" cy="43" r="3" fill="#d97706"/>
+                                        <circle cx="70" cy="32" r="3" fill="#d97706"/>
+                                        <circle cx="95" cy="55" r="3" fill="#d97706"/>
+                                        <circle cx="120" cy="20" r="3" fill="#d97706"/>
+                                        <circle cx="140" cy="68" r="3" fill="#d97706"/>
+                                    </svg>
+                                </div>
+                                <p class="text-[11px] text-slate-600 leading-relaxed">
+                                    Sebaran residu semakin melebar seiring bertambahnya $x$ (heteroskedastisitas). Ketidakpastian prediksi membesar di nilai $x$ tinggi.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: CONTOH SOAL BERTINGKAT & BEDAH LANGKAH -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Penguasaan Soal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 Contoh Soal Terpandu Bertingkat (Dasar &rarr; HOTS)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full font-mono">Step-by-Step Solutions</span>
+                        </div>
+
+                        <!-- CONTOH 1: DASAR (MENGHITUNG r^2 & INTERPRETASI PERSENTASE) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 1: Pemahaman Dasar</span>
+                                <span class="text-xs text-slate-400 font-medium">Interpretasi Daya Jelas Model</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Penelitian hubungan antara anggaran riset dan inovasi produk ($x$, dalam ratus juta rupiah) dengan jumlah paten baru yang dihasilkan perusahaan farmasi ($y$) menghasilkan nilai koefisien korelasi Pearson <strong class="text-blue-700">$r = 0.86$</strong>.
+                            </p>
+                            <ol class="list-decimal pl-5 space-y-1.5 text-xs sm:text-sm text-slate-700">
+                                <li>Hitung nilai koefisien determinasi ($r^2$)!</li>
+                                <li>Jelaskan makna nilai $r^2$ tersebut dalam bentuk persentase bagi pimpinan perusahaan!</li>
+                            </ol>
+
+                            <div class="p-4 bg-slate-50 rounded-xl space-y-2 text-xs sm:text-sm text-slate-700">
+                                <p class="font-bold text-slate-900">Pembahasan:</p>
+                                <ul class="space-y-1.5 list-disc pl-5 leading-relaxed">
+                                    <li><strong>1. Perhitungan $r^2$:</strong>
+                                        $$r^2 = (0.86)^2 = 0.7396 \approx 73.96\%$$
+                                    </li>
+                                    <li><strong>2. Interpretasi Persentase:</strong>
+                                        Sebesar <strong class="text-blue-700">$73.96\%$</strong> variasi atau fluktuasi jumlah paten yang dihasilkan dapat dijelaskan secara langsung oleh besarnya alokasi anggaran riset melalui model regresi linear.
+                                        Sedangkan sisanya sebesar <strong class="text-slate-800">$100\% - 73.96\% = 26.04\%$</strong> dipengaruhi oleh variabel lain di luar model (seperti kualitas peneliti, peralatan laboratorium, kemitraan universitas) serta faktor galat acak.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH 2: MENENGAH (PARTISI VARIABILITAS SST, SSR, SSE) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-blue-100 text-blue-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 2: Aplikasi Menengah</span>
+                                <span class="text-xs text-slate-400 font-medium">Rekonstruksi Partisi SST, SSR, SSE</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Dalam pengujian model regresi konsumsi bahan bakar terhadap berat kendaraan, diperoleh jumlah kuadrat deviasi total $SST = 450$ dan jumlah kuadrat residu $SSE = 72$. Hubungan antara berat kendaraan dan efisiensi bahan bakar diketahui berbanding terbalik (kemiringan garis $b < 0$).
+                            </p>
+                            <ol class="list-decimal pl-5 space-y-1.5 text-xs sm:text-sm text-slate-700">
+                                <li>Tentukan nilai $SSR$ dan koefisien determinasi $r^2$!</li>
+                                <li>Tentukan nilai koefisien korelasi Pearson $r$ yang tepat beserta tandanya!</li>
+                            </ol>
+
+                            <div class="p-4 bg-slate-50 rounded-xl space-y-2 text-xs sm:text-sm text-slate-700">
+                                <p class="font-bold text-slate-900">Pembahasan:</p>
+                                <ul class="space-y-1.5 list-disc pl-5 leading-relaxed">
+                                    <li><strong>1. Nilai $SSR$ dan $r^2$:</strong>
+                                        $$SSR = SST - SSE = 450 - 72 = 378$$
+                                        $$r^2 = \frac{SSR}{SST} = \frac{378}{450} = 0.84 \quad (84\%)$$
+                                    </li>
+                                    <li><strong>2. Nilai Koefisien Korelasi $r$:</strong>
+                                        Karena kemiringan regresi bertanda negatif ($b < 0$), maka nilai korelasi Pearson wajib bernilai negatif:
+                                        $$r = -\sqrt{r^2} = -\sqrt{0.84} \approx -0.9165$$
+                                        Model memiliki korelasi negatif yang sangat kuat ($r \approx -0.92$).
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH 3: HOTS (ANALISIS DIAGNOSTIK RESIDUAL PLOT) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 3: HOTS / Analisis Kritis</span>
+                                <span class="text-xs text-slate-400 font-medium">Evaluasi Konflik r² Tinggi vs Pola Residu Melengkung</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Sebuah tim riset menyusun model regresi linier sederhana untuk memprediksi hasil panen gandum ($y$) berdasarkan dosis pupuk nitrogen ($x$). Komputer menampilkan $r^2 = 0.93$ ($93\%$). Tim hendak langsung menyimpulkan bahwa model garis lurus sudah sangat sempurna untuk pedoman petani. Namun, plot residu menunjukkan titik-titik pada $x$ rendah berada di bawah nol, di $x$ sedang berada di atas nol, dan di $x$ tinggi jatuh kembali di bawah nol membentuk lengkungan parabola terbalik. Evaluasi kesimpulan tim riset tersebut!
+                            </p>
+                            <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl text-xs sm:text-sm text-slate-800 space-y-1.5">
+                                <p class="font-bold text-amber-950">Analisis Kritis:</p>
+                                <p>1. <strong>Kelemahan Model Garis Lurus:</strong> Nilai $r^2 = 0.93$ yang tinggi dapat menipu jika model dipaksakan pada fenomena kurvalinear. Pola residu yang melengkung melanggar asumsi dasar linearitas secara telak.</p>
+                                <p>2. <strong>Rekomendasi Kebijakan Ilmiah:</strong> Hubungan dosis pupuk dengan hasil panen mengikuti hukum biologi tanaman (pertumbuhan optimal lalu terjadi toksisitas jika berlebih / kurva parabola). Tim peneliti harus <strong>menolak model linear</strong> dan beralih ke <strong>model regresi polinomial kuadratik ($y = a + bx + cx^2$)</strong> agar prediksi di lapangan tidak membahayakan tanaman petani.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Interaktif Koefisien Determinasi &amp; Residu
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Soal Auto-Check</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji pemahaman Anda mengenai konsep $r^2$, dekomposisi variasi, dan cara membaca plot residu dengan memilih jawaban terbaik:
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Rentang Nilai r²</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Koefisien determinasi $r^2$ selalu berada dalam rentang nilai:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        A. $0 \le r^2 \le 1$ ($0\% \text{ s.d. } 100\%$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        B. $-1 \le r^2 \le +1$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. $-\infty < r^2 < +\infty$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. $-100\% \le r^2 \le 0\%$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Variasi Tidak Terjelaskan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Jika koefisien korelasi antara dua variabel adalah $r = -0.80$, maka persentase variasi variabel dependen yang <strong>TIDAK dapat dijelaskan</strong> oleh variabel independen adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. $80\%$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        B. $64\%$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        C. $36\%$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. $20\%$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Dekomposisi Jumlah Kuadrat</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Persamaan identitas pembagian variasi data dalam analisis regresi kuadrat terkecil yang benar adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. $SSR = SST + SSE$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. $SST = SSR + SSE$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. $SSE = SST + SSR$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. $SST = SSR \times SSE$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Menentukan r dari r²</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Sebuah model regresi memiliki garis $\hat{y} = 150 - 2.5x$ dengan koefisien determinasi $r^2 = 0.49$. Nilai koefisien korelasi Pearson $r$ yang tepat adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. $+0.70$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. $-0.70$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. $-0.49$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. $+0.24$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Pola Ideal Residual Plot</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Pola plot residu ($x$ vs $e$) yang mengindikasikan bahwa model regresi linier <strong>layak dan valid</strong> digunakan adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. Membentuk kurva parabola melengkung ke atas
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. Titik-titik tersebar secara acak dan homogen di sekitar garis horizontal $e = 0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. Membentuk corong segitiga yang semakin melebar tajam
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Seluruh titik residu berada di atas garis $e = 0$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- BOTTOM NAVIGASI ANTAR SUB-BAB -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="koefisien-korelasi-pearson-dan-derajat-hubungan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-bab 4: Koefisien Korelasi Pearson
+                    </a>
+                    <a href="/matematika/kelas-11/index.html" class="text-xs text-slate-400 hover:text-slate-600 font-medium">
+                        Hub Kelas XI
+                    </a>
+                    <a href="latihan-pemecahan-masalah-statistika-bivariat.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

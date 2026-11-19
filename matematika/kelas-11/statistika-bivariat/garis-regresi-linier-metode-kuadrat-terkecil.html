@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garis Regresi Linier Metode Kuadrat Terkecil — Matematika Kelas XI</title>
+    <meta name="description" content="Kuasai konsep garis regresi linier Ordinary Least Squares (OLS), rumus gradien kemiringan b dan intersep a, sifat sentroid titik rata-rata, serta interpolasi vs ekstrapolasi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/garis-regresi-linier-metode-kuadrat-terkecil.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/garis-regresi-linier-metode-kuadrat-terkecil.html">
+    <meta property="og:title" content="📏 Garis Regresi Linier Metode Kuadrat Terkecil — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Kuasai formulasi matematis OLS, gradien b, intersep a, titik rata-rata centroid, dan bahaya ekstrapolasi secara komprehensif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📏</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="statistika-bivariat">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Statistika Bivariat
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Garis Regresi Linier Metode Kuadrat Terkecil
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Bagaimana cara menentukan garis linear paling objektif yang mewakili sebaran titik data? Pelajari metode <em>Ordinary Least Squares</em> (OLS), turunan rumus kemiringan $b$ dan intersep $a$, keistimewaan titik sentroid $(\bar{x}, \bar{y})$, serta batasan krusial antara interpolasi yang valid versus ekstrapolasi yang menyesatkan.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: FILOSOFI OLS & KONSEP RESIDU -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Konsep</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 Hakikat Garis Best-Fit &amp; Prinsip Kuadrat Terkecil
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Least Squares Principle</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🎯</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Garis Penyeimbang Tarikan Semua Titik</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                        Bayangkan setiap titik data pada diagram pencar terhubung ke sebuah mistar lurus melalui pegas vertikal elastis. Mistar tersebut akan secara alami memutar dan menggeser dirinya sendiri sampai mencapai posisi kesetimbangan fisik di mana total energi potensial regangan pegas (yang sebanding dengan kuadrat jarak vertikal) bernilai minimum. Itulah posisi matematis dari <strong>Garis Regresi Kuadrat Terkecil (Ordinary Least Squares)</strong>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PENJELASAN MATEMATIS RESIDU -->
+                        <div class="space-y-4">
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900">1. Definisi Residu (Galat Vertikal)</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Untuk setiap pasangan observasi $(x_i, y_i)$, terdapat nilai prediksi $\hat{y}_i = a + bx_i$ yang terletak tepat pada garis regresi. Selisih tegak antara nilai aktual $y_i$ dan nilai perkiraan model $\hat{y}_i$ didefinisikan sebagai <strong>residu</strong> ($e_i$):
+                            </p>
+
+                            <div class="p-4 bg-slate-900 text-slate-100 rounded-xl font-mono text-center text-sm shadow-inner">
+                                $$e_i = y_i - \hat{y}_i = y_i - (a + bx_i)$$
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200">
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1 flex items-center gap-1.5">
+                                        <span>▲</span> Residu Positif ($e_i > 0$)
+                                    </h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Titik data berada <strong>di atas garis regresi</strong> ($y_i > \hat{y}_i$). Model meremehkan (<em>underpredict</em>) nilai nyata di lapangan.
+                                    </p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200">
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1 flex items-center gap-1.5">
+                                        <span>▼</span> Residu Negatif ($e_i < 0$)
+                                    </h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Titik data berada <strong>di bawah garis regresi</strong> ($y_i < \hat{y}_i$). Model memperkirakan secara berlebihan (<em>overpredict</em>).
+                                    </p>
+                                </div>
+                            </div>
+
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900 pt-2">2. Mengapa Meminimalkan Jumlah Kuadrat Residu?</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Jika kita hanya menjumlahkan residu biasa ($\sum e_i$), nilai positif dan negatif akan saling meniadakan hingga bernilai $0$, meskipun garisnya sangat melenceng. Oleh karena itu, Carl Friedrich Gauss dan Adrien-Marie Legendre merumuskan fungsi objektif yang harus diminimalkan:
+                            </p>
+
+                            <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl text-center">
+                                <p class="text-xs font-bold text-blue-900 uppercase tracking-wider mb-1">Kriteria Ordinary Least Squares (OLS)</p>
+                                <div class="text-sm font-semibold text-slate-900">
+                                    $$\min_{a, b} S = \sum_{i=1}^n e_i^2 = \sum_{i=1}^n \left(y_i - (a + bx_i)\right)^2$$
+                                </div>
+                                <p class="text-xs text-slate-500 mt-2">
+                                    Pengkuadratan menjamin semua penyimpangan bernilai positif non-nol, memberi penalti berat pada galat yang terlampau besar, serta menghasilkan fungsi kuadratik mulus yang memiliki solusi analitis tunggal.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM ILUSTRASI SVG RESIDU OLS -->
+                        <div class="border border-slate-200 rounded-2xl p-5 bg-white shadow-xs">
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 text-center">Visualisasi Geometris Residu Kuadrat Terkecil</h3>
+                            <div class="w-full overflow-x-auto flex justify-center">
+                                <svg class="w-full max-w-lg h-64 select-none" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 1 L 8 5 L 0 9 z" fill="#64748b"/>
+                                        </marker>
+                                    </defs>
+                                    <!-- Sumbu Koordinat -->
+                                    <line x1="50" y1="210" x2="460" y2="210" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+                                    <line x1="50" y1="210" x2="50" y2="20" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+                                    <text x="465" y="214" font-size="12" fill="#475569" font-weight="bold">x</text>
+                                    <text x="45" y="15" font-size="12" fill="#475569" font-weight="bold">y</text>
+                                    
+                                    <!-- Garis Regresi (Merah Biru) -->
+                                    <line x1="60" y1="180" x2="440" y2="50" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+                                    <text x="320" y="45" font-size="12" fill="#1d4ed8" font-weight="bold">Garis Regresi ŷ = a + bx</text>
+                                    
+                                    <!-- Titik 1: Residu Positif (e1 > 0) -->
+                                    <line x1="120" y1="160" x2="120" y2="120" stroke="#10b981" stroke-width="2" stroke-dasharray="3,3"/>
+                                    <rect x="120" y="120" width="40" height="40" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1"/>
+                                    <circle cx="120" cy="120" r="5" fill="#047857"/>
+                                    <text x="130" y="115" font-size="10" fill="#047857" font-weight="bold">(x₁, y₁)</text>
+                                    <text x="80" y="145" font-size="10" fill="#059669" font-weight="bold">e₁ &gt; 0</text>
+                                    
+                                    <!-- Titik 2: Residu Negatif (e2 < 0) -->
+                                    <line x1="220" y1="125" x2="220" y2="165" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
+                                    <rect x="180" y="125" width="40" height="40" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+                                    <circle cx="220" cy="165" r="5" fill="#d97706"/>
+                                    <text x="230" y="175" font-size="10" fill="#b45309" font-weight="bold">(x₂, y₂)</text>
+                                    <text x="228" y="145" font-size="10" fill="#d97706" font-weight="bold">e₂ &lt; 0</text>
+
+                                    <!-- Titik 3: Centroid (x̄, ȳ) -->
+                                    <circle cx="280" cy="105" r="6" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
+                                    <text x="292" y="102" font-size="11" fill="#dc2626" font-weight="extrabold">Sentroid (x̄, ȳ)</text>
+                                    
+                                    <!-- Titik 4: Residu Positif -->
+                                    <line x1="380" y1="70" x2="380" y2="40" stroke="#10b981" stroke-width="2" stroke-dasharray="3,3"/>
+                                    <circle cx="380" cy="40" r="5" fill="#047857"/>
+                                    <text x="390" y="38" font-size="10" fill="#047857" font-weight="bold">(x₄, y₄)</text>
+                                </svg>
+                            </div>
+                            <p class="text-xs text-slate-500 text-center mt-2 italic">
+                                Garis OLS adalah satu-satunya garis lurus yang meminimalkan total luas daerah bujur sangkar (luas hijau + kuning = $\sum e_i^2$).
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: FORMULASI PARAMETER a & b SERTA SIFAT SENTROID -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Formulasi Analitis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧮 Rumus Parameter Regresi ($b$ dan $a$) &amp; Titik Sentroid
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Slope &amp; Intercept</span>
+                        </div>
+
+                        <!-- PENJELASAN FORMULA -->
+                        <div class="space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <p>
+                                Melalui metode turunan parsial terhadap $a$ dan $b$ pada fungsi kuadratik $\sum e_i^2 = 0$ (disebut <em>Persamaan Normal Gauss</em>), diperoleh formula definitif untuk menghitung koefisien kemiringan (<em>slope</em>) $b$ dan titik potong sumbu-$y$ (<em>intercept</em>) $a$:
+                            </p>
+
+                            <!-- KARTU FORMULA KEMIRINGAN B -->
+                            <div class="p-5 bg-gradient-to-r from-blue-50 to-indigo-50/60 rounded-2xl border border-blue-200 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-blue-900">1. Gradien Kemiringan Garis ($b$)</span>
+                                    <span class="text-xs text-slate-500 font-mono">Slope Koefisien</span>
+                                </div>
+                                <div class="text-center py-2 text-sm sm:text-base font-bold text-slate-900">
+                                    $$b = \frac{n \sum xy - \left(\sum x\right)\left(\sum y\right)}{n \sum x^2 - \left(\sum x\right)^2} = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2} = \frac{SS_{xy}}{SS_{xx}}$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    <strong>Makna Fisis:</strong> Menyatakan perubahan rata-rata nilai variabel dependen $y$ untuk setiap kenaikan $1$ satuan variabel independen $x$. Jika $b > 0$, tren positif; jika $b < 0$, tren negatif.
+                                </p>
+                            </div>
+
+                            <!-- KARTU FORMULA INTERSEP A -->
+                            <div class="p-5 bg-gradient-to-r from-emerald-50 to-teal-50/60 rounded-2xl border border-emerald-200 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-900">2. Titik Potong Sumbu-$y$ ($a$)</span>
+                                    <span class="text-xs text-slate-500 font-mono">Y-Intercept</span>
+                                </div>
+                                <div class="text-center py-2 text-sm sm:text-base font-bold text-slate-900">
+                                    $$a = \bar{y} - b\bar{x} = \frac{\sum y - b \sum x}{n}$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    <strong>Makna Fisis:</strong> Nilai estimasi $y$ saat nilai $x = 0$. Nilai ini hanya memiliki arti praktis di dunia nyata apabila nilai $x = 0$ memang mungkin terjadi secara fisik dan berada dekat dalam jangkauan data sampel.
+                                </p>
+                            </div>
+
+                            <!-- TEOREMA TITIK SENTROID -->
+                            <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
+                                <h3 class="text-xs font-bold uppercase tracking-wider text-amber-900 flex items-center gap-2">
+                                    <span>⭐</span> Teorema Sentroid: Garis Selalu Menembus $(\bar{x}, \bar{y})$
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                    Perhatikan bahwa dari persamaan $a = \bar{y} - b\bar{x}$, jika kita susun ulang maka diperoleh:
+                                </p>
+                                <div class="text-center font-bold text-amber-950 py-1">
+                                    $$\bar{y} = a + b\bar{x}$$
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Artinya, <strong>titik koordinat rata-rata $(\bar{x}, \bar{y})$ selalu dan wajib terletak tepat pada garis regresi kuadrat terkecil</strong>. Titik ini bertindak sebagai poros gravitasional pusat bagi keseluruhan model data.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: INTERPOLASI VS EKSTRAPOLASI & ASUMSI LINIERITAS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Validitas Model</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔮 Prediksi: Interpolasi vs Bahaya Ekstrapolasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Prediction Validity</span>
+                        </div>
+
+                        <!-- PERBANDINGAN KOMPARATIF -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- KARTU INTERPOLASI -->
+                            <div class="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center text-sm">✓</span>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-emerald-950">Interpolasi (Aman &amp; Teruji)</h3>
+                                        <span class="text-[11px] text-emerald-700 font-mono">$x_{\min} \le x_{\text{baru}} \le x_{\max}$</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Memprediksi nilai $y$ untuk suatu nilai $x$ yang berada <strong>di dalam domain/jangkauan data observasi</strong>.
+                                </p>
+                                <div class="p-3 bg-white rounded-xl border border-emerald-100 text-xs text-slate-700">
+                                    <strong>Tingkat Reliabilitas:</strong> Sangat tinggi. Hubungan linear telah didukung oleh sebaran titik-titik sampel di sekitarnya.
+                                </div>
+                            </div>
+
+                            <!-- KARTU EKSTRAPOLASI -->
+                            <div class="p-5 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-8 h-8 rounded-lg bg-rose-600 text-white font-bold flex items-center justify-center text-sm">⚠</span>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-rose-950">Ekstrapolasi (Sangat Berisiko)</h3>
+                                        <span class="text-[11px] text-rose-700 font-mono">$x_{\text{baru}} < x_{\min}$ atau $x_{\text{baru}} > x_{\max}$</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Memprediksi nilai $y$ untuk nilai $x$ yang berada <strong>jauh di luar jangkauan data pengamatan</strong>.
+                                </p>
+                                <div class="p-3 bg-white rounded-xl border border-rose-100 text-xs text-slate-700">
+                                    <strong>Tingkat Reliabilitas:</strong> Sangat rendah &amp; spekulatif. Tren linear seringkali patah, jenuh, atau berubah drastis di luar rentang observasi.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STUDI KASUS RIIL BAHAYA EKSTRAPOLASI -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                                <span>🚨</span> Contoh Nyata: Jebakan Ekstrapolasi dalam Pertumbuhan Anak
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Misalkan data tinggi badan seorang anak laki-laki dari usia 2 hingga 8 tahun ($x$, dalam tahun) menunjukkan laju pertumbuhan linear sempurna dengan garis regresi:
+                            </p>
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 text-center font-bold text-slate-900 text-xs sm:text-sm">
+                                $$\hat{y} = 75 + 6.5x \quad (\text{tinggi dalam cm})$$
+                            </div>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-5">
+                                <li><strong>Interpolasi (Usia 5 tahun):</strong> $\hat{y} = 75 + 6.5(5) = 107.5\text{ cm}$. Prediksi ini sangat akurat dan realistis secara medis.</li>
+                                <li><strong>Ekstrapolasi Berbahaya (Usia 30 tahun):</strong> $\hat{y} = 75 + 6.5(30) = 270\text{ cm}$ ($2.7\text{ meter}$). Prediksi ini jelas tidak masuk akal karena lempeng pertumbuhan tulang menutup pada akhir masa pubertas, sehingga pertumbuhan berhenti total.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: CONTOH SOAL BERTINGKAT & BEDAH LANGKAH -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Penguasaan Soal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 Contoh Soal Terpandu Bertingkat (Dasar &rarr; HOTS)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full font-mono">Step-by-Step Solutions</span>
+                        </div>
+
+                        <!-- CONTOH 1: DASAR (PERHITUNGAN REGRESI LENGKAP) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 1: Pemahaman Dasar</span>
+                                <span class="text-xs text-slate-400 font-medium">Menentukan Persamaan Regresi OLS</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Diberikan sampel $5$ siswa mengenai jam belajar mingguan ($x$, dalam jam) dan nilai ujian matematika ($y$):
+                            </p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-center border-collapse border border-slate-200 rounded-lg">
+                                    <thead>
+                                        <tr class="bg-slate-100 font-bold text-slate-700">
+                                            <th class="p-2 border border-slate-200">Siswa</th>
+                                            <th class="p-2 border border-slate-200">$x$ (Jam)</th>
+                                            <th class="p-2 border border-slate-200">$y$ (Nilai)</th>
+                                            <th class="p-2 border border-slate-200">$x^2$</th>
+                                            <th class="p-2 border border-slate-200">$xy$</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-slate-600">
+                                        <tr><td class="p-1.5 border border-slate-200">A</td><td class="p-1.5 border border-slate-200">2</td><td class="p-1.5 border border-slate-200">60</td><td class="p-1.5 border border-slate-200">4</td><td class="p-1.5 border border-slate-200">120</td></tr>
+                                        <tr><td class="p-1.5 border border-slate-200">B</td><td class="p-1.5 border border-slate-200">4</td><td class="p-1.5 border border-slate-200">70</td><td class="p-1.5 border border-slate-200">16</td><td class="p-1.5 border border-slate-200">280</td></tr>
+                                        <tr><td class="p-1.5 border border-slate-200">C</td><td class="p-1.5 border border-slate-200">6</td><td class="p-1.5 border border-slate-200">75</td><td class="p-1.5 border border-slate-200">36</td><td class="p-1.5 border border-slate-200">450</td></tr>
+                                        <tr><td class="p-1.5 border border-slate-200">D</td><td class="p-1.5 border border-slate-200">8</td><td class="p-1.5 border border-slate-200">85</td><td class="p-1.5 border border-slate-200">64</td><td class="p-1.5 border border-slate-200">680</td></tr>
+                                        <tr><td class="p-1.5 border border-slate-200">E</td><td class="p-1.5 border border-slate-200">10</td><td class="p-1.5 border border-slate-200">95</td><td class="p-1.5 border border-slate-200">100</td><td class="p-1.5 border border-slate-200">950</td></tr>
+                                        <tr class="bg-blue-50 font-bold text-blue-900">
+                                            <td class="p-2 border border-slate-200">Jumlah ($\sum$)</td>
+                                            <td class="p-2 border border-slate-200">30</td>
+                                            <td class="p-2 border border-slate-200">380</td>
+                                            <td class="p-2 border border-slate-200">220</td>
+                                            <td class="p-2 border border-slate-200">2480</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl space-y-2 text-xs sm:text-sm text-slate-700">
+                                <p class="font-bold text-slate-900">Langkah Penyelesaian:</p>
+                                <ol class="list-decimal pl-5 space-y-1.5 leading-relaxed">
+                                    <li>Hitung rata-rata: $\bar{x} = \frac{30}{5} = 6$ dan $\bar{y} = \frac{380}{5} = 76$.</li>
+                                    <li>Hitung nilai kemiringan $b$:
+                                        $$b = \frac{n \sum xy - (\sum x)(\sum y)}{n \sum x^2 - (\sum x)^2} = \frac{5(2480) - (30)(380)}{5(220) - (30)^2} = \frac{12400 - 11400}{1100 - 900} = \frac{1000}{200} = 5$$
+                                    </li>
+                                    <li>Hitung intersep $a$:
+                                        $$a = \bar{y} - b\bar{x} = 76 - 5(6) = 76 - 30 = 46$$
+                                    </li>
+                                    <li>Persamaan garis regresi linear adalah: <strong class="text-blue-700">$\hat{y} = 46 + 5x$</strong>.</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH 2: MENENGAH (PREDIKSI & ANALISIS RESIDU) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-blue-100 text-blue-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 2: Aplikasi Menengah</span>
+                                <span class="text-xs text-slate-400 font-medium">Prediksi &amp; Perhitungan Residu</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Berdasarkan model regresi $\hat{y} = 46 + 5x$ pada Contoh 1:
+                            </p>
+                            <ol class="list-decimal pl-5 space-y-2 text-xs sm:text-sm text-slate-700">
+                                <li>Perkirakan nilai seorang siswa baru yang belajar selama $7$ jam per minggu! Apakah estimasi ini tergolong interpolasi atau ekstrapolasi?</li>
+                                <li>Tentukan nilai residu untuk Siswa C ($x = 6$, $y = 75$) dan jelaskan maknanya!</li>
+                            </ol>
+
+                            <div class="p-4 bg-slate-50 rounded-xl space-y-2 text-xs sm:text-sm text-slate-700">
+                                <p class="font-bold text-slate-900">Pembahasan:</p>
+                                <ul class="space-y-1.5 list-disc pl-5 leading-relaxed">
+                                    <li><strong>Pertanyaan 1:</strong> Masukkan $x = 7$ ke dalam persamaan:
+                                        $$\hat{y} = 46 + 5(7) = 46 + 35 = 81$$
+                                        Karena $x = 7$ berada dalam interval data sampel $[2, 10]$, prediksi ini tergolong <strong>interpolasi yang valid dan dapat diandalkan</strong>.
+                                    </li>
+                                    <li><strong>Pertanyaan 2:</strong> Untuk Siswa C ($x = 6$), nilai perkiraan model adalah $\hat{y} = 46 + 5(6) = 76$. Maka residunya:
+                                        $$e_C = y - \hat{y} = 75 - 76 = -1$$
+                                        <strong>Makna:</strong> Nilai aktual Siswa C berada $1$ poin di bawah perkiraan garis regresi linier.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH 3: HOTS (ANALISIS KRITIS EKSTRAPOLASI & INTERPRETASI BISNIS) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 3: HOTS / Analisis Kritis</span>
+                                <span class="text-xs text-slate-400 font-medium">Evaluasi Keterbatasan Model</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Seorang guru ingin menggunakan model $\hat{y} = 46 + 5x$ untuk memprediksi nilai siswa yang belajar $x = 15$ jam per minggu. Model menghasilkan $\hat{y} = 46 + 5(15) = 121$. Kritisi hasil tersebut dari sudut pandang statistika terapan!
+                            </p>
+                            <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl text-xs sm:text-sm text-slate-800 space-y-1.5">
+                                <p class="font-bold text-amber-950">Analisis Kritis:</p>
+                                <p>1. <strong>Batas Realitas Fisis:</strong> Skor maksimal dalam ujian adalah $100$. Nilai prediksi $121$ melanggar domain alami variabel terikat.</p>
+                                <p>2. <strong>Jebakan Ekstrapolasi:</strong> Nilai $x = 15$ berada jauh di luar jangkauan data pengamatan ($x_{\max} = 10$). Di dunia nyata, belajar melampaui kapasitas wajar akan menimbulkan efek kejenuhan kognitif (<em>diminishing returns</em>) dan kelelahan mental, sehingga hubungan tidak lagi linear.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Interaktif Pemahaman Garis Regresi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Soal Auto-Check</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji penguasaan konsep garis regresi kuadrat terkecil, parameter $a$ dan $b$, serta logika interpolasi dengan memilih jawaban yang paling tepat:
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Konsep OLS</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Metode Kuadrat Terkecil (Ordinary Least Squares) menghasilkan garis regresi linier dengan kriteria utama:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. Memaksimalkan jumlah jarak horizontal titik ke sumbu-$y$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. Meminimalkan jumlah kuadrat selisih vertikal data aktual dan nilai prediksi ($\sum e_i^2$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. Memastikan garis menembus seluruh titik koordinat sampel tanpa kecuali
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Menjadikan jumlah nilai absolut residu bernilai tepat nol
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Titik Sentroid</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Manakah pernyataan yang <strong>pasti benar</strong> mengenai posisi garis regresi linear OLS terhadap data sampel?
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. Selalu melewati titik asal koordinat $(0, 0)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. Selalu melewati titik koordinat rata-rata sampel $(\bar{x}, \bar{y})$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. Selalu membagi data menjadi dua kelompok yang sama banyak secara horizontal
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Selalu memiliki kemiringan sebesar $45^\circ$ terhadap sumbu-$x$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Perhitungan Intersep</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Diketahui nilai rata-rata variabel independen $\bar{x} = 5$, rata-rata variabel dependen $\bar{y} = 22$, dan kemiringan regresi $b = 3.5$. Nilai intersep $a$ adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        A. $4.5$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        B. $17.5$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. $39.5$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. $-4.5$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Interpretasi Gradien</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Sebuah model memprediksi waktu ketahanan baterai ($y$, dalam jam) berdasarkan intensitas kecerahan layar gawai ($x$, dalam persen): $\hat{y} = 14 - 0.08x$. Arti kemiringan $-0.08$ adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. Daya tahan baterai maksimum adalah 0.08 jam saat layar mati
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. Setiap peningkatan kecerahan layar sebesar 1%, daya tahan baterai berkurang rata-rata 0.08 jam
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. Baterai akan habis dalam waktu tepat 0.08 jam
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Hubungan antara kecerahan layar dan daya tahan baterai berbanding lurus positif
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Identifikasi Interpolasi</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Penelitian pengaruh konsentrasi pupuk terhadap massa panen dilakukan pada rentang konsentrasi $10\text{ ppm}$ hingga $80\text{ ppm}$. Manakah prediksi yang tergolong <strong>interpolasi</strong>?
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. Memprediksi massa panen pada konsentrasi $5\text{ ppm}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. Memprediksi massa panen pada konsentrasi $45\text{ ppm}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. Memprediksi massa panen pada konsentrasi $120\text{ ppm}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Memprediksi massa panen pada konsentrasi $0\text{ ppm}$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- BOTTOM NAVIGASI ANTAR SUB-BAB -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="diagram-pencar-scatter-plot-dan-pola-tren.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-bab 2: Diagram Pencar &amp; Pola Tren
+                    </a>
+                    <a href="/matematika/kelas-11/index.html" class="text-xs text-slate-400 hover:text-slate-600 font-medium">
+                        Hub Kelas XI
+                    </a>
+                    <a href="koefisien-korelasi-pearson-dan-derajat-hubungan.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Koefisien Korelasi Pearson &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

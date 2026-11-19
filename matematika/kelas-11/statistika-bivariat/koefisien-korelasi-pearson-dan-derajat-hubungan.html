@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koefisien Korelasi Pearson (r) & Derajat Hubungan — Matematika Kelas XI</title>
+    <meta name="description" content="Pelajari rumus koefisien korelasi Pearson r, derajat kekuatan hubungan linear, sifat invarian skala, serta jebakan korelasi non-linear dan korelasi semu.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/koefisien-korelasi-pearson-dan-derajat-hubungan.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/koefisien-korelasi-pearson-dan-derajat-hubungan.html">
+    <meta property="og:title" content="🔗 Koefisien Korelasi Pearson (r) & Derajat Hubungan — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Kuasai formula Product-Moment Pearson, skala interpretasi r, sifat unit-free, dan bahaya salah tafsir korelasi.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔗</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="statistika-bivariat">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Statistika Bivariat
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Koefisien Korelasi Pearson ($r$) &amp; Derajat Hubungan
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Bagaimana mengukur keeratan hubungan linear secara matematis tanpa bias subjektif visual? Pelajari koefisien korelasi <em>product-moment</em> Pearson ($r$), skala interpretasi derajat hubungan dari Guilford, sifat invarian terhadap perubahan satuan, serta batasan krusial saat berhadapan dengan data non-linear.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: HAKIKAT & TENTANG NILAI r -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Teoretis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌐 Hakikat Koefisien Korelasi Pearson ($r$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Pearson's r</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🧭</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Kompas Derajat Keselarasan Garis</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                        Saat kita melihat diagram pencar, mata kita secara intuitif menangkap seberapa rapat titik-titik data merapat ke satu garis lurus. Koefisien korelasi Karl Pearson ($r$) menerjemahkan impresi visual tersebut ke dalam sebuah angka presisi berstandar baku internasional yang selalu terkurung dalam rentang $[-1, +1]$.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SIFAT DOMAIN [-1, 1] -->
+                        <div class="space-y-4">
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900">1. Rentang Nilai dan Arti Tanda ($+ / - / 0$)</h3>
+                            <div class="p-4 bg-slate-900 text-slate-100 rounded-xl font-mono text-center text-sm shadow-inner">
+                                $$-1 \le r \le +1$$
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 space-y-1">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">r = +1.0</span>
+                                    <h4 class="text-sm font-bold text-slate-900">Positif Sempurna</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Seluruh titik data bertengger tepat tanpa deviasi pada garis lurus dengan kemiringan menanjak ($b > 0$). Kenaikan $x$ selalu diikuti kenaikan $y$ secara absolut.
+                                    </p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-600">r = 0.0</span>
+                                    <h4 class="text-sm font-bold text-slate-900">Nir-Korelasi Linear</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Tidak ada pola linier sama sekali. Titik-titik tersebar bundar acak, atau hubungan antar variabel bersifat melengkung murni (non-linear).
+                                    </p>
+                                </div>
+                                <div class="p-4 rounded-xl bg-rose-50/80 border border-rose-200 space-y-1">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-rose-800">r = -1.0</span>
+                                    <h4 class="text-sm font-bold text-slate-900">Negatif Sempurna</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Seluruh titik data terletak tepat pada satu garis lurus dengan kemiringan menurun ($b < 0$). Kenaikan $x$ selalu diikuti penurunan $y$ sebanding.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- HUBUNGAN TANDA r DENGAN KEMIRINGAN b -->
+                            <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-1.5">
+                                <h4 class="font-bold text-amber-950 flex items-center gap-1.5">
+                                    <span>💡</span> Keterkaitan Tanda: $\text{sign}(r) = \text{sign}(b)$
+                                </h4>
+                                <p>
+                                    Perhatikan bahwa tanda aljabar koefisien korelasi $r$ selalu <strong>sama persis</strong> dengan tanda kemiringan garis regresi $b$. Jika garis menanjak ($b > 0$), maka $r > 0$. Jika garis meluncur turun ($b < 0$), maka $r < 0$. Namun ingat: <em>nilai nominal $|r|$ tidak sama dengan $|b|$</em> karena $r$ adalah besaran ternormalisasi tanpa satuan.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: FORMULASI MATEMATIKA & SKALA GUILFORD -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Formulasi Analitis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 Rumus Product-Moment Pearson &amp; Panduan Kategori
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Product-Moment Formula</span>
+                        </div>
+
+                        <!-- FORMULA UTAMA -->
+                        <div class="space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <p>
+                                Karl Pearson merumuskan koefisien korelasi sebagai rasio antara kovarians sampel dengan hasil kali simpangan baku kedua variabel:
+                            </p>
+
+                            <div class="p-5 bg-gradient-to-r from-blue-50 to-indigo-50/60 rounded-2xl border border-blue-200 space-y-3">
+                                <div class="text-center font-bold text-slate-900 text-sm sm:text-base">
+                                    $$r = \frac{n \sum xy - (\sum x)(\sum y)}{\sqrt{\left[n \sum x^2 - (\sum x)^2\right] \left[n \sum y^2 - (\sum y)^2\right]}} = \frac{SS_{xy}}{\sqrt{SS_{xx} \cdot SS_{yy}}}$$
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-slate-600 pt-2 border-t border-blue-200/60 font-mono text-center">
+                                    <div>$SS_{xx} = \sum x^2 - \frac{(\sum x)^2}{n}$</div>
+                                    <div>$SS_{yy} = \sum y^2 - \frac{(\sum y)^2}{n}$</div>
+                                    <div>$SS_{xy} = \sum xy - \frac{(\sum x)(\sum y)}{n}$</div>
+                                </div>
+                            </div>
+
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900 pt-2">Tabel Skala Klasifikasi Derajat Korelasi (Guilford / Sugiyono)</h3>
+                            <p>
+                                Untuk menafsirkan kekuatan hubungan secara deskriptif ilmiah, gunakan pedoman konversi nilai mutlak $|r|$ berikut:
+                            </p>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border-collapse border border-slate-200 rounded-xl overflow-hidden">
+                                    <thead class="bg-slate-100 text-slate-700 font-bold">
+                                        <tr>
+                                            <th class="p-3 border border-slate-200">Interval Nilai Mutlak $|r|$</th>
+                                            <th class="p-3 border border-slate-200">Tingkat / Derajat Hubungan</th>
+                                            <th class="p-3 border border-slate-200">Interpretasi Praktis</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200 text-slate-600">
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-2.5 border border-slate-200 font-mono font-semibold text-slate-800">$0.00 \le |r| < 0.20$</td>
+                                            <td class="p-2.5 border border-slate-200"><span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold text-[11px]">Sangat Lemah</span></td>
+                                            <td class="p-2.5 border border-slate-200">Hampir tidak ada asosiasi linier yang bermakna. Titik menyebar bagai awan acak.</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-2.5 border border-slate-200 font-mono font-semibold text-slate-800">$0.20 \le |r| < 0.40$</td>
+                                            <td class="p-2.5 border border-slate-200"><span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-semibold text-[11px]">Lemah</span></td>
+                                            <td class="p-2.5 border border-slate-200">Terdapat kecenderungan arah, namun sebaran residu sangat lebar.</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-2.5 border border-slate-200 font-mono font-semibold text-slate-800">$0.40 \le |r| < 0.60$</td>
+                                            <td class="p-2.5 border border-slate-200"><span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 font-semibold text-[11px]">Sedang / Cukup</span></td>
+                                            <td class="p-2.5 border border-slate-200">Hubungan terlihat cukup jelas dalam sampel empiris ilmu sosial dan biologi.</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50">
+                                            <td class="p-2.5 border border-slate-200 font-mono font-semibold text-slate-800">$0.60 \le |r| < 0.80$</td>
+                                            <td class="p-2.5 border border-slate-200"><span class="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-[11px]">Kuat</span></td>
+                                            <td class="p-2.5 border border-slate-200">Titik-titik mengelompok rapat di sekitar garis tren linear. Prediksi cukup akurat.</td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50 bg-emerald-50/40">
+                                            <td class="p-2.5 border border-slate-200 font-mono font-semibold text-emerald-900">$0.80 \le |r| \le 1.00$</td>
+                                            <td class="p-2.5 border border-slate-200"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold text-[11px]">Sangat Kuat</span></td>
+                                            <td class="p-2.5 border border-slate-200 font-medium text-emerald-950">Titik data berhimpit amat dekat dengan garis. Korelasi sangat solid.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: SIFAT PENTING & JEBAKAN KORELASI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Ketajaman Analisis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚠️ Sifat Krusial &amp; Jebakan Salah Kaprah Korelasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">Statistical Traps</span>
+                        </div>
+
+                        <!-- 4 PILAR PEMAHAMAN KRITIS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- PILAR 1: INVARIAN SKALA (UNIT-FREE) -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs">1</span>
+                                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Invarian Skala (Nir-Dimensi)</h3>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Koefisien $r$ tidak memiliki satuan (<em>unit-free</em>). Mengubah satuan variabel (misal tinggi badan dari cm menjadi meter, atau berat dari gram ke kilogram) <strong>tidak mengubah nilai $r$ sama sekali</strong>!
+                                </p>
+                            </div>
+
+                            <!-- PILAR 2: HANYA MENGUKUR HUBUNGAN LINEAR -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs">2</span>
+                                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Hanya Mengukur Pola Linier</h3>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Jika sebaran titik membentuk kurva lengkung sempurna seperti parabola ($y = x^2$), nilai $r$ bisa tepat $0$! Nilai $r = 0$ <em>bukan</em> berarti tidak ada hubungan, melainkan tidak ada hubungan berbentuk <strong>garis lurus</strong>.
+                                </p>
+                            </div>
+
+                            <!-- PILAR 3: SENSITIF TERHADAP OUTLIER -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center text-xs">3</span>
+                                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Sangat Rentan Pencilan (Outlier)</h3>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Karena formula Pearson mengandalkan selisih kuadrat dari rata-rata, satu titik pencilan ekstrem di pojok diagram dapat menaikkan $r$ secara artifisial atau merusak korelasi kuat yang sebenarnya ada.
+                                </p>
+                            </div>
+
+                            <!-- PILAR 4: BUKAN SEBAB-AKIBAT -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center text-xs">4</span>
+                                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Korelasi Bukan Kausalitas</h3>
+                                </div>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Nilai $r = 0.95$ membuktikan adanya kovariasi linear kuat, namun <strong>tidak membuktikan</strong> bahwa $x$ menyebabkan $y$. Selalu waspada terhadap variabel pengganggu (<em>confounding variable</em>) dan korelasi semu (<em>spurious correlation</em>).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- KOTAK MISKONSEPSI POPULER -->
+                        <div class="p-4 rounded-xl bg-rose-50/70 border border-rose-200 text-xs text-slate-700 space-y-1">
+                            <span class="font-bold text-rose-900 uppercase tracking-wider flex items-center gap-1.5">
+                                <span>🚫</span> Miskonsepsi Siswa Paling Sering Terjadi:
+                            </span>
+                            <p>
+                                <em>"Jika nilai korelasi $r = 0$, berarti kedua variabel independen total dan tidak saling berkaitan sama sekali."</em> <br>
+                                <strong>Bantahan:</strong> SALAH BESAR! $r$ hanya menguji relasi linear. Contohnya $y = x^2$ untuk data $x \in \{-2, -1, 0, 1, 2\}$, nilai $y = \{4, 1, 0, 1, 4\}$. Nilai $r = 0$ tepat, padahal $y$ terhubung sempurna secara deterministik dengan $x$!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: CONTOH SOAL BERTINGKAT & BEDAH LANGKAH -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Penguasaan Soal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 Contoh Soal Terpandu Bertingkat (Dasar &rarr; HOTS)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full font-mono">Step-by-Step Solutions</span>
+                        </div>
+
+                        <!-- CONTOH 1: DASAR (PERHITUNGAN LENGKAP NILAI r) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 1: Pemahaman Dasar</span>
+                                <span class="text-xs text-slate-400 font-medium">Perhitungan Manual Koefisien Pearson</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Diberikan data pasangan durasi latihan soal per minggu ($x$, dalam jam) dan skor kuis pemahaman ($y$):
+                            </p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-center border-collapse border border-slate-200 rounded-lg">
+                                    <thead>
+                                        <tr class="bg-slate-100 font-bold text-slate-700">
+                                            <th class="p-2 border border-slate-200">No</th>
+                                            <th class="p-2 border border-slate-200">$x$</th>
+                                            <th class="p-2 border border-slate-200">$y$</th>
+                                            <th class="p-2 border border-slate-200">$x^2$</th>
+                                            <th class="p-2 border border-slate-200">$y^2$</th>
+                                            <th class="p-2 border border-slate-200">$xy$</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-slate-600">
+                                        <tr><td class="p-1.5 border border-slate-200">1</td><td class="p-1.5 border border-slate-200">2</td><td class="p-1.5 border border-slate-200">3</td><td class="p-1.5 border border-slate-200">4</td><td class="p-1.5 border border-slate-200">9</td><td class="p-1.5 border border-slate-200">6</td></tr>
+                                        <tr><td class="p-1.5 border border-slate-200">2</td><td class="p-1.5 border border-slate-200">4</td><td class="p-1.5 border border-slate-200">5</td><td class="p-1.5 border border-slate-200">16</td><td class="p-1.5 border border-slate-200">25</td><td class="p-1.5 border border-slate-200">20</td></tr>
+                                        <tr><td class="p-1.5 border border-slate-200">3</td><td class="p-1.5 border border-slate-200">6</td><td class="p-1.5 border border-slate-200">7</td><td class="p-1.5 border border-slate-200">36</td><td class="p-1.5 border border-slate-200">49</td><td class="p-1.5 border border-slate-200">42</td></tr>
+                                        <tr><td class="p-1.5 border border-slate-200">4</td><td class="p-1.5 border border-slate-200">8</td><td class="p-1.5 border border-slate-200">8</td><td class="p-1.5 border border-slate-200">64</td><td class="p-1.5 border border-slate-200">64</td><td class="p-1.5 border border-slate-200">64</td></tr>
+                                        <tr><td class="p-1.5 border border-slate-200">5</td><td class="p-1.5 border border-slate-200">10</td><td class="p-1.5 border border-slate-200">12</td><td class="p-1.5 border border-slate-200">100</td><td class="p-1.5 border border-slate-200">144</td><td class="p-1.5 border border-slate-200">120</td></tr>
+                                        <tr class="bg-blue-50 font-bold text-blue-900">
+                                            <td class="p-2 border border-slate-200">$\sum$</td>
+                                            <td class="p-2 border border-slate-200">30</td>
+                                            <td class="p-2 border border-slate-200">35</td>
+                                            <td class="p-2 border border-slate-200">220</td>
+                                            <td class="p-2 border border-slate-200">291</td>
+                                            <td class="p-2 border border-slate-200">252</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl space-y-2 text-xs sm:text-sm text-slate-700">
+                                <p class="font-bold text-slate-900">Langkah Perhitungan:</p>
+                                <ol class="list-decimal pl-5 space-y-1.5 leading-relaxed">
+                                    <li>Hitung jumlah kuadrat deviasi ($SS$):
+                                        <div class="font-mono text-xs py-1">
+                                            $$SS_{xx} = 220 - \frac{30^2}{5} = 220 - 180 = 40$$
+                                            $$SS_{yy} = 291 - \frac{35^2}{5} = 291 - 245 = 46$$
+                                            $$SS_{xy} = 252 - \frac{(30)(35)}{5} = 252 - 210 = 42$$
+                                        </div>
+                                    </li>
+                                    <li>Substitusikan ke rumus Pearson:
+                                        $$r = \frac{SS_{xy}}{\sqrt{SS_{xx} \cdot SS_{yy}}} = \frac{42}{\sqrt{40 \times 46}} = \frac{42}{\sqrt{1840}} = \frac{42}{42.895} \approx 0.979$$
+                                    </li>
+                                    <li><strong>Interpretasi:</strong> Karena $r = +0.979$ berada pada interval $0.80 \le |r| \le 1.00$, maka terdapat <strong>korelasi positif yang sangat kuat</strong> antara durasi latihan soal dan skor kuis pemahaman.</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH 2: MENENGAH (KORELASI NEGATIF & INVARIAN SKALA) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-blue-100 text-blue-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 2: Aplikasi Menengah</span>
+                                <span class="text-xs text-slate-400 font-medium">Interpretasi Arah &amp; Invarian Skala</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Suatu penelitian mengukur hubungan antara suhu udara luar ruangan ($x$, dalam $^\circ\text{C}$) dan waktu pembekuan sampel kimia ($y$, dalam menit). Ditemukan $r = -0.74$.
+                            </p>
+                            <ol class="list-decimal pl-5 space-y-2 text-xs sm:text-sm text-slate-700">
+                                <li>Jelaskan arti nilai $r = -0.74$ berdasarkan klasifikasi Guilford!</li>
+                                <li>Jika waktu pembekuan dikonversi satuannya menjadi detik ($y_{\text{baru}} = 60y$), bagaimana nilai koefisien korelasi yang baru?</li>
+                            </ol>
+
+                            <div class="p-4 bg-slate-50 rounded-xl space-y-2 text-xs sm:text-sm text-slate-700">
+                                <p class="font-bold text-slate-900">Pembahasan:</p>
+                                <ul class="space-y-1.5 list-disc pl-5 leading-relaxed">
+                                    <li><strong>Pertanyaan 1:</strong> Nilai $|r| = 0.74$ berada pada kategori $0.60 \le |r| < 0.80$. Karena tandanya negatif, artinya terdapat <strong>korelasi negatif yang kuat</strong>. Semakin tinggi suhu luar ruangan, waktu pembekuan cenderung berkurang secara signifikan.</li>
+                                    <li><strong>Pertanyaan 2:</strong> Koefisien korelasi Pearson bersifat <em>invarian terhadap perkalian konstanta positif</em>. Mengalikan waktu pembekuan dengan $60$ tidak mengubah posisi relatif titik terhadap garis tren. Nilai korelasi yang baru tetap tepat <strong class="text-blue-700">$r = -0.74$</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH 3: HOTS (ANALISIS KRITIS KURVA PARABOLA) -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-lg text-xs font-bold uppercase tracking-wider">Level 3: HOTS / Analisis Kritis</span>
+                                <span class="text-xs text-slate-400 font-medium">Jebakan Pearson Pada Hubungan Kurvalinear</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Seorang peneliti menguji pengaruh tingkat kecemasan ujian ($x$, skala $-3$ hingga $+3$) terhadap performa skor siswa ($y$) yang mengikuti kurva hukum Yerkes-Dodson: $y = 10 - x^2$. Hasil perhitungan komputasi menghasilkan nilai koefisien korelasi Pearson $r = 0$. Peneliti menyimpulkan: <em>"Tingkat kecemasan tidak memiliki pengaruh sama sekali terhadap performa siswa."</em> Evaluasi dan kritisi kesimpulan tersebut!
+                            </p>
+                            <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl text-xs sm:text-sm text-slate-800 space-y-1.5">
+                                <p class="font-bold text-amber-950">Analisis Kritis:</p>
+                                <p>1. <strong>Kesalahan Konseptual:</strong> Peneliti menyamakan <em>tidak adanya korelasi linear</em> dengan <em>tidak adanya hubungan fungsional</em>.</p>
+                                <p>2. <strong>Fakta Sebenarnya:</strong> Variabel $y$ justru terikat secara deterministik sempurna ($100\%$) dengan $x$ melalui fungsi kuadratik simetris $y = 10 - x^2$. Karena bentuk grafiknya simetris membuka ke bawah, separuh tren positif dibatalkan secara eksak oleh separuh tren negatif, sehingga menghasilkan $r = 0$. Inilah alasan mengapa memeriksa diagram pencar secara visual sebelum menghitung $r$ adalah langkah wajib.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Interaktif Pemahaman Korelasi Pearson
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Soal Auto-Check</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji pemahaman Anda tentang formula, rentang nilai, sifat unit-free, dan interpretasi koefisien korelasi Pearson:
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- SOAL 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Rentang Nilai</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Rentang nilai yang mungkin untuk koefisien korelasi Pearson $r$ adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. $0 \le r \le 1$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. $-1 \le r \le +1$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. $-\infty < r < +\infty$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. $-100\% \le r \le 100\%$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Sifat Titik Sempurna</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Jika seluruh pasangan data pada diagram pencar terletak tepat pada satu garis lurus dengan kemiringan menurun tajam, maka nilai $r$ adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. Mendekati $0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        B. $+1.0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        C. $-1.0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Bergantung pada besar sudut kemiringan dalam derajat
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Invarian Satuan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Data korelasi antara tinggi badan ($x$, dalam meter) dan berat badan ($y$, dalam kilogram) menghasilkan $r = 0.82$. Jika variabel tinggi badan diubah menjadi sentimeter ($x_{\text{baru}} = 100x$), maka nilai $r$ akan menjadi:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. $82$
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. $0.82$ (tetap sama)
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. $0.0082$
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Berubah menjadi negatif
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Klasifikasi Kekuatan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Berdasarkan klasifikasi standar Guilford, nilai koefisien korelasi $r = -0.52$ dikategorikan sebagai:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. Korelasi positif sedang
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        B. Korelasi negatif sangat lemah
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        C. Korelasi negatif sedang / cukup
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Korelasi negatif sangat kuat
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+
+                            <!-- SOAL 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Pemahaman Kritis Nilai Nol</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-800">
+                                    Jika diperoleh nilai koefisien korelasi Pearson $r = 0$, kesimpulan yang paling tepat secara kaidah statistika adalah:
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        A. Kedua variabel pasti tidak memiliki kaitan atau pengaruh apa pun di alam nyata
+                                    </button>
+                                    <button onclick="checkQuiz(this, true)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition font-medium">
+                                        B. Tidak terdapat hubungan linear (garis lurus), meskipun kemungkinan masih ada hubungan lengkung (non-linear)
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        C. Garis regresi linear memiliki kemiringan sebesar 90 derajat vertikal
+                                    </button>
+                                    <button onclick="checkQuiz(this, false)" class="text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 transition">
+                                        D. Semua titik data pasti berada pada garis horizontal $y = 0$
+                                    </button>
+                                </div>
+                                <div class="hidden p-3 rounded-xl text-xs font-medium feedback-box"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- BOTTOM NAVIGASI ANTAR SUB-BAB -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="garis-regresi-linier-metode-kuadrat-terkecil.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-bab 3: Garis Regresi Kuadrat Terkecil
+                    </a>
+                    <a href="/matematika/kelas-11/index.html" class="text-xs text-slate-400 hover:text-slate-600 font-medium">
+                        Hub Kelas XI
+                    </a>
+                    <a href="koefisien-determinasi-dan-interpretasi-model.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Koefisien Determinasi (r²) &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

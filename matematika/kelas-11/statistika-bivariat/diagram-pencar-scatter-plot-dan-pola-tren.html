@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram Pencar (Scatter Plot) & Pola Tren Data — Matematika Kelas XI</title>
+    <meta name="description" content="Pelajari cara membaca dan menginterpretasikan diagram pencar (scatter plot), menganalisis 3 karakteristik tren (arah, bentuk, kekuatan), serta mendeteksi pencilan (outlier).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/diagram-pencar-scatter-plot-dan-pola-tren.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/diagram-pencar-scatter-plot-dan-pola-tren.html">
+    <meta property="og:title" content="📈 Diagram Pencar (Scatter Plot) & Pola Tren Data — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Kuasai interpretasi arah tren, pola linear vs non-linear, kekuatan korelasi, dan outlier dengan kartu materi interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="statistika-bivariat">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Statistika Bivariat
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Diagram Pencar (Scatter Plot) &amp; Pola Tren Data
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Diagram pencar (*scatter plot*) adalah jendela visual utama untuk mengamati perilaku data bivariat. Pelajari cara mengidentifikasi tiga pilar interpretasi tren: arah hubungan (positif, negatif, nol), bentuk kurva (linear vs non-linear), kekuatan korelasi (kuat vs lemah), serta mendeteksi titik pencilan (*outlier*).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: HAKIKAT & KONSTRUKSI DIAGRAM PENCAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Visualisasi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 Hakikat Diagram Pencar &amp; Cara Membacanya
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Scatter Plot</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🌌</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Awan Bintang yang Membentuk Rasi</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Melihat tabel angka data bivariat seperti menatap deretan koordinat yang membingungkan. Ketika kita memplot pasangan data $(x_i, y_i)$ sebagai titik-titik pada bidang koordinat, kumpulan titik tersebut membentuk "awan titik" (*point cloud*). Dari bentuk awan inilah mata kita dapat seketika melihat apakah titik-titik tersebut berbaris membentuk garis lurus, kurva melengkung, atau sekadar tersebar acak tanpa pola.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARA KONSTRUKSI DIAGRAM PENCAR -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <h3 class="text-base font-bold text-slate-900">Aturan Baku Menggambar Diagram Pencar:</h3>
+                            <ul class="list-disc pl-5 space-y-1.5 text-xs sm:text-sm text-slate-700">
+                                <li><strong>Sumbu Mendatar ($X$):</strong> Memuat nilai variabel bebas (independen). Beri label sumbu dan satuan yang jelas.</li>
+                                <li><strong>Sumbu Tegak ($Y$):</strong> Memuat nilai variabel terikat (dependen/respons).</li>
+                                <li><strong>Plot Titik:</strong> Setiap baris data direpresentasikan oleh tepat satu noktah/titik koordinat $(x, y)$.</li>
+                                <li><strong>Penting:</strong> <em>Jangan pernah menghubungkan titik-titik tersebut dengan garis patah-patah!</em> Diagram pencar dibuat untuk melihat sebaran awan titik, bukan grafik garis runtut waktu.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: 3 KARAKTERISTIK POKOK TREN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Analisis Karakteristik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧭 Tiga Karakteristik Pokok Pola Tren: Arah, Bentuk &amp; Kekuatan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Arah, Bentuk, Kekuatan</span>
+                        </div>
+
+                        <!-- 3 PILAR INTERPRETASI -->
+                        <div class="space-y-4 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <!-- 1. ARAH -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-blue-900 uppercase text-xs block">1. Arah Hubungan (Direction)</span>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                                        <p class="font-bold text-emerald-700">↗️ Tren Positif</p>
+                                        <p class="text-slate-600">Awan titik naik dari kiri bawah ke kanan atas. Jika nilai $X$ meningkat, nilai $Y$ cenderung bertambah besar.</p>
+                                    </div>
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                                        <p class="font-bold text-rose-700">↘️ Tren Negatif</p>
+                                        <p class="text-slate-600">Awan titik turun dari kiri atas ke kanan bawah. Jika nilai $X$ meningkat, nilai $Y$ justru cenderung menurun.</p>
+                                    </div>
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                                        <p class="font-bold text-slate-600">⚪ Tren Nol / Nihil</p>
+                                        <p class="text-slate-600">Titik-titik tersebar acak merata melingkar/horizontal tanpa kecenderungan naik atau turun sama sekali.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. BENTUK -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-emerald-900 uppercase text-xs block">2. Bentuk Hubungan (Form)</span>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                                        <p class="font-bold text-blue-800">📏 Bentuk Linear</p>
+                                        <p class="text-slate-600">Awan titik membentuk pola menyerupai pita garis lurus. Cocok dimodelkan dengan regresi linier sederhana.</p>
+                                    </div>
+                                    <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+                                        <p class="font-bold text-purple-800">〰️ Bentuk Non-Linear (Kurvilinear)</p>
+                                        <p class="text-slate-600">Awan titik membentuk pola melengkung (parabola kuadratik, eksponensial, atau kurva U). Tidak boleh dimodelkan dengan garis lurus biasa!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3. KEKUATAN -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-purple-900 uppercase text-xs block">3. Kekuatan Hubungan (Strength)</span>
+                                <p class="text-xs text-slate-600">
+                                    Ditentukan dari <strong>seberapa rapat titik-titik data mengelompok di sekitar garis tren imajiner</strong>:
+                                </p>
+                                <ul class="list-disc pl-5 text-xs text-slate-600 space-y-1">
+                                    <li><strong>Kuat:</strong> Titik-titik berbaris sangat rapat menempel pada garis tren (simpangan/residu sangat kecil).</li>
+                                    <li><strong>Sedang:</strong> Titik-titik agak menyebar tetapi arah garis tren masih dapat dikenali dengan jelas.</li>
+                                    <li><strong>Lemah:</strong> Titik-titik sangat menyebar baur dan sukar ditarik garis yang meyakinkan.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: VISUALISASI SVG PERBANDINGAN TREN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Galeri Visual Scatter Plot</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎨 Visualisasi Komparatif: 4 Pola Tren Diagram Pencar
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">SVG Galeri</span>
+                        </div>
+
+                        <!-- 4 DIAGRAM SVG BERDAMPINGAN -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- SVG 1: LINEAR POSITIF KUAT -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                                <span class="text-xs font-bold text-emerald-800 mb-2">1. Tren Linear Positif Kuat</span>
+                                <svg viewBox="0 0 200 150" class="w-full max-w-[180px] h-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="25" y1="125" x2="185" y2="125" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <line x1="25" y1="125" x2="25" y2="15" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <!-- Titik-titik naik -->
+                                    <circle cx="45" cy="110" r="3" fill="#059669"/>
+                                    <circle cx="60" cy="100" r="3" fill="#059669"/>
+                                    <circle cx="75" cy="92" r="3" fill="#059669"/>
+                                    <circle cx="95" cy="80" r="3" fill="#059669"/>
+                                    <circle cx="110" cy="65" r="3" fill="#059669"/>
+                                    <circle cx="130" cy="55" r="3" fill="#059669"/>
+                                    <circle cx="150" cy="40" r="3" fill="#059669"/>
+                                    <circle cx="170" cy="28" r="3" fill="#059669"/>
+                                    <!-- Garis tren -->
+                                    <line x1="35" y1="118" x2="175" y2="22" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                </svg>
+                            </div>
+
+                            <!-- SVG 2: LINEAR NEGATIF KUAT -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                                <span class="text-xs font-bold text-rose-800 mb-2">2. Tren Linear Negatif Kuat</span>
+                                <svg viewBox="0 0 200 150" class="w-full max-w-[180px] h-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="25" y1="125" x2="185" y2="125" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <line x1="25" y1="125" x2="25" y2="15" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <!-- Titik-titik turun -->
+                                    <circle cx="45" cy="30" r="3" fill="#e11d48"/>
+                                    <circle cx="65" cy="45" r="3" fill="#e11d48"/>
+                                    <circle cx="85" cy="58" r="3" fill="#e11d48"/>
+                                    <circle cx="105" cy="72" r="3" fill="#e11d48"/>
+                                    <circle cx="125" cy="88" r="3" fill="#e11d48"/>
+                                    <circle cx="145" cy="98" r="3" fill="#e11d48"/>
+                                    <circle cx="165" cy="112" r="3" fill="#e11d48"/>
+                                    <!-- Garis tren -->
+                                    <line x1="35" y1="22" x2="175" y2="118" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                </svg>
+                            </div>
+
+                            <!-- SVG 3: POLA NON-LINEAR (KURVA) -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                                <span class="text-xs font-bold text-purple-800 mb-2">3. Tren Non-Linear (Kurva U)</span>
+                                <svg viewBox="0 0 200 150" class="w-full max-w-[180px] h-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="25" y1="125" x2="185" y2="125" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <line x1="25" y1="125" x2="25" y2="15" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <!-- Titik-titik parabola -->
+                                    <circle cx="40" cy="40" r="3" fill="#7c3aed"/>
+                                    <circle cx="60" cy="75" r="3" fill="#7c3aed"/>
+                                    <circle cx="80" cy="100" r="3" fill="#7c3aed"/>
+                                    <circle cx="105" cy="110" r="3" fill="#7c3aed"/>
+                                    <circle cx="130" cy="100" r="3" fill="#7c3aed"/>
+                                    <circle cx="150" cy="75" r="3" fill="#7c3aed"/>
+                                    <circle cx="170" cy="40" r="3" fill="#7c3aed"/>
+                                    <!-- Kurva lengkung -->
+                                    <path d="M 40,40 Q 105,125 170,40" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                </svg>
+                            </div>
+
+                            <!-- SVG 4: TIDAK ADA KORELASI -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                                <span class="text-xs font-bold text-slate-700 mb-2">4. Tanpa Korelasi (Acak)</span>
+                                <svg viewBox="0 0 200 150" class="w-full max-w-[180px] h-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="25" y1="125" x2="185" y2="125" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <line x1="25" y1="125" x2="25" y2="15" stroke="#94a3b8" stroke-width="1.5"/>
+                                    <!-- Titik-titik acak menyebar -->
+                                    <circle cx="45" cy="50" r="3" fill="#64748b"/>
+                                    <circle cx="65" cy="105" r="3" fill="#64748b"/>
+                                    <circle cx="75" cy="35" r="3" fill="#64748b"/>
+                                    <circle cx="95" cy="85" r="3" fill="#64748b"/>
+                                    <circle cx="110" cy="45" r="3" fill="#64748b"/>
+                                    <circle cx="130" cy="110" r="3" fill="#64748b"/>
+                                    <circle cx="145" cy="65" r="3" fill="#64748b"/>
+                                    <circle cx="165" cy="85" r="3" fill="#64748b"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: PENCILAN (OUTLIER) & CONTOH BERTAHAP -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Analisis Anomali Data</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔎 Titik Pencilan (Outlier) &amp; Pengaruhnya pada Pola Tren
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-2.5 py-1 rounded-full font-mono">Outlier Analysis</span>
+                        </div>
+
+                        <!-- TEORI PENCILAN -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                <strong>Pencilan (*Outlier*):</strong> Titik data pengamatan yang letaknya menyimpang jauh secara ekstrem dari pola umum kumpulan titik-titik data lainnya pada diagram pencar.
+                            </p>
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-2">
+                                <span class="font-bold text-amber-950 text-xs uppercase block">Dampak Pencilan pada Analisis Data:</span>
+                                <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1">
+                                    <li>Pencilan dapat "menarik" garis regresi mendekati dirinya sendiri (*influential point*), sehingga kemiringan garis menjadi bias dan tidak lagi mewakili mayoritas data.</li>
+                                    <li>Pencilan dapat menurunkan nilai koefisien korelasi secara drastis (membuat hubungan yang sebenarnya kuat tampak menjadi lemah).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL IDENTIFIKASI TREN -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Studi Kasus: Usia Kendaraan vs Harga Jual Mobil Bekas</span>
+                            <p class="text-xs sm:text-sm text-slate-800">
+                                Diberikan data usia mobil (tahun) dan harga jual mobil bekas (juta rupiah): $(1, 240), (2, 215), (3, 190), (4, 175), (5, 145), (6, 130), (7, 110)$. Tentukan: <br>
+                                a) Arah tren hubungan kedua variabel <br>
+                                b) Bentuk hubungan data <br>
+                                c) Interpretasi praktis dari tren tersebut
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Analisis:</strong></p>
+                                <p><strong>a) Arah Hubungan:</strong> <strong>Negatif</strong>, karena semakin bertambah usia mobil (nilai $X$ membesar dari $1$ ke $7$), harga jual mobil bekas (nilai $Y$) terus mengalami penurunan (dari $240$ turun hingga $110$).</p>
+                                <p><strong>b) Bentuk Hubungan:</strong> <strong>Linear</strong>, karena penurunan harga terjadi secara relatif konstan sekitar $15 - 25$ juta per tahun, membentuk jalur garis lurus yang rapat.</p>
+                                <p><strong>c) Interpretasi:</strong> Terdapat korelasi negatif yang kuat akibat faktor depresiasi nilai barang (penyusutan harga kendaraan bermotor seiring bertambahnya usia pemakaian).</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI & AUTO-CHECK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri Interaktif</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Pemahaman: Diagram Pencar &amp; Pola Tren
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu opsi jawaban yang Anda anggap paling tepat. Sistem akan langsung memvalidasi kebenaran jawaban beserta analisis visual grafisnya.
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Pola Tren Positif</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika awan titik pada diagram pencar bergerak naik dari kiri bawah menuju ke kanan atas, maka pola hubungan kedua variabel tersebut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Linear negatif</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Linear positif</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Non-linear kuadratik</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Tidak ada korelasi</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Identifikasi Tren Negatif Nyata</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Manakah pasangan variabel berikut yang paling pasti menghasilkan diagram pencar dengan tren <strong>negatif</strong>?
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Tinggi badan anak vs Berat badan anak</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Biaya iklan bulanan vs Penjualan barang</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Kecepatan rata-rata kendaraan vs Waktu tempuh perjalanan</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Luas lahan sawah vs Total tonase gabah</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Kekuatan Hubungan Data</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dua buah diagram pencar sama-sama menunjukkan tren linear positif. Namun, pada diagram A titik-titik data mengelompok sangat rapat di dekat garis tren, sedangkan pada diagram B titik-titik data menyebar lebih lebar. Kesimpulan yang tepat adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Hubungan pada diagram A lebih kuat daripada diagram B</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Hubungan pada diagram B lebih kuat daripada diagram A</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Kedua diagram memiliki kekuatan hubungan yang sama</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Diagram A pasti memiliki jumlah sampel lebih banyak</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Pengaruh Titik Pencilan (Outlier)</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Keberadaan sebuah titik pencilan (*outlier*) yang ekstrem pada diagram pencar dapat menyebabkan ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Data bivariat otomatis berubah menjadi univariat</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Hubungan linear selalu berubah menjadi kurva lingkaran</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Nilai rata-rata variabel $X$ dan $Y$ selalu menjadi nol</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Garis tren terdistorsi dan nilai koefisien korelasi dapat melemah secara signifikan</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Ciri Scatter Plot Tanpa Hubungan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika titik-titik pada diagram pencar tersebar merata secara acak membentuk lingkaran tanpa pola tertentu, maka dapat disimpulkan bahwa ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Terdapat korelasi positif sempurna</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Tidak ada hubungan linear antara variabel $X$ dan variabel $Y$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Variabel $X$ bernilai dua kali lipat dari variabel $Y$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Terjadi kesalahan dalam proses penggambaran sumbu</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> Kemampuan interpretasi visual diagram pencar dan analisis tren data bivariat Anda sangat tepat.";
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Opsi yang benar adalah <strong>" + correct + "</strong>. Cermati arah pergerakan awan titik dan kerapatan data.";
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 &amp; Permendikdasmen No. 13 Tahun 2025 tentang Capaian Pembelajaran Matematika Fase F (Kelas XI SMA/MA)</em>. Elemen Analisis Data dan Peluang.</p>
+                    <p><strong>Moore, David S., McCabe, George P., &amp; Craig, Bruce A.</strong> (2017). <em>Introduction to the Practice of Statistics</em> (9th ed.). W. H. Freeman. Chapter 2: Looking at Data — Relationships (2.2 Scatterplots, Interpreting Scatterplots).</p>
+                    <p><strong>Walpole, Ronald E., et al.</strong> (2012). <em>Probability &amp; Statistics for Engineers &amp; Scientists</em> (9th ed.). Pearson Education.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="konsep-data-bivariat-dan-variabel-independen-dependen.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-bab 1: Konsep Data Bivariat
+                    </a>
+                    <a href="/matematika/kelas-11/index.html" class="text-xs text-slate-400 hover:text-slate-600 font-medium">
+                        Hub Kelas XI
+                    </a>
+                    <a href="garis-regresi-linier-metode-kuadrat-terkecil.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Garis Regresi Kuadrat Terkecil &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

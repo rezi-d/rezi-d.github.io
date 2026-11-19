@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Data Bivariat & Variabel Independen-Dependen — Matematika Kelas XI</title>
+    <meta name="description" content="Pahami perbedaan data univariat dan bivariat, identifikasi variabel bebas (independen) dan terikat (dependen), serta prinsip korelasi bukan kausalitas.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/konsep-data-bivariat-dan-variabel-independen-dependen.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/statistika-bivariat/konsep-data-bivariat-dan-variabel-independen-dependen.html">
+    <meta property="og:title" content="📊 Konsep Data Bivariat & Variabel Independen-Dependen — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Pahami data bivariat, variabel independen vs dependen, dan prinsip asosiasi dengan kartu materi interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="statistika-bivariat">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Statistika Bivariat
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Data Bivariat &amp; Variabel Independen-Dependen
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Dalam dunia nyata, fenomena tidak pernah berdiri sendiri. Masuki bab statistika modern dengan memahami perbedaan mendasar antara data satu variabel (univariat) dan dua variabel berpasangan (bivariat), cara mengidentifikasi variabel bebas ($x$) dan terikat ($y$), serta prinsip krusial bahwa korelasi belum tentu berarti hubungan sebab-akibat langsung.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DATA UNIVARIAT VS DATA BIVARIAT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Konsep Data</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📊 Perbedaan Mendasar: Data Univariat vs Data Bivariat
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Univariat vs Bivariat</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🔍</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Menilai Satu Sifat vs Menghubungkan Dua Sifat</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Ketika dokter hanya mencatat tinggi badan Anda untuk melihat apakah Anda tergolong tinggi rata-rata populasi, dokter sedang melakukan <strong>analisis univariat</strong> (satu variabel). Namun ketika dokter mencatat tinggi badan dan berat badan Anda secara bersamaan untuk melihat apakah orang yang lebih tinggi cenderung memiliki berat badan yang lebih besar, dokter sedang melakukan <strong>analisis data bivariat</strong> (dua variabel berpasangan)!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TABEL PERBANDINGAN -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 uppercase text-xs block">1. Data Univariat (Satu Variabel)</span>
+                                <p class="text-slate-600 text-justify">
+                                    Menganalisis karakteristik distribusi <strong>satu variabel tunggal</strong> pada suatu populasi atau sampel.
+                                </p>
+                                <ul class="list-disc pl-5 text-slate-600 space-y-1">
+                                    <li><strong>Fokus:</strong> Nilai pemusatan (mean, median, modus) dan sebaran (jangkauan, varians, standar deviasi).</li>
+                                    <li><strong>Contoh:</strong> "Rata-rata nilai ujian matematika kelas XI adalah 78."</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                                <span class="font-bold text-blue-950 uppercase text-xs block">2. Data Bivariat (Dua Variabel)</span>
+                                <p class="text-slate-700 text-justify">
+                                    Menganalisis <strong>dua variabel kuantitatif secara berpasangan</strong> $(x_i, y_i)$ dari setiap individu sampel untuk menyelidiki ada tidaknya hubungan atau pola keterkaitan.
+                                </p>
+                                <ul class="list-disc pl-5 text-slate-700 space-y-1">
+                                    <li><strong>Fokus:</strong> Arah hubungan, keeratan korelasi, dan pemodelan prediksi regresi linier.</li>
+                                    <li><strong>Contoh:</strong> "Apakah durasi belajar harian berhubungan dengan nilai ujian akhir?"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: VARIABEL INDEPENDEN VS DEPENDEN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Identifikasi Variabel</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Variabel Bebas (Independen) vs Variabel Terikat (Dependen)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">x \rightarrow y</span>
+                        </div>
+
+                        <!-- PENJELASAN VARIABEL X DAN Y -->
+                        <div class="space-y-4 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                Dalam analisis bivariat, kita wajib memisahkan peran masing-masing variabel secara tegas ke dalam dua kategori:
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">X</span>
+                                        <h4 class="font-bold text-slate-900">Variabel Bebas / Independen (Eksplanatori)</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600">
+                                        Variabel yang posisinya diasumsikan memengaruhi, menjelaskan, atau menjadi input penyebab. Diletakkan pada <strong>sumbu horizontal ($X$)</strong>.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0">Y</span>
+                                        <h4 class="font-bold text-slate-900">Variabel Terikat / Dependen (Respons)</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600">
+                                        Variabel yang nilainya dipengaruhi, merespons, atau hendak diprediksi dari nilai $X$. Diletakkan pada <strong>sumbu vertikal ($Y$)</strong>.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- TABEL CONTOH KONTEKSTUAL -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 text-xs uppercase block">Contoh Pasangan Variabel dalam Kehidupan Sehari-Hari:</span>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-xs text-left border-collapse">
+                                        <thead>
+                                            <tr class="border-b border-slate-200 text-slate-500 font-semibold">
+                                                <th class="py-2 px-3">Skenario Penelitian</th>
+                                                <th class="py-2 px-3">Variabel Bebas ($X$)</th>
+                                                <th class="py-2 px-3">Variabel Terikat ($Y$)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-slate-100 text-slate-700">
+                                            <tr>
+                                                <td class="py-2 px-3">Prestasi Belajar Siswa</td>
+                                                <td class="py-2 px-3 font-medium text-blue-700">Durasi Waktu Belajar (Jam)</td>
+                                                <td class="py-2 px-3 font-medium text-emerald-700">Nilai Ujian Matematika</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-3">Hasil Panen Padi</td>
+                                                <td class="py-2 px-3 font-medium text-blue-700">Dosis Pupuk Organik (kg/ha)</td>
+                                                <td class="py-2 px-3 font-medium text-emerald-700">Kuantitas Hasil Panen (Ton)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-3">Konsumsi Listrik Rumah</td>
+                                                <td class="py-2 px-3 font-medium text-blue-700">Suhu Udara Rata-rata (°C)</td>
+                                                <td class="py-2 px-3 font-medium text-emerald-700">Tagihan Listrik / kWh AC</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-3">Pemasaran Produk</td>
+                                                <td class="py-2 px-3 font-medium text-blue-700">Biaya Iklan Digital (Juta Rp)</td>
+                                                <td class="py-2 px-3 font-medium text-emerald-700">Omzet Penjualan (Juta Rp)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: KORELASI VS KAUSALITAS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600 block mb-0.5">Poin 3 &middot; Prinsip Kritis Berpikir Ilmiah</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚠️ Korelasi Bukan Berarti Hubungan Kausalitas (Sebab-Akibat)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">Correlation \neq Causation</span>
+                        </div>
+
+                        <!-- PRINSIP CORRELATION IS NOT CAUSATION -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                Salah satu kesalahan logika paling umum dalam interpretasi data adalah berasumsi bahwa jika dua variabel bergerak seirama (berkorelasi kuat), maka yang satu pasti menjadi penyebab langsung bagi yang lain.
+                            </p>
+                            <div class="p-4 rounded-xl bg-rose-50 border-2 border-rose-300 text-center font-bold text-rose-950 text-sm sm:text-base">
+                                "Correlation does not imply causation" (Korelasi tidak membuktikan adanya hubungan sebab-akibat!)
+                            </div>
+
+                            <!-- CONTOH KORELASI PALSU & VARIABEL PERANCU -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 text-xs uppercase block">Contoh Kasus Klasik: Es Krim vs Insiden Tenggelam</span>
+                                <p class="text-xs text-slate-600">
+                                    Data di sebuah kota pantai menunjukkan bahwa pada bulan-bulan ketika <strong>penjualan es krim meningkat pesat</strong>, angka <strong>insiden orang tenggelam di pantai juga melonjak tajam</strong>. Apakah makan es krim menyebabkan orang tenggelam? Ataukah tenggelam menyebabkan orang ingin makan es krim?
+                                </p>
+                                <p class="text-xs text-slate-700 bg-white p-3 rounded-lg border border-slate-200">
+                                    💡 <strong>Penjelasan Statistik (Variabel Perancu / Lurking Variable):</strong> Tentu tidak ada hubungan sebab-akibat langsung di antara keduanya! Kedua peristiwa tersebut sama-sama dipengaruhi oleh faktor ketiga tersembunyi, yaitu <strong>musim kemarau / cuaca panas ekstrem</strong>. Cuaca panas membuat orang banyak membeli es krim, sekaligus mendorong jutaan orang berenang ke laut sehingga risiko kecelakaan air meningkat secara alamiah.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: PEMBENTUKAN TABEL DATA & CONTOH BERTAHAP -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Penguatan Aplikasi Analitis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 Contoh Soal Bertahap: Mengidentifikasi Pasangan Variabel
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-2.5 py-1 rounded-full font-mono">Bedah Kasus</span>
+                        </div>
+
+                        <!-- KASUS 1: MENENGAH -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">Kasus 1: Mengidentifikasi Variabel dari Percobaan Sains</span>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Seorang siswa biologi meneliti laju perkecambahan biji kacang hijau dengan menyiramkan berbagai volume air yang berbeda ($10\text{ mL}, 20\text{ mL}, 30\text{ mL}, 40\text{ mL}, 50\text{ mL}$) pada 5 pot tanaman yang identik. Setelah satu minggu, tinggi kecambah pada masing-masing pot diukur. Tentukan variabel bebas ($X$), variabel terikat ($Y$), dan apakah penelitian ini menggunakan data univariat atau bivariat!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Analisis:</strong></p>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li><strong>Jenis Data:</strong> <strong>Data Bivariat</strong>, karena mengamati dua atribut sekaligus secara berpasangan pada setiap pot: volume air yang diberikan dan tinggi tanaman yang dihasilkan.</li>
+                                    <li><strong>Variabel Bebas ($X$):</strong> Volume air siraman ($\text{mL}$), karena sengaja diatur dan dimanipulasi oleh peneliti.</li>
+                                    <li><strong>Variabel Terikat ($Y$):</strong> Tinggi kecambah ($\text{cm}$), karena nilainya diamati sebagai respons atau akibat dari perlakuan volume air.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- KASUS 2: HOTS / VARIABEL PERANCU -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-200 text-amber-900">Kasus 2: Menganalisis Korelasi Palsu (HOTS)</span>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Seorang peneliti menemukan bahwa ada hubungan korelasi positif yang sangat kuat antara ukuran sepatu siswa SD dengan kemampuan membaca mereka (siswa dengan ukuran sepatu lebih besar memiliki skor membaca yang jauh lebih tinggi). Apakah peneliti tersebut berhak menyimpulkan bahwa memiliki ukuran kaki yang besar membuat seorang anak lebih pintar membaca? Jelaskan secara analitis!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Pembahasan:</strong></p>
+                                <p class="text-rose-800 font-semibold">
+                                    Kesimpulan peneliti tersebut <strong>salah dan keliru</strong> (*spurious correlation*).
+                                </p>
+                                <p class="text-justify">
+                                    Ukuran sepatu tidak memiliki pengaruh biologis atau kognitif terhadap kemampuan otak anak dalam membaca. Variabel perancu (*lurking variable*) yang sebenarnya mengendalikan kedua hal tersebut adalah <strong>faktor usia / tingkatan kelas siswa</strong>! Siswa kelas 6 SD tentu memiliki ukuran sepatu yang lebih besar dan sekaligus memiliki kemampuan membaca yang jauh lebih matang dibandingkan siswa kelas 1 SD.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI & AUTO-CHECK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri Interaktif</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Pemahaman: Data Bivariat &amp; Identifikasi Variabel
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu opsi jawaban yang Anda anggap paling tepat. Sistem akan langsung memvalidasi kebenaran jawaban beserta analisis konsep statistiknya.
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Ciri Khas Data Bivariat</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perbedaan utama antara analisis data univariat dan data bivariat terletak pada ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Jumlah sampel yang diambil dalam survei</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Jumlah variabel yang diamati secara berpasangan pada setiap objek penelitian</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Jenis skala pengukuran angka nominal vs ordinal</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Cara menghitung nilai rata-rata sampel</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Menentukan Variabel Terikat (Dependen)</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dalam penelitian pengaruh waktu pemanasan terhadap laju penguapan air, variabel terikat (dependen) adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Laju penguapan air</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Waktu pemanasan</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Jenis kompor yang digunakan</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Luas permukaan wadah</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Sumbu Koordinat Variabel</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dalam penyajian diagram dan pemodelan regresi standar, variabel bebas (independen) selalu diletakkan pada ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Sumbu vertikal ($Y$)</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Garis diagonal $y = x$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Sumbu horizontal ($X$)</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Bebas diletakkan di sumbu mana saja tanpa aturan</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Prinsip Korelasi dan Kausalitas</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Pernyataan yang paling tepat mengenai korelasi dalam statistika adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Jika dua variabel berkorelasi kuat, pasti variabel pertama menyebabkan variabel kedua</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Korelasi hanya bisa dihitung untuk variabel kualitatif</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Korelasi positif selalu lebih baik daripada korelasi negatif</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Adanya korelasi kuat tidak serta merta membuktikan adanya hubungan sebab-akibat langsung</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Variabel Perancu (Confounding Variable)</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Variabel tersembunyi di luar model penelitian yang secara bersamaan memengaruhi variabel $X$ dan variabel $Y$ sehingga tampak berkorelasi semu disebut ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Variabel perancu (lurking/confounding variable)</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Variabel independen utama</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Titik pencilan (outlier)</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Koefisien determinasi</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> Pemahaman Anda mengenai variabel bivariat, pemisahan sumbu, dan logika kausalitas sangat tepat.";
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Opsi yang benar adalah <strong>" + correct + "</strong>. Cermati definisi variabel bebas pada sumbu $X$ dan terikat pada sumbu $Y$.";
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 &amp; Permendikdasmen No. 13 Tahun 2025 tentang Capaian Pembelajaran Matematika Fase F (Kelas XI SMA/MA)</em>. Elemen Analisis Data dan Peluang.</p>
+                    <p><strong>Moore, David S., McCabe, George P., &amp; Craig, Bruce A.</strong> (2017). <em>Introduction to the Practice of Statistics</em> (9th ed.). W. H. Freeman. Chapter 2: Looking at Data — Relationships (2.1 Relationships, 2.2 Scatterplots).</p>
+                    <p><strong>Walpole, Ronald E., et al.</strong> (2012). <em>Probability &amp; Statistics for Engineers &amp; Scientists</em> (9th ed.). Pearson Education.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-11/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Hub Matematika Kelas XI
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="diagram-pencar-scatter-plot-dan-pola-tren.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Diagram Pencar &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
