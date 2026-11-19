@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invers Matriks & Penyelesaian Persamaan Matriks — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari konsep invers matriks ordo 2x2 dan 3x3 (adjoin), sifat keterbalikan non-singular, dan penyelesaian persamaan matriks AX=B dan XA=B secara interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/invers-matriks-dan-persamaan-matriks.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/invers-matriks-dan-persamaan-matriks.html">
+    <meta property="og:title" content="📐 Invers Matriks &amp; Persamaan Matriks — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai rumus invers 2x2, matriks adjoin 3x3, serta penyelesaian AX = B vs XA = B tanpa tertukar.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="matriks">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Matriks (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Invers Matriks &amp; Penyelesaian Persamaan Matriks
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari konsep pembalik perkalian dalam aljabar linier: matriks invers $A^{-1}$! Kuasai rumus praktis invers ordo $2 \times 2$, metode matriks adjoin untuk ordo $3 \times 3$, sifat-sifat invers perkalian $(AB)^{-1} = B^{-1}A^{-1}$, serta teknik memecahkan persamaan matriks $AX = B$ dan $XA = B$ tanpa tertukar posisi.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="teal" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI & SIFAT INVERS MATRIKS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 1 &middot; Konsep Keterbalikan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 1. Konsep Invers Matriks &amp; Sifat-Sifatnya
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">A \cdot A^{-1} = I</span>
+                        </div>
+
+                        <!-- DEFINISI INVERS -->
+                        <div class="bg-gradient-to-br from-teal-50/80 via-emerald-50/40 to-white p-5 sm:p-6 rounded-2xl border border-teal-100 space-y-3">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🎯</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-teal-950 uppercase tracking-wider mb-1">Definisi Matriks Invers</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-3">
+                                        Jika $A$ adalah matriks persegi berordo $n \times n$, maka matriks $B$ disebut sebagai <strong>invers dari $A$</strong> (dilambangkan dengan $A^{-1}$) jika dan hanya jika hasil kali keduanya menghasilkan <strong>matriks identitas ($I_n$)</strong>:
+                                    </p>
+                                    <div class="bg-white/90 p-3 rounded-xl border border-teal-200 text-center font-mono text-sm text-teal-950">
+                                        $$A \cdot A^{-1} = A^{-1} \cdot A = I$$
+                                    </div>
+                                    <p class="text-xs text-slate-600 mt-2">
+                                        <strong>Syarat Mutlak:</strong> Matriks $A$ memiliki invers jika dan hanya jika $A$ adalah matriks non-singular, yaitu $\det(A) \ne 0$.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SIFAT-SIFAT FUNDAMENTAL INVERS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-700">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 uppercase tracking-wide block">Sifat Aljabar Invers:</span>
+                                <p>• <strong>Invers Ganda:</strong> $(A^{-1})^{-1} = A$</p>
+                                <p>• <strong>Invers Transpos:</strong> $(A^T)^{-1} = (A^{-1})^T$</p>
+                                <p>• <strong>Invers Skalar:</strong> $(kA)^{-1} = \frac{1}{k} A^{-1}$ untuk $k \ne 0$</p>
+                                <p>• <strong>Determinan Invers:</strong> $\det(A^{-1}) = \frac{1}{\det(A)}$</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-1.5">
+                                <span class="font-bold text-amber-950 uppercase tracking-wide block">Sifat Pembalikan Urutan (*Shoe-Sock Property*):</span>
+                                <p class="text-slate-700 leading-relaxed">
+                                    Invers dari perkalian dua matriks membalikkan urutan perkalian:
+                                </p>
+                                <div class="bg-white p-2 rounded-lg border border-amber-200 font-mono text-center text-xs font-bold text-amber-900">
+                                    $$(A \cdot B)^{-1} = B^{-1} \cdot A^{-1}$$
+                                </div>
+                                <p class="text-[11px] text-slate-500">
+                                    Analogi: Saat melepas sepatu dan kaus kaki, benda yang dipakai terakhir (sepatu = $B$) harus dilepas lebih dulu ($B^{-1}$)!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: FORMULA INVERS ORDO 2X2 -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 2 &middot; Formula Praktis 2x2</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 2. Rumus Invers Matriks Ordo $2 \times 2$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">A^{-1} = \frac{1}{ad-bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}</span>
+                        </div>
+
+                        <!-- KOTAK RUMUS EKSPLISIT -->
+                        <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider block">Formulasi Lengkap:</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Diberikan matriks $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$ dengan $\det(A) = ad - bc \ne 0$. Invers dari matriks $A$ adalah:
+                            </p>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-center font-mono text-sm text-teal-200">
+                                $$A^{-1} = \frac{1}{\det(A)} \text{Adj}(A) = \frac{1}{ad - bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$$
+                            </div>
+                        </div>
+
+                        <!-- TRIK MENGHAFAL -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                            <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 space-y-1">
+                                <span class="font-bold text-teal-900 block">Langkah 1: Diagonal Utama</span>
+                                <p class="text-slate-700"><strong>Tukar posisi</strong> elemen diagonal utama ($a$ dan $d$ bertukar tempat menjadi $d$ dan $a$).</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 space-y-1">
+                                <span class="font-bold text-teal-900 block">Langkah 2: Diagonal Samping</span>
+                                <p class="text-slate-700"><strong>Beri tanda minus (negatif)</strong> pada elemen diagonal samping ($b$ menjadi $-b$, dan $c$ menjadi $-c$).</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL NUMERIK -->
+                        <div class="border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Contoh Penentuan Invers:</span>
+                            <p>Tentukan invers dari matriks $A = \begin{pmatrix} 3 & 5 \\ 1 & 2 \end{pmatrix}$!</p>
+                            <div class="font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1">
+                                <div>$\det(A) = (3)(2) - (5)(1) = 6 - 5 = 1$.</div>
+                                <div>$\text{Adj}(A) = \begin{pmatrix} 2 & -5 \\ -1 & 3 \end{pmatrix}$.</div>
+                                <div class="text-teal-900 font-bold pt-1">
+                                    $A^{-1} = \frac{1}{1} \begin{pmatrix} 2 & -5 \\ -1 & 3 \end{pmatrix} = \begin{pmatrix} 2 & -5 \\ -1 & 3 \end{pmatrix}$.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: INVERS MATRIKS 3X3 METODE ADJOIN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 3 &middot; Matriks Tingkat Lanjut</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧩 3. Invers Matriks $3 \times 3$ Menggunakan Adjoin
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">\text{Adj}(A) = C^T</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Untuk matriks ordo $3 \times 3$, invers dihitung melalui formula adjoin:
+                            $$A^{-1} = \frac{1}{\det(A)} \text{Adj}(A)$$
+                        </p>
+
+                        <!-- TAHAPAN 3 LANGKAH SISTEMATIS -->
+                        <div class="space-y-3 text-xs text-slate-700">
+                            <!-- Langkah 1 -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">Langkah 1: Hitung Determinan $\det(A)$</span>
+                                Gunakan aturan Sarrus atau ekspansi Laplace. Pastikan $\det(A) \ne 0$. Jika $\det(A) = 0$, matriks tidak memiliki invers.
+                            </div>
+
+                            <!-- Langkah 2 -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">Langkah 2: Susun Matriks Kofaktor ($C$)</span>
+                                Hitung seluruh 9 kofaktor $C_{ij} = (-1)^{i+j} M_{ij}$:
+                                $$C = \begin{pmatrix} +M_{11} & -M_{12} & +M_{13} \\ -M_{21} & +M_{22} & -M_{23} \\ +M_{31} & -M_{32} & +M_{33} \end{pmatrix}$$
+                            </div>
+
+                            <!-- Langkah 3 -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">Langkah 3: Transposkan Matriks Kofaktor untuk Mendapatkan Adjoin</span>
+                                <div class="font-mono text-center text-teal-950 font-bold">$$\text{Adj}(A) = C^T$$</div>
+                                Baris pertama kofaktor menjadi kolom pertama adjoin!
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: MENYELESAIKAN PERSAMAAN MATRIKS AX = B & XA = B -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 4 &middot; Problem Solving Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ 4. Menyelesaikan Persamaan Matriks: $AX = B$ vs $XA = B$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">X = A^{-1}B</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Karena perkalian matriks <strong>tidak komutatif ($AB \ne BA$)</strong>, posisi pengalian matriks invers $A^{-1}$ sangat krusial dan tidak boleh terbalik:
+                        </p>
+
+                        <!-- DUA BENTUK PERSAMAAN MATRIKS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Kasus 1: AX = B -->
+                            <div class="p-5 rounded-2xl bg-gradient-to-br from-teal-50 to-white border border-teal-200 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-teal-900 uppercase tracking-wide">Bentuk 1: $A$ di Kiri</span>
+                                    <span class="text-xs bg-teal-600 text-white font-mono px-2 py-0.5 rounded font-bold">Kiri</span>
+                                </div>
+                                <div class="font-mono font-bold text-sm text-teal-950 text-center py-1">
+                                    $$A \cdot X = B \implies X = A^{-1} \cdot B$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Kedua ruas dikalikan dengan $A^{-1}$ dari <strong>sebelah KIRI</strong>:
+                                    $$A^{-1}(AX) = A^{-1}B \implies IX = A^{-1}B \implies X = A^{-1}B$$
+                                </p>
+                            </div>
+
+                            <!-- Kasus 2: XA = B -->
+                            <div class="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-white border border-blue-200 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-blue-900 uppercase tracking-wide">Bentuk 2: $A$ di Kanan</span>
+                                    <span class="text-xs bg-blue-600 text-white font-mono px-2 py-0.5 rounded font-bold">Kanan</span>
+                                </div>
+                                <div class="font-mono font-bold text-sm text-blue-950 text-center py-1">
+                                    $$X \cdot A = B \implies X = B \cdot A^{-1}$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Kedua ruas dikalikan dengan $A^{-1}$ dari <strong>sebelah KANAN</strong>:
+                                    $$(XA)A^{-1} = BA^{-1} \implies XI = BA^{-1} \implies X = BA^{-1}$$
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- PERINGATAN JEBAKAN UTBK -->
+                        <div class="bg-rose-50 border border-rose-200 p-4 rounded-xl text-xs text-rose-950">
+                            <strong>🚫 Peringatan Kesalahan Fatal:</strong> Jangan pernah membagi matriks seperti bilangan biasa ($\frac{B}{A}$ adalah notasi terlarang dalam aljabar linier). Pastikan urutan perkalian invers $A^{-1}B$ atau $BA^{-1}$ tepat sesuai letak posisi awal matriks $A$!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Invers &amp; Persamaan Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji penguasaan rumus invers matriks $2 \times 2$, sifat keterbalikan, dan solusi persamaan matriks $AX = B$.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 1 &middot; Invers Matriks 2x2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Kalkulasi Cepat</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Invers dari matriks $M = \begin{pmatrix} 4 & 7 \\ 1 & 2 \end{pmatrix}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $\begin{pmatrix} 2 & -7 \\ -1 & 4 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $\begin{pmatrix} -2 & 7 \\ 1 & -4 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $\begin{pmatrix} 2 & -1 \\ -7 & 4 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $\begin{pmatrix} 4 & -7 \\ -1 & 2 \end{pmatrix}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 2 &middot; Persamaan Matriks AX = B</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Solusi Matriks X</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui persamaan matriks $\begin{pmatrix} 2 & 1 \\ 5 & 3 \end{pmatrix} \cdot X = \begin{pmatrix} 4 \\ 11 \end{pmatrix}$. Matriks kolom $X$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $\begin{pmatrix} 1 \\ 2 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $\begin{pmatrix} 2 \\ 1 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $\begin{pmatrix} 3 \\ -2 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $\begin{pmatrix} -1 \\ 6 \end{pmatrix}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 3 &middot; Sifat Determinan Invers</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">HOTS Analitis</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui matriks non-singular $A$ dan $B$ berordo sama dengan $\det(A) = 3$ dan $\det(B) = -2$. Nilai dari $\det((AB)^{-1})$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $-\frac{1}{6}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $-6$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $\frac{1}{6}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $6$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! det(M) = (4)(2) - (7)(1) = 8 - 7 = 1. Tukar posisi diagonal utama (4 dan 2 menjadi 2 dan 4), serta beri tanda minus pada diagonal samping (7 dan 1 menjadi -7 dan -1). M⁻¹ = 1/1 · [[2, -7], [-1, 4]] = [[2, -7], [-1, 4]].' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Bentuk AX = B ⇒ X = A⁻¹B. det(A) = (2)(3) - (1)(5) = 1. Maka A⁻¹ = [[3, -1], [-5, 2]]. Kalikan A⁻¹B: X = [[3, -1], [-5, 2]] · [[4], [11]] = [[(3)(4) + (-1)(11)], [(-5)(4) + (2)(11)]] = [[12 - 11], [-20 + 22]] = [[1], [2]].' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Sifat determinan perkalian: det(AB) = det(A) · det(B) = (3)(-2) = -6. Kemudian sifat determinan invers: det((AB)⁻¹) = 1 / det(AB) = 1 / (-6) = -1/6.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-teal-800 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat rumus invers 2x2 dan posisi X = A⁻¹B!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 3: Invers Matriks &amp; Persamaan Matriks.</p>
+                    <p><strong>Anton, Howard &amp; Rorres, Chris.</strong> (2019). <em>Elementary Linear Algebra</em> (12th ed.). Wiley. Section 1.4: Inverses; Rules of Matrix Arithmetic.</p>
+                    <p><strong>Strang, Gilbert.</strong> (2016). <em>Introduction to Linear Algebra</em> (5th ed.). Wellesley-Cambridge Press. Section 2.5: Inverse Matrices.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="determinan-matriks-dan-sifat-sifatnya.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-teal-600 transition">
+                        &larr; Sub-Materi 3: Determinan Matriks &amp; Sifatnya
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="aturan-cramer-dan-sistem-persamaan-linier.html" class="bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Sistem Persamaan Linier &amp; Aturan Cramer &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

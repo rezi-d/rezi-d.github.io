@@ -505,6 +505,19 @@ const kurikulum = {
                     { file: "akar-akar-rasional-dan-teorema-vieta-polinomial.html", title: "Akar-Akar Rasional & Teorema Vieta Lanjutan" },
                     { file: "pemodelan-dan-problem-solving-hots-polinomial.html", title: "Problem Solving HOTS & Pemodelan Polinomial" }
                 ]
+            },
+            {
+                slug: "matriks",
+                title: "Matriks & Sistem Persamaan Linier",
+                deskripsi: "Konsep dasar matriks, ordo, jenis-jenis matriks, transpos matriks, kesamaan dua matriks, operasi penjumlahan, pengurangan, & perkalian skalar/matriks, determinan matriks ordo 2x2 & 3x3 (metode Sarrus & ekspansi kofaktor), sifat-sifat determinan, invers matriks ordo 2x2 & 3x3 (adjoin), penyelesaian SPLDV & SPLTV menggunakan persamaan matriks dan Aturan Cramer, serta pemodelan kontekstual.",
+                subbab: [
+                    { file: "konsep-dasar-ordo-dan-kesamaan-matriks.html", title: "Konsep Dasar, Ordo, Notasi & Kesamaan Matriks" },
+                    { file: "operasi-aljabar-dan-perkalian-matriks.html", title: "Operasi Aljabar, Perkalian Skalar & Matriks" },
+                    { file: "determinan-matriks-dan-sifat-sifatnya.html", title: "Determinan Matriks Ordo 2x2, 3x3 & Sifatnya" },
+                    { file: "invers-matriks-dan-persamaan-matriks.html", title: "Invers Matriks & Penyelesaian Persamaan Matriks" },
+                    { file: "aturan-cramer-dan-sistem-persamaan-linier.html", title: "Sistem Persamaan Linier & Aturan Cramer" },
+                    { file: "pemodelan-dan-problem-solving-hots-matriks.html", title: "Problem Solving HOTS & Pemodelan Matriks" }
+                ]
             }
         ]
     }

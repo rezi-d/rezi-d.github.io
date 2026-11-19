@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Persamaan Linier & Aturan Cramer — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari penyelesaian Sistem Persamaan Linier (SPLDV & SPLTV) dengan metode invers matriks dan Aturan Cramer (Cramer's Rule), serta analisis jenis solusi.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/aturan-cramer-dan-sistem-persamaan-linier.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/aturan-cramer-dan-sistem-persamaan-linier.html">
+    <meta property="og:title" content="📐 Sistem Persamaan Linier &amp; Aturan Cramer — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai persamaan matriks AX = B, Aturan Cramer x = det(Ax)/det(A), dan klasifikasi solusi SPL.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="matriks">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Matriks (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Sistem Persamaan Linier &amp; Aturan Cramer
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Tinggalkan cara eliminasi-substitusi konvensional yang panjang! Pelajari bagaimana Sistem Persamaan Linier Dua &amp; Tiga Variabel (SPLDV &amp; SPLTV) diformulasikan ke dalam bentuk persamaan matriks $AX = B$, diselesaikan secara efisien menggunakan metode invers matriks, serta dihitung nilainya secara instan melalui Aturan Cramer (*Cramer's Rule*).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="teal" class="space-y-6">
+
+                    <!-- SLIDE 1: REPRESENTASI MATRIKS DARI SPL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 1 &middot; Transformasi Bentuk</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 1. Representasi Sistem Persamaan Linier dalam Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">A \cdot X = B</span>
+                        </div>
+
+                        <!-- KOTAK FORMULASI SPL KE MATRIKS -->
+                        <div class="bg-gradient-to-br from-teal-50/80 via-emerald-50/40 to-white p-5 sm:p-6 rounded-2xl border border-teal-100 space-y-3">
+                            <h3 class="text-sm font-bold text-teal-950 uppercase tracking-wider">Mengubah SPL Menjadi Bentuk Perkalian Matriks</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Diberikan Sistem Persamaan Linier Dua Variabel (SPLDV):
+                                $$\begin{cases} a_1 x + b_1 y = c_1 \\ a_2 x + b_2 y = c_2 \end{cases}$$
+                                Bentuk ini dapat dituliskan secara ekuivalen sebagai perkalian matriks:
+                            </p>
+                            <div class="bg-white/90 p-4 rounded-xl border border-teal-200 text-center font-mono text-sm text-teal-950">
+                                $$\underbrace{\begin{pmatrix} a_1 & b_1 \\ a_2 & b_2 \end{pmatrix}}_{A} \underbrace{\begin{pmatrix} x \\ y \end{pmatrix}}_{X} = \underbrace{\begin{pmatrix} c_1 \\ c_2 \end{pmatrix}}_{B}$$
+                            </div>
+                        </div>
+
+                        <!-- 3 KOMPONEN MATRIKS SPL -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-700">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-center">
+                                <span class="font-bold text-teal-900 block mb-1">Matriks Koefisien ($A$)</span>
+                                Memuat angka-angka di depan variabel $x$ dan $y$.
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-center">
+                                <span class="font-bold text-teal-900 block mb-1">Matriks Variabel ($X$)</span>
+                                Vektor kolom dari variabel yang dicari: $\begin{pmatrix} x \\ y \end{pmatrix}$.
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-center">
+                                <span class="font-bold text-teal-900 block mb-1">Matriks Konstanta ($B$)</span>
+                                Vektor kolom dari ruas kanan persamaan: $\begin{pmatrix} c_1 \\ c_2 \end{pmatrix}$.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PENYELESAIAN DENGAN METODE INVERS MATRIKS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 2 &middot; Metode Invers</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔑 2. Menyelesaikan SPL dengan Invers Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">X = A^{-1} B</span>
+                        </div>
+
+                        <!-- ALUR METODE INVERS -->
+                        <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider block">Solusi Tunggal dengan Invers:</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Jika matriks koefisien $A$ non-singular ($\det(A) \ne 0$), kalikan kedua ruas persamaan $AX = B$ dengan $A^{-1}$ dari kiri:
+                            </p>
+                            <div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700 text-center font-mono text-sm text-teal-200">
+                                $$\begin{pmatrix} x \\ y \end{pmatrix} = \frac{1}{a_1 b_2 - b_1 a_2} \begin{pmatrix} b_2 & -b_1 \\ -a_2 & a_1 \end{pmatrix} \begin{pmatrix} c_1 \\ c_2 \end{pmatrix}$$
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL SPLDV -->
+                        <div class="border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Contoh Aplikasi Soal:</span>
+                            <p>Selesaikan SPLDV: $\begin{cases} 3x + 2y = 8 \\ 2x - y = 3 \end{cases}$</p>
+                            <div class="font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1">
+                                <div>$A = \begin{pmatrix} 3 & 2 \\ 2 & -1 \end{pmatrix}, \quad B = \begin{pmatrix} 8 \\ 3 \end{pmatrix}$</div>
+                                <div>$\det(A) = (3)(-1) - (2)(2) = -3 - 4 = -7$</div>
+                                <div>$A^{-1} = -\frac{1}{7} \begin{pmatrix} -1 & -2 \\ -2 & 3 \end{pmatrix}$</div>
+                                <div class="text-teal-900 font-bold pt-1">
+                                    $\begin{pmatrix} x \\ y \end{pmatrix} = -\frac{1}{7} \begin{pmatrix} (-1)(8) + (-2)(3) \\ (-2)(8) + (3)(3) \end{pmatrix} = -\frac{1}{7} \begin{pmatrix} -14 \\ -7 \end{pmatrix} = \begin{pmatrix} 2 \\ 1 \end{pmatrix}$
+                                </div>
+                            </div>
+                            <p class="text-xs text-emerald-800 font-semibold">✓ Diperoleh himpunan penyelesaian tunggal $HP = \{(2, 1)\}$.</p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: ATURAN CRAMER (CRAMER'S RULE) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 3 &middot; Formula Cepat Determinan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 3. Aturan Cramer (Cramer's Rule) untuk SPL
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">x = \frac{\det(A_x)}{\det(A)}</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Matematikawan Swiss <strong>Gabriel Cramer</strong> merumuskan cara yang sangat elegan untuk menghitung nilai setiap variabel hanya dengan <strong>perbandingan rasio determinan</strong> tanpa perlu mencari matriks invers terlebih dahulu!
+                        </p>
+
+                        <!-- FORMULA CRAMER -->
+                        <div class="bg-gradient-to-br from-teal-50 to-white p-5 rounded-2xl border border-teal-200 space-y-3">
+                            <span class="text-xs font-bold text-teal-950 uppercase tracking-wider block">Rumus Eksplisit Aturan Cramer:</span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-center">
+                                <div class="bg-white p-3 rounded-xl border border-teal-100 shadow-2xs font-mono text-sm text-teal-950">
+                                    $$x = \frac{\det(A_x)}{\det(A)}$$
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-teal-100 shadow-2xs font-mono text-sm text-teal-950">
+                                    $$y = \frac{\det(A_y)}{\det(A)}$$
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Di mana:
+                                <br>• $\det(A)$ adalah determinan matriks koefisien asal.
+                                <br>• $\det(A_x)$ adalah determinan matriks $A$ setelah <strong>kolom pertama (koefisien $x$) diganti</strong> oleh matriks konstanta $B$.
+                                <br>• $\det(A_y)$ adalah determinan matriks $A$ setelah <strong>kolom kedua (koefisien $y$) diganti</strong> oleh matriks konstanta $B$.
+                            </p>
+                        </div>
+
+                        <!-- CRAMER PADA SPLTV 3X3 -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-700">
+                            <span class="font-bold text-slate-900 block mb-1">Berlaku Pula untuk SPLTV ($3 \times 3$):</span>
+                            $$x = \frac{\det(A_x)}{\det(A)}, \quad y = \frac{\det(A_y)}{\det(A)}, \quad z = \frac{\det(A_z)}{\det(A)}$$
+                            Kaidah ini sangat efisien saat kita hanya perlu mencari nilai salah satu variabel (misal hanya $z$) tanpa harus mencari seluruh nilai $x$ dan $y$!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: KLASIFIKASI SOLUSI SPL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 4 &middot; Analisis Eksistensi Solusi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 4. Klasifikasi Jenis Solusi SPL Berdasarkan Determinan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">\det(A) = 0</span>
+                        </div>
+
+                        <!-- 3 KELAS SOLUSI SPL -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-700">
+                            <!-- 1. Solusi Tunggal -->
+                            <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200 space-y-1.5">
+                                <span class="font-bold text-emerald-950 block text-xs">1. Tepat Satu Solusi (*Unique*)</span>
+                                <div class="font-mono text-emerald-900 font-bold">$\det(A) \ne 0$</div>
+                                <p class="text-slate-600">Sistem konsisten independen. Secara geometris, kedua garis/bidang berpotongan di <strong>tepat satu titik</strong>.</p>
+                            </div>
+
+                            <!-- 2. Tak Hingga Solusi -->
+                            <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 space-y-1.5">
+                                <span class="font-bold text-amber-950 block text-xs">2. Tak Hingga Banyak Solusi</span>
+                                <div class="font-mono text-amber-900 font-bold">$\det(A) = 0$ dan $\det(A_x) = \det(A_y) = 0$</div>
+                                <p class="text-slate-600">Sistem konsisten dependen. Secara geometris, kedua garis/bidang <strong>berimpit sempurna</strong>.</p>
+                            </div>
+
+                            <!-- 3. Tidak Ada Solusi -->
+                            <div class="bg-rose-50 p-4 rounded-xl border border-rose-200 space-y-1.5">
+                                <span class="font-bold text-rose-950 block text-xs">3. Tidak Ada Solusi (*Inconsistent*)</span>
+                                <div class="font-mono text-rose-900 font-bold">$\det(A) = 0$, tetapi $\det(A_x) \ne 0$</div>
+                                <p class="text-slate-600">Sistem inkonsisten. Secara geometris, kedua garis/bidang <strong>sejajar dan tidak pernah bertemu</strong>.</p>
+                            </div>
+                        </div>
+
+                        <!-- TIP HOTS UTBK -->
+                        <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-950">
+                            <strong>💡 Trik Soal TKA / UTBK:</strong> Jika soal menyatakan "Sistem persamaan berikut TIDAK memiliki solusi tunggal", itu adalah kode bahwa <strong>determinan matriks koefisiennya harus sama dengan nol: $\det(A) = 0$!</strong>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: SPL &amp; Aturan Cramer
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji pemahaman Anda tentang formulasi matriks SPL, Aturan Cramer, dan syarat determinan $\det(A) = 0$.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 1 &middot; Matriks Determinan Cramer Ax</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Aturan Cramer</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diberikan SPLDV $\begin{cases} 4x - 3y = 10 \\ 2x + 5y = 12 \end{cases}$. Matriks yang digunakan untuk menghitung nilai determinan $A_x$ dalam Aturan Cramer adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $\begin{pmatrix} 10 & -3 \\ 12 & 5 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $\begin{pmatrix} 4 & 10 \\ 2 & 12 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $\begin{pmatrix} 10 & 4 \\ 12 & 2 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $\begin{pmatrix} 4 & -3 \\ 2 & 5 \end{pmatrix}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 2 &middot; Nilai x dengan Aturan Cramer</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Kalkulasi Cramer</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui SPLDV $\begin{cases} 2x + 3y = 7 \\ 3x - y = 5 \end{cases}$. Dengan Aturan Cramer, nilai $x$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $1$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $-2$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 3 &middot; Syarat Tidak Memiliki Solusi Tunggal</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">HOTS Eksistensi</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Sistem persamaan linier $\begin{cases} kx + 2y = 4 \\ 8x + ky = 8 \end{cases}$ tidak memiliki solusi tunggal jika nilai $k$ bernilai ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $k = 4$ atau $k = -4$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $k = 16$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $k = 2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $k = 0$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Matriks koefisien A = [[4, -3], [2, 5]] dan matriks konstanta B = [[10], [12]]. Untuk mencari Ax, ganti kolom pertama (koefisien x) dengan matriks konstanta B, sehingga Ax = [[10, -3], [12, 5]].' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! det(A) = (2)(-1) - (3)(3) = -2 - 9 = -11. Untuk Ax = [[7, 3], [5, -1]] ⇒ det(Ax) = (7)(-1) - (3)(5) = -7 - 15 = -22. Nilai x = det(Ax) / det(A) = -22 / -11 = 2.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Agar SPL tidak memiliki solusi tunggal, maka det(A) harus bernilai nol. det(A) = (k)(k) - (2)(8) = k² - 16 = 0 ⇒ k² = 16 ⇒ k = 4 atau k = -4.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-teal-800 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Cermati penggantian kolom konstanta pada Aturan Cramer atau syarat det(A) = 0!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 3: Sistem Persamaan Linier &amp; Aturan Cramer.</p>
+                    <p><strong>Anton, Howard &amp; Rorres, Chris.</strong> (2019). <em>Elementary Linear Algebra</em> (12th ed.). Wiley. Section 2.3: Cramer's Rule.</p>
+                    <p><strong>Strang, Gilbert.</strong> (2016). <em>Introduction to Linear Algebra</em> (5th ed.). Wellesley-Cambridge Press. Section 5.3: Cramer's Rule, Inverses, and Volumes.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="invers-matriks-dan-persamaan-matriks.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-teal-600 transition">
+                        &larr; Sub-Materi 4: Invers Matriks &amp; Persamaan Matriks
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="pemodelan-dan-problem-solving-hots-matriks.html" class="bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS &amp; Pemodelan Matriks &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

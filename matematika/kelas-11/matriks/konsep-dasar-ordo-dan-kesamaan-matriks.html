@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Dasar, Ordo, Notasi & Kesamaan Matriks — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari konsep dasar matriks, notasi elemen a_ij, ordo matriks, jenis-jenis matriks khusus, transpos matriks simetris, dan kesamaan dua matriks secara interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/konsep-dasar-ordo-dan-kesamaan-matriks.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/konsep-dasar-ordo-dan-kesamaan-matriks.html">
+    <meta property="og:title" content="📐 Konsep Dasar, Ordo &amp; Kesamaan Matriks — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai notasi baris-kolom a_ij, jenis matriks khusus, operasi transpos, dan kesamaan dua matriks.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="matriks">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Matriks (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Dasar, Ordo, Notasi &amp; Kesamaan Matriks
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Selamat datang di gerbang Aljabar Linier! Pahami bagaimana data numerik diorganisasikan dalam susunan baris dan kolom persegi panjang, kenali ordo matriks $m \times n$, identifikasi jenis-jenis matriks khusus, kuasai transpos matriks $A^T$, serta tentukan solusi aljabar melalui prinsip kesamaan dua matriks.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="teal" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI & ANATOMI MATRIKS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 1 &middot; Pengenalan Fundamental</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📊 1. Definisi, Notasi Baris-Kolom &amp; Ordo Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">A_{m \times n} = [a_{ij}]</span>
+                        </div>
+
+                        <!-- KOTAK DEFINISI MATRIKS -->
+                        <div class="bg-gradient-to-br from-teal-50/80 via-emerald-50/40 to-white p-5 sm:p-6 rounded-2xl border border-teal-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">💡</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-teal-950 uppercase tracking-wider mb-1">Apa itu Matriks?</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-3">
+                                        <strong>Matriks</strong> adalah susunan teratur dari bilangan-bilangan (real maupun kompleks) yang diatur dalam <strong>baris (horizontal)</strong> dan <strong>kolom (vertikal)</strong> sehingga membentuk persegi panjang, serta dilingkupi oleh sepasang tanda kurung biasa $( \dots )$ atau kurung siku $[ \dots ]$.
+                                    </p>
+                                    <div class="bg-white/90 p-4 rounded-xl border border-teal-200 text-center font-mono text-xs sm:text-sm text-teal-950 overflow-x-auto">
+                                        $$A = \begin{pmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{pmatrix}$$
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ANATOMI ORDO & ELEMEN a_ij -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-teal-900 uppercase tracking-wider block flex items-center gap-1.5">
+                                    <span>📐</span> Ordo (Ukuran / Dimensi Matriks)
+                                </span>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                    Jika suatu matriks memiliki $m$ baris dan $n$ kolom, maka matriks tersebut dikatakan <strong>berordo $m \times n$</strong> (dibaca: <em>m kali n</em>).
+                                </p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-xs text-slate-800 font-mono">
+                                    Jumlah seluruh elemen matriks = $m \cdot n$
+                                </div>
+                            </div>
+
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-teal-900 uppercase tracking-wider block flex items-center gap-1.5">
+                                    <span>📍</span> Notasi Elemen $a_{ij}$
+                                </span>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                    $a_{ij}$ menyatakan bilangan yang terletak pada <strong>baris ke-$i$</strong> dan <strong>kolom ke-$j$</strong>.
+                                </p>
+                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-xs text-slate-800">
+                                    Contoh: $a_{23}$ adalah elemen pada baris ke-2 dan kolom ke-3.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL PEMBACAAN ELEMEN -->
+                        <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-xs sm:text-sm text-blue-950 space-y-2">
+                            <span class="font-bold block">Contoh Analisis Ordo &amp; Elemen:</span>
+                            <p>Diberikan matriks $B = \begin{pmatrix} 4 & -1 & 7 \\ 0 & 5 & 9 \end{pmatrix}$. Tentukan ordo matriks $B$ dan nilai $b_{13} + b_{22}$!</p>
+                            <div class="bg-white p-2.5 rounded-lg border border-blue-200 font-mono text-xs text-slate-800">
+                                • Memiliki 2 baris dan 3 kolom $\implies$ Ordo matriks $B$ adalah $2 \times 3$.<br>
+                                • Elemen baris 1 kolom 3: $b_{13} = 7$.<br>
+                                • Elemen baris 2 kolom 2: $b_{22} = 5$.<br>
+                                • Hasil: $b_{13} + b_{22} = 7 + 5 = 12$.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: JENIS-JENIS MATRIKS KHUSUS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 2 &middot; Taksonomi Matriks</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🗂️ 2. Jenis-Jenis Matriks Khusus Berdasarkan Pola
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">I_n, O, D, T</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Berdasarkan bentuk susunan ordo dan nilai-nilai elemen penyusunnya, matriks dikelompokkan ke dalam beberapa keluarga khusus:
+                        </p>
+
+                        <!-- GRID 6 JENIS MATRIKS KHUSUS -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-xs text-slate-700">
+                            <!-- 1. Matriks Baris & Kolom -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block text-xs">1. Matriks Baris &amp; Kolom</span>
+                                <p>• <strong>Baris:</strong> Hanya terdiri dari 1 baris ($1 \times n$), misal $(2 \quad 5 \quad -1)$.</p>
+                                <p>• <strong>Kolom:</strong> Hanya terdiri dari 1 kolom ($m \times 1$), misal $\begin{pmatrix} 3 \\ 7 \end{pmatrix}$.</p>
+                            </div>
+
+                            <!-- 2. Matriks Persegi -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block text-xs">2. Matriks Persegi ($n \times n$)</span>
+                                <p>Jumlah baris = jumlah kolom ($m = n$). Memiliki <strong>diagonal utama</strong> dari kiri-atas ke kanan-bawah.</p>
+                                <p class="text-[11px] text-slate-500 font-mono">Trace(A) = a₁₁ + a₂₂ + ... + aₙₙ</p>
+                            </div>
+
+                            <!-- 3. Matriks Identitas -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block text-xs">3. Matriks Identitas ($I_n$)</span>
+                                <p>Matriks persegi dengan elemen diagonal utama bernilai <strong>1</strong> dan elemen lainnya bernilai <strong>0</strong>:</p>
+                                <div class="font-mono text-center text-teal-950 font-bold">$I_2 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$</div>
+                            </div>
+
+                            <!-- 4. Matriks Diagonal & Skalar -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block text-xs">4. Matriks Diagonal &amp; Skalar</span>
+                                <p>• <strong>Diagonal:</strong> Elemen di luar diagonal utama bernilai 0.</p>
+                                <p>• <strong>Skalar:</strong> Matriks diagonal dengan semua elemen diagonal bernilai sama ($k$).</p>
+                            </div>
+
+                            <!-- 5. Matriks Segitiga -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block text-xs">5. Matriks Segitiga Atas &amp; Bawah</span>
+                                <p>• <strong>Segitiga Atas:</strong> Elemen di bawah diagonal bernilai 0.</p>
+                                <p>• <strong>Segitiga Bawah:</strong> Elemen di atas diagonal bernilai 0.</p>
+                            </div>
+
+                            <!-- 6. Matriks Nol -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block text-xs">6. Matriks Nol ($O$)</span>
+                                <p>Matriks sembarang ordo yang seluruh elemen penyusunnya adalah bilangan nol.</p>
+                                <div class="font-mono text-center text-slate-600">$O_{2 \times 2} = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}$</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: TRANSPOS MATRIKS & SIMETRI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 3 &middot; Transformasi Struktur</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 3. Transpos Matriks ($A^T$) &amp; Matriks Simetris
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">A^T = (a_{ji})</span>
+                        </div>
+
+                        <!-- DEFINISI TRANSPOS -->
+                        <div class="bg-gradient-to-br from-teal-950 to-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider block">Konsep Operasi Transpos Matriks:</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                <strong>Transpos dari matriks $A$</strong> (dilambangkan $A^T$ atau $A'$) adalah matriks baru yang diperoleh dengan cara <strong>mengubah baris menjadi kolom</strong> dan <strong>kolom menjadi baris</strong>.
+                            </p>
+                            <div class="bg-teal-900/50 p-3 rounded-xl border border-teal-500/30 text-center font-mono text-xs sm:text-sm text-teal-200">
+                                $$\text{Jika } A \text{ berordo } m \times n \implies A^T \text{ berordo } n \times m$$
+                            </div>
+                            <div class="text-xs text-slate-300 flex items-center justify-center gap-4 pt-1">
+                                <span>Contoh: $\begin{pmatrix} 2 & 5 & 1 \\ 4 & -3 & 8 \end{pmatrix}^T = \begin{pmatrix} 2 & 4 \\ 5 & -3 \\ 1 & 8 \end{pmatrix}$</span>
+                            </div>
+                        </div>
+
+                        <!-- SIFAT-SIFAT TRANSPOS & SIMETRI -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Sifat Aljabar Transpos -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-slate-900 uppercase tracking-wider block">Sifat-Sifat Aljabar Transpos:</span>
+                                <ul class="space-y-1.5 list-disc list-inside text-slate-700">
+                                    <li>$(A^T)^T = A$ (Transpos ganda kembali ke matriks awal)</li>
+                                    <li>$(A + B)^T = A^T + B^T$ (Distributif terhadap jumlahan)</li>
+                                    <li>$(kA)^T = k \cdot A^T$ (Skalar tidak terpengaruh transpos)</li>
+                                    <li>$(AB)^T = B^T A^T$ <span class="text-amber-700 font-semibold">(Penting: urutan perkalian terbalik!)</span></li>
+                                </ul>
+                            </div>
+
+                            <!-- Matriks Simetris & Antisimetris -->
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-2 text-xs">
+                                <span class="font-bold text-emerald-950 uppercase tracking-wider block">Matriks Simetris vs Antisimetris:</span>
+                                <div class="space-y-2 text-slate-700">
+                                    <p>• <strong>Matriks Simetris:</strong> Matriks persegi yang memenuhi $A^T = A$ ($a_{ij} = a_{ji}$). Elemen di seberang diagonal utama saling bercermin.</p>
+                                    <p>• <strong>Matriks Antisimetris (*Skew-Symmetric*):</strong> Memenuhi $A^T = -A$. Elemen diagonal utamanya <strong>harus selalu 0</strong> karena $a_{ii} = -a_{ii} \implies a_{ii} = 0$.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: KESAMAAN DUA MATRIKS & SISTEM PERSAMAAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 4 &middot; Prinsip Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ 4. Kesamaan Dua Matriks ($A = B$) &amp; Solusi Variabel
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">a_{ij} = b_{ij}</span>
+                        </div>
+
+                        <!-- DUA SYARAT KESAMAAN MUTLAK -->
+                        <div class="bg-gradient-to-br from-teal-50/80 to-white p-5 rounded-2xl border border-teal-200 space-y-3">
+                            <h3 class="text-sm font-bold text-teal-950 uppercase tracking-wider flex items-center gap-2">
+                                <span>🎯</span> Dua Syarat Mutlak Kesamaan Dua Matriks:
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Matriks $A$ dan matriks $B$ dikatakan <strong>sama ($A = B$)</strong> jika dan hanya jika memenuhi dua syarat berikut secara bersamaan:
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
+                                <div class="bg-white p-3.5 rounded-xl border border-teal-100 shadow-2xs">
+                                    <span class="font-bold text-teal-800 block mb-1">1. Ordo Kedua Matriks Sama</span>
+                                    Kedua matriks harus memiliki jumlah baris dan jumlah kolom yang identik persis ($m_A = m_B$ dan $n_A = n_B$).
+                                </div>
+                                <div class="bg-white p-3.5 rounded-xl border border-teal-100 shadow-2xs">
+                                    <span class="font-bold text-teal-800 block mb-1">2. Elemen-Elemen Seletak Sama</span>
+                                    Setiap elemen yang posisinya bersesuaian memiliki nilai yang sama persis: $a_{ij} = b_{ij}$ untuk setiap indeks $i$ dan $j$.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH BEDAH SOAL KESAMAAN VARIABEL -->
+                        <div class="border border-slate-200 rounded-2xl p-5 space-y-3">
+                            <span class="text-xs font-bold text-slate-900 uppercase tracking-wider block">
+                                📝 Contoh Soal Penyelesaian Variabel dari Kesamaan:
+                            </span>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                Diketahui matriks $P = \begin{pmatrix} 2x + y & 4 \\ -3 & 3y \end{pmatrix}$ dan $Q = \begin{pmatrix} 7 & 4 \\ -3 & 6 \end{pmatrix}$. Jika $P = Q$, tentukan nilai dari $x \cdot y$!
+                            </p>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 space-y-1.5">
+                                <div>• Samakan elemen baris 2 kolom 2: $3y = 6 \implies y = 2$.</div>
+                                <div>• Samakan elemen baris 1 kolom 1: $2x + y = 7$.</div>
+                                <div>• Substitusikan $y = 2$: $2x + 2 = 7 \implies 2x = 5 \implies x = \frac{5}{2}$.</div>
+                                <div class="text-teal-900 font-bold pt-1">
+                                    • Nilai $x \cdot y = \left(\frac{5}{2}\right) \cdot 2 = 5$.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Konsep Dasar &amp; Kesamaan Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman ordo, transpos, dan kesamaan matriks.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 1 &middot; Ordo &amp; Elemen Seletak</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Identifikasi Ordo</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui matriks $M = \begin{pmatrix} 2 & -5 & 3 & 1 \\ 0 & 4 & -2 & 8 \\ 7 & 1 & 6 & -9 \end{pmatrix}$. Nilai dari ordo matriks $M$ dan elemen $m_{23}$ berturut-turut adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $3 \times 4$ dan $-2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $4 \times 3$ dan $3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $3 \times 4$ dan $1$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $3 \times 3$ dan $-2$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 2 &middot; Matriks Simetris</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Transpos &amp; Simetri</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Matriks $K = \begin{pmatrix} 5 & 2x - 1 \\ 7 & 4 \end{pmatrix}$ merupakan matriks simetris ($K = K^T$). Nilai $x$ yang memenuhi adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $4$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $5$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $-4$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 3 &middot; Kesamaan Dua Matriks dengan Transpos</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Aljabar Sistem</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui matriks $A = \begin{pmatrix} a + b & 2 \\ 5 & 2a - b \end{pmatrix}$ dan $B = \begin{pmatrix} 8 & 5 \\ 2 & 1 \end{pmatrix}$. Jika $A = B^T$, maka nilai dari $a - b$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $-2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $1$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $-4$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $2$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Matriks M memiliki 3 baris dan 4 kolom, sehingga ordonya adalah 3 × 4. Elemen m₂₃ adalah elemen pada baris ke-2 dan kolom ke-3, yaitu -2.' },
+                                    'kuis-2': { ans: 'B', text: 'Benar! Pada matriks simetris K = Kᵀ, elemen k₁₂ harus sama dengan elemen k₂₁. Maka: 2x - 1 = 7 ⇒ 2x = 8 ⇒ x = 4.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Transpos Bᵀ = [[8, 2], [5, 1]]. Dari A = Bᵀ diperoleh sistem: a + b = 8 dan 2a - b = 1. Jumlahkan kedua persamaan: 3a = 9 ⇒ a = 3. Maka b = 8 - 3 = 5. Nilai a - b = 3 - 5 = -2.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-teal-800 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan posisi elemen baris-kolom dan kesamaan seletak!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 3: Matriks.</p>
+                    <p><strong>Anton, Howard &amp; Rorres, Chris.</strong> (2019). <em>Elementary Linear Algebra: Applications Version</em> (12th ed.). Wiley. Chapter 1: Systems of Linear Equations and Matrices.</p>
+                    <p><strong>Lay, David C., Lay, Steven R., &amp; McDonald, Judi J.</strong> (2021). <em>Linear Algebra and Its Applications</em> (6th ed.). Pearson.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-11/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-teal-600 transition">
+                        &larr; Kembali ke Hub Matematika Kelas XI
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="operasi-aljabar-dan-perkalian-matriks.html" class="bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Operasi Aljabar &amp; Perkalian Matriks &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

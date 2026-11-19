@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Determinan Matriks Ordo 2x2, 3x3 & Sifat-Sifatnya — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari determinan matriks ordo 2x2, aturan Sarrus ordo 3x3, metode minor kofaktor Laplace, dan sifat-sifat determinan secara interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/determinan-matriks-dan-sifat-sifatnya.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/determinan-matriks-dan-sifat-sifatnya.html">
+    <meta property="og:title" content="📐 Determinan Matriks &amp; Sifat-Sifatnya — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai determinan ad-bc, Aturan Sarrus 3x3, ekspansi kofaktor, dan sifat det(kA) = k^n det(A).">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="matriks">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Matriks (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Determinan Matriks Ordo 2x2, 3x3 &amp; Sifat-Sifatnya
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari besaran skalar paling fundamental dari matriks persegi: determinan! Mulai dari perhitungan rumus silang $ad - bc$ pada ordo $2 \times 2$, metode visual Aturan Sarrus untuk ordo $3 \times 3$, ekspansi kofaktor Laplace serbaguna, hingga 7 sifat sakti determinan untuk menaklukkan soal-soal tingkat tinggi secara kilat.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="teal" class="space-y-6">
+
+                    <!-- SLIDE 1: HAKIKAT DETERMINAN & ORDO 2X2 -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 1 &middot; Landasan Konseptual</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💎 1. Hakikat Determinan &amp; Matriks Ordo $2 \times 2$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">\det(A) = ad - bc</span>
+                        </div>
+
+                        <!-- DEFINISI DETERMINAN -->
+                        <div class="bg-gradient-to-br from-teal-50/80 via-emerald-50/40 to-white p-5 sm:p-6 rounded-2xl border border-teal-100 space-y-3">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🎯</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-teal-950 uppercase tracking-wider mb-1">Apa itu Determinan?</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-3">
+                                        <strong>Determinan</strong> adalah sebuah nilai skalar (bilangan tunggal) yang dikaitkan secara unik dengan sebuah <strong>matriks persegi</strong> ($n \times n$). Determinan dinotasikan dengan $\det(A)$ atau garis lurus $|A|$. Determinan menentukan apakah suatu matriks memiliki invers atau tidak.
+                                    </p>
+                                    <div class="bg-white/90 p-4 rounded-xl border border-teal-200 text-center font-mono text-sm text-teal-950">
+                                        $$\det(A) = |A| = \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc$$
+                                    </div>
+                                    <p class="text-xs text-slate-600 mt-2">
+                                        Hasil kali diagonal utama dikurangi hasil kali diagonal samping!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- INTERPRETASI GEOMETRIS LUAS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
+                                <span class="font-bold text-teal-900 uppercase tracking-wide block">Makna Geometri Determinan:</span>
+                                <p class="text-slate-700 leading-relaxed">
+                                    Nilai mutlak $|\det(A)|$ merepresentasikan <strong>faktor perubahan luas</strong> pada transformasi geometri. Jika kolom matriks menyatakan dua vektor pada bidang, maka $|\det(A)|$ adalah <strong>luas jajaran genjang</strong> yang dibentuk oleh kedua vektor tersebut!
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs space-y-2">
+                                <span class="font-bold text-emerald-950 uppercase tracking-wide block">Matriks Singular vs Non-Singular:</span>
+                                <ul class="space-y-1.5 list-disc list-inside text-slate-700">
+                                    <li><strong>Non-Singular:</strong> $\det(A) \ne 0 \implies$ Matriks <strong>memiliki invers</strong>.</li>
+                                    <li><strong>Singular:</strong> $\det(A) = 0 \implies$ Matriks <strong>TIDAK memiliki invers</strong> (geometris: dimensi bidang runtuh menjadi garis).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: DETERMINAN 3X3 METODE SARRUS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 2 &middot; Metode Visual Ordo 3x3</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 2. Determinan Matriks $3 \times 3$: Aturan Sarrus
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">\text{Aturan Sarrus}</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Matematikawan Prancis <strong>Pierre Frédéric Sarrus</strong> merumuskan metode visual praktis untuk menghitung determinan matriks $3 \times 3$ dengan menyalin dua kolom pertama ke sisi kanan:
+                        </p>
+
+                        <!-- SKEMA ATURAN SARRUS -->
+                        <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider block">Skema Visual Sarrus:</span>
+                            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 text-center font-mono text-xs sm:text-sm text-teal-200 overflow-x-auto">
+                                $$\begin{vmatrix} a & b & c \\ d & e & f \\ g & h & i \end{vmatrix} \begin{matrix} a & b \\ d & e \\ g & h \end{matrix}$$
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-1">
+                                <p>• <strong>Diagonal Utama (Turun Kanan, tanda $+$):</strong> $(aei + bfg + cdh)$</p>
+                                <p>• <strong>Diagonal Samping (Naik Kanan, tanda $-$):</strong> $(gec + hfa + idb)$</p>
+                            </div>
+                            <div class="bg-teal-950/60 p-2.5 rounded-lg border border-teal-500/30 font-mono text-xs text-center text-teal-100">
+                                $$\det(A) = (aei + bfg + cdh) - (gec + hfa + idb)$$
+                            </div>
+                        </div>
+
+                        <!-- PERINGATAN PENTING -->
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-amber-950 flex items-start gap-3">
+                            <span class="text-xl">⚠️</span>
+                            <div>
+                                <span class="font-bold">Peringatan Keras:</span>
+                                Aturan Sarrus <strong>HANYA berlaku khusus untuk matriks $3 \times 3$</strong>! Aturan ini sama sekali <strong>TIDAK BERLAKU</strong> untuk matriks ordo $4 \times 4$ atau lebih tinggi. Untuk ordo lebih tinggi, wajib gunakan ekspansi kofaktor.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: METODE MINOR & EKSPANSI KOFAKTOR (LAPLACE) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 3 &middot; Metode Universal</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧩 3. Metode Minor &amp; Ekspansi Kofaktor (Laplace)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">C_{ij} = (-1)^{i+j} M_{ij}</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Metode Ekspansi Laplace adalah metode universal yang dapat digunakan untuk menghitung determinan matriks persegi dari sembarang ordo ($n \times n$):
+                        </p>
+
+                        <!-- PENJELASAN MINOR DAN KOFAKTOR -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Minor Mij -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-teal-900 uppercase tracking-wide block">1. Minor ($M_{ij}$):</span>
+                                <p class="text-slate-700 leading-relaxed">
+                                    Determinan dari submatriks yang tersisa setelah <strong>baris ke-$i$ dan kolom ke-$j$ dicoret</strong>.
+                                </p>
+                            </div>
+
+                            <!-- Kofaktor Cij -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-teal-900 uppercase tracking-wide block">2. Kofaktor ($C_{ij}$):</span>
+                                <p class="text-slate-700 leading-relaxed">
+                                    Minor yang diberi tanda berganti-ganti seperti papan catur:
+                                    $$C_{ij} = (-1)^{i+j} M_{ij}$$
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- TANDA PAPAN CATUR -->
+                        <div class="bg-teal-50/70 p-4 rounded-xl border border-teal-200 text-xs text-slate-700 space-y-2">
+                            <span class="font-bold text-teal-950 block">Pola Tanda Papan Catur Ordo 3x3:</span>
+                            <div class="bg-white p-2.5 rounded-lg border border-teal-200 font-mono text-center text-teal-900 font-bold">
+                                $$\begin{pmatrix} + & - & + \\ - & + & - \\ + & - & + \end{pmatrix}$$
+                            </div>
+                            <p class="text-[11px] text-slate-600">
+                                <strong>Trik Sakti:</strong> Lakukan ekspansi Laplace di sepanjang baris atau kolom yang <strong>memiliki paling banyak angka $0$</strong> untuk mengeliminasi suku perhitungan!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: SIFAT-SIFAT ALGEBAR DETERMINAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 4 &middot; Senjata Rahasia Cepat</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 4. 7 Sifat Sakti Determinan Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">\det(kA) = k^n \det(A)</span>
+                        </div>
+
+                        <!-- DAFTAR 7 SIFAT DETERMINAN -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
+                            <!-- 1. Transpos -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">1. Transpos:</span>
+                                $\det(A^T) = \det(A)$. Transpos tidak mengubah nilai determinan sama sekali!
+                            </div>
+
+                            <!-- 2. Perkalian -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">2. Perkalian Matriks:</span>
+                                $\det(A \cdot B) = \det(A) \cdot \det(B)$. Determinan dari perkalian adalah perkalian dari masing-masing determinan.
+                            </div>
+
+                            <!-- 3. Skalar kA -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">3. Perkalian Skalar (Sering Keluar di UTBK!):</span>
+                                Untuk matriks berordo $n \times n$: $\det(k \cdot A) = k^n \cdot \det(A)$.
+                            </div>
+
+                            <!-- 4. Invers -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">4. Determinan Invers:</span>
+                                $\det(A^{-1}) = \frac{1}{\det(A)}$.
+                            </div>
+
+                            <!-- 5. Pertukaran Baris -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">5. Pertukaran Baris/Kolom:</span>
+                                Jika dua baris (atau kolom) ditukar posisinya, tanda determinan berubah: $\det(A') = -\det(A)$.
+                            </div>
+
+                            <!-- 6. Baris Kelipatan / Nol -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="font-bold text-teal-900 block mb-1">6. Baris Kelipatan / Baris Nol:</span>
+                                Jika ada baris/kolom bernilai nol semua, atau ada dua baris yang sebanding/identik, maka $\det(A) = 0$!
+                            </div>
+                        </div>
+
+                        <!-- SIFAT 7: MATRIKS SEGITIGA / DIAGONAL -->
+                        <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 text-xs sm:text-sm text-teal-950 space-y-1">
+                            <span class="font-bold">7. Determinan Matriks Segitiga &amp; Diagonal:</span>
+                            <p class="text-xs text-slate-700">
+                                Untuk matriks segitiga atas, segitiga bawah, maupun matriks diagonal, nilai determinannya <strong>cukup dengan mengalikan semua elemen pada diagonal utamanya</strong>:
+                            </p>
+                            <div class="font-mono text-center text-xs text-teal-900 font-bold">
+                                $$\det(A) = a_{11} \cdot a_{22} \cdots a_{nn}$$
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Determinan &amp; Sifat-Sifatnya
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji pemahaman determinan ordo 2x2, 3x3, dan aplikasi sifat skalar $k^n$ dengan menjawab 3 soal berikut.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 1 &middot; Matriks Singular Ordo 2x2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Nilai Singular</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui matriks $P = \begin{pmatrix} 2x & 4 \\ 3 & x + 1 \end{pmatrix}$. Jika matriks $P$ merupakan matriks singular ($\det(P) = 0$), maka nilai positif $x$ yang memenuhi adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $4$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $6$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 2 &middot; Sifat Determinan Skalar</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">HOTS UTBK</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui matriks $A$ berordo $3 \times 3$ dengan nilai determinan $\det(A) = 5$. Nilai dari $\det(2A)$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $10$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $20$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $40$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $80$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 3 &middot; Determinan Matriks Segitiga</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Kalkulasi Instan</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Nilai determinan dari matriks $T = \begin{pmatrix} 3 & 7 & -5 \\ 0 & -2 & 8 \\ 0 & 0 & 4 \end{pmatrix}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $-24$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $24$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $-14$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! det(P) = (2x)(x + 1) - (4)(3) = 0 ⇒ 2x² + 2x - 12 = 0 ⇒ x² + x - 6 = 0 ⇒ (x + 3)(x - 2) = 0. Nilai x adalah -3 atau 2. Karena yang ditanyakan adalah nilai positif, maka x = 2.' },
+                                    'kuis-2': { ans: 'C', text: 'Benar! Menggunakan sifat det(kA) = kⁿ det(A). Karena ordo matriks n = 3 dan skalar k = 2, maka: det(2A) = 2³ · det(A) = 8 · 5 = 40.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Matriks T adalah matriks segitiga atas (semua elemen di bawah diagonal utama bernilai 0). Berdasarkan sifat ke-7, determinannya cukup mengalikan elemen diagonal utama: (3) · (-2) · (4) = -24.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-teal-800 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat rumus ad - bc atau sifat det(kA) = kⁿ det(A)!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 3: Determinan Matriks.</p>
+                    <p><strong>Anton, Howard &amp; Rorres, Chris.</strong> (2019). <em>Elementary Linear Algebra</em> (12th ed.). Wiley. Chapter 2: Determinants.</p>
+                    <p><strong>Lay, David C.</strong> (2021). <em>Linear Algebra and Its Applications</em> (6th ed.). Pearson. Chapter 3: Determinants.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="operasi-aljabar-dan-perkalian-matriks.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-teal-600 transition">
+                        &larr; Sub-Materi 2: Operasi Aljabar &amp; Perkalian Matriks
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="invers-matriks-dan-persamaan-matriks.html" class="bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Invers Matriks &amp; Persamaan Matriks &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

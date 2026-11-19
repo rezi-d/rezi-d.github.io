@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operasi Aljabar, Perkalian Skalar & Perkalian Matriks — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Pelajari operasi penjumlahan, pengurangan, perkalian skalar, dan perkalian dua matriks (baris kali kolom), serta sifat non-komutatif secara interaktif.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/operasi-aljabar-dan-perkalian-matriks.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/operasi-aljabar-dan-perkalian-matriks.html">
+    <meta property="og:title" content="📐 Operasi Aljabar &amp; Perkalian Matriks — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai penjumlahan, pengurangan, skalar kA, perkalian baris x kolom, dan sifat AB != BA.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="matriks">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Matriks (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Operasi Aljabar, Perkalian Skalar &amp; Matriks
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai seluruh hukum aritmetika dalam dunia matriks: mulai dari penjumlahan dan pengurangan elemen seletak, perkalian dengan skalar $k$, syarat kelayakan ordo pada perkalian dua matriks melalui kaidah "Baris kali Kolom", hingga memahami mengapa perkalian matriks secara umum tidak berlaku komutatif ($AB \ne BA$).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="teal" class="space-y-6">
+
+                    <!-- SLIDE 1: PENJUMLAHAN & PENGURANGAN MATRIKS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 1 &middot; Operasi Linier</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ➕ 1. Penjumlahan &amp; Pengurangan Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">A \pm B = [a_{ij} \pm b_{ij}]</span>
+                        </div>
+
+                        <!-- KOTAK ATURAN & SYARAT MUTLAK -->
+                        <div class="bg-gradient-to-br from-teal-50/80 via-emerald-50/40 to-white p-5 sm:p-6 rounded-2xl border border-teal-100 space-y-3">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">⚠️</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-teal-950 uppercase tracking-wider mb-1">Syarat Mutlak Penjumlahan &amp; Pengurangan</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-2">
+                                        Dua matriks $A$ dan $B$ hanya dapat dijumlahkan atau dikurangkan jika dan hanya jika <strong>ordo kedua matriks tersebut sama persis</strong>. Operasi dilakukan dengan menjumlahkan atau mengurangkan elemen-elemen yang <strong>seletak (posisi yang sama)</strong>.
+                                    </p>
+                                    <div class="bg-white/90 p-3 rounded-xl border border-teal-200 text-center font-mono text-xs sm:text-sm text-teal-950">
+                                        $$\begin{pmatrix} a & b \\ c & d \end{pmatrix} \pm \begin{pmatrix} e & f \\ g & h \end{pmatrix} = \begin{pmatrix} a \pm e & b \pm f \\ c \pm g & d \pm h \end{pmatrix}$$
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SIFAT-SIFAT PENJUMLAHAN MATRIKS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
+                                <span class="font-bold text-slate-900 uppercase tracking-wider block">Sifat Aljabar Penjumlahan:</span>
+                                <ul class="space-y-1.5 list-disc list-inside text-slate-700">
+                                    <li><strong>Komutatif:</strong> $A + B = B + A$</li>
+                                    <li><strong>Asosiatif:</strong> $(A + B) + C = A + (B + C)$</li>
+                                    <li><strong>Identitas Penjumlahan:</strong> $A + O = O + A = A$ (dengan $O$ adalah matriks nol berordo sama)</li>
+                                    <li><strong>Invers Aditif (Lawan):</strong> $A + (-A) = O$</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs space-y-2">
+                                <span class="font-bold text-amber-950 uppercase tracking-wider block">Catatan Ordo Berbeda:</span>
+                                <p class="text-slate-700 leading-relaxed">
+                                    Jika ordo matriks berbeda, operasi penjumlahan/pengurangan <strong>TIDAK TERDEFINISI</strong>!
+                                </p>
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-200 font-mono text-xs text-amber-900">
+                                    $\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} + \begin{pmatrix} 5 & 6 & 7 \end{pmatrix} \implies \text{Tidak dapat dihitung!}$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PERKALIAN SKALAR DENGAN MATRIKS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 2 &middot; Penskalaan Geometris</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✖️ 2. Perkalian Matriks dengan Bilangan Skalar ($k \cdot A$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">k \cdot [a_{ij}] = [k a_{ij}]</span>
+                        </div>
+
+                        <!-- DEFINISI PERKALIAN SKALAR -->
+                        <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider block">Kaidah Penskalaan:</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Jika $k$ adalah bilangan real (skalar) dan $A$ adalah suatu matriks, maka hasil kali $k \cdot A$ diperoleh dengan cara <strong>mengalikan setiap elemen dari matriks $A$ dengan bilangan $k$</strong>:
+                            </p>
+                            <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-center font-mono text-xs sm:text-sm text-teal-200">
+                                $$k \begin{pmatrix} a & b \\ c & d \end{pmatrix} = \begin{pmatrix} k \cdot a & k \cdot b \\ k \cdot c & k \cdot d \end{pmatrix}$$
+                            </div>
+                        </div>
+
+                        <!-- SIFAT DISTRIBUTIF SKALAR -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-700">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block">Sifat Distributif Matriks:</span>
+                                <p>• $k(A + B) = kA + kB$</p>
+                                <p>• $(k + m)A = kA + mA$</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block">Sifat Asosiatif &amp; Satuan:</span>
+                                <p>• $k(mA) = (km)A$</p>
+                                <p>• $1 \cdot A = A$ dan $(-1) \cdot A = -A$</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL KOMBINASI LINIER -->
+                        <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 text-xs sm:text-sm text-teal-950 space-y-2">
+                            <span class="font-bold block">Contoh Kombinasi Linier Matriks:</span>
+                            <p>Diketahui $A = \begin{pmatrix} 2 & -1 \\ 3 & 4 \end{pmatrix}$ dan $B = \begin{pmatrix} 1 & 5 \\ -2 & 0 \end{pmatrix}$. Tentukan matriks $2A - 3B$!</p>
+                            <div class="bg-white p-3 rounded-lg border border-teal-200 font-mono text-xs text-slate-800 space-y-1">
+                                <div>$2A = \begin{pmatrix} 4 & -2 \\ 6 & 8 \end{pmatrix}, \quad 3B = \begin{pmatrix} 3 & 15 \\ -6 & 0 \end{pmatrix}$</div>
+                                <div class="text-teal-900 font-bold">
+                                    $2A - 3B = \begin{pmatrix} 4 - 3 & -2 - 15 \\ 6 - (-6) & 8 - 0 \end{pmatrix} = \begin{pmatrix} 1 & -17 \\ 12 & 8 \end{pmatrix}$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: PERKALIAN DUA MATRIKS (BARIS X KOLOM) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 3 &middot; Algoritma Utama</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 3. Perkalian Dua Matriks: Kaidah "Baris $\times$ Kolom"
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">A_{m \times p} \cdot B_{p \times n} = C_{m \times n}</span>
+                        </div>
+
+                        <!-- SYARAT KELAYAKAN PERKALIAN ORDO -->
+                        <div class="bg-gradient-to-br from-teal-50 to-white p-5 rounded-2xl border border-teal-200 space-y-3">
+                            <span class="text-xs font-bold text-teal-950 uppercase tracking-wider block">Syarat Dimensi Perkalian Matriks:</span>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Dua matriks $A$ dan $B$ dapat dikalikan ($A \cdot B$) jika dan hanya jika <strong>jumlah kolom matriks pertama ($A$) SAMA DENGAN jumlah baris matriks kedua ($B$)</strong>:
+                            </p>
+                            <div class="bg-white p-3.5 rounded-xl border border-teal-200 text-center font-mono text-sm text-teal-950">
+                                $$A_{(m \times \mathbf{p})} \cdot B_{(\mathbf{p} \times n)} = C_{(m \times n)}$$
+                            </div>
+                            <p class="text-xs text-slate-600 text-center">
+                                Perhatikan: angka tengah harus cocok ($\mathbf{p} = \mathbf{p}$), dan ordo hasil perkalian ditentukan oleh angka pinggir ($m \times n$)!
+                            </p>
+                        </div>
+
+                        <!-- FORMULA BARIS X KOLOM -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                                <span>🎯</span> Mekanisme Perhitungan Entri $c_{ij}$:
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Elemen pada baris ke-$i$ dan kolom ke-$j$ dari matriks hasil $C$ diperoleh dari <strong>jumlah hasil kali elemen baris ke-$i$ matriks $A$ dengan elemen kolom ke-$j$ matriks $B$</strong>:
+                            </p>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-center font-mono text-xs sm:text-sm text-slate-800">
+                                $$\begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix} \begin{pmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{pmatrix} = \begin{pmatrix} a_{11}b_{11} + a_{12}b_{21} & a_{11}b_{12} + a_{12}b_{22} \\ a_{21}b_{11} + a_{22}b_{21} & a_{21}b_{12} + a_{22}b_{22} \end{pmatrix}$$
+                            </div>
+                        </div>
+
+                        <!-- CONTOH KONKRET 2X2 -->
+                        <div class="border border-slate-200 p-4 rounded-xl text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Contoh Perhitungan Matriks:</span>
+                            <div class="font-mono text-xs bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1">
+                                <div>$\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} \begin{pmatrix} 5 & 6 \\ 0 & -1 \end{pmatrix} = \begin{pmatrix} (1)(5) + (2)(0) & (1)(6) + (2)(-1) \\ (3)(5) + (4)(0) & (3)(6) + (4)(-1) \end{pmatrix}$</div>
+                                <div class="text-teal-900 font-bold pt-1">$= \begin{pmatrix} 5 + 0 & 6 - 2 \\ 15 + 0 & 18 - 4 \end{pmatrix} = \begin{pmatrix} 5 & 4 \\ 15 & 14 \end{pmatrix}$</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: SIFAT KHUSUS PERKALIAN MATRIKS & ZERO DIVISORS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 4 &middot; Jebakan Aljabar Linier</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 4. Sifat Perkalian: $AB \ne BA$ &amp; Pembagi Nol
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">AB \ne BA</span>
+                        </div>
+
+                        <!-- HUKUM NON-KOMUTATIF -->
+                        <div class="p-5 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-2">
+                            <div class="flex items-center gap-2 text-rose-900 font-bold text-xs uppercase tracking-wider">
+                                <span>🚫</span> 1. Perkalian Matriks Tidak Berlaku Komutatif!
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Berbeda dengan bilangan biasa di mana $2 \times 3 = 3 \times 2$, dalam aljabar matriks secara umum:
+                            </p>
+                            <div class="bg-white p-2.5 rounded-xl border border-rose-200 text-center font-mono text-sm text-rose-950 font-bold">
+                                $$A \cdot B \ne B \cdot A$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Bahkan, meskipun $A \cdot B$ terdefinisi (misal $A_{2 \times 3}$ dan $B_{3 \times 4}$), perkalian $B \cdot A$ bisa jadi <strong>sama sekali tidak dapat dihitung</strong> karena ketidakcocokan ordo!
+                            </p>
+                        </div>
+
+                        <!-- GRID SIFAT-SIFAT LAINNYA -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-700">
+                            <!-- Asosiatif & Distributif -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-teal-900 block text-xs">Sifat yang Tetap Berlaku:</span>
+                                <p>• <strong>Asosiatif:</strong> $(AB)C = A(BC)$</p>
+                                <p>• <strong>Distributif Kiri:</strong> $A(B + C) = AB + AC$</p>
+                                <p>• <strong>Distributif Kanan:</strong> $(A + B)C = AC + BC$</p>
+                                <p>• <strong>Matriks Identitas:</strong> $A \cdot I = I \cdot A = A$</p>
+                            </div>
+
+                            <!-- Pembagi Nol & Pembatalan -->
+                            <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 space-y-1.5">
+                                <span class="font-bold text-amber-950 block text-xs">Jebakan Fatal Aljabar Matriks:</span>
+                                <p>• <strong>Fenomena Pembagi Nol:</strong> Jika $AB = O$, <em>tidak berarti</em> $A = O$ atau $B = O$. Dua matriks bukan nol bisa menghasilkan matriks nol!</p>
+                                <p>• <strong>Tidak Ada Hukum Coret:</strong> Jika $AB = AC$, kita <em>tidak boleh mencoret $A$</em> menjadi $B = C$ kecuali jika matriks $A$ memiliki invers!</p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH FENOMENA PEMBAGI NOL -->
+                        <div class="bg-slate-100 p-3.5 rounded-xl text-xs font-mono text-slate-700">
+                            Contoh Pembagi Nol: $\begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix} = O$. Terbukti $AB = O$ padahal $A \ne O$ dan $B \ne O$!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Operasi &amp; Perkalian Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Evaluasi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji pemahaman Anda tentang ordo perkalian, skalar, dan hasil kali dua matriks dengan menjawab 3 soal berikut.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 1 &middot; Ordo Perkalian Matriks</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Kelayakan Ordo</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui matriks $P$ berordo $3 \times 2$ dan matriks $Q$ berordo $2 \times 4$. Ordo dari matriks hasil perkalian $P \cdot Q$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $3 \times 4$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $2 \times 2$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $4 \times 3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> Tidak dapat dikalikan</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 2 &middot; Perkalian Dua Matriks 2x2</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Kaidah Baris x Kolom</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Jika $A = \begin{pmatrix} 2 & 1 \\ -1 & 3 \end{pmatrix}$ dan $B = \begin{pmatrix} 0 & 4 \\ 2 & -1 \end{pmatrix}$, maka matriks hasil kali $A \cdot B$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $\begin{pmatrix} 2 & 7 \\ 6 & -7 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $\begin{pmatrix} 0 & 4 \\ -2 & -3 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $\begin{pmatrix} 2 & 7 \\ -2 & -7 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $\begin{pmatrix} 2 & -7 \\ 6 & -7 \end{pmatrix}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 3 &middot; Kesamaan Perkalian Matriks</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Aljabar Sistem</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui $\begin{pmatrix} 3 & x \\ 1 & 2 \end{pmatrix} \begin{pmatrix} 2 \\ 5 \end{pmatrix} = \begin{pmatrix} 16 \\ y \end{pmatrix}$. Nilai dari $x + y$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $14$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $12$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $10$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $8$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! P memiliki ordo 3 × 2 dan Q memiliki ordo 2 × 4. Karena jumlah kolom P (2) sama dengan jumlah baris Q (2), perkalian P · Q terdefinisi dan menghasilkan matriks berordo 3 × 4.' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! c₁₁ = (2)(0) + (1)(2) = 2. c₁₂ = (2)(4) + (1)(-1) = 8 - 1 = 7. c₂₁ = (-1)(0) + (3)(2) = 6. c₂₂ = (-1)(4) + (3)(-1) = -4 - 3 = -7. Hasilnya adalah [[2, 7], [6, -7]].' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Baris 1: (3)(2) + x(5) = 16 ⇒ 6 + 5x = 16 ⇒ 5x = 10 ⇒ x = 2. Baris 2: (1)(2) + (2)(5) = y ⇒ 2 + 10 = y ⇒ y = 12. Jadi nilai x + y = 2 + 12 = 14.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-teal-800 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat aturan baris kali kolom dan perkalian ordo!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 3: Operasi Matriks.</p>
+                    <p><strong>Strang, Gilbert.</strong> (2016). <em>Introduction to Linear Algebra</em> (5th ed.). Wellesley-Cambridge Press. Chapter 2: Solving Linear Equations.</p>
+                    <p><strong>Anton, Howard &amp; Rorres, Chris.</strong> (2019). <em>Elementary Linear Algebra</em> (12th ed.). Wiley. Section 1.3: Matrices and Matrix Operations.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="konsep-dasar-ordo-dan-kesamaan-matriks.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-teal-600 transition">
+                        &larr; Sub-Materi 1: Konsep Dasar &amp; Kesamaan Matriks
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="determinan-matriks-dan-sifat-sifatnya.html" class="bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Determinan Matriks &amp; Sifat-Sifatnya &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

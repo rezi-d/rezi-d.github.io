@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Solving HOTS & Pemodelan Matriks — Matematika Tingkat Lanjut Kelas XI</title>
+    <meta name="description" content="Terapkan konsep matriks untuk pemodelan kontekstual ekonomi, matriks transformasi geometri, pola pangkat matriks A^n, dan trik bedah soal HOTS UTBK/SIMAK UI.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/pemodelan-dan-problem-solving-hots-matriks.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/matriks/pemodelan-dan-problem-solving-hots-matriks.html">
+    <meta property="og:title" content="📐 Problem Solving HOTS &amp; Pemodelan Matriks — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Tingkat Lanjut Kelas XI SMA: Kuasai pemodelan stok & ekonomi, matriks transformasi, pola pangkat A^n, dan bedah soal seleksi PTN.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="matriks">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 5: Matriks (Tingkat Lanjut)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Tuntas)</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        6. Problem Solving HOTS &amp; Pemodelan Matriks
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai penerapan tertinggi dari teori matriks: mulai dari pemodelan inventaris multi-cabang dan optimasi pendapatan ekonomi, representasi matriks transformasi geometri (refleksi &amp; rotasi), penemuan pola pangkat matriks berpangkat tinggi $A^n$, hingga strategi kilat membedah soal-soal HOTS Seleksi PTN (UTBK-SNBT / SIMAK UI).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="teal" class="space-y-6">
+
+                    <!-- SLIDE 1: PEMODELAN INVENTARIS & EKONOMI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 1 &middot; Aplikasi Dunia Nyata</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🏢 1. Pemodelan Inventaris Toko &amp; Analisis Pendapatan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">P = Q \cdot H</span>
+                        </div>
+
+                        <!-- STUDI KASUS BISNIS MULTI-PRODUK -->
+                        <div class="bg-gradient-to-br from-teal-50/80 via-emerald-50/40 to-white p-5 sm:p-6 rounded-2xl border border-teal-100 space-y-3">
+                            <span class="text-xs font-bold text-teal-950 uppercase tracking-wider block">Studi Kasus Penjualan Multi-Cabang:</span>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Sebuah perusahaan memiliki 2 cabang toko yang menjual 3 jenis produk (A, B, C). Data jumlah penjualan mingguan dapat dinyatakan dalam <strong>Matriks Kuantitas ($Q$)</strong> berordo $2 \times 3$, dan harga satuan per produk dinyatakan dalam <strong>Matriks Harga ($P$)</strong> berordo $3 \times 1$:
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                <div class="bg-white p-3 rounded-xl border border-teal-200 text-center font-mono text-xs">
+                                    <span class="text-slate-500 font-bold block mb-1">Matriks Kuantitas ($Q_{2 \times 3}$)</span>
+                                    $$Q = \begin{pmatrix} 20 & 15 & 10 \\ 25 & 10 & 30 \end{pmatrix}$$
+                                    <span class="text-[10px] text-slate-400">Baris 1 = Cabang 1, Baris 2 = Cabang 2</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-teal-200 text-center font-mono text-xs">
+                                    <span class="text-slate-500 font-bold block mb-1">Matriks Harga Satuan ($P_{3 \times 1}$)</span>
+                                    $$P = \begin{pmatrix} 10.000 \\ 20.000 \\ 50.000 \end{pmatrix}$$
+                                    <span class="text-[10px] text-slate-400">Harga per unit produk A, B, C</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TOTAL OMZET VIA PERKALIAN MATRIKS -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 space-y-2">
+                            <span class="font-bold text-slate-900 block">Kalkulasi Total Omzet Per Cabang ($Q \cdot P$):</span>
+                            <div class="font-mono text-xs bg-white p-3 rounded-lg border border-slate-200">
+                                $$Q \cdot P = \begin{pmatrix} 20 & 15 & 10 \\ 25 & 10 & 30 \end{pmatrix} \begin{pmatrix} 10.000 \\ 20.000 \\ 50.000 \end{pmatrix} = \begin{pmatrix} 200.000 + 300.000 + 500.000 \\ 250.000 + 200.000 + 1.500.000 \end{pmatrix} = \begin{pmatrix} 1.000.000 \\ 1.950.000 \end{pmatrix}$$
+                            </div>
+                            <p class="text-xs text-teal-900 font-semibold">
+                                ✓ Cabang 1 meraup omzet Rp1.000.000 dan Cabang 2 meraup omzet Rp1.950.000. Data ratusan cabang dapat dihitung otomatis dalam satu operasi aljabar linier!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: MATRIKS TRANSFORMASI GEOMETRI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 2 &middot; Integrasi Geometri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 2. Matriks Transformasi Geometri (Refleksi &amp; Rotasi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">T \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} x' \\ y' \end{pmatrix}</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Setiap perpindahan, pencerminan, dan perputaran titik pada bidang Cartesius dapat dinyatakan sebagai perkalian dengan sebuah matriks transformasi $2 \times 2$:
+                        </p>
+
+                        <!-- MATRIKS TRANSFORMASI STANDAR -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-slate-700">
+                            <!-- Refleksi sumbu-x -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-center">
+                                <span class="font-bold text-teal-900 block mb-1">Refleksi Sumbu-$x$</span>
+                                <div class="font-mono font-bold text-xs text-slate-900 py-1">
+                                    $$\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
+                                </div>
+                                <span class="text-[10px] text-slate-500">$(x, -y)$</span>
+                            </div>
+
+                            <!-- Refleksi sumbu-y -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-center">
+                                <span class="font-bold text-teal-900 block mb-1">Refleksi Sumbu-$y$</span>
+                                <div class="font-mono font-bold text-xs text-slate-900 py-1">
+                                    $$\begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}$$
+                                </div>
+                                <span class="text-[10px] text-slate-500">$(-x, y)$</span>
+                            </div>
+
+                            <!-- Rotasi theta -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-center">
+                                <span class="font-bold text-teal-900 block mb-1">Rotasi Sudut $\theta$</span>
+                                <div class="font-mono font-bold text-xs text-slate-900 py-1">
+                                    $$\begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
+                                </div>
+                                <span class="text-[10px] text-slate-500">Pusat $(0, 0)$</span>
+                            </div>
+
+                            <!-- Dilatasi faktor k -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-center">
+                                <span class="font-bold text-teal-900 block mb-1">Dilatasi Skala $k$</span>
+                                <div class="font-mono font-bold text-xs text-slate-900 py-1">
+                                    $$\begin{pmatrix} k & 0 \\ 0 & k \end{pmatrix}$$
+                                </div>
+                                <span class="text-[10px] text-slate-500">$(kx, ky)$</span>
+                            </div>
+                        </div>
+
+                        <!-- KOMPOSISI TRANSFORMASI -->
+                        <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 text-xs text-teal-950 space-y-1">
+                            <span class="font-bold">Komposisi Transformasi Berurutan:</span>
+                            <p class="text-slate-700">
+                                Jika titik ditransformasikan oleh matriks $T_1$ lalu dilanjutkan oleh $T_2$, maka matriks transformasi tunggal ekuivalennya adalah:
+                                $$T = T_2 \cdot T_1 \quad \text{(Urutan perkalian dari kanan ke kiri!)}$$
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: POLA PANGKAT MATRIKS A^N -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 3 &middot; Eksplorasi Pola Induksi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✨ 3. Pola Pangkat Matriks $A^n$ &amp; Induksi Matematika
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">A^n \text{ Pola Induktif}</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Soal-soal olimpiade dan seleksi mandiri PTN kerap menanyakan nilai pangkat matriks ribuan, seperti $A^{2026}$. Kuncinya adalah <strong>menyelidiki pola keteraturan dari $A^2, A^3$</strong>:
+                        </p>
+
+                        <!-- DUA KELUARGA POLA POPULER -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Pola Linier Matriks Segitiga Khusus -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-teal-900 uppercase tracking-wide block">1. Pola Deret Linier ($A = \begin{pmatrix} 1 & a \\ 0 & 1 \end{pmatrix}$):</span>
+                                <p class="text-slate-600">Amati perpangkatan:</p>
+                                <div class="font-mono text-slate-800 bg-white p-2.5 rounded-lg border border-slate-200 space-y-1">
+                                    <div>$A^2 = \begin{pmatrix} 1 & a \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 1 & a \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 1 & 2a \\ 0 & 1 \end{pmatrix}$</div>
+                                    <div>$A^3 = A^2 \cdot A = \begin{pmatrix} 1 & 3a \\ 0 & 1 \end{pmatrix}$</div>
+                                    <div class="text-teal-900 font-bold">$$A^n = \begin{pmatrix} 1 & n \cdot a \\ 0 & 1 \end{pmatrix}$$</div>
+                                </div>
+                            </div>
+
+                            <!-- Pola Siklik / Involutori -->
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                                <span class="font-bold text-teal-900 uppercase tracking-wide block">2. Pola Siklik Berulang ($A^2 = I$):</span>
+                                <p class="text-slate-600">Jika matriks memenuhi $A^2 = I$ (involutori), maka:</p>
+                                <div class="font-mono text-slate-800 bg-white p-2.5 rounded-lg border border-slate-200 space-y-1">
+                                    <div>• Untuk pangkat genap: $A^{2k} = (A^2)^k = I^k = I$</div>
+                                    <div>• Untuk pangkat ganjil: $A^{2k+1} = A^{2k} \cdot A = I \cdot A = A$</div>
+                                    <div class="text-teal-900 font-bold">Contoh: $A^{2026} = I$ dan $A^{2027} = A$!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TRIK BEDAH SOAL HOTS SELEKSI PTN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 4 &middot; Strategi Ujian Masuk PTN</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧠 4. Trik Sakti Bedah Soal HOTS UTBK &amp; SIMAK UI
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">\det(P A Q) = \det(B)</span>
+                        </div>
+
+                        <!-- TRIK DETERMINAN PRODUK KOMPLEKS -->
+                        <div class="bg-gradient-to-br from-teal-950 to-slate-900 text-white p-6 rounded-2xl space-y-3">
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-wider block">Trik Juara 1: Gunakan Sifat Determinan Ketimbang Menghitung Matriksnya</span>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Jika soal memberikan relasi matriks rumit $P \cdot A \cdot Q = B$ dan menanyakan nilai $\det(A)$, <strong>JANGAN PERNAH</strong> mencari invers matriks $P$ atau $Q$ secara eksplisit!
+                            </p>
+                            <div class="bg-white/10 p-3 rounded-xl border border-white/20 text-center font-mono text-xs sm:text-sm text-teal-200">
+                                $$\det(P \cdot A \cdot Q) = \det(B) \implies \det(P) \cdot \det(A) \cdot \det(Q) = \det(B)$$
+                            </div>
+                            <div class="bg-teal-900/60 p-2.5 rounded-lg border border-teal-500/30 text-center font-mono text-xs text-teal-100">
+                                $$\det(A) = \frac{\det(B)}{\det(P) \cdot \det(Q)}$$
+                            </div>
+                            <p class="text-xs text-emerald-300 font-semibold">
+                                ✓ Soal yang memakan 1 lembar kertas kalkulasi selesai dalam waktu 15 detik!
+                            </p>
+                        </div>
+
+                        <!-- TRIK SIFAT MATRIKS ADJOIN -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
+                            <span class="font-bold text-slate-900 block">Trik Juara 2: Determinan dari Matriks Adjoin:</span>
+                            <p>Untuk matriks persegi berordo $n \times n$:</p>
+                            <div class="font-mono text-center text-teal-900 font-bold py-1">
+                                $$\det(\text{Adj}(A)) = (\det(A))^{n - 1}$$
+                            </div>
+                            <p class="text-[11px] text-slate-500">
+                                Untuk ordo $3 \times 3$, maka $\det(\text{Adj}(A)) = (\det(A))^2$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-teal-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri Bab 5</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Problem Solving &amp; HOTS Matriks
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-teal-100 text-teal-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal HOTS</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji kemampuan bernalar tingkat tinggi Anda dengan menyelesaikan 3 tantangan soal matriks terpadu berikut.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 1 &middot; Pola Pangkat Matriks</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Pangkat Ribuan</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui matriks $A = \begin{pmatrix} 1 & 3 \\ 0 & 1 \end{pmatrix}$. Matriks dari $A^{2026}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $\begin{pmatrix} 1 & 6078 \\ 0 & 1 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $\begin{pmatrix} 1 & 2026 \\ 0 & 1 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $\begin{pmatrix} 1 & 3^{2026} \\ 0 & 1 \end{pmatrix}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $\begin{pmatrix} 2026 & 6078 \\ 0 & 2026 \end{pmatrix}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 2 &middot; Sifat Determinan Perkalian Bertingkat</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">HOTS SIMAK UI</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui matriks $A$ dan $B$ berordo $3 \times 3$ dengan $\det(A) = 4$ dan $\det(B) = -3$. Nilai determinan dari matriks $M = 2A \cdot B^T \cdot A^{-1}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> $-24$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> $-6$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> $24$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> $-48$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-teal-700 uppercase tracking-wider">Soal 3 &middot; Pemodelan Belanja Paket</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Aplikasi SPL</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Di toko buku, paket A (2 buku dan 3 pensil) seharga Rp19.000, sedangkan paket B (4 buku dan 1 pensil) seharga Rp23.000. Dengan representasi matriks invers, harga dari 1 buku dan 1 pensil berturut-turut adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>A.</strong> Rp5.000 dan Rp3.000</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>B.</strong> Rp4.500 dan Rp3.500</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>C.</strong> Rp5.500 dan Rp2.500</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-teal-600 focus:ring-teal-500">
+                                    <span><strong>D.</strong> Rp6.000 dan Rp2.000</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Menggunakan pola linier induksi: jika A = [[1, a], [0, 1]], maka Aⁿ = [[1, n·a], [0, 1]]. Dengan a = 3 dan n = 2026, diperoleh elemen baris 1 kolom 2 adalah 2026 × 3 = 6078. Jadi A²⁰²⁶ = [[1, 6078], [0, 1]].' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Perhatikan skalar 2 pada matriks ordo 3x3: det(2A · Bᵀ · A⁻¹) = 2³ · det(A) · det(Bᵀ) · det(A⁻¹). Karena det(Bᵀ) = det(B) = -3 dan det(A) · det(A⁻¹) = 1, maka: det(M) = 8 · 1 · (-3) = -24!' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Sistem [[2, 3], [4, 1]] · [[x], [y]] = [[19000], [23000]]. Determinan = (2)(1) - (3)(4) = 2 - 12 = -10. Invers = -1/10 [[1, -3], [-4, 2]]. Dikalikan konstanta: x = -1/10 (19000 - 69000) = -1/10 (-50000) = 5000 (buku). y = -1/10 (-76000 + 46000) = -1/10 (-30000) = 3000 (pensil).' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-teal-800 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat sifat det(kA) = kⁿ det(A) atau pola induksi Aⁿ!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Buku Panduan Guru &amp; Siswa Matematika Tingkat Lanjut SMA/MA Kelas XI</em>. BSKAP. Bab 3: Pemodelan Matriks.</p>
+                    <p><strong>Anton, Howard &amp; Rorres, Chris.</strong> (2019). <em>Elementary Linear Algebra</em> (12th ed.). Wiley. Chapter 1 &amp; 9: Applications of Linear Algebra.</p>
+                    <p><strong>Strang, Gilbert.</strong> (2016). <em>Introduction to Linear Algebra</em> (5th ed.). Wellesley-Cambridge Press. Chapter 6: Positive Definite Matrices &amp; Applications.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="aturan-cramer-dan-sistem-persamaan-linier.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-teal-600 transition">
+                        &larr; Sub-Materi 5: Sistem Persamaan Linier &amp; Aturan Cramer
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Tuntas)</span>
+                    <a href="/matematika/kelas-11/index.html" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs flex items-center gap-1.5">
+                        <span>🎉 Kembali ke Hub Matematika Kelas XI</span> &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
