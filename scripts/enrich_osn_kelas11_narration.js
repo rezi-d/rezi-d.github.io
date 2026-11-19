@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * scripts/enrich_osn_kelas11_narration.js
- * Injects teacher commentary, pedagogical thought guidance, and full audio narration player
- * into all 6 sub-babs of Bab 8: Pengayaan Olimpiade Sains (OSN) Kelas XI Matematika SMA.
+ * Injects teacher commentary, pedagogical thought guidance, resilient audio player (MP3 + Web Speech Fallback),
+ * and relative path resolution into all 6 sub-babs of Bab 8: Pengayaan OSN Kelas XI.
  */
 
 const fs = require('fs');
@@ -42,6 +42,7 @@ const modules = [
 ];
 
 function buildAudioPlayerCard(firstTrack) {
+    const relativeSrc = firstTrack.src.startsWith('/') ? '../../..' + firstTrack.src : firstTrack.src;
     return `
                     <!-- KARTU AUDIO PENJELASAN GURU PEMBINA PER MATERI (STUDIO ID) -->
                     <div id="audio-player-card" class="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 border border-amber-200/90 shadow-xs space-y-3">
@@ -70,8 +71,8 @@ function buildAudioPlayerCard(firstTrack) {
                             </div>
                         </div>
 
-                        <!-- Audio Tag -->
-                        <audio id="audio-olimpiade" preload="metadata" src="${firstTrack.src}"></audio>
+                        <!-- Audio Tag dengan fallback jalur relatif dan absolut -->
+                        <audio id="audio-olimpiade" preload="metadata" src="${relativeSrc}"></audio>
 
                         <div class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-200/80">
                             <button type="button" id="audio-play-btn" onclick="togglePlayAudio()" class="w-9 h-9 rounded-lg bg-amber-600 hover:bg-amber-700 text-white flex items-center justify-center font-bold text-sm transition shrink-0 shadow-xs" aria-label="Putar Audio">
@@ -94,7 +95,7 @@ function buildAudioPlayerCard(firstTrack) {
 function buildSlideAudioScript(tracks) {
     const jsonTracks = JSON.stringify(tracks, null, 12);
     return `
-    <!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI -->
+    <!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI (MP3 + RESILIENT WEB SPEECH FALLBACK) -->
     <script>
         const slideAudios = ${jsonTracks};
 
@@ -103,12 +104,69 @@ function buildSlideAudioScript(tracks) {
         const seekBar = document.getElementById('audio-seek');
         const timeDisplay = document.getElementById('audio-time');
         let currentSlideIdx = 0;
+        let isSpeakingFallback = false;
+
+        function resolveAudioSrc(src) {
+            if (!src) return '';
+            // Gunakan jalur relatif ../../../ agar kompatibel 100% pada file:/// maupun http/https
+            if (src.startsWith('/')) {
+                return '../../..' + src;
+            }
+            return src;
+        }
 
         function formatTime(seconds) {
             if (isNaN(seconds)) return '00:00';
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        function stopFallbackSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            isSpeakingFallback = false;
+            if (playBtn) playBtn.textContent = '▶️';
+        }
+
+        function playFallbackSpeech(text) {
+            if (!('speechSynthesis' in window)) {
+                console.warn('Web Speech API tidak didukung pada peramban ini.');
+                return;
+            }
+            window.speechSynthesis.cancel();
+            
+            // Bersihkan simbol KaTeX agar dibaca natural oleh engine suara
+            const cleanText = text
+                .replace(/\\\w+/g, ' ')
+                .replace(/[$_#*{}\[\]]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            const utter = new SpeechSynthesisUtterance(cleanText);
+            utter.lang = 'id-ID';
+            const speed = parseFloat(document.getElementById('audio-speed-select')?.value || 1.0);
+            utter.rate = speed;
+
+            const voices = window.speechSynthesis.getVoices();
+            const idVoice = voices.find(v => v.lang && (v.lang.startsWith('id') || v.lang.startsWith('ID')));
+            if (idVoice) utter.voice = idVoice;
+
+            utter.onstart = () => {
+                isSpeakingFallback = true;
+                if (playBtn) playBtn.textContent = '⏸️';
+            };
+            utter.onend = () => {
+                isSpeakingFallback = false;
+                if (playBtn) playBtn.textContent = '▶️';
+            };
+            utter.onerror = () => {
+                isSpeakingFallback = false;
+                if (playBtn) playBtn.textContent = '▶️';
+            };
+
+            window.speechSynthesis.speak(utter);
         }
 
         function loadSlideAudio(idx, autoPlay = false) {
@@ -126,22 +184,33 @@ function buildSlideAudioScript(tracks) {
             if (transTitleEl) transTitleEl.textContent = '📝 Transkrip Suara Pembina (' + item.title + '):';
             if (transTextEl) transTextEl.textContent = '"' + item.text + '"';
 
+            if (isSpeakingFallback) {
+                stopFallbackSpeech();
+            }
+
             if (!audioEl) return;
 
+            const resolvedSrc = resolveAudioSrc(item.src);
             const wasPlaying = !audioEl.paused;
-            if (!audioEl.src.endsWith(item.src)) {
-                audioEl.src = item.src;
+            const currentSrc = audioEl.getAttribute('src') || '';
+
+            if (currentSrc !== resolvedSrc && !audioEl.src.endsWith(item.src)) {
+                audioEl.src = resolvedSrc;
                 audioEl.load();
                 if (seekBar) seekBar.value = 0;
                 if (timeDisplay) timeDisplay.textContent = '00:00 / 00:00';
             }
 
             if (autoPlay || wasPlaying) {
-                audioEl.play().then(() => {
-                    if (playBtn) playBtn.textContent = '⏸️';
-                }).catch(() => {
-                    if (playBtn) playBtn.textContent = '▶️';
-                });
+                const playPromise = audioEl.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        if (playBtn) playBtn.textContent = '⏸️';
+                    }).catch((err) => {
+                        console.warn('Audio MP3 play failed, falling back to Web Speech API:', err);
+                        playFallbackSpeech(item.text);
+                    });
+                }
             } else {
                 if (playBtn) playBtn.textContent = '▶️';
             }
@@ -156,13 +225,28 @@ function buildSlideAudioScript(tracks) {
         }
 
         function togglePlayAudio() {
-            if (!audioEl) return;
+            if (isSpeakingFallback) {
+                stopFallbackSpeech();
+                return;
+            }
+
+            if (!audioEl) {
+                const item = slideAudios[currentSlideIdx];
+                if (item) playFallbackSpeech(item.text);
+                return;
+            }
+
             if (audioEl.paused) {
-                audioEl.play().then(() => {
-                    if (playBtn) playBtn.textContent = '⏸️';
-                }).catch(() => {
-                    if (playBtn) playBtn.textContent = '▶️';
-                });
+                const playPromise = audioEl.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        if (playBtn) playBtn.textContent = '⏸️';
+                    }).catch((err) => {
+                        console.warn('Audio MP3 play failed, falling back to Web Speech API:', err);
+                        const item = slideAudios[currentSlideIdx];
+                        if (item) playFallbackSpeech(item.text);
+                    });
+                }
             } else {
                 audioEl.pause();
                 if (playBtn) playBtn.textContent = '▶️';
@@ -187,6 +271,16 @@ function buildSlideAudioScript(tracks) {
             audioEl.addEventListener('loadedmetadata', () => {
                 if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
             });
+
+            audioEl.addEventListener('error', (e) => {
+                console.warn('Audio HTML5 error detected on src:', audioEl.src, e);
+                if (isSpeakingFallback) return;
+                // If user was trying to play, switch to fallback
+                if (playBtn && playBtn.textContent === '⏸️') {
+                    const item = slideAudios[currentSlideIdx];
+                    if (item) playFallbackSpeech(item.text);
+                }
+            });
         }
 
         function seekAudio(val) {
@@ -195,8 +289,13 @@ function buildSlideAudioScript(tracks) {
         }
 
         function changeAudioSpeed(val) {
-            if (!audioEl) return;
-            audioEl.playbackRate = parseFloat(val);
+            const speed = parseFloat(val);
+            if (audioEl) audioEl.playbackRate = speed;
+            if (isSpeakingFallback && 'speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const item = slideAudios[currentSlideIdx];
+                if (item) playFallbackSpeech(item.text);
+            }
         }
 
         function toggleTranscript() {
@@ -235,106 +334,24 @@ for (const mod of modules) {
 
     console.log(`Processing ${mod.file}...`);
 
-    // 1. Insert #audio-player-card if not present
-    if (!html.includes('id="audio-player-card"')) {
-        const targetMarker = '<!-- SLIDER CONTROLLER (TOP STICKY) -->';
-        if (html.includes(targetMarker)) {
-            const cardHtml = buildAudioPlayerCard(mod.data.audioTracks[0]);
-            html = html.replace(targetMarker, cardHtml + '\n\n                ' + targetMarker);
-            console.log(`  Added #audio-player-card.`);
-        }
+    // 1. Replace #audio-player-card with updated relative path card
+    const cardRegex = /<!-- KARTU AUDIO PENJELASAN GURU PEMBINA PER MATERI[\s\S]*?<\/div>\s*<\/div>/;
+    const newCard = buildAudioPlayerCard(mod.data.audioTracks[0]);
+    if (html.match(cardRegex)) {
+        html = html.replace(cardRegex, newCard.trim());
+        console.log(`  Updated #audio-player-card with relative path.`);
     }
 
-    // 2. Locate slides
-    const slideRegex = /<section class="ielts-slide[\s\S]*?<\/section>/g;
-    const slides = [...html.matchAll(slideRegex)].map(m => m[0]);
-
-    if (slides.length !== 5) {
-        console.error(`  Error: Expected 5 slides, found ${slides.length} in ${mod.file}`);
-        continue;
+    // 2. Replace script audio player with new resilient script
+    const scriptRegex = /<!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI[\s\S]*?<\/script>/;
+    const newScript = buildSlideAudioScript(mod.data.audioTracks);
+    if (html.match(scriptRegex)) {
+        html = html.replace(scriptRegex, newScript.trim());
+        console.log(`  Updated audio player script with Web Speech API fallback.`);
     }
 
-    const narrationCards = [
-        mod.data.slide1Narasi,
-        mod.data.slide2Narasi,
-        mod.data.slide3Narasi,
-        mod.data.slide4Narasi
-    ];
-
-    let newHtml = html;
-
-    // Process Slides 1 to 4: inject before closing </section>
-    for (let i = 0; i < 4; i++) {
-        let slideStr = slides[i];
-
-        if (!slideStr.includes('Trik Olimpiade:')) {
-            // Also inject button in slide header if needed
-            let headerBtn = `<button type="button" onclick="playCurrentSlideAudio(${i})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
-                                <span>🎙️</span> <span>Dengarkan Narasi Poin ${i+1}</span>
-                            </button>`;
-            
-            // Insert header button right before the badge in slide header
-            let updatedSlide = slideStr;
-            const badgeMarker = '<span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">';
-            if (updatedSlide.includes(badgeMarker)) {
-                updatedSlide = updatedSlide.replace(badgeMarker, `<div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">\n                            ${headerBtn}\n                            ${badgeMarker}`);
-                // close div after badge span
-                const endSpanIdx = updatedSlide.indexOf('</span>', updatedSlide.indexOf(badgeMarker));
-                if (endSpanIdx !== -1) {
-                    updatedSlide = updatedSlide.slice(0, endSpanIdx + 7) + '\n                        </div>' + updatedSlide.slice(endSpanIdx + 7);
-                }
-            }
-
-            const lastClosingTag = updatedSlide.lastIndexOf('</section>');
-            if (lastClosingTag !== -1) {
-                updatedSlide = updatedSlide.slice(0, lastClosingTag) + '\n' + narrationCards[i] + '\n                    </section>';
-                newHtml = newHtml.replace(slideStr, updatedSlide);
-                console.log(`  Slide ${i+1}: Injected narration card and header button.`);
-            }
-        }
-    }
-
-    // Process Slide 5 (Kuis): inject slide5Narasi before <!-- SOAL 1 -->
-    let slide5Str = slides[4];
-    if (!slide5Str.includes('Panduan Taktis Evaluasi')) {
-        let updatedSlide5 = slide5Str;
-        
-        // Add header button to slide 5 header
-        const slide5BadgeMarker = '<span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>';
-        if (updatedSlide5.includes(slide5BadgeMarker)) {
-            const slide5Btn = `<div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-                            <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0">
-                                <span>🎙️</span> <span>Dengarkan Panduan Kuis</span>
-                            </button>
-                            ${slide5BadgeMarker}
-                        </div>`;
-            updatedSlide5 = updatedSlide5.replace(slide5BadgeMarker, slide5Btn);
-        }
-
-        const soal1Marker = '<!-- SOAL 1 -->';
-        if (updatedSlide5.includes(soal1Marker)) {
-            updatedSlide5 = updatedSlide5.replace(soal1Marker, mod.data.slide5Narasi + '\n\n                        ' + soal1Marker);
-            newHtml = newHtml.replace(slide5Str, updatedSlide5);
-            console.log(`  Slide 5: Injected checklist card and header button before SOAL 1.`);
-        }
-    }
-
-    // 3. Inject audio script before </body>
-    if (!newHtml.includes('const slideAudios =')) {
-        const audioScript = buildSlideAudioScript(mod.data.audioTracks);
-        const scriptMarker = '<!-- KaTeX Autorender -->';
-        if (newHtml.includes(scriptMarker)) {
-            newHtml = newHtml.replace(scriptMarker, audioScript + '\n\n    ' + scriptMarker);
-            console.log(`  Added audio player script before KaTeX.`);
-        } else {
-            const bodyClose = '</body>';
-            newHtml = newHtml.replace(bodyClose, audioScript + '\n' + bodyClose);
-            console.log(`  Added audio player script before </body>.`);
-        }
-    }
-
-    fs.writeFileSync(filePath, newHtml, 'utf8');
-    console.log(`✓ Saved ${mod.file} (size: ${newHtml.length} bytes).\n`);
+    fs.writeFileSync(filePath, html, 'utf8');
+    console.log(`✓ Saved ${mod.file} (size: ${html.length} bytes).\n`);
 }
 
-console.log('All 6 sub-bab files successfully enriched with teacher narration and audio player!');
+console.log('All 6 sub-bab files successfully updated with resilient audio player!');
