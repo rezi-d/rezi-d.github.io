@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 /**
  * scripts/enrich_osn_kelas11_narration.js
- * Injects teacher commentary, pedagogical thought guidance, resilient audio player (MP3 + Web Speech Fallback),
- * and relative path resolution into all 6 sub-babs of Bab 8: Pengayaan OSN Kelas XI.
+ * Injects teacher commentary, pedagogical thought guidance, and resilient audio player
+ * into all 6 sub-babs of Bab 8: Pengayaan OSN Kelas XI Matematika SMA.
+ *
+ * IMPORTANT: Uses literal function callbacks in .replace() to prevent $ and KaTeX $$ 
+ * from being evaluated as String.prototype.replace patterns.
  */
 
 const fs = require('fs');
@@ -71,7 +74,7 @@ function buildAudioPlayerCard(firstTrack) {
                             </div>
                         </div>
 
-                        <!-- Audio Tag dengan fallback jalur relatif dan absolut -->
+                        <!-- Audio Tag -->
                         <audio id="audio-olimpiade" preload="metadata" src="${relativeSrc}"></audio>
 
                         <div class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-200/80">
@@ -108,7 +111,6 @@ function buildSlideAudioScript(tracks) {
 
         function resolveAudioSrc(src) {
             if (!src) return '';
-            // Gunakan jalur relatif ../../../ agar kompatibel 100% pada file:/// maupun http/https
             if (src.startsWith('/')) {
                 return '../../..' + src;
             }
@@ -137,11 +139,10 @@ function buildSlideAudioScript(tracks) {
             }
             window.speechSynthesis.cancel();
             
-            // Bersihkan simbol KaTeX agar dibaca natural oleh engine suara
             const cleanText = text
                 .replace(/\\\w+/g, ' ')
                 .replace(/[$_#*{}\[\]]/g, ' ')
-                .replace(/\s+/g, ' ')
+                .replace(/\\s+/g, ' ')
                 .trim();
 
             const utter = new SpeechSynthesisUtterance(cleanText);
@@ -275,7 +276,6 @@ function buildSlideAudioScript(tracks) {
             audioEl.addEventListener('error', (e) => {
                 console.warn('Audio HTML5 error detected on src:', audioEl.src, e);
                 if (isSpeakingFallback) return;
-                // If user was trying to play, switch to fallback
                 if (playBtn && playBtn.textContent === '⏸️') {
                     const item = slideAudios[currentSlideIdx];
                     if (item) playFallbackSpeech(item.text);
@@ -315,15 +315,7 @@ function buildSlideAudioScript(tracks) {
                 };
             }
 
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        { left: '$$', right: '$$', display: true },
-                        { left: '$', right: '$', display: false }
-                    ],
-                    throwOnError: false
-                });
-            }
+
         });
     </script>`;
 }
@@ -334,24 +326,92 @@ for (const mod of modules) {
 
     console.log(`Processing ${mod.file}...`);
 
-    // 1. Replace #audio-player-card with updated relative path card
-    const cardRegex = /<!-- KARTU AUDIO PENJELASAN GURU PEMBINA PER MATERI[\s\S]*?<\/div>\s*<\/div>/;
-    const newCard = buildAudioPlayerCard(mod.data.audioTracks[0]);
-    if (html.match(cardRegex)) {
-        html = html.replace(cardRegex, newCard.trim());
-        console.log(`  Updated #audio-player-card with relative path.`);
+    // 1. Insert #audio-player-card before <!-- SLIDER CONTROLLER (TOP STICKY) -->
+    const targetMarker = '<!-- SLIDER CONTROLLER (TOP STICKY) -->';
+    if (!html.includes('id="audio-player-card"')) {
+        const cardHtml = buildAudioPlayerCard(mod.data.audioTracks[0]);
+        html = html.replace(targetMarker, () => cardHtml + '\n\n                ' + targetMarker);
+        console.log(`  Added #audio-player-card.`);
     }
 
-    // 2. Replace script audio player with new resilient script
-    const scriptRegex = /<!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI[\s\S]*?<\/script>/;
-    const newScript = buildSlideAudioScript(mod.data.audioTracks);
-    if (html.match(scriptRegex)) {
-        html = html.replace(scriptRegex, newScript.trim());
-        console.log(`  Updated audio player script with Web Speech API fallback.`);
+    // 2. Inject Narasi Cards into Slide 1, 2, 3, 4 before the next slide marker
+    const slideMarkers = [
+        { start: '<!-- SLIDE 1:', next: '<!-- SLIDE 2:', card: mod.data.slide1Narasi, idx: 0 },
+        { start: '<!-- SLIDE 2:', next: '<!-- SLIDE 3:', card: mod.data.slide2Narasi, idx: 1 },
+        { start: '<!-- SLIDE 3:', next: '<!-- SLIDE 4:', card: mod.data.slide3Narasi, idx: 2 },
+        { start: '<!-- SLIDE 4:', next: '<!-- SLIDE 5:', card: mod.data.slide4Narasi, idx: 3 }
+    ];
+
+    for (const sm of slideMarkers) {
+        const startPos = html.indexOf(sm.start);
+        const nextPos = html.indexOf(sm.next);
+
+        if (startPos !== -1 && nextPos !== -1) {
+            let slideSection = html.slice(startPos, nextPos);
+
+            if (!slideSection.includes('Trik Olimpiade:')) {
+                // Add header button in slide header
+                const headerBtn = `<div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(${sm.idx})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin ${sm.idx + 1}</span>
+                            </button>`;
+                
+                const badgeTag = '<span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">';
+                if (slideSection.includes(badgeTag)) {
+                    slideSection = slideSection.replace(badgeTag, () => headerBtn + '\n                            ' + badgeTag);
+                    const endSpan = slideSection.indexOf('</span>', slideSection.indexOf(badgeTag));
+                    if (endSpan !== -1) {
+                        slideSection = slideSection.slice(0, endSpan + 7) + '\n                        </div>' + slideSection.slice(endSpan + 7);
+                    }
+                }
+
+                // Insert narration card before the last </section> of this slide
+                const lastClose = slideSection.lastIndexOf('</section>');
+                if (lastClose !== -1) {
+                    slideSection = slideSection.slice(0, lastClose) + '\n' + sm.card + '\n                    </section>';
+                    html = html.slice(0, startPos) + slideSection + html.slice(nextPos);
+                    console.log(`  Slide ${sm.idx + 1}: Injected card & header button.`);
+                }
+            }
+        }
+    }
+
+    // 3. Inject slide 5 narasi before <!-- SOAL 1 -->
+    const slide5Pos = html.indexOf('<!-- SLIDE 5:');
+    if (slide5Pos !== -1) {
+        const soal1Pos = html.indexOf('<!-- SOAL 1 -->', slide5Pos);
+        if (soal1Pos !== -1 && !html.includes('Panduan Taktis Evaluasi &amp; Trik Kuis')) {
+            // Add header button for slide 5
+            const slide5BadgeMarker = '<span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>';
+            if (html.includes(slide5BadgeMarker)) {
+                const slide5Btn = `<div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0">
+                                <span>🎙️</span> <span>Dengarkan Panduan Kuis</span>
+                            </button>
+                            ${slide5BadgeMarker}
+                        </div>`;
+                html = html.replace(slide5BadgeMarker, () => slide5Btn);
+            }
+
+            // Insert slide5Narasi before <!-- SOAL 1 -->
+            const insertion = mod.data.slide5Narasi + '\n\n                        ';
+            html = html.replace('<!-- SOAL 1 -->', () => insertion + '<!-- SOAL 1 -->');
+            console.log(`  Slide 5: Injected checklist card before SOAL 1.`);
+        }
+    }
+
+    // 4. Inject audio script before </body>
+    if (!html.includes('const slideAudios =')) {
+        const audioScript = buildSlideAudioScript(mod.data.audioTracks);
+        const scriptMarker = '<!-- KaTeX Autorender -->';
+        if (html.includes(scriptMarker)) {
+            html = html.replace(scriptMarker, () => audioScript + '\n\n    ' + scriptMarker);
+            console.log(`  Added audio player script.`);
+        }
     }
 
     fs.writeFileSync(filePath, html, 'utf8');
     console.log(`✓ Saved ${mod.file} (size: ${html.length} bytes).\n`);
 }
 
-console.log('All 6 sub-bab files successfully updated with resilient audio player!');
+console.log('All 6 sub-bab files successfully enriched without any string replace corruption!');
