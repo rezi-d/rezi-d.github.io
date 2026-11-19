@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teorema Sudut Pusat & Sudut Keliling — Matematika Kelas XI</title>
+    <meta name="description" content="Pelajari hubungan matematis sudut pusat dan sudut keliling lingkaran, pembuktian 3 kasus posisi pusat, Teorema Thales sudut siku-siku, serta sifat sudut sehadap busur.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/lingkaran/sudut-pusat-dan-sudut-keliling.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/lingkaran/sudut-pusat-dan-sudut-keliling.html">
+    <meta property="og:title" content="📐 Teorema Sudut Pusat & Sudut Keliling — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Pahami Teorema Sudut Keliling, Teorema Thales, dan pembuktian matematis dengan kartu interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="lingkaran">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Geometri Lingkaran
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Teorema Sudut Pusat &amp; Sudut Keliling
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai salah satu teorema geometri paling indah dan mendasar: hubungan dua kali lipat antara sudut pusat dengan sudut keliling yang menghadap busur yang sama, pembuktian analitis 3 kasus posisi pusat, serta Teorema Thales mengenai sudut siku-siku pada diameter lingkaran.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: PERBEDAAN DEFINISI SUDUT PUSAT VS KELILING -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Terminologi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💡 Hakikat Sudut Pusat vs Sudut Keliling (Inscribed Angle)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Definisi Sudut</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🔭</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Sudut Pandang dari Pusat vs dari Pinggir</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Bayangkan sebuah panggung konser yang membentang di sepanjang busur $AB$. Jika Anda berdiri tepat di titik tengah lapangan (titik pusat $O$), sudut pandang Anda melihat kedua ujung panggung adalah <strong>sudut pusat</strong>. Jika Anda berjalan mundur ke tepi pagar pembatas stadion (keliling lingkaran di titik $P$), sudut pandang Anda akan terasa lebih menyempit. Menariknya, penyempitan tersebut tidak acak, melainkan <strong>tepat berkurang menjadi separuhnya</strong>!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TABEL PERBANDINGAN DEFINISI -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-blue-700 uppercase text-xs block">1. Sudut Pusat (Central Angle)</span>
+                                <p class="text-slate-700 leading-relaxed text-justify">
+                                    Sudut yang titik puncaknya (vertex) berimpit tepat di <strong>titik pusat lingkaran ($O$)</strong>, dan kedua kaki sudutnya adalah jari-jari lingkaran ($OA$ dan $OB$).
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-blue-900">
+                                    $$\angle \text{Pusat} = \angle AOB$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-emerald-700 uppercase text-xs block">2. Sudut Keliling (Inscribed Angle)</span>
+                                <p class="text-slate-700 leading-relaxed text-justify">
+                                    Sudut yang titik puncaknya terletak pada <strong>garis lengkung keliling lingkaran ($P$)</strong>, dan kedua kaki sudutnya adalah tali busur lingkaran ($PA$ dan $PB$).
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-emerald-900">
+                                    $$\angle \text{Keliling} = \angle APB$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-950">
+                            <strong>⚠️ Syarat Kritis:</strong> Hubungan teorema antara kedua sudut ini <strong>hanya berlaku</strong> jika kedua sudut tersebut <strong>menghadap busur yang sama ($\stackrel{\frown}{AB}$)</strong>!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: TEOREMA SUDUT KELILING & PEMBUKTIAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Teorema Fundamental</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ Teorema Sudut Keliling &amp; Pembuktian Rigor 3 Kasus
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">\angle AOB = 2 \times \angle APB</span>
+                        </div>
+
+                        <!-- PERNYATAAN TEOREMA RESMI -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <div class="p-4 rounded-xl bg-emerald-50 border-2 border-emerald-300 text-center font-mono space-y-1">
+                                <h3 class="font-bold text-emerald-950 font-sans text-sm sm:text-base">Bunyi Teorema Sudut Keliling (Inscribed Angle Theorem):</h3>
+                                <p class="text-emerald-900 text-base sm:text-lg font-bold">
+                                    $$\angle \text{Pusat} = 2 \times \angle \text{Keliling} \iff \angle \text{Keliling} = \frac{1}{2} \times \angle \text{Pusat}$$
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 3 KASUS PEMBUKTIAN MATEMATIS -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <h3 class="text-base font-bold text-slate-900">Pembuktian Matematis Rigor Melalui 3 Kasus:</h3>
+                            
+                            <!-- KASUS 1 -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-blue-900 text-xs uppercase block">Kasus 1: Titik Pusat $O$ Terletak pada Salah Satu Kaki Sudut ($PB$ Diameter)</span>
+                                <p>
+                                    Tarik ruas garis $OA$. Perhatikan segitiga $\triangle OPA$. Karena $OA = OP = r$ (jari-jari), maka $\triangle OPA$ adalah <strong>segitiga sama kaki</strong>, sehingga:
+                                    $$\angle OPA = \angle OAP = \alpha$$
+                                    Berdasarkan Teorema Sudut Luar Segitiga (*Exterior Angle Theorem*), sudut luar $\angle AOB$ sama dengan jumlah dua sudut dalam yang tidak bersisian dengannya:
+                                    $$\angle AOB = \angle OPA + \angle OAP = \alpha + \alpha = 2\alpha = 2 \times \angle APB \quad \text{(Terbukti!)}$$
+                                </p>
+                            </div>
+
+                            <!-- KASUS 2 & 3 -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-slate-900 block">Kasus 2: Pusat $O$ di Dalam Sudut Keliling</span>
+                                    <p class="text-slate-600">
+                                        Tarik garis diameter melalui $P$ dan $O$. Sudut keliling terbelah menjadi dua sub-sudut $\angle APB = \alpha_1 + \alpha_2$. Dengan menerapkan Kasus 1 pada masing-masing belahan, diperoleh $\angle AOB = 2\alpha_1 + 2\alpha_2 = 2(\alpha_1 + \alpha_2) = 2 \times \angle APB$.
+                                    </p>
+                                </div>
+                                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-slate-900 block">Kasus 3: Pusat $O$ di Luar Sudut Keliling</span>
+                                    <p class="text-slate-600">
+                                        Tarik garis diameter melalui $P$ dan $O$. Melalui pengurangan dua sudut keliling yang masing-masing memiliki kaki pada diameter, diperoleh pembuktian serupa: $\angle AOB = 2\alpha_1 - 2\alpha_2 = 2(\alpha_1 - \alpha_2) = 2 \times \angle APB$.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: DUA KOROLARI POKOK & TEOREMA THALES -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Korolari Fundamental</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 Dua Korolari Kunci &amp; Teorema Kuno Thales
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Teorema Thales (90^\circ)</span>
+                        </div>
+
+                        <!-- DUA KOROLARI PENTING -->
+                        <div class="space-y-4 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <div class="p-4 rounded-xl bg-blue-50/80 border border-blue-200 space-y-2">
+                                <h4 class="font-bold text-blue-950 text-sm">
+                                    Korolari 1: Kesamaan Sudut-Sudut Keliling yang Menghadap Busur yang Sama
+                                </h4>
+                                <p class="text-slate-700">
+                                    Semua sudut keliling yang menghadap busur yang sama memiliki <strong>besar sudut yang sama persis</strong>, di manapun letak titik puncaknya pada busur tersebut:
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-blue-200 text-center font-mono font-bold text-blue-900">
+                                    $$\angle AP_1B = \angle AP_2B = \angle AP_3B = \frac{1}{2} \times \angle AOB$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-indigo-50/80 border border-indigo-200 space-y-2">
+                                <h4 class="font-bold text-indigo-950 text-sm">
+                                    Korolari 2 (Teorema Thales): Sudut Keliling Menghadap Diameter
+                                </h4>
+                                <p class="text-slate-700">
+                                    Jika tali busur $AB$ merupakan <strong>diameter lingkaran</strong>, maka sudut pusat yang dibentuk adalah garis lurus sebesar $180^\circ$. Akibatnya, setiap sudut keliling yang menghadap diameter <strong>pasti merupakan sudut siku-siku ($90^\circ$)</strong>!
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-indigo-200 text-center font-mono font-bold text-indigo-900">
+                                    $$\text{Jika } AB \text{ adalah diameter, maka } \angle APB = \frac{1}{2} \times 180^\circ = 90^\circ$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG TEOREMA THALES -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Visualisasi Teorema Thales: Segitiga Siku-Siku pada Diameter</span>
+                            <svg viewBox="0 0 360 200" class="w-full max-w-sm h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="180" cy="110" r="80" fill="#f8fafc" stroke="#3b82f6" stroke-width="2"/>
+                                <!-- Diameter AB -->
+                                <line x1="100" y1="110" x2="260" y2="110" stroke="#0f172a" stroke-width="2.5"/>
+                                <circle cx="180" cy="110" r="3" fill="#0f172a"/>
+                                <text x="175" y="125" font-size="10" font-weight="bold" fill="#0f172a">O</text>
+                                <text x="85" y="114" font-size="11" font-weight="bold" fill="#0f172a">A</text>
+                                <text x="268" y="114" font-size="11" font-weight="bold" fill="#0f172a">B</text>
+                                
+                                <!-- Titik P di keliling atas -->
+                                <circle cx="150" cy="35" r="4" fill="#e11d48"/>
+                                <text x="145" y="25" font-size="11" font-weight="bold" fill="#e11d48">P (90°)</text>
+                                
+                                <!-- Garis AP dan BP -->
+                                <line x1="100" y1="110" x2="150" y2="35" stroke="#e11d48" stroke-width="2"/>
+                                <line x1="260" y1="110" x2="150" y2="35" stroke="#e11d48" stroke-width="2"/>
+                                
+                                <!-- Simbol siku-siku di P -->
+                                <path d="M 142,47 L 152,53 L 159,42" fill="none" stroke="#e11d48" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: CONTOH SOAL BERJENJANG (DASAR, MENENGAH, HOTS) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Penguatan Aplikasi Analitis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 Contoh Soal Bertahap: Aljabar Sudut &amp; Thales
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-2.5 py-1 rounded-full font-mono">Bedah Soal</span>
+                        </div>
+
+                        <!-- SOAL 1: MENENGAH -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">Tingkat Menengah: Persamaan Aljabar Sudut Sehadap</span>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Diketahui $\angle AOB$ adalah sudut pusat dan $\angle APB$ adalah sudut keliling yang sama-sama menghadap busur $AB$. Jika besar $\angle AOB = (5x + 10)^\circ$ dan $\angle APB = (2x + 15)^\circ$, tentukan besar sudut pusat $\angle AOB$!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Langkah 1: Susun Persamaan Berdasarkan Teorema Sudut Keliling</strong></p>
+                                <p class="pl-4">$$\angle AOB = 2 \times \angle APB$$</p>
+                                <p class="pl-4">$$5x + 10 = 2(2x + 15)$$</p>
+                                <p class="pl-4">$$5x + 10 = 4x + 30 \implies 5x - 4x = 30 - 10 \implies x = 20$$</p>
+
+                                <p><strong>Langkah 2: Substitusikan Nilai $x = 20$ ke Sudut Pusat:</strong></p>
+                                <p class="pl-4 font-bold text-blue-900">$$\angle AOB = 5(20) + 10 = 100 + 10 = 110^\circ$$</p>
+                            </div>
+                        </div>
+
+                        <!-- SOAL 2: HOTS / TEOREMA THALES + PYTHAGORAS -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-200 text-amber-900">Tingkat HOTS: Teorema Thales Dipadukan dengan Luas Segitiga</span>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Ruas garis $AB$ adalah diameter sebuah lingkaran dengan jari-jari $r = 10\text{ cm}$. Titik $C$ terletak pada keliling lingkaran sedemikian rupa sehingga panjang tali busur $AC = 12\text{ cm}$. Tentukan panjang tali busur $BC$ dan luas segitiga $\triangle ABC$!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Langkah 1: Terapkan Teorema Thales</strong></p>
+                                <p class="pl-4">Karena $AB$ adalah diameter, maka sudut keliling $\angle ACB = 90^\circ$ (segitiga siku-siku di $C$).</p>
+                                <p class="pl-4">Panjang diameter hipotenusa: $$AB = 2r = 2(10) = 20\text{ cm}$$</p>
+
+                                <p><strong>Langkah 2: Hitung Panjang Tali Busur $BC$ dengan Teorema Pythagoras:</strong></p>
+                                <p class="pl-4">$$BC = \sqrt{AB^2 - AC^2} = \sqrt{20^2 - 12^2} = \sqrt{400 - 144} = \sqrt{256} = 16\text{ cm}$$</p>
+
+                                <p><strong>Langkah 3: Hitung Luas Segitiga Siku-Siku $\triangle ABC$:</strong></p>
+                                <p class="pl-4 font-bold text-emerald-800">$$L_{\triangle ABC} = \frac{1}{2} \times AC \times BC = \frac{1}{2} \times 12 \times 16 = 96\text{ cm}^2$$</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI & AUTO-CHECK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri Interaktif</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Pemahaman: Sudut Pusat &amp; Sudut Keliling
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu opsi jawaban yang Anda anggap paling tepat. Sistem akan langsung memvalidasi kebenaran jawaban beserta analisis langkah geometrisnya.
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Relasi Dasar Sudut Pusat &amp; Keliling</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika besar sudut pusat $\angle AOB = 76^\circ$, maka besar sudut keliling $\angle APB$ yang menghadap busur yang sama adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $152^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $38^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $76^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $104^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Jumlah Tiga Sudut Keliling Sehadap</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Titik $P, Q, R$ terletak pada lingkaran dan ketiganya menghadap busur yang sama $AB$. Jika $\angle APB + \angle AQB + \angle ARB = 105^\circ$, maka besar sudut pusat $\angle AOB$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $35^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $52{,}5^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $70^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $140^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Teorema Thales</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Sebuah segitiga $KLM$ berada di dalam lingkaran dengan sisi $KL$ berimpit tepat pada diameter lingkaran. Besar sudut $\angle KML$ sudah dipastikan sebesar ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $90^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $60^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $45^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $180^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Aljabar Segitiga Siku-Siku Thales</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Pada segitiga $\triangle ABC$ di dalam lingkaran dengan diameter $AB$, jika diketahui besar sudut $\angle CAB = 34^\circ$, maka besar sudut $\angle ABC$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $68^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $34^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $45^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $56^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Menghitung Sudut Pusat dari Segitiga Sama Kaki</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Titik $O$ adalah pusat lingkaran. Titik $A$ dan $B$ terletak pada lingkaran. Jika dalam segitiga $\triangle OAB$ besar sudut $\angle OAB = 35^\circ$, maka besar sudut keliling $\angle ACB$ yang menghadap busur $AB$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $70^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $55^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $110^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $35^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> Analisis penerapan Teorema Sudut Keliling dan sifat geometris segitiga lingkaran Anda sangat tepat.";
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Opsi yang benar adalah <strong>" + correct + "</strong>. Cermati hubungan sudut pusat = 2 × sudut keliling.";
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 &amp; Permendikdasmen No. 13 Tahun 2025 tentang Capaian Pembelajaran Matematika Fase F (Kelas XI SMA/MA)</em>. Elemen Geometri.</p>
+                    <p><strong>Larson, Ron, Boswell, Laurie, &amp; Stiff, Lee.</strong> (2018). <em>Geometry</em>. Houghton Mifflin Harcourt / Big Ideas Learning. Chapter 10: Properties of Circles (10.4 Inscribed Angles and Polygons).</p>
+                    <p><strong>Euclid.</strong> <em>Elements</em>, Book III: Proposition 20 (Central and Inscribed Angles) &amp; Proposition 31 (Thales' Theorem).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="unsur-unsur-lingkaran-dan-terminologi.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-bab 1: Unsur-Unsur Lingkaran
+                    </a>
+                    <a href="/matematika/kelas-11/index.html" class="text-xs text-slate-400 hover:text-slate-600 font-medium">
+                        Hub Kelas XI
+                    </a>
+                    <a href="segi-empat-tali-busur-dan-sudut-dua-tali-busur.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Segi Empat Tali Busur &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -54,8 +54,9 @@ let updatedHtmlCount = 0;
 
 for (const [kelasId, dataKelas] of Object.entries(kurikulum)) {
     const kelasLabel = dataKelas.label || `Kelas ${kelasId}`;
+    const basePrefix = dataKelas.pathPrefix ? dataKelas.pathPrefix.replace(/^\//, '') : `kelas-${kelasId}`;
     urls.push({
-        loc: `${DOMAIN}/kelas-${kelasId}/index.html`,
+        loc: `${DOMAIN}/${basePrefix}/index.html`,
         changefreq: 'weekly',
         priority: '0.9'
     });
@@ -66,7 +67,7 @@ for (const [kelasId, dataKelas] of Object.entries(kurikulum)) {
         if (!Array.isArray(bab.subbab)) continue;
 
         for (const sub of bab.subbab) {
-            const relPath = `kelas-${kelasId}/${bab.slug}/${sub.file}`;
+            const relPath = `${basePrefix}/${bab.slug}/${sub.file}`;
             const fullUrl = `${DOMAIN}/${relPath}`;
             urls.push({
                 loc: fullUrl,
@@ -75,7 +76,7 @@ for (const [kelasId, dataKelas] of Object.entries(kurikulum)) {
             });
 
             // Periksa apakah file HTML sub-bab sudah ada di disk
-            const htmlFilePath = path.join(ROOT_DIR, 'kelas-' + kelasId, bab.slug, sub.file);
+            const htmlFilePath = path.join(ROOT_DIR, basePrefix, bab.slug, sub.file);
             if (fs.existsSync(htmlFilePath)) {
                 const changed = ensureHtmlSeoTags(htmlFilePath, {
                     kelasLabel,

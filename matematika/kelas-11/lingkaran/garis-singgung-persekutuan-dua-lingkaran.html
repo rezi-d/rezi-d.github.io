@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garis Singgung Persekutuan Luar & Dalam — Matematika Kelas XI</title>
+    <meta name="description" content="Pelajari rumus garis singgung persekutuan luar (GSPL) dan dalam (GSPD) dua lingkaran, penurunan Teorema Pythagoras, klasifikasi kedudukan lingkaran, serta aplikasi puli sabuk.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/lingkaran/garis-singgung-persekutuan-dua-lingkaran.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/lingkaran/garis-singgung-persekutuan-dua-lingkaran.html">
+    <meta property="og:title" content="⚙️ Garis Singgung Persekutuan Luar & Dalam — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Kuasai rumus GSPL dan GSPD, penurunan Pythagoras, dan pemodelan mekanis dengan kartu materi interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="lingkaran">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Geometri Lingkaran
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Garis Singgung Persekutuan Luar &amp; Dalam
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Ketika dua lingkaran hadir bersamaan dalam satu bidang, terbentuklah garis singgung persekutuan (*common tangents*). Pelajari klasifikasi kedudukan dua lingkaran, rumus analitis Garis Singgung Persekutuan Luar (GSPL) dengan selisih jari-jari $(R - r)$, serta Garis Singgung Persekutuan Dalam (GSPD) dengan jumlah jari-jari $(R + r)$.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: KLASIFIKASI KEDUDUKAN DUA LINGKARAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Geometris</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⭕ Kedudukan Dua Lingkaran &amp; Jumlah Garis Singgung Bersama
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Common Tangents</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🚲</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Rantai Terbuka vs Rantai Silang</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Perhatikan rantai sepeda Anda. Rantai menghubungkan gir depan (lingkaran besar) dan gir belakang (lingkaran kecil). Bagian lurus rantai atas dan bawah menyinggung kedua lingkaran di sisi luar: inilah <strong>garis singgung persekutuan luar</strong>. Jika rantai dipasang menyilang seperti angka 8 (sering dipakai pada transmisi mesin pemintal tali), rantai tersebut akan memotong garis penghubung kedua pusat: inilah <strong>garis singgung persekutuan dalam</strong>!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TABEL 5 POSISI KEDUDUKAN -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <h3 class="text-base font-bold text-slate-900">5 Kedudukan Relatif Dua Lingkaran Berdasarkan Jarak Pusat ($p$):</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-blue-900 block">1. Saling Lepas Terpisah</span>
+                                    <p class="font-mono text-slate-600">$$p > R + r$$</p>
+                                    <p class="font-semibold text-emerald-700">4 Garis Singgung (2 Luar + 2 Dalam)</p>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-blue-900 block">2. Bersinggungan Luar</span>
+                                    <p class="font-mono text-slate-600">$$p = R + r$$</p>
+                                    <p class="font-semibold text-blue-700">3 Garis Singgung (2 Luar + 1 Dalam)</p>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-blue-900 block">3. Berpotongan di 2 Titik</span>
+                                    <p class="font-mono text-slate-600">$$|R - r| < p < R + r$$</p>
+                                    <p class="font-semibold text-amber-700">2 Garis Singgung (2 Luar Saja)</p>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="font-bold text-blue-900 block">4. Bersinggungan Dalam</span>
+                                    <p class="font-mono text-slate-600">$$p = R - r$$</p>
+                                    <p class="font-semibold text-rose-700">1 Garis Singgung (1 Luar Saja)</p>
+                                </div>
+
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1 sm:col-span-2 lg:col-span-2">
+                                    <span class="font-bold text-blue-900 block">5. Lingkaran di Dalam / Sepusat (Konsentris)</span>
+                                    <p class="font-mono text-slate-600">$$p < R - r \quad (p = 0 \text{ jika sepusat})$$</p>
+                                    <p class="font-semibold text-slate-500">0 Garis Singgung (Tidak ada singgungan bersama)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: GARIS SINGGUNG PERSEKUTUAN LUAR (GSPL) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Formula Luar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📏 Garis Singgung Persekutuan Luar (GSPL) &amp; Penurunan Rumus
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">d = \sqrt{p^2 - (R - r)^2}</span>
+                        </div>
+
+                        <!-- PENJELASAN GEOMETRIS GSPL -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                Pada Garis Singgung Persekutuan Luar (GSPL), garis singgung <strong>tidak memotong</strong> ruas garis penghubung kedua titik pusat ($p$). Kedua lingkaran berada pada sisi yang sama terhadap garis singgung.
+                            </p>
+                            
+                            <!-- KOTAK FORMULA GSPL -->
+                            <div class="p-4 rounded-xl bg-emerald-50 border-2 border-emerald-300 text-center font-mono space-y-1">
+                                <h3 class="font-bold text-emerald-950 font-sans text-sm sm:text-base">Formula Baku GSPL:</h3>
+                                <p class="text-emerald-900 text-base sm:text-lg font-bold">
+                                    $$d_{\text{GSPL}} = \sqrt{p^2 - (R - r)^2}$$
+                                </p>
+                                <div class="text-xs font-sans text-slate-600 flex justify-center flex-wrap gap-3 pt-1">
+                                    <span>$p$: Jarak antar-pusat</span>
+                                    <span>$R$: Jari-jari lingkaran besar</span>
+                                    <span>$r$: Jari-jari lingkaran kecil</span>
+                                </div>
+                            </div>
+
+                            <!-- BUKTI PYTHAGORAS GSPL -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 text-xs uppercase block">Penurunan Analitis Menggunakan Teorema Pythagoras:</span>
+                                <p class="text-xs text-slate-700">
+                                    Tarik garis bantu sejajar garis singgung dari pusat lingkaran kecil $O_2$ menuju jari-jari lingkaran besar $R$. Garis bantu ini memotong jari-jari $R$ sehingga menyisakan panjang sisi tegak sebesar $(R - r)$. Terbentuklah segitiga siku-siku dengan:
+                                </p>
+                                <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1">
+                                    <li>Sisi miring (hipotenusa) = Jarak antar-pusat ($p$).</li>
+                                    <li>Sisi tegak = Selisih jari-jari ($R - r$).</li>
+                                    <li>Sisi mendatar = Panjang garis singgung luar ($d$).</li>
+                                </ul>
+                                <p class="font-mono text-center font-bold text-blue-900 text-xs sm:text-sm pt-1">
+                                    $$d^2 + (R - r)^2 = p^2 \implies d = \sqrt{p^2 - (R - r)^2} \quad \text{(Q.E.D.)}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: GARIS SINGGUNG PERSEKUTUAN DALAM (GSPD) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Formula Dalam</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✂️ Garis Singgung Persekutuan Dalam (GSPD) &amp; Penurunan Rumus
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">d = \sqrt{p^2 - (R + r)^2}</span>
+                        </div>
+
+                        <!-- PENJELASAN GEOMETRIS GSPD -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                Pada Garis Singgung Persekutuan Dalam (GSPD), garis singgung <strong>memotong ruas garis penghubung kedua titik pusat</strong>. Kedua lingkaran berada pada sisi yang berseberangan terhadap garis singgung.
+                            </p>
+
+                            <!-- KOTAK FORMULA GSPD -->
+                            <div class="p-4 rounded-xl bg-indigo-50 border-2 border-indigo-300 text-center font-mono space-y-1">
+                                <h3 class="font-bold text-indigo-950 font-sans text-sm sm:text-base">Formula Baku GSPD:</h3>
+                                <p class="text-indigo-900 text-base sm:text-lg font-bold">
+                                    $$d_{\text{GSPD}} = \sqrt{p^2 - (R + r)^2}$$
+                                </p>
+                                <p class="text-xs font-sans text-slate-500">
+                                    Perhatikan tanda <strong>PLUS ($+$)</strong>: jari-jari kedua lingkaran <strong>dijumlahkan</strong>!
+                                </p>
+                            </div>
+
+                            <!-- PERBANDINGAN KOMPARATIF -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 text-xs uppercase block">Perbandingan Panjang: GSPL vs GSPD</span>
+                                <p class="text-xs text-slate-700">
+                                    Pada dua lingkaran yang sama dan jarak pusat yang sama:
+                                    karena $(R + r) > (R - r)$, maka pengurang di dalam akar pada GSPD selalu lebih besar daripada pada GSPL. Akibatnya:
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-center font-mono font-bold text-blue-900 text-xs sm:text-sm">
+                                    $$d_{\text{GSPL}} > d_{\text{GSPD}}$$
+                                    <span class="text-xs font-sans text-slate-500 block mt-0.5">Garis singgung persekutuan luar selalu lebih panjang daripada garis singgung dalam!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: CONTOH SOAL BERJENJANG (DASAR, MENENGAH, HOTS) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Penguatan Aplikasi Analitis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 Contoh Soal Bertahap: GSPL, GSPD &amp; Jarak Pusat
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-2.5 py-1 rounded-full font-mono">Bedah Soal</span>
+                        </div>
+
+                        <!-- SOAL 1: MENENGAH (GSPL) -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">Tingkat Menengah: Menghitung GSPL</span>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Dua lingkaran masing-masing memiliki jari-jari $R = 14\text{ cm}$ dan $r = 4\text{ cm}$. Jika jarak antara kedua titik pusat lingkaran tersebut adalah $26\text{ cm}$, tentukan panjang garis singgung persekutuan luarnya!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Langkah 1: Identifikasi Komponen Diketahui</strong></p>
+                                <p class="pl-4">$R = 14\text{ cm}$, $r = 4\text{ cm}$, dan $p = 26\text{ cm}$.</p>
+                                <p class="pl-4">Selisih jari-jari: $R - r = 14 - 4 = 10\text{ cm}$.</p>
+
+                                <p><strong>Langkah 2: Terapkan Formula GSPL</strong></p>
+                                <p class="pl-4">$$d_{\text{GSPL}} = \sqrt{p^2 - (R - r)^2} = \sqrt{26^2 - 10^2} = \sqrt{676 - 100} = \sqrt{576} = 24\text{ cm}$$</p>
+
+                                <p class="text-blue-900 font-bold border-t pt-2 border-slate-100">
+                                    Panjang garis singgung persekutuan luar kedua lingkaran adalah $24\text{ cm}$.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- SOAL 2: HOTS (MENCARI JARAK PUSAT DARI GSPD) -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-200 text-amber-900">Tingkat HOTS: Mencari Jarak Pusat Jika GSPD Diketahui</span>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Panjang garis singgung persekutuan dalam dua buah lingkaran adalah $15\text{ cm}$. Jari-jari kedua lingkaran tersebut masing-masing adalah $5\text{ cm}$ dan $3\text{ cm}$. Tentukan jarak antara kedua titik pusat lingkaran tersebut!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Langkah 1: Identifikasi Komponen</strong></p>
+                                <p class="pl-4">$d_{\text{GSPD}} = 15\text{ cm}$, $R = 5\text{ cm}$, $r = 3\text{ cm}$.</p>
+                                <p class="pl-4">Jumlah jari-jari: $R + r = 5 + 3 = 8\text{ cm}$.</p>
+
+                                <p><strong>Langkah 2: Isolasi Variabel Jarak Pusat $p$</strong></p>
+                                <p class="pl-4">$$d_{\text{GSPD}}^2 = p^2 - (R + r)^2 \implies p^2 = d_{\text{GSPD}}^2 + (R + r)^2$$</p>
+                                <p class="pl-4">$$p = \sqrt{15^2 + 8^2} = \sqrt{225 + 64} = \sqrt{289} = 17\text{ cm}$$</p>
+
+                                <p class="text-emerald-800 font-bold border-t pt-2 border-slate-100">
+                                    Jarak antara kedua titik pusat lingkaran adalah $17\text{ cm}$.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI & AUTO-CHECK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri Interaktif</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Pemahaman: GSPL &amp; GSPD Lingkaran
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu opsi jawaban yang Anda anggap paling tepat. Sistem akan langsung memvalidasi kebenaran jawaban beserta analisis langkah geometrisnya.
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Menghitung GSPL Sederhana</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dua lingkaran dengan jari-jari $9\text{ cm}$ dan $2\text{ cm}$ memiliki jarak pusat $25\text{ cm}$. Panjang garis singgung persekutuan luarnya adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $20\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $24\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $22\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $18\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Menghitung GSPD Sederhana</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dua lingkaran memiliki jari-jari $7\text{ cm}$ dan $5\text{ cm}$. Jika jarak kedua titik pusat adalah $20\text{ cm}$, maka panjang garis singgung persekutuan dalamnya adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $12\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $14\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $16\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $18\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Jumlah Garis Singgung Lingkaran Saling Bersinggungan Luar</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dua buah lingkaran saling bersinggungan di luar ($p = R + r$). Banyaknya garis singgung persekutuan yang dapat dibentuk adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. 3 garis</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. 4 garis</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. 2 garis</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. 1 garis</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Mencari Jari-Jari Kecil dari GSPL</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Panjang GSPL dua lingkaran adalah $24\text{ cm}$ dan jarak kedua pusatnya adalah $25\text{ cm}$. Jika jari-jari lingkaran besar $R = 10\text{ cm}$, maka jari-jari lingkaran kecil $r$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $6\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $5\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $4\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $3\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Syarat Keberadaan GSPD</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dua lingkaran dengan jari-jari $8\text{ cm}$ dan $6\text{ cm}$ memiliki jarak pusat $12\text{ cm}$. Apakah garis singgung persekutuan dalam (GSPD) dapat dibentuk?
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Ya, panjangnya $\sqrt{140}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Tidak bisa, karena kedua lingkaran saling berpotongan ($p < R + r$)</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Ya, ada 1 garis singgung</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Ya, panjangnya $10\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> Analisis matematis Anda mengenai rumus GSPL, GSPD, dan syarat geometrisnya sangat tepat.";
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Opsi yang benar adalah <strong>" + correct + "</strong>. Cermati pemakaian tanda minus untuk GSPL dan plus untuk GSPD.";
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 &amp; Permendikdasmen No. 13 Tahun 2025 tentang Capaian Pembelajaran Matematika Fase F (Kelas XI SMA/MA)</em>. Elemen Geometri.</p>
+                    <p><strong>Larson, Ron, Boswell, Laurie, &amp; Stiff, Lee.</strong> (2018). <em>Geometry</em>. Houghton Mifflin Harcourt / Big Ideas Learning. Chapter 10: Properties of Circles (10.1 Common Tangents of Circles).</p>
+                    <p><strong>Moise, Edwin E.</strong> (1990). <em>Elementary Geometry from an Advanced Standpoint</em> (3rd ed.). Addison-Wesley.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="garis-singgung-lingkaran.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-bab 4: Garis Singgung Lingkaran
+                    </a>
+                    <a href="/matematika/kelas-11/index.html" class="text-xs text-slate-400 hover:text-slate-600 font-medium">
+                        Hub Kelas XI
+                    </a>
+                    <a href="latihan-pemecahan-masalah-lingkaran.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving Lingkaran &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

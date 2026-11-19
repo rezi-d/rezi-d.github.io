@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segi Empat Tali Busur & Sudut Dua Tali Busur — Matematika Kelas XI</title>
+    <meta name="description" content="Pelajari sifat segi empat tali busur (cyclic quadrilateral), sudut berhadapan 180°, sudut luar, Teorema Ptolemy, serta rumus sudut perpotongan tali busur di dalam & luar lingkaran.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/lingkaran/segi-empat-tali-busur-dan-sudut-dua-tali-busur.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/lingkaran/segi-empat-tali-busur-dan-sudut-dua-tali-busur.html">
+    <meta property="og:title" content="🛡️ Segi Empat Tali Busur & Sudut Dua Tali Busur — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Pahami segi empat siklik, jumlah sudut 180°, dan sudut perpotongan tali busur dengan kartu belajar interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="lingkaran">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Geometri Lingkaran
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Segi Empat Tali Busur &amp; Sudut Dua Tali Busur
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Pelajari karakteristik unik segi empat tali busur (<em>cyclic quadrilateral</em>) di mana sudut-sudut yang saling berhadapan selalu berjumlah $180^\circ$, pembuktian sudut luar, teorema perpotongan dua tali busur di dalam lingkaran ($\frac{1}{2}(\text{busur}_1 + \text{busur}_2)$) dan di luar lingkaran ($\frac{1}{2}(\text{busur}_{\text{jauh}} - \text{busur}_{\text{dekat}})$).
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI SEGI EMPAT TALI BUSUR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Geometris</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🛡️ Hakikat Segi Empat Tali Busur (Cyclic Quadrilateral)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">\angle A + \angle C = 180^\circ</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">⭕</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Definisi Segi Empat Siklik</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        <strong>Segi empat tali busur</strong> (disebut juga segi empat siklik atau *cyclic quadrilateral*) adalah bangun segi empat yang <strong>keempat titik sudutnya terletak tepat pada garis keliling sebuah lingkaran</strong>. Setiap sisi dari segi empat ini merupakan tali busur lingkaran tersebut.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TEOREMA SUDUT BERHADAPAN -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <h3 class="text-base font-bold text-slate-900">Teorema Pokok: Sudut-Sudut Berhadapan Saling Bersuplemen</h3>
+                            <p>
+                                Pada setiap segi empat tali busur, jumlah dua sudut yang saling berhadapan adalah <strong>selalu tepat $180^\circ$ (bersuplemen / berpelurus)</strong>:
+                            </p>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center font-mono text-base space-y-2">
+                                <div class="text-blue-900 font-bold">$$\angle A + \angle C = 180^\circ$$</div>
+                                <div class="text-emerald-900 font-bold">$$\angle B + \angle D = 180^\circ$$</div>
+                            </div>
+
+                            <!-- BUKTI ANALITIS RIGOR -->
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                                <span class="font-bold text-blue-950 text-xs uppercase block">Pembuktian Analitis Melalui Teorema Sudut Keliling:</span>
+                                <p class="text-xs text-slate-700">
+                                    Sudut $\angle A$ adalah sudut keliling yang menghadap busur $\stackrel{\frown}{BCD}$, sehingga $\angle A = \frac{1}{2} \times \text{ukuran busur } BCD$.<br>
+                                    Sudut $\angle C$ adalah sudut keliling yang menghadap busur $\stackrel{\frown}{BAD}$, sehingga $\angle C = \frac{1}{2} \times \text{ukuran busur } BAD$.<br>
+                                    Karena busur $BCD$ dan busur $BAD$ bersama-sama membentuk satu keliling lingkaran utuh ($360^\circ$), maka:
+                                </p>
+                                <p class="font-mono text-center font-bold text-blue-900 text-xs sm:text-sm">
+                                    $$\angle A + \angle C = \frac{1}{2}(\text{busur } BCD + \text{busur } BAD) = \frac{1}{2}(360^\circ) = 180^\circ \quad \text{(Q.E.D.)}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: SUDUT LUAR & TEOREMA PTOLEMY -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Sifat-Sifat Lanjutan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 Sudut Luar Segi Empat Siklik &amp; Teorema Ptolemy
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Teorema Lanjutan</span>
+                        </div>
+
+                        <!-- SUDUT LUAR SEGI EMPAT SIKLIK -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <h4 class="font-bold text-slate-900 text-sm">Teorema Sudut Luar Segi Empat Tali Busur</h4>
+                                <p class="text-xs text-slate-600">
+                                    Besar sudut luar yang dibentuk oleh perpanjangan salah satu sisi segi empat tali busur adalah <strong>sama besar dengan sudut dalam yang berhadapan langsung dengannya</strong>:
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-center font-mono font-bold text-emerald-900 text-sm">
+                                    $$\angle \text{Luar } C = \angle A$$
+                                </div>
+                                <p class="text-xs text-slate-500">
+                                    <em>Penjelasan Logis:</em> Sudut dalam $C$ dan sudut luar $C$ saling berpelurus ($\angle C + \angle \text{Luar } C = 180^\circ$). Karena kita sudah tahu bahwa $\angle C + \angle A = 180^\circ$, maka pasti $\angle \text{Luar } C = \angle A$!
+                                </p>
+                            </div>
+
+                            <!-- PENGAYAAN TEOREMA PTOLEMY -->
+                            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-amber-950 text-sm">Pengayaan HOTS: Teorema Ptolemy (Hubungan Panjang Sisi &amp; Diagonal)</span>
+                                    <span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 text-xs font-bold">Olimpiade / SNBT</span>
+                                </div>
+                                <p class="text-xs text-slate-700">
+                                    Pada segi empat tali busur $ABCD$, perkalian panjang kedua diagonalnya ($AC$ dan $BD$) sama dengan jumlah perkalian sisi-sisi yang saling berseberangan:
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-amber-300 text-center font-mono font-bold text-amber-900 text-sm">
+                                    $$AC \cdot BD = (AB \cdot CD) + (BC \cdot AD)$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: SUDUT DUA TALI BUSUR BERPOTONGAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Interseksi Dua Tali Busur</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✂️ Sudut Antara Dua Tali Busur (Di Dalam vs Di Luar Lingkaran)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">\frac{1}{2}(\text{busur}_1 \pm \text{busur}_2)</span>
+                        </div>
+
+                        <!-- DUA KASUS PERPOTONGAN -->
+                        <div class="space-y-4 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <!-- KASUS 1: DI DALAM -->
+                            <div class="p-4 rounded-xl bg-blue-50/80 border border-blue-200 space-y-2">
+                                <span class="font-bold text-blue-950 text-xs uppercase block">Kasus 1: Dua Tali Busur Berpotongan DI DALAM Lingkaran</span>
+                                <p class="text-slate-700">
+                                    Jika dua tali busur $AB$ dan $CD$ berpotongan di titik $E$ <strong>di dalam lingkaran</strong>, besar sudut perpotongannya adalah <strong>setengah dari JUMLAH dua busur</strong> yang berada di depan dan di belakang sudut tersebut:
+                                </p>
+                                <div class="p-3 bg-white rounded-lg border border-blue-200 text-center font-mono font-bold text-blue-900 text-sm sm:text-base">
+                                    $$\angle AED = \frac{1}{2}(\text{busur } \stackrel{\frown}{AD} + \text{busur } \stackrel{\frown}{BC})$$
+                                </div>
+                            </div>
+
+                            <!-- KASUS 2: DI LUAR -->
+                            <div class="p-4 rounded-xl bg-indigo-50/80 border border-indigo-200 space-y-2">
+                                <span class="font-bold text-indigo-950 text-xs uppercase block">Kasus 2: Perpanjangan Dua Tali Busur Berpotongan DI LUAR Lingkaran</span>
+                                <p class="text-slate-700">
+                                    Jika perpanjangan dua tali busur (garis sekan) berpotongan di titik $P$ <strong>di luar lingkaran</strong>, besar sudut yang terbentuk adalah <strong>setengah dari SELISIH busur besar (jauh) dikurangi busur kecil (dekat)</strong>:
+                                </p>
+                                <div class="p-3 bg-white rounded-lg border border-indigo-200 text-center font-mono font-bold text-indigo-900 text-sm sm:text-base">
+                                    $$\angle P = \frac{1}{2}(\text{busur}_{\text{jauh}} - \text{busur}_{\text{dekat}})$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TRIK MEMORISASI -->
+                        <div class="p-3 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-700">
+                            <strong>🧠 Jembatan Keledai Memori:</strong><br>
+                            Potong di <strong>DALAM</strong> $\rightarrow$ bertambah akrab $\rightarrow$ gunakan <strong>JUMLAH ($+$)</strong>.<br>
+                            Potong di <strong>LUAR</strong> $\rightarrow$ berjauhan $\rightarrow$ gunakan <strong>SELISIH ($-$)</strong>.
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: CONTOH SOAL BERJENJANG (DASAR, MENENGAH, HOTS) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Penguatan Aplikasi Analitis</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 Contoh Soal Bertahap: Aljabar Sudut &amp; Interseksi Busur
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-2.5 py-1 rounded-full font-mono">Bedah Soal</span>
+                        </div>
+
+                        <!-- SOAL 1: MENENGAH (SEGI EMPAT SIKLIK) -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">Tingkat Menengah: Aljabar Sudut Berhadapan Segi Empat Siklik</span>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Diketahui segi empat tali busur $ABCD$. Jika besar $\angle A = (3x + 15)^\circ$ dan sudut yang berhadapan dengannya $\angle C = (2x + 25)^\circ$, tentukan besar sudut $\angle A$ dan $\angle C$!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Langkah 1: Sifat Sudut Berhadapan Berjumlah $180^\circ$</strong></p>
+                                <p class="pl-4">$$\angle A + \angle C = 180^\circ$$</p>
+                                <p class="pl-4">$$(3x + 15) + (2x + 25) = 180$$</p>
+                                <p class="pl-4">$$5x + 40 = 180 \implies 5x = 140 \implies x = 28$$</p>
+
+                                <p><strong>Langkah 2: Evaluasi Besar Masing-Masing Sudut:</strong></p>
+                                <p class="pl-4 font-bold text-blue-900">$$\angle A = 3(28) + 15 = 84 + 15 = 99^\circ$$</p>
+                                <p class="pl-4 font-bold text-emerald-900">$$\angle C = 2(28) + 25 = 56 + 25 = 81^\circ$$</p>
+                                <p class="text-slate-500 text-xs pl-4 border-t pt-1 border-slate-100">
+                                    Verifikasi: $99^\circ + 81^\circ = 180^\circ$ (Tepat!).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- SOAL 2: HOTS (POTONG LUAR LINGKARAN) -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-200 text-amber-900">Tingkat HOTS: Sudut Perpotongan Dua Sekan di Luar Lingkaran</span>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Dua garis sekan berpotongan di titik $P$ di luar lingkaran dan membentuk sudut $\angle P = 36^\circ$. Garis tersebut memotong lingkaran menghasilkan busur kecil $AB = 48^\circ$ dan busur besar $CD$. Tentukan besar sudut pusat yang menghadap busur besar $CD$!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Langkah 1: Gunakan Formula Potong Luar</strong></p>
+                                <p class="pl-4">$$\angle P = \frac{1}{2}(\text{busur } CD - \text{busur } AB)$$</p>
+                                <p class="pl-4">$$36^\circ = \frac{1}{2}(\text{busur } CD - 48^\circ)$$</p>
+                                <p class="pl-4">Kalikan kedua ruas dengan $2$:</p>
+                                <p class="pl-4">$$72^\circ = \text{busur } CD - 48^\circ \implies \text{busur } CD = 72^\circ + 48^\circ = 120^\circ$$</p>
+
+                                <p class="text-emerald-800 font-bold border-t pt-2 border-slate-100">
+                                    Besar sudut pusat yang menghadap busur besar $CD$ adalah sama dengan ukuran busurnya, yaitu $120^\circ$.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI & AUTO-CHECK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri Interaktif</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Pemahaman: Segi Empat Tali Busur &amp; Tali Busur
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu opsi jawaban yang Anda anggap paling tepat. Sistem akan langsung memvalidasi kebenaran jawaban beserta analisis langkah geometrisnya.
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Sudut Berhadapan Segi Empat Siklik</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Pada segi empat tali busur $PQRS$, jika besar $\angle P = 82^\circ$, maka besar sudut $\angle R$ yang berhadapan dengannya adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $82^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $98^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $108^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $164^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Sudut Luar Segi Empat Siklik</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Salah satu sisi segi empat tali busur $ABCD$ diperpanjang sehingga membentuk sudut luar di titik $B$ sebesar $115^\circ$. Besar sudut dalam $\angle D$ yang berhadapan dengan sudut dalam $B$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $65^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $75^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $115^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $130^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Sudut Dua Tali Busur Berpotongan di Dalam</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dua tali busur berpotongan di dalam lingkaran. Busur yang berada di depan sudut adalah $70^\circ$ dan busur yang berada di belakangnya adalah $50^\circ$. Besar sudut perpotongan kedua tali busur tersebut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $60^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $120^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $10^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $20^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Sudut Dua Tali Busur Berpotongan di Luar</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dua garis sekan berpotongan di luar lingkaran memotong busur besar $110^\circ$ dan busur kecil $40^\circ$. Besar sudut luar yang terbentuk adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $75^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $70^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $50^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $35^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Aljabar Sudut Bersuplemen Siklik</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika perbandingan dua sudut yang berhadapan pada sebuah segi empat tali busur adalah $4 : 5$, maka besar sudut yang lebih besar adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $80^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $100^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $120^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $90^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> Pemahaman Anda mengenai sifat sudut segi empat tali busur dan interaksinya sangat tepat.";
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Opsi yang benar adalah <strong>" + correct + "</strong>. Cermati hubungan sudut berhadapan 180° dan rumus potong busur.";
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 &amp; Permendikdasmen No. 13 Tahun 2025 tentang Capaian Pembelajaran Matematika Fase F (Kelas XI SMA/MA)</em>. Elemen Geometri.</p>
+                    <p><strong>Larson, Ron, Boswell, Laurie, &amp; Stiff, Lee.</strong> (2018). <em>Geometry</em>. Houghton Mifflin Harcourt / Big Ideas Learning. Chapter 10: Properties of Circles (10.5 Angle Relationships in Circles).</p>
+                    <p><strong>Euclid.</strong> <em>Elements</em>, Book III: Proposition 22 (Opposite Angles of Cyclic Quadrilaterals).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="sudut-pusat-dan-sudut-keliling.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-bab 2: Sudut Pusat &amp; Keliling
+                    </a>
+                    <a href="/matematika/kelas-11/index.html" class="text-xs text-slate-400 hover:text-slate-600 font-medium">
+                        Hub Kelas XI
+                    </a>
+                    <a href="garis-singgung-lingkaran.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Garis Singgung Lingkaran &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
