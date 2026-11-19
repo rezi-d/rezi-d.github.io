@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aljabar Polinomial Olimpiade & Teorema Vieta Lanjutan — Pengayaan OSN Matematika Kelas XI</title>
+    <meta name="description" content="Kuasai aljabar olimpiade matematika: Teorema Vieta derajat tinggi, Rumus Jumlah Newton (Newton's Sums), sifat keterbagian polinomial bulat, dan trik polinom monik.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/pengayaan-olimpiade/aljabar-polinomial-dan-vieta-olimpiade.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/pengayaan-olimpiade/aljabar-polinomial-dan-vieta-olimpiade.html">
+    <meta property="og:title" content="🏆 Aljabar Polinomial & Vieta Lanjutan — OSN Matematika Kelas XI">
+    <meta property="og:description" content="Modul pengayaan Olimpiade Sains Nasional (OSN) Matematika SMA: Teorema Vieta n-variabel, rekurensi jumlah Newton, dan strategi pembuktian esai.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="pengayaan-olimpiade">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 8: Pengayaan Olimpiade Sains (OSN)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                        Aljabar Polinomial Olimpiade &amp; Teorema Vieta Lanjutan
+                    </h1>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Di arena kompetisi matematika bergengsi (OSN-K, OSN-P, dan IMO), aljabar polinomial menuntut ketajaman analisis struktur abstrak: relasi fungsi simetris akar Vieta tingkat tinggi, relasi rekursif jumlah pangkat Newton (Newton's Sums), sifat keterbagian polinomial koefisien bulat, dan rekayasa polinomial monik pembantu.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="amber" class="space-y-6">
+
+                    <!-- SLIDE 1: TEOREMA VIETA DERAJAT TINGGI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 1 &middot; Hubungan Simetris Akar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧮 1. Teorema Vieta untuk Polinomial Derajat $n \ge 3$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Vieta Formula</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Diberikan polinomial derajat $n$: $P(x) = a_n x^n + a_{n-1} x^{n-1} + a_{n-2} x^{n-2} + \dots + a_1 x + a_0 = 0$ dengan akar-akar kompleks $r_1, r_2, \dots, r_n$. Teorema Vieta merumuskan <strong>fungsi simetris elementer</strong> $s_k$:
+                        </p>
+
+                        <!-- FORMULA VIETA DERAJAT N -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1">
+                                <span class="font-bold text-amber-900 block text-xs uppercase tracking-wider">Jumlah 1 Akar ($s_1$)</span>
+                                <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
+                                    $$s_1 = \sum_{i=1}^n r_i = -\frac{a_{n-1}}{a_n}$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1">
+                                <span class="font-bold text-amber-900 block text-xs uppercase tracking-wider">Jumlah Hasil Kali 2 Akar ($s_2$)</span>
+                                <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
+                                    $$s_2 = \sum_{i < j} r_i r_j = \frac{a_{n-2}}{a_n}$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1">
+                                <span class="font-bold text-amber-900 block text-xs uppercase tracking-wider">Jumlah Hasil Kali $k$ Akar ($s_k$)</span>
+                                <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
+                                    $$s_k = (-1)^k \frac{a_{n-k}}{a_n}$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1">
+                                <span class="font-bold text-amber-900 block text-xs uppercase tracking-wider">Hasil Kali Seluruh Akar ($s_n$)</span>
+                                <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
+                                    $$s_n = \prod_{i=1}^n r_i = (-1)^n \frac{a_0}{a_n}$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- IDENTITAS SIMETRIS KLASIK -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">💡 Bentuk Simetris yang Wajib Dihafal di Luar Kepala:</span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-700 font-mono text-xs">
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                                    <strong>Jumlah Kuadrat:</strong><br>
+                                    $\sum r_i^2 = s_1^2 - 2s_2$
+                                </div>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                                    <strong>Jumlah Kebalikan Akar:</strong><br>
+                                    $\sum \frac{1}{r_i} = \frac{s_{n-1}}{s_n} = -\frac{a_1}{a_0}$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: NEWTON'S SUMS (JUMLAH PANGKAT AKAR) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 2 &middot; Senjata Rahasia Olimpiade</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 2. Rumus Jumlah Newton (Newton's Sums)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">P_k = Σ r_i^k</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Ketika diminta mencari nilai pangkat tinggi dari akar-akar polinomial seperti $r_1^5 + r_2^5 + r_3^5$, menghitung manual akan memakan waktu berjam-jam. <strong>Newton's Sums</strong> memberikan hubungan rekursif elegan antara jumlah pangkat $P_k = \sum_{i=1}^n r_i^k$ dengan koefisien polinomial monik $x^n + a_{n-1} x^{n-1} + \dots + a_0 = 0$:
+                        </p>
+
+                        <!-- SISTEM REKURENSI NEWTON -->
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 font-mono text-xs sm:text-sm text-amber-950 space-y-1.5">
+                            <p>$$P_1 + a_{n-1} = 0$$</p>
+                            <p>$$P_2 + a_{n-1} P_1 + 2a_{n-2} = 0$$</p>
+                            <p>$$P_3 + a_{n-1} P_2 + a_{n-2} P_1 + 3a_{n-3} = 0$$</p>
+                            <p class="text-xs text-amber-800">Dan untuk sembarang $k \ge n$:</p>
+                            <p class="font-bold text-amber-900">$$P_k + a_{n-1} P_{k-1} + a_{n-2} P_{k-2} + \dots + a_0 P_{k-n} = 0$$</p>
+                        </div>
+
+                        <!-- CONTOH SOAL NEWTON SUMS -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Studi Kasus: $x^3 - x - 1 = 0$ dengan akar $a, b, c$. Cari $a^5 + b^5 + c^5$!</span>
+                            <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-slate-800 text-xs space-y-1">
+                                <p>&bull; Persamaan: $x^3 = x + 1 \implies P_k = P_{k-2} + P_{k-3}$ untuk $k \ge 3$.</p>
+                                <p>&bull; $P_0 = 1 + 1 + 1 = 3$</p>
+                                <p>&bull; $P_1 = s_1 = 0$</p>
+                                <p>&bull; $P_2 = s_1^2 - 2s_2 = 0 - 2(-1) = 2$</p>
+                                <p>&bull; $P_3 = P_1 + P_0 = 0 + 3 = 3$</p>
+                                <p>&bull; $P_4 = P_2 + P_1 = 2 + 0 = 2$</p>
+                                <p class="text-amber-900 font-bold">&bull; $P_5 = P_3 + P_2 = 3 + 2 = 5$</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: KETERBAGIAN POLINOMIAL KOEFISIEN BULAT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 3 &middot; Polinomial Bilangan Bulat ℤ[x]</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🛡️ 3. Sifat Keterbagian Polinomial Bulat (a - b) | (P(a) - P(b))
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">(a - b) | (P(a) - P(b))</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Bagi sembarang polinomial dengan koefisien bilangan bulat $P(x) \in \mathbb{Z}[x]$, berlaku teorema keterbagian yang merupakan salah satu senjata paling sering dipakai dalam pembuktian OSN:
+                        </p>
+
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-center font-mono text-sm sm:text-base text-amber-950 font-bold">
+                            $$(a - b) \mid [P(a) - P(b)], \quad \forall a, b \in \mathbb{Z}, \, a \ne b$$
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Bukti Singkat:</span>
+                                <p class="text-slate-600">
+                                    Setiap suku $a_k(a^k - b^k)$ selalu habis dibagi oleh $(a - b)$ karena identitas aljabar:
+                                    $$a^k - b^k = (a - b)(a^{k-1} + a^{k-2}b + \dots + b^{k-1})$$
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Aplikasi Teorema Siklik:</span>
+                                <p class="text-slate-600">
+                                    Buktikan tidak ada polinomial bulat $P(x)$ yang memenuhi $P(a) = b, P(b) = c, P(c) = a$ untuk bilangan bulat berbeda $a, b, c$.
+                                    <br><em>Argumen:</em> $(a - b) \mid (b - c) \mid (c - a) \mid (a - b) \implies |a - b| = |b - c| = |c - a|$, kontradiksi saat dijumlahkan!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- KRITERIA EISENSTEIN -->
+                        <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-xs sm:text-sm space-y-1.5">
+                            <span class="font-bold text-sky-950 block">📜 Kriteria Eisenstein (Ketakteruraian / Irreducibility):</span>
+                            <p class="text-slate-700">
+                                Polinomial $P(x) = a_n x^n + \dots + a_0 \in \mathbb{Z}[x]$ tidak dapat difaktorkan atas bilangan rasional $\mathbb{Q}$ jika ada bilangan prima $p$ sedemikian sehingga:
+                                $$p \nmid a_n, \quad p \mid a_{n-1}, \dots, a_0, \quad \text{dan} \quad p^2 \nmid a_0$$
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TRIK POLINOMIAL MONIK & FUNGSI PEMBANTU -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 4 &middot; Rekayasa Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 4. Trik Polinomial Monik &amp; Fungsi Selisih Pembantu
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Q(x) = P(x) - g(x)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Bila diberikan nilai polinomial di beberapa titik berurutan, trik standar olimpiade adalah <strong>membuat fungsi selisih $Q(x) = P(x) - g(x)$</strong> sehingga titik-titik tersebut menjadi akar dari $Q(x)$:
+                        </p>
+
+                        <!-- CONTOH SOAL LEGENDARIS OSN -->
+                        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 text-sm block">Contoh Klasik: Diberikan polinomial monik berderajat 4, $P(x)$, dengan $P(1) = 10, P(2) = 20, P(3) = 30, P(4) = 40$. Tentukan nilai $P(5)$!</span>
+                            
+                            <div class="space-y-2 text-slate-700">
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <strong>Langkah 1: Amati Pola Nilai</strong><br>
+                                    Perhatikan bahwa $P(x) = 10x$ untuk $x = 1, 2, 3, 4$.
+                                </div>
+
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <strong>Langkah 2: Bentuk Polinomial Selisih $Q(x)$</strong><br>
+                                    Definisikan $Q(x) = P(x) - 10x$. Karena $P(x)$ berderajat 4 dan monik (koefisien utama 1), maka $Q(x)$ juga berderajat 4 monik dengan akar $1, 2, 3, 4$:
+                                    $$Q(x) = (x - 1)(x - 2)(x - 3)(x - 4)$$
+                                </div>
+
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <strong>Langkah 3: Hitung $P(5)$ dengan Cepat</strong><br>
+                                    $$P(5) - 10(5) = Q(5) = (5 - 1)(5 - 2)(5 - 3)(5 - 4)$$
+                                    $$P(5) - 50 = (4)(3)(2)(1) = 24 \implies P(5) = 74$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
+                            <strong>🏆 Wawasan Master:</strong> Trik ini menghindari sistem persamaan linier 4 variabel yang sangat menyita waktu dan rawan kekeliruan perhitungan!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Aljabar Polinomial Olimpiade
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji penguasaan Teorema Vieta, Newton's Sums, dan trik fungsi pembantu.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 1 &middot; Teorema Vieta</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Kebalikan Akar</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Akar-akar dari persamaan $x^3 - 3x^2 + 4x - 5 = 0$ adalah $a, b,$ dan $c$. Nilai dari $\frac{1}{a} + \frac{1}{b} + \frac{1}{c}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $\frac{4}{5}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $-\frac{4}{5}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $\frac{3}{5}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $\frac{5}{4}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 2 &middot; Trik Fungsi Pembantu</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Polinom Monik</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui polinomial monik berderajat 3, $P(x)$, memenuhi $P(1) = 2, P(2) = 4, P(3) = 6$. Nilai dari $P(4)$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $14$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $8$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $12$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $16$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 3 &middot; Newton's Sums</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Pangkat Lima</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Misalkan $x^3 - x - 1 = 0$ memiliki akar-akar $r_1, r_2, r_3$. Jika $P_k = r_1^k + r_2^k + r_3^k$, nilai dari $P_5$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $5$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $7$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $2$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SCRIPT LOGIKA KUIS -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! 1/a + 1/b + 1/c = (ab + bc + ca)/(abc) = s₂/s₃ = 4/(-(-5)) = 4/5.' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! Bentuk Q(x) = P(x) - 2x = (x - 1)(x - 2)(x - 3). Maka P(4) = (3)(2)(1) + 2(4) = 6 + 8 = 14.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Rekurensi P_k = P_{k-2} + P_{k-3}. P₀ = 3, P₁ = 0, P₂ = 2, P₃ = 3, P₄ = 2, sehingga P₅ = P₃ + P₂ = 3 + 2 = 5.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-amber-950 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Gunakan formula simetri akar Vieta atau relasi rekurensi Newton P_k!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu &amp; Gelca, Razvan.</strong> (2009). <em>Mathematical Olympiad Challenges</em> (2nd ed.). Birkhäuser.</p>
+                    <p><strong>Barbeau, Edward J.</strong> (2003). <em>Polynomials</em>. Springer Science &amp; Business Media.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-11/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali ke Hub Matematika Kelas XI
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="teori-bilangan-dan-persamaan-diophantine.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Teori Bilangan &amp; Diophantine &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

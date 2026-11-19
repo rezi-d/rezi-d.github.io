@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ketaksamaan Cauchy-Schwarz, AM-GM & Deret Teleskopik — Pengayaan OSN Matematika Kelas XI</title>
+    <meta name="description" content="Kuasai ketaksamaan olimpiade: Cauchy-Schwarz, Titu's Lemma (Engel form), Ketaksamaan Jensen untuk fungsi konveks, trik teleskopik pecahan dan deret arctan.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/pengayaan-olimpiade/ketaksamaan-dan-deret-teleskopik-olimpiade.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/pengayaan-olimpiade/ketaksamaan-dan-deret-teleskopik-olimpiade.html">
+    <meta property="og:title" content="🏆 Ketaksamaan & Deret Teleskopik OSN — Matematika Kelas XI">
+    <meta property="og:description" content="Modul pengayaan Olimpiade Sains Nasional (OSN) Matematika SMA: Cauchy-Schwarz, Titu's Lemma, Ketaksamaan Jensen, dan deret teleskopik olimpiade.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="pengayaan-olimpiade">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 8: Pengayaan Olimpiade Sains (OSN)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                        Ketaksamaan Cauchy-Schwarz, Jensen &amp; Deret Teleskopik
+                    </h1>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Pembuktian ketaksamaan aljabar menuntut keanggunan struktur matematika. Kuasai Ketaksamaan Cauchy-Schwarz dan bentuk Engel (Titu's Lemma), analisis konveksitas fungsi melalui Ketaksamaan Jensen, trik eliminasi deret teleskopik aljabar dan trigonometri, serta teknik normalisasi dalam membuktikan ketaksamaan homogen.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="amber" class="space-y-6">
+
+                    <!-- SLIDE 1: CAUCHY-SCHWARZ & TITU'S LEMMA -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 1 &middot; Fondasi Ketaksamaan Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ 1. Ketaksamaan Cauchy-Schwarz &amp; Titu's Lemma
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Titu's Lemma</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Bagi sembarang bilangan real $a_1, \dots, a_n$ dan $b_1, \dots, b_n$, <strong>Ketaksamaan Cauchy-Schwarz (CS)</strong> menyatakan:
+                        </p>
+
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-center font-mono text-sm sm:text-base text-amber-950 font-bold">
+                            $$\left(\sum_{i=1}^n a_i^2\right)\left(\sum_{i=1}^n b_i^2\right) \ge \left(\sum_{i=1}^n a_i b_i\right)^2$$
+                        </div>
+
+                        <!-- TITU'S LEMMA (ENGEL FORM) -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 block text-sm">Bentuk Engel / Titu's Lemma (Senjata Emas Pembuktian Pecahan):</span>
+                            <p class="text-slate-600">
+                                Untuk sembarang bilangan real $a_i$ dan bilangan real positif $b_i > 0$:
+                            </p>
+                            <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-amber-950 text-sm">
+                                $$\sum_{i=1}^n \frac{a_i^2}{b_i} \ge \frac{(a_1 + a_2 + \dots + a_n)^2}{b_1 + b_2 + \dots + b_n}$$
+                            </div>
+                            <p class="text-slate-500 text-xs">
+                                <em>Bukti Kilat:</em> Terapkan Cauchy-Schwarz pada vektor $\vec{u} = \left(\frac{a_i}{\sqrt{b_i}}\right)$ dan $\vec{v} = (\sqrt{b_i})$. Hasil kali titik menghasilkan $(a_1 + \dots + a_n)^2$.
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
+                            <strong>💡 Pembuktian Ketaksamaan Nesbitt:</strong> Tunjukkan $\frac{a}{b+c} + \frac{b}{c+a} + \frac{c}{a+b} \ge \frac{3}{2}$.
+                            <br>Tulis sebagai $\sum \frac{a^2}{ab+ca} \ge \frac{(a+b+c)^2}{2(ab+bc+ca)}$. Karena $(a+b+c)^2 \ge 3(ab+bc+ca)$, maka nilai minimumnya langsung terbukti $\ge \frac{3}{2}$!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: KETAKSAMAAN JENSEN & KONVEKSITAS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 2 &middot; Analisis Kelengkungan Kurva</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 2. Ketaksamaan Jensen &amp; Analisis Konveksitas
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">f(Σ w_i x_i) ≤ Σ w_i f(x_i)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Suatu fungsi $f(x)$ dikatakan <strong>konveks</strong> (cekung ke atas) jika turunan keduanya $f''(x) \ge 0$. Ketaksamaan Jensen merumuskan bahwa nilai fungsi dari rata-rata selalu lebih kecil dari rata-rata nilai fungsinya:
+                        </p>
+
+                        <!-- FORMULA JENSEN -->
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-center font-mono text-sm sm:text-base text-amber-950 font-bold">
+                            $$f\left(\frac{x_1 + x_2 + \dots + x_n}{n}\right) \le \frac{f(x_1) + f(x_2) + \dots + f(x_n)}{n}$$
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Fungsi Cekung (Konkaf, $f''(x) \le 0$):</span>
+                                <p class="text-slate-600">
+                                    Tanda ketaksamaan berbalik arah! Nilai fungsi dari rata-rata menjadi <strong>maksimum</strong>:
+                                    $$f\left(\frac{\sum x_i}{n}\right) \ge \frac{\sum f(x_i)}{n}$$
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Aplikasi pada Sinus Segitiga:</span>
+                                <p class="text-slate-600">
+                                    Karena $f(x) = \sin x$ konkaf pada $(0, \pi)$, maka:
+                                    $$\sin\left(\frac{A+B+C}{3}\right) \ge \frac{\sin A + \sin B + \sin C}{3}$$
+                                    $$\sin 60^\circ = \frac{\sqrt{3}}{2} \implies \sin A + \sin B + \sin C \le \frac{3\sqrt{3}}{2}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: DERET TELESKOPIK ALAJBAR & TRIGONOMETRI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 3 &middot; Eliminasi Beruntun</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔭 3. Trik Penjumlahan Deret Teleskopik
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Σ (a_{k+1} - a_k)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Prinsip teleskopik mengubah deret panjang menjadi selisih dua suku bersebelahan, sehingga seluruh suku di tengah saling meniadakan (cancel out):
+                        </p>
+
+                        <!-- DUA KASUS TELESKOPIK -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 block">1. Teleskopik Pecahan Parsial</span>
+                                <p class="text-slate-600">
+                                    $$\frac{1}{k(k+2)} = \frac{1}{2}\left(\frac{1}{k} - \frac{1}{k+2}\right)$$
+                                    Deret tak hingga menyisakan suku-suku awal:
+                                    $$\sum_{k=1}^\infty \frac{1}{k(k+2)} = \frac{1}{2}\left(1 + \frac{1}{2}\right) = \frac{3}{4}$$
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 block">2. Teleskopik Deret Arctan</span>
+                                <p class="text-slate-600">
+                                    Gunakan identitas $\arctan\left(\frac{x - y}{1 + xy}\right) = \arctan x - \arctan y$:
+                                    $$\arctan\left(\frac{1}{k^2 + k + 1}\right) = \arctan(k+1) - \arctan(k)$$
+                                    $$\sum_{k=1}^\infty \arctan\left(\frac{1}{k^2 + k + 1}\right) = \frac{\pi}{2} - \frac{\pi}{4} = \frac{\pi}{4}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: HOMOGENISASI & NORMALISASI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 4 &middot; Manipulasi Simetris</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💡 4. Trik Homogenisasi &amp; Normalisasi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Normalisasi a + b + c = 1</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Ketaksamaan $f(a, b, c) \ge 0$ disebut <strong>homogen derajat $d$</strong> jika $f(ta, tb, tc) = t^d f(a, b, c)$ untuk sembarang skalar $t > 0$. Sifat homogen memberikan kebebasan mutlak bagi kita untuk menetapkan satu asumsi pembantu (Normalisasi):
+                        </p>
+
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-xs sm:text-sm space-y-1.5">
+                            <span class="font-bold text-amber-950 block">Pilihan Asumsi Normalisasi yang Umum:</span>
+                            <ul class="space-y-1 text-slate-700 list-disc list-inside">
+                                <li><strong>Normalisasi Penjumlahan:</strong> Tetapkan $a + b + c = 1$ atau $a + b + c = 3$.</li>
+                                <li><strong>Normalisasi Perkalian:</strong> Tetapkan $abc = 1$.</li>
+                                <li><strong>Normalisasi Kuadrat:</strong> Tetapkan $a^2 + b^2 + c^2 = 1$.</li>
+                            </ul>
+                            <p class="text-xs text-amber-900 mt-2">
+                                <em>Mengapa ini sah?</em> Karena jika $a + b + c = S \ne 1$, kita cukup mengganti variabel menjadi $a' = a/S, b' = b/S, c' = c/S$ tanpa mengubah kebenaran ketaksamaan!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Ketaksamaan &amp; Deret Teleskopik
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman Titu's Lemma, deret teleskopik, dan Ketaksamaan Jensen.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 1 &middot; Titu's Lemma</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Nilai Minimum</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Diketahui bilangan real positif $a, b, c > 0$ memenuhi $a + b + c = 1$. Nilai minimum dari $\frac{1}{a} + \frac{1}{b} + \frac{1}{c}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $9$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $6$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $12$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 2 &middot; Deret Teleskopik Tak Hingga</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Pecahan Parsial</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Nilai dari deret tak hingga $\sum_{k=1}^\infty \frac{1}{k(k+2)}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $\frac{3}{4}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $1$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $\frac{1}{2}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $\frac{2}{3}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 3 &middot; Ketaksamaan Jensen</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Maksimum Sinus Segitiga</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Nilai maksimum dari $\sin A + \sin B + \sin C$ pada sembarang segitiga $\triangle ABC$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $\frac{3\sqrt{3}}{2}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $3$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $\sqrt{3}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $\frac{3}{2}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SCRIPT LOGIKA KUIS -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! Menggunakan Titu\'s Lemma: 1²/a + 1²/b + 1²/c ≥ (1+1+1)²/(a+b+c) = 3²/1 = 9.' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! 1/(k(k+2)) = 1/2 [1/k - 1/(k+2)]. Setelah saling menghilangkan, menyisakan 1/2 [1 + 1/2] = 1/2 (3/2) = 3/4.' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! Berdasarkan Ketaksamaan Jensen pada fungsi konkaf sin x, nilai maksimum dicapai saat segitiga sama sisi A = B = C = 60°: 3 sin 60° = 3(√3/2) = 3√3/2.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-amber-950 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Terapkan Titu\'s Lemma Σ a_i²/b_i ≥ (Σ a_i)²/(Σ b_i) atau sifat konkaf Jensen!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu, Cirtoaje, Vasile, Dospinescu, Gabriel, &amp; Lascu, Mircea.</strong> (2005). <em>Old and New Inequalities</em>. GIL Publishing House.</p>
+                    <p><strong>Steele, J. Michael.</strong> (2004). <em>The Cauchy-Schwarz Master Class</em>. Cambridge University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="geometri-dan-trigonometri-olimpiade-lanjutan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Geometri &amp; Trigonometri Lanjutan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kombinatorika Lanjutan &amp; Teori Graf &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

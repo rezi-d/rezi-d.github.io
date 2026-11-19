@@ -544,6 +544,19 @@ const kurikulum = {
                     { file: "persamaan-trigonometri-dasar-dan-lanjutan.html", title: "Persamaan Trigonometri Dasar & Bentuk a cos x + b sin x = c" },
                     { file: "pemodelan-dan-problem-solving-hots-trigonometri.html", title: "Problem Solving HOTS & Pemodelan Fenomena Periodik" }
                 ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN)",
+                deskripsi: "Modul pengayaan tingkat tinggi persiapan kompetisi matematika bergengsi (OSN-K, OSN-P, & OSN Nasional jenjang SMA): Teorema Vieta & Faktorisasi Polinomial Kompleks, Persamaan Diophantine & Teorema Euler/Fermat, Geometri Matriks & Teorema Ptolemy Berbasis Trigonometri, Rumus Penjumlahan Teleskopik & Nilai Ekstremum Cauchy-Schwarz, Kombinatorika Lanjutan (Inklusi-Eksklusi & Teori Graf), serta Strategi Esai Pembuktian Rigor OSN-P.",
+                subbab: [
+                    { file: "aljabar-polinomial-dan-vieta-olimpiade.html", title: "Aljabar Polinomial Olimpiade & Teorema Vieta Lanjutan" },
+                    { file: "teori-bilangan-dan-persamaan-diophantine.html", title: "Teori Bilangan: Kongruensi Modulo, Euler & Diophantine" },
+                    { file: "geometri-dan-trigonometri-olimpiade-lanjutan.html", title: "Geometri & Trigonometri Lanjutan: Ptolemy, Simson & Titik Kuasa" },
+                    { file: "ketaksamaan-dan-deret-teleskopik-olimpiade.html", title: "Ketaksamaan Cauchy-Schwarz, AM-GM & Deret Teleskopik" },
+                    { file: "kombinatorika-lanjutan-dan-teori-graf.html", title: "Kombinatorika Lanjutan: Inklusi-Eksklusi, Bijections & Teori Graf" },
+                    { file: "bedah-soal-dan-strategi-esai-osnp-matematika.html", title: "Bedah Soal Asli & Trik Menulis Pembuktian Esai OSN-P" }
+                ]
             }
         ]
     }

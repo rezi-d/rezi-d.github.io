@@ -24,7 +24,7 @@ const mapelConfig = [
             {
                 kelas: "XI",
                 label: "Kelas XI",
-                sublabel: "Fase F — Fungsi Invers, Lingkaran, Statistika Bivariat, Polinomial, Matriks, Transformasi Geometri & Trigonometri Lanjutan",
+                sublabel: "Fase F — Invers, Lingkaran, Bivariat, Polinomial, Matriks, Transformasi, Trigonometri Lanjutan & Pengayaan OSN",
                 path: "/matematika/kelas-11/index.html"
             }
         ]

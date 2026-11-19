@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teori Bilangan: Kongruensi Modulo, Euler & Diophantine — Pengayaan OSN Matematika Kelas XI</title>
+    <meta name="description" content="Kuasai teori bilangan olimpiade: Identitas Bézout, Teorema Sisa Cina (CRT), Teorema Euler dan Fermat, serta penyelesaian persamaan Diophantine non-linear.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/pengayaan-olimpiade/teori-bilangan-dan-persamaan-diophantine.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/pengayaan-olimpiade/teori-bilangan-dan-persamaan-diophantine.html">
+    <meta property="og:title" content="🏆 Teori Bilangan & Diophantine — OSN Matematika Kelas XI">
+    <meta property="og:description" content="Modul pengayaan Olimpiade Sains Nasional (OSN) Matematika SMA: Teorema Sisa Cina, Teorema Totient Euler, dan trik penjerat modulo Diophantine.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="pengayaan-olimpiade">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 8: Pengayaan Olimpiade Sains (OSN)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                        Teori Bilangan: Kongruensi Modulo, Euler &amp; Persamaan Diophantine
+                    </h1>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Teori bilangan adalah ratu dari segala cabang matematika murni. Kuasai algoritma Euclidean dan Identitas Bézout, Teorema Sisa Cina (CRT), pereduksian eksponen raksasa melalui Teorema Totient Euler dan Teorema Kecil Fermat, serta teknik penjerat modulo (modular obstruction) dalam menyelesaikan persamaan Diophantine non-linear.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="amber" class="space-y-6">
+
+                    <!-- SLIDE 1: ALGORITMA EUCLIDEAN & IDENTITAS BEZOUT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 1 &middot; FPB &amp; Kombinasi Linear</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔑 1. Algoritma Euclidean &amp; Identitas Bézout
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">ax + by = FPB(a, b)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Fondasi dari persamaan linear bilangan bulat bersumber dari <strong>Identitas Bézout</strong>: Untuk sembarang dua bilangan bulat $a$ dan $b$ (tidak keduanya nol), selalu terdapat bilangan bulat $x$ dan $y$ sedemikian sehingga:
+                        </p>
+
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-center font-mono text-sm sm:text-base text-amber-950 font-bold">
+                            $$ax + by = \text{FPB}(a, b)$$
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                                <h3 class="font-bold text-slate-900">Eksistensi Solusi Persamaan $ax + by = c$</h3>
+                                <p class="text-slate-600">
+                                    Persamaan linear Diophantine $ax + by = c$ memiliki penyelesaian bilangan bulat jika dan hanya jika:
+                                </p>
+                                <div class="p-2 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-amber-900">
+                                    $$\text{FPB}(a, b) \mid c$$
+                                </div>
+                                <p class="text-slate-500 text-xs">Jika $x_0, y_0$ adalah solusi khusus, solusi umumnya adalah $x = x_0 + \frac{b}{d}k$ dan $y = y_0 - \frac{a}{d}k$ dengan $k \in \mathbb{Z}$.</p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                                <h3 class="font-bold text-slate-900">Invers Modulo (Modular Multiplicative Inverse)</h3>
+                                <p class="text-slate-600">
+                                    Persamaan $ax \equiv 1 \pmod m$ ekuivalen dengan $ax - my = 1$. Invers modulo $a^{-1} \pmod m$ <strong>ada dan tunggal</strong> jika dan hanya jika:
+                                </p>
+                                <div class="p-2 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-amber-900">
+                                    $$\text{FPB}(a, m) = 1$$
+                                </div>
+                                <p class="text-slate-500 text-xs">Invers dicari dengan menjalankan Algoritma Euclidean terbalik (Extended Euclidean Algorithm).</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: TEOREMA SISA CINA (CRT) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 2 &middot; Sistem Kongruensi Simultan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🏮 2. Teorema Sisa Cina (Chinese Remainder Theorem)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">CRT</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Bila kita memiliki sistem kongruensi serempak dengan modulus yang <strong>saling prima sepasang-sepasang</strong> ($\text{FPB}(m_i, m_j) = 1$ untuk $i \ne j$):
+                        </p>
+
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 font-mono text-xs sm:text-sm text-center text-slate-800 space-y-1">
+                            $$x \equiv a_1 \pmod{m_1}, \quad x \equiv a_2 \pmod{m_2}, \quad \dots, \quad x \equiv a_k \pmod{m_k}$$
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Teorema Sisa Cina menjamin bahwa terdapat solusi bilangan bulat tunggal modulo perkalian seluruh modulus $M = m_1 m_2 \dots m_k$.
+                        </p>
+
+                        <!-- FORMULA KONSTRUKSI CRT -->
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 space-y-2 text-xs sm:text-sm">
+                            <span class="font-bold text-amber-950 block">Rumus Konstruksi Solusi Eksplisit:</span>
+                            <div class="font-mono text-center text-amber-900 font-bold py-1 bg-white rounded-lg border border-amber-200">
+                                $$x = \sum_{i=1}^k a_i M_i y_i \pmod M$$
+                            </div>
+                            <p class="text-slate-600 text-xs">
+                                Di mana $M_i = \frac{M}{m_i}$ dan $y_i \equiv M_i^{-1} \pmod{m_i}$ (invers dari $M_i$ modulo $m_i$).
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
+                            <span class="font-bold text-slate-900 block">💡 Trik Praktis Modulo Berjarak Sama:</span>
+                            <p>
+                                Jika $x \equiv 2 \pmod 3$, $x \equiv 4 \pmod 5$, dan $x \equiv 6 \pmod 7$, perhatikan bahwa $x + 1$ habis dibagi 3, 5, dan 7! Maka $x + 1 \equiv 0 \pmod{105} \implies x \equiv 104 \pmod{105}$.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: TEOREMA EULER & FERMAT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 3 &middot; Reduksi Eksponen Raksasa</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    👑 3. Teorema Kecil Fermat &amp; Fungsi Totient Euler
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">a^φ(n) ≡ 1 (mod n)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Untuk menghitung dua digit terakhir dari bilangan berpangkat raksasa seperti $7^{2026}$, kita mereduksi eksponennya menggunakan Teorema Euler:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 space-y-2">
+                                <span class="font-bold text-amber-900 block">1. Teorema Kecil Fermat (FLT)</span>
+                                <p class="text-slate-700 text-xs">Untuk bilangan prima $p$ dan sembarang bilangan bulat $a$ dengan $p \nmid a$:</p>
+                                <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
+                                    $$a^{p-1} \equiv 1 \pmod p$$
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 space-y-2">
+                                <span class="font-bold text-amber-900 block">2. Teorema Totient Euler (Generalisasi)</span>
+                                <p class="text-slate-700 text-xs">Untuk sembarang $n \in \mathbb{N}$ dan $\text{FPB}(a, n) = 1$:</p>
+                                <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
+                                    $$a^{\phi(n)} \equiv 1 \pmod n$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARA HITUNG PHI EULER -->
+                        <div class="p-4 bg-white rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2">
+                            <span class="font-bold text-slate-900 block">Menghitung Nilai $\phi(n)$ (Euler's Totient Formula):</span>
+                            <p class="text-slate-700">
+                                Bila faktorisasi prima $n = p_1^{k_1} p_2^{k_2} \dots p_r^{k_r}$:
+                            </p>
+                            <div class="font-mono text-center font-bold text-slate-900 text-sm py-1 bg-slate-50 rounded-lg border border-slate-200">
+                                $$\phi(n) = n \left(1 - \frac{1}{p_1}\right)\left(1 - \frac{1}{p_2}\right)\dots\left(1 - \frac{1}{p_r}\right)$$
+                            </div>
+                            <p class="text-slate-600 text-xs">
+                                <em>Contoh:</em> Modulo 100 ($100 = 2^2 \cdot 5^2$) memiliki $\phi(100) = 100 \cdot (1 - \frac{1}{2})(1 - \frac{1}{5}) = 100 \cdot \frac{1}{2} \cdot \frac{4}{5} = 40$. Artinya, setiap 40 pangkat, dua digit terakhir berulang!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: DIOPHANTINE NON-LINEAR & PENJERAT MODULO -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 4 &middot; Diophantine Lanjutan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🛡️ 4. Trik Penjerat Modulo &amp; Faktorisasi Simon (SFFT)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">SFFT &amp; Modular Obstruction</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Dua strategi paling ampuh untuk memecahkan persamaan bilangan bulat tingkat olimpiade adalah faktorisasi aljabar dan penjerat modulo:
+                        </p>
+
+                        <!-- SFFT DAN MODULAR OBSTRUCTION -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 block">1. Simon's Favorite Factoring Trick (SFFT)</span>
+                                <p class="text-slate-600">
+                                    Bentuk persamaan $xy + ax + by = c$ difaktorkan dengan menambahkan konstanta $ab$ pada kedua ruas:
+                                </p>
+                                <div class="p-2 bg-white rounded-lg border border-slate-200 font-mono text-center text-xs font-bold text-amber-900">
+                                    $$(x + b)(y + a) = c + ab$$
+                                </div>
+                                <p class="text-slate-500 text-xs">Akar bulat langsung diperoleh dengan mendaftar pasangan faktor pembagi dari konstanta ruas kanan.</p>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 block">2. Penjerat Residu Kuadrat (Modular Obstruction)</span>
+                                <p class="text-slate-600">
+                                    Untuk membuktikan suatu persamaan Diophantine tidak memiliki solusi bulat, tinjau modulo kecil:
+                                </p>
+                                <ul class="space-y-1 text-slate-600 text-xs list-disc list-inside">
+                                    <li>$x^2 \equiv 0, 1 \pmod 4$</li>
+                                    <li>$x^2 \equiv 0, 1, 4 \pmod 8$ (tidak pernah $\equiv 7 \pmod 8$)</li>
+                                    <li>$x^3 \equiv 0, 1, 8 \pmod 9$</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 bg-rose-50 rounded-xl border border-rose-200 text-xs text-rose-900">
+                            <strong>Contoh Ketakmungkinan:</strong> Persamaan $x^2 + y^2 = 2023$ tidak memiliki solusi bilangan bulat karena $x^2 + y^2 \pmod 4 \in \{0, 1, 2\}$, sedangkan $2023 \equiv 3 \pmod 4$!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ 5. Kuis Pemahaman: Teori Bilangan &amp; Diophantine
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat untuk menguji penguasaan Teorema Euler, SFFT, dan sistem kongruensi CRT.
+                        </p>
+
+                        <!-- SOAL 1 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 1 &middot; Teorema Totient Euler</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Dua Digit Terakhir</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Dua digit terakhir (angka puluhan dan satuan) dari bilangan $7^{2026}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $49$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $07$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $43$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $01$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 2 &middot; SFFT Diophantine</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">Pasangan Bulat Positif</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Banyaknya pasangan bilangan bulat positif $(x, y)$ yang memenuhi persamaan $\frac{1}{x} + \frac{1}{y} = \frac{1}{6}$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $9$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $5$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $7$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $12$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">Soal 3 &middot; Teorema Sisa Cina</span>
+                                <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">CRT Simultan</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-800 font-medium">
+                                Bilangan bulat positif terkecil $n$ yang bersisa $2$ jika dibagi $3$, bersisa $3$ jika dibagi $5$, dan bersisa $2$ jika dibagi $7$ adalah ...
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>A.</strong> $23$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>B.</strong> $38$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>C.</strong> $53$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio text-amber-600 focus:ring-amber-500">
+                                    <span><strong>D.</strong> $68$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs sm:text-sm font-medium"></div>
+                        </div>
+
+                        <!-- SCRIPT LOGIKA KUIS -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'A', text: 'Tepat sekali! φ(100) = 40. 7^40 ≡ 1 (mod 100). Maka 7^2026 ≡ 7^26 (mod 100). Karena 7^4 = 2401 ≡ 1 (mod 100), maka 7^26 = (7^4)^6 · 7^2 ≡ 1 · 49 = 49 (mod 100).' },
+                                    'kuis-2': { ans: 'A', text: 'Benar! (x - 6)(y - 6) = 36. Karena 36 = 2² · 3² memiliki (2+1)(2+1) = 9 faktor positif, maka terdapat tepat 9 pasangan bilangan bulat positif (x, y).' },
+                                    'kuis-3': { ans: 'A', text: 'Tepat sekali! n ≡ 2 (mod 3) dan n ≡ 2 (mod 7) berarti n ≡ 2 (mod 21). Nilai yang mungkin: 2, 23, 44, 65, ... Di antara nilai tersebut, 23 bersisa 3 jika dibagi 5 (23 = 4×5 + 3). Jadi n terkecil adalah 23.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-amber-950 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Gunakan Teorema Totient Euler φ(100) = 40 atau faktorisasi (x-6)(y-6) = 36!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu &amp; Andrica, Dorin.</strong> (2009). <em>Number Theory: Structures, Examples, and Problems</em>. Birkhäuser.</p>
+                    <p><strong>Rosen, Kenneth H.</strong> (2011). <em>Elementary Number Theory and Its Applications</em> (6th ed.). Pearson.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="aljabar-polinomial-dan-vieta-olimpiade.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Aljabar Polinomial &amp; Vieta Lanjutan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="geometri-dan-trigonometri-olimpiade-lanjutan.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Geometri &amp; Trigonometri Lanjutan &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
