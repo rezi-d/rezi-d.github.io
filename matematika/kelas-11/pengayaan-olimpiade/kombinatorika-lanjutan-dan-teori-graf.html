@@ -61,6 +61,54 @@
                     </p>
                 </div>
 
+                
+                    <!-- KARTU AUDIO PENJELASAN GURU PEMBINA PER MATERI (STUDIO ID) -->
+                    <div id="audio-player-card" class="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 border border-amber-200/90 shadow-xs space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-base shadow-xs shrink-0">
+                                    🎙️
+                                </span>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                                        <span id="audio-track-title">Poin 1: Prinsip Inklusi-Eksklusi & Derangement</span>
+                                        <span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-extrabold uppercase tracking-wide">Studio ID</span>
+                                    </div>
+                                    <p id="audio-track-desc" class="text-[11px] text-slate-600">Dengarkan formula selang-seling tanda PIE dan permutasi tanpa titik tetap !n</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <select id="audio-speed-select" onchange="changeAudioSpeed(this.value)" class="text-xs font-bold bg-white border border-slate-300 rounded-lg px-2 py-1 text-slate-700 hover:border-amber-400 focus:outline-none">
+                                    <option value="1">1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                </select>
+                                <button type="button" onclick="toggleTranscript()" class="text-xs font-bold bg-white border border-slate-300 hover:bg-slate-50 rounded-lg px-2.5 py-1 text-slate-700 transition">
+                                    📜 Naskah
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Audio Tag -->
+                        <audio id="audio-olimpiade" preload="metadata" src="/storage/audio/matematika/kelas-11/olimpiade/kombinatorika-poin-1-derangement.mp3"></audio>
+
+                        <div class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                            <button type="button" id="audio-play-btn" onclick="togglePlayAudio()" class="w-9 h-9 rounded-lg bg-amber-600 hover:bg-amber-700 text-white flex items-center justify-center font-bold text-sm transition shrink-0 shadow-xs" aria-label="Putar Audio">
+                                ▶️
+                            </button>
+                            <div class="flex-grow flex items-center gap-2">
+                                <input type="range" id="audio-seek" min="0" max="100" value="0" oninput="seekAudio(this.value)" class="w-full accent-amber-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg">
+                            </div>
+                            <span id="audio-time" class="font-mono text-xs font-bold text-slate-600 shrink-0">00:00 / 00:00</span>
+                        </div>
+
+                        <!-- Transkrip Dinamis per Materi -->
+                        <div id="audio-transcript-box" class="hidden p-3.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 leading-relaxed font-sans">
+                            <strong id="audio-transcript-title" class="text-slate-900 block mb-1">📝 Transkrip Suara Pembina (Poin 1: Prinsip Inklusi-Eksklusi & Derangement):</strong>
+                            <p id="audio-transcript-text" class="italic text-slate-600 leading-relaxed">"Selamat datang di modul kelima: Kombinatorika Lanjutan dan Teori Graf. Di poin pertama ini, kita mempelajari Prinsip Inklusi-Eksklusi atau PIE dan konsep Derangement yang disimbolkan dengan tanda seru n atau subfaktorial. Bayangkan ada n orang tamu di sebuah pesta yang menaruh topinya di lemari. Ketika pulang dalam keadaan gelap gulita, setiap orang mengambil satu topi secara acak. Berapa peluang atau berapa banyak cara tidak ada satu pun orang yang mendapatkan kembali topinya sendiri? Inilah definisi derangement: permutasi di mana tidak ada elemen yang menempati posisi aslinya. Menggunakan prinsip inklusi-eksklusi dengan tanda selang-seling tambah, kurang, tambah, kurang, kita memperoleh formula ajaib subfaktorial Dn sama dengan n faktorial dikali jumlahan minus satu pangkat k per k faktorial. Untuk n sama dengan 4, nilainya adalah 9 cara. Trik olimpiade penting: ada rumus rekursi praktis yaitu Dn sama dengan n minus satu dikali Dn minus satu ditambah Dn minus dua. Hafalkan nilai D1 sampai D5 di luar kepala untuk menghemat waktu saat OSN-K!"</p>
+                        </div>
+                    </div>
+
                 <!-- SLIDER CONTROLLER (TOP STICKY) -->
                 <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
                     <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
@@ -87,7 +135,12 @@
                                     🎲 1. Prinsip Inklusi-Eksklusi &amp; Derangement
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 1</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">!n = Subfaktorial</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -95,7 +148,7 @@
                         </p>
 
                         <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-center font-mono text-xs sm:text-sm text-amber-950 font-bold">
-                            $$\left|\bigcup_{i=1}^n A_i\right| = \sum |A_i| - \sum_{i < j} |A_i \cap A_j| + \sum_{i < j < k} |A_i \cap A_j \cap A_k| - \dots + (-1)^{n-1} |A_1 \cap \dots \cap A_n|$$
+                            $\left|\bigcup_{i=1}^n A_i\right| = \sum |A_i| - \sum_{i < j} |A_i \cap A_j| + \sum_{i < j < k} |A_i \cap A_j \cap A_k| - \dots + (-1)^{n-1} |A_1 \cap \dots \cap A_n|$
                         </div>
 
                         <!-- DERANGEMENT FORMULA -->
@@ -105,7 +158,7 @@
                                 Banyaknya cara permutasi dari $n$ objek sedemikian sehingga <strong>tidak ada satu pun objek</strong> yang menempati posisi aslinya:
                             </p>
                             <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-amber-900 text-xs sm:text-sm">
-                                $$D_n = n! \sum_{k=0}^n \frac{(-1)^k}{k!} = n! \left(1 - \frac{1}{1!} + \frac{1}{2!} - \frac{1}{3!} + \dots + \frac{(-1)^n}{n!}\right)$$
+                                $D_n = n! \sum_{k=0}^n \frac{(-1)^k}{k!} = n! \left(1 - \frac{1}{1!} + \frac{1}{2!} - \frac{1}{3!} + \dots + \frac{(-1)^n}{n!}\right)$
                             </div>
                             <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center font-mono text-xs pt-1 text-slate-700">
                                 <div class="bg-amber-50/70 p-2 rounded-lg border border-amber-100">$D_1 = 0$</div>
@@ -113,6 +166,45 @@
                                 <div class="bg-amber-50/70 p-2 rounded-lg border border-amber-100">$D_3 = 2$</div>
                                 <div class="bg-amber-50/70 p-2 rounded-lg border border-amber-100 font-bold text-amber-900">$D_4 = 9$</div>
                                 <div class="bg-amber-50/70 p-2 rounded-lg border border-amber-100 font-bold text-amber-900">$D_5 = 44$</div>
+                            </div>
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI DERANGEMENT -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">🎲</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Formula Derangement !n (Pengacakan Total)</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Permutasi tanpa titik tetap via PIE &amp; rekursi $D_n = (n-1)(D_{n-1} + D_{n-2})$</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <p>
+                                    <strong>Studi Kasus Soal:</strong> Empat orang siswa mengumpulkan topi mereka. Topi dibagikan kembali secara acak. Berapa banyak cara pembagian agar tidak ada satu pun siswa yang menerima topinya sendiri?
+                                </p>
+
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>⚡</span> <span>Eksekusi Cepat Formula Derangement $D_4$:</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Gunakan formula subfaktorial untuk $n = 4$:
+                                        $D_4 = 4! left( rac{1}{0!} - rac{1}{1!} + rac{1}{2!} - rac{1}{3!} + rac{1}{4!} ight)$
+                                        $D_4 = 24 left( 1 - 1 + rac{1}{2} - rac{1}{6} + rac{1}{24} ight) = 24 left( rac{12 - 4 + 1}{24} ight) = mathbf{9}$
+                                        Terdapat tepat <strong>9 cara pembagian salah total</strong>!
+                                    </p>
+                                </div>
+
+                                <div class="p-3 bg-amber-100/60 rounded-xl border border-amber-200 text-[11px] text-amber-950">
+                                    💡 <strong>Tabel Derangement Wajib Hafal:</strong> $D_1 = 0, D_2 = 1, D_3 = 2, D_4 = 9, D_5 = 44, D_6 = 265$.
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -126,7 +218,12 @@
                                     🪞 2. Teknik Double Counting &amp; Identitas Aljabar
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 2</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Double Counting</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -140,7 +237,7 @@
                                     Memilih $r$ orang dari kelompok yang terdiri dari $m$ pria dan $n$ wanita:
                                 </p>
                                 <div class="p-2 bg-white rounded-lg border border-slate-200 font-mono text-center text-xs font-bold text-amber-900">
-                                    $$\sum_{k=0}^r \binom{m}{k}\binom{n}{r-k} = \binom{m+n}{r}$$
+                                    $\sum_{k=0}^r \binom{m}{k}\binom{n}{r-k} = \binom{m+n}{r}$
                                 </div>
                             </div>
 
@@ -150,13 +247,44 @@
                                     Penjumlahan diagonal pada Segitiga Pascal:
                                 </p>
                                 <div class="p-2 bg-white rounded-lg border border-slate-200 font-mono text-center text-xs font-bold text-amber-900">
-                                    $$\sum_{i=r}^n \binom{i}{r} = \binom{n+1}{r+1}$$
+                                    $\sum_{i=r}^n \binom{i}{r} = \binom{n+1}{r+1}$
                                 </div>
                             </div>
                         </div>
 
                         <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
                             <strong>💡 Keajaiban Double Counting:</strong> Menghindari induksi matematika panjang yang melelahkan hanya dengan satu paragraf penalaran kombinatorik sederhana!
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI DOUBLE COUNTING -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">🪞</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Seni Double Counting Dua Sudut Pandang</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Membuktikan identitas kombinatorika aljabar tanpa induksi matematika</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Membuktikan $sum_{k=1}^n k inom{n}{k} = n 2^{n-1}$:</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Tinjau suatu panitia dengan ukuran sembarang yang dipilih dari $n$ orang, dengan satu orang menjadi ketua.<br>
+                                        &bull; <strong>Cara 1:</strong> Pilih ukuran panitia $k$ ($inom{n}{k}$ cara), lalu pilih 1 ketua dari $k$ orang ($k$ cara). Jumlahkan: $sum_{k=1}^n k inom{n}{k}$.<br>
+                                        &bull; <strong>Cara 2:</strong> Pilih ketuanya terlebih dahulu dari $n$ orang ($n$ cara), lalu untuk sisa $n-1$ orang lainnya, masing-masing bebas masuk atau tidak ke panitia ($2^{n-1}$ cara). Total: $n 2^{n-1}$.<br>
+                                        Karena objek yang dihitung sama, maka <strong>keduanya identik</strong>!
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -169,7 +297,12 @@
                                     🕸️ 3. Teorema Jabat Tangan &amp; Rumus Euler Graf Planar
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 3</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">V - E + F = 2</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -181,7 +314,7 @@
                                 <span class="font-bold text-amber-900 block">Teorema Jabat Tangan (Handshaking Lemma):</span>
                                 <p class="text-slate-700 text-xs">Setiap sisi menghubungkan tepat dua simpul, sehingga jumlah total derajat seluruh simpul sama dengan dua kali banyak sisi:</p>
                                 <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
-                                    $$\sum_{v \in V} \deg(v) = 2|E|$$
+                                    $\sum_{v \in V} \deg(v) = 2|E|$
                                 </div>
                                 <p class="text-amber-800 text-xs font-semibold">
                                     📌 Konsekuensi Mutlak: Banyak simpul berderajat ganjil dalam setiap graf pasti selalu GENAP!
@@ -192,9 +325,43 @@
                                 <span class="font-bold text-amber-900 block">Rumus Euler untuk Graf Planar Terhubung:</span>
                                 <p class="text-slate-700 text-xs">Jika sebuah graf dapat digambar pada bidang datar tanpa sisi yang saling bersilangan:</p>
                                 <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
-                                    $$V - E + F = 2$$
+                                    $V - E + F = 2$
                                 </div>
                                 <p class="text-slate-600 text-xs">Di mana $F$ adalah banyak wilayah (faces) yang dibatasi sisi, termasuk satu wilayah luar tak hingga.</p>
+                            </div>
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI HANDSHAKING & EULER GRAF -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">🕸️</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Invarian Paritas Derajat Graf (Handshaking)</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Banyaknya simpul berderajat ganjil wajib selalu genap!</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <p>
+                                    <strong>Studi Kasus Soal Ujian:</strong> Apakah mungkin terdapat sebuah graf sederhana yang memiliki 5 simpul dan masing-masing simpul memiliki tepat derajat 3?
+                                </p>
+
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-rose-200/90 space-y-1.5 shadow-2xs">
+                                    <div class="font-bold text-rose-900 text-xs flex items-center gap-1.5">
+                                        <span>⚠️</span> <span>Uji Handshaking Lemma:</span>
+                                    </div>
+                                    <p class="text-slate-600 leading-relaxed">
+                                        Berdasarkan Handshaking Lemma: $sum_{v} deg(v) = 2|E|$ (harus genap).<br>
+                                        Jika ada 5 simpul berderajat 3, maka jumlah total derajat adalah: $5 	imes 3 = 15$ (ganjil!).<br>
+                                        Karena 15 adalah ganjil, maka graf tersebut <strong>mustahil ada di dunia nyata</strong>! Selesai dalam 5 detik.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -208,7 +375,12 @@
                                     🎯 4. Prinsip Ekstremal &amp; Teorema Ramsey
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 4</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">R(3, 3) = 6</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -229,6 +401,36 @@
                                 <br><em>Representasi Graf:</em> Jika setiap sisi dari graf komplit $K_6$ diwarnai merah atau biru, pasti terbentuk satu segitiga monokromatik (seluruh 3 sisinya satu warna).
                             </p>
                         </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI EKSTREMAL & RAMSEY -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">🎯</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Prinsip Ekstremal &amp; Teorema Ramsey $R(3,3)=6$</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Memilih elemen pembatas terkecil/terbesar &amp; keniscayaan keteraturan pesta</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Bukti Teorema 6 Orang di Pesta (Ramsey R(3,3)):</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Ambil 1 orang sembarang, sebut $A$. Ada 5 orang lainnya.<br>
+                                        Berdasarkan Prinsip Sangkar Burung (PHP): dari 5 orang tersebut, setidaknya ada <strong>3 orang yang kenal $A$</strong> atau <strong>3 orang yang tidak kenal $A$</strong> (karena $lceil 5/2 ceil = 3$).<br>
+                                        Misalkan ada 3 orang $B, C, D$ yang kenal $A$. Jika ada sepasang di antara $B, C, D$ yang saling kenal (misal $B$ dan $C$), maka $A, B, C$ menjadi segitiga 3 orang yang saling kenal! Jika tidak ada sepasang pun di antara $B, C, D$ yang saling kenal, maka $B, C, D$ sendiri adalah segitiga 3 orang yang saling tidak kenal! Terbukti tuntas!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </section>
 
                     <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
@@ -240,12 +442,36 @@
                                     ✍️ 5. Kuis Pemahaman: Kombinatorika &amp; Teori Graf
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0">
+                                <span>🎙️</span> <span>Dengarkan Panduan Kuis</span>
+                            </button>
                             <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600">
                             Pilihlah salah satu jawaban yang paling tepat untuk menguji penguasaan derangement, Handshaking Lemma, dan rumus Euler graf planar.
                         </p>
+
+                        
+                        <!-- TRIK OLIMPIADE: NARASI EVALUASI KOMBINATORIKA -->
+                        <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-slate-700 space-y-2">
+                            <div class="flex items-center justify-between pb-1.5 border-b border-amber-200/60">
+                                <span class="font-bold text-amber-950 flex items-center gap-1.5">
+                                    <span>💡</span> <span>Panduan Taktis Evaluasi &amp; Trik Kuis Kombinatorika OSN</span>
+                                </span>
+                                <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold transition shadow-xs text-[11px]">
+                                    <span>🎙️</span> <span>Dengarkan Arahan Kuis</span>
+                                </button>
+                            </div>
+                            <p class="leading-relaxed">
+                                <strong>Checklist Mental Sebelum Memilih Jawaban:</strong><br>
+                                1. <em>Derangement:</em> $D_4 = 9, D_5 = 44$. Rumus: $D_n = (n-1)(D_{n-1} + D_{n-2})$.<br>
+                                2. <em>Graf Paritas:</em> Jumlah simpul berderajat ganjil harus GENAP. Jika ganjil, graf mustahil ada.<br>
+                                3. <em>Rumus Euler:</em> $V - E + F = 2$ untuk sembarang graf planar terhubung.
+                            </p>
+                        </div>
 
                         <!-- SOAL 1 -->
                         <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
@@ -357,7 +583,613 @@
                                                 fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat rumus derangement D₄ = 9, paritas simpul ganjil Handshaking Lemma, atau rumus Euler V - E + F = 2!</span>';
                                             }
                                             if (window.renderMathInElement) {
-                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                                window.renderMathInElement(fb, { delimiters: [{left: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Brualdi, Richard A.</strong> (2010). <em>Introductory Combinatorics</em> (5th ed.). Pearson.</p>
+                    <p><strong>West, Douglas B.</strong> (2001). <em>Introduction to Graph Theory</em> (2nd ed.). Prentice Hall.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Ketaksamaan &amp; Deret Teleskopik
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="bedah-soal-dan-strategi-esai-osnp-matematika.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Bedah Soal &amp; Esai OSN-P &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    
+    <!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI -->
+    <script>
+        const slideAudios = [
+          {
+                    "title": "Poin 1: Prinsip Inklusi-Eksklusi & Derangement",
+                    "desc": "Dengarkan formula selang-seling tanda PIE dan permutasi tanpa titik tetap !n",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/kombinatorika-poin-1-derangement.mp3",
+                    "text": "Selamat datang di modul kelima: Kombinatorika Lanjutan dan Teori Graf. Di poin pertama ini, kita mempelajari Prinsip Inklusi-Eksklusi atau PIE dan konsep Derangement yang disimbolkan dengan tanda seru n atau subfaktorial. Bayangkan ada n orang tamu di sebuah pesta yang menaruh topinya di lemari. Ketika pulang dalam keadaan gelap gulita, setiap orang mengambil satu topi secara acak. Berapa peluang atau berapa banyak cara tidak ada satu pun orang yang mendapatkan kembali topinya sendiri? Inilah definisi derangement: permutasi di mana tidak ada elemen yang menempati posisi aslinya. Menggunakan prinsip inklusi-eksklusi dengan tanda selang-seling tambah, kurang, tambah, kurang, kita memperoleh formula ajaib subfaktorial Dn sama dengan n faktorial dikali jumlahan minus satu pangkat k per k faktorial. Untuk n sama dengan 4, nilainya adalah 9 cara. Trik olimpiade penting: ada rumus rekursi praktis yaitu Dn sama dengan n minus satu dikali Dn minus satu ditambah Dn minus dua. Hafalkan nilai D1 sampai D5 di luar kepala untuk menghemat waktu saat OSN-K!"
+          },
+          {
+                    "title": "Poin 2: Teknik Double Counting",
+                    "desc": "Dengarkan seni menghitung satu himpunan dari dua sudut pandang berbeda",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/kombinatorika-poin-2-double-counting.mp3",
+                    "text": "Di poin kedua, kita membedah salah satu teknik paling puitis dan kuat dalam kombinatorika, yaitu Teknik Double Counting atau Penghitungan Ganda. Filosofi double counting sangat sederhana: jika Anda menghitung ukuran suatu himpunan yang sama dengan dua cara pandang yang berbeda, maka kedua hasil perhitungan tersebut haruslah bernilai identik. Keajaiban hadir ketika sudut pandang pertama menghasilkan jumlahan aljabar rumit, sementara sudut pandang kedua menghasilkan bentuk sederhana terfaktorkan. Misalnya, bayangkan sebuah panitia beranggotakan k orang yang dipilih dari n orang, dengan satu orang bertindak sebagai ketua. Jika Anda memilih anggota panitia terlebih dahulu lalu memilih ketuanya, Anda mendapatkan jumlahan kombinasi k dikali n kombinasi k. Tetapi jika Anda memilih ketua terlebih dahulu dari n orang lalu memilih sisa anggotanya dari n minus satu orang, hasilnya langsung bernilai n dikali dua pangkat n minus satu! Seketika tercipta identitas aljabar kombinatorika yang indah tanpa perlu induksi matematika yang panjang!"
+          },
+          {
+                    "title": "Poin 3: Handshaking Lemma & Rumus Euler Graf",
+                    "desc": "Dengarkan invarian paritas derajat simpul dan batas topologi planar V - E + F = 2",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/kombinatorika-poin-3-graf-euler.mp3",
+                    "text": "Poin ketiga membawa kita masuk ke dunia Teori Graf melalui Lemma Jabat Tangan atau Handshaking Lemma dan Rumus Topologi Euler. Lemma Jabat Tangan menyatakan bahwa jika Anda menjumlahkan derajat dari seluruh simpul pada sebuah graf, hasilnya tepat sama dengan dua kali banyaknya sisi. Mengapa dikali dua? Karena setiap sisi menghubungkan tepat dua buah simpul, sehingga setiap satu sisi menyumbangkan tepat dua derajat pada total jumlahan. Konsekuensi paling krusial di olimpiade: banyaknya simpul yang memiliki derajat ganjil harus selalu berjumlah genap! Jika sebuah soal menanyakan apakah mungkin ada graf dengan 5 simpul yang masing-masing berderajat 3, Anda bisa langsung menjawab mustahil dalam 1 detik, karena 5 adalah bilangan ganjil. Untuk graf planar yang digambar di bidang datar tanpa ada sisi yang saling berpotongan, berlaku Rumus Euler V minus E tambah F sama dengan 2, di mana V adalah titik, E adalah sisi, dan F adalah bidang muka. Dari rumus ini diturunkan batas ketaksamaan sisi E kurang dari sama dengan 3V minus 6, yang menjadi bukti bahwa graf lengkap K5 tidak mungkin planar!"
+          },
+          {
+                    "title": "Poin 4: Prinsip Ekstremal & Teorema Ramsey",
+                    "desc": "Dengarkan strategi memilih elemen ekstrem (terbesar/terkecil) dan teori 6 orang pesta",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/kombinatorika-poin-4-ekstremal-ramsey.mp3",
+                    "text": "Di poin keempat, kita mempelajari strategi pemecahan masalah tingkat tinggi: Prinsip Ekstremal dan Teorema Ramsey. Prinsip Ekstremal mengajarkan kita untuk selalu memulai analisis dengan memilih elemen yang ekstrem: elemen yang nilainya paling besar, paling kecil, titik yang paling luar, atau segmen garis yang paling pendek. Mengapa titik ekstrem ini sangat istimewa? Karena pada titik ekstrem, batasan ruang atau nilai mencapai titik jenuhnya, sehingga ruang kemungkinan gerak menjadi sangat terbatas dan mudah dianalisis. Konsep kedua adalah Teorema Ramsey yang sering dianalogikan dengan pesta 6 orang. Teorema ini menyatakan bahwa di antara 6 orang sembarang, selalu dipastikan ada setidaknya 3 orang yang saling kenal satu sama lain, atau 3 orang yang sama sekali saling tidak kenal. Keteraturan struktural semacam ini tidak bisa dihindari begitu ukuran himpunan melewati ambang batas tertentu. Ini adalah manifestasi matematis dari pepatah bahwa keteraturan lengkap adalah keniscayaan dalam kekacauan yang cukup besar!"
+          },
+          {
+                    "title": "Poin 5: Panduan Evaluasi Kombinatorika & Graf",
+                    "desc": "Dengarkan tips eliminasi opsi, checklist paritas derajat, dan eksekusi kuis graf OSN",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/kombinatorika-poin-5-kuis-evaluasi.mp3",
+                    "text": "Selamat tiba di kuis evaluasi kombinatorika lanjutan dan teori graf! Di slide penutup ini, Anda disajikan tiga soal berbobot seleksi OSN. Dengarkan arahan taktis pembina: pertama, pada soal pengacakan atau posisi salah total, gunakan formula derangement subfaktorial Dn. Kedua, pada soal graf, selalu periksa paritas derajat ganjil dengan Handshaking Lemma. Jika jumlah simpul ganjil tidak genap, graf tersebut pasti fiktif dan mustahil ada. Dan ketiga, pada soal graf planar berwajah bidang, gunakan Rumus Euler V minus E tambah F sama dengan 2. Kerjakan kuis ini secara cermat, baca ulasan solusinya, dan mari kita masuki bab puncak persiapan kompetisi kita: Bedah Soal dan Strategi Penulisan Esai OSN-P!"
+          }
+];
+
+        const audioEl = document.getElementById('audio-olimpiade');
+        const playBtn = document.getElementById('audio-play-btn');
+        const seekBar = document.getElementById('audio-seek');
+        const timeDisplay = document.getElementById('audio-time');
+        let currentSlideIdx = 0;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        function loadSlideAudio(idx, autoPlay = false) {
+            if (idx < 0 || idx >= slideAudios.length) return;
+            currentSlideIdx = idx;
+            const item = slideAudios[idx];
+            
+            const titleEl = document.getElementById('audio-track-title');
+            const descEl = document.getElementById('audio-track-desc');
+            const transTitleEl = document.getElementById('audio-transcript-title');
+            const transTextEl = document.getElementById('audio-transcript-text');
+
+            if (titleEl) titleEl.textContent = item.title;
+            if (descEl) descEl.textContent = item.desc;
+            if (transTitleEl) transTitleEl.textContent = '📝 Transkrip Suara Pembina (' + item.title + '):';
+            if (transTextEl) transTextEl.textContent = '"' + item.text + '"';
+
+            if (!audioEl) return;
+
+            const wasPlaying = !audioEl.paused;
+            if (!audioEl.src.endsWith(item.src)) {
+                audioEl.src = item.src;
+                audioEl.load();
+                if (seekBar) seekBar.value = 0;
+                if (timeDisplay) timeDisplay.textContent = '00:00 / 00:00';
+            }
+
+            if (autoPlay || wasPlaying) {
+                audioEl.play().then(() => {
+                    if (playBtn) playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    if (playBtn) playBtn.textContent = '▶️';
+                });
+            } else {
+                if (playBtn) playBtn.textContent = '▶️';
+            }
+        }
+
+        function playCurrentSlideAudio(idx) {
+            loadSlideAudio(idx, true);
+            const card = document.getElementById('audio-player-card');
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function togglePlayAudio() {
+            if (!audioEl) return;
+            if (audioEl.paused) {
+                audioEl.play().then(() => {
+                    if (playBtn) playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    if (playBtn) playBtn.textContent = '▶️';
+                });
+            } else {
+                audioEl.pause();
+                if (playBtn) playBtn.textContent = '▶️';
+            }
+        }
+
+        if (audioEl) {
+            audioEl.addEventListener('timeupdate', () => {
+                if (!isNaN(audioEl.duration) && audioEl.duration > 0) {
+                    const pct = (audioEl.currentTime / audioEl.duration) * 100;
+                    if (seekBar) seekBar.value = pct;
+                    if (timeDisplay) timeDisplay.textContent = formatTime(audioEl.currentTime) + ' / ' + formatTime(audioEl.duration);
+                }
+            });
+
+            audioEl.addEventListener('ended', () => {
+                if (playBtn) playBtn.textContent = '▶️';
+                if (seekBar) seekBar.value = 0;
+                if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+
+            audioEl.addEventListener('loadedmetadata', () => {
+                if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+        }
+
+        function seekAudio(val) {
+            if (!audioEl || isNaN(audioEl.duration)) return;
+            audioEl.currentTime = (val / 100) * audioEl.duration;
+        }
+
+        function changeAudioSpeed(val) {
+            if (!audioEl) return;
+            audioEl.playbackRate = parseFloat(val);
+        }
+
+        function toggleTranscript() {
+            const box = document.getElementById('audio-transcript-box');
+            if (!box) return;
+            box.classList.toggle('hidden');
+        }
+
+        window.addEventListener('load', () => {
+            loadSlideAudio(0, false);
+
+            if (window.ieltsSlider) {
+                const origUpdate = window.ieltsSlider.updateSlide.bind(window.ieltsSlider);
+                window.ieltsSlider.updateSlide = function(shouldScroll) {
+                    origUpdate(shouldScroll);
+                    loadSlideAudio(window.ieltsSlider.currentIndex, false);
+                };
+            }
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$', right: '$', display: true },
+                        { left: '
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Brualdi, Richard A.</strong> (2010). <em>Introductory Combinatorics</em> (5th ed.). Pearson.</p>
+                    <p><strong>West, Douglas B.</strong> (2001). <em>Introduction to Graph Theory</em> (2nd ed.). Prentice Hall.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Ketaksamaan &amp; Deret Teleskopik
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="bedah-soal-dan-strategi-esai-osnp-matematika.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Bedah Soal &amp; Esai OSN-P &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Brualdi, Richard A.</strong> (2010). <em>Introductory Combinatorics</em> (5th ed.). Pearson.</p>
+                    <p><strong>West, Douglas B.</strong> (2001). <em>Introduction to Graph Theory</em> (2nd ed.). Prentice Hall.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Ketaksamaan &amp; Deret Teleskopik
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="bedah-soal-dan-strategi-esai-osnp-matematika.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Bedah Soal &amp; Esai OSN-P &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Brualdi, Richard A.</strong> (2010). <em>Introductory Combinatorics</em> (5th ed.). Pearson.</p>
+                    <p><strong>West, Douglas B.</strong> (2001). <em>Introduction to Graph Theory</em> (2nd ed.). Prentice Hall.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Ketaksamaan &amp; Deret Teleskopik
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="bedah-soal-dan-strategi-esai-osnp-matematika.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Bedah Soal &amp; Esai OSN-P &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Brualdi, Richard A.</strong> (2010). <em>Introductory Combinatorics</em> (5th ed.). Pearson.</p>
+                    <p><strong>West, Douglas B.</strong> (2001). <em>Introduction to Graph Theory</em> (2nd ed.). Prentice Hall.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Ketaksamaan &amp; Deret Teleskopik
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="bedah-soal-dan-strategi-esai-osnp-matematika.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Bedah Soal &amp; Esai OSN-P &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Brualdi, Richard A.</strong> (2010). <em>Introductory Combinatorics</em> (5th ed.). Pearson.</p>
+                    <p><strong>West, Douglas B.</strong> (2001). <em>Introduction to Graph Theory</em> (2nd ed.). Prentice Hall.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Ketaksamaan &amp; Deret Teleskopik
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="bedah-soal-dan-strategi-esai-osnp-matematika.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Bedah Soal &amp; Esai OSN-P &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
                                             }
                                         });
                                     });

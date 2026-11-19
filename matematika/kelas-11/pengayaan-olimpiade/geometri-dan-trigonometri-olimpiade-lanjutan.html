@@ -61,6 +61,54 @@
                     </p>
                 </div>
 
+                
+                    <!-- KARTU AUDIO PENJELASAN GURU PEMBINA PER MATERI (STUDIO ID) -->
+                    <div id="audio-player-card" class="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 border border-amber-200/90 shadow-xs space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-base shadow-xs shrink-0">
+                                    🎙️
+                                </span>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                                        <span id="audio-track-title">Poin 1: Teorema & Ketaksamaan Ptolemy</span>
+                                        <span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-extrabold uppercase tracking-wide">Studio ID</span>
+                                    </div>
+                                    <p id="audio-track-desc" class="text-[11px] text-slate-600">Dengarkan geometri segiempat siklik dan syarat kesamaan diagonal tali busur</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <select id="audio-speed-select" onchange="changeAudioSpeed(this.value)" class="text-xs font-bold bg-white border border-slate-300 rounded-lg px-2 py-1 text-slate-700 hover:border-amber-400 focus:outline-none">
+                                    <option value="1">1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                </select>
+                                <button type="button" onclick="toggleTranscript()" class="text-xs font-bold bg-white border border-slate-300 hover:bg-slate-50 rounded-lg px-2.5 py-1 text-slate-700 transition">
+                                    📜 Naskah
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Audio Tag -->
+                        <audio id="audio-olimpiade" preload="metadata" src="/storage/audio/matematika/kelas-11/olimpiade/geometri-poin-1-ptolemy.mp3"></audio>
+
+                        <div class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                            <button type="button" id="audio-play-btn" onclick="togglePlayAudio()" class="w-9 h-9 rounded-lg bg-amber-600 hover:bg-amber-700 text-white flex items-center justify-center font-bold text-sm transition shrink-0 shadow-xs" aria-label="Putar Audio">
+                                ▶️
+                            </button>
+                            <div class="flex-grow flex items-center gap-2">
+                                <input type="range" id="audio-seek" min="0" max="100" value="0" oninput="seekAudio(this.value)" class="w-full accent-amber-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg">
+                            </div>
+                            <span id="audio-time" class="font-mono text-xs font-bold text-slate-600 shrink-0">00:00 / 00:00</span>
+                        </div>
+
+                        <!-- Transkrip Dinamis per Materi -->
+                        <div id="audio-transcript-box" class="hidden p-3.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 leading-relaxed font-sans">
+                            <strong id="audio-transcript-title" class="text-slate-900 block mb-1">📝 Transkrip Suara Pembina (Poin 1: Teorema & Ketaksamaan Ptolemy):</strong>
+                            <p id="audio-transcript-text" class="italic text-slate-600 leading-relaxed">"Selamat datang di materi ketiga: Geometri dan Trigonometri Olimpiade Lanjutan. Di poin pertama ini, kita membedah Teorema Ptolemy dan Ketaksamaan Ptolemy. Teorema ini adalah salah satu senjata paling indah dan paling sering keluar dalam geometri olimpiade tingkat lanjut. Teorema Ptolemy menyatakan bahwa untuk segiempat tali busur siklik, perkalian panjang kedua diagonalnya tepat sama dengan jumlahan dari perkalian sisi-sisi yang saling berseberangan: AC dikali BD sama dengan AB dikali CD ditambah BC dikali DA. Jika keempat titik sudutnya tidak berada pada satu lingkaran atau tidak siklik, maka ruas kiri selalu lebih kecil daripada ruas kanan, yang kita sebut Ketaksamaan Ptolemy. Trik olimpiade penting: gunakan Teorema Ptolemy untuk menghitung panjang diagonal yang belum diketahui, atau untuk membuktikan kesiklikan empat buah titik. Hubungan ini juga menjadi jembatan luar biasa untuk membuktikan rumus jumlah sinus dan cosinus dalam trigonometri secara murni geometris!"</p>
+                        </div>
+                    </div>
+
                 <!-- SLIDER CONTROLLER (TOP STICKY) -->
                 <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
                     <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
@@ -87,7 +135,12 @@
                                     ⭕ 1. Teorema &amp; Ketaksamaan Ptolemy
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 1</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">AC·BD = AB·CD + BC·AD</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -95,7 +148,7 @@
                         </p>
 
                         <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-center font-mono text-sm sm:text-base text-amber-950 font-bold">
-                            $$AC \cdot BD = AB \cdot CD + BC \cdot AD$$
+                            $AC \cdot BD = AB \cdot CD + BC \cdot AD$
                         </div>
 
                         <!-- KETAKSAMAAN PTOLEMY -->
@@ -105,7 +158,7 @@
                                 Untuk sembarang 4 titik $A, B, C, D$ pada satu bidang datar (tidak harus siklis), selalu berlaku:
                             </p>
                             <div class="font-mono text-center font-bold text-slate-900 py-1 bg-white rounded-lg border border-slate-200 text-xs sm:text-sm">
-                                $$AC \cdot BD \le AB \cdot CD + BC \cdot AD$$
+                                $AC \cdot BD \le AB \cdot CD + BC \cdot AD$
                             </div>
                             <p class="text-slate-500 text-xs">
                                 Kesamaan berlaku jika dan hanya jika $A, B, C, D$ siklis dalam urutan siklik lingkaran tersebut.
@@ -114,6 +167,60 @@
 
                         <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
                             <strong>💡 Aplikasi Pembuktian Rumus Sinus:</strong> Teorema Ptolemy dapat digunakan untuk membuktikan identitas $\sin(\alpha + \beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta$ dalam 2 baris saja dengan membuat segi empat tali busur berdiameter 1!
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI PTOLEMY -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">⭕</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Teorema Ptolemy pada Segiempat Tali Busur</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Relasi diagonal $AC cdot BD = AB cdot CD + BC cdot DA$ &amp; konvers konsiklik</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <p>
+                                    <strong>Studi Kasus Soal:</strong> Diberikan segiempat tali busur $ABCD$ dengan panjang sisi berturut-turut $AB = 3, BC = 4, CD = 5,$ dan $DA = 6$. Jika panjang diagonal $AC = 7$, tentukan panjang diagonal lainnya $BD$!
+                                </p>
+
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2.5 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Eksekusi Teorema Ptolemy 2 Baris:</span>
+                                    </div>
+                                    <ul class="space-y-2 text-slate-700">
+                                        <li class="flex items-start gap-2">
+                                            <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                                            <div>
+                                                <strong class="text-slate-900">Verifikasi Syarat Kesiklikan:</strong><br>
+                                                Karena $ABCD$ adalah segiempat tali busur (seluruh titik sudut berada pada satu lingkaran), Teorema Ptolemy berlaku sebagai <strong>kesamaan mutlak</strong> (bukan ketaksamaan).
+                                            </div>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                                            <div>
+                                                <strong class="text-slate-900">Pasang Formula Ptolemy:</strong><br>
+                                                $AC cdot BD = AB cdot CD + BC cdot DA$
+                                                $7 cdot BD = (3)(5) + (4)(6) = 15 + 24 = 39$
+                                            </div>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
+                                            <div>
+                                                <strong class="text-slate-900">Hitung Panjang $BD$:</strong><br>
+                                                $BD = mathbf{rac{39}{7}}$
+                                                Sangat cepat! Tanpa perlu aturan cosinus berganda atau sistem persamaan trigonometri yang melelahkan.
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -126,7 +233,12 @@
                                     📏 2. Teorema Garis Simson &amp; Titik Miquel
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 2</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Simson Line</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -140,7 +252,7 @@
                                     Misalkan $P$ adalah sebuah titik pada lingkaran luar segitiga $\triangle ABC$. Jika dari $P$ ditarik garis tegak lurus ke sisi $BC, CA,$ dan $AB$ dengan titik kaki $D, E, F$, maka:
                                 </p>
                                 <div class="p-2 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-amber-900">
-                                    $$\text{Titik } D, E, \text{ dan } F \text{ segaris (kolinier)!}$$
+                                    $\text{Titik } D, E, \text{ dan } F \text{ segaris (kolinier)!}$
                                 </div>
                                 <p class="text-slate-500 text-xs">Sebaliknya, jika titik-titik proyeksi segaris, maka titik $P$ pasti terletak pada lingkaran luar $\triangle ABC$.</p>
                             </div>
@@ -149,10 +261,43 @@
                                 <h3 class="font-bold text-slate-900">Teorema Titik Miquel (Miquel's Point)</h3>
                                 <p class="text-slate-600">
                                     Pada segitiga $\triangle ABC$, pilih titik $D$ pada $BC$, $E$ pada $AC$, dan $F$ pada $AB$. Lingkaran-lingkaran luar dari ketiga segitiga pojok:
-                                    $$\odot(AEF), \quad \odot(BDF), \quad \odot(CDE)$$
+                                    $\odot(AEF), \quad \odot(BDF), \quad \odot(CDE)$
                                 </p>
                                 <div class="p-2 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-amber-900">
-                                    $$\text{Selalu berpotongan di satu titik bersama } M!$$
+                                    $\text{Selalu berpotongan di satu titik bersama } M!$
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI SIMSON & MIQUEL -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">📏</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Garis Simson &amp; Perburuan Segiempat Siklik</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Membuktikan kolinearitas 3 titik proyeksi via sudut keliling lingkaran</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Rahasia Membuktikan Kolinearitas Garis Simson:</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Misalkan $P$ terletak pada lingkaran luar $	riangle ABC$. Proyeksikan $P$ tegak lurus ke $BC, CA, AB$ di titik $X, Y, Z$.<br>
+                                        1. Karena $angle PYC = angle PXC = 90^circ$, maka segiempat $PYXC$ siklik dengan diameter $PC$.<br>
+                                        2. Akibatnya sudut keliling $angle PYX = angle PCX$.<br>
+                                        3. Segiempat $PZAY$ juga siklik karena $angle PZA = angle PYA = 90^circ$ (diameter $PA$), sehingga $angle PYZ = angle PAZ$.<br>
+                                        4. Karena $P, A, B, C$ konsiklik, maka $angle PAZ + angle PCX = 180^circ implies angle PYZ + angle PYX = 180^circ$.<br>
+                                        Artinya titik $X, Y,$ dan $Z$ <strong>terletak pada satu garis lurus (kolinear)</strong>!
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +312,12 @@
                                     🎯 3. Teorema Titik Kuasa (Power of a Point)
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 3</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Pow(P) = d² - R²</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -179,7 +329,7 @@
                             <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-center space-y-1">
                                 <span class="font-bold text-amber-900 block text-xs uppercase">Titik Potong di Dalam</span>
                                 <div class="font-mono text-xs font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
-                                    $$PA \cdot PB = PC \cdot PD$$
+                                    $PA \cdot PB = PC \cdot PD$
                                 </div>
                                 <span class="text-[11px] text-slate-500">Dua tali busur berpotongan di dalam.</span>
                             </div>
@@ -187,7 +337,7 @@
                             <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-center space-y-1">
                                 <span class="font-bold text-amber-900 block text-xs uppercase">Sekan di Luar</span>
                                 <div class="font-mono text-xs font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
-                                    $$PA \cdot PB = PC \cdot PD$$
+                                    $PA \cdot PB = PC \cdot PD$
                                 </div>
                                 <span class="text-[11px] text-slate-500">Dua garis sekan memotong lingkaran.</span>
                             </div>
@@ -195,7 +345,7 @@
                             <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-center space-y-1">
                                 <span class="font-bold text-amber-900 block text-xs uppercase">Garis Singgung &amp; Sekan</span>
                                 <div class="font-mono text-xs font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100">
-                                    $$PT^2 = PA \cdot PB$$
+                                    $PT^2 = PA \cdot PB$
                                 </div>
                                 <span class="text-[11px] text-slate-500">$PT$ adalah segmen garis singgung.</span>
                             </div>
@@ -206,6 +356,41 @@
                             <p class="text-slate-600">
                                 Garis lurus yang memuat semua titik $P$ yang memiliki kuasa yang sama terhadap kedua lingkaran: $\text{Pow}_{\omega_1}(P) = \text{Pow}_{\omega_2}(P)$. Garis kuasa selalu <strong>tegak lurus</strong> terhadap garis hubung kedua pusat lingkaran $O_1 O_2$.
                             </p>
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI POWER OF A POINT -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">🎯</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Invarian Power of a Point &amp; Garis Singgung</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Relasi $PT^2 = PA cdot PB$ &amp; perpotongan tali busur lingkaran</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <p>
+                                    <strong>Studi Kasus Soal:</strong> Dari titik $P$ di luar lingkaran ditarik garis singgung $PT$ dengan panjang $8	ext{ cm}$. Garis lain dari $P$ memotong lingkaran di titik $A$ dan $B$ dengan $PA = 4	ext{ cm}$. Tentukan panjang tali busur $AB$!
+                                </p>
+
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2.5 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>⚡</span> <span>Eksekusi Teorema Titik Kuasa:</span>
+                                    </div>
+                                    <ul class="space-y-1.5 text-slate-700">
+                                        <li>1. Berdasarkan Teorema Titik Kuasa: $PT^2 = PA cdot PB$.</li>
+                                        <li>2. Masukkan nilai yang diketahui: $8^2 = 4 cdot PB implies 64 = 4 cdot PB implies PB = 16	ext{ cm}$.</li>
+                                        <li>3. Karena $A, B$ pada satu garis dengan $PA < PB$, maka $PB = PA + AB$.</li>
+                                        <li>4. Panjang tali busur $AB = PB - PA = 16 - 4 = mathbf{12	ext{ cm}}$.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -218,7 +403,12 @@
                                     📐 4. Identitas Trigonometri Sudut Segitiga (A + B + C = 180°)
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 4</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Σ tan A = Π tan A</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -229,7 +419,7 @@
                             <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1.5">
                                 <span class="font-bold text-amber-900 block text-xs uppercase">1. Jumlahan Tangen = Perkalian Tangen</span>
                                 <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100 text-xs sm:text-sm">
-                                    $$\tan A + \tan B + \tan C = \tan A \tan B \tan C$$
+                                    $\tan A + \tan B + \tan C = \tan A \tan B \tan C$
                                 </div>
                                 <p class="text-slate-600 text-xs">Berlaku untuk sembarang segitiga lancip di mana nilai tangen terdefinisi.</p>
                             </div>
@@ -237,7 +427,7 @@
                             <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1.5">
                                 <span class="font-bold text-amber-900 block text-xs uppercase">2. Jumlahan Sinus Sudut Ganda</span>
                                 <div class="font-mono text-center font-bold text-amber-950 py-1 bg-white rounded-lg border border-amber-100 text-xs sm:text-sm">
-                                    $$\sin 2A + \sin 2B + \sin 2C = 4\sin A \sin B \sin C$$
+                                    $\sin 2A + \sin 2B + \sin 2C = 4\sin A \sin B \sin C$
                                 </div>
                                 <p class="text-slate-600 text-xs">Diturunkan menggunakan konversi Werner dan sifat sudut berelasi.</p>
                             </div>
@@ -245,7 +435,43 @@
 
                         <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700">
                             <strong>💡 Trik Cepat Cotangen:</strong> Untuk sembarang sudut segitiga juga berlaku:
-                            $$\cot A \cot B + \cot B \cot C + \cot C \cot A = 1$$
+                            $\cot A \cot B + \cot B \cot C + \cot C \cot A = 1$
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI TRIGONOMETRI SEGITIGA -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">📐</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Identitas Tangen Sudut Segitiga</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Transformasi jumlahan menjadi perkalian $	an A + 	an B + 	an C = 	an A 	an B 	an C$</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <p>
+                                    <strong>Studi Kasus Soal:</strong> Pada segitiga lancip $ABC$, diketahui $	an A = 2$ dan $	an B = 3$. Tentukan besar sudut $C$!
+                                </p>
+
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Eksekusi Kilat Identitas Segitiga:</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Karena $A + B + C = 180^circ$, berlaku identitas emas:<br>
+                                        $	an A + 	an B + 	an C = 	an A cdot 	an B cdot 	an C$
+                                        $2 + 3 + 	an C = (2)(3) 	an C iff 5 + 	an C = 6 	an C$
+                                        $5 	an C = 5 implies 	an C = 1$
+                                        Karena $	riangle ABC$ lancip, maka $angle C = arctan(1) = mathbf{45^circ}$. Selesai dalam 30 detik!
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -258,12 +484,36 @@
                                     ✍️ 5. Kuis Pemahaman: Geometri &amp; Trigonometri OSN
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0">
+                                <span>🎙️</span> <span>Dengarkan Panduan Kuis</span>
+                            </button>
                             <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600">
                             Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman Teorema Ptolemy, Power of a Point, dan identitas trigonometri segitiga.
                         </p>
+
+                        
+                        <!-- TRIK OLIMPIADE: NARASI EVALUASI GEOMETRI -->
+                        <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-slate-700 space-y-2">
+                            <div class="flex items-center justify-between pb-1.5 border-b border-amber-200/60">
+                                <span class="font-bold text-amber-950 flex items-center gap-1.5">
+                                    <span>💡</span> <span>Panduan Taktis Evaluasi &amp; Trik Kuis Geometri OSN</span>
+                                </span>
+                                <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold transition shadow-xs text-[11px]">
+                                    <span>🎙️</span> <span>Dengarkan Arahan Kuis</span>
+                                </button>
+                            </div>
+                            <p class="leading-relaxed">
+                                <strong>Checklist Mental Sebelum Memilih Jawaban:</strong><br>
+                                1. <em>Ptolemy:</em> $AC cdot BD = AB cdot CD + BC cdot DA$ hanya berlaku untuk segiempat siklik.<br>
+                                2. <em>Power of a Point:</em> $PT^2 = PA cdot PB$. Pastikan menghitung $PB = PA + AB$.<br>
+                                3. <em>Trigonometri Segitiga:</em> Ingat identitas $	an A + 	an B + 	an C = 	an A 	an B 	an C$.
+                            </p>
+                        </div>
 
                         <!-- SOAL 1 -->
                         <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
@@ -375,7 +625,613 @@
                                                 fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Gunakan Teorema Ptolemy, Power of a Point PT² = PA·PB, atau relasi identitas segitiga Σ tan A = Π tan A!</span>';
                                             }
                                             if (window.renderMathInElement) {
-                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                                window.renderMathInElement(fb, { delimiters: [{left: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Chen, Evan.</strong> (2016). <em>Euclidean Geometry in Mathematical Olympiads</em> (EGMO). Mathematical Association of America.</p>
+                    <p><strong>Coxeter, H.S.M. &amp; Greitzer, S.L.</strong> (1967). <em>Geometry Revisited</em>. The Mathematical Association of America.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="teori-bilangan-dan-persamaan-diophantine.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Teori Bilangan &amp; Diophantine
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Ketaksamaan &amp; Deret Teleskopik &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    
+    <!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI -->
+    <script>
+        const slideAudios = [
+          {
+                    "title": "Poin 1: Teorema & Ketaksamaan Ptolemy",
+                    "desc": "Dengarkan geometri segiempat siklik dan syarat kesamaan diagonal tali busur",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/geometri-poin-1-ptolemy.mp3",
+                    "text": "Selamat datang di materi ketiga: Geometri dan Trigonometri Olimpiade Lanjutan. Di poin pertama ini, kita membedah Teorema Ptolemy dan Ketaksamaan Ptolemy. Teorema ini adalah salah satu senjata paling indah dan paling sering keluar dalam geometri olimpiade tingkat lanjut. Teorema Ptolemy menyatakan bahwa untuk segiempat tali busur siklik, perkalian panjang kedua diagonalnya tepat sama dengan jumlahan dari perkalian sisi-sisi yang saling berseberangan: AC dikali BD sama dengan AB dikali CD ditambah BC dikali DA. Jika keempat titik sudutnya tidak berada pada satu lingkaran atau tidak siklik, maka ruas kiri selalu lebih kecil daripada ruas kanan, yang kita sebut Ketaksamaan Ptolemy. Trik olimpiade penting: gunakan Teorema Ptolemy untuk menghitung panjang diagonal yang belum diketahui, atau untuk membuktikan kesiklikan empat buah titik. Hubungan ini juga menjadi jembatan luar biasa untuk membuktikan rumus jumlah sinus dan cosinus dalam trigonometri secara murni geometris!"
+          },
+          {
+                    "title": "Poin 2: Garis Simson & Titik Miquel",
+                    "desc": "Dengarkan trik membuktikan kolinearitas proyeksi titik lingkaran luar",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/geometri-poin-2-simson-miquel.mp3",
+                    "text": "Di poin kedua, kita berkenalan dengan dua konfigurasi klasik yang sangat anggun: Garis Simson dan Titik Miquel. Teorema Garis Simson menyatakan bahwa jika Anda memilih suatu titik P pada lingkaran luar sebuah segitiga, lalu memproyeksikan titik P tersebut secara tegak lurus ke ketiga sisi segitiga, maka ketiga titik kaki proyeksi tersebut dijamin terletak pada satu garis lurus yang sama! Sebaliknya, jika ketiga kaki proyeksi segaris, maka titik P pasti terletak pada lingkaran luar segitiga. Kunci pembuktiannya terletak pada perburuan segiempat-segiempat siklik kecil yang terbentuk dari sudut-sudut siku-siku proyeksi. Konfigurasi kedua adalah Titik Miquel: jika pada sembarang segitiga Anda memilih sebuah titik di setiap sisinya, maka tiga lingkaran luar yang melalui masing-masing titik sudut dan dua titik sisi yang berdekatan akan selalu berpotongan di tepat satu titik persekutuan tunggal. Menguasai dua teorema ini akan melatih mata geometris Anda untuk melihat keteraturan di balik jalinan garis yang rumit!"
+          },
+          {
+                    "title": "Poin 3: Teorema Titik Kuasa (Power of a Point)",
+                    "desc": "Dengarkan invarian perkalian jarak garis potong, garis singgung, dan sumbu radikal",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/geometri-poin-3-power-of-point.mp3",
+                    "text": "Poin ketiga membahas Teorema Titik Kuasa atau Power of a Point serta konsep Sumbu Radikal. Bagi sembarang titik P dan sebuah lingkaran, jika kita menarik garis yang memotong lingkaran di titik A dan B, maka nilai perkalian berarah PA dikali PB selalu bernilai konstan, tidak peduli arah garis mana pun yang Anda buat! Nilai invarian ini tepat sama dengan d kuadrat dikurang R kuadrat, di mana d adalah jarak titik P ke pusat lingkaran dan R adalah jari-jari lingkaran. Jika titik P berada di luar lingkaran dan kita menarik garis singgung di titik T, maka perkalian PA dikali PB tepat sama dengan PT kuadrat. Dari konsep titik kuasa ini lahir Sumbu Radikal, yaitu tempat kedudukan titik-titik yang memiliki kuasa yang sama terhadap dua lingkaran. Sumbu radikal ini selalu berupa garis lurus yang tegak lurus terhadap garis penghubung kedua pusat lingkaran. Ini adalah senjata utama untuk membuktikan konkurensi tiga lingkaran dalam seleksi tingkat nasional!"
+          },
+          {
+                    "title": "Poin 4: Identitas Trigonometri Sudut Segitiga",
+                    "desc": "Dengarkan identitas ajaib tangen tan A + tan B + tan C = tan A tan B tan C",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/geometri-poin-4-trigonometri-segitiga.mp3",
+                    "text": "Di poin keempat, kita beralih ke trigonometri sudut segitiga di mana jumlahan sudut A tambah B tambah C sama dengan 180 derajat atau pi radian. Kondisi jumlahan sudut konstan ini melahirkan identitas aljabar trigonometri yang sangat mempesona: jumlahan tangen ketiga sudut tepat sama dengan hasil kali ketiga tangennya! Tan A ditambah tan B ditambah tan C sama dengan tan A dikali tan B dikali tan C. Mengapa identitas ini sangat sakti? Karena dalam soal ketaksamaan atau aljabar non-rutin, kita bisa mengubah jumlahan menjadi perkalian dalam satu langkah instan. Untuk sudut setengah, berlaku pula identitas komplementer bahwa tan A per dua dikali tan B per dua ditambah tan B per dua dikali tan C per dua ditambah tan C per dua dikali tan A per dua tepat sama dengan satu. Sering kali soal aljabar yang tampak abstrak dengan syarat xy tambah yz tambah zx sama dengan satu sesungguhnya adalah penyamaran dari sudut setengah segitiga!"
+          },
+          {
+                    "title": "Poin 5: Panduan Evaluasi Geometri & Trigonometri",
+                    "desc": "Dengarkan tips menggambar sketsa proporsional dan eksekusi kuis geometri OSN",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/geometri-poin-5-kuis-evaluasi.mp3",
+                    "text": "Selamat tiba di kuis evaluasi geometri dan trigonometri olimpiade lanjutan! Di slide penutup ini, ada tiga soal pilihan ganda berbobot olimpiade. Dengarkan panduan taktis dari pembina sebelum Anda mulai: pertama, saat mengerjakan soal geometri, selalu buat sketsa gambar yang besar, rapi, dan proporsional. Gambar yang akurat sering kali secara visual membisikkan hubungan kesiklikan atau kesebangunan yang tersembunyi. Kedua, pada soal segiempat dengan panjang sisi lengkap dan diagonal yang ditanyakan, segera uji apakah segiempat tersebut siklik agar Anda bisa langsung mengerahkan Teorema Ptolemy. Dan ketiga, pada soal garis singgung dan tali busur yang berpotongan, gunakan relasi titik kuasa PT kuadrat sama dengan PA dikali PB. Kerjakan kuis ini dengan konsentrasi penuh, baca ulasan solusinya, dan mari kita lanjutkan ke materi Ketaksamaan dan Deret Teleskopik!"
+          }
+];
+
+        const audioEl = document.getElementById('audio-olimpiade');
+        const playBtn = document.getElementById('audio-play-btn');
+        const seekBar = document.getElementById('audio-seek');
+        const timeDisplay = document.getElementById('audio-time');
+        let currentSlideIdx = 0;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        function loadSlideAudio(idx, autoPlay = false) {
+            if (idx < 0 || idx >= slideAudios.length) return;
+            currentSlideIdx = idx;
+            const item = slideAudios[idx];
+            
+            const titleEl = document.getElementById('audio-track-title');
+            const descEl = document.getElementById('audio-track-desc');
+            const transTitleEl = document.getElementById('audio-transcript-title');
+            const transTextEl = document.getElementById('audio-transcript-text');
+
+            if (titleEl) titleEl.textContent = item.title;
+            if (descEl) descEl.textContent = item.desc;
+            if (transTitleEl) transTitleEl.textContent = '📝 Transkrip Suara Pembina (' + item.title + '):';
+            if (transTextEl) transTextEl.textContent = '"' + item.text + '"';
+
+            if (!audioEl) return;
+
+            const wasPlaying = !audioEl.paused;
+            if (!audioEl.src.endsWith(item.src)) {
+                audioEl.src = item.src;
+                audioEl.load();
+                if (seekBar) seekBar.value = 0;
+                if (timeDisplay) timeDisplay.textContent = '00:00 / 00:00';
+            }
+
+            if (autoPlay || wasPlaying) {
+                audioEl.play().then(() => {
+                    if (playBtn) playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    if (playBtn) playBtn.textContent = '▶️';
+                });
+            } else {
+                if (playBtn) playBtn.textContent = '▶️';
+            }
+        }
+
+        function playCurrentSlideAudio(idx) {
+            loadSlideAudio(idx, true);
+            const card = document.getElementById('audio-player-card');
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function togglePlayAudio() {
+            if (!audioEl) return;
+            if (audioEl.paused) {
+                audioEl.play().then(() => {
+                    if (playBtn) playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    if (playBtn) playBtn.textContent = '▶️';
+                });
+            } else {
+                audioEl.pause();
+                if (playBtn) playBtn.textContent = '▶️';
+            }
+        }
+
+        if (audioEl) {
+            audioEl.addEventListener('timeupdate', () => {
+                if (!isNaN(audioEl.duration) && audioEl.duration > 0) {
+                    const pct = (audioEl.currentTime / audioEl.duration) * 100;
+                    if (seekBar) seekBar.value = pct;
+                    if (timeDisplay) timeDisplay.textContent = formatTime(audioEl.currentTime) + ' / ' + formatTime(audioEl.duration);
+                }
+            });
+
+            audioEl.addEventListener('ended', () => {
+                if (playBtn) playBtn.textContent = '▶️';
+                if (seekBar) seekBar.value = 0;
+                if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+
+            audioEl.addEventListener('loadedmetadata', () => {
+                if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+        }
+
+        function seekAudio(val) {
+            if (!audioEl || isNaN(audioEl.duration)) return;
+            audioEl.currentTime = (val / 100) * audioEl.duration;
+        }
+
+        function changeAudioSpeed(val) {
+            if (!audioEl) return;
+            audioEl.playbackRate = parseFloat(val);
+        }
+
+        function toggleTranscript() {
+            const box = document.getElementById('audio-transcript-box');
+            if (!box) return;
+            box.classList.toggle('hidden');
+        }
+
+        window.addEventListener('load', () => {
+            loadSlideAudio(0, false);
+
+            if (window.ieltsSlider) {
+                const origUpdate = window.ieltsSlider.updateSlide.bind(window.ieltsSlider);
+                window.ieltsSlider.updateSlide = function(shouldScroll) {
+                    origUpdate(shouldScroll);
+                    loadSlideAudio(window.ieltsSlider.currentIndex, false);
+                };
+            }
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$', right: '$', display: true },
+                        { left: '
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Chen, Evan.</strong> (2016). <em>Euclidean Geometry in Mathematical Olympiads</em> (EGMO). Mathematical Association of America.</p>
+                    <p><strong>Coxeter, H.S.M. &amp; Greitzer, S.L.</strong> (1967). <em>Geometry Revisited</em>. The Mathematical Association of America.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="teori-bilangan-dan-persamaan-diophantine.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Teori Bilangan &amp; Diophantine
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Ketaksamaan &amp; Deret Teleskopik &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Chen, Evan.</strong> (2016). <em>Euclidean Geometry in Mathematical Olympiads</em> (EGMO). Mathematical Association of America.</p>
+                    <p><strong>Coxeter, H.S.M. &amp; Greitzer, S.L.</strong> (1967). <em>Geometry Revisited</em>. The Mathematical Association of America.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="teori-bilangan-dan-persamaan-diophantine.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Teori Bilangan &amp; Diophantine
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Ketaksamaan &amp; Deret Teleskopik &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Chen, Evan.</strong> (2016). <em>Euclidean Geometry in Mathematical Olympiads</em> (EGMO). Mathematical Association of America.</p>
+                    <p><strong>Coxeter, H.S.M. &amp; Greitzer, S.L.</strong> (1967). <em>Geometry Revisited</em>. The Mathematical Association of America.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="teori-bilangan-dan-persamaan-diophantine.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Teori Bilangan &amp; Diophantine
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Ketaksamaan &amp; Deret Teleskopik &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Chen, Evan.</strong> (2016). <em>Euclidean Geometry in Mathematical Olympiads</em> (EGMO). Mathematical Association of America.</p>
+                    <p><strong>Coxeter, H.S.M. &amp; Greitzer, S.L.</strong> (1967). <em>Geometry Revisited</em>. The Mathematical Association of America.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="teori-bilangan-dan-persamaan-diophantine.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Teori Bilangan &amp; Diophantine
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Ketaksamaan &amp; Deret Teleskopik &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Chen, Evan.</strong> (2016). <em>Euclidean Geometry in Mathematical Olympiads</em> (EGMO). Mathematical Association of America.</p>
+                    <p><strong>Coxeter, H.S.M. &amp; Greitzer, S.L.</strong> (1967). <em>Geometry Revisited</em>. The Mathematical Association of America.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="teori-bilangan-dan-persamaan-diophantine.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Teori Bilangan &amp; Diophantine
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="ketaksamaan-dan-deret-teleskopik-olimpiade.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Ketaksamaan &amp; Deret Teleskopik &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
                                             }
                                         });
                                     });

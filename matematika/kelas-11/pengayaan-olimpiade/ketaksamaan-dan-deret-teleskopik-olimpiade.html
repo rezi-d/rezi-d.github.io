@@ -61,6 +61,54 @@
                     </p>
                 </div>
 
+                
+                    <!-- KARTU AUDIO PENJELASAN GURU PEMBINA PER MATERI (STUDIO ID) -->
+                    <div id="audio-player-card" class="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 border border-amber-200/90 shadow-xs space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-base shadow-xs shrink-0">
+                                    🎙️
+                                </span>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                                        <span id="audio-track-title">Poin 1: Cauchy-Schwarz & Titu's Lemma</span>
+                                        <span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-extrabold uppercase tracking-wide">Studio ID</span>
+                                    </div>
+                                    <p id="audio-track-desc" class="text-[11px] text-slate-600">Dengarkan bentuk fraksional Engel untuk memusnahkan pecahan aljabar olimpiade</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <select id="audio-speed-select" onchange="changeAudioSpeed(this.value)" class="text-xs font-bold bg-white border border-slate-300 rounded-lg px-2 py-1 text-slate-700 hover:border-amber-400 focus:outline-none">
+                                    <option value="1">1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                </select>
+                                <button type="button" onclick="toggleTranscript()" class="text-xs font-bold bg-white border border-slate-300 hover:bg-slate-50 rounded-lg px-2.5 py-1 text-slate-700 transition">
+                                    📜 Naskah
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Audio Tag -->
+                        <audio id="audio-olimpiade" preload="metadata" src="/storage/audio/matematika/kelas-11/olimpiade/ketaksamaan-poin-1-titu.mp3"></audio>
+
+                        <div class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                            <button type="button" id="audio-play-btn" onclick="togglePlayAudio()" class="w-9 h-9 rounded-lg bg-amber-600 hover:bg-amber-700 text-white flex items-center justify-center font-bold text-sm transition shrink-0 shadow-xs" aria-label="Putar Audio">
+                                ▶️
+                            </button>
+                            <div class="flex-grow flex items-center gap-2">
+                                <input type="range" id="audio-seek" min="0" max="100" value="0" oninput="seekAudio(this.value)" class="w-full accent-amber-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg">
+                            </div>
+                            <span id="audio-time" class="font-mono text-xs font-bold text-slate-600 shrink-0">00:00 / 00:00</span>
+                        </div>
+
+                        <!-- Transkrip Dinamis per Materi -->
+                        <div id="audio-transcript-box" class="hidden p-3.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 leading-relaxed font-sans">
+                            <strong id="audio-transcript-title" class="text-slate-900 block mb-1">📝 Transkrip Suara Pembina (Poin 1: Cauchy-Schwarz & Titu's Lemma):</strong>
+                            <p id="audio-transcript-text" class="italic text-slate-600 leading-relaxed">"Selamat datang di modul keempat: Ketaksamaan dan Deret Teleskopik Olimpiade. Di poin pertama ini, kita mempelajari Ketaksamaan Cauchy-Schwarz dan bentuk fraksionalnya yang sangat terkenal yaitu Titu's Lemma atau Engel Form. Di arena olimpiade, banyak sekali soal ketaksamaan pecahan yang menjebak peserta untuk menyamakan penyebut. Menyamakan penyebut adalah malapetaka aljabar yang memicu persamaan suku banyak derajat tinggi! Titu's Lemma hadir sebagai pembasmi pecahan aljabar: jumlahan pecahan dengan pembilang kuadrat ui kuadrat dibagi vi selalu lebih besar atau sama dengan kuadrat jumlahan seluruh pembilang dibagi jumlahan seluruh penyebut. Seluruh pembilang dikumpulkan menjadi satu kuadrat di atas, dan seluruh penyebut dijumlahkan secara linear di bawah. Jika pembilangnya belum kuadrat, gunakan trik memaksa bentuk kuadrat dengan mengalikan pembilang dan penyebut dengan variabel yang sama. Trik ini memotong waktu pengerjaan soal pembuktian OSN hingga 80 persen!"</p>
+                        </div>
+                    </div>
+
                 <!-- SLIDER CONTROLLER (TOP STICKY) -->
                 <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
                     <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
@@ -87,7 +135,12 @@
                                     ⚖️ 1. Ketaksamaan Cauchy-Schwarz &amp; Titu's Lemma
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 1</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Titu's Lemma</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -95,7 +148,7 @@
                         </p>
 
                         <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-center font-mono text-sm sm:text-base text-amber-950 font-bold">
-                            $$\left(\sum_{i=1}^n a_i^2\right)\left(\sum_{i=1}^n b_i^2\right) \ge \left(\sum_{i=1}^n a_i b_i\right)^2$$
+                            $\left(\sum_{i=1}^n a_i^2\right)\left(\sum_{i=1}^n b_i^2\right) \ge \left(\sum_{i=1}^n a_i b_i\right)^2$
                         </div>
 
                         <!-- TITU'S LEMMA (ENGEL FORM) -->
@@ -105,7 +158,7 @@
                                 Untuk sembarang bilangan real $a_i$ dan bilangan real positif $b_i > 0$:
                             </p>
                             <div class="p-3 bg-white rounded-lg border border-slate-200 font-mono text-center font-bold text-amber-950 text-sm">
-                                $$\sum_{i=1}^n \frac{a_i^2}{b_i} \ge \frac{(a_1 + a_2 + \dots + a_n)^2}{b_1 + b_2 + \dots + b_n}$$
+                                $\sum_{i=1}^n \frac{a_i^2}{b_i} \ge \frac{(a_1 + a_2 + \dots + a_n)^2}{b_1 + b_2 + \dots + b_n}$
                             </div>
                             <p class="text-slate-500 text-xs">
                                 <em>Bukti Kilat:</em> Terapkan Cauchy-Schwarz pada vektor $\vec{u} = \left(\frac{a_i}{\sqrt{b_i}}\right)$ dan $\vec{v} = (\sqrt{b_i})$. Hasil kali titik menghasilkan $(a_1 + \dots + a_n)^2$.
@@ -115,6 +168,43 @@
                         <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
                             <strong>💡 Pembuktian Ketaksamaan Nesbitt:</strong> Tunjukkan $\frac{a}{b+c} + \frac{b}{c+a} + \frac{c}{a+b} \ge \frac{3}{2}$.
                             <br>Tulis sebagai $\sum \frac{a^2}{ab+ca} \ge \frac{(a+b+c)^2}{2(ab+bc+ca)}$. Karena $(a+b+c)^2 \ge 3(ab+bc+ca)$, maka nilai minimumnya langsung terbukti $\ge \frac{3}{2}$!
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI TITU'S LEMMA -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">⚖️</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Titu's Lemma (Pembasmi Pecahan Aljabar)</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Bentuk fraksional Cauchy-Schwarz $sum rac{u_i^2}{v_i} ge rac{(sum u_i)^2}{sum v_i}$</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <p>
+                                    <strong>Studi Kasus Pembuktian:</strong> Diberikan bilangan real positif $a, b, c > 0$ dengan $a + b + c = 1$. Buktikan bahwa:
+                                    $rac{1}{a} + rac{1}{b} + rac{1}{c} ge 9$
+                                </p>
+
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2.5 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>⚡</span> <span>Eksekusi Kilat 2 Baris via Titu's Lemma:</span>
+                                    </div>
+                                    <ul class="space-y-1.5 text-slate-700">
+                                        <li>1. Ubah setiap pembilang menjadi bentuk kuadrat: $rac{1^2}{a} + rac{1^2}{b} + rac{1^2}{c}$.</li>
+                                        <li>2. Terapkan Titu's Lemma secara langsung:
+                                            $rac{1^2}{a} + rac{1^2}{b} + rac{1^2}{c} ge rac{(1 + 1 + 1)^2}{a + b + c} = rac{3^2}{1} = mathbf{9}$
+                                        </li>
+                                        <li>3. <strong>Uji Syarat Kesamaan:</strong> Kesamaan tercapai jika $rac{1}{a} = rac{1}{b} = rac{1}{c} iff a = b = c = rac{1}{3}$. Selesai seketika!</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -127,7 +217,12 @@
                                     📈 2. Ketaksamaan Jensen &amp; Analisis Konveksitas
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 2</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">f(Σ w_i x_i) ≤ Σ w_i f(x_i)</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -136,7 +231,7 @@
 
                         <!-- FORMULA JENSEN -->
                         <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-center font-mono text-sm sm:text-base text-amber-950 font-bold">
-                            $$f\left(\frac{x_1 + x_2 + \dots + x_n}{n}\right) \le \frac{f(x_1) + f(x_2) + \dots + f(x_n)}{n}$$
+                            $f\left(\frac{x_1 + x_2 + \dots + x_n}{n}\right) \le \frac{f(x_1) + f(x_2) + \dots + f(x_n)}{n}$
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
@@ -144,7 +239,7 @@
                                 <span class="font-bold text-slate-900 block">Fungsi Cekung (Konkaf, $f''(x) \le 0$):</span>
                                 <p class="text-slate-600">
                                     Tanda ketaksamaan berbalik arah! Nilai fungsi dari rata-rata menjadi <strong>maksimum</strong>:
-                                    $$f\left(\frac{\sum x_i}{n}\right) \ge \frac{\sum f(x_i)}{n}$$
+                                    $f\left(\frac{\sum x_i}{n}\right) \ge \frac{\sum f(x_i)}{n}$
                                 </p>
                             </div>
 
@@ -152,9 +247,46 @@
                                 <span class="font-bold text-slate-900 block">Aplikasi pada Sinus Segitiga:</span>
                                 <p class="text-slate-600">
                                     Karena $f(x) = \sin x$ konkaf pada $(0, \pi)$, maka:
-                                    $$\sin\left(\frac{A+B+C}{3}\right) \ge \frac{\sin A + \sin B + \sin C}{3}$$
-                                    $$\sin 60^\circ = \frac{\sqrt{3}}{2} \implies \sin A + \sin B + \sin C \le \frac{3\sqrt{3}}{2}$$
+                                    $\sin\left(\frac{A+B+C}{3}\right) \ge \frac{\sin A + \sin B + \sin C}{3}$
+                                    $\sin 60^\circ = \frac{\sqrt{3}}{2} \implies \sin A + \sin B + \sin C \le \frac{3\sqrt{3}}{2}$
                                 </p>
+                            </div>
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI JENSEN -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">📈</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Ketaksamaan Jensen pada Sudut Segitiga</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Memaksimalkan fungsi konkaf $sin x$ &amp; penjaminan titik kesamaan simetris</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <p>
+                                    <strong>Studi Kasus Soal:</strong> Untuk sembarang segitiga $ABC$, tentukan nilai maksimum dari $sin A + sin B + sin C$!
+                                </p>
+
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Uji Konveksitas &amp; Jensen:</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Perhatikan $f(x) = sin x$ pada interval $(0, pi)$.<br>
+                                        Turunan kedua: $f''(x) = -sin x < 0$. Karena $f''(x) < 0$, maka $f(x)$ bersifat <strong>konkaf murni</strong>.<br>
+                                        Berdasarkan Ketaksamaan Jensen untuk fungsi konkaf:
+                                        $rac{sin A + sin B + sin C}{3} le sinleft(rac{A + B + C}{3}ight) = sinleft(rac{180^circ}{3}ight) = sin 60^circ = rac{sqrt{3}}{2}$
+                                        $sin A + sin B + sin C le mathbf{rac{3sqrt{3}}{2}}$
+                                        Kesamaan tercapai saat segitiga sama sisi $A = B = C = 60^circ$.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -168,7 +300,12 @@
                                     🔭 3. Trik Penjumlahan Deret Teleskopik
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 3</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Σ (a_{k+1} - a_k)</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -180,9 +317,9 @@
                             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                                 <span class="font-bold text-slate-900 block">1. Teleskopik Pecahan Parsial</span>
                                 <p class="text-slate-600">
-                                    $$\frac{1}{k(k+2)} = \frac{1}{2}\left(\frac{1}{k} - \frac{1}{k+2}\right)$$
+                                    $\frac{1}{k(k+2)} = \frac{1}{2}\left(\frac{1}{k} - \frac{1}{k+2}\right)$
                                     Deret tak hingga menyisakan suku-suku awal:
-                                    $$\sum_{k=1}^\infty \frac{1}{k(k+2)} = \frac{1}{2}\left(1 + \frac{1}{2}\right) = \frac{3}{4}$$
+                                    $\sum_{k=1}^\infty \frac{1}{k(k+2)} = \frac{1}{2}\left(1 + \frac{1}{2}\right) = \frac{3}{4}$
                                 </p>
                             </div>
 
@@ -190,9 +327,46 @@
                                 <span class="font-bold text-slate-900 block">2. Teleskopik Deret Arctan</span>
                                 <p class="text-slate-600">
                                     Gunakan identitas $\arctan\left(\frac{x - y}{1 + xy}\right) = \arctan x - \arctan y$:
-                                    $$\arctan\left(\frac{1}{k^2 + k + 1}\right) = \arctan(k+1) - \arctan(k)$$
-                                    $$\sum_{k=1}^\infty \arctan\left(\frac{1}{k^2 + k + 1}\right) = \frac{\pi}{2} - \frac{\pi}{4} = \frac{\pi}{4}$$
+                                    $\arctan\left(\frac{1}{k^2 + k + 1}\right) = \arctan(k+1) - \arctan(k)$
+                                    $\sum_{k=1}^\infty \arctan\left(\frac{1}{k^2 + k + 1}\right) = \frac{\pi}{2} - \frac{\pi}{4} = \frac{\pi}{4}$
                                 </p>
+                            </div>
+                        </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI TELESKOPIK -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">🔭</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Keruntuhan Deret Teleskopik Pecahan Parsial</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Dekomposisi suku $rac{1}{k(k+2)} = rac{1}{2}left(rac{1}{k} - rac{1}{k+2}ight)$</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <p>
+                                    <strong>Studi Kasus Soal:</strong> Hitung jumlah tak hingga deret: $S = sum_{k=1}^infty rac{1}{k(k+2)}$.
+                                </p>
+
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>⚡</span> <span>Penjajaran Suku Teleskopik:</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Pisahkan suku umum: $rac{1}{k(k+2)} = rac{1}{2}left(rac{1}{k} - rac{1}{k+2}ight)$.<br>
+                                        Tuliskan suku-sukunya dengan faktor $rac{1}{2}$ di luar:
+                                        $S = rac{1}{2} left[ left(1 - rac{1}{3}ight) + left(rac{1}{2} - rac{1}{4}ight) + left(rac{1}{3} - rac{1}{5}ight) + left(rac{1}{4} - rac{1}{6}ight) + dots ight]$
+                                        Seluruh suku dari $rac{1}{3}$ dan seterusnya saling menghilangkan berpasangan!<br>
+                                        Suku yang tersisa di awal hanyalah $1$ dan $rac{1}{2}$:
+                                        $S = rac{1}{2} left(1 + rac{1}{2}ight) = rac{1}{2} cdot rac{3}{2} = mathbf{rac{3}{4}}$
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -206,7 +380,12 @@
                                     💡 4. Trik Homogenisasi &amp; Normalisasi
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 4</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Normalisasi a + b + c = 1</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -224,6 +403,34 @@
                                 <em>Mengapa ini sah?</em> Karena jika $a + b + c = S \ne 1$, kita cukup mengganti variabel menjadi $a' = a/S, b' = b/S, c' = c/S$ tanpa mengubah kebenaran ketaksamaan!
                             </p>
                         </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI HOMOGENISASI -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">💡</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Normalisasi WLOG &amp; Homogenisasi</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Penskalaan variabel bebas skala $a+b+c = 1$ untuk memangkas aljabar</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Kapan Boleh Menetapkan $a+b+c=1$?</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        Normalisasi hanya sah jika ketaksamaan bersifat <strong>homogen derajatnya</strong>. Jika Anda mengalikan $a, b, c$ dengan konstanta $k > 0$ dan kedua ruas berubah dengan faktor $k^p$ yang sama di semua suku, maka skala nilai tidak berpengaruh terhadap validitas ketaksamaan. Asumsi $a+b+c=1$ atau $abc=1$ seketika membunuh variabel penyebut!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </section>
 
                     <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
@@ -235,12 +442,36 @@
                                     ✍️ 5. Kuis Pemahaman: Ketaksamaan &amp; Deret Teleskopik
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0">
+                                <span>🎙️</span> <span>Dengarkan Panduan Kuis</span>
+                            </button>
                             <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600">
                             Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman Titu's Lemma, deret teleskopik, dan Ketaksamaan Jensen.
                         </p>
+
+                        
+                        <!-- TRIK OLIMPIADE: NARASI EVALUASI KETAKSAMAAN -->
+                        <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-slate-700 space-y-2">
+                            <div class="flex items-center justify-between pb-1.5 border-b border-amber-200/60">
+                                <span class="font-bold text-amber-950 flex items-center gap-1.5">
+                                    <span>💡</span> <span>Panduan Taktis Evaluasi &amp; Trik Kuis Ketaksamaan OSN</span>
+                                </span>
+                                <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold transition shadow-xs text-[11px]">
+                                    <span>🎙️</span> <span>Dengarkan Arahan Kuis</span>
+                                </button>
+                            </div>
+                            <p class="leading-relaxed">
+                                <strong>Checklist Mental Sebelum Memilih Jawaban:</strong><br>
+                                1. <em>Pecahan Aljabar:</em> Gunakan Titu's Lemma: $sum rac{u_i^2}{v_i} ge rac{(sum u_i)^2}{sum v_i}$.<br>
+                                2. <em>Deret Pecahan:</em> Urai suku menjadi selisih $rac{1}{k} - rac{1}{k+d}$, lalu hitung suku awal yang tak tereliminasi.<br>
+                                3. <em>Trigonometri Jensen:</em> Fungsi $sin x$ adalah konkaf pada segitiga, nilai maksimum selalu dicapai pada segitiga sama sisi $60^circ$.
+                            </p>
+                        </div>
 
                         <!-- SOAL 1 -->
                         <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
@@ -352,7 +583,613 @@
                                                 fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Terapkan Titu\'s Lemma Σ a_i²/b_i ≥ (Σ a_i)²/(Σ b_i) atau sifat konkaf Jensen!</span>';
                                             }
                                             if (window.renderMathInElement) {
-                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                                window.renderMathInElement(fb, { delimiters: [{left: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu, Cirtoaje, Vasile, Dospinescu, Gabriel, &amp; Lascu, Mircea.</strong> (2005). <em>Old and New Inequalities</em>. GIL Publishing House.</p>
+                    <p><strong>Steele, J. Michael.</strong> (2004). <em>The Cauchy-Schwarz Master Class</em>. Cambridge University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="geometri-dan-trigonometri-olimpiade-lanjutan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Geometri &amp; Trigonometri Lanjutan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kombinatorika Lanjutan &amp; Teori Graf &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    
+    <!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI -->
+    <script>
+        const slideAudios = [
+          {
+                    "title": "Poin 1: Cauchy-Schwarz & Titu's Lemma",
+                    "desc": "Dengarkan bentuk fraksional Engel untuk memusnahkan pecahan aljabar olimpiade",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/ketaksamaan-poin-1-titu.mp3",
+                    "text": "Selamat datang di modul keempat: Ketaksamaan dan Deret Teleskopik Olimpiade. Di poin pertama ini, kita mempelajari Ketaksamaan Cauchy-Schwarz dan bentuk fraksionalnya yang sangat terkenal yaitu Titu's Lemma atau Engel Form. Di arena olimpiade, banyak sekali soal ketaksamaan pecahan yang menjebak peserta untuk menyamakan penyebut. Menyamakan penyebut adalah malapetaka aljabar yang memicu persamaan suku banyak derajat tinggi! Titu's Lemma hadir sebagai pembasmi pecahan aljabar: jumlahan pecahan dengan pembilang kuadrat ui kuadrat dibagi vi selalu lebih besar atau sama dengan kuadrat jumlahan seluruh pembilang dibagi jumlahan seluruh penyebut. Seluruh pembilang dikumpulkan menjadi satu kuadrat di atas, dan seluruh penyebut dijumlahkan secara linear di bawah. Jika pembilangnya belum kuadrat, gunakan trik memaksa bentuk kuadrat dengan mengalikan pembilang dan penyebut dengan variabel yang sama. Trik ini memotong waktu pengerjaan soal pembuktian OSN hingga 80 persen!"
+          },
+          {
+                    "title": "Poin 2: Ketaksamaan Jensen & Konveksitas",
+                    "desc": "Dengarkan analisis turunan kedua f''(x) ≥ 0 dan pembuktian ketaksamaan simetris",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/ketaksamaan-poin-2-jensen.mp3",
+                    "text": "Di poin kedua, kita membedah Ketaksamaan Jensen dan analisis konveksitas kurva. Ketaksamaan Jensen menghubungkan nilai rata-rata fungsi dengan fungsi dari nilai rata-rata variabelnya. Untuk fungsi yang konveks atau cekung ke atas, yang ditandai dengan turunan kedua f double aksen x selalu lebih besar atau sama dengan nol pada intervalnya, berlaku bahwa rata-rata nilai fungsi selalu lebih besar atau sama dengan nilai fungsi di titik rata-rata variabel. Sebaliknya, untuk fungsi konkaf atau cekung ke bawah di mana turunan kedua kurang dari sama dengan nol, tandanya berbalik. Contoh paling legendaris adalah membuktikan bahwa jumlahan sinus A tambah sinus B tambah sinus C pada segitiga selalu bernilai maksimal tiga akar tiga per dua. Karena fungsi sinus adalah konkaf pada rentang nol hingga 180 derajat, Jensen langsung menyimpulkan bahwa nilai maksimum mutlak tercapai saat segitiga tersebut sama sisi, di mana A sama dengan B sama dengan C yaitu 60 derajat!"
+          },
+          {
+                    "title": "Poin 3: Trik Penjumlahan Deret Teleskopik",
+                    "desc": "Dengarkan pemecahan pecahan parsial dan keruntuhan beruntun suku-suku tengah",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/ketaksamaan-poin-3-teleskopik.mp3",
+                    "text": "Poin ketiga membahas Trik Penjumlahan Deret Teleskopik. Bayangkan Anda disajikan deret yang terdiri dari ratusan bahkan ribuan suku pecahan. Menjumlahkan secara konvensional tentu mustahil. Kunci deret teleskopik adalah merekayasa suku umum ak menjadi selisih dari dua suku berturutan, yaitu bk dikurang bk tambah satu. Ketika seluruh suku dijumlahkan dari awal sampai akhir, seluruh suku tengah akan saling meniadakan atau cancel out seperti lipatan teropong teleskop yang dirapatkan! Yang tersisa hanyalah suku pertama di ujung awal dikurangi suku terakhir di ujung akhir. Pelajari tiga pola dekomposisi utama di slide ini: pertama, pecahan parsial satu per k dikali k tambah satu. Kedua, rasionalisasi bentuk akar satu per akar k tambah akar k tambah satu. Dan ketiga, deret teleskopik trigonometri arctan. Hati-hati memeriksa suku-suku sisa di ujung akhir agar tidak terpotong keliru!"
+          },
+          {
+                    "title": "Poin 4: Trik Homogenisasi & Normalisasi",
+                    "desc": "Dengarkan teknik menyetarakan derajat suku dan penetapan skala variabel a + b + c = 1",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/ketaksamaan-poin-4-homogenisasi.mp3",
+                    "text": "Di poin keempat, kita mempelajari strategi penyetaraan skala aljabar: Homogenisasi dan Normalisasi. Suatu ketaksamaan disebut homogen jika setiap suku memiliki total derajat variabel yang identik. Keajaiban dari ketaksamaan homogen adalah nilainya invarian terhadap penskalaan variabel. Artinya, jika variabel a, b, dan c kita kalikan dengan sembarang konstanta positif k, bentuk ketaksamaan tidak akan berubah sama sekali! Berkat sifat invarian ini, kita berhak secara sah menetapkan asumsi normalisasi tanpa mengurangi keumuman masalah atau without loss of generality WLOG. Misalnya, kita dapat menetapkan jumlahan a tambah b tambah c sama dengan satu, atau hasil kali abc sama dengan satu. Normalisasi ini seketika menyederhanakan perhitungan yang rumit menjadi aljabar yang sangat ramah. Sebaliknya, jika soal memiliki syarat a tambah b tambah c sama dengan satu, kita dapat mengembalikan bentuknya menjadi homogen dengan menyisipkan faktor a tambah b tambah c!"
+          },
+          {
+                    "title": "Poin 5: Panduan Evaluasi Ketaksamaan & Deret",
+                    "desc": "Dengarkan tips eliminasi opsi, uji syarat kesamaan, dan eksekusi kuis ketaksamaan OSN",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/ketaksamaan-poin-5-kuis-evaluasi.mp3",
+                    "text": "Selamat tiba di kuis evaluasi ketaksamaan dan deret teleskopik olimpiade! Di slide penutup ini, ada tiga soal pilihan ganda standar OSN. Dengarkan panduan taktis dari pembina: pertama, pada soal pecahan ketaksamaan, jangan pernah buru-buru menyamakan penyebut. Amati apakah Anda bisa mengerahkan Titu's Lemma dengan mengumpulkan pembilang kuadrat di atas. Kedua, pada deret pecahan bertingkat, lakukan dekomposisi pecahan parsial dan tuliskan tiga suku pertama serta dua suku terakhir secara berjajar untuk melihat pola saling menghilangkan. Dan ketiga, pada ketaksamaan trigonometri sudut segitiga, uji apakah fungsi bersifat konveks atau konkaf, lalu manfaatkan Ketaksamaan Jensen di mana titik kesamaan hampir selalu berada pada segitiga sama sisi. Kerjakan kuis ini dengan teliti, baca pembahasannya yang mendalam, dan mari melangkah ke materi Kombinatorika Lanjutan dan Teori Graf!"
+          }
+];
+
+        const audioEl = document.getElementById('audio-olimpiade');
+        const playBtn = document.getElementById('audio-play-btn');
+        const seekBar = document.getElementById('audio-seek');
+        const timeDisplay = document.getElementById('audio-time');
+        let currentSlideIdx = 0;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        function loadSlideAudio(idx, autoPlay = false) {
+            if (idx < 0 || idx >= slideAudios.length) return;
+            currentSlideIdx = idx;
+            const item = slideAudios[idx];
+            
+            const titleEl = document.getElementById('audio-track-title');
+            const descEl = document.getElementById('audio-track-desc');
+            const transTitleEl = document.getElementById('audio-transcript-title');
+            const transTextEl = document.getElementById('audio-transcript-text');
+
+            if (titleEl) titleEl.textContent = item.title;
+            if (descEl) descEl.textContent = item.desc;
+            if (transTitleEl) transTitleEl.textContent = '📝 Transkrip Suara Pembina (' + item.title + '):';
+            if (transTextEl) transTextEl.textContent = '"' + item.text + '"';
+
+            if (!audioEl) return;
+
+            const wasPlaying = !audioEl.paused;
+            if (!audioEl.src.endsWith(item.src)) {
+                audioEl.src = item.src;
+                audioEl.load();
+                if (seekBar) seekBar.value = 0;
+                if (timeDisplay) timeDisplay.textContent = '00:00 / 00:00';
+            }
+
+            if (autoPlay || wasPlaying) {
+                audioEl.play().then(() => {
+                    if (playBtn) playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    if (playBtn) playBtn.textContent = '▶️';
+                });
+            } else {
+                if (playBtn) playBtn.textContent = '▶️';
+            }
+        }
+
+        function playCurrentSlideAudio(idx) {
+            loadSlideAudio(idx, true);
+            const card = document.getElementById('audio-player-card');
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function togglePlayAudio() {
+            if (!audioEl) return;
+            if (audioEl.paused) {
+                audioEl.play().then(() => {
+                    if (playBtn) playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    if (playBtn) playBtn.textContent = '▶️';
+                });
+            } else {
+                audioEl.pause();
+                if (playBtn) playBtn.textContent = '▶️';
+            }
+        }
+
+        if (audioEl) {
+            audioEl.addEventListener('timeupdate', () => {
+                if (!isNaN(audioEl.duration) && audioEl.duration > 0) {
+                    const pct = (audioEl.currentTime / audioEl.duration) * 100;
+                    if (seekBar) seekBar.value = pct;
+                    if (timeDisplay) timeDisplay.textContent = formatTime(audioEl.currentTime) + ' / ' + formatTime(audioEl.duration);
+                }
+            });
+
+            audioEl.addEventListener('ended', () => {
+                if (playBtn) playBtn.textContent = '▶️';
+                if (seekBar) seekBar.value = 0;
+                if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+
+            audioEl.addEventListener('loadedmetadata', () => {
+                if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+        }
+
+        function seekAudio(val) {
+            if (!audioEl || isNaN(audioEl.duration)) return;
+            audioEl.currentTime = (val / 100) * audioEl.duration;
+        }
+
+        function changeAudioSpeed(val) {
+            if (!audioEl) return;
+            audioEl.playbackRate = parseFloat(val);
+        }
+
+        function toggleTranscript() {
+            const box = document.getElementById('audio-transcript-box');
+            if (!box) return;
+            box.classList.toggle('hidden');
+        }
+
+        window.addEventListener('load', () => {
+            loadSlideAudio(0, false);
+
+            if (window.ieltsSlider) {
+                const origUpdate = window.ieltsSlider.updateSlide.bind(window.ieltsSlider);
+                window.ieltsSlider.updateSlide = function(shouldScroll) {
+                    origUpdate(shouldScroll);
+                    loadSlideAudio(window.ieltsSlider.currentIndex, false);
+                };
+            }
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$', right: '$', display: true },
+                        { left: '
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu, Cirtoaje, Vasile, Dospinescu, Gabriel, &amp; Lascu, Mircea.</strong> (2005). <em>Old and New Inequalities</em>. GIL Publishing House.</p>
+                    <p><strong>Steele, J. Michael.</strong> (2004). <em>The Cauchy-Schwarz Master Class</em>. Cambridge University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="geometri-dan-trigonometri-olimpiade-lanjutan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Geometri &amp; Trigonometri Lanjutan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kombinatorika Lanjutan &amp; Teori Graf &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu, Cirtoaje, Vasile, Dospinescu, Gabriel, &amp; Lascu, Mircea.</strong> (2005). <em>Old and New Inequalities</em>. GIL Publishing House.</p>
+                    <p><strong>Steele, J. Michael.</strong> (2004). <em>The Cauchy-Schwarz Master Class</em>. Cambridge University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="geometri-dan-trigonometri-olimpiade-lanjutan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Geometri &amp; Trigonometri Lanjutan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kombinatorika Lanjutan &amp; Teori Graf &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu, Cirtoaje, Vasile, Dospinescu, Gabriel, &amp; Lascu, Mircea.</strong> (2005). <em>Old and New Inequalities</em>. GIL Publishing House.</p>
+                    <p><strong>Steele, J. Michael.</strong> (2004). <em>The Cauchy-Schwarz Master Class</em>. Cambridge University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="geometri-dan-trigonometri-olimpiade-lanjutan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Geometri &amp; Trigonometri Lanjutan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kombinatorika Lanjutan &amp; Teori Graf &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu, Cirtoaje, Vasile, Dospinescu, Gabriel, &amp; Lascu, Mircea.</strong> (2005). <em>Old and New Inequalities</em>. GIL Publishing House.</p>
+                    <p><strong>Steele, J. Michael.</strong> (2004). <em>The Cauchy-Schwarz Master Class</em>. Cambridge University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="geometri-dan-trigonometri-olimpiade-lanjutan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Geometri &amp; Trigonometri Lanjutan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kombinatorika Lanjutan &amp; Teori Graf &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Andreescu, Titu, Cirtoaje, Vasile, Dospinescu, Gabriel, &amp; Lascu, Mircea.</strong> (2005). <em>Old and New Inequalities</em>. GIL Publishing House.</p>
+                    <p><strong>Steele, J. Michael.</strong> (2004). <em>The Cauchy-Schwarz Master Class</em>. Cambridge University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="geometri-dan-trigonometri-olimpiade-lanjutan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Geometri &amp; Trigonometri Lanjutan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kombinatorika Lanjutan &amp; Teori Graf &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
                                             }
                                         });
                                     });

@@ -61,6 +61,54 @@
                     </p>
                 </div>
 
+                
+                    <!-- KARTU AUDIO PENJELASAN GURU PEMBINA PER MATERI (STUDIO ID) -->
+                    <div id="audio-player-card" class="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 border border-amber-200/90 shadow-xs space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-base shadow-xs shrink-0">
+                                    🎙️
+                                </span>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                                        <span id="audio-track-title">Poin 1: Anatomi Soal OSN-K vs Esai OSN-P</span>
+                                        <span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-extrabold uppercase tracking-wide">Studio ID</span>
+                                    </div>
+                                    <p id="audio-track-desc" class="text-[11px] text-slate-600">Dengarkan pergeseran paradigma dari tebak jawaban ke rubrikasi rigoritas skala 0-7</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <select id="audio-speed-select" onchange="changeAudioSpeed(this.value)" class="text-xs font-bold bg-white border border-slate-300 rounded-lg px-2 py-1 text-slate-700 hover:border-amber-400 focus:outline-none">
+                                    <option value="1">1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                </select>
+                                <button type="button" onclick="toggleTranscript()" class="text-xs font-bold bg-white border border-slate-300 hover:bg-slate-50 rounded-lg px-2.5 py-1 text-slate-700 transition">
+                                    📜 Naskah
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Audio Tag -->
+                        <audio id="audio-olimpiade" preload="metadata" src="/storage/audio/matematika/kelas-11/olimpiade/esai-poin-1-anatomi.mp3"></audio>
+
+                        <div class="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                            <button type="button" id="audio-play-btn" onclick="togglePlayAudio()" class="w-9 h-9 rounded-lg bg-amber-600 hover:bg-amber-700 text-white flex items-center justify-center font-bold text-sm transition shrink-0 shadow-xs" aria-label="Putar Audio">
+                                ▶️
+                            </button>
+                            <div class="flex-grow flex items-center gap-2">
+                                <input type="range" id="audio-seek" min="0" max="100" value="0" oninput="seekAudio(this.value)" class="w-full accent-amber-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg">
+                            </div>
+                            <span id="audio-time" class="font-mono text-xs font-bold text-slate-600 shrink-0">00:00 / 00:00</span>
+                        </div>
+
+                        <!-- Transkrip Dinamis per Materi -->
+                        <div id="audio-transcript-box" class="hidden p-3.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 leading-relaxed font-sans">
+                            <strong id="audio-transcript-title" class="text-slate-900 block mb-1">📝 Transkrip Suara Pembina (Poin 1: Anatomi Soal OSN-K vs Esai OSN-P):</strong>
+                            <p id="audio-transcript-text" class="italic text-slate-600 leading-relaxed">"Selamat datang di modul pemungkas persiapan olimpiade: Bedah Soal dan Strategi Penulisan Esai OSN-P Matematika SMA. Di poin pertama ini, kita membedah perbedaan paling mendasar antara seleksi tingkat kota kabupaten OSN-K dengan seleksi tingkat provinsi OSN-P. Di OSN-K, format soal adalah isian singkat atau pilihan ganda di mana juri hanya melihat angka akhir. Namun di OSN-P, formatnya adalah esai pembuktian penuh dengan rubrik penilaian resmi skala nol sampai tujuh poin yang diadopsi dari standar International Mathematical Olympiad atau IMO. Di OSN-P, menulis jawaban akhir yang benar tanpa langkah penalaran yang sah hanya akan diberi nilai nol atau satu poin! Sebaliknya, seorang peserta yang jawaban akhirnya keliru karena slip aritmetika kecil tetapi struktur pembuktian dan lemma pendukungnya sudah tepat bisa mengantongi enam dari tujuh poin. Juri mencari keteraturan logika, kejujuran argumen, dan pencegahan penalaran melingkar atau circular reasoning!"</p>
+                        </div>
+                    </div>
+
                 <!-- SLIDER CONTROLLER (TOP STICKY) -->
                 <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
                     <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
@@ -87,7 +135,12 @@
                                     ⚔️ 1. Anatomi Soal OSN-K vs Soal Esai OSN-P
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 1</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Format Kompetisi</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -123,6 +176,40 @@
                         <div class="p-3.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900">
                             <strong>⚠️ Peringatan Dewan Juri:</strong> Menulis jawaban akhir yang benar tanpa bukti deduktif di OSN-P hanya menghasilkan 1 dari 7 poin maksimal. Sebaliknya, penurunan aljabar yang separuh jalan namun rigor dapat mengamankan 3 &ndash; 4 poin krusial!
                         </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI RUBRIK SKALA 0-7 -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">⚔️</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Menaklukkan Rubrik Penilaian Resmi Skala 0-7 (IMO Standard)</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Memahami psikologi juri esai &amp; mengamankan poin progress parsial</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(0)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                    <div class="p-3 bg-white rounded-xl border border-rose-200 space-y-1">
+                                        <span class="font-bold text-rose-800 block text-xs">Skor 0 - 1 (Gagal Total)</span>
+                                        <p class="text-[11px] text-slate-600">Menulis jawaban akhir numerik benar tanpa argumen pembuktian, atau hanya menguji beberapa contoh angka.</p>
+                                    </div>
+                                    <div class="p-3 bg-white rounded-xl border border-amber-200 space-y-1">
+                                        <span class="font-bold text-amber-800 block text-xs">Skor 2 - 4 (Progress Parsial)</span>
+                                        <p class="text-[11px] text-slate-600">Berhasil membuktikan lemma kunci atau mereduksi soal menjadi masalah yang jauh lebih sederhana.</p>
+                                    </div>
+                                    <div class="p-3 bg-white rounded-xl border border-emerald-200 space-y-1">
+                                        <span class="font-bold text-emerald-800 block text-xs">Skor 6 - 7 (Sempurna)</span>
+                                        <p class="text-[11px] text-slate-600">Rantai logika tertutup rapat tanpa celah, mencakup seluruh kasus tanpa ada kemungkinan yang terlewat.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </section>
 
                     <!-- SLIDE 2: STRUKTUR ESAI PEMBUKTIAN RIGOR -->
@@ -134,7 +221,12 @@
                                     📝 2. Standar Struktur Penulisan Esai Pembuktian
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 2</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Rubrik 7 Poin</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -175,6 +267,35 @@
                         <div class="p-3.5 bg-rose-50 rounded-xl border border-rose-200 text-xs text-rose-900">
                             <strong>🚫 Hindari Circular Reasoning (Penalaran Melingkar):</strong> Jangan pernah mengasumsikan hal yang ingin dibuktikan sebagai fakta awal di baris pertama. Ini adalah kesalahan nomor satu yang langsung menggugurkan poin pembuktian!
                         </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI 4 PILAR ESAI -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">📝</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Konstruksi 4 Pilar Esai Pembuktian Sempurna</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Definisi Klaim, Formulasi Lemma, Rantai Eksekusi, &amp; Penutup Q.E.D.</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(1)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Dua Pantangan Terbesar dalam Penulisan Esai:</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        1. <strong>Circular Reasoning (Penalaran Melingkar):</strong> Mengasumsikan hal yang ingin dibuktikan sebagai bagian dari langkah pembuktian.<br>
+                                        2. <strong>Kata-kata Trivial Tanpa Dasar:</strong> Menulis "jelas bahwa..." untuk klaim non-trivial akan langsung memicu kecurigaan juri dan pemotongan skor 2 hingga 3 poin!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </section>
 
                     <!-- SLIDE 3: METODE KONTRADIKSI & INDUKSI KUAT -->
@@ -186,7 +307,12 @@
                                     🛡️ 3. Metode Kontradiksi &amp; Induksi Matematika Kuat
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 3</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Reductio ad Absurdum</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -208,6 +334,37 @@
                                 </p>
                             </div>
                         </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI KONTRADIKSI & INDUKSI KUAT -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">🛡️</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Menyerang dari Arah Belakang (Metode Kontradiksi)</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Teknik reductio ad absurdum &amp; Well-Ordering Principle pada bilangan bulat</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(2)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>⚡</span> <span>Sistematika Formal Pembuktian Kontradiksi:</span>
+                                    </div>
+                                    <p class="text-slate-700 leading-relaxed">
+                                        &bull; <strong>Langkah 1:</strong> Asumsikan pernyataan ingkaran/negasi bernilai BENAR.<br>
+                                        &bull; <strong>Langkah 2:</strong> Tarik konsekuensi aljabar atau teori bilangan secara rigor langkah demi langkah.<br>
+                                        &bull; <strong>Langkah 3:</strong> Temukan kontradiksi mutlak terhadap fakta matematika (misal $d < 0$, ganjil = genap, atau FPB $> 1$).<br>
+                                        &bull; <strong>Langkah 4:</strong> Simpulkan bahwa pengandaian salah, sehingga pernyataan awal terbukti benar!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </section>
 
                     <!-- SLIDE 4: BEDAH SOAL KLASIK OSN-P -->
@@ -219,7 +376,12 @@
                                     🔍 4. Bedah Tuntas Soal Klasik Seleksi OSN-P
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0 self-start sm:self-auto">
+                                <span>🎙️</span> <span>Dengarkan Narasi Poin 4</span>
+                            </button>
                             <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-full border border-amber-200 font-mono">Modulo 3 &amp; Prima</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -255,6 +417,39 @@
                                 </div>
                             </div>
                         </div>
+                    
+
+                        <!-- TRIK OLIMPIADE: NARASI BEDAH KASUS PRIMA MODULO 3 -->
+                        <div class="p-5 rounded-2xl bg-amber-50/90 border border-amber-200/90 space-y-4 shadow-xs">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-2.5 border-b border-amber-200/80 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-lg">🔍</span>
+                                    <div>
+                                        <h3 class="font-bold text-amber-950 text-sm sm:text-base">Trik Olimpiade: Dekomposisi Kasus Lengkap Bilangan Prima Modulo 3</h3>
+                                        <p class="text-[11px] text-amber-800 font-medium">Menemukan seluruh bilangan prima $p$ sedemikian sehingga $2p+1$ dan $4p+1$ prima</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="playCurrentSlideAudio(3)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow-xs self-start sm:self-auto shrink-0">
+                                    <span>🎙️</span> <span>Dengarkan Narasi Suara</span>
+                                </button>
+                            </div>
+
+                            <div class="text-xs text-slate-700 leading-relaxed space-y-3.5">
+                                <div class="p-3.5 bg-white/90 rounded-xl border border-amber-200/90 space-y-2 shadow-2xs">
+                                    <div class="font-bold text-amber-950 text-xs flex items-center gap-1.5">
+                                        <span>🧠</span> <span>Solusi Esai Standar 7 Poin OSN-P:</span>
+                                    </div>
+                                    <ul class="space-y-1.5 text-slate-700">
+                                        <li>&bull; <strong>Kasus 1 ($p = 3$):</strong> $2(3)+1 = 7$ (prima) dan $4(3)+1 = 13$ (prima). Pasangan $(3, 7, 13)$ memenuhi syarat!</li>
+                                        <li>&bull; <strong>Kasus 2 ($p > 3$):</strong> Karena $p$ prima $> 3$, maka $p 
+otequiv 0 pmod 3$, sehingga $p equiv 1$ atau $p equiv 2 pmod 3$.</li>
+                                        <li>&bull; Jika $p equiv 1 pmod 3 implies 2p + 1 equiv 2(1)+1 = 3 equiv 0 pmod 3$. Karena $p > 3 implies 2p+1 > 7$, maka $2p+1$ adalah kelipatan 3 yang lebih dari 3 (bilangan komposit, bukan prima!).</li>
+                                        <li>&bull; Jika $p equiv 2 pmod 3 implies 4p + 1 equiv 4(2)+1 = 9 equiv 0 pmod 3$. Karena $p > 3 implies 4p+1 > 13$, maka $4p+1$ komposit!</li>
+                                        <li>&bull; <strong>Kesimpulan:</strong> Satu-satunya bilangan prima yang memenuhi adalah <strong>$p = 3$</strong>. Q.E.D.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </section>
 
                     <!-- SLIDE 5: EVALUASI MANDIRI / KUIS -->
@@ -266,12 +461,36 @@
                                     ✍️ 5. Kuis Pemahaman: Strategi Esai OSN-P
                                 </h2>
                             </div>
+                            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                            <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold transition shrink-0">
+                                <span>🎙️</span> <span>Dengarkan Panduan Kuis</span>
+                            </button>
                             <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal OSN-K / OSN-P</span>
+                        </div>
                         </div>
 
                         <p class="text-xs sm:text-sm text-slate-600">
                             Pilihlah salah satu jawaban yang paling tepat untuk menguji pemahaman analisis modulo, persamaan fungsional, dan kaidah pembuktian esai.
                         </p>
+
+                        
+                        <!-- TRIK OLIMPIADE: NARASI EVALUASI STRATEGI ESAI -->
+                        <div class="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-slate-700 space-y-2">
+                            <div class="flex items-center justify-between pb-1.5 border-b border-amber-200/60">
+                                <span class="font-bold text-amber-950 flex items-center gap-1.5">
+                                    <span>💡</span> <span>Panduan Taktis Evaluasi &amp; Trik Kuis Esai OSN-P</span>
+                                </span>
+                                <button type="button" onclick="playCurrentSlideAudio(4)" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold transition shadow-xs text-[11px]">
+                                    <span>🎙️</span> <span>Dengarkan Arahan Kuis</span>
+                                </button>
+                            </div>
+                            <p class="leading-relaxed">
+                                <strong>Checklist Mental Sebelum Memilih Jawaban:</strong><br>
+                                1. <em>Rubrik Skor:</em> Menguji contoh angka secara empiris bukanlah pembuktian formal (skor 0).<br>
+                                2. <em>Modulo Prima:</em> Kunci memecah bilangan prima adalah membaginya dalam modulo 3 atau modulo 6.<br>
+                                3. <em>Persamaan Fungsi Cauchy:</em> Persamaan aditif $f(x+y) = f(x) + f(y)$ menghasilkan $f(x) = cx$.
+                            </p>
+                        </div>
 
                         <!-- SOAL 1 -->
                         <div class="p-5 rounded-2xl border border-slate-200 space-y-3 bg-slate-50/50">
@@ -383,7 +602,613 @@
                                                 fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Ingat analisis modulo 3 untuk bilangan prima atau sifat aditif Cauchy f(x) = cx!</span>';
                                             }
                                             if (window.renderMathInElement) {
-                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                                window.renderMathInElement(fb, { delimiters: [{left: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Zeitz, Paul.</strong> (2006). <em>The Art and Craft of Problem Solving</em> (2nd ed.). Wiley.</p>
+                    <p><strong>Polya, George.</strong> (1945). <em>How to Solve It: A New Aspect of Mathematical Method</em>. Princeton University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & SELESAI KE HUB KELAS XI) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Kombinatorika Lanjutan &amp; Teori Graf
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Selesai Bab 8 OSN)</span>
+                    <a href="/matematika/kelas-11/index.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Selesai: Hub Matematika Kelas XI &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    
+    <!-- LOGIKA AUDIO PLAYER PEMBINA OLIMPIADE PER MATERI -->
+    <script>
+        const slideAudios = [
+          {
+                    "title": "Poin 1: Anatomi Soal OSN-K vs Esai OSN-P",
+                    "desc": "Dengarkan pergeseran paradigma dari tebak jawaban ke rubrikasi rigoritas skala 0-7",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/esai-poin-1-anatomi.mp3",
+                    "text": "Selamat datang di modul pemungkas persiapan olimpiade: Bedah Soal dan Strategi Penulisan Esai OSN-P Matematika SMA. Di poin pertama ini, kita membedah perbedaan paling mendasar antara seleksi tingkat kota kabupaten OSN-K dengan seleksi tingkat provinsi OSN-P. Di OSN-K, format soal adalah isian singkat atau pilihan ganda di mana juri hanya melihat angka akhir. Namun di OSN-P, formatnya adalah esai pembuktian penuh dengan rubrik penilaian resmi skala nol sampai tujuh poin yang diadopsi dari standar International Mathematical Olympiad atau IMO. Di OSN-P, menulis jawaban akhir yang benar tanpa langkah penalaran yang sah hanya akan diberi nilai nol atau satu poin! Sebaliknya, seorang peserta yang jawaban akhirnya keliru karena slip aritmetika kecil tetapi struktur pembuktian dan lemma pendukungnya sudah tepat bisa mengantongi enam dari tujuh poin. Juri mencari keteraturan logika, kejujuran argumen, dan pencegahan penalaran melingkar atau circular reasoning!"
+          },
+          {
+                    "title": "Poin 2: Standar Struktur Penulisan Esai",
+                    "desc": "Dengarkan 4 pilar esai sempurna: Definisi, Formulasi Lemma, Eksekusi, dan Konklusi",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/esai-poin-2-struktur-esai.mp3",
+                    "text": "Di poin kedua, kita membedah empat pilar anatomi esai pembuktian yang sempurna. Pilar pertama: Nyatakan Klaim dan Definisi Awal. Tuliskan dengan sangat jelas apa yang hendak Anda buktikan dan definisikan seluruh variabel baru yang Anda perkenalkan agar juri tidak bingung. Pilar kedua: Bangun Lemma Pendukung. Jika masalah utama terlalu besar, pecah menjadi dua atau tiga klaim kecil yang disebut lemma. Buktikan masing-masing lemma secara mandiri. Pilar ketiga: Eksekusi Aljabar dan Geometri. Tuliskan setiap peralihan baris perhitungan secara logis tanpa melompati langkah kritis. Hindari menulis kata-kata berbahaya seperti jelas bahwa atau trivial, karena kata tersebut sering menjadi tanda bahwa peserta sedang menyembunyikan kelemahan logikanya. Dan pilar keempat: Kesimpulan Akhir. Tutup bukti Anda dengan merangkum kembali bahwa pernyataan soal telah terbukti secara sah dan bubuhkan simbol kotak hitam atau QED sebagai penanda akhir pembuktian!"
+          },
+          {
+                    "title": "Poin 3: Kontradiksi & Induksi Kuat",
+                    "desc": "Dengarkan seni menyerang dari arah belakang (reductio ad absurdum) dan Well-Ordering",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/esai-poin-3-kontradiksi-induksi.mp3",
+                    "text": "Poin ketiga membahas dua senjata pembuktian paling ampuh dalam matematika modern: Metode Kontradiksi atau Reductio ad Absurdum, dan Induksi Matematika Kuat. Dalam metode kontradiksi, kita mengasumsikan bahwa pernyataan yang ingin dibuktikan adalah salah. Dari negasi asumsi ini, kita kembangkan langkah-langkah deduksi logis hingga sampai pada suatu kesimpulan yang bertentangan dengan aksioma matematika atau kondisi soal yang diketahui. Karena matematika bebas dari kontradiksi, maka asumsi negasi tadi pasti salah, yang berarti pernyataan asal terbukti benar secara mutlak! Senjata kedua adalah Induksi Kuat: berbeda dengan induksi biasa yang hanya mengasumsikan kebenaran untuk kasus k, dalam induksi kuat kita mengasumsikan pernyataan benar untuk seluruh nilai dari basis satu hingga k. Ini sangat efektif untuk menyelesaikan relasi rekursif berderajat tinggi dan sifat faktorisasi prima bilangan bulat!"
+          },
+          {
+                    "title": "Poin 4: Bedah Tuntas Soal Klasik OSN-P",
+                    "desc": "Dengarkan bedah kasus bilangan prima modulo 3 dan dekomposisi masalah hibrida",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/esai-poin-4-bedah-kasus.mp3",
+                    "text": "Di poin keempat, kita melakukan bedah tuntas terhadap salah satu tipe soal esai paling klasik di OSN-P: menemukan seluruh bilangan prima p sedemikian rupa sehingga 2p tambah 1 dan 4p tambah 1 juga merupakan bilangan prima. Bagaimana cara pembina olimpiade membedah soal semacam ini? Kuncinya adalah metode pembagian kasus modulo 3! Mengapa memilih modulo 3? Karena koefisien dari p adalah satu, dua, dan empat, yang mencakup seluruh kemungkinan residu perkalian modulo 3. Jika p sama dengan 3, kita peroleh pasangan prima 3, 7, dan 13 yang memenuhi soal secara sempurna. Namun jika p lebih dari 3, maka p tidak boleh habis dibagi 3, sehingga p hanya bisa bersisa satu atau dua modulo 3. Jika p bersisa satu, maka 2p tambah 1 habis dibagi 3 sehingga bukan prima. Jika p bersisa dua, maka 4p tambah 1 habis dibagi 3 sehingga bukan prima. Dengan membagi kasus yang rapi dan tertutup rapat, seluruh himpunan solusi dapat dipastikan lengkap tanpa ada satu pun kemungkinan yang terlewat!"
+          },
+          {
+                    "title": "Poin 5: Panduan Evaluasi Strategi Esai",
+                    "desc": "Dengarkan tips menghindari pengurangan poin juri dan checklist akhir esai OSN-P",
+                    "src": "/storage/audio/matematika/kelas-11/olimpiade/esai-poin-5-kuis-evaluasi.mp3",
+                    "text": "Selamat tiba di kuis evaluasi strategi penulisan esai OSN-P! Di slide penutup ini, Anda disajikan tiga soal konseptual yang menguji pemahaman Anda mengenai metodologi pembuktian formal dan rubrikasi juri olimpiade. Ingat tiga prinsip emas sebelum Anda masuk ke ruang ujian: pertama, jangan pernah menganggap bahwa menguji beberapa angka contoh adalah sebuah pembuktian formal. Menguji sepuluh angka hanyalah dugaan empiris yang bernilai nol poin jika klaimnya diminta berlaku untuk seluruh bilangan. Kedua, pada persamaan fungsi seperti persamaan Cauchy f x tambah y sama dengan f x tambah f y, pastikan Anda menunjukkan langkah induksi dari bilangan asli ke bilangan bulat, lalu ke bilangan rasional sebelum menarik kesimpulan f x sama dengan c x. Dan ketiga, tuliskan jawaban Anda dengan tulisan tangan yang rapi dan terstruktur rapi. Selamat belajar, kuasai seluruh persenjataan aljabar, teori bilangan, geometri, dan kombinatorika ini, dan raihlah medali impian Anda di ajang Olimpiade Sains Nasional!"
+          }
+];
+
+        const audioEl = document.getElementById('audio-olimpiade');
+        const playBtn = document.getElementById('audio-play-btn');
+        const seekBar = document.getElementById('audio-seek');
+        const timeDisplay = document.getElementById('audio-time');
+        let currentSlideIdx = 0;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        function loadSlideAudio(idx, autoPlay = false) {
+            if (idx < 0 || idx >= slideAudios.length) return;
+            currentSlideIdx = idx;
+            const item = slideAudios[idx];
+            
+            const titleEl = document.getElementById('audio-track-title');
+            const descEl = document.getElementById('audio-track-desc');
+            const transTitleEl = document.getElementById('audio-transcript-title');
+            const transTextEl = document.getElementById('audio-transcript-text');
+
+            if (titleEl) titleEl.textContent = item.title;
+            if (descEl) descEl.textContent = item.desc;
+            if (transTitleEl) transTitleEl.textContent = '📝 Transkrip Suara Pembina (' + item.title + '):';
+            if (transTextEl) transTextEl.textContent = '"' + item.text + '"';
+
+            if (!audioEl) return;
+
+            const wasPlaying = !audioEl.paused;
+            if (!audioEl.src.endsWith(item.src)) {
+                audioEl.src = item.src;
+                audioEl.load();
+                if (seekBar) seekBar.value = 0;
+                if (timeDisplay) timeDisplay.textContent = '00:00 / 00:00';
+            }
+
+            if (autoPlay || wasPlaying) {
+                audioEl.play().then(() => {
+                    if (playBtn) playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    if (playBtn) playBtn.textContent = '▶️';
+                });
+            } else {
+                if (playBtn) playBtn.textContent = '▶️';
+            }
+        }
+
+        function playCurrentSlideAudio(idx) {
+            loadSlideAudio(idx, true);
+            const card = document.getElementById('audio-player-card');
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function togglePlayAudio() {
+            if (!audioEl) return;
+            if (audioEl.paused) {
+                audioEl.play().then(() => {
+                    if (playBtn) playBtn.textContent = '⏸️';
+                }).catch(() => {
+                    if (playBtn) playBtn.textContent = '▶️';
+                });
+            } else {
+                audioEl.pause();
+                if (playBtn) playBtn.textContent = '▶️';
+            }
+        }
+
+        if (audioEl) {
+            audioEl.addEventListener('timeupdate', () => {
+                if (!isNaN(audioEl.duration) && audioEl.duration > 0) {
+                    const pct = (audioEl.currentTime / audioEl.duration) * 100;
+                    if (seekBar) seekBar.value = pct;
+                    if (timeDisplay) timeDisplay.textContent = formatTime(audioEl.currentTime) + ' / ' + formatTime(audioEl.duration);
+                }
+            });
+
+            audioEl.addEventListener('ended', () => {
+                if (playBtn) playBtn.textContent = '▶️';
+                if (seekBar) seekBar.value = 0;
+                if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+
+            audioEl.addEventListener('loadedmetadata', () => {
+                if (timeDisplay) timeDisplay.textContent = '00:00 / ' + formatTime(audioEl.duration);
+            });
+        }
+
+        function seekAudio(val) {
+            if (!audioEl || isNaN(audioEl.duration)) return;
+            audioEl.currentTime = (val / 100) * audioEl.duration;
+        }
+
+        function changeAudioSpeed(val) {
+            if (!audioEl) return;
+            audioEl.playbackRate = parseFloat(val);
+        }
+
+        function toggleTranscript() {
+            const box = document.getElementById('audio-transcript-box');
+            if (!box) return;
+            box.classList.toggle('hidden');
+        }
+
+        window.addEventListener('load', () => {
+            loadSlideAudio(0, false);
+
+            if (window.ieltsSlider) {
+                const origUpdate = window.ieltsSlider.updateSlide.bind(window.ieltsSlider);
+                window.ieltsSlider.updateSlide = function(shouldScroll) {
+                    origUpdate(shouldScroll);
+                    loadSlideAudio(window.ieltsSlider.currentIndex, false);
+                };
+            }
+
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$', right: '$', display: true },
+                        { left: '
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Zeitz, Paul.</strong> (2006). <em>The Art and Craft of Problem Solving</em> (2nd ed.). Wiley.</p>
+                    <p><strong>Polya, George.</strong> (1945). <em>How to Solve It: A New Aspect of Mathematical Method</em>. Princeton University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & SELESAI KE HUB KELAS XI) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Kombinatorika Lanjutan &amp; Teori Graf
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Selesai Bab 8 OSN)</span>
+                    <a href="/matematika/kelas-11/index.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Selesai: Hub Matematika Kelas XI &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Zeitz, Paul.</strong> (2006). <em>The Art and Craft of Problem Solving</em> (2nd ed.). Wiley.</p>
+                    <p><strong>Polya, George.</strong> (1945). <em>How to Solve It: A New Aspect of Mathematical Method</em>. Princeton University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & SELESAI KE HUB KELAS XI) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Kombinatorika Lanjutan &amp; Teori Graf
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Selesai Bab 8 OSN)</span>
+                    <a href="/matematika/kelas-11/index.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Selesai: Hub Matematika Kelas XI &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Zeitz, Paul.</strong> (2006). <em>The Art and Craft of Problem Solving</em> (2nd ed.). Wiley.</p>
+                    <p><strong>Polya, George.</strong> (1945). <em>How to Solve It: A New Aspect of Mathematical Method</em>. Princeton University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & SELESAI KE HUB KELAS XI) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Kombinatorika Lanjutan &amp; Teori Graf
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Selesai Bab 8 OSN)</span>
+                    <a href="/matematika/kelas-11/index.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Selesai: Hub Matematika Kelas XI &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Zeitz, Paul.</strong> (2006). <em>The Art and Craft of Problem Solving</em> (2nd ed.). Wiley.</p>
+                    <p><strong>Polya, George.</strong> (1945). <em>How to Solve It: A New Aspect of Mathematical Method</em>. Princeton University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & SELESAI KE HUB KELAS XI) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Kombinatorika Lanjutan &amp; Teori Graf
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Selesai Bab 8 OSN)</span>
+                    <a href="/matematika/kelas-11/index.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Selesai: Hub Matematika Kelas XI &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, right: '
+
+                </div>
+
+                <!-- SLIDER CONTROLLER (BOTTOM) -->
+                <div class="flex items-center justify-between gap-3 pt-2">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Zeitz, Paul.</strong> (2006). <em>The Art and Craft of Problem Solving</em> (2nd ed.). Wiley.</p>
+                    <p><strong>Polya, George.</strong> (1945). <em>How to Solve It: A New Aspect of Mathematical Method</em>. Princeton University Press.</p>
+                    <p><strong>Buku Panduan Pembinaan Olimpiade Sains Nasional (OSN) Matematika SMA</strong>. Puspresnas Kemendikbudristek RI.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & SELESAI KE HUB KELAS XI) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="kombinatorika-lanjutan-dan-teori-graf.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-amber-600 transition">
+                        &larr; Kembali: Kombinatorika Lanjutan &amp; Teori Graf
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6 (Selesai Bab 8 OSN)</span>
+                    <a href="/matematika/kelas-11/index.html" class="bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Selesai: Hub Matematika Kelas XI &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>, display: false}] });
                                             }
                                         });
                                     });
