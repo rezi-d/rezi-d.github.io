@@ -446,6 +446,54 @@ const kurikulum = {
                 ]
             }
         ]
+    },
+    "mtk-11": {
+        label: "Kelas XI",
+        mapelNama: "Matematika",
+        mapel: "matematika",
+        icon: "📐",
+        pathPrefix: "/matematika/kelas-11",
+        bab: [
+            {
+                slug: "komposisi-fungsi-dan-fungsi-invers",
+                title: "Komposisi Fungsi dan Fungsi Invers",
+                deskripsi: "Konsep dasar relasi & fungsi, domain alami, kodomain & range, operasi aljabar fungsi, syarat & sifat fungsi komposisi, teknik aljabar menentukan komponen fungsi, konsep fungsi invers & fungsi bijektif, sifat invers komposisi, serta pemodelan kontekstual industri & ekonomi.",
+                subbab: [
+                    { file: "konsep-fungsi-domain-kodomain-dan-range.html", title: "Konsep Fungsi, Domain, Kodomain & Range" },
+                    { file: "operasi-aljabar-pada-fungsi.html", title: "Operasi Aljabar pada Fungsi & Daerah Asalnya" },
+                    { file: "konsep-dan-sifat-fungsi-komposisi.html", title: "Konsep & Sifat-Sifat Fungsi Komposisi" },
+                    { file: "menentukan-komponen-fungsi-komposisi.html", title: "Menentukan Komponen Fungsi Pembentuk Komposisi" },
+                    { file: "konsep-fungsi-invers-dan-sifatnya.html", title: "Konsep Fungsi Invers & Sifat-Sifat Fundamental" },
+                    { file: "pemodelan-dan-problem-solving-fungsi-komposisi-invers.html", title: "Pemodelan & Problem Solving HOTS Fungsi Komposisi-Invers" }
+                ]
+            },
+            {
+                slug: "lingkaran",
+                title: "Geometri Lingkaran",
+                deskripsi: "Unsur-unsur dan terminologi lingkaran, teorema sudut pusat & sudut keliling, sudut keliling menghadap diameter, segi empat tali busur, sudut antara dua tali busur, garis singgung lingkaran melalui titik pada/luar lingkaran, garis singgung persekutuan luar (GSPL) & dalam (GSPD), serta problem solving geometris terpadu.",
+                subbab: [
+                    { file: "unsur-unsur-lingkaran-dan-terminologi.html", title: "Unsur-Unsur & Terminologi Geometri Lingkaran" },
+                    { file: "sudut-pusat-dan-sudut-keliling.html", title: "Teorema Sudut Pusat & Sudut Keliling" },
+                    { file: "segi-empat-tali-busur-dan-sudut-dua-tali-busur.html", title: "Segi Empat Tali Busur & Sudut Dua Tali Busur" },
+                    { file: "garis-singgung-lingkaran.html", title: "Konsep & Sifat Garis Singgung Lingkaran" },
+                    { file: "garis-singgung-persekutuan-dua-lingkaran.html", title: "Garis Singgung Persekutuan Luar & Dalam" },
+                    { file: "latihan-pemecahan-masalah-lingkaran.html", title: "Problem Solving HOTS Geometri Lingkaran" }
+                ]
+            },
+            {
+                slug: "statistika-bivariat",
+                title: "Statistika: Analisis Data Bivariat",
+                deskripsi: "Konsep variabel bebas (independen) dan terikat (dependen), pembuatan diagram pencar (scatter plot), identifikasi pola tren linear & non-linear, garis regresi linier metode kuadrat terkecil (least squares), koefisien korelasi Pearson (r), koefisien determinasi (r²), analisis residu, serta interpretasi model prediksi.",
+                subbab: [
+                    { file: "konsep-data-bivariat-dan-variabel-independen-dependen.html", title: "Konsep Data Bivariat & Variabel Independen-Dependen" },
+                    { file: "diagram-pencar-scatter-plot-dan-pola-tren.html", title: "Diagram Pencar (Scatter Plot) & Pola Tren Data" },
+                    { file: "garis-regresi-linier-metode-kuadrat-terkecil.html", title: "Garis Regresi Linier Metode Kuadrat Terkecil" },
+                    { file: "koefisien-korelasi-pearson-dan-derajat-hubungan.html", title: "Koefisien Korelasi Pearson (r) & Derajat Hubungan" },
+                    { file: "koefisien-determinasi-dan-interpretasi-model.html", title: "Koefisien Determinasi (r²) & Evaluasi Residu" },
+                    { file: "latihan-pemecahan-masalah-statistika-bivariat.html", title: "Problem Solving HOTS Analisis Data Bivariat" }
+                ]
+            }
+        ]
     }
 };
 

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Fungsi, Domain, Kodomain & Range — Matematika Kelas XI</title>
+    <meta name="description" content="Pahami konsep formal fungsi, relasi pemetaan, uji garis vertikal, cara menentukan domain alami pecahan & akar, serta teknik aljabar mencari range fungsi secara analitis.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/komposisi-fungsi-dan-fungsi-invers/konsep-fungsi-domain-kodomain-dan-range.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/komposisi-fungsi-dan-fungsi-invers/konsep-fungsi-domain-kodomain-dan-range.html">
+    <meta property="og:title" content="📐 Konsep Fungsi, Domain, Kodomain & Range — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Pahami relasi, fungsi, tes garis vertikal, domain alami, dan daerah hasil dengan kartu belajar interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📐</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="komposisi-fungsi-dan-fungsi-invers">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 1: Komposisi Fungsi &amp; Invers
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Fungsi, Domain, Kodomain &amp; Range
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai fondasi relasi khusus (fungsi), aturan penentuan daerah asal alami ($D_f$) untuk fungsi rasional dan bentuk akar, pengujian kurva grafis dengan <em>Vertical Line Test</em>, serta teknik aljabar menentukan daerah hasil ($R_f$) secara analitis melalui kartu materi interaktif di bawah ini.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI FORMAL FUNGSI & VERTICAL LINE TEST -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Teori Relasi &amp; Pemetaan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💡 1. Hakikat Fungsi &amp; Uji Garis Vertikal (Vertical Line Test)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Definisi Fondasional</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">⚙️</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Fungsi Sebagai Mesin Pengolah Tunggal</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Bayangkan fungsi sebagai mesin pembuat roti. Setiap kali Anda memasukkan <strong>1 kantong bahan baku ($x$)</strong>, mesin hanya akan mengeluarkan <strong>tepat 1 jenis roti ($y$)</strong> yang konsisten. Mesin tidak boleh menghasilkan dua jenis roti berbeda sekaligus dari satu masukan, dan bahan baku tidak boleh dimasukkan tanpa diproses. Itulah esensi fungsi dalam sains dan matematika.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                Secara formal dalam teori himpunan, suatu <strong>relasi</strong> dari himpunan $A$ ke himpunan $B$ disebut sebagai <strong>fungsi (pemetaan)</strong> dinotasikan $f: A \rightarrow B$, jika dan hanya jika:
+                            </p>
+                            <div class="p-4 rounded-xl bg-slate-50 border-l-4 border-blue-600 space-y-1">
+                                <p class="font-semibold text-slate-900">Syarat Mutlak Fungsi:</p>
+                                <p>1. <strong>Setiap elemen</strong> $x \in A$ harus memiliki pasangan di $B$ (tidak boleh ada anggota domain yang 'jomblo' atau tidak terpetakan).</p>
+                                <p>2. Pasangan tersebut harus <strong>tepat satu</strong> $y \in B$ (tidak boleh bercabang / tidak boleh mendua).</p>
+                            </div>
+
+                            <h4 class="font-bold text-slate-900 text-sm sm:text-base pt-2">Uji Garis Vertikal (Vertical Line Test) pada Grafik Kartesius:</h4>
+                            <p>
+                                Pada bidang koordinat Kartesius $\mathbb{R}^2$, suatu kurva menyatakan grafik suatu fungsi $y = f(x)$ jika dan hanya jika <strong>setiap garis vertikal $x = c$ memotong kurva paling banyak di satu titik</strong>. Jika terdapat garis vertikal yang memotong kurva di 2 titik atau lebih (misalnya pada lingkaran $x^2 + y^2 = r^2$ atau parabola rebah $y^2 = 4ax$), maka kurva tersebut <em>bukan merupakan fungsi</em>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: DOMAIN ALAMI (DAERAH ASAL) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Analisis Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 2. Menentukan Domain Alami ($D_f$) Fungsi Real
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Syarat Terdefinisi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            <strong>Domain Alami (Natural Domain)</strong> dari suatu fungsi real $f(x)$, dilambangkan $D_f$, adalah himpunan seluruh bilangan real $x$ yang menyebabkan nilai ekspresi $f(x)$ terdefinisi dan menghasilkan bilangan real yang valid ($f(x) \in \mathbb{R}$).
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Kasus 1: Pecahan -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center">1</span>
+                                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Fungsi Rasional (Pecahan)</h4>
+                                </div>
+                                <p class="text-xs text-slate-600">Bentuk: $f(x) = \\frac{P(x)}{Q(x)}$</p>
+                                <div class="p-2.5 rounded-lg bg-blue-50/70 text-blue-900 font-mono text-xs border border-blue-200 text-center font-bold">
+                                    Syarat: $Q(x) \\neq 0$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Penyebut tidak boleh bernilai nol karena pembagian dengan nol tidak terdefinisi.</p>
+                            </div>
+
+                            <!-- Kasus 2: Bentuk Akar Genap -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">2</span>
+                                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Fungsi Bentuk Akar Genap</h4>
+                                </div>
+                                <p class="text-xs text-slate-600">Bentuk: $f(x) = \\sqrt[2n]{g(x)}$</p>
+                                <div class="p-2.5 rounded-lg bg-emerald-50/70 text-emerald-900 font-mono text-xs border border-emerald-200 text-center font-bold">
+                                    Syarat: $g(x) \\ge 0$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Ekspresi di dalam tanda akar pangkat genap tidak boleh bernilai negatif dalam himpunan bilangan real.</p>
+                            </div>
+
+                            <!-- Kasus 3: Akar di Penyebut -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center">3</span>
+                                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Akar Genap di Posisi Penyebut</h4>
+                                </div>
+                                <p class="text-xs text-slate-600">Bentuk: $f(x) = \\frac{P(x)}{\\sqrt{g(x)}}$</p>
+                                <div class="p-2.5 rounded-lg bg-purple-50/70 text-purple-900 font-mono text-xs border border-purple-200 text-center font-bold">
+                                    Syarat: $g(x) > 0$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Gabungan dari kedua syarat: harus non-negatif dan tidak boleh sama dengan nol.</p>
+                            </div>
+
+                            <!-- Kasus 4: Logaritma -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">4</span>
+                                    <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Fungsi Logaritma</h4>
+                                </div>
+                                <p class="text-xs text-slate-600">Bentuk: $f(x) = \\log_{a}(h(x))$</p>
+                                <div class="p-2.5 rounded-lg bg-rose-50/70 text-rose-900 font-mono text-xs border border-rose-200 text-center font-bold">
+                                    Syarat: $h(x) > 0$
+                                </div>
+                                <p class="text-[11px] text-slate-500">Numerus logaritma harus selalu bernilai positif murni.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: RANGE & KODOMAIN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Pemetaan Hasil</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 3. Kodomain vs Range ($R_f$) &amp; Strategi Analitis
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Daerah Hasil</span>
+                        </div>
+
+                        <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <h4 class="font-bold text-slate-900 mb-1">Perbedaan Prinsip Kodomain dan Range:</h4>
+                                <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                    <li><strong>Kodomain ($K_f$):</strong> Himpunan target sasaran yang didefinisikan sejak awal (biasanya seluruh bilangan real $\\mathbb{R}$).</li>
+                                    <li><strong>Range / Daerah Hasil ($R_f$):</strong> Himpunan bagian dari kodomain yang <em>benar-benar terpasangkan</em> atau menjadi nilai luaran fungsi: $R_f = \\{y \\in \\mathbb{R} \\mid y = f(x), x \\in D_f\\}$.</li>
+                                </ul>
+                            </div>
+
+                            <h4 class="font-bold text-slate-900 text-sm sm:text-base pt-2">Metode Aljabar Mencari Range $R_f$:</h4>
+                            <p>
+                                Untuk mencari nilai $y$ yang mungkin, nyatakan variabel masukan $x$ sebagai fungsi dari luaran $y$ (yakni bentuk $x = g(y)$), kemudian cari batasan-batasan nilai $y$ agar nilai $x$ tersebut merupakan bilangan real yang memenuhi domain $D_f$.
+                            </p>
+                            <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-200">
+                                <p class="font-bold text-blue-950 mb-1">Contoh Cepat:</p>
+                                <p>Untuk $f(x) = \\frac{2x - 1}{x + 3}$, nyatakan $y = \\frac{2x - 1}{x + 3}$:</p>
+                                <p class="font-mono text-xs my-1.5 text-center">$$y(x + 3) = 2x - 1 \\implies xy + 3y = 2x - 1 \\implies x(y - 2) = -1 - 3y \\implies x = \\frac{-3y - 1}{y - 2}$$</p>
+                                <p>Agar $x \\in \\mathbb{R}$, penyebut tidak boleh nol: $y - 2 \\neq 0 \\implies y \\neq 2$. Jadi $R_f = \\{y \\in \\mathbb{R} \\mid y \\neq 2\\}$.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: CONTOH SOAL BERTAHAP & HOTS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Aplikasi Pemecahan Masalah</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 4. Contoh Soal Pembahasan Runtut
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Contoh Terarah</span>
+                        </div>
+
+                        <!-- Contoh 1 -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg">Contoh 1: Domain Bentuk Campuran Akar &amp; Pecahan</span>
+                                <span class="text-xs font-bold text-slate-400">Level: Sedang</span>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Tentukan domain alami ($D_f$) dari fungsi $f(x) = \\frac{\\sqrt{x^2 - 4x - 5}}{x - 6}$.
+                            </p>
+                            <div class="text-xs sm:text-sm text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2 leading-relaxed">
+                                <p><strong>Langkah 1:</strong> Syarat di dalam akar genap harus non-negatif:</p>
+                                <p class="font-mono text-center">$$x^2 - 4x - 5 \\ge 0 \\implies (x - 5)(x + 1) \\ge 0$$</p>
+                                <p>Pembuat nol: $x = -1$ dan $x = 5$. Karena pertidaksamaan $\\ge 0$, solusinya adalah interval tepi: $x \\le -1$ atau $x \\ge 5$.</p>
+                                
+                                <p><strong>Langkah 2:</strong> Syarat penyebut tidak boleh nol:</p>
+                                <p class="font-mono text-center">$$x - 6 \\neq 0 \\implies x \\neq 6$$</p>
+
+                                <p><strong>Langkah 3:</strong> Mengiris kedua kondisi:</p>
+                                <p>Domain adalah irisan dari kedua syarat di atas: $x \\le -1$ atau ($x \\ge 5$ dan $x \\neq 6$).</p>
+                                <p class="font-bold text-emerald-800">Maka: $D_f = \\{x \\in \\mathbb{R} \\mid x \\le -1 \\text{ atau } 5 \\le x < 6 \\text{ atau } x > 6\\}$.</p>
+                            </div>
+                        </div>
+
+                        <!-- Contoh 2 -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-lg">Contoh 2: Range Fungsi Kuadrat Terbatas</span>
+                                <span class="text-xs font-bold text-slate-400">Level: HOTS</span>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                Diketahui fungsi $f(x) = x^2 - 4x + 7$ dengan domain terbatas $D_f = [-1, 4]$. Tentukan daerah hasil (range $R_f$) fungsi tersebut!
+                            </p>
+                            <div class="text-xs sm:text-sm text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2 leading-relaxed">
+                                <p><strong>Analisis:</strong> Fungsi kuadrat memiliki titik balik (puncak/ekstrim). Karena $a = 1 > 0$, parabola membuka ke atas dan memiliki nilai minimum di titik puncak.</p>
+                                <p>Sumbu simetri: $x_p = -\\frac{b}{2a} = -\\frac{-4}{2(1)} = 2$.</p>
+                                <p>Karena $x = 2$ berada di dalam interval domain $[-1, 4]$, maka nilai minimum fungsi tercapai di $x = 2$:</p>
+                                <p class="font-mono text-center">$$f(2) = (2)^2 - 4(2) + 7 = 4 - 8 + 7 = 3 \\quad (\\text{Nilai Minimum})$$</p>
+                                <p>Evaluasi nilai fungsi pada ujung-ujung batas domain:</p>
+                                <p>- Untuk $x = -1$: $f(-1) = (-1)^2 - 4(-1) + 7 = 1 + 4 + 7 = 12$</p>
+                                <p>- Untuk $x = 4$: $f(4) = (4)^2 - 4(4) + 7 = 16 - 16 + 7 = 7$</p>
+                                <p>Nilai maksimum dalam interval adalah $12$.</p>
+                                <p class="font-bold text-emerald-800">Jadi, daerah hasil adalah: $R_f = [3, 12] = \\{y \\in \\mathbb{R} \\mid 3 \\le y \\le 12\\}$.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS EVALUASI PEMAHAMAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Checkpoint Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ 5. Kuis Pemahaman Cepat (Auto-Check)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">3 Soal Konseptual</span>
+                        </div>
+
+                        <!-- Soal 1 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                1. Manakah di antara relasi berikut yang <b>BUKAN</b> merupakan fungsi?
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="A" class="kuis-radio">
+                                    <span>A. $y = 3x^2 - 5x + 1$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="B" class="kuis-radio">
+                                    <span>B. $y = \\frac{2x+1}{x-4}$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="C" class="kuis-radio">
+                                    <span>C. $x^2 + y^2 = 25$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-1" value="D" class="kuis-radio">
+                                    <span>D. $y = \\sqrt{2x+6}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-1" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- Soal 2 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                2. Domain alami ($D_f$) dari fungsi $f(x) = \\frac{1}{\\sqrt{3 - x}}$ adalah ....
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="A" class="kuis-radio">
+                                    <span>A. $\\{x \\in \\mathbb{R} \\mid x \\le 3\\}$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="B" class="kuis-radio">
+                                    <span>B. $\\{x \\in \\mathbb{R} \\mid x < 3\\}$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="C" class="kuis-radio">
+                                    <span>C. $\\{x \\in \\mathbb{R} \\mid x \\ge 3\\}$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-2" value="D" class="kuis-radio">
+                                    <span>D. $\\{x \\in \\mathbb{R} \\mid x \\neq 3\\}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-2" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <!-- Soal 3 -->
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                3. Diketahui fungsi $f(x) = \\frac{4x + 5}{x - 2}$. Nilai berapakah yang <b>TIDAK MUNGKIN</b> berada dalam range ($R_f$) fungsi tersebut?
+                            </p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="A" class="kuis-radio">
+                                    <span>A. $y = 2$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="B" class="kuis-radio">
+                                    <span>B. $y = -2$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="C" class="kuis-radio">
+                                    <span>C. $y = 4$</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg hover:bg-slate-100">
+                                    <input type="radio" name="kuis-3" value="D" class="kuis-radio">
+                                    <span>D. $y = 0$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-kuis-3" class="text-xs font-semibold mt-1"></div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const kuisAnswers = {
+                                    'kuis-1': { ans: 'C', text: 'Tepat! x² + y² = 25 adalah persamaan lingkaran. Garis vertikal x = 0 memotong di dua titik (y = 5 dan y = -5), sehingga gagal dalam uji garis vertikal.' },
+                                    'kuis-2': { ans: 'B', text: 'Benar! Karena akar berada di penyebut, syaratnya adalah 3 - x > 0 (tidak boleh sama dengan nol), sehingga x < 3.' },
+                                    'kuis-3': { ans: 'C', text: 'Benar! Asimtot datar dari f(x) = (4x+5)/(x-2) adalah y = 4/1 = 4. Nilai y = 4 tidak akan pernah dicapai oleh fungsi, sehingga 4 bukan anggota range Rf.' }
+                                };
+
+                                Object.keys(kuisAnswers).forEach(name => {
+                                    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                                        radio.addEventListener('change', (e) => {
+                                            const fb = document.getElementById('feedback-' + name);
+                                            const info = kuisAnswers[name];
+                                            if (e.target.value === info.ans) {
+                                                fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! ${info.text}</span>`;
+                                            } else {
+                                                fb.innerHTML = '<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Jawaban belum tepat. Periksa kembali konsep dasar dan sifat operasi!</span>';
+                                            }
+                                            if (window.renderMathInElement) {
+                                                window.renderMathInElement(fb, { delimiters: [{left: '$', right: '$', display: false}] });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 &amp; Permendikdasmen No. 13 Tahun 2025 tentang Capaian Pembelajaran Matematika Fase F (Kelas XI SMA/MA)</em>. Elemen Aljabar dan Fungsi.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 2: Functions (2.1 Functions, 2.2 Graphs of Functions, 2.3 Getting Information from the Graph of a Function).</p>
+                    <p><strong>Larson, Ron.</strong> (2022). <em>Precalculus with Limits</em> (5th ed.). National Geographic Learning / Cengage. Chapter 1: Functions and Their Graphs.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-11/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Hub Matematika Kelas XI
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="operasi-aljabar-pada-fungsi.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Operasi Aljabar Fungsi &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

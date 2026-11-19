@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Fungsi Invers & Sifat-Sifat Fundamental — Matematika Kelas XI</title>
+    <meta name="description" content="Pahami konsep fungsi invers f⁻¹(x), syarat fungsi bijektif, uji garis horizontal, refleksi y=x, trik kilat invers pecahan (ax+b)/(cx+d), dan sifat (f o g)⁻¹ = g⁻¹ o f⁻¹.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-11/komposisi-fungsi-dan-fungsi-invers/konsep-fungsi-invers-dan-sifatnya.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-11/komposisi-fungsi-dan-fungsi-invers/konsep-fungsi-invers-dan-sifatnya.html">
+    <meta property="og:title" content="↩️ Konsep Fungsi Invers & Sifat-Sifat Fundamental — Matematika Kelas XI">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XI SMA: Kuasai fungsi bijektif, 3 langkah aljabar invers, trik kilat pecahan, dan sifat invers komposisi dengan kartu interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>↩️</text></svg>">
+    
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-11" data-bab="komposisi-fungsi-dan-fungsi-invers">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 1: Komposisi Fungsi &amp; Invers
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Konsep Fungsi Invers &amp; Sifat-Sifat Fundamental
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Fungsi invers ($f^{-1}$) adalah operasi kebalikan yang membalikkan pemetaan output kembali ke input asalnya. Pelajari syarat mutlak keberadaan invers (fungsi bijektif), representasi grafis pencerminan garis $y = x$, prosedur aljabar 3 tahap, trik kilat fungsi rasional, serta sifat invers fungsi komposisi.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: HAKIKAT INVERS & SYARAT BIJEKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Landasan Teori Invers</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ↩️ Hakikat Fungsi Invers &amp; Syarat Mutlak Bijektif
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">f(x) = y \iff f^{-1}(y) = x</span>
+                        </div>
+
+                        <!-- KOTAK IDE INTUITIF -->
+                        <div class="bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-white p-5 sm:p-6 rounded-2xl border border-blue-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">⏪</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-blue-950 uppercase tracking-wider mb-1">Ide Intuitif: Tombol 'Undo' dalam Aljabar</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Jika fungsi $f$ bertindak seperti memanaskan es batu hingga menjadi air, maka fungsi invers $f^{-1}$ adalah lemari pendingin yang membekukan air tersebut kembali menjadi es batu dengan bentuk persis seperti semula. Notasi $f^{-1}$ dibaca <strong>"invers dari $f$"</strong> (ingat: tanda $-1$ di sini adalah <em>operator invers fungsi</em>, BUKAN eksponen/pangkat $\frac{1}{f(x)}$).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DEFINISI & SYARAT BIJEKTIF -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <h3 class="text-base font-bold text-slate-900">Mengapa Fungsi Harus Bijektif?</h3>
+                            <p>
+                                Suatu fungsi $f: A \rightarrow B$ memiliki fungsi invers $f^{-1}: B \rightarrow A$ <strong>jika dan hanya jika $f$ adalah fungsi bijektif</strong> (korespondensi satu-satu dan pada). Mari kita lihat alasannya:
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                                    <p class="font-bold text-slate-900 text-xs">1. Harus Injektif (Satu-Satu):</p>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Jika ada dua nilai $x$ berbeda yang menghasilkan $y$ yang sama (misal pada $f(x)=x^2$, $f(-2)=f(2)=4$), maka saat dibalik input $4$ akan memetakan ke dua cabang: $-2$ dan $2$. Ini <strong>melanggar syarat fungsi</strong> (input tidak boleh bercabang!).
+                                    </p>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                                    <p class="font-bold text-slate-900 text-xs">2. Harus Surjektif (Pada):</p>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        Setiap anggota himpunan kodomain $B$ harus memiliki pasangan di $A$, sehingga ketika dibalik menjadi domain bagi $f^{-1}$, tidak ada satupun elemen yang 'jomblo' atau tidak memiliki pasangan.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-1.5">
+                                <h4 class="font-bold text-blue-950 text-xs sm:text-sm">Uji Garis Horizontal (Horizontal Line Test)</h4>
+                                <p class="text-xs text-slate-700">
+                                    Untuk menguji apakah suatu grafik fungsi $y = f(x)$ memiliki fungsi invers atau tidak, tariklah garis mendatar (horizontal) sembarang. Jika <strong>setiap garis horizontal memotong kurva paling banyak di SATU titik</strong>, maka fungsi tersebut satu-satu (injektif) dan <strong>memiliki fungsi invers</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: HUBUNGAN GEOMETRIS & DOMAIN-RANGE -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Hubungan Geometri &amp; Himpunan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 Refleksi Terhadap Garis $y = x$ &amp; Pertukaran Domain-Range
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">D_{f^{-1}} = R_f</span>
+                        </div>
+
+                        <!-- REFLEKSI GEOMETRIS & DIAGRAM -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <p>
+                                Secara visual dalam bidang koordinat Kartesius, grafik fungsi $y = f^{-1}(x)$ merupakan <strong>pencerminan (refleksi)</strong> dari grafik fungsi $y = f(x)$ terhadap garis diagonal $y = x$.
+                            </p>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center font-mono text-sm sm:text-base space-y-2">
+                                <div>Jika titik $(a, b)$ terletak pada grafik $y = f(x)$,</div>
+                                <div class="text-emerald-800 font-bold">maka titik $(b, a)$ pasti terletak pada grafik $y = f^{-1}(x)$!</div>
+                            </div>
+
+                            <h3 class="text-base font-bold text-slate-900 pt-2">Hukum Pertukaran Domain &amp; Range</h3>
+                            <p>
+                                Karena proses invers membalikkan sumbu input (domain) menjadi sumbu output (range), maka terjadi pertukaran peran himpunan secara sempurna:
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-center">
+                                <div class="p-3.5 bg-blue-50 rounded-xl border border-blue-200 text-blue-900 font-semibold">
+                                    $$D_{f^{-1}} = R_f$$
+                                    <span class="text-xs font-sans text-slate-600 block mt-1">Domain invers = Range fungsi asal</span>
+                                </div>
+                                <div class="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 font-semibold">
+                                    $$R_{f^{-1}} = D_f$$
+                                    <span class="text-xs font-sans text-slate-600 block mt-1">Range invers = Domain fungsi asal</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- KASUS PEMBATASAN DOMAIN PADA FUNGSI KUADRAT -->
+                        <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
+                            <span class="text-xs font-bold text-amber-900 uppercase tracking-wider block">Studi Kasus: Membuat Fungsi Kuadrat Memiliki Invers</span>
+                            <p class="text-xs sm:text-sm text-slate-800">
+                                Kurva parabola $f(x) = x^2$ pada domain $\mathbb{R}$ tidak lolos <em>Horizontal Line Test</em>, sehingga tidak punya invers. Bagaimana cara agar fungsi ini memiliki invers?
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Solusi: Pembatasan Domain (Restricted Domain)</strong></p>
+                                <p>
+                                    Kita potong kurva parabola menjadi hanya separuh bagian, misalnya domain dibatasi pada $x \ge 0$.
+                                </p>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>Fungsi asal dengan batas: $f(x) = x^2$ dengan $D_f = [0, \infty)$ dan $R_f = [0, \infty)$.</li>
+                                    <li>Sekarang fungsi menjadi satu-satu (injektif) pada interval tersebut!</li>
+                                    <li>Fungsi inversnya adalah: $$f^{-1}(x) = \sqrt{x}, \quad D_{f^{-1}} = [0, \infty)$$</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: 3 LANGKAH ALAJABAR & TRIK KILAT RASIONAL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Prosedur &amp; Trik Cepat</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚙️ 3 Langkah Aljabar Menentukan Invers &amp; Formula Kilat Rasional
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Trik Pecahan</span>
+                        </div>
+
+                        <!-- 3 LANGKAH ALUR ALAJBAR -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <h3 class="text-base font-bold text-slate-900">3 Langkah Aljabar Universal Menentukan Rumus $f^{-1}(x)$:</h3>
+                            <div class="space-y-2">
+                                <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">1</span>
+                                    <p>Tulis persamaan fungsi sebagai: $$y = f(x)$$</p>
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">2</span>
+                                    <p>Gunakan manipulasi aljabar untuk mengisolasi variabel $x$ secara tunggal dalam fungsi $y$: $$x = g(y)$$</p>
+                                </div>
+                                <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">3</span>
+                                    <p>Gantikan variabel $x$ dengan notasi $f^{-1}(x)$ dan gantikan seluruh variabel $y$ dengan $x$.</p>
+                                </div>
+                            </div>
+
+                            <!-- TRIK KILAT FUNGSI RASIONAL -->
+                            <div class="p-4 rounded-xl bg-indigo-50 border-2 border-indigo-200 space-y-2 mt-4">
+                                <span class="px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-xs font-bold uppercase tracking-wider">
+                                    Rumus Cepat (Shortcut Sakti): Fungsi Rasional Pecahan Linier
+                                </span>
+                                <p class="text-xs text-slate-800">
+                                    Untuk fungsi pecahan berbentuk $f(x) = \frac{ax + b}{cx + d}$ dengan $x \neq -\frac{d}{c}$, rumus fungsi inversnya dapat langsung ditemukan dengan <strong>menukar posisi koefisien $a$ dan konstanta $d$, lalu mengubah tandanya menjadi negatif (lawan tanda)</strong>:
+                                </p>
+                                <div class="p-3 bg-white rounded-lg border border-indigo-200 text-center font-mono font-bold text-indigo-900 text-sm sm:text-base">
+                                    $$f(x) = \frac{ax + b}{cx + d} \implies f^{-1}(x) = \frac{-dx + b}{cx - a}, \quad x \neq \frac{a}{c}$$
+                                </div>
+                                <p class="text-xs text-indigo-950 font-medium">
+                                    <em>Catatan:</em> Perhatikan bahwa posisi $b$ dan $c$ tetap sama persis!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- PEMBUKTIAN FORMAL TRIK KILAT -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Pembuktian Analitis Formula Kilat:</span>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-1.5 text-slate-700 font-mono">
+                                <p>$$y = \frac{ax + b}{cx + d}$$</p>
+                                <p>$$y(cx + d) = ax + b \implies cxy + dy = ax + b$$</p>
+                                <p>$$cxy - ax = -dy + b \implies x(cy - a) = -dy + b$$</p>
+                                <p>$$x = \frac{-dy + b}{cy - a}$$</p>
+                                <p class="text-indigo-900 font-bold font-sans pt-1">
+                                    Ganti $x$ dengan $f^{-1}(x)$ dan $y$ dengan $x$: $$f^{-1}(x) = \frac{-dx + b}{cx - a} \quad \text{(Q.E.D. / Terbukti!)}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: SIFAT INVERS KOMPOSISI (SHOES & SOCKS) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Interaksi Invers &amp; Komposisi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    👟 Sifat Invers Komposisi: Shoes &amp; Socks Property
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">(f \circ g)^{-1} = g^{-1} \circ f^{-1}</span>
+                        </div>
+
+                        <!-- KOTAK LOGIKA SEPATU & KAOS KAKI -->
+                        <div class="bg-gradient-to-br from-rose-50/80 via-orange-50/40 to-white p-5 sm:p-6 rounded-2xl border border-rose-100">
+                            <div class="flex items-start gap-3.5">
+                                <span class="text-2xl shrink-0">🧦</span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-rose-950 uppercase tracking-wider mb-1">Analogi Kaos Kaki dan Sepatu</h3>
+                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+                                        Saat hendak bepergian, urutan yang Anda lakukan adalah: pakai kaus kaki dulu ($g$), baru kemudian pakai sepatu ($f$). Operasi gabungannya adalah memakai sepatu setelah berkaus kaki: $(f \circ g)$.<br>
+                                        Ketika Anda pulang dan ingin <strong>membalikkan proses (invers)</strong>, apakah Anda bisa melepas kaus kaki terlebih dahulu? Tentu tidak! Anda <strong>wajib melepas sepatu terlebih dahulu ($f^{-1}$)</strong>, baru setelah itu melepas kaus kaki ($g^{-1}$). Inilah mengapa urutan komposisinya terbalik:
+                                    </p>
+                                    <div class="mt-2 p-2.5 bg-white rounded-lg border border-rose-200 text-center font-mono font-bold text-rose-800 text-sm sm:text-base">
+                                        $$(f \circ g)^{-1}(x) = (g^{-1} \circ f^{-1})(x)$$
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TABEL 4 SIFAT POKOK INVERS -->
+                        <div class="space-y-3 text-slate-700 text-xs sm:text-sm leading-relaxed text-justify">
+                            <h3 class="text-base font-bold text-slate-900">4 Sifat Inti Fungsi Invers:</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono">
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="text-xs text-blue-600 font-bold font-sans">1. Eliminasi Identitas:</span>
+                                    <p>$$(f \circ f^{-1})(x) = (f^{-1} \circ f)(x) = x$$</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="text-xs text-blue-600 font-bold font-sans">2. Invers Ganda:</span>
+                                    <p>$$(f^{-1})^{-1}(x) = f(x)$$</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="text-xs text-blue-600 font-bold font-sans">3. Invers Dua Fungsi:</span>
+                                    <p>$$(f \circ g)^{-1}(x) = (g^{-1} \circ f^{-1})(x)$$</p>
+                                </div>
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                    <span class="text-xs text-blue-600 font-bold font-sans">4. Invers Tiga Fungsi:</span>
+                                    <p>$$(f \circ g \circ h)^{-1} = h^{-1} \circ g^{-1} \circ f^{-1}$$</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL HOTS -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block">Contoh Analitis: Mencari Invers Komposisi</span>
+                            <p class="text-xs sm:text-sm text-slate-800">
+                                Diketahui $f(x) = 2x - 3$ dan $g(x) = \frac{x + 1}{x - 4}$. Tentukan nilai dari $(f \circ g)^{-1}(5)$!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                                <p><strong>Trik Cepat Berdasarkan Definisi Invers:</strong></p>
+                                <p>Ingat sifat fundamental: Jika $H^{-1}(5) = k$, maka ekuivalen dengan $H(k) = 5$.</p>
+                                <p>Di sini $H(x) = (f \circ g)(x) = f(g(x))$. Maka kita cukup mencari $x$ yang memenuhi $f(g(x)) = 5$!</p>
+                                <p>1. $f(g(x)) = 5 \implies 2g(x) - 3 = 5 \implies 2g(x) = 8 \implies g(x) = 4$.</p>
+                                <p>2. Sekarang cari $x$ agar $g(x) = 4$:</p>
+                                <p class="pl-4">$$\frac{x + 1}{x - 4} = 4 \implies x + 1 = 4(x - 4) \implies x + 1 = 4x - 16 \implies 3x = 17 \implies x = \frac{17}{3}$$</p>
+                                <p class="text-blue-900 font-bold border-t pt-2 border-slate-100">
+                                    Jadi, $(f \circ g)^{-1}(5) = \frac{17}{3}$. Cepat dan tanpa harus menyusun aljabar invers yang panjang!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS MANDIRI & AUTO-CHECK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Mandiri Interaktif</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Kuis Pemahaman: Fungsi Invers &amp; Sifat-Sifatnya
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu opsi jawaban yang Anda anggap paling tepat. Sistem akan langsung memvalidasi kebenaran jawaban beserta analisis langkah aljabarnya.
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Invers Fungsi Linier Sederhana</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Invers dari fungsi $f(x) = \frac{3x - 5}{4}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $f^{-1}(x) = \frac{4x - 5}{3}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $f^{-1}(x) = \frac{3x + 5}{4}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $f^{-1}(x) = \frac{4x + 5}{3}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $f^{-1}(x) = \frac{4}{3x - 5}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Trik Kilat Invers Fungsi Rasional</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Invers dari fungsi pecahan $f(x) = \frac{2x + 7}{3x - 5}$ dengan $x \neq \frac{5}{3}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $\frac{5x + 7}{3x + 2}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{5x + 7}{3x - 2}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{-5x + 7}{3x - 2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $\frac{3x - 5}{2x + 7}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Syarat Keberadaan Fungsi Invers</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Sebuah fungsi $f: \mathbb{R} \rightarrow \mathbb{R}$ memiliki fungsi invers jika dan hanya jika fungsi tersebut bersifat ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Kontinu di seluruh titik</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Monoton turun saja</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Simetris terhadap sumbu $Y$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Bijektif (injektif dan surjektif)</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Sifat Shoes &amp; Socks</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Bentuk yang ekuivalen secara matematis dengan $(f \circ g)^{-1}(x)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $(g^{-1} \circ f^{-1})(x)$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $(f^{-1} \circ g^{-1})(x)$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{1}{(f \circ g)(x)}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $f^{-1}(x) \cdot g^{-1}(x)$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Menghitung Nilai Invers Komposisi</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika $f(x) = 3x - 1$ dan $g(x) = x + 4$, maka nilai dari $(g \circ f)^{-1}(15)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $4$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $5$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> Pemahaman Anda mengenai konsep fungsi invers, rumus kilat pecahan, dan sifat aljabarnya sangat mantap.";
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Opsi yang benar adalah <strong>" + correct + "</strong>. Cermati pertukaran tanda koefisien dan hukum sepatu-kaus kaki.";
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 &amp; Permendikdasmen No. 13 Tahun 2025 tentang Capaian Pembelajaran Matematika Fase F (Kelas XI SMA/MA)</em>. Elemen Aljabar dan Fungsi.</p>
+                    <p><strong>Stewart, James, Redlin, Lothar, &amp; Watson, Saleem.</strong> (2016). <em>Precalculus: Mathematics for Calculus</em> (7th ed.). Cengage Learning. Chapter 2: Functions (2.7 One-to-One Functions and Their Inverses).</p>
+                    <p><strong>Larson, Ron.</strong> (2022). <em>Precalculus with Limits</em> (5th ed.). National Geographic Learning / Cengage. Chapter 1: Functions and Their Graphs (1.9 Inverse Functions).</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="menentukan-komponen-fungsi-komposisi.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sub-bab 4: Menentukan Komponen Fungsi
+                    </a>
+                    <a href="/matematika/kelas-11/index.html" class="text-xs text-slate-400 hover:text-slate-600 font-medium">
+                        Hub Kelas XI
+                    </a>
+                    <a href="pemodelan-dan-problem-solving-fungsi-komposisi-invers.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Pemodelan &amp; Problem Solving &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261119"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261119"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

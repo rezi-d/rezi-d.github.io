@@ -20,6 +20,12 @@ const mapelConfig = [
                 label: "Kelas X",
                 sublabel: "Fase E — Eksponen, Deret, Trigonometri & Vektor",
                 path: "/matematika/kelas-10/index.html"
+            },
+            {
+                kelas: "XI",
+                label: "Kelas XI",
+                sublabel: "Fase F — Komposisi Fungsi & Invers, Lingkaran, Statistika Bivariat",
+                path: "/matematika/kelas-11/index.html"
             }
         ]
     },
