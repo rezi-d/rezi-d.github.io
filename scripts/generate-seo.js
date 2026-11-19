@@ -91,6 +91,23 @@ for (const [kelasId, dataKelas] of Object.entries(kurikulum)) {
     }
 }
 
+// 2b. Tambahkan modul lain (seperti modul ujian SAS, tracker, dll) dari modulLain
+if (Array.isArray(sandbox.modulLain)) {
+    for (const mod of sandbox.modulLain) {
+        if (mod.path && mod.status === 'aktif') {
+            const cleanPath = mod.path.replace(/^\//, '');
+            const fullUrl = `${DOMAIN}/${cleanPath}`;
+            if (!urls.some(u => u.loc === fullUrl)) {
+                urls.push({
+                    loc: fullUrl,
+                    changefreq: 'weekly',
+                    priority: '0.9'
+                });
+            }
+        }
+    }
+}
+
 // 3. Tulis ulang sitemap.xml
 // Format rapi tanpa enter berlebih di dalam tag <loc>, dilengkapi <lastmod> ISO untuk Google Search Console
 const today = new Date().toISOString().split('T')[0];
