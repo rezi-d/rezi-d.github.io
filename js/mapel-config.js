@@ -67,7 +67,7 @@ const mapelConfig = [
             {
                 kelas: "XI",
                 label: "Kelas XI",
-                sublabel: "Fase F — Ikatan Kimia, Termokimia, Laju Reaksi & Kesetimbangan",
+                sublabel: "Fase F — Termokimia, Kinetika, Kesetimbangan, Asam Basa, Kelarutan & Pengayaan OSN Kimia",
                 path: "/kelas-11/index.html"
             },
             {

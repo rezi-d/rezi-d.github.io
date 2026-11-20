@@ -244,6 +244,19 @@ const kurikulum = {
                     { file: "minyak-bumi-dan-mutu-bensin.html", title: "Minyak Bumi & Mutu Bensin" },
                     { file: "latihan-pemecahan-masalah-hidrokarbon-chang.html", title: "Latihan Pemecahan Masalah Hidrokarbon (Chang Problems)" }
                 ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN Kimia)",
+                deskripsi: "Modul pengayaan tingkat lanjut persiapan Olimpiade Sains Nasional (OSN-K & OSN-P Kimia) bidang Kimia Fisika dan Larutan Lanjut: Termodinamika Kimia (Hukum I, II, III, Entropi Semesta & Energi Bebas Gibbs), Kinetika Kimia Terintegrasi & Steady-State Approximation (SSA), Termodinamika Kesetimbangan & Persamaan van 't Hoff, Kesetimbangan Asam-Basa Poliprotik & Spesiasi Fraksional, Kelarutan Lanjut & Ion Kompleks (Kf vs Ksp), serta Bedah Soal Asli & Strategi Kuantitatif OSN-K Kimia Kelas XI.",
+                subbab: [
+                    { file: "termodinamika-kimia-lanjut-dan-energi-bebas-gibbs.html", title: "Termodinamika Kimia: Entropi, Energi Bebas Gibbs & Spontanitas" },
+                    { file: "kinetika-kimia-terintegrasi-dan-mekanisme-reaksi.html", title: "Kinetika Terintegrasi, Waktu Paruh & Steady-State Approximation" },
+                    { file: "kesetimbangan-termodinamika-dan-persamaan-van-t-hoff.html", title: "Termodinamika Kesetimbangan & Persamaan van 't Hoff" },
+                    { file: "kesetimbangan-asam-basa-poliprotik-dan-spesiasi.html", title: "Asam Basa Poliprotik, Garam Amfiprotik & Spesiasi Fraksional" },
+                    { file: "kelarutan-lanjut-dan-kesetimbangan-ion-kompleks.html", title: "Kelarutan Lanjut, Pengendapan Bertingkat & Ion Kompleks" },
+                    { file: "bedah-soal-asli-dan-strategi-osnk-kimia-11.html", title: "Bedah Soal Asli OSN-K Kimia Kelas XI & Trik Hitung Cepat" }
+                ]
             }
         ]
     },

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z11XQXB5L7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Z11XQXB5L7');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinetika Kimia Terintegrasi, Waktu Paruh & Steady-State Approximation — OSN Kimia Kelas XI</title>
+    <meta name="description" content="Modul pengayaan kinetika kimia lanjutan persiapan OSN-K/OSN-P: hukum laju terintegrasi orde 0, 1, 2, derivasi waktu paruh, persamaan Arrhenius, serta metode Steady-State Approximation (SSA).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/kelas-11/pengayaan-olimpiade/kinetika-kimia-terintegrasi-dan-mekanisme-reaksi.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="KimiaInteraktif">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/kelas-11/pengayaan-olimpiade/kinetika-kimia-terintegrasi-dan-mekanisme-reaksi.html">
+    <meta property="og:title" content="⚡ Kinetika Kimia Terintegrasi & Steady-State Approximation — OSN Kimia">
+    <meta property="og:description" content="Kuasai kalkulus kinetika kimia, penurunan hukum laju mekanisme bertahap, dan simulasi soal olimpiade sains nasional.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <style> body { font-family: 'Inter', sans-serif; } </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen" data-kelas="11" data-bab="pengayaan-olimpiade">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                <!-- Breadcrumb Header -->
+                <div class="border-b border-slate-100 pb-4">
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                        <span class="px-2.5 py-0.5 bg-teal-100 text-teal-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Olimpiade Kimia &bull; Kelas XI
+                        </span>
+                        <span class="px-2.5 py-0.5 bg-sky-100 text-sky-800 rounded-full text-xs font-semibold">
+                            Modul 2 &bull; Kinetika Reaksi
+                        </span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                        2. Kinetika Kimia Terintegrasi, Waktu Paruh &amp; Steady-State Approximation
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                        Menelaah kalkulus hukum laju reaksi, karakteristik linearitas orde 0, 1, dan 2, formulasi Arrhenius untuk energi aktivasi, serta pendekatan keadaan tunak (*Steady-State Approximation*) untuk mekanisme reaksi kompleks.
+                    </p>
+                </div>
+
+                <!-- IELTS PROGRESS TRACKER -->
+                <div id="ielts-progress-tracker" class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-700">Kemajuan Poin:</span>
+                        <div class="flex gap-1.5" id="slider-dots">
+                            <span class="w-3 h-3 rounded-full bg-teal-600 transition-all cursor-pointer" onclick="ieltsSlider.goTo(1)"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-300 transition-all cursor-pointer" onclick="ieltsSlider.goTo(2)"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-300 transition-all cursor-pointer" onclick="ieltsSlider.goTo(3)"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-300 transition-all cursor-pointer" onclick="ieltsSlider.goTo(4)"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-300 transition-all cursor-pointer" onclick="ieltsSlider.goTo(5)"></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="slider-counter" class="text-xs font-mono font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">Poin 1/5</span>
+                        <div class="flex gap-1">
+                            <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-2.5 py-1 text-xs rounded bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-40 transition font-bold">&larr; Prev</button>
+                            <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-2.5 py-1 text-xs rounded bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-40 transition font-bold">Next &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTAINER SLIDE -->
+                <div id="ielts-slide-container" class="space-y-6">
+
+<!-- SLIDE 1: Hukum Laju Reaksi Terintegrasi -->
+<section id="slide-1" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">Hukum Laju Terintegrasi (Orde 0, 1, dan 2)</h2>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200">Derivasi Kalkulus</span>
+    </div>
+
+    <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+        <p>
+            Hukum laju diferensial $-\frac{d[A]}{dt} = k[A]^n$ menyatakan laju pada saat tertentu, tetapi tidak memberikan informasi langsung mengenai konsentrasi zat sisa setelah selang waktu $t$. Dengan mengintegrasikan persamaan diferensial tersebut terhadap batas $[A]_0$ pada $t=0$ hingga $[A]_t$ pada waktu $t$, kita memperoleh <strong>Hukum Laju Terintegrasi</strong>:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 my-2 text-xs">
+            <div class="p-3 bg-slate-900 rounded-xl text-slate-200 space-y-1">
+                <span class="font-bold text-amber-400 block border-b border-slate-700 pb-1">Orde Nol (n = 0)</span>
+                <p>Persamaan: $[A]_t = [A]_0 - kt$</p>
+                <p>Plot Linear: $[A]$ vs $t$ (slope $=-k$)</p>
+                <p>Waktu Paruh: $t_{1/2} = \frac{[A]_0}{2k}$</p>
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl text-slate-200 space-y-1">
+                <span class="font-bold text-teal-400 block border-b border-slate-700 pb-1">Orde Satu (n = 1)</span>
+                <p>Persamaan: $\ln[A]_t = \ln[A]_0 - kt$</p>
+                <p>Plot Linear: $\ln[A]$ vs $t$ (slope $=-k$)</p>
+                <p>Waktu Paruh: $t_{1/2} = \frac{\ln 2}{k} = \frac{0{,}693}{k}$</p>
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl text-slate-200 space-y-1">
+                <span class="font-bold text-sky-400 block border-b border-slate-700 pb-1">Orde Dua (n = 2)</span>
+                <p>Persamaan: $\frac{1}{[A]_t} = \frac{1}{[A]_0} + kt$</p>
+                <p>Plot Linear: $\frac{1}{[A]}$ vs $t$ (slope $=+k$)</p>
+                <p>Waktu Paruh: $t_{1/2} = \frac{1}{k[A]_0}$</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visualisasi SVG 1 -->
+    <div class="py-2">
+        <svg class="w-full max-w-lg mx-auto h-56 rounded-xl bg-slate-900 border border-slate-700 shadow-inner p-2" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+  <text x="250" y="20" fill="#38bdf8" font-size="12" font-weight="bold" text-anchor="middle">Uji Linearitas Grafik untuk Penentuan Orde Reaksi</text>
+
+  <!-- Grafik 1: Orde 0 ([A] vs t) -->
+  <g transform="translate(25, 45)">
+    <rect x="0" y="0" width="130" height="150" rx="6" fill="#1e293b" stroke="#f59e0b"/>
+    <text x="65" y="18" fill="#fde68a" font-size="9.5" font-weight="bold" text-anchor="middle">Orde 0: [A] vs t</text>
+    <line x1="20" y1="130" x2="115" y2="130" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="20" y1="130" x2="20" y2="35" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="25" y1="45" x2="105" y2="125" stroke="#f59e0b" stroke-width="2.5"/>
+    <text x="65" y="80" fill="#fde68a" font-size="8">Kemiringan = -k</text>
+    <text x="65" y="143" fill="#94a3b8" font-size="8" text-anchor="middle">Garis Lurus Menurun</text>
+  </g>
+
+  <!-- Grafik 2: Orde 1 (ln[A] vs t) -->
+  <g transform="translate(185, 45)">
+    <rect x="0" y="0" width="130" height="150" rx="6" fill="#1e293b" stroke="#2dd4bf"/>
+    <text x="65" y="18" fill="#5eead4" font-size="9.5" font-weight="bold" text-anchor="middle">Orde 1: ln[A] vs t</text>
+    <line x1="20" y1="130" x2="115" y2="130" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="20" y1="130" x2="20" y2="35" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="25" y1="45" x2="105" y2="125" stroke="#2dd4bf" stroke-width="2.5"/>
+    <text x="65" y="80" fill="#5eead4" font-size="8">Kemiringan = -k</text>
+    <text x="65" y="143" fill="#94a3b8" font-size="8" text-anchor="middle">t₁/₂ Konstan!</text>
+  </g>
+
+  <!-- Grafik 3: Orde 2 (1/[A] vs t) -->
+  <g transform="translate(345, 45)">
+    <rect x="0" y="0" width="130" height="150" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+    <text x="65" y="18" fill="#7dd3fc" font-size="9.5" font-weight="bold" text-anchor="middle">Orde 2: 1/[A] vs t</text>
+    <line x1="20" y1="130" x2="115" y2="130" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="20" y1="130" x2="20" y2="35" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="25" y1="120" x2="105" y2="45" stroke="#38bdf8" stroke-width="2.5"/>
+    <text x="65" y="80" fill="#7dd3fc" font-size="8">Kemiringan = +k</text>
+    <text x="65" y="143" fill="#94a3b8" font-size="8" text-anchor="middle">Garis Lurus Naik</text>
+  </g>
+  <text x="250" y="222" fill="#94a3b8" font-size="8.5" text-anchor="middle">Kunci OSN: Grafik mana yang linier (R² ≈ 1) menentukan secara mutlak orde reaksi eksperimen.</text>
+</svg>
+    </div>
+
+    <!-- Ciri Khas Waktu Paruh Orde 1 -->
+    <div class="p-4 rounded-xl bg-teal-50 border border-teal-200 text-xs text-slate-800 space-y-1.5">
+        <div class="font-bold text-teal-900 flex items-center gap-1.5">
+            <span>⭐</span> <span>Karakteristik Unik Reaksi Orde Satu di Olimpiade</span>
+        </div>
+        <p class="text-justify leading-relaxed">
+            Pada reaksi orde 1, waktu paruh ($t_{1/2} = \frac{0{,}693}{k}$) <strong>sama sekali tidak bergantung pada konsentrasi awal reaktan ($[A]_0$)</strong>. Setiap selang waktu $t_{1/2}$, konsentrasi selalu tersisa tepat separuh dari konsentrasi sebelumnya:
+            $$[A] = [A]_0 \left(\frac{1}{2}\right)^{t / t_{1/2}} = [A]_0 \left(\frac{1}{2}\right)^m$$
+            Di mana $m$ adalah jumlah kelipatan waktu paruh yang terlampaui.
+        </p>
+    </div>
+</section>
+
+<!-- SLIDE 2: Persamaan Arrhenius & Energi Aktivasi -->
+<section id="slide-2" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">Persamaan Arrhenius &amp; Energi Aktivasi ($E_a$)</h2>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-sky-50 text-sky-700 border border-sky-200">Ketergantungan Suhu</span>
+    </div>
+
+    <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+        <p>
+            Kenaikan suhu mempercepat hampir seluruh reaksi kimia. Svante Arrhenius merumuskan hubungan empiris antara tetapan laju $k$ dan suhu mutlak $T$:
+        </p>
+        <div class="p-3 bg-slate-900 rounded-xl text-teal-300 font-mono text-center text-xs sm:text-sm">
+            $$k = A e^{-\frac{E_a}{RT}} \implies \ln k = \ln A - \frac{E_a}{R}\left(\frac{1}{T}\right)$$
+        </div>
+        <p>
+            Di mana:
+            $E_a$ adalah <strong>energi aktivasi</strong> (penghalang energi minimum agar tumbukan reaktif), 
+            $A$ adalah <strong>faktor pra-eksponensial / faktor frekuensi</strong> ($A = p \cdot Z$, frekuensi tumbukan dikali faktor orientasi sterik), 
+            dan $R = 8{,}314\,\text{J}\cdot\text{mol}^{-1}\cdot\text{K}^{-1}$.
+        </p>
+        <p>
+            Bila tetapan laju diukur pada dua suhu berbeda ($T_1$ dan $T_2$):
+            $$\ln\left(\frac{k_2}{k_1}\right) = \frac{E_a}{R}\left(\frac{1}{T_1} - \frac{1}{T_2}\right) = \frac{E_a}{R}\left(\frac{T_2 - T_1}{T_1 T_2}\right)$$
+        </p>
+    </div>
+
+    <!-- Visualisasi SVG 3 -->
+    <div class="py-2">
+        <svg class="w-full max-w-lg mx-auto h-56 rounded-xl bg-slate-900 border border-slate-700 shadow-inner p-2" viewBox="0 0 500 230" xmlns="http://www.w3.org/2000/svg">
+  <text x="250" y="20" fill="#38bdf8" font-size="11.5" font-weight="bold" text-anchor="middle">Plot Linear Arrhenius: Penentuan Nilai E_a dan Faktor Frekuensi A</text>
+
+  <!-- Sumbu Koordinat -->
+  <line x1="70" y1="190" x2="440" y2="190" stroke="#64748b" stroke-width="2"/>
+  <line x1="70" y1="190" x2="70" y2="40" stroke="#64748b" stroke-width="2"/>
+  <text x="440" y="205" fill="#94a3b8" font-size="9" text-anchor="end">1/T (K⁻¹)</text>
+  <text x="55" y="45" fill="#94a3b8" font-size="9" text-anchor="end" transform="rotate(-90 55 45)">ln k</text>
+
+  <!-- Garis Linear Arrhenius -->
+  <line x1="90" y1="65" x2="400" y2="175" stroke="#f87171" stroke-width="3"/>
+  <circle cx="140" cy="83" r="4" fill="#facc15"/>
+  <circle cx="230" cy="115" r="4" fill="#facc15"/>
+  <circle cx="320" cy="147" r="4" fill="#facc15"/>
+
+  <!-- Keterangan Kemiringan dan Intersep -->
+  <g transform="translate(180, 60)">
+    <rect x="0" y="0" width="170" height="60" rx="6" fill="#1e293b" stroke="#f87171"/>
+    <text x="85" y="20" fill="#fca5a5" font-size="9" font-weight="bold" text-anchor="middle">Kemiringan (Slope):</text>
+    <text x="85" y="38" fill="#f8fafc" font-size="10" font-family="monospace" text-anchor="middle">m = -E_a / R</text>
+    <text x="85" y="52" fill="#34d399" font-size="8.5" text-anchor="middle">E_a = -m × R</text>
+  </g>
+
+  <!-- Intersep Sumbu Y -->
+  <line x1="70" y1="58" x2="90" y2="65" stroke="#38bdf8" stroke-dasharray="3,3"/>
+  <text x="75" y="52" fill="#38bdf8" font-size="8.5">Intersep = ln A</text>
+</svg>
+    </div>
+</section>
+
+<!-- SLIDE 3: Mekanisme Reaksi & Kompleks Teraktivasi -->
+<section id="slide-3" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold text-sm">3</span>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">Mekanisme Bertahap &amp; Tahap Penentu Laju (RDS)</h2>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Reaksi Elementer</span>
+    </div>
+
+    <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+        <p>
+            Persamaan reaksi keseluruhan hampir tidak pernah terjadi dalam satu kali tumbukan tunggal. Suatu reaksi kompleks terdiri dari rangkaian <strong>tahap-tahap reaksi elementer</strong>:
+        </p>
+        <ul class="list-disc list-inside space-y-1 font-semibold text-slate-800">
+            <li><strong>Reaksi Unimolekular:</strong> 1 molekul terdisosiasi atau berisomerisasi ($A \to P$, laju $= k[A]$).</li>
+            <li><strong>Reaksi Bimolekular:</strong> Tumbukan 2 molekul ($A + B \to P$, laju $= k[A][B]$).</li>
+            <li><strong>Reaksi Termolekular:</strong> Tumbukan simultan 3 molekul (sangat langka, probabilitas amat kecil).</li>
+        </ul>
+        <p>
+            Tahap yang berlangsung paling lambat dalam rangkaian mekanisme disebut <strong>Tahap Penentu Laju (Rate-Determining Step / RDS)</strong>. Hukum laju reaksi keseluruhan dibatasi dan didikte oleh RDS ini.
+        </p>
+    </div>
+
+    <!-- Visualisasi SVG 4 -->
+    <div class="py-2">
+        <svg class="w-full max-w-lg mx-auto h-56 rounded-xl bg-slate-900 border border-slate-700 shadow-inner p-2" viewBox="0 0 500 230" xmlns="http://www.w3.org/2000/svg">
+  <text x="250" y="20" fill="#38bdf8" font-size="11.5" font-weight="bold" text-anchor="middle">Profil Koordinat Reaksi Dua Tahap dengan Intermediet Reaktif</text>
+
+  <!-- Sumbu -->
+  <line x1="50" y1="200" x2="450" y2="200" stroke="#64748b" stroke-width="2"/>
+  <line x1="50" y1="200" x2="50" y2="35" stroke="#64748b" stroke-width="2"/>
+  <text x="450" y="215" fill="#94a3b8" font-size="8.5" text-anchor="end">Koordinat Reaksi</text>
+  <text x="40" y="40" fill="#94a3b8" font-size="8.5" text-anchor="end" transform="rotate(-90 40 40)">Energi Potensial</text>
+
+  <!-- Kurva Dua Puncak -->
+  <!-- Reaktan -->
+  <path d="M 60 140 Q 110 40 160 60" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+  <circle cx="60" cy="140" r="4" fill="#f8fafc"/>
+  <text x="60" y="155" fill="#f8fafc" font-size="8.5" font-weight="bold">Reaktan</text>
+
+  <!-- Puncak 1 (TS 1 - RDS) -->
+  <circle cx="130" cy="48" r="4" fill="#f87171"/>
+  <text x="130" y="38" fill="#fca5a5" font-size="8.5" font-weight="bold" text-anchor="middle">TS 1 (Ea_1 Tinggi ➔ RDS!)</text>
+
+  <!-- Lembah Intermediet -->
+  <path d="M 160 60 Q 200 130 240 100" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+  <circle cx="205" cy="115" r="4" fill="#38bdf8"/>
+  <text x="205" y="132" fill="#7dd3fc" font-size="8.5" font-weight="bold" text-anchor="middle">Intermediet (I)</text>
+
+  <!-- Puncak 2 (TS 2 - Tahap Cepat) -->
+  <path d="M 240 100 Q 280 60 320 120" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+  <circle cx="280" cy="75" r="4" fill="#34d399"/>
+  <text x="280" y="65" fill="#86efac" font-size="8.5" font-weight="bold" text-anchor="middle">TS 2 (Cepat)</text>
+
+  <!-- Produk Akhir -->
+  <path d="M 320 120 Q 380 170 440 170" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+  <circle cx="440" cy="170" r="4" fill="#f8fafc"/>
+  <text x="440" y="185" fill="#f8fafc" font-size="8.5" font-weight="bold">Produk (ΔH &lt; 0)</text>
+</svg>
+    </div>
+</section>
+
+<!-- SLIDE 4: Steady-State Approximation (SSA) -->
+<section id="slide-4" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold text-sm">4</span>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">Pendekatan Keadaan Tunak (Steady-State Approximation)</h2>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200">Teknik Inti IChO</span>
+    </div>
+
+    <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">
+        <p>
+            Dalam banyak mekanisme, zat antara (*intermediate*, $[I]$) bereaksi sangat cepat sehingga konsentrasinya di dalam sistem selalu sangat kecil dan laju perubahannya mendekati nol. Asumsi matematis ini dinamakan <strong>Steady-State Approximation (SSA)</strong>:
+        </p>
+        <div class="p-3 bg-slate-900 rounded-xl text-teal-300 font-mono text-center text-xs sm:text-sm">
+            $$\frac{d[I]}{dt} \approx 0 \implies \text{Laju Pembentukan } [I] = \text{Laju Penguraian } [I]$$
+        </div>
+        <p>
+            Dengan menerapkan SSA, kita dapat mengeliminasi konsentrasi zat antara yang tidak dapat diukur secara eksperimen dari persamaan hukum laju reaksi, menyisakan hanya konsentrasi reaktan yang teramati.
+        </p>
+    </div>
+
+    <!-- Visualisasi SVG 5 -->
+    <div class="py-2">
+        <svg class="w-full max-w-lg mx-auto h-52 rounded-xl bg-slate-900 border border-slate-700 shadow-inner p-2" viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
+  <text x="250" y="20" fill="#38bdf8" font-size="11.5" font-weight="bold" text-anchor="middle">Prinsip SSA: Profil Konsentrasi Reaktan, Intermediet Tunak &amp; Produk</text>
+
+  <line x1="50" y1="180" x2="450" y2="180" stroke="#64748b" stroke-width="2"/>
+  <line x1="50" y1="180" x2="50" y2="35" stroke="#64748b" stroke-width="2"/>
+  <text x="450" y="195" fill="#94a3b8" font-size="8.5" text-anchor="end">Waktu (t)</text>
+  <text x="40" y="40" fill="#94a3b8" font-size="8.5" text-anchor="end" transform="rotate(-90 40 40)">Konsentrasi</text>
+
+  <!-- Reaktan [A] Meluruh -->
+  <path d="M 50 50 Q 150 160 430 170" fill="none" stroke="#f87171" stroke-width="2.5"/>
+  <text x="110" y="90" fill="#f87171" font-size="9" font-weight="bold">Reaktan [A]</text>
+
+  <!-- Intermediet [I] Tetap Rendah dan Mendatar (Tunak) -->
+  <path d="M 50 180 Q 70 155 120 158 L 430 160" fill="none" stroke="#facc15" stroke-width="2"/>
+  <text x="250" y="150" fill="#fde68a" font-size="8.5" font-weight="bold">Intermediet [I] (d[I]/dt ≈ 0)</text>
+
+  <!-- Produk [P] Naik -->
+  <path d="M 50 180 Q 150 70 430 60" fill="none" stroke="#34d399" stroke-width="2.5"/>
+  <text x="350" y="75" fill="#34d399" font-size="9" font-weight="bold">Produk [P]</text>
+</svg>
+    </div>
+</section>
+
+<!-- SLIDE 5: Kuis Evaluasi OSN-K -->
+<section id="slide-5" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold text-sm">5</span>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">Kuis Evaluasi OSN-K: Kinetika Terintegrasi &amp; Mekanisme</h2>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200">Simulasi 15 Menit</span>
+    </div>
+
+    <div class="p-3.5 bg-teal-50/80 rounded-xl border border-teal-200 text-xs text-teal-950 flex items-center justify-between">
+        <span class="font-medium">⏱️ Uji pemahaman kalkulus kinetika dan mekanisme reaksi Anda pada 4 butir soal standar OSN-K:</span>
+        <span class="font-bold bg-white px-2.5 py-1 rounded-lg border border-teal-300 text-teal-800">4 Butir Soal</span>
+    </div>
+
+    <!-- Visual Kuis SVG 6 -->
+    <div class="py-2">
+        <svg class="w-full max-w-md mx-auto h-48 rounded-xl bg-slate-900 border border-slate-700 shadow-inner p-2" viewBox="0 0 450 200" xmlns="http://www.w3.org/2000/svg">
+  <text x="225" y="22" fill="#38bdf8" font-size="11.5" font-weight="bold" text-anchor="middle">Soal Kuis 1: Peluruhan Orde Satu N₂O₅ ➔ 2NO₂ + ½O₂</text>
+  
+  <rect x="30" y="45" width="390" height="135" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text x="225" y="70" fill="#f8fafc" font-size="10.5" font-family="monospace" text-anchor="middle">2N₂O₅(g) ➔ 4NO₂(g) + O₂(g)</text>
+  
+  <g transform="translate(50, 85)">
+    <rect x="0" y="0" width="160" height="75" rx="6" fill="#0f172a" stroke="#2dd4bf"/>
+    <text x="80" y="20" fill="#2dd4bf" font-size="9" font-weight="bold" text-anchor="middle">Waktu Paruh (t₁/₂)</text>
+    <text x="80" y="42" fill="#f8fafc" font-size="12" font-family="monospace" font-weight="bold" text-anchor="middle">102 detik</text>
+    <text x="80" y="62" fill="#94a3b8" font-size="8" text-anchor="middle">Konstan pada 45°C</text>
+  </g>
+
+  <g transform="translate(240, 85)">
+    <rect x="0" y="0" width="160" height="75" rx="6" fill="#0f172a" stroke="#f59e0b"/>
+    <text x="80" y="20" fill="#f59e0b" font-size="9" font-weight="bold" text-anchor="middle">Konsentrasi Awal [A]₀</text>
+    <text x="80" y="42" fill="#f8fafc" font-size="12" font-family="monospace" font-weight="bold" text-anchor="middle">0,800 M</text>
+    <text x="80" y="62" fill="#94a3b8" font-size="8" text-anchor="middle">Berapa sisa setelah 408 s?</text>
+  </g>
+</svg>
+    </div>
+
+    <form id="quiz-form" class="space-y-6">
+        <!-- Soal 1 -->
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
+            <span class="text-xs font-bold text-teal-700 block">SOAL 1 (Konsentrasi Sisa Reaksi Orde Satu)</span>
+            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                Berdasarkan data grafik kuis di atas, dekomposisi $\text{N}_2\text{O}_5$ mengikuti kinetika orde satu dengan waktu paruh $t_{1/2} = 102\,\text{detik}$ pada suhu $45^\circ\text{C}$. Jika konsentrasi awal $[\text{N}_2\text{O}_5]_0 = 0{,}800\,\text{M}$, konsentrasi $\text{N}_2\text{O}_5$ yang tersisa setelah reaksi berlangsung selama $408\,\text{detik}$ adalah...
+            </p>
+            <div class="space-y-2 text-xs">
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q1" value="A" class="text-teal-600 focus:ring-teal-500">
+                    <span>A. $0{,}200\,\text{M}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q1" value="B" class="text-teal-600 focus:ring-teal-500">
+                    <span>B. $0{,}100\,\text{M}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q1" value="C" class="text-teal-600 focus:ring-teal-500">
+                    <span>C. $0{,}050\,\text{M}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q1" value="D" class="text-teal-600 focus:ring-teal-500">
+                    <span>D. $0{,}025\,\text{M}$</span>
+                </label>
+            </div>
+            <div id="feedback-q1" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+        </div>
+
+        <!-- Soal 2 -->
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
+            <span class="text-xs font-bold text-teal-700 block">SOAL 2 (Perhitungan Energi Aktivasi Arrhenius)</span>
+            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                Tetapan laju suatu reaksi kimia meningkat tepat $4$ kali lipat ketika suhu dinaikkan dari $300\,\text{K}$ menjadi $320\,\text{K}$. Energi aktivasi ($E_a$) dari reaksi tersebut adalah... ($R = 8{,}314\,\text{J}\cdot\text{mol}^{-1}\cdot\text{K}^{-1}$, $\ln 4 = 1{,}386$)
+            </p>
+            <div class="space-y-2 text-xs">
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q2" value="A" class="text-teal-600 focus:ring-teal-500">
+                    <span>A. $27{,}6\,\text{kJ/mol}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q2" value="B" class="text-teal-600 focus:ring-teal-500">
+                    <span>B. $55{,}3\,\text{kJ/mol}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q2" value="C" class="text-teal-600 focus:ring-teal-500">
+                    <span>C. $83{,}0\,\text{kJ/mol}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q2" value="D" class="text-teal-600 focus:ring-teal-500">
+                    <span>D. $110{,}6\,\text{kJ/mol}$</span>
+                </label>
+            </div>
+            <div id="feedback-q2" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+        </div>
+
+        <!-- Soal 3 -->
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
+            <span class="text-xs font-bold text-teal-700 block">SOAL 3 (Penurunan Hukum Laju via Steady-State Approximation)</span>
+            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                Perhatikan mekanisme dekomposisi ozon di stratosfer:
+                $$\text{Tahap 1 (Cepat, reversibel): } \text{O}_3 \underset{k_{-1}}{\overset{k_1}{\rightleftharpoons}} \text{O}_2 + \text{O}$$
+                $$\text{Tahap 2 (Lambat): } \text{O}_3 + \text{O} \xrightarrow{k_2} 2\,\text{O}_2$$
+                Dengan menerapkan Steady-State Approximation pada zat antara atom oksigen ($\text{O}$), hukum laju pembentukan $\text{O}_2$ keseluruhan ($\frac{d[\text{O}_2]}{dt}$) adalah...
+            </p>
+            <div class="space-y-2 text-xs">
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q3" value="A" class="text-teal-600 focus:ring-teal-500">
+                    <span>A. $r = \frac{2k_1 k_2 [\text{O}_3]^2}{k_{-1}[\text{O}_2] + k_2[\text{O}_3]}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q3" value="B" class="text-teal-600 focus:ring-teal-500">
+                    <span>B. $r = k_1 [\text{O}_3]$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q3" value="C" class="text-teal-600 focus:ring-teal-500">
+                    <span>C. $r = \frac{k_1 k_2 [\text{O}_3]}{k_{-1}[\text{O}_2]}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q3" value="D" class="text-teal-600 focus:ring-teal-500">
+                    <span>D. $r = k_2 [\text{O}_3][\text{O}_2]$</span>
+                </label>
+            </div>
+            <div id="feedback-q3" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+        </div>
+
+        <!-- Soal 4 -->
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
+            <span class="text-xs font-bold text-teal-700 block">SOAL 4 (Linearitas Orde Kedua)</span>
+            <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                Suatu reaksi dimerisasi gas mengikuti kinetika orde kedua murni ($2A \to A_2$). Jika plot grafik $\frac{1}{[A]}$ terhadap waktu $t$ menghasilkan garis lurus dengan persamaan regresi:
+                $$\frac{1}{[A]} = 10{,}0 + 0{,}250\,t \quad (\text{satuan } \text{M}^{-1} \text{ dan detik})$$
+                Waktu paruh ($t_{1/2}$) reaksi tersebut adalah...
+            </p>
+            <div class="space-y-2 text-xs">
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q4" value="A" class="text-teal-600 focus:ring-teal-500">
+                    <span>A. $10\,\text{detik}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q4" value="B" class="text-teal-600 focus:ring-teal-500">
+                    <span>B. $20\,\text{detik}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q4" value="C" class="text-teal-600 focus:ring-teal-500">
+                    <span>C. $40\,\text{detik}$</span>
+                </label>
+                <label class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                    <input type="radio" name="q4" value="D" class="text-teal-600 focus:ring-teal-500">
+                    <span>D. $80\,\text{detik}$</span>
+                </label>
+            </div>
+            <div id="feedback-q4" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+        </div>
+
+        <div class="pt-2 flex flex-wrap items-center gap-3">
+            <button type="button" onclick="checkOsnQuiz()" class="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-bold transition shadow-xs flex items-center gap-2">
+                <span>✓</span> Periksa Seluruh Jawaban Kuis
+            </button>
+            <button type="button" onclick="resetOsnQuiz()" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold transition">
+                Ulangi Kuis
+            </button>
+        </div>
+    </form>
+
+    <div id="quiz-result" class="hidden space-y-5 pt-2">
+        <!-- Banner Ringkasan Skor -->
+        <div id="quiz-score-banner" class="p-5 rounded-2xl border shadow-xs transition-all">
+            <div class="flex items-center justify-between">
+                <h3 id="quiz-score-title" class="font-bold text-base sm:text-lg"></h3>
+                <span id="quiz-score-badge" class="px-3 py-1 rounded-full text-xs font-bold"></span>
+            </div>
+            <p id="quiz-score-desc" class="text-xs mt-1.5"></p>
+        </div>
+
+        <!-- Pembahasan Ilmiah Statis (Bebas dari escape JS, KaTeX render sempurna) -->
+        <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-slate-50 space-y-4 text-xs sm:text-sm text-slate-800 shadow-xs">
+            <div class="flex items-center justify-between border-b border-slate-200/80 pb-3">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <span class="text-teal-600">📖</span> Pembahasan Kunci Jawaban &amp; Analisis Ilmiah
+                </h4>
+                <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800">Standar OSN-K</span>
+            </div>
+            <div class="space-y-3">
+                <div class="p-3.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-1.5 leading-relaxed">
+                    <strong>Soal 1 (Jawaban C — 0,050 M):</strong><br>
+                    Hitung jumlah kelipatan waktu paruh yang terlampaui:
+                    $$m = \frac{t}{t_{1/2}} = \frac{408\,\text{detik}}{102\,\text{detik}} = 4\,\text{kali waktu paruh}$$
+                    Gunakan rumus eksponensial orde 1:
+                    $$[\text{N}_2\text{O}_5] = [\text{N}_2\text{O}_5]_0 \left(\frac{1}{2}\right)^m = 0{,}800\,\text{M} \times \left(\frac{1}{2}\right)^4 = 0{,}800 \times \frac{1}{16} = \mathbf{0{,}050\,\text{M}}$$
+                    Konsentrasi reaktan tersisa tepat $6{,}25\%$ dari konsentrasi awalnya.
+                </div>
+                <div class="p-3.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-1.5 leading-relaxed">
+                    <strong>Soal 2 (Jawaban B — 55,3 kJ/mol):</strong><br>
+                    Gunakan persamaan Arrhenius dua titik suhu:
+                    $$\ln\left(\frac{k_2}{k_1}\right) = \frac{E_a}{R}\left(\frac{T_2 - T_1}{T_1 T_2}\right)$$
+                    Diketahui $\frac{k_2}{k_1} = 4 \implies \ln 4 = 1{,}386$.<br>
+                    $$1{,}386 = \frac{E_a}{8{,}314} \times \left(\frac{320 - 300}{300 \times 320}\right) = \frac{E_a}{8{,}314} \times \frac{20}{96000}$$
+                    $$1{,}386 = \frac{E_a}{8{,}314} \times 2{,}0833 \times 10^{-4}$$
+                    $$E_a = \frac{1{,}386 \times 8{,}314}{2{,}0833 \times 10^{-4}} = \frac{11{,}523}{2{,}0833 \times 10^{-4}} = 55310\,\text{J/mol} = \mathbf{55{,}31\,\text{kJ/mol}}$$
+                </div>
+                <div class="p-3.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-1.5 leading-relaxed">
+                    <strong>Soal 3 (Jawaban A — r = (2 k₁ k₂ [O₃]²) / (k₋₁ [O₂] + k₂ [O₃])):</strong><br>
+                    Laju pembentukan produk $\text{O}_2$:
+                    $$\frac{d[\text{O}_2]}{dt} = k_1[\text{O}_3] - k_{-1}[\text{O}_2][\text{O}] + 2k_2[\text{O}_3][\text{O}]$$
+                    Terapkan SSA pada zat antara atom oksigen ($\text{O}$):
+                    $$\frac{d[\text{O}]}{dt} = k_1[\text{O}_3] - k_{-1}[\text{O}_2][\text{O}] - k_2[\text{O}_3][\text{O}] = 0$$
+                    $$[\text{O}](k_{-1}[\text{O}_2] + k_2[\text{O}_3]) = k_1[\text{O}_3] \implies [\text{O}] = \frac{k_1[\text{O}_3]}{k_{-1}[\text{O}_2] + k_2[\text{O}_3]}$$
+                    Dari persamaan SSA: $k_1[\text{O}_3] - k_{-1}[\text{O}_2][\text{O}] = k_2[\text{O}_3][\text{O}]$. Substitusikan ke laju $\text{O}_2$:
+                    $$\frac{d[\text{O}_2]}{dt} = k_2[\text{O}_3][\text{O}] + 2k_2[\text{O}_3][\text{O}] = 2k_2[\text{O}_3][\text{O}] = \frac{2k_1 k_2 [\text{O}_3]^2}{k_{-1}[\text{O}_2] + k_2[\text{O}_3]}$$
+                </div>
+                <div class="p-3.5 bg-white rounded-xl border border-slate-200/90 shadow-2xs space-y-1.5 leading-relaxed">
+                    <strong>Soal 4 (Jawaban C — 40 detik):</strong><br>
+                    Bandingkan persamaan regresi $\frac{1}{[A]} = 10{,}0 + 0{,}250\,t$ dengan bentuk standar orde dua:
+                    $$\frac{1}{[A]} = \frac{1}{[A]_0} + kt$$
+                    Diperoleh: $\frac{1}{[A]_0} = 10{,}0\,\text{M}^{-1}$ (sehingga $[A]_0 = 0{,}100\,\text{M}$) dan $k = 0{,}250\,\text{M}^{-1}\cdot\text{s}^{-1}$.<br>
+                    Waktu paruh untuk kinetika orde dua:
+                    $$t_{1/2} = \frac{1}{k[A]_0} = \frac{1}{0{,}250 \times 0{,}100} = \frac{1}{0{,}0250} = \mathbf{40\,\text{detik}}$$
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+                </div>
+
+                <!-- NAVIGASI BAWAH SLIDER -->
+                <div class="flex items-center justify-between pt-4 border-t border-slate-200/80">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-2">
+                        <span>&larr;</span> Poin Sebelumnya
+                    </button>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold transition flex items-center gap-2 shadow-xs">
+                        Poin Berikutnya <span>&rarr;</span>
+                    </button>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SCRIPT PENDUKUNG -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+    <script src="/js/task-fab.js" defer></script>
+
+<script>
+const osnKeys = { q1: "C", q2: "B", q3: "A", q4: "C" };
+
+function checkOsnQuiz() {
+    const form = document.getElementById('quiz-form');
+    let score = 0;
+    const total = Object.keys(osnKeys).length;
+
+    for (let q in osnKeys) {
+        const selected = form.elements[q] ? form.elements[q].value : null;
+        const fb = document.getElementById('feedback-' + q);
+        const card = form.elements[q] ? (form.elements[q][0] || form.elements[q]).closest('.quiz-card') : null;
+
+        if (selected === osnKeys[q]) {
+            score++;
+            if (fb) {
+                fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! Pilihan (${selected}) benar.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-rose-300', 'bg-rose-50/20');
+                card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+            }
+        } else if (selected) {
+            if (fb) {
+                fb.innerHTML = `<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Pilihan Anda (${selected}) belum tepat. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-emerald-300', 'bg-emerald-50/20');
+                card.classList.add('border-rose-300', 'bg-rose-50/20');
+            }
+        } else {
+            if (fb) {
+                fb.innerHTML = `<span class="text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200 block">⚠️ Belum dijawab. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-emerald-300', 'border-rose-300', 'bg-emerald-50/20', 'bg-rose-50/20');
+            }
+        }
+    }
+
+    const percentage = Math.round((score / total) * 100);
+    const resultBox = document.getElementById('quiz-result');
+    const banner = document.getElementById('quiz-score-banner');
+    const title = document.getElementById('quiz-score-title');
+    const badge = document.getElementById('quiz-score-badge');
+    const desc = document.getElementById('quiz-score-desc');
+
+    resultBox.classList.remove('hidden');
+
+    if (percentage >= 75) {
+        banner.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-950 shadow-xs";
+        title.className = "font-bold text-base sm:text-lg text-emerald-900";
+        title.innerHTML = `🎉 Luar Biasa! Skor Anda: ${percentage}% (${score}/${total})`;
+        badge.className = "px-3 py-1 rounded-full bg-emerald-200 text-emerald-800 text-xs font-bold";
+        badge.textContent = "Lolos Kualifikasi OSN-K";
+        if (desc) desc.textContent = "Penguasaan kinetika reaksi dan metode SSA Anda luar biasa tajam!";
+    } else {
+        banner.className = "p-5 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 shadow-xs";
+        title.className = "font-bold text-base sm:text-lg text-amber-900";
+        title.innerHTML = `Skor Anda: ${percentage}% (${score}/${total})`;
+        badge.className = "px-3 py-1 rounded-full bg-amber-200 text-amber-800 text-xs font-bold";
+        badge.textContent = "Perlu Review Konsep";
+        if (desc) desc.textContent = "Pelajari kembali langkah eliminasi zat antara SSA dan perumusan Arrhenius pada pembahasan di bawah ini.";
+    }
+
+    if (typeof renderMathInElement === 'function') {
+        renderMathInElement(resultBox, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ],
+            throwOnError: false
+        });
+    }
+
+    const anyRadio = form.querySelector('input[type="radio"]:checked') || form.querySelector('input[type="radio"]');
+    if (anyRadio) anyRadio.dispatchEvent(new Event('change', { bubbles: true }));
+
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetOsnQuiz() {
+    const form = document.getElementById('quiz-form');
+    if (form) form.reset();
+    document.querySelectorAll('.quiz-feedback').forEach(fb => fb.innerHTML = '');
+    document.querySelectorAll('.quiz-card').forEach(c => {
+        c.classList.remove('border-emerald-300', 'border-rose-300', 'bg-emerald-50/20', 'bg-rose-50/20');
+    });
+    const resultBox = document.getElementById('quiz-result');
+    if (resultBox) resultBox.classList.add('hidden');
+    const anyRadio = form ? form.querySelector('input[type="radio"]') : null;
+    if (anyRadio) anyRadio.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('quiz-form');
+    if (form) {
+        form.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const q = this.name;
+                const fb = document.getElementById('feedback-' + q);
+                const card = this.closest('.quiz-card');
+                if (osnKeys[q]) {
+                    if (this.value === osnKeys[q]) {
+                        if (fb) fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! Pilihan (${this.value}) benar.</span>`;
+                        if (card) {
+                            card.classList.remove('border-rose-300', 'bg-rose-50/20');
+                            card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+                        }
+                    } else {
+                        if (fb) fb.innerHTML = `<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Pilihan (${this.value}) belum tepat. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+                        if (card) {
+                            card.classList.remove('border-emerald-300', 'bg-emerald-50/20');
+                            card.classList.add('border-rose-300', 'bg-rose-50/20');
+                        }
+                    }
+                }
+            });
+        });
+    }
+});
+</script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "$", right: "$", display: false}
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>
