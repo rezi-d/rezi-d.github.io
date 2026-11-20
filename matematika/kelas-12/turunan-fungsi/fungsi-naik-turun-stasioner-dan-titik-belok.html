@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fungsi Naik-Turun, Titik Stasioner, Kecekungan & Titik Belok — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai analisis grafik kurva dengan kalkulus: interval fungsi naik (f'(x) > 0) dan fungsi turun (f'(x) < 0), titik stasioner (f'(x) = 0), uji turunan pertama dan kedua untuk maksimum/minimum lokal, serta kecekungan dan titik belok (f''(x) = 0).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/fungsi-naik-turun-stasioner-dan-titik-belok.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/fungsi-naik-turun-stasioner-dan-titik-belok.html">
+    <meta property="og:title" content="🎢 Fungsi Naik-Turun, Titik Stasioner & Titik Belok — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Interval kemonotonan kurva, titik balik maksimum/minimum, kecekungan, dan titik belok.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎢</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="turunan-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Turunan Fungsi (Diferensial)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Fungsi Naik-Turun, Titik Stasioner, Kecekungan &amp; Titik Belok
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Turunan pertama $f'(x)$ menceritakan ke mana kurva bergerak (naik, turun, atau berhenti stasioner), sedangkan turunan kedua $f''(x)$ menceritakan bagaimana kurva melengkung (cekung ke atas atau cekung ke bawah). Kuasai penentuan interval kemonotonan, <strong>Uji Turunan Pertama &amp; Uji Turunan Kedua</strong> untuk titik balik maksimum/minimum, serta syarat terjadinya <strong>titik belok (inflection point)</strong>.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: FUNGSI NAIK, FUNGSI TURUN & TITIK STASIONER -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Kemonotonan Kurva</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎢 Interval Fungsi Naik, Fungsi Turun &amp; Titik Stasioner
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Naik: f'&gt;0 | Turun: f'&lt;0</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+                                <span class="text-xs font-bold text-emerald-800 uppercase">1. Fungsi Naik</span>
+                                <div class="font-mono font-bold text-emerald-950">$$f'(x) > 0$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Gradien garis singgung positif (condong ke kanan atas). Saat $x$ bertambah, $f(x)$ ikut naik.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-1.5">
+                                <span class="text-xs font-bold text-rose-800 uppercase">2. Fungsi Turun</span>
+                                <div class="font-mono font-bold text-rose-950">$$f'(x) < 0$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Gradien garis singgung negatif (condong ke kanan bawah). Saat $x$ bertambah, $f(x)$ turun.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-1.5">
+                                <span class="text-xs font-bold text-amber-800 uppercase">3. Titik Stasioner</span>
+                                <div class="font-mono font-bold text-amber-950">$$f'(x) = 0$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Garis singgung mendatar sejajar sumbu-$X$ ($m = 0$). Nilai $f(c)$ disebut <strong>nilai stasioner</strong>.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG PUNCAK MAKSIMUM, TITIK BELOK, LEMBAH MINIMUM -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Anatomi Kurva Kubik: Fungsi Naik, Titik Balik Maksimum, Titik Belok &amp; Titik Balik Minimum</span>
+                            <svg viewBox="0 0 400 185" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Sumbu X & Y -->
+                                <line x1="25" y1="150" x2="375" y2="150" stroke="#475569" stroke-width="1.5"/>
+                                <line x1="50" y1="170" x2="50" y2="15" stroke="#475569" stroke-width="1.5"/>
+                                <!-- Kurva Kubik -->
+                                <path d="M 60 140 C 100 10, 160 10, 200 80 C 240 150, 300 150, 340 20" fill="none" stroke="#2563eb" stroke-width="3"/>
+                                <!-- Garis singgung mendatar di Maksimum (130, 32) dan Minimum (270, 128) -->
+                                <line x1="90" y1="32" x2="170" y2="32" stroke="#059669" stroke-width="2" stroke-dasharray="4,2"/>
+                                <line x1="230" y1="128" x2="310" y2="128" stroke="#e11d48" stroke-width="2" stroke-dasharray="4,2"/>
+                                <!-- Titik -->
+                                <circle cx="130" cy="32" r="4.5" fill="#059669"/>
+                                <circle cx="200" cy="80" r="4.5" fill="#d97706"/>
+                                <circle cx="270" cy="128" r="4.5" fill="#e11d48"/>
+                                <!-- Label -->
+                                <text x="90" y="22" font-size="11" font-weight="bold" fill="#059669">Maksimum Lokal (f'=0, f''&lt;0)</text>
+                                <text x="210" y="78" font-size="11" font-weight="bold" fill="#d97706">Titik Belok (f''=0)</text>
+                                <text x="210" y="145" font-size="11" font-weight="bold" fill="#e11d48">Minimum Lokal (f'=0, f''&gt;0)</text>
+                                <text x="55" y="85" font-size="10" font-weight="bold" fill="#2563eb">f' &gt; 0 (Naik)</text>
+                                <text x="140" y="105" font-size="10" font-weight="bold" fill="#e11d48">f' &lt; 0 (Turun)</text>
+                                <text x="315" y="85" font-size="10" font-weight="bold" fill="#2563eb">f' &gt; 0 (Naik)</text>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: UJI TURUNAN PERTAMA & KEDUA UNTUK JENIS STASIONER -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Klasifikasi Titik Stasioner</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔍 Uji Turunan Pertama vs Uji Turunan Kedua
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Garis Singgung dan Garis Normal Saling Tegak Lurus di Titik Singgung</span>
+                            <svg viewBox="0 0 440 175" class="w-full max-w-md h-auto">
+    <line x1="35" y1="145" x2="405" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <line x1="65" y1="160" x2="65" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 90 135 Q 210 20 350 115" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <!-- Point of tangency P(200, 72) -->
+    <line x1="110" y1="117" x2="310" y2="17" stroke="#2563eb" stroke-width="2.5"/>
+    <line x1="165" y1="2" x2="245" y2="162" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <circle cx="200" cy="72" r="5" fill="#e11d48"/>
+    <text x="315" y="32" font-size="11" font-weight="800" fill="#1d4ed8">Garis Singgung (m_s = f'(x₁))</text>
+    <text x="295" y="135" font-size="11" font-weight="800" fill="#be123c">Garis Normal (m_n = -1/m_s)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">f''(c) &lt; 0 ⇒ Maksimum</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Misalkan $x = c$ adalah pembuat nol turunan pertama ($f'(c) = 0$). Terdapat 3 kemungkinan jenis titik stasioner $(c, f(c))$:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
+                                <span class="font-bold text-emerald-950 block">1. Titik Balik Maksimum Lokal</span>
+                                <p class="text-xs text-slate-700">
+                                    &bull; <strong>Uji $f'$:</strong> Tanda $f'(x)$ berubah dari **$+$ ke $-$** (Naik lalu Turun).<br>
+                                    &bull; <strong>Uji $f''$:</strong> Nilai **$f''(c) < 0$** (cekung ke bawah $\cap$).
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-1.5">
+                                <span class="font-bold text-blue-950 block">2. Titik Balik Minimum Lokal</span>
+                                <p class="text-xs text-slate-700">
+                                    &bull; <strong>Uji $f'$:</strong> Tanda $f'(x)$ berubah dari **$-$ ke $+$** (Turun lalu Naik).<br>
+                                    &bull; <strong>Uji $f''$:</strong> Nilai **$f''(c) > 0$** (cekung ke atas $\cup$).
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-1.5">
+                                <span class="font-bold text-amber-950 block">3. Titik Belok Stasioner (Saddle)</span>
+                                <p class="text-xs text-slate-700">
+                                    &bull; <strong>Uji $f'$:</strong> Tanda $f'(x)$ <strong>tidak berubah</strong> ($+$ ke $+$, atau $-$ ke $-$, terjadi pada faktor pangkat genap seperti $(x - c)^2$).<br>
+                                    &bull; <strong>Uji $f''$:</strong> $f''(c) = 0$ dan $f'''(c) \ne 0$.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: KECEKUNGAN KURVA DAN TITIK BELOK (INFLECTION POINT) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Peran Turunan Kedua</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🥣 Kecekungan Kurva (Concavity) &amp; Titik Belok ($f''(x) = 0$)
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perubahan Kecekungan Kurva dan Titik Belok (f''(x) = 0)</span>
+                            <svg viewBox="0 0 540 175" class="w-full max-w-xl h-auto">
+    <line x1="35" y1="145" x2="505" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <!-- Cubic curve switching from concave down to concave up at inflection point I(270, 85) -->
+    <path d="M 70 135 Q 170 5 270 85 Q 370 165 470 35" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="270" y1="20" x2="270" y2="145" stroke="#e11d48" stroke-width="2" stroke-dasharray="5 3"/>
+    <circle cx="170" cy="45" r="4.5" fill="#059669"/>
+    <circle cx="270" cy="85" r="5.5" fill="#e11d48"/>
+    <circle cx="370" cy="125" r="4.5" fill="#059669"/>
+    <text x="155" y="28" text-anchor="middle" font-size="11" font-weight="800" fill="#065f46">Cekung Bawah (f'' &lt; 0)</text>
+    <text x="270" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Titik Belok (f'' = 0)</text>
+    <text x="395" y="138" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Cekung Atas (f'' &gt; 0)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Cekung Atas: f''&gt;0</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-blue-800 block">1. Cekung ke Atas (Concave Up $\cup$): $f''(x) > 0$</span>
+                                <p class="text-xs text-slate-600">
+                                    Gradien $f'(x)$ semakin membesar. Grafik melengkung terbuka ke atas (seperti mangkuk menampung air) dan berada di atas garis singgungnya.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-rose-800 block">2. Cekung ke Bawah (Concave Down $\cap$): $f''(x) < 0$</span>
+                                <p class="text-xs text-slate-600">
+                                    Gradien $f'(x)$ semakin mengecil. Grafik melengkung terbuka ke bawah (seperti mangkuk terbalik menumpahkan air).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 text-xs sm:text-sm space-y-1.5">
+                            <span class="font-bold text-purple-950 block">Syarat Titik Belok (Inflection Point):</span>
+                            <p class="text-slate-700 text-xs leading-relaxed">
+                                Titik $(c, f(c))$ adalah <strong>titik belok</strong> apabila di titik $x = c$ terjadi <strong>perubahan arah kecekungan</strong> (dari cekung ke atas menjadi cekung ke bawah, atau sebaliknya). Cara mencarinya: selesaikan **$f''(c) = 0$** dan pastikan tanda $f''(x)$ berganti tanda di kiri dan kanan $c$! (Khusus fungsi kubik $f(x) = ax^3 + bx^2 + cx + d$, titik beloknya selalu berada tepat di tengah-tengah antara titik maksimum dan titik minimumnya: $x_{\text{belok}} = -\frac{b}{3a}$!).
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: SYARAT FUNGSI SELALU NAIK ATAU SELALU TURUN DI R -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Soal Favorit UTBK</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ Syarat Fungsi Kubik Selalu Naik / Selalu Turun di Seluruh $\mathbb{R}$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perubahan Kecekungan Kurva dan Titik Belok (f''(x) = 0)</span>
+                            <svg viewBox="0 0 540 175" class="w-full max-w-xl h-auto">
+    <line x1="35" y1="145" x2="505" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <!-- Cubic curve switching from concave down to concave up at inflection point I(270, 85) -->
+    <path d="M 70 135 Q 170 5 270 85 Q 370 165 470 35" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="270" y1="20" x2="270" y2="145" stroke="#e11d48" stroke-width="2" stroke-dasharray="5 3"/>
+    <circle cx="170" cy="45" r="4.5" fill="#059669"/>
+    <circle cx="270" cy="85" r="5.5" fill="#e11d48"/>
+    <circle cx="370" cy="125" r="4.5" fill="#059669"/>
+    <text x="155" y="28" text-anchor="middle" font-size="11" font-weight="800" fill="#065f46">Cekung Bawah (f'' &lt; 0)</text>
+    <text x="270" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Titik Belok (f'' = 0)</text>
+    <text x="395" y="138" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Cekung Atas (f'' &gt; 0)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Diskriminan D_f' ≤ 0</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Turunan dari fungsi kubik $f(x) = ax^3 + bx^2 + cx + d$ adalah fungsi kuadrat $f'(x) = 3ax^2 + 2bx + c$. Agar fungsi kubik tersebut <strong>selalu naik</strong> (atau <strong>selalu turun</strong>) untuk seluruh $x \in \mathbb{R}$ (tidak punya titik balik maksimum maupun minimum), maka turunan $f'(x)$ tidak boleh berganti tanda (definit/semi-definit):
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+                                <span class="font-bold text-emerald-950 block">1. Selalu Naik di $\mathbb{R}$ ($f'(x) \ge 0$)</span>
+                                <div class="p-2 bg-white rounded-lg border border-emerald-200 font-mono text-center font-bold text-emerald-900">
+                                    $$a > 0 \quad \text{dan} \quad D_{f'} = (2b)^2 - 4(3a)(c) \le 0$$
+                                </div>
+                            </div>
+                            <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-1.5">
+                                <span class="font-bold text-rose-950 block">2. Selalu Turun di $\mathbb{R}$ ($f'(x) \le 0$)</span>
+                                <div class="p-2 bg-white rounded-lg border border-rose-200 font-mono text-center font-bold text-rose-900">
+                                    $$a < 0 \quad \text{dan} \quad D_{f'} = (2b)^2 - 4(3a)(c) \le 0$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Fungsi Naik-Turun, Stasioner &amp; Titik Belok
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perubahan Kecekungan Kurva dan Titik Belok (f''(x) = 0)</span>
+                            <svg viewBox="0 0 540 175" class="w-full max-w-xl h-auto">
+    <line x1="35" y1="145" x2="505" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <!-- Cubic curve switching from concave down to concave up at inflection point I(270, 85) -->
+    <path d="M 70 135 Q 170 5 270 85 Q 370 165 470 35" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="270" y1="20" x2="270" y2="145" stroke="#e11d48" stroke-width="2" stroke-dasharray="5 3"/>
+    <circle cx="170" cy="45" r="4.5" fill="#059669"/>
+    <circle cx="270" cy="85" r="5.5" fill="#e11d48"/>
+    <circle cx="370" cy="125" r="4.5" fill="#059669"/>
+    <text x="155" y="28" text-anchor="middle" font-size="11" font-weight="800" fill="#065f46">Cekung Bawah (f'' &lt; 0)</text>
+    <text x="270" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Titik Belok (f'' = 0)</text>
+    <text x="395" y="138" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Cekung Atas (f'' &gt; 0)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah jawaban yang paling tepat pada 5 soal analisis kurva berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Syarat fungsi turun adalah f'(x) < 0 ⇒ 3x² - 6x - 9 < 0 ⇒ 3(x² - 2x - 3) < 0 ⇒ 3(x - 3)(x + 1) < 0 ⇒ -1 < x < 3.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Interval Fungsi Turun</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Fungsi $f(x) = x^3 - 3x^2 - 9x + 5$ turun pada interval ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-3 < x < 1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $-1 < x < 3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $x < -1$ atau $x > 3$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $x < -3$ atau $x > 1$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Cari titik stasioner: f'(x) = 3x² - 12 = 0 ⇒ x² = 4 ⇒ x = -2 atau x = 2. Gunakan uji turunan kedua f''(x) = 6x: untuk x = -2, f''(-2) = -12 < 0 (titik balik maksimum lokal). Maka nilai maksimum lokalnya adalah f(-2) = (-2)³ - 12(-2) + 4 = -8 + 24 + 4 = 20.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Nilai Balik Maksimum Lokal</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai balik maksimum lokal dari fungsi $f(x) = x^3 - 12x + 4$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-12$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $16$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $20$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $24$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Cari f'(x) = 3x² - 12x + 5 dan f''(x) = 6x - 12. Syarat titik belok: f''(x) = 0 ⇒ 6x - 12 = 0 ⇒ x = 2. Ordinatnya f(2) = 2³ - 6(2)² + 5(2) + 1 = 8 - 24 + 10 + 1 = -5. Jadi titik beloknya adalah (2, -5).">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Koordinat Titik Belok Kurva</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Koordinat titik belok dari grafik fungsi $f(x) = x^3 - 6x^2 + 5x + 1$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $(2, -5)$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $(2, -3)$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $(-2, -41)$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $(1, 1)$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Kurva cekung ke atas saat f''(x) > 0. Karena f'(x) = 4x³ - 12x², maka f''(x) = 12x² - 24x = 12x(x - 2) > 0 ⇒ x < 0 atau x > 2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Interval Kecekungan Kurva</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Grafik fungsi $f(x) = x^4 - 4x^3 + 7$ <strong>cekung ke atas</strong> pada interval ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $0 < x < 2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $0 < x < 3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $x > 3$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $x < 0$ atau $x > 2$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Agar f(x) selalu naik untuk setiap x ∈ ℝ, haruslah f'(x) = 3x² + 2px + 3 ≥ 0 untuk setiap x ∈ ℝ. Syaratnya diskriminan D ≤ 0: (2p)² - 4(3)(3) ≤ 0 ⇒ 4p² - 36 ≤ 0 ⇒ p² - 9 ≤ 0 ⇒ -3 ≤ p ≤ 3.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Syarat Fungsi Selalu Naik di Seluruh $\mathbb{R}$</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Agar fungsi $f(x) = x^3 + px^2 + 3x - 2$ selalu naik untuk semua nilai $x \in \mathbb{R}$, maka batas nilai $p$ yang memenuhi adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-1 \le p \le 1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $-3 \le p \le 3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $p \le -3$ atau $p \ge 3$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $-9 \le p \le 9$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus Diferensial.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Section 4.3: How Derivatives Affect the Shape of a Graph.</p>
+                    <p><strong>Purcell, Edwin J. &amp; Varberg, Dale.</strong> (2007). <em>Calculus</em> (9th ed.). Prentice Hall. Chapter 3: Applications of the Derivative.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="persamaan-garis-singgung-garis-normal-dan-kinematika.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Garis Singgung, Normal &amp; Kinematika
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="optimasi-maksimum-minimum-dan-laju-berkaitan-hots.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Optimasi Maks-Min &amp; Laju Berkaitan (HOTS) &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

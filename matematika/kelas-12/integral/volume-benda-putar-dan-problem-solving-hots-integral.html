@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume Benda Putar (Cakram, Cincin, Kulit Tabung) & Problem Solving HOTS Integral - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari volume benda putar metode cakram, metode cincin, metode kulit tabung, serta problem solving HOTS integral lengkap dengan visualisasi 3D SVG.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="integral">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 4 · Integral & Aplikasi Luas-Volume</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 mb-2">
+                                🏆 Sub-Materi 6 dari 6 · Problem Solving & HOTS
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Volume Benda Putar (Cakram, Cincin, Kulit Tabung) & Problem Solving HOTS
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Metode Cakram (Disk Method) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Metode Cakram (Disk Method)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Volume Benda Putar Mengelilingi Sumbu-$X$ & Sumbu-$Y$ ($360^\circ$)
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Irisan Silinder Pejal</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika suatu daerah datar di antara kurva $y = f(x)$ dan sumbu-$X$ diputar mengelilingi sumbu-$X$ sejauh $360^\circ$, setiap pias vertikal selebar $\Delta x$ akan menyapu sebuah <strong>cakram silinder tipis</strong> berjari-jari $R = f(x)$ dan volume $\Delta V = \pi R^2 \Delta x = \pi [f(x)]^2\,\Delta x$:
+                        </p>
+
+                        <!-- SVG 3D Metode Cakram -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Visualisasi 3D Metode Cakram (Disk Method): $\Delta V = \pi [f(x)]^2\,\Delta x$
+                            </p>
+                            <svg viewBox="0 0 560 225" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- 3D Paraboloid body -->
+                                <path d="M 95 115 Q 210 38 390 28 L 390 202 Q 210 192 95 115 Z" fill="#dbeafe" fill-opacity="0.55" />
+                                <!-- Top & Bottom outline curves -->
+                                <path d="M 95 115 Q 210 38 390 28" fill="none" stroke="#2563eb" stroke-width="2.5" />
+                                <path d="M 95 115 Q 210 192 390 202" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="5 3" />
+                                <!-- End face ellipse at x = b -->
+                                <ellipse cx="390" cy="115" rx="22" ry="87" fill="#bfdbfe" fill-opacity="0.6" stroke="#2563eb" stroke-width="2" />
+
+                                <!-- Highlighted Disk Element at middle -->
+                                <ellipse cx="245" cy="115" rx="16" ry="64" fill="#3b82f6" fill-opacity="0.35" stroke="#1d4ed8" stroke-width="2" />
+                                <ellipse cx="263" cy="115" rx="16" ry="67" fill="#60a5fa" fill-opacity="0.45" stroke="#1d4ed8" stroke-width="2" />
+                                <line x1="245" y1="51" x2="263" y2="48" stroke="#1d4ed8" stroke-width="2" />
+                                <line x1="245" y1="179" x2="263" y2="182" stroke="#1d4ed8" stroke-width="2" />
+
+                                <!-- Axes -->
+                                <line x1="40" y1="115" x2="500" y2="115" stroke="#1e293b" stroke-width="2" />
+                                <line x1="95" y1="205" x2="95" y2="15" stroke="#1e293b" stroke-width="2" />
+
+                                <!-- Radius R = f(x) -->
+                                <line x1="263" y1="115" x2="263" y2="48" stroke="#e11d48" stroke-width="2.5" />
+                                <circle cx="263" cy="48" r="3.5" fill="#e11d48" />
+                                <text x="272" y="85" font-size="12" font-weight="bold" fill="#be123c">R = f(x)</text>
+                                <text x="254" y="198" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">Δx</text>
+
+                                <!-- Rotation arrow around X-axis -->
+                                <path d="M 455 88 A 14 28 0 1 1 455 142" fill="none" stroke="#e11d48" stroke-width="2" />
+                                <polygon points="455,142 448,136 459,134" fill="#e11d48" />
+                                <text x="470" y="102" font-size="11" font-weight="bold" fill="#be123c">360°</text>
+                                <text x="508" y="119" font-size="13" font-weight="bold" fill="#1e293b">X</text>
+                                <text x="95" y="12" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">Y</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Diputar Mengelilingi Sumbu-$X$</h3>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center">
+                                    $$V_x = \pi \int_a^b \big[f(x)\big]^2\,dx = \pi \int_a^b y^2\,dx$$
+                                </div>
+                                <p class="text-xs text-slate-600">Contoh: Daerah $y = \sqrt{x}$ pada $[0, 4]$ diputar mengelilingi sumbu-$X$: $V = \pi \int_0^4 (\sqrt{x})^2\,dx = \pi \left[\frac{1}{2}x^2\right]_0^4 = 8\pi$.</p>
+                            </div>
+
+                            <div class="bg-indigo-50/70 rounded-xl p-5 border border-indigo-200 space-y-2">
+                                <h3 class="font-bold text-indigo-950 text-sm">2. Diputar Mengelilingi Sumbu-$Y$</h3>
+                                <div class="bg-white rounded-lg p-3 border border-indigo-100 text-xs text-center">
+                                    $$V_y = \pi \int_c^d \big[g(y)\big]^2\,dy = \pi \int_c^d x^2\,dy$$
+                                </div>
+                                <p class="text-xs text-slate-600">Ubah persamaan kurva menjadi $x^2$ dalam fungsi $y$, lalu integralkan terhadap $dy$ dari $y = c$ sampai $y = d$.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Metode Cincin (Washer Method) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Metode Cincin (Washer Method)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Volume Benda Putar di Antara Dua Kurva (Berongga)
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Selisih Kuadrat Jari-Jari</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika daerah yang diputar dibatasi oleh dua kurva $y_{\text{luar}} = R(x)$ (lebih jauh dari sumbu putar) dan $y_{\text{dalam}} = r(x)$ (lebih dekat ke sumbu putar), benda putar yang terbentuk memiliki <strong>rongga di tengahnya</strong> sehingga irisannya berbentuk <strong>cincin (washer)</strong>:
+                        </p>
+
+                        <!-- SVG 3D Metode Cincin -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Visualisasi Irisan Cincin Berongga: Luas Penampang $A(x) = \pi (R_{\text{luar}}^2 - r_{\text{dalam}}^2)$
+                            </p>
+                            <svg viewBox="0 0 580 220" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- LEFT: Curve setup around X-axis -->
+                                <line x1="30" y1="175" x2="310" y2="175" stroke="#334155" stroke-width="2" />
+                                <line x1="55" y1="195" x2="55" y2="20" stroke="#334155" stroke-width="2" />
+                                <!-- Shaded region between R(x) and r(x) -->
+                                <path d="M 85 135 Q 175 25 265 65 L 265 110 Q 175 145 85 135 Z" fill="#a7f3d0" fill-opacity="0.65" />
+                                <path d="M 85 135 Q 175 25 265 65" fill="none" stroke="#059669" stroke-width="2.5" />
+                                <path d="M 85 135 Q 175 145 265 110" fill="none" stroke="#e11d48" stroke-width="2.5" />
+                                <!-- Vertical strip showing R and r -->
+                                <line x1="185" y1="175" x2="185" y2="57" stroke="#059669" stroke-width="2" stroke-dasharray="3 2" />
+                                <line x1="175" y1="175" x2="175" y2="127" stroke="#e11d48" stroke-width="2" stroke-dasharray="3 2" />
+                                <text x="205" y="45" font-size="12" font-weight="bold" fill="#059669">R(x) = y_luar</text>
+                                <text x="205" y="145" font-size="12" font-weight="bold" fill="#e11d48">r(x) = y_dalam</text>
+                                <text x="295" y="170" font-size="11" font-weight="bold" fill="#334155">Sumbu-X</text>
+
+                                <!-- RIGHT: Front view of the Washer (Annulus) -->
+                                <circle cx="455" cy="105" r="76" fill="#6ee7b7" fill-opacity="0.55" stroke="#047857" stroke-width="2.5" />
+                                <circle cx="455" cy="105" r="36" fill="#ffffff" stroke="#e11d48" stroke-width="2.5" />
+                                <circle cx="455" cy="105" r="3" fill="#1e293b" />
+                                <!-- Radius arrows -->
+                                <line x1="455" y1="105" x2="520" y2="66" stroke="#047857" stroke-width="2.5" />
+                                <line x1="455" y1="105" x2="455" y2="141" stroke="#e11d48" stroke-width="2.5" />
+                                <text x="488" y="75" font-size="13" font-weight="800" fill="#065f46">R</text>
+                                <text x="464" y="130" font-size="13" font-weight="800" fill="#be123c">r</text>
+                                <text x="455" y="203" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46">Penampang Cincin: π(R² - r²)</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-3">
+                            <h3 class="font-bold text-emerald-950 text-sm">Rumus Volume Metode Cincin:</h3>
+                            <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center overflow-x-auto">
+                                $$V_x = \pi \int_a^b \Big( y_{\text{luar}}^2 - y_{\text{dalam}}^2 \Big)\,dx \quad \text{dan} \quad V_y = \pi \int_c^d \Big( x_{\text{luar}}^2 - x_{\text{dalam}}^2 \Big)\,dy$$
+                            </div>
+                            <p class="text-xs text-rose-700 font-semibold">
+                                ⚠️ <strong>Peringatan Jebakan Fatal:</strong> Kuadratkan masing-masing fungsi terlebih dahulu baru dikurangkan! Ingat bahwa $(y_1^2 - y_2^2) \neq (y_1 - y_2)^2$.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Metode Kulit Tabung (Cylindrical Shells) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Metode Kulit Tabung (Shell Method)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Diputar Mengelilingi Sumbu-$Y$ Tanpa Mengubah Fungsi ke $dy$!
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Pias Sejajar Sumbu Putar</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Bagaimana jika daerah di bawah kurva $y = f(x) = 4x - x^2$ diputar mengelilingi <strong>sumbu-$Y$</strong>? Jika memakai metode cincin, kita kesulitan mengubah $y = 4x - x^2$ menjadi $x = g(y)$. Solusi cerdasnya adalah <strong>Metode Kulit Tabung</strong>: ambil pias tegak $\Delta x$ (sejajar sumbu-$Y$) yang jika diputar membentuk selimut tabung berjari-jari $r = x$, tinggi $h = f(x)$, dan tebal $\Delta x$:
+                        </p>
+
+                        <!-- SVG 3D Kulit Tabung -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Visualisasi 3D Kulit Tabung yang Dibentangkan: $\Delta V = (\text{Keliling } 2\pi x) \times (\text{Tinggi } f(x)) \times \Delta x$
+                            </p>
+                            <svg viewBox="0 0 600 220" class="w-full max-w-2xl mx-auto h-auto">
+                                <!-- LEFT: Cylindrical Shell around Y-axis -->
+                                <line x1="145" y1="205" x2="145" y2="15" stroke="#1e293b" stroke-width="2" />
+                                <line x1="35" y1="175" x2="265" y2="175" stroke="#1e293b" stroke-width="2" />
+
+                                <!-- Cylinder body -->
+                                <path d="M 75 65 L 75 165 A 70 18 0 0 0 215 165 L 215 65" fill="#ddd6fe" fill-opacity="0.55" stroke="#7c3aed" stroke-width="2" />
+                                <ellipse cx="145" cy="65" rx="70" ry="18" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" />
+                                <ellipse cx="145" cy="65" rx="58" ry="13" fill="#f8fafc" stroke="#6d28d9" stroke-width="1.5" stroke-dasharray="4 2" />
+
+                                <!-- Radius r = x and height h = f(x) -->
+                                <line x1="145" y1="165" x2="215" y2="165" stroke="#e11d48" stroke-width="2.5" />
+                                <text x="180" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#be123c">r = x</text>
+                                <text x="238" y="120" font-size="12" font-weight="bold" fill="#6d28d9">h = f(x)</text>
+                                <text x="145" y="12" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">Sumbu-Y</text>
+
+                                <!-- Arrow to unrolled slab -->
+                                <text x="285" y="118" font-size="18" font-weight="bold" fill="#64748b">➡</text>
+
+                                <!-- RIGHT: Unrolled Rectangular Slab -->
+                                <polygon points="325,70 545,70 560,55 340,55" fill="#c4b5fd" stroke="#6d28d9" stroke-width="1.8" />
+                                <rect x="325" y="70" width="220" height="95" fill="#ddd6fe" fill-opacity="0.75" stroke="#6d28d9" stroke-width="2" />
+                                <polygon points="545,70 560,55 560,150 545,165" fill="#a78bfa" stroke="#6d28d9" stroke-width="1.8" />
+
+                                <text x="435" y="185" text-anchor="middle" font-size="12" font-weight="bold" fill="#4c1d95">Panjang = Keliling Lingkaran = 2πx</text>
+                                <text x="435" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#5b21b6">Tinggi = f(x)</text>
+                                <text x="568" y="62" font-size="11" font-weight="bold" fill="#be123c">Tebal = dx</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-2">
+                            <h3 class="font-bold text-purple-950 text-sm">Rumus Volume Metode Kulit Tabung (Diputar terhadap Sumbu-$Y$):</h3>
+                            <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs text-center">
+                                $$V_y = 2\pi \int_a^b x \cdot f(x)\,dx \quad \text{atau untuk dua kurva:} \quad V_y = 2\pi \int_a^b x \big(y_{\text{atas}} - y_{\text{bawah}}\big)\,dx$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Problem Solving HOTS Integral & Nilai Rata-Rata Fungsi -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 4 · Problem Solving HOTS</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Nilai Rata-Rata Integral & Perbandingan Volume Benda Putar
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">Analisis Visual HOTS</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Mari kita bedah dua konsep HOTS yang sering keluar di SNBT dan seleksi mandiri PTN: <strong>Teorema Nilai Rata-Rata Integral</strong> dan <strong>Perbandingan Volume Paraboloida vs Kerucut Dalam Tabung</strong> (Teorema Archimedes):
+                        </p>
+
+                        <!-- SVG Teorema Nilai Rata-Rata & Paraboloida Archimedes -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                (Kiri) Tinggi Rata-Rata Fungsi $\bar{y}$ & (Kanan) Rasio Volume Kerucut : Paraboloida : Tabung = $1 : 2 : 3$
+                            </p>
+                            <svg viewBox="0 0 600 215" class="w-full max-w-2xl mx-auto h-auto">
+                                <!-- LEFT: Mean Value of Function -->
+                                <line x1="25" y1="175" x2="275" y2="175" stroke="#334155" stroke-width="2" />
+                                <line x1="50" y1="195" x2="50" y2="25" stroke="#334155" stroke-width="2" />
+                                <!-- Shaded curve area -->
+                                <path d="M 80 175 L 80 130 Q 160 25 240 95 L 240 175 Z" fill="#bfdbfe" fill-opacity="0.55" />
+                                <path d="M 70 145 Q 160 15 250 105" fill="none" stroke="#2563eb" stroke-width="2.5" />
+                                <!-- Equivalent Rectangle of height y_avg -->
+                                <rect x="80" y="92" width="160" height="83" fill="none" stroke="#e11d48" stroke-width="2" stroke-dasharray="5 3" />
+                                <text x="80" y="192" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">a</text>
+                                <text x="240" y="192" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">b</text>
+                                <text x="36" y="96" text-anchor="middle" font-size="12" font-weight="bold" fill="#be123c">ȳ</text>
+                                <text x="160" y="208" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Luas Kurva = Luas Persegi Panjang ȳ(b-a)</text>
+
+                                <!-- RIGHT: Paraboloid inside Cylinder -->
+                                <rect x="355" y="45" width="170" height="130" fill="#f1f5f9" stroke="#64748b" stroke-width="2" stroke-dasharray="4 3" />
+                                <!-- Paraboloid Cup y = x^2 rotated around Y -->
+                                <path d="M 355 45 Q 440 305 525 45 Z" fill="#a7f3d0" fill-opacity="0.65" stroke="#059669" stroke-width="2.5" />
+                                <!-- Axis of symmetry -->
+                                <line x1="440" y1="190" x2="440" y2="25" stroke="#1e293b" stroke-width="1.8" />
+                                <text x="440" y="105" text-anchor="middle" font-size="12" font-weight="800" fill="#065f46">V_paraboloida</text>
+                                <text x="440" y="122" text-anchor="middle" font-size="12" font-weight="800" fill="#065f46">= ½ V_tabung</text>
+                                <text x="440" y="208" text-anchor="middle" font-size="11" font-weight="bold" fill="#047857">Mangkuk Paraboloida = ½πR²T</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Nilai Rata-Rata Fungsi pada $[a, b]$</h3>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center">
+                                    $$\bar{y} = \frac{1}{b - a} \int_a^b f(x)\,dx$$
+                                </div>
+                                <p class="text-xs text-slate-600">Secara geometris, $\bar{y}$ adalah tinggi persegi panjang yang memiliki luas sama persis dengan luas di bawah kurva $f(x)$ pada $[a, b]$.</p>
+                            </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">2. Rumus Cepat Volume Mangkuk Paraboloida</h3>
+                                <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center">
+                                    $$V_{\text{paraboloida}} = \frac{1}{2} V_{\text{tabung}} = \frac{1}{2}\pi R^2 T$$
+                                </div>
+                                <p class="text-xs text-slate-600">Saat parabola $y = kx^2$ diputar mengelilingi sumbu simetrinya setinggi $T$ dengan jari-jari mulut $R$, volumenya selalu tepat setengah volume tabung pembungkusnya!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Volume Benda Putar & HOTS Integral
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Selesaikan 5 soal pemodelan volume benda putar dan problem solving HOTS integral berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 (dengan Diagram SVG) -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Volume Benda Putar Metode Cakram</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Daerah yang dibatasi oleh kurva $y = \sqrt{x}$, sumbu-$X$, dan garis $x = 6$ diputar mengelilingi sumbu-$X$ sejauh $360^\circ$. Volume benda putar yang terjadi adalah ....
+                                </p>
+                                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                                    <svg viewBox="0 0 360 155" class="w-full max-w-sm mx-auto h-auto">
+                                        <line x1="30" y1="90" x2="330" y2="90" stroke="#334155" stroke-width="2" />
+                                        <line x1="65" y1="145" x2="65" y2="15" stroke="#334155" stroke-width="2" />
+                                        <path d="M 65 90 Q 130 35 270 30 L 270 150 Q 130 145 65 90 Z" fill="#bfdbfe" fill-opacity="0.55" />
+                                        <path d="M 65 90 Q 130 35 270 30" fill="none" stroke="#2563eb" stroke-width="2.5" />
+                                        <ellipse cx="270" cy="90" rx="14" ry="60" fill="#93c5fd" fill-opacity="0.6" stroke="#1d4ed8" stroke-width="2" />
+                                        <text x="270" y="105" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">x = 6</text>
+                                        <text x="175" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">y = √x</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $12\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $18\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $24\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $36\pi$ satuan volume
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 2 (dengan Diagram SVG) -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Volume Benda Putar Metode Cincin</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Daerah tertutup di kuadran I yang dibatasi oleh garis $y = x$ dan parabola $y = x^2$ diputar mengelilingi sumbu-$X$ sejauh $360^\circ$. Volume benda putar yang terbentuk adalah ....
+                                </p>
+                                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                                    <svg viewBox="0 0 360 160" class="w-full max-w-sm mx-auto h-auto">
+                                        <line x1="40" y1="135" x2="320" y2="135" stroke="#334155" stroke-width="2" />
+                                        <line x1="75" y1="150" x2="75" y2="15" stroke="#334155" stroke-width="2" />
+                                        <path d="M 75 135 L 235 35 Q 175 135 75 135 Z" fill="#a7f3d0" fill-opacity="0.7" />
+                                        <line x1="75" y1="135" x2="250" y2="25" stroke="#059669" stroke-width="2.5" />
+                                        <path d="M 75 135 Q 175 135 245 20" fill="none" stroke="#e11d48" stroke-width="2.5" />
+                                        <line x1="235" y1="35" x2="235" y2="135" stroke="#64748b" stroke-dasharray="3 3" />
+                                        <text x="235" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">1</text>
+                                        <text x="145" y="65" font-size="11" font-weight="bold" fill="#059669">R = x</text>
+                                        <text x="210" y="110" font-size="11" font-weight="bold" fill="#e11d48">r = x²</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{2}{15}\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{1}{6}\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{3}{15}\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{1}{3}\pi$ satuan volume
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Volume Mangkuk Paraboloida (Putar Sumbu-Y)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Daerah di kuadran I yang dibatasi oleh parabola $y = x^2$, sumbu-$Y$, dan garis mendatar $y = 4$ diputar mengelilingi sumbu-$Y$ sejauh $360^\circ$. Volume benda putar yang terjadi adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $4\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $6\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $8\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $16\pi$ satuan volume
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Metode Kulit Tabung</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Daerah yang dibatasi oleh kurva $y = 2x - x^2$ dan sumbu-$X$ pada interval $0 \le x \le 2$ diputar mengelilingi sumbu-$Y$ sejauh $360^\circ$. Dengan menggunakan metode kulit tabung $V = 2\pi \int_0^2 x(2x - x^2)\,dx$, volume benda putar tersebut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{4}{3}\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $2\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{16}{15}\pi$ satuan volume
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{8}{3}\pi$ satuan volume
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Nilai Rata-Rata Fungsi & Persamaan Batas HOTS</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Jika nilai rata-rata dari fungsi $f(x) = 3x^2 - 2x + 1$ pada interval $[0, a]$ dengan $a > 0$ adalah $9$, maka nilai $a$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $2$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $3$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $4$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $5$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/integral/aplikasi-integral-luas-daerah-di-antara-dua-kurva.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Aplikasi Luas Daerah</span>
+                    </a>
+                    <a href="/matematika/kelas-12/irisan-kerucut/persamaan-lingkaran-analitik-dan-kedudukan-titik-garis.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut ke Bab 5: Geometri Analitik Irisan Kerucut</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Sempurna!</strong> Pemodelan volume benda putar dan analisis HOTS Anda sangat tepat.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

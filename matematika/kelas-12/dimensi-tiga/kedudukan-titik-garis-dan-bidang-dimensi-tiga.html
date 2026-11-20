@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kedudukan Titik, Garis & Bidang dalam Ruang 3D — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai konsep fondasional Geometri Ruang (Dimensi Tiga): aksioma insidensi Euklides, kedudukan titik terhadap garis dan bidang, dua garis berpotongan, sejajar, dan bersilangan, serta bidang irisan pada kubus.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/dimensi-tiga/kedudukan-titik-garis-dan-bidang-dimensi-tiga.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/dimensi-tiga/kedudukan-titik-garis-dan-bidang-dimensi-tiga.html">
+    <meta property="og:title" content="🧊 Kedudukan Titik, Garis & Bidang dalam Ruang 3D — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Aksioma ruang, garis bersilangan, dan bidang diagonal kubus dengan diagram SVG dan kuis interaktif.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧊</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="dimensi-tiga">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 1: Geometri Ruang (Dimensi Tiga)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Kedudukan Titik, Garis &amp; Bidang dalam Ruang 3D
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Sebelum menghitung jarak dan sudut di dalam bangun ruang, Anda wajib menguasai peta relasi spasial: bagaimana tiga elemen tak terdefinisi (titik, garis, dan bidang) saling berinteraksi, aksioma pembentukan bidang tunggal, fenomena <strong>dua garis bersilangan (skew lines)</strong> yang hanya ada di ruang 3D, serta anatomi lengkap kubus $ABCD.EFGH$.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: ELEMEN DASAR & AKSIOMA INSIDENSI RUANG -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Fondasi Geometri Ruang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧊 Tiga Elemen Dasar &amp; Aksioma Pembentukan Bidang
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Empat Aksioma Pembentukan Bidang Datar Tunggal</span>
+                            <svg viewBox="0 0 540 155" class="w-full max-w-xl h-auto">
+    <polygon points="20,125 110,125 135,45 45,45" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+    <circle cx="55" cy="95" r="3.5" fill="#1d4ed8"/><circle cx="85" cy="65" r="3.5" fill="#1d4ed8"/><circle cx="105" cy="100" r="3.5" fill="#1d4ed8"/>
+    <text x="77" y="145" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e3a8a">1. Tiga Titik Tak Segaris</text>
+
+    <polygon points="150,125 240,125 265,45 175,45" fill="#ecfdf5" stroke="#10b981" stroke-width="1.8"/>
+    <line x1="170" y1="105" x2="235" y2="85" stroke="#047857" stroke-width="2.2"/><circle cx="195" cy="62" r="3.5" fill="#e11d48"/>
+    <text x="207" y="145" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">2. Garis &amp; 1 Titik Luar</text>
+
+    <polygon points="280,125 370,125 395,45 305,45" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.8"/>
+    <line x1="300" y1="108" x2="375" y2="62" stroke="#b45309" stroke-width="2.2"/><line x1="305" y1="62" x2="368" y2="108" stroke="#e11d48" stroke-width="2.2"/>
+    <text x="337" y="145" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">3. Dua Garis Berpotongan</text>
+
+    <polygon points="410,125 500,125 525,45 435,45" fill="#fef2f2" stroke="#f43f5e" stroke-width="1.8"/>
+    <line x1="430" y1="102" x2="500" y2="82" stroke="#be123c" stroke-width="2.2"/><line x1="440" y1="78" x2="510" y2="58" stroke="#be123c" stroke-width="2.2"/>
+    <text x="467" y="145" text-anchor="middle" font-size="10" font-weight="bold" fill="#881337">4. Dua Garis Sejajar</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Aksioma Insidensi</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Dalam sistem aksiomatik geometri Euklides, terdapat tiga unsur primitif (unsur pangkal) yang menjadi blok pembangun seluruh bangun ruang tiga dimensi ($\mathbb{R}^3$):
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase">1. Titik (Point)</span>
+                                <p class="text-slate-600 text-xs">
+                                    Berdimensi nol ($0\text{D}$): tidak memiliki panjang, lebar, maupun tebal. Hanya menyatakan posisi di ruang dan dinotasikan dengan huruf kapital ($A, B, P$).
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase">2. Garis (Line)</span>
+                                <p class="text-slate-600 text-xs">
+                                    Berdimensi satu ($1\text{D}$): himpunan titik-titik yang memanjang tak terbatas ke dua arah. Dinotasikan dengan huruf kecil ($g, h, \ell$) atau dua titik yang dilaluinya ($AB$).
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-extrabold text-blue-700 uppercase">3. Bidang (Plane)</span>
+                                <p class="text-slate-600 text-xs">
+                                    Berdimensi dua ($2\text{D}$): permukaan datar yang meluas tak terbatas ke segala arah. Dinotasikan dengan huruf Yunani ($\alpha, \beta, \gamma$) atau minimal tiga titik sudutnya ($ABCD$).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 4 CARA MENENTUKAN SATU BIDANG TUNGGAL -->
+                        <div class="p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-3">
+                            <h3 class="text-sm font-bold text-blue-950 flex items-center gap-2">
+                                <span>📐</span> <span>Aksioma &amp; 4 Syarat Terbentuknya Sebuah Bidang Tunggal:</span>
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
+                                <div class="p-3 bg-white rounded-xl border border-blue-100">
+                                    <strong class="text-slate-900 block mb-0.5">1. Tiga Titik Tak Segaris (Non-Kolinear)</strong>
+                                    Melalui tiga buah titik yang tidak terletak pada satu garis lurus, hanya dapat dibuat <strong>tepat satu bidang datar</strong>. (Itulah sebabnya tripod kamera berkaki 3 tidak pernah goyang!).
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-blue-100">
+                                    <strong class="text-slate-900 block mb-0.5">2. Sebuah Garis &amp; Satu Titik di Luar Garis</strong>
+                                    Sebuah garis lurus $g$ dan satu titik $P$ dengan $P \notin g$ secara unik merentang tepat satu bidang datar.
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-blue-100">
+                                    <strong class="text-slate-900 block mb-0.5">3. Dua Garis yang Berpotongan</strong>
+                                    Dua garis lurus $g$ dan $h$ yang berpotongan di satu titik $T$ selalu terletak pada satu bidang datar yang sama (sebidang / <em>koplanar</em>).
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-blue-100">
+                                    <strong class="text-slate-900 block mb-0.5">4. Dua Garis yang Sejajar</strong>
+                                    Dua garis lurus $g \parallel h$ yang tidak berimpit merentang tepat satu bidang datar yang memuat keduanya.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: KEDUDUKAN TITIK & DUA GARIS (TERMASUK BERSILANGAN) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Relasi Garis di Ruang 3D</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔀 Kedudukan Dua Garis: Berpotongan, Sejajar &amp; Bersilangan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Skew Lines (3D)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Di bidang datar ($2\text{D}$), dua garis yang tidak sejajar pasti berpotongan. Namun di dalam ruang berdimensi tiga ($3\text{D}$), muncul kemungkinan baru yang sangat krusial: <strong>dua garis bersilangan (skew lines)</strong>.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold text-[11px] rounded">Koplanar (Sebidang)</span>
+                                <h3 class="font-bold text-slate-900">1. Dua Garis Berpotongan</h3>
+                                <p class="text-slate-600 text-xs">
+                                    Terletak pada satu bidang yang sama dan memiliki <strong>tepat satu titik persekutuan</strong> (titik potong).<br>
+                                    <em>Contoh pada kubus:</em> Rusuk $AB$ dan $BC$ berpotongan tegak lurus di titik $B$; diagonal bidang $AC$ dan $BD$ berpotongan di pusat alas.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 font-bold text-[11px] rounded">Koplanar (Sebidang)</span>
+                                <h3 class="font-bold text-slate-900">2. Dua Garis Sejajar ($\parallel$)</h3>
+                                <p class="text-slate-600 text-xs">
+                                    Terletak pada satu bidang yang sama namun <strong>tidak memiliki titik persekutuan</strong> meskipun diperpanjang.<br>
+                                    <em>Contoh pada kubus:</em> Rusuk $AB \parallel CD \parallel EF \parallel HG$; diagonal bidang $AF \parallel DG$ (terletak pada bidang diagonal $ADGF$).
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl border border-amber-300 bg-amber-50/70 space-y-2">
+                                <span class="px-2 py-0.5 bg-amber-200 text-amber-900 font-bold text-[11px] rounded">Non-Koplanar (Tak Sebidang)</span>
+                                <h3 class="font-bold text-amber-950">3. Dua Garis Bersilangan</h3>
+                                <p class="text-slate-700 text-xs">
+                                    <strong>Tidak sejajar dan tidak berpotongan</strong> karena terletak pada bidang yang berbeda (tidak ada satu bidang pun yang memuat keduanya).<br>
+                                    <em>Contoh pada kubus:</em> Garis $AB$ (di alas) bersilangan dengan $CG$, $DH$, $EH$, $FG$, maupun diagonal $EG$.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG KUBUS ABCD.EFGH & GARIS BERSILANGAN -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Visualisasi Kubus $ABCD.EFGH$: Garis Sejajar vs Garis Bersilangan</span>
+                            <svg viewBox="0 0 420 260" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Rusuk belakang (putus-putus) -->
+                                <line x1="150" y1="170" x2="290" y2="170" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5,5"/>
+                                <line x1="150" y1="170" x2="100" y2="220" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5,5"/>
+                                <line x1="150" y1="170" x2="150" y2="40" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5,5"/>
+
+                                <!-- Rusuk depan & samping -->
+                                <line x1="100" y1="90" x2="240" y2="90" stroke="#334155" stroke-width="2"/>
+                                <line x1="100" y1="90" x2="100" y2="220" stroke="#334155" stroke-width="2"/>
+                                <line x1="240" y1="90" x2="240" y2="220" stroke="#334155" stroke-width="2"/>
+                                <line x1="240" y1="220" x2="290" y2="170" stroke="#334155" stroke-width="2"/>
+                                <line x1="150" y1="40" x2="290" y2="40" stroke="#334155" stroke-width="2"/>
+                                <line x1="100" y1="90" x2="150" y2="40" stroke="#334155" stroke-width="2"/>
+                                <line x1="240" y1="90" x2="290" y2="40" stroke="#334155" stroke-width="2"/>
+
+                                <!-- Garis AB (Biru tebal) -->
+                                <line x1="100" y1="220" x2="240" y2="220" stroke="#2563eb" stroke-width="4"/>
+                                <!-- Garis CG (Merah tebal - bersilangan dengan AB) -->
+                                <line x1="290" y1="170" x2="290" y2="40" stroke="#e11d48" stroke-width="4"/>
+                                <!-- Diagonal bidang EG (Ungu putus-putus tebal - bersilangan dengan AB) -->
+                                <line x1="100" y1="90" x2="290" y2="40" stroke="#7c3aed" stroke-width="3" stroke-dasharray="6,3"/>
+
+                                <!-- Titik Sudut -->
+                                <circle cx="100" cy="220" r="4" fill="#2563eb"/>
+                                <circle cx="240" cy="220" r="4" fill="#2563eb"/>
+                                <circle cx="290" cy="170" r="4" fill="#e11d48"/>
+                                <circle cx="150" cy="170" r="3.5" fill="#64748b"/>
+                                <circle cx="100" cy="90" r="4" fill="#7c3aed"/>
+                                <circle cx="240" cy="90" r="3.5" fill="#1e293b"/>
+                                <circle cx="290" cy="40" r="4" fill="#e11d48"/>
+                                <circle cx="150" cy="40" r="3.5" fill="#1e293b"/>
+
+                                <!-- Label Titik -->
+                                <text x="82" y="232" font-size="13" font-weight="bold" fill="#2563eb">A</text>
+                                <text x="245" y="232" font-size="13" font-weight="bold" fill="#2563eb">B</text>
+                                <text x="298" y="175" font-size="13" font-weight="bold" fill="#e11d48">C</text>
+                                <text x="135" y="165" font-size="12" font-weight="bold" fill="#64748b">D</text>
+                                <text x="82" y="94" font-size="13" font-weight="bold" fill="#7c3aed">E</text>
+                                <text x="225" y="84" font-size="13" font-weight="bold" fill="#1e293b">F</text>
+                                <text x="298" y="42" font-size="13" font-weight="bold" fill="#e11d48">G</text>
+                                <text x="135" y="34" font-size="13" font-weight="bold" fill="#1e293b">H</text>
+
+                                <!-- Keterangan -->
+                                <text x="145" y="242" font-size="11" font-weight="bold" fill="#2563eb">Garis AB (Alas)</text>
+                                <text x="302" y="110" font-size="11" font-weight="bold" fill="#e11d48">CG (Bersilangan ⊥ AB)</text>
+                                <text x="175" y="60" font-size="11" font-weight="bold" fill="#7c3aed">EG (Bersilangan AB)</text>
+                            </svg>
+                            <p class="text-[11px] text-slate-500 mt-2 text-center">
+                                Analogikan <strong>dua garis bersilangan</strong> seperti jalan raya di bawah dan jalan layang (<em>flyover</em>) di atasnya: arahnya berbeda, namun tidak pernah bertabrakan karena berada di ketinggian (bidang) berbeda!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: KEDUDUKAN GARIS & BIDANG SERTA DUA BIDANG -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Interaksi Bidang Ruang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📑 Kedudukan Garis terhadap Bidang &amp; Dua Bidang
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Tiga Kedudukan Garis terhadap Bidang Datar</span>
+                            <svg viewBox="0 0 540 165" class="w-full max-w-xl h-auto">
+    <polygon points="25,130 155,130 185,55 55,55" fill="#dbeafe" fill-opacity="0.5" stroke="#2563eb" stroke-width="1.8"/>
+    <line x1="55" y1="108" x2="155" y2="75" stroke="#1d4ed8" stroke-width="2.5"/>
+    <text x="105" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Garis Terletak pada Bidang</text>
+
+    <polygon points="205,130 335,130 365,55 235,55" fill="#a7f3d0" fill-opacity="0.5" stroke="#059669" stroke-width="1.8"/>
+    <line x1="225" y1="35" x2="345" y2="35" stroke="#047857" stroke-width="2.5"/>
+    <line x1="235" y1="95" x2="335" y2="95" stroke="#059669" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="285" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">Garis Sejajar Bidang</text>
+
+    <polygon points="385,130 515,130 540,55 410,55" fill="#fecdd3" fill-opacity="0.5" stroke="#e11d48" stroke-width="1.8"/>
+    <line x1="465" y1="15" x2="465" y2="92" stroke="#be123c" stroke-width="2.5"/>
+    <line x1="465" y1="92" x2="465" y2="145" stroke="#be123c" stroke-width="2" stroke-dasharray="4 2"/>
+    <circle cx="465" cy="92" r="4" fill="#e11d48"/>
+    <text x="462" y="158" text-anchor="middle" font-size="11" font-weight="bold" fill="#881337">Garis Menembus Bidang</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Teorema Ketegaklurusan</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs sm:text-sm">
+                            <!-- Garis terhadap Bidang -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+                                <h3 class="font-bold text-slate-900 text-sm border-b border-slate-200 pb-1.5">A. Kedudukan Garis $g$ terhadap Bidang $\alpha$</h3>
+                                <ul class="space-y-2 text-slate-700 text-xs">
+                                    <li>
+                                        <strong class="text-blue-700">1. Garis Terletak pada Bidang ($g \subset \alpha$):</strong><br>
+                                        Seluruh titik pada garis $g$ berada di dalam bidang $\alpha$ (minimal 2 titik dari $g$ terletak pada $\alpha$).<br>
+                                        <em>Contoh:</em> Diagonal $AC$ terletak pada bidang alas $ABCD$.
+                                    </li>
+                                    <li>
+                                        <strong class="text-emerald-700">2. Garis Sejajar Bidang ($g \parallel \alpha$):</strong><br>
+                                        Garis $g$ dan bidang $\alpha$ tidak memiliki titik persekutuan. Syarat cukupnya: <em>garis $g$ sejajar dengan minimal satu garis yang terletak pada bidang $\alpha$</em>.<br>
+                                        <em>Contoh:</em> Garis $EG \parallel$ bidang $ABCD$ karena $EG \parallel AC$ dan $AC \subset ABCD$.
+                                    </li>
+                                    <li>
+                                        <strong class="text-rose-700">3. Garis Menembus / Memotong Bidang:</strong><br>
+                                        Garis $g$ dan bidang $\alpha$ berpotongan tepat di satu titik tembus $T$.<br>
+                                        <em>Contoh:</em> Rusuk tegak $AE$ menembus bidang alas $ABCD$ secara tegak lurus di titik $A$.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Dua Bidang -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+                                <h3 class="font-bold text-slate-900 text-sm border-b border-slate-200 pb-1.5">B. Kedudukan Bidang $\alpha$ terhadap Bidang $\beta$</h3>
+                                <ul class="space-y-2 text-slate-700 text-xs">
+                                    <li>
+                                        <strong class="text-slate-900">1. Dua Bidang Berimpit ($\alpha = \beta$):</strong><br>
+                                        Setiap titik pada bidang $\alpha$ juga terletak pada bidang $\beta$ (contoh: bidang $ABC$ dan bidang $ABCD$ adalah bidang yang sama).
+                                    </li>
+                                    <li>
+                                        <strong class="text-blue-700">2. Dua Bidang Sejajar ($\alpha \parallel \beta$):</strong><br>
+                                        Kedua bidang tidak memiliki titik maupun garis persekutuan. Syarat cukup: <em>dua garis berpotongan di $\alpha$ sejajar dengan dua garis berpotongan di $\beta$</em>.<br>
+                                        <em>Contoh:</em> Bidang $ABCD \parallel EFGH$; bidang segitiga $ACH \parallel BEG$.
+                                    </li>
+                                    <li>
+                                        <strong class="text-purple-700">3. Dua Bidang Berpotongan:</strong><br>
+                                        Kedua bidang tidak sejajar sehingga berpotongan sepanjang sebuah <strong>garis potong persekutuan</strong> yang ditulis $(\alpha, \beta)$.<br>
+                                        <em>Contoh:</em> Bidang diagonal $ACGE$ dan $BDHF$ berpotongan sepanjang garis lurus yang menghubungkan pusat alas ke pusat atap.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- TEOREMA EMAS GARIS TEGAK LURUS BIDANG -->
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm space-y-1.5">
+                            <div class="font-bold text-amber-950 flex items-center gap-1.5">
+                                <span>⭐</span> <span>Teorema Fundamental: Garis Tegak Lurus Bidang ($g \perp \alpha$)</span>
+                            </div>
+                            <p class="text-slate-700 leading-relaxed">
+                                Sebuah garis $g$ dikatakan <strong>tegak lurus terhadap bidang $\alpha$</strong> jika dan hanya jika garis $g$ tegak lurus terhadap minimal <strong>dua garis yang berpotongan</strong> di dalam bidang $\alpha$.<br>
+                                <strong>Implikasi Penting:</strong> Jika $g \perp \alpha$, maka garis $g$ otomatis <strong>tegak lurus terhadap SEMUA garis</strong> yang terletak pada bidang $\alpha$ (baik yang melalui titik tembus maupun yang bersilangan!).<br>
+                                <em>Contoh:</em> Karena $AE \perp AB$ dan $AE \perp AD$, maka $AE \perp \text{bidang } ABCD$. Akibatnya, $AE \perp AC$ dan $AE \perp BD$!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: ANATOMI LENGKAP KUBUS & BIDANG IRISAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Anatomi Kubus Standar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💎 Anatomi Kubus $ABCD.EFGH$ &amp; Rumus Cepat Diagonal
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Anatomi Diagonal Sisi (a√2) dan Diagonal Ruang (a√3) pada Kubus</span>
+                            <svg viewBox="0 0 360 190" class="w-full max-w-sm h-auto">
+    <polygon points="70,150 185,150 235,110 120,110" fill="#dbeafe" fill-opacity="0.35" />
+    <polygon points="70,150 235,35 235,110 70,150" fill="#fecdd3" fill-opacity="0.35" />
+    <line x1="70" y1="150" x2="185" y2="150" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="150" x2="235" y2="110" stroke="#334155" stroke-width="2"/>
+    <line x1="120" y1="110" x2="235" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="150" x2="120" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="75" x2="185" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="75" x2="235" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="120" y1="35" x2="235" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="70" y1="75" x2="120" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="70" y1="150" x2="70" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="150" x2="185" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="235" y1="110" x2="235" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="120" y1="110" x2="120" y2="35" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <!-- Diagonal Sisi AC & Diagonal Ruang AG -->
+    <line x1="70" y1="150" x2="235" y2="110" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="4 2"/>
+    <line x1="70" y1="150" x2="235" y2="35" stroke="#e11d48" stroke-width="3"/>
+    <text x="56" y="162" font-size="12" font-weight="bold" fill="#1e293b">A</text>
+    <text x="190" y="162" font-size="12" font-weight="bold" fill="#1e293b">B</text>
+    <text x="243" y="115" font-size="12" font-weight="bold" fill="#1e293b">C</text>
+    <text x="108" y="106" font-size="11" font-weight="bold" fill="#64748b">D</text>
+    <text x="56" y="75" font-size="12" font-weight="bold" fill="#1e293b">E</text>
+    <text x="192" y="73" font-size="12" font-weight="bold" fill="#1e293b">F</text>
+    <text x="243" y="38" font-size="12" font-weight="bold" fill="#e11d48">G</text>
+    <text x="108" y="30" font-size="12" font-weight="bold" fill="#1e293b">H</text>
+    <text x="145" y="82" font-size="11" font-weight="800" fill="#be123c">AG = a√3</text>
+    <text x="165" y="138" font-size="11" font-weight="800" fill="#1d4ed8">AC = a√2</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Rusuk = a</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Kubus $ABCD.EFGH$ dengan panjang rusuk $a$ adalah objek paling sering diujikan dalam ujian sekolah, SNBT, TKA, dan OSN. Hafalkan dan pahami seluruh komponen kuantitatifnya:
+                        </p>
+
+                        <!-- TABEL KOMPONEN KUBUS -->
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200">
+                                        <th class="p-3">Unsur Kubus</th>
+                                        <th class="p-3 text-center">Jumlah</th>
+                                        <th class="p-3 text-center">Ukuran / Rumus (Rusuk $a$)</th>
+                                        <th class="p-3">Contoh pada Kubus $ABCD.EFGH$</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 text-slate-700">
+                                    <tr class="bg-white">
+                                        <td class="p-3 font-semibold text-slate-900">Titik Sudut</td>
+                                        <td class="p-3 text-center font-bold">8</td>
+                                        <td class="p-3 text-center font-mono">-</td>
+                                        <td class="p-3">$A, B, C, D$ (alas) &amp; $E, F, G, H$ (atap)</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/60">
+                                        <td class="p-3 font-semibold text-slate-900">Rusuk</td>
+                                        <td class="p-3 text-center font-bold">12</td>
+                                        <td class="p-3 text-center font-mono font-bold text-blue-700">$a$</td>
+                                        <td class="p-3">$AB, BC, CD, DA, AE, BF, CG, DH, \dots$</td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <td class="p-3 font-semibold text-slate-900">Bidang Sisi</td>
+                                        <td class="p-3 text-center font-bold">6</td>
+                                        <td class="p-3 text-center font-mono">$\text{Luas} = a^2$</td>
+                                        <td class="p-3">Persegi $ABCD, EFGH, ABFE, DCGH, \dots$</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/60">
+                                        <td class="p-3 font-semibold text-slate-900">Diagonal Bidang (Sisi)</td>
+                                        <td class="p-3 text-center font-bold">12</td>
+                                        <td class="p-3 text-center font-mono font-bold text-emerald-700">$a\sqrt{2}$</td>
+                                        <td class="p-3">$AC, BD, EG, HF, AF, BE, BG, CF, \dots$</td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <td class="p-3 font-semibold text-slate-900">Diagonal Ruang</td>
+                                        <td class="p-3 text-center font-bold">4</td>
+                                        <td class="p-3 text-center font-mono font-bold text-rose-700">$a\sqrt{3}$</td>
+                                        <td class="p-3">$AG, BH, CE, DF$ (berpotongan di pusat $O$)</td>
+                                    </tr>
+                                    <tr class="bg-slate-50/60">
+                                        <td class="p-3 font-semibold text-slate-900">Bidang Diagonal</td>
+                                        <td class="p-3 text-center font-bold">6</td>
+                                        <td class="p-3 text-center font-mono font-bold text-purple-700">$\text{Luas} = a^2\sqrt{2}$</td>
+                                        <td class="p-3">Persegi panjang $ACGE, BDHF, ABGH, CDEF, ADGF, BCHE$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- CONTOH SOAL & PEMBAHASAN -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs sm:text-sm">
+                            <span class="font-bold text-blue-700 uppercase tracking-wider text-xs block">Contoh Analisis Cepat Kedudukan Garis &amp; Bidang:</span>
+                            <p class="text-slate-800 font-medium">
+                                Pada kubus $ABCD.EFGH$ dengan panjang rusuk $6\text{ cm}$, tentukan: (a) banyaknya rusuk kubus yang <strong>bersilangan</strong> dengan rusuk $AB$, dan (b) luas bidang diagonal $ABGH$!
+                            </p>
+                            <div class="p-3.5 bg-white rounded-xl border border-slate-200 space-y-2 text-slate-700 text-xs">
+                                <p>
+                                    <strong>(a) Mencari rusuk yang bersilangan dengan $AB$:</strong><br>
+                                    &bull; Total rusuk selain $AB$ ada $11$ rusuk.<br>
+                                    &bull; Rusuk yang <em>sejajar</em> dengan $AB$: $CD, EF, HG$ (3 rusuk).<br>
+                                    &bull; Rusuk yang <em>berpotongan</em> dengan $AB$ (di titik $A$ atau $B$): $AD, AE, BC, BF$ (4 rusuk).<br>
+                                    &bull; Maka sisanya adalah rusuk yang <strong>bersilangan</strong> dengan $AB$: $11 - 3 - 4 = \mathbf{4\text{ rusuk}}$, yaitu <strong>$CG, DH, EH,$ dan $FG$</strong>.
+                                </p>
+                                <p>
+                                    <strong>(b) Luas bidang diagonal $ABGH$:</strong><br>
+                                    Bidang diagonal $ABGH$ berbentuk persegi panjang dengan panjang $AB = a = 6\text{ cm}$ dan lebar berupa diagonal bidang $BG = a\sqrt{2} = 6\sqrt{2}\text{ cm}$ (karena $AB \perp \text{bidang } BCGF \implies AB \perp BG$).<br>
+                                    $$\text{Luas } ABGH = AB \times BG = a \times a\sqrt{2} = 6 \times 6\sqrt{2} = \mathbf{36\sqrt{2}\text{ cm}^2}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Kedudukan Titik, Garis &amp; Bidang 3D
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji ketajaman visualisasi ruang tiga dimensi Anda dengan memilih jawaban yang paling tepat pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Dua garis dikatakan bersilangan (skew lines) apabila keduanya tidak sejajar dan tidak berpotongan karena tidak terletak pada satu bidang datar yang sama (non-koplanar). Pada kubus ABCD.EFGH, garis AB (di bidang alas) dan garis CG (rusuk tegak belakang kanan) tidak sebidang dan tidak berpotongan.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Pasangan Garis Bersilangan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ berikut. Di antara pasangan garis di bawah ini, manakah yang saling <strong>bersilangan</strong>?
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 1 -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Rusuk depan & samping -->
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Highlight AB (Biru) dan CG (Merah) -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#2563eb" stroke-width="3.5"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#e11d48" stroke-width="3.5"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="75" cy="170" r="3.5" fill="#2563eb"/>
+                                        <circle cx="185" cy="170" r="3.5" fill="#2563eb"/>
+                                        <circle cx="225" cy="130" r="3.5" fill="#e11d48"/>
+                                        <circle cx="115" cy="130" r="3" fill="#64748b"/>
+                                        <circle cx="75" cy="70" r="3" fill="#334155"/>
+                                        <circle cx="185" cy="70" r="3" fill="#334155"/>
+                                        <circle cx="225" cy="30" r="3.5" fill="#e11d48"/>
+                                        <circle cx="115" cy="30" r="3" fill="#334155"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#2563eb">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#2563eb">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#e11d48">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#64748b">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#334155">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#e11d48">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#334155">H</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Garis $AB$ dan garis $HG$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Garis $AC$ dan garis $BD$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Garis $AB$ dan garis $CG$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Garis $AF$ dan garis $DG$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Bidang ACH dibentuk oleh diagonal AC, CH, dan AH, sedangkan bidang BEG dibentuk oleh diagonal BE, EG, dan BG. Karena AC ∥ EG dan AH ∥ BG, maka kedua bidang segitiga sama sisi ACH dan BEG saling sejajar sempurna dan tidak pernah berpotongan.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Kedudukan Dua Bidang dalam Kubus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ di bawah ini. Kedudukan antara bidang segitiga $ACH$ (merah) dan bidang segitiga $BEG$ (hijau) adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 2: Bidang ACH & BEG -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang ACH (Merah transparan) -->
+                                        <polygon points="75,170 225,130 115,30" fill="#ffe4e6" fill-opacity="0.65" stroke="#e11d48" stroke-width="2" stroke-dasharray="4,2"/>
+                                        <!-- Bidang BEG (Hijau transparan) -->
+                                        <polygon points="185,170 75,70 225,30" fill="#d1fae5" fill-opacity="0.65" stroke="#059669" stroke-width="2"/>
+                                        <!-- Rusuk depan & samping -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="75" cy="170" r="3.5" fill="#e11d48"/>
+                                        <circle cx="185" cy="170" r="3.5" fill="#059669"/>
+                                        <circle cx="225" cy="130" r="3.5" fill="#e11d48"/>
+                                        <circle cx="115" cy="130" r="3" fill="#64748b"/>
+                                        <circle cx="75" cy="70" r="3.5" fill="#059669"/>
+                                        <circle cx="185" cy="70" r="3" fill="#334155"/>
+                                        <circle cx="225" cy="30" r="3.5" fill="#059669"/>
+                                        <circle cx="115" cy="30" r="3.5" fill="#e11d48"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#e11d48">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#059669">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#e11d48">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#64748b">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#059669">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#059669">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#e11d48">H</text>
+                                        <text x="115" y="112" font-size="10" font-weight="bold" fill="#be123c">ACH</text>
+                                        <text x="165" y="102" font-size="10" font-weight="bold" fill="#047857">BEG</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Saling berpotongan tegak lurus</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Saling sejajar ($\parallel$)</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Saling berimpit</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Berpotongan di pusat kubus</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Luas bidang diagonal kubus berusuk a adalah L = a²√2. Dengan a = 8 cm, diperoleh Luas ACGE = 8²√2 = 64√2 cm².">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Luas Bidang Diagonal Kubus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ dengan panjang rusuk $8\text{ cm}$ berikut. Luas bidang diagonal $ACGE$ (biru) adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 3: Bidang Diagonal ACGE -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang Diagonal ACGE (Biru transparan) -->
+                                        <polygon points="75,170 225,130 225,30 75,70" fill="#dbeafe" fill-opacity="0.7" stroke="#2563eb" stroke-width="2.2"/>
+                                        <!-- Rusuk depan & samping -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#2563eb" stroke-width="2.5"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#2563eb" stroke-width="2.5"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="75" cy="170" r="3.5" fill="#2563eb"/>
+                                        <circle cx="185" cy="170" r="3" fill="#334155"/>
+                                        <circle cx="225" cy="130" r="3.5" fill="#2563eb"/>
+                                        <circle cx="115" cy="130" r="3" fill="#64748b"/>
+                                        <circle cx="75" cy="70" r="3.5" fill="#2563eb"/>
+                                        <circle cx="185" cy="70" r="3" fill="#334155"/>
+                                        <circle cx="225" cy="30" r="3.5" fill="#2563eb"/>
+                                        <circle cx="115" cy="30" r="3" fill="#334155"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#2563eb">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#334155">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#2563eb">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#64748b">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#2563eb">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#2563eb">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#334155">H</text>
+                                        <text x="125" y="108" font-size="11" font-weight="bold" fill="#1d4ed8">ACGE</text>
+                                        <text x="120" y="185" font-size="11" font-weight="bold" fill="#334155">8 cm</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $32\sqrt{2}\text{ cm}^2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $64\text{ cm}^2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $64\sqrt{3}\text{ cm}^2$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $64\sqrt{2}\text{ cm}^2$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Bidang diagonal ACGE (biru) dan bidang diagonal BDHF (hijau) saling berpotongan di dalam kubus. Di bidang alas ABCD, diagonal AC dan BD berpotongan di titik P. Di bidang atap EFGH, diagonal EG dan HF berpotongan di titik Q. Maka garis persekutuan (garis potong) kedua bidang diagonal tersebut adalah ruas garis PQ.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Garis Potong Dua Bidang</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ berikut. Misalkan $P$ adalah titik potong diagonal alas $AC$ dan $BD$, serta $Q$ adalah titik potong diagonal atap $EG$ dan $HF$. Garis potong (persekutuan) antara bidang diagonal $ACGE$ (biru) dan bidang diagonal $BDHF$ (hijau) adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 4: Perpotongan Bidang ACGE & BDHF sepanjang PQ -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang Diagonal ACGE (Biru transparan) -->
+                                        <polygon points="75,170 225,130 225,30 75,70" fill="#dbeafe" fill-opacity="0.55" stroke="#2563eb" stroke-width="1.8"/>
+                                        <!-- Bidang Diagonal BDHF (Hijau transparan) -->
+                                        <polygon points="185,170 115,130 115,30 185,70" fill="#d1fae5" fill-opacity="0.55" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,2"/>
+                                        <!-- Garis Potong PQ (Merah tebal) -->
+                                        <line x1="150" y1="150" x2="150" y2="50" stroke="#e11d48" stroke-width="3.5"/>
+                                        <!-- Rusuk depan & samping -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="75" cy="170" r="3" fill="#2563eb"/>
+                                        <circle cx="185" cy="170" r="3" fill="#059669"/>
+                                        <circle cx="225" cy="130" r="3" fill="#2563eb"/>
+                                        <circle cx="115" cy="130" r="3" fill="#059669"/>
+                                        <circle cx="75" cy="70" r="3" fill="#2563eb"/>
+                                        <circle cx="185" cy="70" r="3" fill="#059669"/>
+                                        <circle cx="225" cy="30" r="3" fill="#2563eb"/>
+                                        <circle cx="115" cy="30" r="3" fill="#059669"/>
+                                        <circle cx="150" cy="150" r="4" fill="#e11d48"/>
+                                        <circle cx="150" cy="50" r="4" fill="#e11d48"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#2563eb">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#059669">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#2563eb">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#059669">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#2563eb">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#059669">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#2563eb">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#059669">H</text>
+                                        <text x="156" y="162" font-size="12" font-weight="bold" fill="#e11d48">P</text>
+                                        <text x="156" y="46" font-size="12" font-weight="bold" fill="#e11d48">Q</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Garis $PQ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Garis $AG$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Garis $AC$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Garis $CG$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Dua garis yang saling bersilangan terletak pada bidang yang berbeda (non-koplanar), sehingga tidak ada satu bidang datar pun yang dapat memuat kedua garis bersilangan tersebut secara bersamaan.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Aksioma Pembentukan Bidang</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Manakah di antara kondisi berikut yang <strong>TIDAK</strong> dapat membentuk/merentang sebuah bidang datar tunggal?
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Tiga titik yang tidak segaris</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Dua garis yang saling berpotongan</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Dua garis yang saling bersilangan</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Dua garis yang saling sejajar</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F (Kelas XI–XII SMA/MA)</em>. Elemen Geometri Ruang.</p>
+                    <p><strong>Moise, Edwin E. &amp; Downs, Floyd L.</strong> (1991). <em>Geometry</em>. Addison-Wesley Publishing Company. Chapter 8: Lines and Planes in Space.</p>
+                    <p><strong>Kiselev, A. P.</strong> (2008). <em>Kiselev's Geometry, Book II: Stereometry</em> (Adapted by Alexander Givental). Sumizdat.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-12/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Hub Matematika Kelas XII
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="jarak-titik-ke-titik-dan-titik-ke-garis.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Jarak Titik ke Titik &amp; Garis &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

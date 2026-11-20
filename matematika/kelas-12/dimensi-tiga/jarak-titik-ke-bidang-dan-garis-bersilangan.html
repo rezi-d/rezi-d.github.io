@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarak Titik ke Bidang & Jarak Dua Garis Bersilangan — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai perhitungan jarak titik ke bidang, pembagian 1:1:1 diagonal ruang kubus oleh bidang ACH dan BEG, jarak garis dan bidang sejajar, serta jarak dua garis bersilangan (skew lines).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/dimensi-tiga/jarak-titik-ke-bidang-dan-garis-bersilangan.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/dimensi-tiga/jarak-titik-ke-bidang-dan-garis-bersilangan.html">
+    <meta property="og:title" content="🎯 Jarak Titik ke Bidang & Dua Garis Bersilangan — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Proyeksi titik ke bidang, teorema pembagian sepertiga diagonal ruang kubus, dan jarak dua garis bersilangan.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="dimensi-tiga">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 1: Geometri Ruang (Dimensi Tiga)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Jarak Titik ke Bidang &amp; Dua Garis Bersilangan
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Bagaimana mereduksi masalah jarak tiga dimensi ke bidang datar? Pelajari prinsip <strong>bidang irisan pengantar tegak lurus</strong> untuk mencari jarak titik ke bidang, rahasia pembagian $1 : 1 : 1$ pada diagonal ruang kubus oleh bidang segitiga $ACH$ dan $BEG$, metode kesamaan volume limas, hingga perhitungan jarak terpendek antara dua garis yang saling bersilangan.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: KONSEP JARAK TITIK KE BIDANG & GARIS WAKIL -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Proyeksi Titik ke Bidang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Konsep Jarak Titik ke Bidang &amp; Teknik Garis Wakil
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Proyeksi Tegak Lurus Titik C ke Diagonal Ruang AG (d = ⅓a√6)</span>
+                            <svg viewBox="0 0 380 190" class="w-full max-w-sm h-auto">
+    <polygon points="70,150 235,110 235,35" fill="#bfdbfe" fill-opacity="0.45"/>
+    <line x1="70" y1="150" x2="185" y2="150" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="150" x2="235" y2="110" stroke="#334155" stroke-width="2"/>
+    <line x1="120" y1="110" x2="235" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="150" x2="120" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="75" x2="185" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="75" x2="235" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="120" y1="35" x2="235" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="70" y1="75" x2="120" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="70" y1="150" x2="70" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="150" x2="185" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="235" y1="110" x2="235" y2="35" stroke="#2563eb" stroke-width="2.5"/>
+    <!-- Right triangle ACG with altitude CP to AG -->
+    <line x1="70" y1="150" x2="235" y2="110" stroke="#2563eb" stroke-width="2.5"/>
+    <line x1="70" y1="150" x2="235" y2="35" stroke="#1d4ed8" stroke-width="2.5"/>
+    <line x1="235" y1="110" x2="180" y2="73" stroke="#e11d48" stroke-width="3"/>
+    <circle cx="180" cy="73" r="4" fill="#e11d48"/>
+    <text x="56" y="162" font-size="12" font-weight="bold" fill="#1e293b">A</text>
+    <text x="245" y="115" font-size="12" font-weight="bold" fill="#1d4ed8">C (90°)</text>
+    <text x="243" y="38" font-size="12" font-weight="bold" fill="#1d4ed8">G</text>
+    <text x="180" y="62" font-size="11" font-weight="800" fill="#be123c">P (CP ⊥ AG)</text>
+    <text x="275" y="88" font-size="11" font-weight="800" fill="#be123c">d = ⅓a√6</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">d(P, α) = PP'</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <strong>Jarak dari sebuah titik $P$ ke bidang $\alpha$</strong> adalah panjang ruas garis tegak lurus $PP'$ yang menghubungkan titik $P$ dengan titik proyeksi ortogonalnya $P'$ pada bidang $\alpha$ ($PP' \perp \alpha$).
+                        </p>
+
+                        <!-- PROSEDUR 3 LANGKAH GARIS WAKIL -->
+                        <div class="p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-3 text-xs sm:text-sm">
+                            <h3 class="font-bold text-blue-950 text-sm">⚡ Strategi "Garis Wakil" (Mereduksi Bidang menjadi Garis):</h3>
+                            <p class="text-slate-700 text-xs">
+                                Jangan bingung melihat bidang yang luas! Untuk mencari jarak titik $P$ ke bidang $\alpha$, kita cukup mencari jarak titik $P$ ke <strong>satu garis wakil $g$</strong> yang terletak di tengah-tengah simetri bidang $\alpha$:
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                                <div class="p-3 bg-white rounded-xl border border-blue-100">
+                                    <strong class="text-blue-800 block mb-0.5">Langkah 1: Buat Bidang Irisan</strong>
+                                    Pilih sebuah bidang bantu $\beta$ yang memuat titik $P$ dan memotong bidang $\alpha$ secara tegak lurus (biasanya bidang diagonal yang membelah simetris).
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-blue-100">
+                                    <strong class="text-blue-800 block mb-0.5">Langkah 2: Tentukan Garis Wakil</strong>
+                                    Garis potong antara bidang bantu $\beta$ dan bidang $\alpha$ adalah <strong>garis wakil $g$</strong> (biasanya garis tinggi dari segitiga/bidang $\alpha$).
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-blue-100">
+                                    <strong class="text-blue-800 block mb-0.5">Langkah 3: Tarik Tegak Lurus</strong>
+                                    Jarak titik $P$ ke bidang $\alpha$ sama persis dengan <strong>jarak titik $P$ ke garis wakil $g$</strong>!
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- METODE ALTERNATIF: KESAMAAN VOLUME LIMAS -->
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm space-y-1.5">
+                            <span class="font-bold text-amber-950 block">💡 Senjata Rahasia: Metode Kesamaan Volume Limas ($V = \frac{1}{3} \cdot L_{\text{alas}} \cdot t$)</span>
+                            <p class="text-slate-700 text-xs leading-relaxed">
+                                Jika Anda mencari jarak titik $D$ ke bidang segitiga $ACH$, pandang bangun $D.ACH$ sebagai sebuah limas segitiga! Volume limas dengan puncak $D$ (alas $\triangle ACH$) sama dengan volume limas dengan puncak $H$ (alas $\triangle ACD$ siku-siku):
+                                $$\frac{1}{3} \cdot L_{\triangle ACH} \cdot d(D, ACH) = \frac{1}{3} \cdot L_{\triangle ACD} \cdot DH \implies d(D, ACH) = \frac{L_{\triangle ACD} \times DH}{L_{\triangle ACH}}$$
+                                Metode ini bekerja di segala bentuk balok maupun limas tanpa perlu menggambar garis proyeksi!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: TEOREMA SEPERTIGA DIAGONAL RUANG KUBUS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Teorema Emas Kubus</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    👑 Pembagian $1 : 1 : 1$ Diagonal Ruang oleh Bidang $ACH$ &amp; $BEG$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">1/3 a√3 &amp; 2/3 a√3</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pada kubus $ABCD.EFGH$ dengan panjang rusuk $a$, diagonal ruang **$DF$** menembus secara tegak lurus dua bidang segitiga sama sisi yang saling sejajar, yaitu bidang **$ACH$** dan bidang **$BEG$**, serta membaginya menjadi **3 bagian sama panjang** ($1 : 1 : 1$)!
+                        </p>
+
+                        <!-- DIAGRAM SVG PEMBAGIAN 1:1:1 DIAGONAL RUANG DF -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Irisan Bidang Diagonal $BDHF$: Pembagian $DF = a\sqrt{3}$ Menjadi 3 Bagian Sama Panjang</span>
+                            <svg viewBox="0 0 440 210" class="w-full max-w-lg h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Persegi panjang BDHF -->
+                                <rect x="70" y="30" width="300" height="140" fill="#f8fafc" stroke="#334155" stroke-width="2.2"/>
+                                <!-- Titik tengah P (di BD) dan Q (di HF) -->
+                                <!-- Diagonal ruang DF -->
+                                <line x1="70" y1="170" x2="370" y2="30" stroke="#2563eb" stroke-width="3"/>
+                                <!-- Garis wakil bidang ACH: dari H(70,30) ke P(220,170) -->
+                                <line x1="70" y1="30" x2="220" y2="170" stroke="#e11d48" stroke-width="2.5"/>
+                                <!-- Garis wakil bidang BEG: dari Q(220,30) ke B(370,170) -->
+                                <line x1="220" y1="30" x2="370" y2="170" stroke="#059669" stroke-width="2.5"/>
+
+                                <!-- Titik tembus X (170, 123.3) dan Y (270, 76.7) -->
+                                <circle cx="170" cy="123" r="5" fill="#e11d48"/>
+                                <circle cx="270" cy="77" r="5" fill="#059669"/>
+
+                                <!-- Label Sudut BDHF -->
+                                <text x="50" y="182" font-size="13" font-weight="bold" fill="#1e293b">D</text>
+                                <text x="378" y="182" font-size="13" font-weight="bold" fill="#1e293b">B</text>
+                                <text x="50" y="28" font-size="13" font-weight="bold" fill="#1e293b">H</text>
+                                <text x="378" y="28" font-size="13" font-weight="bold" fill="#1e293b">F</text>
+                                <text x="212" y="188" font-size="12" font-weight="bold" fill="#e11d48">P (Tengah BD)</text>
+                                <text x="200" y="20" font-size="12" font-weight="bold" fill="#059669">Q (Tengah HF)</text>
+
+                                <!-- Label Bagian 1/3 -->
+                                <text x="105" y="160" font-size="11" font-weight="bold" fill="#2563eb">⅓ a√3</text>
+                                <text x="210" y="115" font-size="11" font-weight="bold" fill="#2563eb">⅓ a√3</text>
+                                <text x="310" y="70" font-size="11" font-weight="bold" fill="#2563eb">⅓ a√3</text>
+                                <text x="115" y="80" font-size="11" font-weight="bold" fill="#e11d48">Bidang ACH</text>
+                                <text x="285" y="128" font-size="11" font-weight="bold" fill="#059669">Bidang BEG</text>
+                            </svg>
+                        </div>
+
+                        <!-- RINGKASAN 3 RUMUS INSTAN -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-1">
+                                <span class="font-bold text-rose-900 block">1. Jarak $D$ ke Bidang $ACH$</span>
+                                <div class="text-lg font-extrabold text-rose-700">$\frac{1}{3}a\sqrt{3}$</div>
+                                <p class="text-xs text-slate-600">
+                                    Sama dengan jarak titik $F$ ke bidang $BEG$, atau jarak $C$ ke bidang $BDG$ ($\frac{1}{3}$ diagonal ruang).
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
+                                <span class="font-bold text-emerald-900 block">2. Jarak Bidang $ACH$ ke $BEG$</span>
+                                <div class="text-lg font-extrabold text-emerald-700">$\frac{1}{3}a\sqrt{3}$</div>
+                                <p class="text-xs text-slate-600">
+                                    Jarak antara dua bidang segitiga sejajar di dalam kubus adalah bagian tengah dari diagonal ruang $DF$.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-1">
+                                <span class="font-bold text-blue-900 block">3. Jarak $F$ ke Bidang $ACH$</span>
+                                <div class="text-lg font-extrabold text-blue-700">$\frac{2}{3}a\sqrt{3}$</div>
+                                <p class="text-xs text-slate-600">
+                                    Sama dengan jarak titik $D$ ke bidang $BEG$, atau jarak $E$ ke bidang $BDG$ ($\frac{2}{3}$ diagonal ruang).
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: JARAK GARIS KE BIDANG & DUA BIDANG SEJAJAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Elemen Sejajar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🛤️ Jarak Garis ke Bidang Sejajar &amp; Dua Bidang Sejajar
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Dua Bidang Sejajar ACH ∥ BEG Membagi Tiga Sama Panjang Diagonal Ruang DF</span>
+                            <svg viewBox="0 0 380 190" class="w-full max-w-sm h-auto">
+    <polygon points="70,150 235,110 120,35" fill="#a7f3d0" fill-opacity="0.45" stroke="#059669" stroke-width="2"/>
+    <polygon points="185,150 70,75 235,35" fill="#bfdbfe" fill-opacity="0.45" stroke="#2563eb" stroke-width="2"/>
+    <line x1="70" y1="150" x2="185" y2="150" stroke="#334155" stroke-width="1.8"/>
+    <line x1="185" y1="150" x2="235" y2="110" stroke="#334155" stroke-width="1.8"/>
+    <line x1="120" y1="110" x2="235" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="150" x2="120" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="75" x2="185" y2="75" stroke="#334155" stroke-width="1.8"/>
+    <line x1="185" y1="75" x2="235" y2="35" stroke="#334155" stroke-width="1.8"/>
+    <line x1="120" y1="35" x2="235" y2="35" stroke="#334155" stroke-width="1.8"/>
+    <line x1="70" y1="75" x2="120" y2="35" stroke="#334155" stroke-width="1.8"/>
+    <line x1="70" y1="150" x2="70" y2="75" stroke="#334155" stroke-width="1.8"/>
+    <line x1="185" y1="150" x2="185" y2="75" stroke="#334155" stroke-width="1.8"/>
+    <line x1="235" y1="110" x2="235" y2="35" stroke="#334155" stroke-width="1.8"/>
+    <!-- Space diagonal DF trisected into 1/3 : 1/3 : 1/3 -->
+    <line x1="120" y1="110" x2="185" y2="75" stroke="#e11d48" stroke-width="3"/>
+    <text x="56" y="162" font-size="11" font-weight="bold" fill="#1e293b">A</text>
+    <text x="190" y="162" font-size="11" font-weight="bold" fill="#1e293b">B</text>
+    <text x="243" y="115" font-size="11" font-weight="bold" fill="#1e293b">C</text>
+    <text x="108" y="106" font-size="11" font-weight="bold" fill="#be123c">D</text>
+    <text x="56" y="75" font-size="11" font-weight="bold" fill="#1e293b">E</text>
+    <text x="192" y="70" font-size="11" font-weight="bold" fill="#be123c">F</text>
+    <text x="243" y="38" font-size="11" font-weight="bold" fill="#1e293b">G</text>
+    <text x="108" y="30" font-size="11" font-weight="bold" fill="#1e293b">H</text>
+    <text x="265" y="78" font-size="11" font-weight="800" fill="#065f46">ACH ∥ BEG (⅓a√3)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Reduksi ke Titik</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <h3 class="font-bold text-slate-900">1. Jarak Garis $g$ ke Bidang $\alpha$ (dengan $g \parallel \alpha$)</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">
+                                    Karena setiap titik pada garis $g$ berjarak sama ke bidang $\alpha$, pilih <strong>satu titik paling mudah $P \in g$</strong> (misalnya titik ujung atau titik tengah $g$), lalu hitung jarak titik $P$ ke bidang $\alpha$:
+                                    $$d(g, \alpha) = d(P, \alpha) \quad \text{untuk sembarang } P \in g$$
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-xs text-slate-700">
+                                    <em>Contoh:</em> Jarak garis $BC$ ke bidang diagonal $ADGF$ pada kubus berusuk $a$ sama dengan jarak titik $B$ ke garis $AF$, yaitu setengah diagonal bidang: $\mathbf{\frac{1}{2}a\sqrt{2}}$.
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <h3 class="font-bold text-slate-900">2. Jarak Dua Bidang Sejajar ($\alpha \parallel \beta$)</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed">
+                                    Pilih satu titik sembarang $P \in \alpha$, lalu hitung jarak titik $P$ tersebut ke bidang $\beta$ (atau buat satu garis yang menembus tegak lurus kedua bidang sekaligus):
+                                    $$d(\alpha, \beta) = d(P, \beta) \quad \text{untuk sembarang } P \in \alpha$$
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200 text-xs text-slate-700">
+                                    <em>Contoh:</em> Pada kubus berusuk $9\text{ cm}$, jarak bidang $AFH$ ke bidang $BDG$ adalah $\frac{1}{3}a\sqrt{3} = \frac{1}{3}(9)\sqrt{3} = \mathbf{3\sqrt{3}\text{ cm}}$.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: JARAK DUA GARIS BERSILANGAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Jarak Garis Bersilangan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚔️ Menghitung Jarak Dua Garis Bersilangan (Skew Lines)
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Proyeksi Tegak Lurus Titik C ke Diagonal Ruang AG (d = ⅓a√6)</span>
+                            <svg viewBox="0 0 380 190" class="w-full max-w-sm h-auto">
+    <polygon points="70,150 235,110 235,35" fill="#bfdbfe" fill-opacity="0.45"/>
+    <line x1="70" y1="150" x2="185" y2="150" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="150" x2="235" y2="110" stroke="#334155" stroke-width="2"/>
+    <line x1="120" y1="110" x2="235" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="150" x2="120" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="75" x2="185" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="75" x2="235" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="120" y1="35" x2="235" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="70" y1="75" x2="120" y2="35" stroke="#334155" stroke-width="2"/>
+    <line x1="70" y1="150" x2="70" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="185" y1="150" x2="185" y2="75" stroke="#334155" stroke-width="2"/>
+    <line x1="235" y1="110" x2="235" y2="35" stroke="#2563eb" stroke-width="2.5"/>
+    <!-- Right triangle ACG with altitude CP to AG -->
+    <line x1="70" y1="150" x2="235" y2="110" stroke="#2563eb" stroke-width="2.5"/>
+    <line x1="70" y1="150" x2="235" y2="35" stroke="#1d4ed8" stroke-width="2.5"/>
+    <line x1="235" y1="110" x2="180" y2="73" stroke="#e11d48" stroke-width="3"/>
+    <circle cx="180" cy="73" r="4" fill="#e11d48"/>
+    <text x="56" y="162" font-size="12" font-weight="bold" fill="#1e293b">A</text>
+    <text x="245" y="115" font-size="12" font-weight="bold" fill="#1d4ed8">C (90°)</text>
+    <text x="243" y="38" font-size="12" font-weight="bold" fill="#1d4ed8">G</text>
+    <text x="180" y="62" font-size="11" font-weight="800" fill="#be123c">P (CP ⊥ AG)</text>
+    <text x="275" y="88" font-size="11" font-weight="800" fill="#be123c">d = ⅓a√6</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Tegak Lurus Persekutuan</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <strong>Jarak antara dua garis bersilangan $g$ dan $h$</strong> adalah panjang ruas garis hubung terpendek $PQ$ yang <strong>tegak lurus terhadap kedua garis tersebut sekaligus</strong> ($PQ \perp g$ dan $PQ \perp h$).
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <!-- Kasus A: Bersilangan Tegak Lurus -->
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                                <span class="px-2 py-0.5 bg-blue-200 text-blue-900 font-bold text-[11px] rounded">Metode 1: Bersilangan Tegak Lurus ($g \perp h$)</span>
+                                <h3 class="font-bold text-slate-900">Buat Bidang Melalui $h$ yang $\perp g$</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    1. Buat bidang $\alpha$ yang memuat garis $h$ dan ditembus tegak lurus oleh garis $g$ di satu titik $T$.<br>
+                                    2. Maka jarak garis $g$ ke garis $h$ sama dengan <strong>jarak titik tembus $T$ ke garis $h$</strong>!<br>
+                                    <em>Contoh:</em> Jarak garis $AE$ ke garis $BD$ pada kubus berusuk $a$: garis $BD \subset \text{alas } ABCD$ dan $AE$ menembus alas di $A$. Maka $d(AE, BD) = d(A, BD) = \mathbf{\frac{1}{2}a\sqrt{2}}$.
+                                </p>
+                            </div>
+
+                            <!-- Kasus B: Bersilangan Sembarang -->
+                            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
+                                <span class="px-2 py-0.5 bg-amber-200 text-amber-900 font-bold text-[11px] rounded">Metode 2: Bersilangan Sembarang</span>
+                                <h3 class="font-bold text-slate-900">Buat Bidang Sejajar Pengganti</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    1. Geser salah satu garis (misal $g$) hingga memotong $h$, sehingga terbentuk <strong>bidang $\alpha$ yang memuat $h$ dan sejajar dengan $g$</strong> (atau buat dua bidang sejajar $\alpha \parallel \beta$ yang masing-masing memuat $g$ dan $h$).<br>
+                                    2. Maka $d(g, h) = d(g, \alpha) = d(\alpha, \beta)$!<br>
+                                    <em>Contoh:</em> Jarak diagonal bidang $AH$ dan $BG$: karena $AH \subset ADHE$ dan $BG \subset BCGF$ dengan $ADHE \parallel BCGF$, maka $d(AH, BG) = AB = \mathbf{a}$.<br>
+                                    Sedangkan jarak $AC$ dan $BE$: karena $AC \subset ACH$ dan $BE \subset BEG$ ($ACH \parallel BEG$), maka $d(AC, BE) = d(ACH, BEG) = \mathbf{\frac{1}{3}a\sqrt{3}}$!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Jarak Titik ke Bidang &amp; Garis Bersilangan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah jawaban yang paling tepat untuk menguji penguasaan konsep jarak titik ke bidang dan jarak dua garis bersilangan:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Titik C adalah titik sudut dekat dari bidang segitiga BDG (terhadap diagonal ruang EC = a√3). Maka jarak titik C ke bidang BDG adalah ⅓ dari diagonal ruang EC, yaitu ⅓(6)√3 = 2√3 cm.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Jarak Titik Sudut Dekat ke Bidang Segitiga</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ dengan panjang rusuk $6\text{ cm}$ berikut. Jarak dari titik sudut $C$ ke bidang $BDG$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 1: Jarak C ke bidang BDG -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang BDG (Hijau transparan) -->
+                                        <polygon points="185,170 115,130 225,30" fill="#d1fae5" fill-opacity="0.6" stroke="#059669" stroke-width="2"/>
+                                        <!-- Diagonal ruang EC (Biru putus-putus) & Jarak C ke BDG (Merah tebal) -->
+                                        <line x1="75" y1="70" x2="225" y2="130" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="4,3"/>
+                                        <line x1="225" y1="130" x2="175" y2="110" stroke="#e11d48" stroke-width="3.2"/>
+                                        <!-- Rusuk kubus -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="185" cy="170" r="3.5" fill="#059669"/>
+                                        <circle cx="115" cy="130" r="3.5" fill="#059669"/>
+                                        <circle cx="225" cy="30" r="3.5" fill="#059669"/>
+                                        <circle cx="225" cy="130" r="4" fill="#e11d48"/>
+                                        <circle cx="175" cy="110" r="3.5" fill="#e11d48"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#334155">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#059669">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#e11d48">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#059669">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#2563eb">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#059669">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#334155">H</text>
+                                        <text x="195" y="114" font-size="11" font-weight="bold" fill="#e11d48">⅓ EC</text>
+                                        <text x="120" y="185" font-size="11" font-weight="bold" fill="#334155">6 cm</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2\sqrt{3}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $4\sqrt{3}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $3\sqrt{3}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $2\sqrt{6}\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Titik E adalah titik sudut terjauh dari bidang BDG sepanjang diagonal ruang EC. Maka jarak titik E ke bidang BDG adalah ⅔ dari panjang diagonal ruang EC: d = ⅔ a√3 = ⅔ (9)√3 = 6√3 cm.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Jarak Titik Sudut Jauh ke Bidang Segitiga</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ dengan panjang rusuk $9\text{ cm}$ berikut. Jarak dari titik sudut $E$ ke bidang $BDG$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 2: Jarak E ke bidang BDG -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang BDG (Hijau transparan) -->
+                                        <polygon points="185,170 115,130 225,30" fill="#d1fae5" fill-opacity="0.6" stroke="#059669" stroke-width="2"/>
+                                        <!-- Diagonal ruang EC & Jarak E ke BDG (Merah tebal 2/3 EC) -->
+                                        <line x1="175" y1="110" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4,3"/>
+                                        <line x1="75" y1="70" x2="175" y2="110" stroke="#e11d48" stroke-width="3.2"/>
+                                        <!-- Rusuk kubus -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="185" cy="170" r="3.5" fill="#059669"/>
+                                        <circle cx="115" cy="130" r="3.5" fill="#059669"/>
+                                        <circle cx="225" cy="30" r="3.5" fill="#059669"/>
+                                        <circle cx="75" cy="70" r="4" fill="#e11d48"/>
+                                        <circle cx="175" cy="110" r="3.5" fill="#e11d48"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#334155">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#059669">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#334155">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#059669">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#e11d48">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#059669">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#334155">H</text>
+                                        <text x="112" y="98" font-size="11" font-weight="bold" fill="#e11d48">⅔ EC</text>
+                                        <text x="120" y="185" font-size="11" font-weight="bold" fill="#334155">9 cm</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $3\sqrt{3}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $3\sqrt{6}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $6\sqrt{3}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $9\sqrt{3}\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Garis CG tegak lurus terhadap bidang alas ABCD (yang memuat diagonal BD) di titik C. Maka jarak antara garis bersilangan CG dan BD sama dengan jarak titik C ke garis BD pada persegi alas ABCD, yaitu setengah diagonal bidang: d = ½ a√2 = ½ (10)√2 = 5√2 cm.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Jarak Dua Garis Bersilangan Tegak Lurus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ berusuk $10\text{ cm}$ berikut. Jarak antara garis rusuk tegak $CG$ dan garis diagonal alas $BD$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 3: Jarak CG ke BD -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Garis BD (Biru tebal) & Garis CG (Ungu tebal) -->
+                                        <line x1="185" y1="170" x2="115" y2="130" stroke="#2563eb" stroke-width="3"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#7c3aed" stroke-width="3.5"/>
+                                        <!-- Jarak C ke pusat alas P (Merah tebal) -->
+                                        <line x1="225" y1="130" x2="150" y2="150" stroke="#e11d48" stroke-width="3" stroke-dasharray="4,2"/>
+                                        <!-- Rusuk kubus -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="185" cy="170" r="3.5" fill="#2563eb"/>
+                                        <circle cx="115" cy="130" r="3.5" fill="#2563eb"/>
+                                        <circle cx="225" cy="130" r="4" fill="#e11d48"/>
+                                        <circle cx="225" cy="30" r="3.5" fill="#7c3aed"/>
+                                        <circle cx="150" cy="150" r="4" fill="#e11d48"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#334155">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#2563eb">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#e11d48">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#2563eb">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#334155">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#7c3aed">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#334155">H</text>
+                                        <text x="182" y="138" font-size="11" font-weight="bold" fill="#e11d48">d</text>
+                                        <text x="118" y="185" font-size="11" font-weight="bold" fill="#334155">10 cm</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $5\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $5\sqrt{2}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $5\sqrt{3}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $10\sqrt{2}\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Garis AC terletak pada bidang ACH dan garis BE terletak pada bidang BEG. Karena bidang ACH ∥ bidang BEG, jarak terpendek antara garis bersilangan AC dan BE sama dengan jarak antara bidang ACH dan BEG, yaitu ⅓ diagonal ruang DF: d = ⅓ a√3 = ⅓(12)√3 = 4√3 cm.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Jarak Dua Diagonal Bidang yang Bersilangan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ berusuk $12\text{ cm}$ berikut. Jarak terpendek antara dua diagonal bidang yang saling bersilangan $AC$ dan $BE$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 4: Jarak AC ke BE -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang ACH & BEG -->
+                                        <polygon points="75,170 225,130 115,30" fill="#ffe4e6" fill-opacity="0.45" stroke="#e11d48" stroke-width="1.2" stroke-dasharray="3,2"/>
+                                        <polygon points="185,170 75,70 225,30" fill="#d1fae5" fill-opacity="0.45" stroke="#059669" stroke-width="1.2" stroke-dasharray="3,2"/>
+                                        <!-- Garis AC (Merah tebal) & Garis BE (Hijau tebal) -->
+                                        <line x1="75" y1="170" x2="225" y2="130" stroke="#e11d48" stroke-width="3.2"/>
+                                        <line x1="185" y1="170" x2="75" y2="70" stroke="#059669" stroke-width="3.2"/>
+                                        <!-- Rusuk kubus -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="75" cy="170" r="3.5" fill="#e11d48"/>
+                                        <circle cx="225" cy="130" r="3.5" fill="#e11d48"/>
+                                        <circle cx="185" cy="170" r="3.5" fill="#059669"/>
+                                        <circle cx="75" cy="70" r="3.5" fill="#059669"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#e11d48">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#059669">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#e11d48">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#64748b">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#059669">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#334155">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#334155">H</text>
+                                        <text x="118" y="185" font-size="11" font-weight="bold" fill="#334155">12 cm</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $6\sqrt{2}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $6\sqrt{3}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $4\sqrt{6}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $4\sqrt{3}\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Garis wakil bidang BCHE dari titik A adalah garis EB (di bidang depan ABFE). Karena diagonal AF ⊥ BE tepat di titik tengahnya, jarak titik A ke bidang BCHE sama dengan setengah diagonal bidang AF: d = ½ a√2 = ½ (8)√2 = 4√2 cm.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Jarak Titik Sudut ke Bidang Diagonal</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ dengan panjang rusuk $8\text{ cm}$ berikut. Jarak dari titik sudut $A$ ke bidang diagonal $BCHE$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 5: Jarak A ke bidang BCHE -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang Diagonal BCHE (Biru transparan) -->
+                                        <polygon points="185,170 225,130 115,30 75,70" fill="#dbeafe" fill-opacity="0.65" stroke="#2563eb" stroke-width="2"/>
+                                        <!-- Garis jarak A ke titik tengah BE (130, 120) -->
+                                        <line x1="75" y1="170" x2="130" y2="120" stroke="#e11d48" stroke-width="3" stroke-dasharray="4,2"/>
+                                        <!-- Rusuk kubus -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#2563eb" stroke-width="2.2"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#2563eb" stroke-width="2.2"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="75" cy="170" r="4" fill="#e11d48"/>
+                                        <circle cx="130" cy="120" r="3.5" fill="#e11d48"/>
+                                        <circle cx="185" cy="170" r="3.5" fill="#2563eb"/>
+                                        <circle cx="225" cy="130" r="3.5" fill="#2563eb"/>
+                                        <circle cx="115" cy="30" r="3.5" fill="#2563eb"/>
+                                        <circle cx="75" cy="70" r="3.5" fill="#2563eb"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#e11d48">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#2563eb">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#2563eb">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#64748b">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#2563eb">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#334155">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#2563eb">H</text>
+                                        <text x="90" y="142" font-size="11" font-weight="bold" fill="#e11d48">d</text>
+                                        <text x="120" y="185" font-size="11" font-weight="bold" fill="#334155">8 cm</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $4\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $4\sqrt{2}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $4\sqrt{3}\text{ cm}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $8\sqrt{2}\text{ cm}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F (Kelas XI–XII SMA/MA)</em>. Elemen Geometri Ruang.</p>
+                    <p><strong>Kiselev, A. P.</strong> (2008). <em>Kiselev's Geometry, Book II: Stereometry</em>. Sumizdat. Section: Perpendicularity and Distances Between Skew Lines.</p>
+                    <p><strong>Moise, Edwin E.</strong> (1990). <em>Elementary Geometry from an Advanced Standpoint</em> (3rd ed.). Addison-Wesley.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="jarak-titik-ke-titik-dan-titik-ke-garis.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Jarak Titik ke Titik &amp; Garis
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="sudut-antara-dua-garis-dan-garis-dengan-bidang.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Sudut Dua Garis &amp; Garis-Bidang &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

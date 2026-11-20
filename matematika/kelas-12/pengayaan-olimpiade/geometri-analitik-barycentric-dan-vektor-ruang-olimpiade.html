@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometri Vektor Ruang 3D & Tetrahedron Olimpiade - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari geometri ruang olimpiade (OSN): hasil kali silang (cross product), persamaan bidang datar, jarak titik ke bidang, Teorema De Gua pada tetrahedron, dan rumus polihedron Euler.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="pengayaan-olimpiade">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 7 · Pengayaan Olimpiade Sains (OSN)</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+                                🏅 Sub-Materi 5 dari 6 · Pengayaan OSN Matematika
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Geometri Vektor Ruang 3D & Tetrahedron Olimpiade
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Cross Product & Scalar Triple Product -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Aljabar Vektor $\mathbb{R}^3$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Cross Product ($\vec{u} \times \vec{v}$), Luas Segitiga 3D & Volume Tetrahedron
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Senjata Cepat Dimensi Tiga</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Pada soal geometri ruang olimpiade atau HOTS yang rumit, mengubah bangun ruang ke dalam koordinat Kartesius 3D $(x, y, z)$ lalu menggunakan <strong>Hasil Kali Silang (Cross Product)</strong> dapat memangkas waktu pengerjaan secara drastis!
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Cross Product & Luas Segitiga 3D</h3>
+                                <p class="text-xs text-slate-700">Untuk $\vec{u} = (u_1, u_2, u_3)$ dan $\vec{v} = (v_1, v_2, v_3)$:</p>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center space-y-1">
+                                    $$\vec{n} = \vec{u} \times \vec{v} = (u_2 v_3 - u_3 v_2,\ u_3 v_1 - u_1 v_3,\ u_1 v_2 - u_2 v_1)$$
+                                    $$\text{Luas }\triangle = \frac{1}{2} |\vec{u} \times \vec{v}|$$
+                                </div>
+                                <p class="text-xs text-slate-600">Vektor $\vec{n} = \vec{u} \times \vec{v}$ selalu <strong>tegak lurus</strong> terhadap bidang yang memuat $\vec{u}$ dan $\vec{v}$.</p>
+                            </div>
+
+                            <div class="bg-indigo-50/70 rounded-xl p-5 border border-indigo-200 space-y-2">
+                                <h3 class="font-bold text-indigo-950 text-sm">2. Hasil Kali Tripel Skalar & Volume Tetrahedron</h3>
+                                <p class="text-xs text-slate-700">Volume bidang empat (tetrahedron) yang dibentuk oleh tiga vektor rusuk $\vec{u}, \vec{v}, \vec{w}$ dari satu titik sudut:</p>
+                                <div class="bg-white rounded-lg p-3 border border-indigo-100 text-xs text-center">
+                                    $$V_{\text{tetrahedron}} = \frac{1}{6} \big| \vec{u} \cdot (\vec{v} \times \vec{w}) \big| = \frac{1}{6} |\det[\vec{u}, \vec{v}, \vec{w}]|$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Vektor Normal Bidang n = u × v dan Geometri Ruang R³</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <polygon points="100,130 280,130 340,85 160,85" fill="#dbeafe" fill-opacity="0.55" stroke="#2563eb" stroke-width="2"/>
+    <!-- Normal vector n = u x v -->
+    <line x1="160" y1="115" x2="265" y2="115" stroke="#059669" stroke-width="2.8"/>
+    <line x1="160" y1="115" x2="205" y2="90" stroke="#059669" stroke-width="2.8"/>
+    <line x1="160" y1="115" x2="160" y2="25" stroke="#e11d48" stroke-width="3"/>
+    <circle cx="160" cy="115" r="4" fill="#1e293b"/>
+    <text x="275" y="122" font-size="12" font-weight="800" fill="#065f46">u</text>
+    <text x="215" y="88" font-size="12" font-weight="800" fill="#065f46">v</text>
+    <text x="172" y="42" font-size="12" font-weight="800" fill="#be123c">n = u × v ⊥ Bidang</text>
+    <text x="220" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Ax + By + Cz + D = 0 (Luas △ = ½|u × v|)</text>
+</svg>
+                        </div>
+
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Persamaan Bidang Datar & Jarak Titik ke Bidang -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Metode Koordinat 3D</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Persamaan Bidang $Ax + By + Cz + D = 0$ & Rumus Jarak Instan
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Tanpa Menggambar Proyeksi!</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Sebuah bidang datar dengan vektor normal $\vec{n} = (A, B, C)$ memiliki persamaan $Ax + By + Cz + D = 0$. Jika bidang tersebut memotong sumbu-$X, Y, Z$ berturut-turut di $(a,0,0)$, $(0,b,0)$, dan $(0,0,c)$, persamaannya langsung dapat ditulis sebagai:
+                            $$\frac{x}{a} + \frac{y}{b} + \frac{z}{c} = 1$$
+                        </p>
+
+                        <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-3">
+                            <h3 class="font-bold text-emerald-950 text-sm">Rumus Instan Jarak Titik $P(x_0, y_0, z_0)$ ke Bidang $Ax + By + Cz + D = 0$:</h3>
+                            <div class="bg-white rounded-lg p-4 border border-emerald-100 text-center">
+                                $$d = \frac{|Ax_0 + By_0 + Cz_0 + D|}{\sqrt{A^2 + B^2 + C^2}}$$
+                            </div>
+                            <p class="text-xs text-slate-700">
+                                <strong>Contoh Kecepatan Tinggi:</strong> Pada kubus rusuk $6$ dengan $A(0,0,0)$, bidang $BDE$ memotong sumbu di $B(6,0,0), D(0,6,0), E(0,0,6) \implies x + y + z - 6 = 0$. Jarak titik $C(6,6,0)$ ke bidang $BDE$ langsung diperoleh:
+                                $$d = \frac{|6 + 6 + 0 - 6|}{\sqrt{1^2 + 1^2 + 1^2}} = \frac{6}{\sqrt{3}} = 2\sqrt{3}$$
+                            </p>
+                        </div>
+                    </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Vektor Normal Bidang n = u × v dan Geometri Ruang R³</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <polygon points="100,130 280,130 340,85 160,85" fill="#dbeafe" fill-opacity="0.55" stroke="#2563eb" stroke-width="2"/>
+    <!-- Normal vector n = u x v -->
+    <line x1="160" y1="115" x2="265" y2="115" stroke="#059669" stroke-width="2.8"/>
+    <line x1="160" y1="115" x2="205" y2="90" stroke="#059669" stroke-width="2.8"/>
+    <line x1="160" y1="115" x2="160" y2="25" stroke="#e11d48" stroke-width="3"/>
+    <circle cx="160" cy="115" r="4" fill="#1e293b"/>
+    <text x="275" y="122" font-size="12" font-weight="800" fill="#065f46">u</text>
+    <text x="215" y="88" font-size="12" font-weight="800" fill="#065f46">v</text>
+    <text x="172" y="42" font-size="12" font-weight="800" fill="#be123c">n = u × v ⊥ Bidang</text>
+    <text x="220" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Ax + By + Cz + D = 0 (Luas △ = ½|u × v|)</text>
+</svg>
+                        </div>
+
+
+                    <!-- SLIDE 3: Geometri Tetrahedron & Teorema De Gua (Pythagoras 3D) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Geometri Bidang Empat (Tetrahedron)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Teorema De Gua (Pythagoras Luas 3D), Titik Berat & Bola Dalam
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">$L_{ABC}^2 = L_1^2 + L_2^2 + L_3^2$</span>
+                        </div>
+
+                        <!-- SVG Tetrahedron Siku-Siku O.ABC -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Tetrahedron Siku-Siku $O.ABC$ ($OA \perp OB \perp OC$): Teorema De Gua & Jari-Jari Bola Dalam $r = \frac{3V}{L_{\text{total}}}$
+                            </p>
+                            <svg viewBox="0 0 540 205" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Shaded Hypotenuse Face ABC -->
+                                <polygon points="355,145 115,175 185,30" fill="#ddd6fe" fill-opacity="0.55" />
+                                <!-- Orthogonal axes from O(185, 130) -->
+                                <line x1="185" y1="130" x2="185" y2="30" stroke="#475569" stroke-width="2" stroke-dasharray="4 3" />
+                                <line x1="185" y1="130" x2="355" y2="145" stroke="#475569" stroke-width="2" stroke-dasharray="4 3" />
+                                <line x1="185" y1="130" x2="115" y2="175" stroke="#475569" stroke-width="2" stroke-dasharray="4 3" />
+
+                                <!-- Outer Triangle ABC -->
+                                <polygon points="355,145 115,175 185,30" fill="none" stroke="#6d28d9" stroke-width="2.5" />
+
+                                <circle cx="185" cy="130" r="4" fill="#e11d48" />
+                                <circle cx="355" cy="145" r="4" fill="#6d28d9" />
+                                <circle cx="115" cy="175" r="4" fill="#6d28d9" />
+                                <circle cx="185" cy="30" r="4" fill="#6d28d9" />
+
+                                <text x="195" y="125" font-size="12" font-weight="800" fill="#be123c">O (90°)</text>
+                                <text x="368" y="149" font-size="12" font-weight="bold" fill="#4c1d95">A(a,0,0)</text>
+                                <text x="85" y="182" font-size="12" font-weight="bold" fill="#4c1d95">B(0,b,0)</text>
+                                <text x="185" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#4c1d95">C(0,0,c)</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="bg-purple-50/70 rounded-xl p-4 border border-purple-200 space-y-1">
+                                <h3 class="font-bold text-purple-950 text-xs uppercase">1. Teorema De Gua</h3>
+                                <div class="text-xs text-slate-800">
+                                    $$L_{ABC}^2 = L_{OAB}^2 + L_{OBC}^2 + L_{OAC}^2$$
+                                </div>
+                                <p class="text-xs text-slate-600">Kuadrat luas sisi miring sama dengan jumlah kuadrat luas ketiga sisi siku-sikunya!</p>
+                            </div>
+
+                            <div class="bg-blue-50/70 rounded-xl p-4 border border-blue-200 space-y-1">
+                                <h3 class="font-bold text-blue-950 text-xs uppercase">2. Jari-Jari Bola Dalam</h3>
+                                <div class="text-xs text-slate-800">
+                                    $$r = \frac{3V}{L_1 + L_2 + L_3 + L_4}$$
+                                </div>
+                                <p class="text-xs text-slate-600">Analog 3D dari rumus jari-jari lingkaran dalam segitiga $r = \frac{L}{s}$.</p>
+                            </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-4 border border-emerald-200 space-y-1">
+                                <h3 class="font-bold text-emerald-950 text-xs uppercase">3. Titik Berat Ruang $G$</h3>
+                                <div class="text-xs text-slate-800">
+                                    $$G = \frac{A + B + C + D}{4}$$
+                                </div>
+                                <p class="text-xs text-slate-600">Membagi garis berat dari puncak ke titik berat alas dengan rasio <strong>$3 : 1$</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Rumus Polihedron Konveks Euler -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Poin 4 · Kombinatorika Bangun Ruang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Teorema Polihedron Euler: $V - E + F = 2$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700">Bola Sepak / Fullerene $C_{60}$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Untuk setiap bangun ruang polihedron konveks (seperti kubus, limas, dodekahedron, atau bola sepak ikosahedron terpancung) dengan <strong>$V$ titik sudut (Vertices)</strong>, <strong>$E$ rusuk (Edges)</strong>, dan <strong>$F$ sisi datar (Faces)</strong>, Leonhard Euler menemukan invarian topologi:
+                        </p>
+
+                        <div class="bg-amber-50/70 rounded-xl p-5 border border-amber-200 space-y-3">
+                            <div class="bg-white rounded-lg p-4 border border-amber-100 text-center">
+                                $$V - E + F = 2$$
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                <strong>Contoh Klasik Bola Sepak:</strong> Sebuah bola sepak tersusun atas $12$ sisi segilima beraturan dan $20$ sisi segienam beraturan ($F = 32$). Karena setiap rusuk dipakai bersama oleh $2$ sisi, maka $E = \frac{12 \times 5 + 20 \times 6}{2} = 90$ rusuk. Dari rumus Euler, banyak titik sudutnya adalah $V = E - F + 2 = 90 - 32 + 2 = 60$ titik sudut!
+                            </p>
+                        </div>
+                    </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Vektor Normal Bidang n = u × v dan Geometri Ruang R³</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <polygon points="100,130 280,130 340,85 160,85" fill="#dbeafe" fill-opacity="0.55" stroke="#2563eb" stroke-width="2"/>
+    <!-- Normal vector n = u x v -->
+    <line x1="160" y1="115" x2="265" y2="115" stroke="#059669" stroke-width="2.8"/>
+    <line x1="160" y1="115" x2="205" y2="90" stroke="#059669" stroke-width="2.8"/>
+    <line x1="160" y1="115" x2="160" y2="25" stroke="#e11d48" stroke-width="3"/>
+    <circle cx="160" cy="115" r="4" fill="#1e293b"/>
+    <text x="275" y="122" font-size="12" font-weight="800" fill="#065f46">u</text>
+    <text x="215" y="88" font-size="12" font-weight="800" fill="#065f46">v</text>
+    <text x="172" y="42" font-size="12" font-weight="800" fill="#be123c">n = u × v ⊥ Bidang</text>
+    <text x="220" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Ax + By + Cz + D = 0 (Luas △ = ½|u × v|)</text>
+</svg>
+                        </div>
+
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Geometri Vektor 3D & Tetrahedron Olimpiade
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal OSN</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji penguasaan geometri vektor ruang 3D dan tetrahedron olimpiade pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Teorema De Gua pada Tetrahedron Siku-Siku</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Pada tetrahedron $O.ABC$, ketiga rusuk $OA, OB, OC$ saling tegak lurus di $O$ dengan panjang $OA = 2$, $OB = 3$, dan $OC = 6$. Luas bidang segitiga miring $\triangle ABC$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $9$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $12$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $6\sqrt{14}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $3\sqrt{14}$ (karena $L_{OAB}=3, L_{OBC}=9, L_{OAC}=6 \implies \sqrt{3^2+9^2+6^2} = 3\sqrt{14}$)
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Vektor Normal Bidang n = u × v dan Geometri Ruang R³</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <polygon points="100,130 280,130 340,85 160,85" fill="#dbeafe" fill-opacity="0.55" stroke="#2563eb" stroke-width="2"/>
+    <!-- Normal vector n = u x v -->
+    <line x1="160" y1="115" x2="265" y2="115" stroke="#059669" stroke-width="2.8"/>
+    <line x1="160" y1="115" x2="205" y2="90" stroke="#059669" stroke-width="2.8"/>
+    <line x1="160" y1="115" x2="160" y2="25" stroke="#e11d48" stroke-width="3"/>
+    <circle cx="160" cy="115" r="4" fill="#1e293b"/>
+    <text x="275" y="122" font-size="12" font-weight="800" fill="#065f46">u</text>
+    <text x="215" y="88" font-size="12" font-weight="800" fill="#065f46">v</text>
+    <text x="172" y="42" font-size="12" font-weight="800" fill="#be123c">n = u × v ⊥ Bidang</text>
+    <text x="220" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Ax + By + Cz + D = 0 (Luas △ = ½|u × v|)</text>
+</svg>
+                        </div>
+
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Jarak Titik ke Bidang Datar 3D</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Jarak tegak lurus dari titik $P(3, 1, -2)$ ke bidang datar $2x - 2y + z + 7 = 0$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $2$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $3$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{11}{3}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $4$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Jari-Jari Bola Dalam Tetrahedron Beraturan</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Sebuah tetrahedron beraturan $T.ABC$ memiliki keempat sisi yang kongruen dan tinggi $h = 12\text{ cm}$. Karena luas keempat sisinya sama besar ($L_{\text{total}} = 4L_{\text{alas}}$) dan $V = \frac{1}{3}L_{\text{alas}}\cdot h$, maka panjang jari-jari bola dalam ($r$) tetrahedron tersebut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $3\text{ cm}$ (tepat $\frac{1}{4}h$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $4\text{ cm}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $2\sqrt{3}\text{ cm}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $6\text{ cm}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Volume Tetrahedron dalam Kubus</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Pada kubus $ABCD.EFGH$ dengan panjang rusuk $6\text{ cm}$, empat titik sudut yang tidak bersebelahan yaitu $A, C, F, H$ dihubungkan membentuk sebuah tetrahedron beraturan $A.CFH$. Volume tetrahedron $A.CFH$ tersebut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $36\text{ cm}^3$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $54\text{ cm}^3$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $72\text{ cm}^3$ (tepat $\frac{1}{3}V_{\text{kubus}}$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $108\text{ cm}^3$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Teorema Polihedron Euler</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Sebuah bangun ruang polihedron konveks memiliki $20$ sisi berbentuk segitiga sama sisi (ikosahedron beraturan) dan setiap titik sudutnya merupakan pertemuan dari tepat $5$ buah rusuk. Banyaknya titik sudut ($V$) dari polihedron tersebut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $10$ titik sudut
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $12$ titik sudut (karena $E = \frac{20 \times 3}{2} = 30 \implies V = 30 - 20 + 2 = 12$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $15$ titik sudut
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $20$ titik sudut
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/pengayaan-olimpiade/kombinatorika-pembangkit-rekurensi-dan-probabilitas-markov.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Rekurensi & Peluang Markov</span>
+                    </a>
+                    <a href="/matematika/kelas-12/pengayaan-olimpiade/bedah-soal-dan-strategi-esai-osn-nasional-matematika.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Bedah Soal & Strategi Esai OSN Nasional</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Sangat akurat!</strong> Penguasaan geometri vektor 3D dan tetrahedron Anda luar biasa.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

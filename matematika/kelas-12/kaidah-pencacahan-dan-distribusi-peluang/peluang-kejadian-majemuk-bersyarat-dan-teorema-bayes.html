@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peluang Kejadian Majemuk, Bersyarat & Teorema Bayes - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari peluang komplemen, frekuensi harapan, peluang kejadian saling lepas, saling bebas, peluang bersyarat P(A|B), dan Teorema Bayes dengan diagram pohon.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="kaidah-pencacahan-dan-distribusi-peluang">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 6 · Kaidah Pencacahan & Distribusi Peluang</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 mb-2">
+                                🎲 Sub-Materi 3 dari 6 · Kombinatorika & Peluang
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Peluang Kejadian Majemuk, Bersyarat & Teorema Bayes
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Peluang Klasik, Komplemen & Frekuensi Harapan -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Aksioma Dasar Peluang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Peluang Klasik, Jurus Komplemen $P(A^c)$ & Frekuensi Harapan
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">$0 \le P(A) \le 1$</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-4 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-xs uppercase">1. Peluang Kejadian $A$</h3>
+                                <div class="bg-white rounded-lg p-2.5 border border-blue-100 text-xs text-center">
+                                    $$P(A) = \frac{n(A)}{n(S)}$$
+                                </div>
+                                <p class="text-xs text-slate-600">$n(A)$ adalah banyak titik sampel kejadian $A$, dan $n(S)$ adalah ukuran ruang sampel.</p>
+                            </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-4 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-xs uppercase">2. Peluang Komplemen</h3>
+                                <div class="bg-white rounded-lg p-2.5 border border-emerald-100 text-xs text-center">
+                                    $$P(A^c) = 1 - P(A)$$
+                                </div>
+                                <p class="text-xs text-slate-600">Gunakan saat melihat frasa <strong>"paling sedikit satu"</strong>: $P(\ge 1) = 1 - P(\text{nol})$.</p>
+                            </div>
+
+                            <div class="bg-amber-50/70 rounded-xl p-4 border border-amber-200 space-y-2">
+                                <h3 class="font-bold text-amber-950 text-xs uppercase">3. Frekuensi Harapan</h3>
+                                <div class="bg-white rounded-lg p-2.5 border border-amber-100 text-xs text-center">
+                                    $$F_h(A) = N \times P(A)$$
+                                </div>
+                                <p class="text-xs text-slate-600">Banyaknya kemunculan kejadian $A$ yang diharapkan dari $N$ kali percobaan.</p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Struktur Segitiga Pascal dan Koefisien Kombinasi Binomial</span>
+                            <svg viewBox="0 0 480 155" class="w-full max-w-md h-auto">
+    <rect x="20" y="15" width="440" height="125" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="240" y="38" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Segitiga Pascal &amp; Koefisien Binomial C(n, k)</text>
+    <text x="240" y="60" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=0:           1</text>
+    <text x="240" y="78" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=1:         1   1</text>
+    <text x="240" y="96" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#2563eb">n=2:       1   2   1</text>
+    <text x="240" y="114" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#059669">n=3:     1   3   3   1</text>
+    <text x="240" y="132" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#be123c">n=4:   1   4   6   4   1</text>
+</svg>
+                        </div>
+
+
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-sm">💡 Contoh Jurus Komplemen "Paling Sedikit Satu":</h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Tiga keping uang logam dilempar bersama. Berapa peluang muncul <strong>paling sedikit satu Angka (A)</strong>?<br>
+                                • Lawan dari "minimal satu Angka" adalah "tidak ada Angka sama sekali" yaitu $(G, G, G)$ yang hanya ada $1$ dari $2^3 = 8$ titik sampel.<br>
+                                • Maka $P(\text{minimal 1 A}) = 1 - P(GGG) = 1 - \frac{1}{8} = \frac{7}{8}$.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Peluang Gabungan Dua Kejadian (ATAU) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Gabungan Dua Kejadian ($A \cup B$)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Kejadian Tidak Saling Lepas vs Kejadian Saling Lepas
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Inklusi-Eksklusi</span>
+                        </div>
+
+                        <!-- SVG Diagram Venn -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Perbandingan Diagram Venn: Tidak Saling Lepas ($A \cap B \neq \emptyset$) vs Saling Lepas ($A \cap B = \emptyset$)
+                            </p>
+                            <svg viewBox="0 0 580 175" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- LEFT: Non-Mutually Exclusive -->
+                                <rect x="20" y="15" width="255" height="145" rx="10" fill="#ffffff" stroke="#cbd5e1" />
+                                <circle cx="115" cy="85" r="46" fill="#bfdbfe" fill-opacity="0.6" stroke="#2563eb" stroke-width="2" />
+                                <circle cx="175" cy="85" r="46" fill="#fecdd3" fill-opacity="0.6" stroke="#e11d48" stroke-width="2" />
+                                <text x="90" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e3a8a">A</text>
+                                <text x="200" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#881337">B</text>
+                                <text x="145" y="88" text-anchor="middle" font-size="11" font-weight="800" fill="#4c1d95">A∩B</text>
+                                <text x="147" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">P(A∪B) = P(A) + P(B) - P(A∩B)</text>
+
+                                <!-- RIGHT: Mutually Exclusive -->
+                                <rect x="305" y="15" width="255" height="145" rx="10" fill="#ffffff" stroke="#cbd5e1" />
+                                <circle cx="380" cy="85" r="42" fill="#a7f3d0" fill-opacity="0.6" stroke="#059669" stroke-width="2" />
+                                <circle cx="485" cy="85" r="42" fill="#fde68a" fill-opacity="0.6" stroke="#d97706" stroke-width="2" />
+                                <text x="380" y="89" text-anchor="middle" font-size="13" font-weight="bold" fill="#065f46">A</text>
+                                <text x="485" y="89" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">B</text>
+                                <text x="432" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">Saling Lepas: P(A∪B) = P(A) + P(B)</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                            <h3 class="font-bold text-emerald-950 text-sm">Contoh Perbedaan pada Pelemparan Dua Dadu ($n(S) = 36$):</h3>
+                            <ul class="text-xs text-slate-700 space-y-1">
+                                <li>• <strong>Saling Lepas:</strong> Muncul jumlah mata dadu $7$ ($6$ pasang) ATAU jumlah $11$ ($2$ pasang). Karena tidak mungkin jumlahnya $7$ sekaligus $11$, maka $P = \frac{6}{36} + \frac{2}{36} = \frac{8}{36}$.</li>
+                                <li>• <strong>Tidak Saling Lepas:</strong> Muncul dadu pertama angka $4$ ($6$ pasang) ATAU jumlah mata dadu $9$ ($4$ pasang). Titik $(4, 5)$ terhitung dua kali (irisan $n(A \cap B) = 1$), sehingga $P = \frac{6}{36} + \frac{4}{36} - \frac{1}{36} = \frac{9}{36} = \frac{1}{4}$.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Kejadian Saling Bebas vs Peluang Bersyarat -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Irisan Dua Kejadian ($A \cap B$)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Kejadian Saling Bebas vs Peluang Bersyarat $P(A \mid B)$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Dengan vs Tanpa Pengembalian</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-2">
+                                <h3 class="font-bold text-purple-950 text-sm">1. Kejadian Saling Bebas (Independent)</h3>
+                                <p class="text-xs text-slate-700">Terjadinya $A$ tidak memengaruhi peluang terjadinya $B$ (misal pengambilan bola <strong>dengan pengembalian</strong>):</p>
+                                <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs text-center">
+                                    $$P(A \cap B) = P(A) \times P(B)$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Struktur Segitiga Pascal dan Koefisien Kombinasi Binomial</span>
+                            <svg viewBox="0 0 480 155" class="w-full max-w-md h-auto">
+    <rect x="20" y="15" width="440" height="125" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="240" y="38" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Segitiga Pascal &amp; Koefisien Binomial C(n, k)</text>
+    <text x="240" y="60" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=0:           1</text>
+    <text x="240" y="78" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=1:         1   1</text>
+    <text x="240" y="96" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#2563eb">n=2:       1   2   1</text>
+    <text x="240" y="114" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#059669">n=3:     1   3   3   1</text>
+    <text x="240" y="132" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#be123c">n=4:   1   4   6   4   1</text>
+</svg>
+                        </div>
+
+
+                            <div class="bg-indigo-50/70 rounded-xl p-5 border border-indigo-200 space-y-2">
+                                <h3 class="font-bold text-indigo-950 text-sm">2. Peluang Bersyarat (Conditional Probability)</h3>
+                                <p class="text-xs text-slate-700">Peluang terjadinya $A$ jika diketahui kejadian $B$ sudah terjadi (misal <strong>tanpa pengembalian</strong>):</p>
+                                <div class="bg-white rounded-lg p-3 border border-indigo-100 text-xs text-center">
+                                    $$P(A \mid B) = \frac{P(A \cap B)}{P(B)} \implies P(A \cap B) = P(B) \cdot P(A \mid B)$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Hukum Peluang Total & Teorema Bayes -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 4 · Probabilitas Invers</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Diagram Pohon, Hukum Peluang Total & Teorema Bayes
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">Pohon Probabilitas</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Bagaimana jika sebuah peristiwa akhir $E$ (misalnya terambilnya produk cacat atau hasil tes positif) dapat berasal dari beberapa cabang sumber $A_1, A_2$, lalu kita ditanya <strong>peluang bahwa hasil tersebut berasal dari cabang $A_1$</strong>? Gunakan <strong>Diagram Pohon & Teorema Bayes</strong>:
+                        </p>
+
+                        <!-- SVG Diagram Pohon Teorema Bayes -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Diagram Pohon Probabilitas Dua Tahap untuk Teorema Bayes
+                            </p>
+                            <svg viewBox="0 0 580 185" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Root to A1 and A2 -->
+                                <line x1="65" y1="92" x2="215" y2="45" stroke="#2563eb" stroke-width="2.5" />
+                                <line x1="65" y1="92" x2="215" y2="140" stroke="#059669" stroke-width="2.5" />
+
+                                <!-- A1 to E and E^c -->
+                                <line x1="255" y1="45" x2="410" y2="25" stroke="#e11d48" stroke-width="2.5" />
+                                <line x1="255" y1="45" x2="410" y2="68" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 2" />
+
+                                <!-- A2 to E and E^c -->
+                                <line x1="255" y1="140" x2="410" y2="118" stroke="#e11d48" stroke-width="2.5" />
+                                <line x1="255" y1="140" x2="410" y2="162" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 2" />
+
+                                <!-- Nodes -->
+                                <circle cx="65" cy="92" r="14" fill="#1e293b" />
+                                <rect x="215" y="30" width="45" height="30" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+                                <rect x="215" y="125" width="45" height="30" rx="6" fill="#a7f3d0" stroke="#059669" stroke-width="2" />
+                                <text x="237" y="49" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">A₁</text>
+                                <text x="237" y="144" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46">A₂</text>
+
+                                <text x="135" y="55" font-size="11" font-weight="bold" fill="#1d4ed8">P(A₁)</text>
+                                <text x="135" y="135" font-size="11" font-weight="bold" fill="#047857">P(A₂)</text>
+                                <text x="330" y="24" font-size="11" font-weight="bold" fill="#be123c">P(E | A₁)</text>
+                                <text x="330" y="116" font-size="11" font-weight="bold" fill="#be123c">P(E | A₂)</text>
+
+                                <text x="495" y="29" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Cabang 1: P(A₁)·P(E|A₁)</text>
+                                <text x="495" y="122" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Cabang 2: P(A₂)·P(E|A₂)</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-rose-50/70 rounded-xl p-5 border border-rose-200 text-center space-y-2">
+                            <div class="text-xs font-bold text-rose-950 uppercase">Rumus Teorema Bayes:</div>
+                            <div class="bg-white rounded-lg p-3 border border-rose-100 text-xs overflow-x-auto">
+                                $$P(A_1 \mid E) = \frac{\text{Cabang } A_1 \text{ menuju } E}{\text{Total Semua Cabang menuju } E} = \frac{P(A_1) \cdot P(E \mid A_1)}{P(A_1)\cdot P(E \mid A_1) + P(A_2)\cdot P(E \mid A_2)}$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Peluang Majemuk, Bersyarat & Teorema Bayes
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji ketajaman analisis peluang kejadian majemuk dan peluang bersyarat pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Peluang Gabungan Dua Dadu</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Dua buah dadu bersisi enam dilempar undi bersama-sama satu kali. Peluang munculnya jumlah kedua mata dadu sama dengan $8$ <strong>atau</strong> muncul mata dadu kembar adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{11}{36}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{5}{18}$ (yaitu $\frac{10}{36}$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{1}{4}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{1}{3}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Struktur Segitiga Pascal dan Koefisien Kombinasi Binomial</span>
+                            <svg viewBox="0 0 480 155" class="w-full max-w-md h-auto">
+    <rect x="20" y="15" width="440" height="125" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="240" y="38" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Segitiga Pascal &amp; Koefisien Binomial C(n, k)</text>
+    <text x="240" y="60" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=0:           1</text>
+    <text x="240" y="78" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=1:         1   1</text>
+    <text x="240" y="96" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#2563eb">n=2:       1   2   1</text>
+    <text x="240" y="114" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#059669">n=3:     1   3   3   1</text>
+    <text x="240" y="132" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#be123c">n=4:   1   4   6   4   1</text>
+</svg>
+                        </div>
+
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Kejadian Saling Bebas & Komplemen</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Peluang Andi lulus ujian saringan adalah $0{,}8$, sedangkan peluang Budi lulus ujian yang sama adalah $0{,}7$. Jika kelulusan keduanya saling bebas, peluang <strong>paling sedikit salah satu dari mereka lulus</strong> adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $0{,}56$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $0{,}38$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $0{,}86$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $0{,}94$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Peluang Bersyarat Tanpa Pengembalian</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Dalam sebuah kotak terdapat $6$ bola merah dan $4$ bola putih. Diambil dua bola satu per satu secara acak <strong>tanpa pengembalian</strong>. Peluang terambil bola pertama merah dan bola kedua putih adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{6}{25}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{1}{3}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{4}{15}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{8}{15}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Rumus Peluang Bersyarat P(A | B)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Diketahui dua kejadian $A$ dan $B$ dengan $P(A) = 0{,}5$, $P(B) = 0{,}4$, dan $P(A \cup B) = 0{,}7$. Nilai peluang bersyarat $P(A \mid B)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $0{,}50$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $0{,}40$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $0{,}20$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $0{,}25$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Aplikasi Teorema Bayes (Produksi Mesin)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Sebuah pabrik memiliki dua mesin: Mesin I memproduksi $60\%$ barang dengan tingkat kecacatan $2\%$, sedangkan Mesin II memproduksi $40\%$ barang dengan tingkat kecacatan $3\%$. Jika diambil satu barang secara acak dan ternyata <strong>cacat</strong>, peluang barang tersebut berasal dari <strong>Mesin I</strong> adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{2}{5}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{1}{2}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{3}{5}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{2}{3}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/permutasi-unsur-sama-siklis-dan-kombinasi.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Permutasi & Kombinasi</span>
+                    </a>
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/variabel-acak-diskrit-dan-distribusi-peluang-binomial.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Variabel Acak Diskrit & Distribusi Binomial</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Tepat sekali!</strong> Perhitungan peluang kejadian majemuk dan bersyarat Anda akurat.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

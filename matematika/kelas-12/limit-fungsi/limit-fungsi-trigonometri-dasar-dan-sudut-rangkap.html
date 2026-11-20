@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limit Fungsi Trigonometri Dasar & Rumus Sudut Rangkap — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai limit fungsi trigonometri: pembuktian geometris Teorema Apit (Squeeze Theorem) lim (sin x)/x = 1, pasangan rumus dasar sin ax / bx dan tan ax / bx, strategi pemusatan cosinus 1 - cos ax = 2 sin²(½ax), serta rumus Werner cos A - cos B.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/limit-fungsi-trigonometri-dasar-dan-sudut-rangkap.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/limit-fungsi-trigonometri-dasar-dan-sudut-rangkap.html">
+    <meta property="og:title" content="🌊 Limit Fungsi Trigonometri Dasar & Sudut Rangkap — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Teorema Apit sin x / x = 1, substitusi 1 - cos ax = 2 sin²(½ax), dan limit trigonometri x → c.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌊</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="limit-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Limit Fungsi
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Limit Fungsi Trigonometri Dasar &amp; Rumus Sudut Rangkap
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Mengapa untuk sudut $x$ sangat kecil (dalam <strong>radian</strong>) nilai $\sin x \approx x$ dan $\tan x \approx x$, sedangkan $\cos x$ justru menjadi penghalang yang harus diubah? Pelajari bukti geometris <strong>Teorema Apit (Squeeze Theorem)</strong>, tabel rumus cepat rasio koefisien $\sin$ dan $\tan$, konversi wajib $1 - \cos ax = 2\sin^2\left(\frac{1}{2}ax\right)$, serta teknik pergeseran variabel $u = x - c$.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: TEOREMA APIT & PEMBUKTIAN GEOMETRIS SIN X / X = 1 -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Bukti Geometris Lingkaran Satuan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🥪 Teorema Apit (Squeeze Theorem) &amp; Bukti $\lim_{x \to 0} \frac{\sin x}{x} = 1$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">x Wajib Radian!</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pada lingkaran satuan berjari-jari $r = 1$ dengan sudut pusat lancip $x$ radian ($0 < x < \frac{\pi}{2}$), perbandingan luas segitiga dalam $\triangle OAB$, luas juring lingkaran $OAB$, dan luas segitiga siku-siku singgung $\triangle OAC$ memenuhi ketaksamaan:
+                        </p>
+
+                        <!-- DIAGRAM SVG LINGKARAN SATUAN TEOREMA APIT -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                                <span class="text-[11px] font-bold text-slate-700 uppercase mb-1">Geometri Juring Lingkaran Satuan ($r = 1$)</span>
+                                <svg viewBox="0 0 280 175" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Sumbu alas OA -->
+                                    <line x1="30" y1="150" x2="240" y2="150" stroke="#334155" stroke-width="2"/>
+                                    <!-- Segitiga luar OAC -->
+                                    <polygon points="40,150 200,150 200,30" fill="#fef3c7" fill-opacity="0.45"/>
+                                    <!-- Busur lingkaran A(200,150) ke B(168, 54) dengan pusat O(40,150), R=160 -->
+                                    <path d="M 200 150 A 160 160 0 0 0 168 54" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+                                    <!-- Segitiga dalam OAB -->
+                                    <polygon points="40,150 200,150 168,54" fill="#dbeafe" fill-opacity="0.55" stroke="#2563eb" stroke-width="1.5"/>
+                                    <!-- Garis tinggi sin x (Merah) dan garis singgung tan x (Hijau) -->
+                                    <line x1="168" y1="54" x2="168" y2="150" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="4,2"/>
+                                    <line x1="200" y1="30" x2="200" y2="150" stroke="#059669" stroke-width="2.8"/>
+                                    <line x1="40" y1="150" x2="200" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                    <!-- Titik & Label -->
+                                    <circle cx="40" cy="150" r="3.5" fill="#1e293b"/>
+                                    <circle cx="200" cy="150" r="3.5" fill="#1e293b"/>
+                                    <circle cx="168" cy="54" r="3.5" fill="#2563eb"/>
+                                    <circle cx="200" cy="30" r="3.5" fill="#059669"/>
+                                    <text x="25" y="162" font-size="12" font-weight="bold" fill="#1e293b">O</text>
+                                    <text x="198" y="165" font-size="12" font-weight="bold" fill="#1e293b">A(1,0)</text>
+                                    <text x="152" y="48" font-size="12" font-weight="bold" fill="#2563eb">B</text>
+                                    <text x="206" y="32" font-size="12" font-weight="bold" fill="#059669">C</text>
+                                    <text x="75" y="142" font-size="11" font-weight="bold" fill="#d97706">x rad</text>
+                                    <text x="135" y="110" font-size="11" font-weight="bold" fill="#e11d48">sin x</text>
+                                    <text x="206" y="95" font-size="11" font-weight="bold" fill="#059669">tan x</text>
+                                </svg>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2 text-xs text-slate-700">
+                                <span class="font-bold text-blue-950 text-sm block">Penurunan Formal Teorema Apit:</span>
+                                <p>
+                                    $$L_{\triangle OAB} \le L_{\text{Juring } OAB} \le L_{\triangle OAC}$$
+                                    $$\frac{1}{2}(1)\sin x \le \frac{1}{2}(1)^2 x \le \frac{1}{2}(1)\tan x$$
+                                    Bagi dengan $\frac{1}{2}\sin x$ lalu balik pecahannya:
+                                    $$\cos x \le \frac{\sin x}{x} \le 1$$
+                                    Saat $x \to 0$, karena $\lim_{x \to 0} \cos x = 1$ dan $\lim_{x \to 0} 1 = 1$, maka menurut <strong>Teorema Apit</strong>:
+                                    $$\lim_{x \to 0} \frac{\sin x}{x} = \mathbf{1} \quad \text{dan} \quad \lim_{x \to 0} \frac{\tan x}{x} = \mathbf{1}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: RUMUS CEPAT KOEFISIEN SIN & TAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Sifat Ekuivalensi Kecil</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ Rumus Cepat Rasio Koefisien $\sin ax$ dan $\tan bx$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Grafik Konvergensi Limit Trigonometri (sin x)/x → 1 Saat x → 0</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="30" y1="125" x2="410" y2="125" stroke="#334155" stroke-width="1.8"/>
+    <line x1="220" y1="155" x2="220" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 50 125 Q 110 155 150 90 Q 185 35 220 35 Q 255 35 290 90 Q 330 155 390 125" fill="none" stroke="#059669" stroke-width="3"/>
+    <circle cx="220" cy="35" r="5.5" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="235" y="32" font-size="12" font-weight="800" fill="#be123c">(0, 1)</text>
+    <text x="335" y="55" font-size="11" font-weight="bold" fill="#047857">y = (sin x) / x → 1</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Hanya untuk sin &amp; tan!</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Untuk $u \to 0$, fungsi **$\sin(u)$** dan **$\tan(u)$** pada operasi perkalian/pembagian berkelakuan identik dengan argumennya sendiri (**$\sin u \sim u$** dan **$\tan u \sim u$**):
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs sm:text-sm text-center font-bold text-emerald-950">
+                            <div class="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200">
+                                $$\lim_{x \to 0} \frac{\sin ax}{bx} = \frac{a}{b}$$
+                            </div>
+                            <div class="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200">
+                                $$\lim_{x \to 0} \frac{\tan ax}{bx} = \frac{a}{b}$$
+                            </div>
+                            <div class="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200">
+                                $$\lim_{x \to 0} \frac{\sin ax}{\tan bx} = \frac{a}{b}$$
+                            </div>
+                        </div>
+
+                        <!-- PERINGATAN KERAS COS X -->
+                        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs sm:text-sm space-y-1">
+                            <span class="font-bold text-rose-900 block">🚫 Larangan Keras: Rumus Koefisien TIDAK BERLAKU untuk $\cos x$!</span>
+                            <p class="text-slate-700 text-xs">
+                                Saat $x \to 0$, nilai $\cos 0 = 1$ (bukan $0$!). Jadi $\lim_{x \to 0} \cos(5x) = 1$, dan $\lim_{x \to 0} \frac{\cos ax}{bx} = \frac{1}{0}$ (tidak ada / $\pm\infty$, <strong>BUKAN</strong> $\frac{a}{b}$!). Setiap faktor $\cos(kx)$ yang berdiri sendiri dalam perkalian langsung disubstitusi nilainya menjadi **$1$**.
+                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm space-y-1.5">
+                            <span class="font-bold text-slate-900 block">Contoh Pemasangan Derajat Pangkat ($\sin^2 ax$ Butuh $x^2$):</span>
+                            <p class="text-slate-700 text-xs">
+                                $$\lim_{x \to 0} \frac{\sin^2(3x) \cdot \tan(4x)}{2x^3 \cdot \cos(5x)} = \lim_{x \to 0} \left(\frac{\sin 3x}{x}\right)^2 \cdot \left(\frac{\tan 4x}{2x}\right) \cdot \frac{1}{\cos 5x} = (3)^2 \cdot \left(\frac{4}{2}\right) \cdot \frac{1}{1} = 9 \cdot 2 = \mathbf{18}$$
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: MENGUBAH COSINUS DENGAN RUMUS SUDUT RANGKAP & WERNER -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Menghancurkan Pembuat Nol Cosinus</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔑 Rumus Emas Konversi $1 - \cos(ax)$ dan $\cos A - \cos B$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Grafik Konvergensi Limit Trigonometri (sin x)/x → 1 Saat x → 0</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="30" y1="125" x2="410" y2="125" stroke="#334155" stroke-width="1.8"/>
+    <line x1="220" y1="155" x2="220" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 50 125 Q 110 155 150 90 Q 185 35 220 35 Q 255 35 290 90 Q 330 155 390 125" fill="none" stroke="#059669" stroke-width="3"/>
+    <circle cx="220" cy="35" r="5.5" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="235" y="32" font-size="12" font-weight="800" fill="#be123c">(0, 1)</text>
+    <text x="335" y="55" font-size="11" font-weight="bold" fill="#047857">y = (sin x) / x → 1</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">1 - cos ax = 2 sin²(½ax)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Lebih dari 70% soal ujian limit trigonometri memuat bentuk **$1 - \cos(ax)$** atau **$\cos(ax) - \cos(bx)$** yang menyebabkan $\frac{0}{0}$ saat $x \to 0$. Wajib ubah cosinus menjadi sinus menggunakan 3 identitas berikut:
+                        </p>
+
+                        <!-- 3 IDENTITAS EMAS COSINUS KE SINUS -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-300 space-y-1.5">
+                                <span class="text-xs font-bold text-amber-900 uppercase">1. Sudut Rangkap Cosinus</span>
+                                <div class="font-mono font-bold text-amber-950 text-center py-1 bg-white rounded border border-amber-200">
+                                    $$1 - \cos(ax) = 2\sin^2\left(\frac{1}{2}ax\right)$$
+                                </div>
+                                <p class="text-[11px] text-slate-700">
+                                    Dan kebalikannya: $\cos(ax) - 1 = -2\sin^2\left(\frac{1}{2}ax\right)$.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-1.5">
+                                <span class="text-xs font-bold text-blue-900 uppercase">2. Rumus Cepat $(1 - \cos ax)/x^2$</span>
+                                <div class="font-mono font-bold text-blue-950 text-center py-1 bg-white rounded border border-blue-100">
+                                    $$\lim_{x \to 0} \frac{1 - \cos(ax)}{x^2} = \frac{1}{2}a^2$$
+                                </div>
+                                <p class="text-[11px] text-slate-700">
+                                    Serta $\lim_{x \to 0} \frac{1 - \cos(ax)}{x} = 0$ (jika penyebut hanya pangkat 1).
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 space-y-1.5">
+                                <span class="text-xs font-bold text-purple-900 uppercase">3. Selisih Dua Cosinus</span>
+                                <div class="font-mono font-bold text-purple-950 text-center py-1 bg-white rounded border border-purple-100">
+                                    $$\lim_{x \to 0} \frac{\cos ax - \cos bx}{x^2} = \frac{b^2 - a^2}{2}$$
+                                </div>
+                                <p class="text-[11px] text-slate-700">
+                                    Dari rumus Werner: $\cos A - \cos B = -2\sin\frac{A+B}{2}\sin\frac{A-B}{2}$.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CONTOH SOAL -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 block">Studi Kasus: Hitunglah $\lim_{x \to 0} \frac{1 - \cos 4x}{x \cdot \tan 2x}$!</span>
+                            <div class="p-3.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-700">
+                                <p>
+                                    Ganti $1 - \cos 4x$ dengan $2\sin^2(2x)$:
+                                    $$\lim_{x \to 0} \frac{2\sin^2(2x)}{x \cdot \tan 2x} = 2 \cdot \lim_{x \to 0} \left(\frac{\sin 2x}{x}\right) \cdot \left(\frac{\sin 2x}{\tan 2x}\right) = 2 \cdot (2) \cdot \left(\frac{2}{2}\right) = \mathbf{4}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: LIMIT TRIGONOMETRI MENUJU TITIK BUKAN NOL (x -> c) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Pergeseran Variabel ($x \to c$)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 Limit Trigonometri untuk $x \to c$ ($c \ne 0$)
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Grafik Konvergensi Limit Trigonometri (sin x)/x → 1 Saat x → 0</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="30" y1="125" x2="410" y2="125" stroke="#334155" stroke-width="1.8"/>
+    <line x1="220" y1="155" x2="220" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 50 125 Q 110 155 150 90 Q 185 35 220 35 Q 255 35 290 90 Q 330 155 390 125" fill="none" stroke="#059669" stroke-width="3"/>
+    <circle cx="220" cy="35" r="5.5" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="235" y="32" font-size="12" font-weight="800" fill="#be123c">(0, 1)</text>
+    <text x="335" y="55" font-size="11" font-weight="bold" fill="#047857">y = (sin x) / x → 1</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Misalkan u = x - c</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jika $x \to c$ (dengan $c \ne 0$) menghasilkan bentuk tak tentu $\frac{0}{0}$, lakukan pemisalan **$u = x - c \implies u \to 0$** atau kelompokkan argumen sudutnya sehingga memuat faktor $(x - c)$:
+                        </p>
+
+                        <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-200 text-center font-mono text-xs sm:text-sm font-bold text-indigo-950">
+                            $$\lim_{x \to c} \frac{\sin[a(x - c)]}{b(x - c)} = \frac{a}{b} \quad \text{dan} \quad \lim_{x \to c} \frac{\tan[a(x - c)]}{b(x - c)} = \frac{a}{b}$$
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Contoh 1: Pengelompokan Faktor $(x - 2)$</span>
+                                <p class="text-slate-700 text-xs">
+                                    Hitunglah $\lim_{x \to 2} \frac{\sin(3x - 6)}{x^2 - 4}$:<br>
+                                    $$\lim_{x \to 2} \frac{\sin[3(x - 2)]}{(x - 2)(x + 2)} = \left(\lim_{x \to 2} \frac{\sin[3(x - 2)]}{x - 2}\right) \cdot \left(\lim_{x \to 2} \frac{1}{x + 2}\right)$$
+                                    $$= 3 \cdot \frac{1}{2 + 2} = \mathbf{\frac{3}{4}}$$
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Contoh 2: Sudut Berelasi ($\cos x = \sin(\frac{\pi}{2} - x)$)</span>
+                                <p class="text-slate-700 text-xs">
+                                    Hitunglah $\lim_{x \to \frac{\pi}{2}} \frac{\cos x}{x - \frac{\pi}{2}}$:<br>
+                                    Ubah $\cos x = \sin\left(\frac{\pi}{2} - x\right) = -\sin\left(x - \frac{\pi}{2}\right)$:
+                                    $$\lim_{x \to \frac{\pi}{2}} \frac{-\sin\left(x - \frac{\pi}{2}\right)}{x - \frac{\pi}{2}} = \mathbf{-1}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Limit Fungsi Trigonometri
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Grafik Konvergensi Limit Trigonometri (sin x)/x → 1 Saat x → 0</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="30" y1="125" x2="410" y2="125" stroke="#334155" stroke-width="1.8"/>
+    <line x1="220" y1="155" x2="220" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 50 125 Q 110 155 150 90 Q 185 35 220 35 Q 255 35 290 90 Q 330 155 390 125" fill="none" stroke="#059669" stroke-width="3"/>
+    <circle cx="220" cy="35" r="5.5" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="235" y="32" font-size="12" font-weight="800" fill="#be123c">(0, 1)</text>
+    <text x="335" y="55" font-size="11" font-weight="bold" fill="#047857">y = (sin x) / x → 1</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah salah satu jawaban yang paling tepat pada 5 soal evaluasi limit fungsi trigonometri berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Pisahkan per suku dan gunakan rasio koefisien: (sin 6x)/(2x) + (tan 4x)/(2x) = 6/2 + 4/2 = 3 + 2 = 5.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Limit Trigonometri Dasar</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to 0} \frac{\sin 6x + \tan 4x}{2x}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $5$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $10$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Ubah 1 - cos 6x = 2 sin²(3x). Maka lim_{x→0} [2 sin²(3x)] / [x · tan 3x] = 2 · (3/1) · (3/3) = 6.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Konversi Sudut Rangkap $1 - \cos ax$</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to 0} \frac{1 - \cos 6x}{x \cdot \tan 3x}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $3$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $6$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $9$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $12$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Gunakan rumus cepat selisih cosinus: lim_{x→0} (cos ax - cos bx) / x² = (b² - a²) / 2. Dengan a = 2 dan b = 4, diperoleh (4² - 2²) / 2 = (16 - 4) / 2 = 6.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Limit Selisih Dua Cosinus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to 0} \frac{\cos 2x - \cos 4x}{x^2}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-6$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $4$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $6$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Faktorkan pembilang dan penyebut: tan(2(x - 3)) / [(x - 3)(x - 1)]. Untuk x → 3, diperoleh [lim tan(2(x - 3))/(x - 3)] · [1/(3 - 1)] = 2 · (1/2) = 1.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Limit Trigonometri untuk $x \to c$</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to 3} \frac{\tan(2x - 6)}{x^2 - 4x + 3}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{1}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $-1$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Ubah cos 2x - 1 = -2 sin² x. Maka lim_{x→0} (-2 sin² x) / (x · sin 4x) = -2 · (1/1) · (1/4) = -1/2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Hati-Hati Tanda Negatif pada $\cos 2x - 1$</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to 0} \frac{\cos 2x - 1}{x \cdot \sin 4x}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-\frac{1}{4}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $-\frac{1}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{1}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $\frac{1}{4}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F+ (Matematika Tingkat Lanjut Kelas XII SMA/MA)</em>. Elemen Kalkulus.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Section 3.3: Trigonometric Limits and the Squeeze Theorem.</p>
+                    <p><strong>Purcell, Edwin J. &amp; Varberg, Dale.</strong> (2007). <em>Calculus</em> (9th ed.). Prentice Hall. Section 1.4: Limits Involving Trigonometric Functions.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="limit-di-ketakhinggaan-dan-asimtot-kurva.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Limit di Ketakhinggaan &amp; Asimtot
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kontinuitas-fungsi-dan-teorema-nilai-antara.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Kontinuitas &amp; Teorema Nilai Antara &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

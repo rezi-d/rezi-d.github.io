@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teori Bilangan Lanjutan: Lemma LTE, Orde & Legendre - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari teori bilangan tingkat lanjut untuk OSN Matematika: valuasi p-adik, Rumus Legendre n!, Lifting The Exponent Lemma (LTE), orde modulo, dan residu kuadratik.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="pengayaan-olimpiade">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 7 · Pengayaan Olimpiade Sains (OSN)</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+                                🏅 Sub-Materi 3 dari 6 · Pengayaan OSN Matematika
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Teori Bilangan Lanjutan: Lemma LTE, Orde & Legendre
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Valuasi p-adik & Rumus Legendre n! -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Eksponen Prima Tertinggi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Valuasi $p$-adik $v_p(n)$ & Rumus Legendre untuk $v_p(n!)$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Banyak Angka Nol $n!$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Untuk bilangan prima $p$, <strong>valuasi $p$-adik $v_p(n)$</strong> menyatakan pangkat tertinggi dari $p$ yang habis membagi $n$ (ditulis $p^{v_p(n)} \parallel n$). Untuk menghitung pangkat tertinggi prima $p$ yang membagi $n!$, kita menggunakan <strong>Rumus Legendre</strong>:
+                        </p>
+
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-3">
+                            <div class="bg-white rounded-lg p-4 border border-blue-100 text-center overflow-x-auto">
+                                $$v_p(n!) = \sum_{k=1}^{\infty} \left\lfloor \frac{n}{p^k} \right\rfloor = \left\lfloor \frac{n}{p} \right\rfloor + \left\lfloor \frac{n}{p^2} \right\rfloor + \left\lfloor \frac{n}{p^3} \right\rfloor + \dots = \frac{n - s_p(n)}{p - 1}$$
+                            </div>
+                            <p class="text-xs text-slate-700">
+                                Di mana $s_p(n)$ adalah jumlah digit-digit dari $n$ jika ditulis dalam basis-$p$.<br>
+                                <strong>Contoh Klasik:</strong> Banyaknya angka nol berurutan di akhir hasil kali $2026!$ ditentukan oleh $v_5(2026!)$ (karena $10 = 2 \times 5$ dan faktor $5$ lebih sedikit dari $2$):
+                                $$v_5(2026!) = \left\lfloor\frac{2026}{5}\right\rfloor + \left\lfloor\frac{2026}{25}\right\rfloor + \left\lfloor\frac{2026}{125}\right\rfloor + \left\lfloor\frac{2026}{625}\right\rfloor = 405 + 81 + 16 + 3 = 505\text{ angka nol}$$
+                            </p>
+                        </div>
+                    </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+
+                    <!-- SLIDE 2: Lifting The Exponent Lemma (LTE) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Senjata Pamungkas Keterbagian Pangkat</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Lifting The Exponent Lemma (LTE): $v_p(x^n \pm y^n)$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Wajib Kuasai OSN-P</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Bagaimana cara menentukan pangkat tertinggi bilangan prima ganjil $p$ yang habis membagi $x^n - y^n$ atau $x^n + y^n$? Jika syarat dasar $p \mid (x - y)$ dan $p \nmid x, p \nmid y$ terpenuhi, maka <strong>Lifting The Exponent Lemma (LTE)</strong> memberikan hasil yang sangat elegan:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">1. LTE untuk Selisih Pangkat ($p$ Prima Ganjil)</h3>
+                                <p class="text-xs text-slate-700">Jika $p \mid (x - y)$ dan $p \nmid xy$, maka untuk setiap $n \ge 1$:</p>
+                                <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center">
+                                    $$v_p(x^n - y^n) = v_p(x - y) + v_p(n)$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+
+                            <div class="bg-teal-50/70 rounded-xl p-5 border border-teal-200 space-y-2">
+                                <h3 class="font-bold text-teal-950 text-sm">2. LTE untuk Jumlah Pangkat ($n$ Ganjil)</h3>
+                                <p class="text-xs text-slate-700">Jika $p \mid (x + y)$, $p \nmid xy$, dan <strong>$n$ bilangan ganjil</strong>:</p>
+                                <div class="bg-white rounded-lg p-3 border border-teal-100 text-xs text-center">
+                                    $$v_p(x^n + y^n) = v_p(x + y) + v_p(n)$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-sm">Khusus untuk Prima Genap $p = 2$:</h4>
+                            <p class="text-xs text-slate-700">
+                                Jika $x, y$ bilangan ganjil sehingga $4 \mid (x - y)$, maka tetap berlaku $v_2(x^n - y^n) = v_2(x - y) + v_2(n)$. Namun jika hanya $2 \mid (x - y)$ dan $n$ genap, gunakan rumus lengkap:
+                                $$v_2(x^n - y^n) = v_2(x - y) + v_2(x + y) + v_2(n) - 1$$
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Orde Modulo & Sifat Pembagian Eksponen -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Struktur Siklik Modulo</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Orde Modulo $d = \text{ord}_m(a)$ & Sifat $d \mid \gcd(n, \varphi(m))$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Pengendali Siklus Pangkat</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Untuk $\gcd(a, m) = 1$, <strong>orde dari $a$ modulo $m$</strong> (ditulis $d = \text{ord}_m(a)$) adalah bilangan bulat positif <strong>terkecil</strong> $d$ yang memenuhi $a^d \equiv 1 \pmod m$.
+                        </p>
+
+                        <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-3">
+                            <h3 class="font-bold text-purple-950 text-sm">Teorema Fundamental Orde Modulo:</h3>
+                            <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs text-center space-y-1">
+                                $$a^n \equiv 1 \pmod m \iff \text{ord}_m(a) \mid n$$
+                                $$\text{Khususnya, karena } a^{\varphi(m)} \equiv 1 \pmod m, \text{ maka selalu berlaku: }\text{ord}_m(a) \mid \varphi(m)$$
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                <strong>Aplikasi Olimpiade:</strong> Jika diketahui $a^n \equiv 1 \pmod p$ untuk suatu prima $p$, maka $\text{ord}_p(a)$ harus membagi $\gcd(n, p - 1)$! Misalnya jika $p \mid (a^q - 1)$ dengan $q$ bilangan prima dan $p \nmid (a - 1)$, maka $\text{ord}_p(a) = q$, sehingga $q \mid (p - 1) \implies p \equiv 1 \pmod q$.
+                            </p>
+                        </div>
+                    </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+
+                    <!-- SLIDE 4: Residu Kuadratik & Pembagi Prima x^2 + 1 -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 4 · Residu Kuadratik & Simbol Legendre</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Kriteria Euler & Teorema Fermat untuk Pembagi Prima $x^2 + 1$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">$p \equiv 1 \pmod 4$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Kapan kongruensi kuadrat $x^2 \equiv a \pmod p$ memiliki solusi untuk prima ganjil $p$? Menurut <strong>Kriteria Euler</strong>, $a$ adalah residu kuadratik modulo $p$ jika dan hanya jika $a^{\frac{p-1}{2}} \equiv 1 \pmod p$.
+                        </p>
+
+                        <div class="bg-slate-900 text-white rounded-xl p-5 space-y-3">
+                            <h3 class="font-bold text-amber-400 text-sm">🔥 Lemma Emas OSN: Pembagi Prima dari $x^2 + 1$ (atau $a^2 + b^2$)</h3>
+                            <p class="text-xs text-slate-200 leading-relaxed">
+                                Jika sebuah bilangan prima ganjil $p$ habis membagi $x^2 + 1$, maka $x^2 \equiv -1 \pmod p$. Pangkatkan kedua ruas dengan $\frac{p-1}{2}$:
+                                $$1 \equiv \left(x^2\right)^{\frac{p-1}{2}} \equiv (-1)^{\frac{p-1}{2}} \pmod p \implies \frac{p - 1}{2}\text{ harus genap} \implies p \equiv 1 \pmod 4$$
+                            </p>
+                            <p class="text-xs text-emerald-300 font-semibold">
+                                Kesimpulan: Bilangan prima berbentuk $p \equiv 3 \pmod 4$ (seperti $3, 7, 11, 19, 23, \dots$) TIDAK PERNAH bisa membagi $x^2 + 1$! Lebih umum, jika $p \equiv 3 \pmod 4$ membagi $a^2 + b^2$, maka wajib $p \mid a$ dan $p \mid b$.
+                            </p>
+                        </div>
+                    </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Teori Bilangan Lanjutan OSN
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal OSN</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji ketajaman penggunaan Rumus Legendre, Lemma LTE, dan orde modulo pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Rumus Legendre (Valuasi 3-adik dari 100!)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Bilangan bulat non-negatif terbesar $k$ sehingga $3^k$ habis membagi $100!$ (yaitu $v_3(100!)$) adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $44$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $47$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $48$ (dari $33 + 11 + 3 + 1$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $49$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Aplikasi Lifting The Exponent Lemma (LTE)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Dengan menggunakan Lemma LTE, pangkat tertinggi dari bilangan prima $3$ yang habis membagi $7^{81} - 4^{81}$ (yaitu $v_3(7^{81} - 4^{81})$) adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $4$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $5$ (karena $v_3(7 - 4) + v_3(81) = 1 + 4 = 5$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $6$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $81$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Orde Modulo</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Nilai dari $\text{ord}_{13}(2)$, yaitu bilangan bulat positif terkecil $d$ yang memenuhi $2^d \equiv 1 \pmod{13}$, adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $4$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $6$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $8$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $12$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Pembagi Prima $p \equiv 3 \pmod 4$ pada $a^2 + b^2$</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Banyaknya pasangan bilangan bulat $(x, y)$ yang memenuhi persamaan Diophantine $x^2 + y^2 = 2023$ (petunjuk: $2023 = 7 \times 17^2$ dan $7 \equiv 3 \pmod 4$ memiliki pangkat ganjil!) adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $0$ (tidak ada solusi bilangan bulat)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $2$ pasang
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $4$ pasang
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $8$ pasang
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Kriteria Euler Residu Kuadratik</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Berdasarkan Kriteria Euler, sisa pembagian $3^{11}$ oleh bilangan prima $23$ (perhatikan bahwa $3 \equiv 7^2 \pmod{23}$ adalah residu kuadratik modulo $23$) adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $1$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $3$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $22$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/pengayaan-olimpiade/persamaan-fungsional-cauchy-dan-analisis-kontinuitas.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Persamaan Fungsional</span>
+                    </a>
+                    <a href="/matematika/kelas-12/pengayaan-olimpiade/kombinatorika-pembangkit-rekurensi-dan-probabilitas-markov.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Fungsi Pembangkit, Rekurensi & Peluang Rekursif</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Luar biasa!</strong> Analisis teori bilangan lanjutan Anda sangat akurat.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

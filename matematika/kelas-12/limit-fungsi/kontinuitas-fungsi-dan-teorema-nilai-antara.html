@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontinuitas Fungsi, Diskontinuitas & Teorema Nilai Antara — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai konsep kontinuitas fungsi di satu titik dan pada selang: 3 syarat mutlak fungsi kontinu, klasifikasi 3 jenis diskontinuitas (dapat dihapuskan, lompatan, tak hingga), serta Teorema Nilai Antara (Intermediate Value Theorem) untuk keberadaan akar persamaan.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/kontinuitas-fungsi-dan-teorema-nilai-antara.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/kontinuitas-fungsi-dan-teorema-nilai-antara.html">
+    <meta property="og:title" content="🔗 Kontinuitas Fungsi & Teorema Nilai Antara — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: 3 syarat fungsi kontinu, jenis-jenis diskontinuitas, dan bukti eksistensi akar dengan Teorema Nilai Antara.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔗</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="limit-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Limit Fungsi
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Kontinuitas Fungsi, Diskontinuitas &amp; Teorema Nilai Antara
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Secara geometris, sebuah kurva disebut <strong>kontinu</strong> apabila kita dapat menggambarnya tanpa pernah mengangkat ujung pena dari kertas. Kuasai <strong>3 syarat formal kontinuitas</strong> di satu titik $x = c$, diagnosis 3 tipe diskontinuitas (lubang yang dapat dihapuskan, lompatan, dan asimtot), rekayasa parameter agar fungsi sepotong tersambung mulus, serta <strong>Teorema Nilai Antara (IVT)</strong> untuk menjamin keberadaan akar persamaan.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: TIGA SYARAT MUTLAK FUNGSI KONTINU DI x = c -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Definisi Formal Kontinuitas</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔗 Tiga Syarat Mutlak Fungsi Kontinu di Titik $x = c$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Tiga Jenis Diskontinuitas Kurva: Berlubang, Loncat, dan Asimtotik</span>
+                            <svg viewBox="0 0 560 155" class="w-full max-w-xl h-auto">
+    <!-- 1. Removable -->
+    <rect x="15" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="35" y1="105" x2="160" y2="45" stroke="#2563eb" stroke-width="2.5"/>
+    <circle cx="97" cy="75" r="5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <circle cx="97" cy="45" r="4" fill="#e11d48"/>
+    <text x="97" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e3a8a">1. Berlubang (Removable)</text>
+
+    <!-- 2. Jump -->
+    <rect x="197" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="215" y1="95" x2="280" y2="80" stroke="#059669" stroke-width="2.5"/>
+    <line x1="280" y1="45" x2="345" y2="35" stroke="#059669" stroke-width="2.5"/>
+    <circle cx="280" cy="80" r="4.5" fill="#059669"/>
+    <circle cx="280" cy="45" r="4.5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="280" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">2. Loncat (L_kiri ≠ L_kanan)</text>
+
+    <!-- 3. Infinite -->
+    <rect x="380" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="462" y1="20" x2="462" y2="115" stroke="#94a3b8" stroke-dasharray="4 2"/>
+    <path d="M 400 100 Q 450 95 456 22" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <path d="M 468 22 Q 474 95 525 100" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="462" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#881337">3. Asimtotik (Tak Hingga)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">lim f(x) = f(c)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Sebuah fungsi $y = f(x)$ dikatakan <strong>kontinu di titik $x = c$</strong> jika dan hanya jika ketiga syarat berikut terpenuhi sekaligus tanpa terkecuali:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-1.5">
+                                <span class="px-2 py-0.5 bg-blue-200 text-blue-900 font-bold text-[11px] rounded">Syarat 1</span>
+                                <h3 class="font-bold text-slate-900">$f(c)$ Terdefinisi (Ada)</h3>
+                                <p class="text-xs text-slate-600">
+                                    Titik $c$ berada di dalam domain fungsi $f$ ($c \in D_f$), sehingga grafik tidak berlubang kosong di $x = c$.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
+                                <span class="px-2 py-0.5 bg-emerald-200 text-emerald-900 font-bold text-[11px] rounded">Syarat 2</span>
+                                <h3 class="font-bold text-slate-900">$\lim_{x \to c} f(x)$ Ada</h3>
+                                <p class="text-xs text-slate-600">
+                                    Limit kiri sama dengan limit kanan ($\lim_{x \to c^-} f(x) = \lim_{x \to c^+} f(x)$), sehingga grafik tidak patah/melompat.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-1.5">
+                                <span class="px-2 py-0.5 bg-amber-200 text-amber-900 font-bold text-[11px] rounded">Syarat 3</span>
+                                <h3 class="font-bold text-slate-900">$\lim_{x \to c} f(x) = f(c)$</h3>
+                                <p class="text-xs text-slate-600">
+                                    Nilai limit tepat sama dengan nilai fungsi di titik tersebut (titik penuh tepat menutup lubang kurva).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-center font-mono text-xs sm:text-sm text-slate-900 font-bold">
+                            $$\text{Kontinu di } x = c \iff \lim_{x \to c^-} f(x) = \lim_{x \to c^+} f(x) = f(c)$$
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: KLASIFIKASI 3 JENIS DISKONTINUITAS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Saat Fungsi Gagal Kontinu</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚠️ Tiga Jenis Diskontinuitas (Ketakkontinuan) Fungsi
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Tiga Jenis Diskontinuitas Kurva: Berlubang, Loncat, dan Asimtotik</span>
+                            <svg viewBox="0 0 560 155" class="w-full max-w-xl h-auto">
+    <!-- 1. Removable -->
+    <rect x="15" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="35" y1="105" x2="160" y2="45" stroke="#2563eb" stroke-width="2.5"/>
+    <circle cx="97" cy="75" r="5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <circle cx="97" cy="45" r="4" fill="#e11d48"/>
+    <text x="97" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e3a8a">1. Berlubang (Removable)</text>
+
+    <!-- 2. Jump -->
+    <rect x="197" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="215" y1="95" x2="280" y2="80" stroke="#059669" stroke-width="2.5"/>
+    <line x1="280" y1="45" x2="345" y2="35" stroke="#059669" stroke-width="2.5"/>
+    <circle cx="280" cy="80" r="4.5" fill="#059669"/>
+    <circle cx="280" cy="45" r="4.5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="280" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">2. Loncat (L_kiri ≠ L_kanan)</text>
+
+    <!-- 3. Infinite -->
+    <rect x="380" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="462" y1="20" x2="462" y2="115" stroke="#94a3b8" stroke-dasharray="4 2"/>
+    <path d="M 400 100 Q 450 95 456 22" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <path d="M 468 22 Q 474 95 525 100" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="462" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#881337">3. Asimtotik (Tak Hingga)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">Removable, Jump, Infinite</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jika salah satu dari tiga syarat kontinuitas dilanggar di $x = c$, maka $f(x)$ disebut <strong>diskontinu</strong> di $x = c$. Terdapat tiga jenis diskontinuitas:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-blue-700 uppercase">1. Dapat Dihapuskan (Removable)</span>
+                                <p class="text-xs text-slate-600">
+                                    <strong>$\lim_{x \to c} f(x) = L$ ada</strong>, tetapi $f(c)$ tidak terdefinisi atau $f(c) \ne L$ (berupa satu titik lubang $\frac{0}{0}$). Dapat diperbaiki menjadi kontinu cukup dengan mendefinisikan ulang $f(c) = L$!
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-amber-700 uppercase">2. Diskontinuitas Lompatan (Jump)</span>
+                                <p class="text-xs text-slate-600">
+                                    Limit kiri dan limit kanan keduanya ada dan bernilai hingga, namun <strong>tidak sama</strong> ($\lim_{x \to c^-} f(x) \ne \lim_{x \to c^+} f(x)$). Tidak dapat diperbaiki dengan mengubah satu titik.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-rose-700 uppercase">3. Diskontinuitas Tak Hingga (Infinite)</span>
+                                <p class="text-xs text-slate-600">
+                                    Salah satu atau kedua limit sepihak menuju $\pm\infty$ di sekitar $x = c$ (terdapat <strong>asimtot tegak</strong> $x = c$, yaitu bentuk $\frac{k}{0}$ dengan $k \ne 0$).
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: MENYAMBUNG FUNGSI SEPOTONG AGAR KONTINU DI SELURUH R -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Rekayasa Parameter Kontinuitas</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🛠️ Menentukan Konstanta $a$ dan $b$ Agar Fungsi Kontinu di $\mathbb{R}$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Tiga Jenis Diskontinuitas Kurva: Berlubang, Loncat, dan Asimtotik</span>
+                            <svg viewBox="0 0 560 155" class="w-full max-w-xl h-auto">
+    <!-- 1. Removable -->
+    <rect x="15" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="35" y1="105" x2="160" y2="45" stroke="#2563eb" stroke-width="2.5"/>
+    <circle cx="97" cy="75" r="5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <circle cx="97" cy="45" r="4" fill="#e11d48"/>
+    <text x="97" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e3a8a">1. Berlubang (Removable)</text>
+
+    <!-- 2. Jump -->
+    <rect x="197" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="215" y1="95" x2="280" y2="80" stroke="#059669" stroke-width="2.5"/>
+    <line x1="280" y1="45" x2="345" y2="35" stroke="#059669" stroke-width="2.5"/>
+    <circle cx="280" cy="80" r="4.5" fill="#059669"/>
+    <circle cx="280" cy="45" r="4.5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="280" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">2. Loncat (L_kiri ≠ L_kanan)</text>
+
+    <!-- 3. Infinite -->
+    <rect x="380" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="462" y1="20" x2="462" y2="115" stroke="#94a3b8" stroke-dasharray="4 2"/>
+    <path d="M 400 100 Q 450 95 456 22" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <path d="M 468 22 Q 474 95 525 100" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="462" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#881337">3. Asimtotik (Tak Hingga)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">SPLDV Kontinuitas</span>
+                        </div>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 block">Studi Kasus Standar UTBK &amp; Ujian Sekolah:</span>
+                            <p class="text-slate-700 text-xs">
+                                Tentukan nilai konstanta $a$ dan $b$ agar fungsi tiga potong berikut kontinu di seluruh bilangan real $x \in \mathbb{R}$:
+                                $$f(x) = \begin{cases} x + 1, & \text{untuk } x \le 1 \\ ax + b, & \text{untuk } 1 < x < 3 \\ x^2 - 1, & \text{untuk } x \ge 3 \end{cases}$$
+                            </p>
+                            <div class="p-3.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                                <p>
+                                    <strong>Langkah 1 — Syarat Kontinu di Titik Sambung Pertama ($x = 1$):</strong><br>
+                                    $$\lim_{x \to 1^-} (x + 1) = \lim_{x \to 1^+} (ax + b) \implies 1 + 1 = a(1) + b \implies \mathbf{a + b = 2} \quad \dots (1)$$
+                                </p>
+                                <p>
+                                    <strong>Langkah 2 — Syarat Kontinu di Titik Sambung Kedua ($x = 3$):</strong><br>
+                                    $$\lim_{x \to 3^-} (ax + b) = \lim_{x \to 3^+} (x^2 - 1) \implies 3a + b = 3^2 - 1 \implies \mathbf{3a + b = 8} \quad \dots (2)$$
+                                </p>
+                                <p>
+                                    <strong>Langkah 3 — Eliminasi Persamaan (2) dan (1):</strong><br>
+                                    $(3a + b) - (a + b) = 8 - 2 \implies 2a = 6 \implies \mathbf{a = 3}$ dan $b = 2 - 3 = \mathbf{-1}$.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TEOREMA NILAI ANTARA (INTERMEDIATE VALUE THEOREM) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Eksistensi Akar Persamaan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Teorema Nilai Antara (Intermediate Value Theorem / IVT)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">f(a) · f(b) &lt; 0</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <strong>Teorema Nilai Antara (IVT):</strong> Jika fungsi $f$ kontinu pada selang tertutup $[a, b]$ dan $N$ adalah sembarang bilangan di antara $f(a)$ dan $f(b)$, maka terdapat minimal satu bilangan $c \in (a, b)$ sedemikian sehingga $f(c) = N$.
+                        </p>
+
+                        <!-- APLIKASI PENCARIAN AKAR (BOLZANO) -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-purple-50/70 border border-purple-200 space-y-2">
+                                <span class="font-bold text-purple-950 block">Teorema Bolzano (Uji Keberadaan Akar $f(c) = 0$):</span>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    Jika $f$ kontinu pada $[a, b]$ serta $f(a)$ dan $f(b)$ <strong>berbeda tanda</strong> (yaitu **$f(a) \cdot f(b) < 0$**, satu negatif dan satu positif), maka kurva $f(x)$ <strong>dijamin pasti memotong sumbu-$X$</strong> minimal satu kali di dalam interval terbuka $(a, b)$!
+                                </p>
+                                <div class="p-2.5 bg-white rounded-lg border border-purple-100 text-xs text-slate-700">
+                                    <em>Contoh:</em> Buktikan $f(x) = x^3 + x - 3 = 0$ punya akar di $(1, 2)$!<br>
+                                    &bull; $f(1) = 1 + 1 - 3 = -1 < 0$ (di bawah sumbu-$X$).<br>
+                                    &bull; $f(2) = 8 + 2 - 3 = +7 > 0$ (di atas sumbu-$X$).<br>
+                                    &bull; Karena $f(1) \cdot f(2) = -7 < 0$, pasti ada akar $c \in (1, 2)$!
+                                </div>
+                            </div>
+
+                            <!-- Diagram SVG Teorema Nilai Antara -->
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                                <span class="text-[11px] font-bold text-slate-700 uppercase mb-1">Visualisasi Teorema Bolzano ($f(a) < 0$ dan $f(b) > 0$)</span>
+                                <svg viewBox="0 0 280 165" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Sumbu X & Y -->
+                                    <line x1="25" y1="95" x2="260" y2="95" stroke="#475569" stroke-width="1.5"/>
+                                    <line x1="45" y1="155" x2="45" y2="15" stroke="#475569" stroke-width="1.5"/>
+                                    <!-- Garis putus-putus di a (85, 135) dan b (215, 30) -->
+                                    <line x1="85" y1="95" x2="85" y2="135" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                    <line x1="215" y1="95" x2="215" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                    <!-- Kurva kontinu memotong sumbu-X di c (155, 95) -->
+                                    <path d="M 85 135 C 125 130, 175 65, 215 30" fill="none" stroke="#2563eb" stroke-width="3"/>
+                                    <!-- Titik -->
+                                    <circle cx="85" cy="135" r="4" fill="#e11d48"/>
+                                    <circle cx="215" cy="30" r="4" fill="#059669"/>
+                                    <circle cx="152" cy="95" r="4.5" fill="#d97706"/>
+                                    <!-- Label -->
+                                    <text x="80" y="88" font-size="11" font-weight="bold" fill="#1e293b">a</text>
+                                    <text x="212" y="110" font-size="11" font-weight="bold" fill="#1e293b">b</text>
+                                    <text x="145" y="112" font-size="11" font-weight="bold" fill="#d97706">c (Akar)</text>
+                                    <text x="52" y="150" font-size="10" font-weight="bold" fill="#e11d48">f(a) &lt; 0</text>
+                                    <text x="170" y="25" font-size="10" font-weight="bold" fill="#059669">f(b) &gt; 0</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Kontinuitas Fungsi &amp; Teorema Nilai Antara
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Tiga Jenis Diskontinuitas Kurva: Berlubang, Loncat, dan Asimtotik</span>
+                            <svg viewBox="0 0 560 155" class="w-full max-w-xl h-auto">
+    <!-- 1. Removable -->
+    <rect x="15" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="35" y1="105" x2="160" y2="45" stroke="#2563eb" stroke-width="2.5"/>
+    <circle cx="97" cy="75" r="5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <circle cx="97" cy="45" r="4" fill="#e11d48"/>
+    <text x="97" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e3a8a">1. Berlubang (Removable)</text>
+
+    <!-- 2. Jump -->
+    <rect x="197" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="215" y1="95" x2="280" y2="80" stroke="#059669" stroke-width="2.5"/>
+    <line x1="280" y1="45" x2="345" y2="35" stroke="#059669" stroke-width="2.5"/>
+    <circle cx="280" cy="80" r="4.5" fill="#059669"/>
+    <circle cx="280" cy="45" r="4.5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="280" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">2. Loncat (L_kiri ≠ L_kanan)</text>
+
+    <!-- 3. Infinite -->
+    <rect x="380" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="462" y1="20" x2="462" y2="115" stroke="#94a3b8" stroke-dasharray="4 2"/>
+    <path d="M 400 100 Q 450 95 456 22" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <path d="M 468 22 Q 474 95 525 100" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="462" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#881337">3. Asimtotik (Tak Hingga)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah jawaban yang paling tepat pada 5 soal evaluasi kontinuitas fungsi berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Agar f(x) kontinu di x = 3, haruslah f(3) = lim_{x→3} (x² - 9)/(x - 3) = lim_{x→3} (x + 3) = 3 + 3 = 6. Maka k = 6.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Menutup Diskontinuitas yang Dapat Dihapuskan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui fungsi $f(x) = \begin{cases} \dfrac{x^2 - 9}{x - 3}, & x \ne 3 \\ k, & x = 3 \end{cases}$. Agar fungsi $f(x)$ kontinu di $x = 3$, maka nilai $k$ haruslah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $3$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $6$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $9$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $0$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Syarat kontinu di x = 1: a(1) + b = 2(1) + 1 ⇒ a + b = 3 ... (1). Syarat kontinu di x = 2: a(2) + b = (2)² + 3 ⇒ 2a + b = 7 ... (2). Kurangkan (2) dan (1): a = 4 dan b = 3 - 4 = -1. Maka a + 2b = 4 + 2(-1) = 2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Sistem Persamaan Kontinuitas Tiga Potong</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika fungsi $f(x) = \begin{cases} 2x + 1, & x \le 1 \\ ax + b, & 1 < x < 2 \\ x^2 + 3, & x \ge 2 \end{cases}$ kontinu di seluruh $x \in \mathbb{R}$, maka nilai dari $a + 2b$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $5$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $2$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $1$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Faktorkan f(x) = (x - 2) / [(x - 2)(x + 3)]. Di x = 2, faktor (x - 2) habis dicoret (bentuk 0/0), sehingga x = 2 adalah diskontinuitas yang dapat dihapuskan (removable). Sedangkan di x = -3 diperoleh bentuk -5/0 (asimtot tegak / diskontinuitas tak hingga).">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Diagnosis Jenis Diskontinuitas</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Pada fungsi rasional $f(x) = \frac{x - 2}{x^2 + x - 6}$, jenis diskontinuitas yang terjadi di titik $x = 2$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. Diskontinuitas dapat dihapuskan (<em>removable</em>)</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. Diskontinuitas lompatan (<em>jump</em>)</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. Diskontinuitas tak hingga (asimtot tegak)</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Fungsi kontinu di $x = 2$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Agar f(x) kontinu di x = 0, haruslah p = lim_{x→0} (sin 4x)/(2x) = 4/2 = 2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Kontinuitas Fungsi Trigonometri</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui fungsi $f(x) = \begin{cases} \dfrac{\sin 4x}{2x}, & x \ne 0 \\ p, & x = 0 \end{cases}$. Agar $f(x)$ kontinu di $x = 0$, maka nilai $p$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $0$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{1}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $1$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $2$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Uji nilai fungsi P(x) = x³ - 3x + 1 di ujung-ujung interval: P(0) = 1 > 0 dan P(1) = 1 - 3 + 1 = -1 < 0. Karena P(0) dan P(1) berbeda tanda (P(0)·P(1) = -1 < 0), maka menurut Teorema Nilai Antara, persamaan P(x) = 0 dijamin memiliki akar pada selang (0, 1).">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Penerapan Teorema Nilai Antara (IVT)</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Berdasarkan Teorema Nilai Antara, persamaan polinomial $x^3 - 3x + 1 = 0$ dijamin memiliki setidaknya satu akar real di dalam interval terbuka ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $(-1, 0)$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $(0, 1)$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $(2, 3)$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $(3, 4)$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Section 2.5: Continuity and the Intermediate Value Theorem.</p>
+                    <p><strong>Apostol, Tom M.</strong> (1967). <em>Calculus, Vol. 1</em> (2nd ed.). John Wiley &amp; Sons. Section: Bolzano's Theorem.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="limit-fungsi-trigonometri-dasar-dan-sudut-rangkap.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Limit Fungsi Trigonometri
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="pemodelan-dan-problem-solving-hots-limit-fungsi.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS Limit Fungsi &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

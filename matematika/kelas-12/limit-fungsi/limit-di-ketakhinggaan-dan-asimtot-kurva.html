@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limit di Ketakhinggaan & Analisis Asimtot Kurva — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai limit di ketakhinggaan (x → ∞): pembagian pangkat tertinggi fungsi rasional, bentuk tak tentu ∞ - ∞ pada akar kuadrat (b - q)/(2√a), jebakan √(x²) = |x| untuk x → -∞, serta penentuan asimtot datar, tegak, dan miring.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/limit-di-ketakhinggaan-dan-asimtot-kurva.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/limit-di-ketakhinggaan-dan-asimtot-kurva.html">
+    <meta property="og:title" content="♾️ Limit di Ketakhinggaan & Analisis Asimtot Kurva — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Rumus cepat limit tak hingga rasional & akar sekawan, serta visualisasi asimtot datar dan tegak.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♾️</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="limit-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Limit Fungsi
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Limit di Ketakhinggaan &amp; Analisis Asimtot Kurva
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Bagaimana perilaku sebuah fungsi saat $x$ membesar tanpa batas ($x \to \infty$)? Kuasai penyelesaian bentuk tak tentu $\frac{\infty}{\infty}$ melalui pembagian pangkat tertinggi, bentuk tak tentu $\infty - \infty$ pada selisih akar kuadrat $\frac{b - q}{2\sqrt{a}}$, jebakan tanda negatif pada $x \to -\infty$, serta geometri <strong>asimtot datar, asimtot tegak, dan asimtot miring</strong>.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: LIMIT FUNGSI RASIONAL DI KETAKHINGGAAN (∞ / ∞) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Bentuk Tak Tentu $\infty / \infty$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ♾️ Limit Fungsi Rasional $\lim_{x \to \infty} \frac{P(x)}{Q(x)}$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Visualisasi Limit Bentuk Tak Tentu 0/0 sebagai Titik Berlubang (a, L)</span>
+                            <svg viewBox="0 0 420 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="380" y2="140" stroke="#334155" stroke-width="2"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="2"/>
+    <line x1="85" y1="130" x2="335" y2="30" stroke="#2563eb" stroke-width="3"/>
+    <line x1="210" y1="80" x2="210" y2="140" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <line x1="65" y1="80" x2="210" y2="80" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <!-- Open circle hole at (a, L) = (210, 80) -->
+    <circle cx="210" cy="80" r="6" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="210" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x → a</text>
+    <text x="50" y="84" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">L</text>
+    <text x="285" y="75" font-size="11" font-weight="bold" fill="#1d4ed8">Bentuk 0/0: Lubang di (a, L)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">lim (1 / xⁿ) = 0</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Prinsip dasar limit di ketakhinggaan bersumber dari teorema: untuk setiap pangkat positif $n > 0$, berlaku **$\lim_{x \to \pm\infty} \frac{k}{x^n} = 0$**. Dengan membagi pembilang dan penyebut terhadap pangkat tertinggi penyebut, kita memperoleh <strong>Aturan Perbandingan Derajat</strong> untuk:
+                        </p>
+
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 font-mono text-center text-xs sm:text-sm text-slate-900 font-bold">
+                            $$L = \lim_{x \to \infty} \frac{a_m x^m + a_{m-1} x^{m-1} + \dots + a_0}{b_n x^n + b_{n-1} x^{n-1} + \dots + b_0}$$
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+                                <span class="text-xs font-bold text-emerald-800 uppercase">1. Derajat Sama ($m = n$)</span>
+                                <div class="text-lg font-extrabold text-emerald-950">$$L = \frac{a_m}{b_n}$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Hasilnya adalah rasio koefisien pangkat tertinggi pembilang dan penyebut!
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 space-y-1.5">
+                                <span class="text-xs font-bold text-blue-800 uppercase">2. Penyebut Dominan ($m < n$)</span>
+                                <div class="text-lg font-extrabold text-blue-950">$$L = 0$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Penyebut tumbuh jauh lebih cepat daripada pembilang, sehingga pecahan menyusut menuju $0$.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-1.5">
+                                <span class="text-xs font-bold text-rose-800 uppercase">3. Pembilang Dominan ($m > n$)</span>
+                                <div class="text-lg font-extrabold text-rose-950">$$L = \pm\infty$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Bernilai $+\infty$ jika $\frac{a_m}{b_n} > 0$, dan $-\infty$ jika $\frac{a_m}{b_n} < 0$.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: BENTUK TAK TENTU (∞ - ∞) SELISIH AKAR KUADRAT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Bentuk Tak Tentu $\infty - \infty$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ Rumus Sakti Selisih Akar Kuadrat $\frac{b - q}{2\sqrt{a}}$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perilaku Limit di Ketakhinggaan Menuju Garis Asimtot Datar y = L</span>
+                            <svg viewBox="0 0 440 175" class="w-full max-w-md h-auto">
+    <line x1="30" y1="135" x2="410" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="75" y1="160" x2="75" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <!-- Horizontal asymptote y = L at y = 75 -->
+    <line x1="35" y1="75" x2="405" y2="75" stroke="#e11d48" stroke-width="2" stroke-dasharray="6 4"/>
+    <!-- Curve approaching y = L as x -> inf -->
+    <path d="M 95 20 Q 145 70 400 73" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <text x="65" y="79" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">y = L</text>
+    <text x="310" y="62" font-size="11" font-weight="bold" fill="#1d4ed8">x → ∞ : f(x) → L (Asimtot Datar)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">(b - q) / (2√a)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Untuk bentuk $\lim_{x \to \infty} \left(\sqrt{ax^2 + bx + c} - \sqrt{px^2 + qx + r}\right)$, perkalian dengan sekawan diikuti pembagian terhadap $x$ menghasilkan rumus cepat tiga kasus:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-300 space-y-1.5">
+                                <span class="text-xs font-bold text-amber-900 uppercase">Kasus Utama: $a = p$</span>
+                                <div class="text-base font-extrabold text-amber-950">$$L = \frac{b - q}{2\sqrt{a}}$$</div>
+                                <p class="text-xs text-slate-700">
+                                    Konstanta $c$ dan $r$ tidak berpengaruh sama sekali! Hanya bergantung pada koefisien $x$ ($b$ dan $q$) serta $a$.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-bold text-emerald-700 uppercase">Jika $a > p$</span>
+                                <div class="text-base font-extrabold text-slate-900">$$L = +\infty$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Suku akar kiri jauh lebih besar daripada suku akar kanan.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-bold text-rose-700 uppercase">Jika $a < p$</span>
+                                <div class="text-base font-extrabold text-slate-900">$$L = -\infty$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Suku akar pengurang (kanan) jauh lebih besar daripada akar kiri.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- JEBAKAN BENTUK LINIER DI LUAR AKAR -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2 text-xs sm:text-sm">
+                            <span class="font-bold text-blue-950 block">⚠️ Waspada Jebakan Kurung pada Bentuk $\sqrt{ax^2 + bx + c} - (mx + n)$:</span>
+                            <p class="text-slate-700 text-xs leading-relaxed">
+                                Jangan lupa memberi tanda kurung sebelum memasukkan ke dalam tanda akar! Contoh:
+                                $$\lim_{x \to \infty} \left(\sqrt{4x^2 + 6x - 1} - 2x + 3\right)$$
+                                1. Kelompokkan suku linier dalam kurung: $\sqrt{4x^2 + 6x - 1} - \mathbf{(2x - 3)}$ (perhatikan $+3$ berubah menjadi $-3$ di dalam kurung!).<br>
+                                2. Kuadratkan $(2x - 3) = \sqrt{(2x - 3)^2} = \sqrt{4x^2 - 12x + 9}$.<br>
+                                3. Diperoleh $a = p = 4$, $b = 6$, dan $q = -12$. Maka:
+                                $$L = \frac{b - q}{2\sqrt{a}} = \frac{6 - (-12)}{2\sqrt{4}} = \frac{18}{4} = \mathbf{\frac{9}{2}}$$
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: JEBAKAN x MENUJU MINUS TAK HINGGA (x -> -∞) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Limit Negatif Tak Hingga</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🚨 Jebakan $\sqrt{x^2} = |x| = -x$ Saat $x \to -\infty$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Visualisasi Limit Bentuk Tak Tentu 0/0 sebagai Titik Berlubang (a, L)</span>
+                            <svg viewBox="0 0 420 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="380" y2="140" stroke="#334155" stroke-width="2"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="2"/>
+    <line x1="85" y1="130" x2="335" y2="30" stroke="#2563eb" stroke-width="3"/>
+    <line x1="210" y1="80" x2="210" y2="140" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <line x1="65" y1="80" x2="210" y2="80" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <!-- Open circle hole at (a, L) = (210, 80) -->
+    <circle cx="210" cy="80" r="6" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="210" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x → a</text>
+    <text x="50" y="84" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">L</text>
+    <text x="285" y="75" font-size="11" font-weight="bold" fill="#1d4ed8">Bentuk 0/0: Lubang di (a, L)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">Untuk x &lt; 0: √(x²) = -x</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pada soal UTBK SNBT dan olimpiade, jebakan paling mematikan adalah soal limit bentuk akar dengan **$x \to -\infty$**. Ingat bahwa $\sqrt{x^2} = |x|$. Untuk $x < 0$ ($x$ negatif besar), berlaku **$|x| = -x$** (atau lakukan substitusi **$y = -x$** dengan $y \to +\infty$)!
+                        </p>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-2.5 text-xs sm:text-sm">
+                            <span class="font-bold text-rose-950 block">Studi Kasus Perbandingan $x \to +\infty$ vs $x \to -\infty$:</span>
+                            <p class="text-slate-700 text-xs leading-relaxed">
+                                Tinjau fungsi $f(x) = \frac{\sqrt{9x^2 + 1}}{2x - 5}$:<br>
+                                &bull; <strong>Saat $x \to +\infty$ ($x > 0$, sehingga $x = +\sqrt{x^2}$):</strong>
+                                $$\lim_{x \to +\infty} \frac{\sqrt{9x^2 + 1}}{2x - 5} = \lim_{x \to +\infty} \frac{\sqrt{9 + \frac{1}{x^2}}}{2 - \frac{5}{x}} = \mathbf{+\frac{3}{2}}$$
+                                &bull; <strong>Saat $x \to -\infty$ ($x < 0$, sehingga $\sqrt{x^2} = -x$, atau substitusi $x = -y$ dengan $y \to +\infty$):</strong>
+                                $$\lim_{x \to -\infty} \frac{\sqrt{9x^2 + 1}}{2x - 5} = \lim_{y \to +\infty} \frac{\sqrt{9y^2 + 1}}{-2y - 5} = \frac{3}{-2} = \mathbf{-\frac{3}{2}}$$
+                                Fungsi tersebut memiliki <strong>dua asimtot datar berbeda</strong> di kanan ($y = \frac{3}{2}$) dan di kiri ($y = -\frac{3}{2}$)!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: ANALISIS ASIMTOT KURVA (TEGAK, DATAR, MIRING) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Geometri Limit</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📉 Analisis Asimtot Tegak, Asimtot Datar &amp; Asimtot Miring
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">x = c &amp; y = L</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <strong>Asimtot</strong> adalah sebuah garis lurus yang didekati semakin rapat oleh kurva $y = f(x)$ ketika kurva bergerak menjauh menuju tak hingga:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-bold text-rose-700 uppercase">1. Asimtot Tegak ($x = c$)</span>
+                                <p class="text-xs text-slate-600">
+                                    Terjadi di pembuat nol penyebut (yang tidak habis dicoret dengan pembilang), di mana:
+                                    $$\lim_{x \to c^\pm} f(x) = \pm\infty$$
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-bold text-blue-700 uppercase">2. Asimtot Datar ($y = L$)</span>
+                                <p class="text-xs text-slate-600">
+                                    Terjadi apabila nilai limit di ketakhinggaan bernilai konstan hingga $L$:
+                                    $$\lim_{x \to \pm\infty} f(x) = L$$
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-bold text-emerald-700 uppercase">3. Asimtot Miring ($y = mx + k$)</span>
+                                <p class="text-xs text-slate-600">
+                                    Terjadi pada fungsi rasional saat derajat pembilang <strong>selisih 1 lebih tinggi</strong> dari derajat penyebut ($m = n + 1$), dicari via pembagian polinomial.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG KURVA RASIONAL & ASIMTOT -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Visualisasi Kurva $f(x) = \frac{2x - 1}{x - 3}$ dengan Asimtot Tegak $x = 3$ &amp; Asimtot Datar $y = 2$</span>
+                            <svg viewBox="0 0 380 185" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Sumbu X & Y -->
+                                <line x1="25" y1="135" x2="355" y2="135" stroke="#64748b" stroke-width="1.5"/>
+                                <line x1="80" y1="175" x2="80" y2="15" stroke="#64748b" stroke-width="1.5"/>
+                                <!-- Asimtot Tegak x = 3 (x=190, Merah putus-putus) -->
+                                <line x1="190" y1="15" x2="190" y2="175" stroke="#e11d48" stroke-width="2" stroke-dasharray="5,3"/>
+                                <!-- Asimtot Datar y = 2 (y=85, Hijau putus-putus) -->
+                                <line x1="25" y1="85" x2="355" y2="85" stroke="#059669" stroke-width="2" stroke-dasharray="5,3"/>
+                                <!-- Cabang Kiri Bawah Kurva -->
+                                <path d="M 30 93 Q 165 98 182 172" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+                                <!-- Cabang Kanan Atas Kurva -->
+                                <path d="M 198 18 Q 215 72 350 77" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+                                <!-- Label -->
+                                <text x="196" y="30" font-size="11" font-weight="bold" fill="#e11d48">Asimtot Tegak x = 3</text>
+                                <text x="245" y="102" font-size="11" font-weight="bold" fill="#059669">Asimtot Datar y = 2</text>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Limit di Ketakhinggaan &amp; Asimtot Kurva
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perilaku Limit di Ketakhinggaan Menuju Garis Asimtot Datar y = L</span>
+                            <svg viewBox="0 0 440 175" class="w-full max-w-md h-auto">
+    <line x1="30" y1="135" x2="410" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="75" y1="160" x2="75" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <!-- Horizontal asymptote y = L at y = 75 -->
+    <line x1="35" y1="75" x2="405" y2="75" stroke="#e11d48" stroke-width="2" stroke-dasharray="6 4"/>
+    <!-- Curve approaching y = L as x -> inf -->
+    <path d="M 95 20 Q 145 70 400 73" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <text x="65" y="79" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">y = L</text>
+    <text x="310" y="62" font-size="11" font-weight="bold" fill="#1d4ed8">x → ∞ : f(x) → L (Asimtot Datar)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji penguasaan limit di ketakhinggaan dan analisis asimtot melalui 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Suku pangkat tertinggi pembilang adalah (2x)²(3x) = 4x²(3x) = 12x³. Suku pangkat tertinggi penyebut adalah 3x³. Karena derajatnya sama (derajat 3), nilai limitnya adalah rasio koefisien pangkat tertinggi: 12 / 3 = 4.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Limit Fungsi Rasional Derajat Sama</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to \infty} \frac{(2x - 1)^2 (3x + 2)}{3x^3 - 5x + 1}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $\frac{2}{3}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $4$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $6$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Gunakan rumus (b - q) / (2√a) dengan a = p = 9, b = 12, dan q = -6: L = (12 - (-6)) / (2√9) = 18 / 6 = 3.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Selisih Akar Kuadrat di Ketakhinggaan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to \infty} \left(\sqrt{9x^2 + 12x - 5} - \sqrt{9x^2 - 6x + 1}\right)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $2$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $6$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Kelompokkan suku di luar akar: √(x² + 4x - 2) - (x - 3) = √(x² + 4x - 2) - √((x - 3)²) = √(x² + 4x - 2) - √(x² - 6x + 9). Dengan a = 1, b = 4, q = -6: L = (4 - (-6)) / (2√1) = 10 / 2 = 5.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Selisih Akar Kuadrat dengan Bentuk Linier</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to \infty} \left(\sqrt{x^2 + 4x - 2} - x + 3\right)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $1$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $2$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $5$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Untuk x → -∞ (x < 0), berlaku √(4x² + 3) ≈ √(4x²) = 2|x| = -2x. Maka lim_{x→-∞} (-2x) / (x - 2) = -2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Limit Menuju Negatif Tak Hingga ($x \to -\infty$)</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to -\infty} \frac{\sqrt{4x^2 + 3}}{x - 2}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $-4$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $4$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Asimtot tegak diperoleh dari pembuat nol penyebut: 2x - 4 = 0 ⇒ x = 2. Asimtot datar diperoleh dari limit x → ±∞: lim (6x + 5)/(2x - 4) = 6/2 = 3 ⇒ y = 3.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Persamaan Asimtot Tegak &amp; Asimtot Datar</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Persamaan asimtot tegak dan asimtot datar dari grafik fungsi rasional $f(x) = \frac{6x + 5}{2x - 4}$ berturut-turut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $x = 3$ dan $y = 2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $x = 2$ dan $y = 3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $x = -2$ dan $y = 3$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $x = 2$ dan $y = -3$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Section 2.6: Limits at Infinity; Horizontal Asymptotes.</p>
+                    <p><strong>Thomas, George B., Weir, Maurice D., &amp; Hass, Joel.</strong> (2018). <em>Thomas' Calculus</em> (14th ed.). Pearson.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="limit-fungsi-aljabar-faktorisasi-dan-akar-sekawan.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Limit Aljabar (Faktorisasi &amp; Akar)
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="limit-fungsi-trigonometri-dasar-dan-sudut-rangkap.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Limit Fungsi Trigonometri &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

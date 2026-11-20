@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definisi Limit Turunan, Rumus Dasar & Operasi Aljabar — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai konsep dasar turunan fungsi (diferensial): definisi limit kuosien selisih, interpretasi geometris garis sekan menuju garis singgung, syarat keterdiferensialan vs kontinuitas, aturan pangkat, serta aturan hasil kali (u·v) dan hasil bagi (u/v).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/definisi-limit-turunan-dan-aturan-dasar-diferensial.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/definisi-limit-turunan-dan-aturan-dasar-diferensial.html">
+    <meta property="og:title" content="📈 Definisi Limit Turunan & Aturan Dasar Diferensial — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Limit kuosien selisih, aturan pangkat Newton-Leibniz, serta aturan perkalian dan pembagian turunan.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="turunan-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Turunan Fungsi (Diferensial)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Definisi Limit Turunan, Rumus Dasar &amp; Operasi Aljabar
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Bagaimana Newton dan Leibniz mengukur kemiringan sebuah kurva melengkung hanya di satu titik tunggal? Pahami lahirnya <strong>turunan pertama $f'(x) = \frac{dy}{dx}$</strong> dari limit kemiringan tali busur (garis sekan), mengapa fungsi yang punya sudut lancip seperti $|x|$ kontinu namun tidak punya turunan, aturan pangkat rasional, hingga aturan perkalian $(u \cdot v)'$ dan pembagian $\left(\frac{u}{v}\right)'$.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI LIMIT TURUNAN & GEOMETRI GARIS SINGGUNG -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Konsep Fundamental Kalkulus</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 Definisi Limit Turunan: Dari Garis Sekan ke Garis Singgung
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">f'(x) = dy/dx</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Kemiringan (gradien) garis lurus yang memotong kurva $y = f(x)$ di dua titik $P(x, f(x))$ dan $Q(x + h, f(x + h))$ (disebut <strong>garis sekan</strong>) adalah $\frac{f(x + h) - f(x)}{h}$. Ketika jarak horizontal $h$ diperkecil mendekati nol ($h \to 0$), titik $Q$ bergeser merapat ke $P$ sehingga garis sekan berubah menjadi <strong>garis singgung</strong> dengan gradien:
+                        </p>
+
+                        <div class="p-4 bg-blue-50 rounded-xl border border-blue-200 text-center font-mono text-xs sm:text-sm text-blue-950 font-bold">
+                            $$f'(x) = \frac{dy}{dx} = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h} \quad \text{atau di titik } x = c: \quad f'(c) = \lim_{x \to c} \frac{f(x) - f(c)}{x - c}$$
+                        </div>
+
+                        <!-- DIAGRAM SVG GARIS SEKAN MENUJU GARIS SINGGUNG -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Transisi Geometris: Garis Sekan $PQ$ Menuju Garis Singgung saat $h \to 0$</span>
+                            <svg viewBox="0 0 380 180" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Sumbu X & Y -->
+                                <line x1="35" y1="150" x2="350" y2="150" stroke="#475569" stroke-width="1.5"/>
+                                <line x1="55" y1="165" x2="55" y2="15" stroke="#475569" stroke-width="1.5"/>
+                                <!-- Kurva f(x) (Biru) -->
+                                <path d="M 60 135 Q 160 120 285 25" fill="none" stroke="#2563eb" stroke-width="3"/>
+                                <!-- Garis Sekan melalui P(125,118) dan Q(255,48) (Hijau putus-putus) -->
+                                <line x1="80" y1="142" x2="300" y2="24" stroke="#059669" stroke-width="2" stroke-dasharray="5,3"/>
+                                <!-- Garis Singgung di P(125,118) (Merah tebal) -->
+                                <line x1="65" y1="138" x2="245" y2="78" stroke="#e11d48" stroke-width="2.5"/>
+                                <!-- Segitiga Δx = h dan Δy -->
+                                <line x1="125" y1="118" x2="255" y2="118" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                <line x1="255" y1="118" x2="255" y2="48" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                <!-- Titik P dan Q -->
+                                <circle cx="125" cy="118" r="4.5" fill="#e11d48"/>
+                                <circle cx="255" cy="48" r="4.5" fill="#059669"/>
+                                <!-- Label -->
+                                <text x="102" y="110" font-size="11" font-weight="bold" fill="#e11d48">P(x, f(x))</text>
+                                <text x="200" y="38" font-size="11" font-weight="bold" fill="#059669">Q(x+h, f(x+h))</text>
+                                <text x="175" y="132" font-size="11" font-weight="bold" fill="#475569">h = Δx → 0</text>
+                                <text x="262" y="88" font-size="10" font-weight="bold" fill="#475569">f(x+h) - f(x)</text>
+                                <text x="170" y="110" font-size="10" font-weight="bold" fill="#e11d48">Garis Singgung (m = f'(x))</text>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: KETERDIFERENSIALAN VS KONTINUITAS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Syarat Punya Turunan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ Keterdiferensialan (Differentiability) vs Kontinuitas
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perubahan Kecekungan Kurva dan Titik Belok (f''(x) = 0)</span>
+                            <svg viewBox="0 0 540 175" class="w-full max-w-xl h-auto">
+    <line x1="35" y1="145" x2="505" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <!-- Cubic curve switching from concave down to concave up at inflection point I(270, 85) -->
+    <path d="M 70 135 Q 170 5 270 85 Q 370 165 470 35" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="270" y1="20" x2="270" y2="145" stroke="#e11d48" stroke-width="2" stroke-dasharray="5 3"/>
+    <circle cx="170" cy="45" r="4.5" fill="#059669"/>
+    <circle cx="270" cy="85" r="5.5" fill="#e11d48"/>
+    <circle cx="370" cy="125" r="4.5" fill="#059669"/>
+    <text x="155" y="28" text-anchor="middle" font-size="11" font-weight="800" fill="#065f46">Cekung Bawah (f'' &lt; 0)</text>
+    <text x="270" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Titik Belok (f'' = 0)</text>
+    <text x="395" y="138" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Cekung Atas (f'' &gt; 0)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Terdiferensialkan ⇒ Kontinu</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Fungsi $f(x)$ dikatakan <strong>terdiferensialkan (memiliki turunan) di $x = c$</strong> jika fungsi tersebut <strong>kontinu di $x = c$</strong> DAN <strong>turunan kirinya sama dengan turunan kanannya</strong> ($f'_{-}(c) = f'_{+}(c)$ bernilai hingga).
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1.5">
+                                <span class="font-bold text-emerald-950 block">Teorema Implikasi Satu Arah:</span>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    &bull; <strong>Jika $f$ punya turunan di $x = c$, maka $f$ PASTI kontinu di $x = c$.</strong><br>
+                                    &bull; Namun <strong>kebalikannya BELUM TENTU benar!</strong> Fungsi yang kontinu di $x = c$ belum tentu punya turunan di $x = c$ (jika grafiknya meruncing tajam!).
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-1.5">
+                                <span class="font-bold text-rose-950 block">Contoh Penyangkalan Klasik: $f(x) = |x|$ di $x = 0$</span>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    Fungsi $f(x) = |x|$ <strong>kontinu</strong> di $x = 0$, tetapi:<br>
+                                    &bull; Di kiri ($x < 0$): $f(x) = -x \implies f'_{-}(0) = -1$.<br>
+                                    &bull; Di kanan ($x > 0$): $f(x) = +x \implies f'_{+}(0) = +1$.<br>
+                                    Karena $-1 \ne +1$ (grafik membentuk <strong>pojok tajam / corner</strong> di $x = 0$), maka $f'(0)$ <strong>TIDAK ADA</strong>!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: ATURAN PANGKAT & KELINEARAN TURUNAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Rumus Dasar Turunan Aljabar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ Aturan Pangkat (Power Rule) &amp; Bentuk Akar/Pecahan
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Skema Komposisi Fungsi dan Alur Perkalian Aturan Rantai dy/dx</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="25" y="25" width="130" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Input Variabel</text>
+    <text x="90" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">x</text>
+
+    <line x1="155" y1="57" x2="205" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="180" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">du/dx</text>
+
+    <rect x="205" y="25" width="130" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="270" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#064e3b">Fungsi Dalam</text>
+    <text x="270" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">u = g(x)</text>
+
+    <line x1="335" y1="57" x2="385" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="360" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">dy/du</text>
+
+    <rect x="385" y="25" width="130" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="450" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#881337">Fungsi Luar</text>
+    <text x="450" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">y = f(u)</text>
+
+    <text x="270" y="112" text-anchor="middle" font-size="12" font-weight="800" fill="#1e293b">Aturan Rantai: dy/dx = (dy/du) × (du/dx)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">d/dx (a·xⁿ) = n·a·xⁿ⁻¹</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Untuk sembarang bilangan real $n \in \mathbb{R}$ (baik bulat positif, negatif, maupun pecahan), berlaku rumus dasar turunan polinomial dan bentuk pangkat:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-mono">
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-sans font-semibold text-slate-700">1. Fungsi Konstanta $f(x) = k$</span>
+                                <span class="font-bold text-blue-800">$f'(x) = 0$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-sans font-semibold text-slate-700">2. Fungsi Linier $f(x) = ax + b$</span>
+                                <span class="font-bold text-blue-800">$f'(x) = a$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                                <span class="font-sans font-bold text-blue-950">3. Aturan Pangkat $f(x) = ax^n$</span>
+                                <span class="font-bold text-blue-900">$f'(x) = n \cdot a x^{n-1}$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+                                <span class="font-sans font-bold text-emerald-950">4. Bentuk Akar $f(x) = \sqrt{x} = x^{1/2}$</span>
+                                <span class="font-bold text-emerald-900">$f'(x) = \frac{1}{2\sqrt{x}}$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between">
+                                <span class="font-sans font-bold text-amber-950">5. Kebalikan $f(x) = \frac{1}{x} = x^{-1}$</span>
+                                <span class="font-bold text-amber-900">$f'(x) = -\frac{1}{x^2}$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-between">
+                                <span class="font-sans font-bold text-purple-950">6. Penjumlahan $f(x) = u(x) \pm v(x)$</span>
+                                <span class="font-bold text-purple-900">$f'(x) = u'(x) \pm v'(x)$</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm space-y-1">
+                            <span class="font-bold text-slate-900 block">Contoh Konversi Bentuk Akar &amp; Penyebut Sebelum Diturunkan:</span>
+                            <p class="text-slate-700 text-xs">
+                                Jika $f(x) = 6x\sqrt{x} - \frac{4}{x^2} = 6x^{3/2} - 4x^{-2}$, maka:
+                                $$f'(x) = \frac{3}{2}(6)x^{\frac{3}{2}-1} - (-2)(4)x^{-2-1} = 9x^{1/2} + 8x^{-3} = \mathbf{9\sqrt{x} + \frac{8}{x^3}}$$
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: ATURAN PERKALIAN (u.v) DAN PEMBAGIAN (u/v) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Perkalian &amp; Pembagian Fungsi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✖️ Aturan Hasil Kali $(u \cdot v)'$ &amp; Hasil Bagi $\left(\frac{u}{v}\right)'$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Skema Komposisi Fungsi dan Alur Perkalian Aturan Rantai dy/dx</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="25" y="25" width="130" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Input Variabel</text>
+    <text x="90" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">x</text>
+
+    <line x1="155" y1="57" x2="205" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="180" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">du/dx</text>
+
+    <rect x="205" y="25" width="130" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="270" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#064e3b">Fungsi Dalam</text>
+    <text x="270" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">u = g(x)</text>
+
+    <line x1="335" y1="57" x2="385" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="360" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">dy/du</text>
+
+    <rect x="385" y="25" width="130" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="450" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#881337">Fungsi Luar</text>
+    <text x="450" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">y = f(u)</text>
+
+    <text x="270" y="112" text-anchor="middle" font-size="12" font-weight="800" fill="#1e293b">Aturan Rantai: dy/dx = (dy/du) × (du/dx)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">(uv)' ≠ u'v' !</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            <strong>Hati-hati!</strong> Turunan dari perkalian dua fungsi $u(x) \cdot v(x)$ <strong>BUKAN</strong> $u'(x) \cdot v'(x)$! Wajib gunakan rumus aturan hasil kali dan hasil bagi Leibniz berikut:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <!-- Aturan Hasil Kali -->
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                                <span class="font-bold text-blue-950 block">1. Aturan Hasil Kali (Product Rule)</span>
+                                <div class="p-2.5 bg-white rounded-lg border border-blue-200 font-mono text-center font-bold text-blue-900">
+                                    $$y = u \cdot v \implies y' = u'v + uv'$$
+                                </div>
+                                <p class="text-xs text-slate-700">
+                                    <em>Contoh:</em> $f(x) = (x^2 + 1)(3x - 2)$<br>
+                                    $u = x^2 + 1 \implies u' = 2x$; $v = 3x - 2 \implies v' = 3$.<br>
+                                    $f'(x) = 2x(3x - 2) + (x^2 + 1)(3) = \mathbf{9x^2 - 4x + 3}$.
+                                </p>
+                            </div>
+
+                            <!-- Aturan Hasil Bagi -->
+                            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
+                                <span class="font-bold text-amber-950 block">2. Aturan Hasil Bagi (Quotient Rule)</span>
+                                <div class="p-2.5 bg-white rounded-lg border border-amber-200 font-mono text-center font-bold text-amber-900">
+                                    $$y = \frac{u}{v} \implies y' = \frac{u'v - uv'}{v^2}$$
+                                </div>
+                                <p class="text-xs text-slate-700">
+                                    <strong>Trik Cepat Pecahan Linier:</strong> Untuk $f(x) = \frac{ax + b}{cx + d}$, pembilang $u'v - uv'$ langsung dihitung dengan determinan silang $ad - bc$:
+                                    $$f'(x) = \mathbf{\frac{ad - bc}{(cx + d)^2}}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Definisi Limit Turunan &amp; Aturan Dasar Diferensial
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Garis Singgung dan Garis Normal Saling Tegak Lurus di Titik Singgung</span>
+                            <svg viewBox="0 0 440 175" class="w-full max-w-md h-auto">
+    <line x1="35" y1="145" x2="405" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <line x1="65" y1="160" x2="65" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 90 135 Q 210 20 350 115" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <!-- Point of tangency P(200, 72) -->
+    <line x1="110" y1="117" x2="310" y2="17" stroke="#2563eb" stroke-width="2.5"/>
+    <line x1="165" y1="2" x2="245" y2="162" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <circle cx="200" cy="72" r="5" fill="#e11d48"/>
+    <text x="315" y="32" font-size="11" font-weight="800" fill="#1d4ed8">Garis Singgung (m_s = f'(x₁))</text>
+    <text x="295" y="135" font-size="11" font-weight="800" fill="#be123c">Garis Normal (m_n = -1/m_s)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah jawaban yang paling tepat pada 5 soal evaluasi aturan dasar turunan berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Perhatikan bahwa bentuk lim_{h→0} [f(3 + h) - f(3)] / h adalah definisi formal dari turunan pertama di x = 3, yaitu f'(3). Karena f(x) = x³ - 2x² + 5, maka f'(x) = 3x² - 4x. Substitusikan x = 3: f'(3) = 3(3)² - 4(3) = 27 - 12 = 15.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Mengenali Definisi Limit Turunan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika diketahui $f(x) = x^3 - 2x^2 + 5$, maka nilai dari $\lim_{h \to 0} \frac{f(3 + h) - f(3)}{h}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $12$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $15$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $18$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $27$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Ubah ke bentuk pangkat: f(x) = 4x^(1/2) + 6x^(-1). Maka f'(x) = 2x^(-1/2) - 6x^(-2) = 2/√x - 6/x². Untuk x = 4: f'(4) = 2/√4 - 6/16 = 1 - 3/8 = 5/8.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Turunan Bentuk Akar &amp; Pangkat Negatif</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui fungsi $f(x) = 4\sqrt{x} + \frac{6}{x}$. Nilai dari $f'(4)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $\frac{5}{8}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{11}{8}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{3}{4}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $\frac{7}{8}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Gunakan aturan hasil kali: f'(1) = u'(1)v(1) + u(1)v'(1). Dengan u(x) = x² + 2 ⇒ u(1) = 3, u'(1) = 2; dan v(x) = 3x³ - 1 ⇒ v(1) = 2, v'(1) = 9. Maka f'(1) = (2)(2) + (3)(9) = 4 + 27 = 31.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Aturan Hasil Kali $(u \cdot v)'$</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika $f(x) = (x^2 + 2)(3x^3 - 1)$, maka nilai dari $f'(1)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $18$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $23$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $31$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $35$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Gunakan rumus cepat turunan pecahan linier f'(x) = (ad - bc) / (cx + d)² dengan a = 3, b = -2, c = 1, d = 2: f'(x) = [3(2) - (-2)(1)] / (x + 2)² = 8 / (x + 2)². Untuk x = 0: f'(0) = 8 / (2)² = 2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Aturan Hasil Bagi $(u / v)'$</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui fungsi rasional $f(x) = \frac{3x - 2}{x + 2}$ untuk $x \ne -2$. Nilai dari $f'(0)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $1$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{3}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $2$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Untuk h(x) = f(x) / g(x), berlaku h'(2) = [f'(2)g(2) - f(2)g'(2)] / [g(2)]² = [(4)(2) - (-6)(3)] / 2² = (8 + 18) / 4 = 26 / 4 = 13/2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Evaluasi Aljabar Turunan Abstrak</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui $f(2) = -6$, $f'(2) = 4$, $g(2) = 2$, dan $g'(2) = 3$. Jika $h(x) = \frac{f(x)}{g(x)}$, maka nilai dari $h'(2)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-\frac{5}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{4}{3}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{13}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $7$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus Diferensial.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Chapter 3: Differentiation Rules.</p>
+                    <p><strong>Purcell, Edwin J. &amp; Varberg, Dale.</strong> (2007). <em>Calculus</em> (9th ed.). Prentice Hall. Chapter 2: The Derivative.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-12/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Hub Matematika Kelas XII
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="aturan-rantai-turunan-implisit-dan-tingkat-tinggi.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Aturan Rantai &amp; Turunan Implisit &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

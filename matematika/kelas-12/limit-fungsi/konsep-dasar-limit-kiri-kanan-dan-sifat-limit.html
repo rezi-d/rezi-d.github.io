@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Dasar Limit, Limit Kiri-Kanan & Sifat-Sifat Limit — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai konsep dasar limit fungsi: definisi intuitif dan epsilon-delta, syarat eksistensi limit melalui limit kiri dan limit kanan pada fungsi sepotong-sepotong, perbedaan nilai fungsi f(c) vs limit, serta 9 sifat aljabar limit.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/konsep-dasar-limit-kiri-kanan-dan-sifat-limit.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/konsep-dasar-limit-kiri-kanan-dan-sifat-limit.html">
+    <meta property="og:title" content="🎯 Konsep Dasar Limit, Limit Kiri-Kanan & Sifat Limit — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Eksistensi limit kiri-kanan, analisis grafik berlubang dan lompatan, serta teorema sifat limit.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="limit-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Limit Fungsi
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Dasar Limit, Limit Kiri-Kanan &amp; Sifat-Sifat Limit
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Limit adalah pintu gerbang menuju seluruh gedung kalkulus (turunan dan integral). Pahami perbedaan mendasar antara <strong>perilaku fungsi di sekitar titik $x \to c$</strong> dengan <strong>nilai fungsi tepat di titik $f(c)$</strong>, uji syarat mutlak keberadaan limit melalui pendekatan kiri ($x \to c^-$) dan pendekatan kanan ($x \to c^+$), serta kuasai 9 teorema sifat operasi aljabar limit.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: INTUISI LIMIT VS NILAI FUNGSI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Makna Intuitif Limit</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Apa Itu Limit? ($x \to c$ Bukan Berarti $x = c$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">lim f(x) = L</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Notasi <strong>$\lim_{x \to c} f(x) = L$</strong> dibaca: <em>"Limit dari $f(x)$ untuk $x$ mendekati $c$ adalah $L$"</em>. Artinya, bilamana nilai $x$ bergerak sangat dekat menuju $c$ (baik dari sebelah kiri maupun dari sebelah kanan, namun <strong>$x \ne c$</strong>), maka nilai $f(x)$ akan bergerak mendekati satu nilai tunggal $L$.
+                        </p>
+
+                        <!-- CONTOH GRAFIK BERLUBANG -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                                <span class="font-bold text-blue-950 block">Contoh Klasik: Fungsi dengan Titik Berlubang</span>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    Tinjau fungsi $f(x) = \frac{x^2 - 4}{x - 2}$.<br>
+                                    &bull; Jika kita substitusi tepat $x = 2$, diperoleh $f(2) = \frac{0}{0}$ (<strong>tidak terdefinisi</strong>!).<br>
+                                    &bull; Namun untuk setiap $x \ne 2$, berlaku:
+                                    $$f(x) = \frac{(x - 2)(x + 2)}{x - 2} = x + 2$$
+                                    &bull; Saat $x = 1{,}999 \implies f(x) = 3{,}999$. Saat $x = 2{,}001 \implies f(x) = 4{,}001$.<br>
+                                    &bull; Maka $\lim_{x \to 2} \frac{x^2 - 4}{x - 2} = \mathbf{4}$, meskipun $f(2)$ tidak ada!
+                                </p>
+                            </div>
+
+                            <!-- Diagram SVG Kurva Berlubang -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center justify-center">
+                                <span class="text-[11px] font-bold text-slate-700 uppercase mb-1">Visualisasi Grafik $f(x) = \frac{x^2-4}{x-2}$ Berlubang di $(2, 4)$</span>
+                                <svg viewBox="0 0 280 165" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Sumbu X & Y -->
+                                    <line x1="30" y1="140" x2="255" y2="140" stroke="#475569" stroke-width="1.5"/>
+                                    <line x1="50" y1="155" x2="50" y2="15" stroke="#475569" stroke-width="1.5"/>
+                                    <!-- Garis putus-putus koordinat (2, 4) -> (150, 50) -->
+                                    <line x1="150" y1="140" x2="150" y2="50" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+                                    <line x1="50" y1="50" x2="150" y2="50" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+                                    <!-- Garis fungsi y = x + 2 -->
+                                    <line x1="50" y1="110" x2="225" y2="5" stroke="#2563eb" stroke-width="2.8"/>
+                                    <!-- Panah pendekatan kiri & kanan -->
+                                    <line x1="110" y1="140" x2="140" y2="140" stroke="#059669" stroke-width="2.5"/>
+                                    <line x1="190" y1="140" x2="160" y2="140" stroke="#e11d48" stroke-width="2.5"/>
+                                    <!-- Lubang putih di (150, 50) -->
+                                    <circle cx="150" cy="50" r="5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+                                    <!-- Label -->
+                                    <text x="143" y="154" font-size="11" font-weight="bold" fill="#1e293b">c = 2</text>
+                                    <text x="20" y="54" font-size="11" font-weight="bold" fill="#e11d48">L = 4</text>
+                                    <text x="160" y="55" font-size="10" font-weight="bold" fill="#e11d48">Lubang (x ≠ 2)</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950 font-medium">
+                            💡 <strong>Prinsip Emas Limit:</strong> Nilai $\lim_{x \to c} f(x)$ sama sekali <strong>tidak peduli</strong> apakah $f(c)$ terdefinisi atau tidak, ataupun berapa nilai $f(c)$ tepat di titik $x = c$. Limit hanya melihat <em>ke mana grafik menuju</em> di tetangga kiri dan kanan titik $c$!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: LIMIT SEPihak (KIRI & KANAN) SERTA SYARAT EKSISTENSI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Teorema Eksistensi Limit</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚖️ Limit Kiri ($x \to c^-$), Limit Kanan ($x \to c^+$) &amp; Syarat Ada Limit
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Limit Kiri = Limit Kanan</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-bold text-emerald-700 uppercase">1. Limit Kiri (Left-Hand Limit)</span>
+                                <div class="font-mono font-bold text-slate-900">$$\lim_{x \to c^-} f(x) = L_1$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Nilai yang didekati $f(x)$ saat $x$ mendekati $c$ dari arah kiri (untuk nilai-nilai <strong>$x < c$</strong>).
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="text-xs font-bold text-blue-700 uppercase">2. Limit Kanan (Right-Hand Limit)</span>
+                                <div class="font-mono font-bold text-slate-900">$$\lim_{x \to c^+} f(x) = L_2$$</div>
+                                <p class="text-xs text-slate-600">
+                                    Nilai yang didekati $f(x)$ saat $x$ mendekati $c$ dari arah kanan (untuk nilai-nilai <strong>$x > c$</strong>).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- TEOREMA EKSISTENSI LIMIT -->
+                        <div class="p-4 bg-blue-50 rounded-xl border border-blue-200 text-center space-y-1.5">
+                            <span class="text-xs font-bold text-blue-950 uppercase tracking-wider block">Teorema Fundamental Eksistensi Limit Dua Arah:</span>
+                            <div class="font-mono text-xs sm:text-sm font-bold text-blue-900 bg-white py-2 px-3 rounded-lg border border-blue-100">
+                                $$\lim_{x \to c} f(x) = L \iff \lim_{x \to c^-} f(x) = \lim_{x \to c^+} f(x) = L$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Jika limit kiri <strong>tidak sama</strong> dengan limit kanan ($L_1 \ne L_2$, grafik mengalami <em>lompatan/patah</em>), maka $\lim_{x \to c} f(x)$ dinyatakan <strong>TIDAK ADA (Does Not Exist / DNE)</strong>!
+                            </p>
+                        </div>
+
+                        <!-- DIAGRAM SVG GRAFIK LOMPATAN (JUMP DISCONTINUITY) -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Visualisasi Grafik Lompatan: Limit Kiri ($L_1 = 2$) $\ne$ Limit Kanan ($L_2 = 5$) di $x = 3$</span>
+                            <svg viewBox="0 0 380 180" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Sumbu X & Y -->
+                                <line x1="35" y1="150" x2="345" y2="150" stroke="#475569" stroke-width="1.5"/>
+                                <line x1="60" y1="165" x2="60" y2="15" stroke="#475569" stroke-width="1.5"/>
+                                <!-- Garis bantu x = 3 (190) -->
+                                <line x1="190" y1="150" x2="190" y2="40" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+                                <line x1="60" y1="105" x2="190" y2="105" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3"/>
+                                <line x1="60" y1="45" x2="190" y2="45" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3"/>
+                                <!-- Kurva kiri (menuju y=2 di (190,105)) -->
+                                <path d="M 60 135 Q 130 125 190 105" fill="none" stroke="#059669" stroke-width="3"/>
+                                <circle cx="190" cy="105" r="4.5" fill="#059669"/>
+                                <!-- Kurva kanan (mulai dari y=5 di (190,45)) -->
+                                <path d="M 190 45 Q 255 40 325 20" fill="none" stroke="#2563eb" stroke-width="3"/>
+                                <circle cx="190" cy="45" r="4.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+                                <!-- Label -->
+                                <text x="180" y="165" font-size="11" font-weight="bold" fill="#1e293b">c = 3</text>
+                                <text x="22" y="109" font-size="11" font-weight="bold" fill="#059669">L₁ = 2</text>
+                                <text x="22" y="49" font-size="11" font-weight="bold" fill="#2563eb">L₂ = 5</text>
+                                <text x="202" y="112" font-size="11" font-weight="bold" fill="#059669">lim kiri = 2</text>
+                                <text x="202" y="52" font-size="11" font-weight="bold" fill="#2563eb">lim kanan = 5</text>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: BEDAH FUNGSI SEPOTONG-SEPOTONG & NILAI MUTLAK -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Fungsi Sepotong &amp; Nilai Mutlak</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧩 Analisis Limit Fungsi Sepotong-Sepotong (Piecewise) &amp; $|x - c|$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Tiga Jenis Diskontinuitas Kurva: Berlubang, Loncat, dan Asimtotik</span>
+                            <svg viewBox="0 0 560 155" class="w-full max-w-xl h-auto">
+    <!-- 1. Removable -->
+    <rect x="15" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="35" y1="105" x2="160" y2="45" stroke="#2563eb" stroke-width="2.5"/>
+    <circle cx="97" cy="75" r="5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <circle cx="97" cy="45" r="4" fill="#e11d48"/>
+    <text x="97" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#1e3a8a">1. Berlubang (Removable)</text>
+
+    <!-- 2. Jump -->
+    <rect x="197" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="215" y1="95" x2="280" y2="80" stroke="#059669" stroke-width="2.5"/>
+    <line x1="280" y1="45" x2="345" y2="35" stroke="#059669" stroke-width="2.5"/>
+    <circle cx="280" cy="80" r="4.5" fill="#059669"/>
+    <circle cx="280" cy="45" r="4.5" fill="#ffffff" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="280" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#065f46">2. Loncat (L_kiri ≠ L_kanan)</text>
+
+    <!-- 3. Infinite -->
+    <rect x="380" y="10" width="165" height="135" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <line x1="462" y1="20" x2="462" y2="115" stroke="#94a3b8" stroke-dasharray="4 2"/>
+    <path d="M 400 100 Q 450 95 456 22" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <path d="M 468 22 Q 474 95 525 100" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="462" y="132" text-anchor="middle" font-size="10" font-weight="bold" fill="#881337">3. Asimtotik (Tak Hingga)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Piecewise Function</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs sm:text-sm">
+                            <!-- Kasus 1: Mencari Parameter Agar Limit Ada -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                                <span class="font-bold text-blue-800 block">Kasus 1: Menentukan Parameter $k$ Agar Limit Ada</span>
+                                <p class="text-slate-700 text-xs">
+                                    Diketahui fungsi sepotong-sepotong:
+                                    $$f(x) = \begin{cases} 2x + k, & \text{untuk } x < 3 \\ x^2 - 1, & \text{untuk } x \ge 3 \end{cases}$$
+                                    Agar $\lim_{x \to 3} f(x)$ <strong>ada</strong>, berapakah nilai $k$?
+                                </p>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
+                                    <p>
+                                        &bull; <strong>Limit Kiri ($x \to 3^-$):</strong> pakai rumus $x < 3$:
+                                        $$\lim_{x \to 3^-} (2x + k) = 2(3) + k = 6 + k$$
+                                        &bull; <strong>Limit Kanan ($x \to 3^+$):</strong> pakai rumus $x \ge 3$:
+                                        $$\lim_{x \to 3^+} (x^2 - 1) = 3^2 - 1 = 8$$
+                                        &bull; Syarat limit ada: $L_{\text{kiri}} = L_{\text{kanan}} \implies 6 + k = 8 \implies \mathbf{k = 2}$.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Kasus 2: Limit Fungsi Nilai Mutlak -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-2.5">
+                                <span class="font-bold text-rose-900 block">Kasus 2: Jebakan Limit Nilai Mutlak $\lim_{x \to c} \frac{|x - c|}{x - c}$</span>
+                                <p class="text-slate-700 text-xs">
+                                    Apakah $\lim_{x \to 2} \frac{|x - 2|}{x - 2}$ memiliki nilai?
+                                </p>
+                                <div class="p-3 bg-white rounded-xl border border-rose-100 text-xs text-slate-700 space-y-1">
+                                    <p>
+                                        Ingat definisi nilai mutlak $|x - 2|$:<br>
+                                        &bull; Untuk $x < 2$ (kiri): $|x - 2| = -(x - 2)$, sehingga:
+                                        $$\lim_{x \to 2^-} \frac{-(x - 2)}{x - 2} = \mathbf{-1}$$
+                                        &bull; Untuk $x > 2$ (kanan): $|x - 2| = +(x - 2)$, sehingga:
+                                        $$\lim_{x \to 2^+} \frac{x - 2}{x - 2} = \mathbf{+1}$$
+                                        &bull; Karena $-1 \ne +1$, maka $\lim_{x \to 2} \frac{|x - 2|}{x - 2}$ <strong>TIDAK ADA</strong>!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TEOREMA SIFAT-SIFAT OPERASI ALJABAR LIMIT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Hukum Operasi Limit</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📜 8 Teorema Sifat-Sifat Aljabar Limit Fungsi
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Visualisasi Limit Bentuk Tak Tentu 0/0 sebagai Titik Berlubang (a, L)</span>
+                            <svg viewBox="0 0 420 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="380" y2="140" stroke="#334155" stroke-width="2"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="2"/>
+    <line x1="85" y1="130" x2="335" y2="30" stroke="#2563eb" stroke-width="3"/>
+    <line x1="210" y1="80" x2="210" y2="140" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <line x1="65" y1="80" x2="210" y2="80" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <!-- Open circle hole at (a, L) = (210, 80) -->
+    <circle cx="210" cy="80" r="6" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="210" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x → a</text>
+    <text x="50" y="84" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">L</text>
+    <text x="285" y="75" font-size="11" font-weight="bold" fill="#1d4ed8">Bentuk 0/0: Lubang di (a, L)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Limit Laws</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Misalkan $k$ adalah konstanta real, serta $\lim_{x \to c} f(x) = L$ dan $\lim_{x \to c} g(x) = M$ keduanya ada dan bernilai hingga. Maka berlaku sifat-sifat kelinearan dan aljabar berikut:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-slate-700">1. Limit Konstanta</span>
+                                <span class="font-mono font-bold text-blue-800">$\lim_{x \to c} k = k$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-slate-700">2. Limit Identitas</span>
+                                <span class="font-mono font-bold text-blue-800">$\lim_{x \to c} x = c$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-slate-700">3. Kelipatan Skalar</span>
+                                <span class="font-mono font-bold text-blue-800">$\lim_{x \to c} [k \cdot f(x)] = k \cdot L$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-slate-700">4. Penjumlahan / Selisih</span>
+                                <span class="font-mono font-bold text-blue-800">$\lim_{x \to c} [f(x) \pm g(x)] = L \pm M$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-slate-700">5. Perkalian Fungsi</span>
+                                <span class="font-mono font-bold text-blue-800">$\lim_{x \to c} [f(x) \cdot g(x)] = L \cdot M$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-slate-700">6. Pembagian ($M \ne 0$)</span>
+                                <span class="font-mono font-bold text-blue-800">$\lim_{x \to c} \frac{f(x)}{g(x)} = \frac{L}{M}$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-slate-700">7. Perpangkatan</span>
+                                <span class="font-mono font-bold text-blue-800">$\lim_{x \to c} [f(x)]^n = L^n$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-slate-700">8. Penarikan Akar</span>
+                                <span class="font-mono font-bold text-blue-800">$\lim_{x \to c} \sqrt[n]{f(x)} = \sqrt[n]{L}$</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-950">
+                            <strong>Kesimpulan Praktis (Metode Substitusi Langsung):</strong> Untuk setiap fungsi polinomial atau fungsi rasional yang penyebutnya <strong>tidak bernilai nol</strong> di $x = c$, nilai limitnya diperoleh langsung dengan mensubstitusikan $x = c$: $\lim_{x \to c} f(x) = f(c)$.
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Konsep Dasar Limit, Limit Sepihak &amp; Sifat Limit
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji penguasaan konsep limit kiri-kanan, pembacaan grafik limit, dan teorema sifat limit melalui 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Limit melihat nilai yang didekati kurva dari kiri dan kanan x = 2 (yaitu menuju lubang di y = 3), BUKAN titik hitam terpisah f(2) = 5. Karena limit kiri = limit kanan = 3, maka lim_{x→2} f(x) = 3.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Membaca Nilai Limit pada Grafik Berlubang</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan grafik fungsi $y = f(x)$ di bawah ini. Pada titik $x = 2$, kurva memiliki lubang terbuka di $(2, 3)$ dan sebuah titik penuh di $(2, 5)$. Nilai dari $\lim_{x \to 2} f(x)$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Grafik Soal 1 -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 300 170" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="35" y1="145" x2="270" y2="145" stroke="#475569" stroke-width="1.5"/>
+                                        <line x1="55" y1="160" x2="55" y2="15" stroke="#475569" stroke-width="1.5"/>
+                                        <line x1="160" y1="145" x2="160" y2="35" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
+                                        <line x1="55" y1="80" x2="160" y2="80" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
+                                        <line x1="55" y1="35" x2="160" y2="35" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
+                                        <!-- Kurva melalui (160, 80) -->
+                                        <path d="M 60 135 Q 115 115 160 80 T 255 45" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+                                        <!-- Lubang di (160, 80) dan Titik Penuh di (160, 35) -->
+                                        <circle cx="160" cy="80" r="4.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+                                        <circle cx="160" cy="35" r="4.5" fill="#e11d48"/>
+                                        <text x="155" y="160" font-size="11" font-weight="bold" fill="#1e293b">2</text>
+                                        <text x="38" y="84" font-size="11" font-weight="bold" fill="#2563eb">3</text>
+                                        <text x="38" y="39" font-size="11" font-weight="bold" fill="#e11d48">5</text>
+                                        <text x="170" y="39" font-size="10" font-weight="bold" fill="#e11d48">f(2) = 5</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $5$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. Tidak ada</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Agar limit di x = 2 ada, limit kiri harus sama dengan limit kanan: lim_{x→2⁻} (3x - 1) = lim_{x→2⁺} (ax + 1) ⇒ 3(2) - 1 = 2a + 1 ⇒ 5 = 2a + 1 ⇒ 2a = 4 ⇒ a = 2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Syarat Keberadaan Limit Fungsi Sepotong</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui fungsi $f(x) = \begin{cases} 3x - 1, & x < 2 \\ ax + 1, & x \ge 2 \end{cases}$. Agar nilai $\lim_{x \to 2} f(x)$ <strong>ada</strong>, maka nilai konstanta $a$ haruslah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{3}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $2$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $3$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Untuk x → 4⁻ (berarti x < 4), berlaku x - 4 < 0 sehingga |x - 4| = -(x - 4). Maka lim_{x→4⁻} |x - 4| / (x - 4) = -(x - 4) / (x - 4) = -1.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Limit Sepihak Fungsi Nilai Mutlak</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari limit kiri $\lim_{x \to 4^-} \frac{|x - 4|}{x - 4}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $0$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $1$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $4$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Berdasarkan teorema sifat-sifat limit: lim [3f(x) - g(x)²] = 3(lim f(x)) - (lim g(x))² = 3(4) - (-2)² = 12 - 4 = 8.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Penerapan Teorema Sifat-Sifat Limit</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui $\lim_{x \to c} f(x) = 4$ dan $\lim_{x \to c} g(x) = -2$. Nilai dari $\lim_{x \to c} \left[3f(x) - (g(x))^2\right]$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $16$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $14$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $10$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $8$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Substitusikan langsung x = 3 karena penyebut tidak nol: √(3² + 16) / (3 - 1) = √(9 + 16) / 2 = √25 / 2 = 5/2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Substitusi Langsung Limit Fungsi</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to 3} \frac{\sqrt{x^2 + 16}}{x - 1}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{5}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{7}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $5$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus.</p>
+                    <p><strong>Stewart, James, Clegg, Daniel, &amp; Watson, Saleem.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Chapter 2: Limits and Derivatives.</p>
+                    <p><strong>Purcell, Edwin J., Varberg, Dale, &amp; Rigdon, Steven E.</strong> (2007). <em>Calculus</em> (9th ed.). Prentice Hall. Chapter 1: Limits.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-12/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Hub Matematika Kelas XII
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="limit-fungsi-aljabar-faktorisasi-dan-akar-sekawan.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Limit Aljabar (Faktorisasi &amp; Akar) &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

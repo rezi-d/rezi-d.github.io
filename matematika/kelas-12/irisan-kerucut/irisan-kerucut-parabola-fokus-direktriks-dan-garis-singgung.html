@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parabola: Fokus, Direktriks, Latus Rectum & Garis Singgung - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari definisi lokus parabola (e = 1), 4 arah bukaan parabola berpuncak di O(0,0) dan P(a,b), panjang latus rectum |4p|, serta persamaan garis singgung parabola.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="irisan-kerucut">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 5 · Geometri Analitik: Irisan Kerucut</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+                                📡 Sub-Materi 3 dari 6 · Geometri Analitik
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Parabola: Fokus, Direktriks, Latus Rectum & Garis Singgung
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Definisi Lokus & Unsur-Unsur Parabola -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Poin 1 · Anatomi Parabola ($e = 1$)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Definisi Lokus Parabola: Jarak ke Fokus = Jarak ke Direktriks
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700">Eksentrisitas $e = 1$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Secara geometri analitik, <strong>Parabola</strong> adalah tempat kedudukan titik-titik $T(x, y)$ pada bidang datar yang <strong>jaraknya ke sebuah titik tetap $F$ (Titik Fokus / Titik Api) selalu sama dengan jarak tegak lurusnya ke sebuah garis tetap $g$ (Garis Direktriks)</strong>.
+                        </p>
+
+                        <!-- SVG Anatomi Parabola Lengkap -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Anatomi Lengkap Parabola $y^2 = 4px$: Puncak, Fokus $F(p,0)$, Direktriks $x = -p$, dan Latus Rectum $|4p|$
+                            </p>
+                            <svg viewBox="0 0 560 230" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Axes -->
+                                <line x1="40" y1="115" x2="510" y2="115" stroke="#334155" stroke-width="2" />
+                                <line x1="215" y1="215" x2="215" y2="15" stroke="#334155" stroke-width="2" />
+
+                                <!-- Directrix line x = -p -->
+                                <line x1="135" y1="15" x2="135" y2="215" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="6 4" />
+                                <text x="125" y="30" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">Direktriks x = -p</text>
+
+                                <!-- Parabola y^2 = 4px opening right -->
+                                <path d="M 435 20 Q -5 115 435 210" fill="none" stroke="#2563eb" stroke-width="3" />
+
+                                <!-- Latus Rectum chord at x = p -->
+                                <line x1="295" y1="45" x2="295" y2="185" stroke="#059669" stroke-width="2.5" stroke-dasharray="4 3" />
+                                <circle cx="295" cy="45" r="3.5" fill="#059669" />
+                                <circle cx="295" cy="185" r="3.5" fill="#059669" />
+                                <text x="305" y="165" font-size="11" font-weight="bold" fill="#047857">Latus Rectum |4p|</text>
+
+                                <!-- Point T(x,y) on parabola with equal distance d1 = d2 -->
+                                <circle cx="370" cy="33" r="4" fill="#d97706" />
+                                <line x1="135" y1="33" x2="370" y2="33" stroke="#d97706" stroke-width="2" />
+                                <line x1="295" y1="115" x2="370" y2="33" stroke="#d97706" stroke-width="2" />
+                                <text x="250" y="26" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">d₂ (ke Direktriks)</text>
+                                <text x="355" y="82" font-size="11" font-weight="bold" fill="#b45309">d₁ (ke Fokus)</text>
+                                <text x="380" y="35" font-size="12" font-weight="bold" fill="#92400e">T(x, y): d₁ = d₂</text>
+
+                                <!-- Vertex O(0,0) and Focus F(p,0) -->
+                                <circle cx="215" cy="115" r="4" fill="#1e293b" />
+                                <circle cx="295" cy="115" r="4.5" fill="#e11d48" />
+                                <text x="200" y="132" font-size="12" font-weight="bold" fill="#1e293b">Puncak O</text>
+                                <text x="303" y="132" font-size="12" font-weight="bold" fill="#be123c">Fokus F(p, 0)</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-amber-50/70 rounded-xl p-4 border border-amber-200">
+                                <div class="text-xs font-bold text-amber-900 uppercase">Makna Parameter $p$</div>
+                                <p class="text-xs text-slate-700 mt-1">$|p|$ adalah jarak dari <strong>Titik Puncak ke Fokus</strong>, yang sama persis dengan jarak dari <strong>Titik Puncak ke Garis Direktriks</strong>.</p>
+                            </div>
+                            <div class="bg-emerald-50/70 rounded-xl p-4 border border-emerald-200">
+                                <div class="text-xs font-bold text-emerald-900 uppercase">Panjang Latus Rectum ($LR$)</div>
+                                <p class="text-xs text-slate-700 mt-1">Tali busur terpendek yang melalui titik fokus $F$ dan tegak lurus sumbu simetri memiliki panjang <strong>$LR = |4p|$</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: 4 Arah Bukaan Parabola Berpuncak di O(0, 0) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 2 · Puncak di $O(0, 0)$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Empat Orientasi Bukaan Parabola Standar
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Kanan, Kiri, Atas, Bawah</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Cara paling mudah menghafal arah bukaan parabola adalah melihat <strong>variabel mana yang TIDAK dikuadratkan (berpangkat $1$)</strong>: itu adalah sumbu simetrinya!
+                        </p>
+
+                        <!-- SVG 4 Orientasi Parabola -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <svg viewBox="0 0 600 165" class="w-full max-w-2xl mx-auto h-auto">
+                                <!-- 1. Terbuka Kanan -->
+                                <rect x="10" y="10" width="135" height="145" rx="8" fill="#ffffff" stroke="#cbd5e1" />
+                                <line x1="25" y1="80" x2="130" y2="80" stroke="#94a3b8" />
+                                <line x1="55" y1="25" x2="55" y2="135" stroke="#94a3b8" />
+                                <line x1="35" y1="25" x2="35" y2="135" stroke="#e11d48" stroke-dasharray="3 2" />
+                                <path d="M 115 35 Q -5 80 115 125" fill="none" stroke="#2563eb" stroke-width="2.5" />
+                                <circle cx="75" cy="80" r="3" fill="#e11d48" />
+                                <text x="77" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">y² = 4px (Kanan)</text>
+
+                                <!-- 2. Terbuka Kiri -->
+                                <rect x="160" y="10" width="135" height="145" rx="8" fill="#ffffff" stroke="#cbd5e1" />
+                                <line x1="175" y1="80" x2="280" y2="80" stroke="#94a3b8" />
+                                <line x1="240" y1="25" x2="240" y2="135" stroke="#94a3b8" />
+                                <line x1="260" y1="25" x2="260" y2="135" stroke="#e11d48" stroke-dasharray="3 2" />
+                                <path d="M 180 35 Q 300 80 180 125" fill="none" stroke="#2563eb" stroke-width="2.5" />
+                                <circle cx="220" cy="80" r="3" fill="#e11d48" />
+                                <text x="227" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">y² = -4px (Kiri)</text>
+
+                                <!-- 3. Terbuka Atas -->
+                                <rect x="310" y="10" width="135" height="145" rx="8" fill="#ffffff" stroke="#cbd5e1" />
+                                <line x1="325" y1="95" x2="430" y2="95" stroke="#94a3b8" />
+                                <line x1="377" y1="25" x2="377" y2="135" stroke="#94a3b8" />
+                                <line x1="325" y1="115" x2="430" y2="115" stroke="#e11d48" stroke-dasharray="3 2" />
+                                <path d="M 335 35 Q 377 155 420 35" fill="none" stroke="#059669" stroke-width="2.5" />
+                                <circle cx="377" cy="75" r="3" fill="#e11d48" />
+                                <text x="377" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">x² = 4py (Atas)</text>
+
+                                <!-- 4. Terbuka Bawah -->
+                                <rect x="460" y="10" width="135" height="145" rx="8" fill="#ffffff" stroke="#cbd5e1" />
+                                <line x1="475" y1="60" x2="580" y2="60" stroke="#94a3b8" />
+                                <line x1="527" y1="25" x2="527" y2="135" stroke="#94a3b8" />
+                                <line x1="475" y1="40" x2="580" y2="40" stroke="#e11d48" stroke-dasharray="3 2" />
+                                <path d="M 485 120 Q 527 0 570 120" fill="none" stroke="#059669" stroke-width="2.5" />
+                                <circle cx="527" cy="80" r="3" fill="#e11d48" />
+                                <text x="527" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">x² = -4py (Bawah)</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Parabola Horizontal: $y^2 = 4px$</h3>
+                                <ul class="text-xs text-slate-700 space-y-1">
+                                    <li>• <strong>Fokus:</strong> $F(p, 0)$ dan <strong>Direktriks:</strong> $x = -p$</li>
+                                    <li>• <strong>Sumbu Simetri:</strong> Sumbu-$X$ ($y = 0$)</li>
+                                    <li>• Jika $p &gt; 0$ terbuka ke <strong>Kanan</strong>; jika $p &lt; 0$ terbuka ke <strong>Kiri</strong>.</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">2. Parabola Vertikal: $x^2 = 4py$</h3>
+                                <ul class="text-xs text-slate-700 space-y-1">
+                                    <li>• <strong>Fokus:</strong> $F(0, p)$ dan <strong>Direktriks:</strong> $y = -p$</li>
+                                    <li>• <strong>Sumbu Simetri:</strong> Sumbu-$Y$ ($x = 0$)</li>
+                                    <li>• Jika $p &gt; 0$ terbuka ke <strong>Atas</strong>; jika $p &lt; 0$ terbuka ke <strong>Bawah</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Parabola Berpuncak di P(a, b) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 3 · Translasi Puncak $P(a, b)$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Persamaan Parabola Berpuncak di $P(a, b)$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Pergeseran Koordinat</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika puncak parabola digeser dari $(0, 0)$ ke titik $P(a, b)$, ganti $x \to (x - a)$ dan $y \to (y - b)$, serta tambahkan $(a, b)$ pada koordinat fokus dan direktriksnya:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Horizontal: $(y - b)^2 = 4p(x - a)$</h3>
+                                <ul class="text-xs text-slate-700 space-y-1.5">
+                                    <li>• <strong>Titik Puncak:</strong> $P(a, b)$</li>
+                                    <li>• <strong>Titik Fokus:</strong> $F(a + p,\, b)$</li>
+                                    <li>• <strong>Garis Direktriks:</strong> $x = a - p$</li>
+                                    <li>• <strong>Sumbu Simetri:</strong> $y = b$</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">2. Vertikal: $(x - a)^2 = 4p(y - b)$</h3>
+                                <ul class="text-xs text-slate-700 space-y-1.5">
+                                    <li>• <strong>Titik Puncak:</strong> $P(a, b)$</li>
+                                    <li>• <strong>Titik Fokus:</strong> $F(a,\, b + p)$</li>
+                                    <li>• <strong>Garis Direktriks:</strong> $y = b - p$</li>
+                                    <li>• <strong>Sumbu Simetri:</strong> $x = a$</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Parabola Berpuncak di P(a, b) dengan Fokus F dan Direktriks</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="405" y2="140" stroke="#334155" stroke-width="1.8"/>
+    <line x1="75" y1="155" x2="75" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <line x1="145" y1="15" x2="145" y2="150" stroke="#e11d48" stroke-width="2" stroke-dasharray="5 3"/>
+    <path d="M 365 20 Q 15 80 365 140" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+    <circle cx="190" cy="80" r="4.5" fill="#1e293b"/>
+    <circle cx="245" cy="80" r="4.5" fill="#e11d48"/>
+    <text x="190" y="100" text-anchor="middle" font-size="11" font-weight="800" fill="#1e293b">P(a, b)</text>
+    <text x="260" y="84" font-size="11" font-weight="800" fill="#be123c">F(a+p, b)</text>
+    <text x="138" y="32" text-anchor="end" font-size="10" font-weight="bold" fill="#be123c">x = a - p</text>
+</svg>
+                        </div>
+
+
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-sm">Contoh Mengubah Bentuk Umum ke Bentuk Standar:</h4>
+                            <p class="text-xs text-slate-700">
+                                Tentukan koordinat titik fokus dari parabola $y^2 - 4y - 8x + 20 = 0$.
+                            </p>
+                            <div class="text-xs text-slate-800 space-y-1">
+                                <p>1. Kelompokkan suku $y$ di kiri dan lengkapkan kuadrat sempurna:</p>
+                                $$(y^2 - 4y + 4) = 8x - 20 + 4 \implies (y - 2)^2 = 8x - 16 \implies (y - 2)^2 = 8(x - 2)$$
+                                <p>2. Diperoleh puncak $P(a, b) = (2, 2)$ dan $4p = 8 \implies p = 2$ (terbuka ke kanan).</p>
+                                <p>3. Titik fokusnya adalah $F(a + p, b) = F(2 + 2, 2) = F(4, 2)$ dan direktriks $x = 2 - 2 \implies x = 0$.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Persamaan Garis Singgung Parabola -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 4 · Garis Singgung Parabola</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Rumus Bagi Adil & Garis Singgung Parabola Bergradien $m$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Hanya 1 Garis Singgung per Gradien!</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Berbeda dengan lingkaran yang memiliki dua garis singgung untuk satu gradien $m$, parabola <strong>hanya memiliki SATU garis singgung</strong> untuk satu nilai gradien $m \neq 0$:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-2">
+                                <h3 class="font-bold text-purple-950 text-sm">1. Di Titik Singgung $T(x_1, y_1)$ (Bagi Adil)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs space-y-1.5">
+                                    $$y^2 = 4px \implies y_1 y = 2p(x + x_1)$$
+                                    $$x^2 = 4py \implies x_1 x = 2p(y + y_1)$$
+                                    $$(y - b)^2 = 4p(x - a) \implies (y_1 - b)(y - b) = 2p(x + x_1 - 2a)$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Parabola Berpuncak di P(a, b) dengan Fokus F dan Direktriks</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="405" y2="140" stroke="#334155" stroke-width="1.8"/>
+    <line x1="75" y1="155" x2="75" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <line x1="145" y1="15" x2="145" y2="150" stroke="#e11d48" stroke-width="2" stroke-dasharray="5 3"/>
+    <path d="M 365 20 Q 15 80 365 140" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+    <circle cx="190" cy="80" r="4.5" fill="#1e293b"/>
+    <circle cx="245" cy="80" r="4.5" fill="#e11d48"/>
+    <text x="190" y="100" text-anchor="middle" font-size="11" font-weight="800" fill="#1e293b">P(a, b)</text>
+    <text x="260" y="84" font-size="11" font-weight="800" fill="#be123c">F(a+p, b)</text>
+    <text x="138" y="32" text-anchor="end" font-size="10" font-weight="bold" fill="#be123c">x = a - p</text>
+</svg>
+                        </div>
+
+
+                            <div class="bg-indigo-50/70 rounded-xl p-5 border border-indigo-200 space-y-2">
+                                <h3 class="font-bold text-indigo-950 text-sm">2. Dengan Gradien $m$ Diketahui</h3>
+                                <div class="bg-white rounded-lg p-3 border border-indigo-100 text-xs space-y-1.5">
+                                    $$y^2 = 4px \implies y = mx + \frac{p}{m}$$
+                                    $$(y - b)^2 = 4p(x - a) \implies y - b = m(x - a) + \frac{p}{m}$$
+                                    $$x^2 = 4py \implies y = mx - pm^2$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Geometri Analitik Parabola
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji ketajaman analisis fokus, direktriks, dan garis singgung parabola pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 (dengan Diagram SVG) -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Fokus, Direktriks & Latus Rectum</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Perhatikan parabola $y^2 = 12x$ pada gambar di bawah! Koordinat titik fokus $F$, persamaan garis direktriks $g$, dan panjang latus rectumnya berturut-turut adalah ....
+                                </p>
+                                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                                    <svg viewBox="0 0 340 145" class="w-full max-w-xs mx-auto h-auto">
+                                        <line x1="25" y1="72" x2="315" y2="72" stroke="#334155" stroke-width="1.8" />
+                                        <line x1="135" y1="135" x2="135" y2="10" stroke="#334155" stroke-width="1.8" />
+                                        <line x1="85" y1="10" x2="85" y2="135" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 3" />
+                                        <path d="M 275 12 Q -5 72 275 132" fill="none" stroke="#2563eb" stroke-width="2.5" />
+                                        <circle cx="185" cy="72" r="3.5" fill="#e11d48" />
+                                        <text x="190" y="88" font-size="11" font-weight="bold" fill="#be123c">F</text>
+                                        <text x="78" y="25" text-anchor="end" font-size="10" font-weight="bold" fill="#be123c">g</text>
+                                        <text x="275" y="32" font-size="11" font-weight="bold" fill="#1d4ed8">y² = 12x</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $F(6, 0)$, $x = -6$, dan $LR = 12$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $F(3, 0)$, $x = -3$, dan $LR = 12$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $F(0, 3)$, $y = -3$, dan $LR = 12$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $F(3, 0)$, $x = 3$, dan $LR = 6$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Menyusun Persamaan Parabola dari Fokus & Direktriks</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Persamaan parabola yang memiliki titik fokus $F(2, 5)$ dan persamaan garis direktriks $y = 1$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $(y - 3)^2 = 8(x - 2)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $(x - 2)^2 = 4(y - 3)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $(x - 2)^2 = 8(y - 3)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $(x - 2)^2 = -8(y - 3)$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Fokus Parabola Bentuk Umum</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Koordinat titik fokus dari parabola $y^2 - 6y - 8x + 1 = 0$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $F(1, 3)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $F(-1, 3)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $F(3, 3)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $F(-3, 3)$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Garis Singgung Parabola (Bagi Adil)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Persamaan garis singgung pada parabola $y^2 = 8x$ di titik $T(2, 4)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $y = 2x$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $x - y + 2 = 0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $x + y - 6 = 0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $2x - y = 0$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Garis Singgung Parabola Bergradien m</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Persamaan garis singgung pada parabola $y^2 = 16x$ yang sejajar dengan garis $2x - y + 5 = 0$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $y = 2x + 4$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $y = 2x - 2$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $y = 2x + 8$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $y = 2x + 2$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/irisan-kerucut/persamaan-garis-singgung-lingkaran-dan-berkas-lingkaran.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Garis Singgung Lingkaran</span>
+                    </a>
+                    <a href="/matematika/kelas-12/irisan-kerucut/irisan-kerucut-elips-eksentrisitas-dan-garis-singgung.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Irisan Kerucut Elips</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Sangat tepat!</strong> Analisis unsur-unsur parabola dan garis singgungnya sudah benar.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

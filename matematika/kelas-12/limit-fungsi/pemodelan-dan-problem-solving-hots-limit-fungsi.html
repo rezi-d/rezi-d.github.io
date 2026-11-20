@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Solving HOTS & Pemodelan Limit Fungsi — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai pemecahan masalah HOTS Limit Fungsi: penentuan parameter tak diketahui dari limit berhingga 0/0, limit trigonometri komposit dan akar cosinus (1 - √(cos 2x)), limit menuju definisi Euler e, serta pemodelan kecepatan sesaat.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/pemodelan-dan-problem-solving-hots-limit-fungsi.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/limit-fungsi/pemodelan-dan-problem-solving-hots-limit-fungsi.html">
+    <meta property="og:title" content="🏆 Problem Solving HOTS & Pemodelan Limit Fungsi — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Menentukan parameter a & b dari limit 0/0, limit akar cosinus, dan pemodelan laju perubahan sesaat.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="limit-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 2: Limit Fungsi
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">Problem Solving HOTS &amp; SNBT</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        6. Problem Solving HOTS &amp; Pemodelan Limit Fungsi
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Di tingkat UTBK SNBT, TKA, dan Olimpiade, soal limit jarang menanyakan perhitungan rutin — melainkan meminta Anda <strong>menemukan koefisien tak diketahui $a$ dan $b$</strong> dari sebuah limit yang diketahui nilainya hingga, membedah limit akar trigonometri $1 - \sqrt{\cos ax}$, hingga memodelkan kondisi tunak (<em>steady-state</em>) dan laju perubahan sesaat.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: MENENTUKAN PARAMETER DARI SYARAT LIMIT HINGGA 0/0 -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Soal Favorit UTBK SNBT</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔑 Menentukan Parameter $a$ dan $b$ dari Limit Berhingga $\frac{0}{0}$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Visualisasi Limit Bentuk Tak Tentu 0/0 sebagai Titik Berlubang (a, L)</span>
+                            <svg viewBox="0 0 420 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="380" y2="140" stroke="#334155" stroke-width="2"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="2"/>
+    <line x1="85" y1="130" x2="335" y2="30" stroke="#2563eb" stroke-width="3"/>
+    <line x1="210" y1="80" x2="210" y2="140" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <line x1="65" y1="80" x2="210" y2="80" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <!-- Open circle hole at (a, L) = (210, 80) -->
+    <circle cx="210" cy="80" r="6" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="210" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x → a</text>
+    <text x="50" y="84" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">L</text>
+    <text x="285" y="75" font-size="11" font-weight="bold" fill="#1d4ed8">Bentuk 0/0: Lubang di (a, L)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Penyebut = 0 ⇒ Pembilang = 0</span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm space-y-1.5">
+                            <span class="font-bold text-amber-950 block">Prinsip Logika Bentuk Tak Tentu $\frac{0}{0}$:</span>
+                            <p class="text-slate-700 text-xs leading-relaxed">
+                                Jika diketahui $\lim_{x \to c} \frac{f(x)}{g(x)} = L$ (dengan $L$ bilangan real hingga) dan saat disubstitusi ternyata **penyebut $g(c) = 0$**, maka <strong>wajib mutlak pembilangnya juga bernilai nol di $x = c$ ($f(c) = 0$)</strong>! Sebab jika $f(c) \ne 0$, bentuk $\frac{k}{0}$ akan meledak menjadi $\pm\infty$.
+                            </p>
+                        </div>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 block">Studi Kasus UTBK:</span>
+                            <p class="text-slate-800 font-medium text-xs">
+                                Diketahui $\lim_{x \to 2} \frac{\sqrt{ax + b} - 3}{x - 2} = \frac{2}{3}$. Tentukan nilai dari $a + b$!
+                            </p>
+                            <div class="p-3.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                                <p>
+                                    <strong>Langkah 1 — Gunakan Syarat Pembilang $= 0$ saat $x = 2$:</strong><br>
+                                    Karena penyebut $(2 - 2) = 0$ dan hasil limitnya hingga ($\frac{2}{3}$), maka pembilang wajib bernilai $0$ saat $x = 2$:
+                                    $$\sqrt{2a + b} - 3 = 0 \implies \sqrt{2a + b} = 3 \implies \mathbf{2a + b = 9} \quad \dots (1)$$
+                                </p>
+                                <p>
+                                    <strong>Langkah 2 — Rasionalkan Akar Sekawan untuk Mencari $a$:</strong><br>
+                                    Substitusikan $b = 9 - 2a$ sehingga $ax + b = ax + 9 - 2a = a(x - 2) + 9$:
+                                    $$\lim_{x \to 2} \frac{(\sqrt{ax + b} - 3)(\sqrt{ax + b} + 3)}{(x - 2)(\sqrt{ax + b} + 3)} = \lim_{x \to 2} \frac{a(x - 2)}{(x - 2)(\sqrt{ax + b} + 3)} = \frac{a}{3 + 3} = \frac{a}{6}$$
+                                    Karena nilai limitnya $\frac{2}{3}$, maka:
+                                    $$\frac{a}{6} = \frac{2}{3} \implies \mathbf{a = 4}$$
+                                </p>
+                                <p>
+                                    <strong>Langkah 3 — Hitung $b$ dan $a + b$:</strong><br>
+                                    Dari $2a + b = 9 \implies 2(4) + b = 9 \implies \mathbf{b = 1}$. Maka $a + b = 4 + 1 = \mathbf{5}$!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: LIMIT TRIGONOMETRI HOTS (AKAR COSINUS & KOMPOSISI) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Trigonometri Irasional</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌊 Limit HOTS: Bentuk $1 - \sqrt{\cos ax}$ &amp; Perkalian Sekawan Trigonometri
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Grafik Konvergensi Limit Trigonometri (sin x)/x → 1 Saat x → 0</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="30" y1="125" x2="410" y2="125" stroke="#334155" stroke-width="1.8"/>
+    <line x1="220" y1="155" x2="220" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 50 125 Q 110 155 150 90 Q 185 35 220 35 Q 255 35 290 90 Q 330 155 390 125" fill="none" stroke="#059669" stroke-width="3"/>
+    <circle cx="220" cy="35" r="5.5" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="235" y="32" font-size="12" font-weight="800" fill="#be123c">(0, 1)</text>
+    <text x="335" y="55" font-size="11" font-weight="bold" fill="#047857">y = (sin x) / x → 1</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">1 - √(cos ax)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Bagaimana jika cosinus berada di bawah tanda akar, seperti $\lim_{x \to 0} \frac{1 - \sqrt{\cos 2x}}{x^2}$? Gabungkan <strong>perkalian sekawan akar</strong> dengan <strong>rumus sudut rangkap cosinus</strong>!
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <!-- Contoh 1 -->
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                                <span class="font-bold text-blue-950 block">Kasus 1: $\lim_{x \to 0} \frac{1 - \sqrt{\cos 2x}}{x^2}$</span>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    1. Kalikan sekawan $\frac{1 + \sqrt{\cos 2x}}{1 + \sqrt{\cos 2x}}$:
+                                    $$\lim_{x \to 0} \frac{1 - \cos 2x}{x^2 (1 + \sqrt{\cos 2x})}$$
+                                    2. Ubah $1 - \cos 2x = 2\sin^2 x$, dan saat $x \to 0$, faktor $(1 + \sqrt{\cos 0}) = 1 + 1 = 2$:
+                                    $$= \lim_{x \to 0} \frac{2\sin^2 x}{x^2} \cdot \frac{1}{1 + 1} = 2(1)^2 \cdot \frac{1}{2} = \mathbf{1}$$
+                                </p>
+                            </div>
+
+                            <!-- Contoh 2 -->
+                            <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2">
+                                <span class="font-bold text-emerald-950 block">Kasus 2: Rumus Umum $\lim_{x \to 0} \frac{1 - \cos^n(ax)}{x^2}$</span>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    Karena $1 - u^n = (1 - u)(1 + u + u^2 + \dots + u^{n-1})$, dan saat $x \to 0$ nilai $u = \cos(ax) \to 1$ (sehingga faktor kedua bernilai $n$), maka untuk sembarang pangkat $n$ (bulat maupun pecahan!):
+                                    $$\lim_{x \to 0} \frac{1 - (\cos ax)^n}{x^2} = n \cdot \left(\frac{1}{2}a^2\right) = \mathbf{\frac{1}{2} n a^2}$$
+                                    <em>Cek Kasus 1 ($a = 2, n = \frac{1}{2}$):</em> $\frac{1}{2} \cdot (\frac{1}{2}) \cdot 2^2 = \mathbf{1}$!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: LIMIT TAK HINGGA FUNGSI TRIGONOMETRI & BILANGAN EULER -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Substitusi $y = 1/x$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 Limit Trigonometri di Ketakhinggaan ($x \to \infty$, Misalkan $y = \frac{1}{x}$)
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perilaku Limit di Ketakhinggaan Menuju Garis Asimtot Datar y = L</span>
+                            <svg viewBox="0 0 440 175" class="w-full max-w-md h-auto">
+    <line x1="30" y1="135" x2="410" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="75" y1="160" x2="75" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <!-- Horizontal asymptote y = L at y = 75 -->
+    <line x1="35" y1="75" x2="405" y2="75" stroke="#e11d48" stroke-width="2" stroke-dasharray="6 4"/>
+    <!-- Curve approaching y = L as x -> inf -->
+    <path d="M 95 20 Q 145 70 400 73" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <text x="65" y="79" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">y = L</text>
+    <text x="310" y="62" font-size="11" font-weight="bold" fill="#1d4ed8">x → ∞ : f(x) → L (Asimtot Datar)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">x → ∞ ⟺ y = 1/x → 0</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Apabila soal limit $x \to \infty$ memuat fungsi trigonometri dengan argumen pecahan seperti $\sin\left(\frac{a}{x}\right)$, $\tan\left(\frac{b}{x}\right)$, atau $1 - \cos\left(\frac{a}{x}\right)$, lakukan transformasi kebalikan:
+                        </p>
+
+                        <div class="p-4 bg-purple-50 rounded-xl border border-purple-200 text-center font-mono text-xs sm:text-sm font-bold text-purple-950">
+                            $$\text{Misalkan } y = \frac{1}{x} \implies x = \frac{1}{y}. \quad \text{Saat } x \to \infty, \text{ maka } y \to 0^+$$
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Contoh 1: $\lim_{x \to \infty} x \cdot \sin\left(\frac{3}{x}\right)$</span>
+                                <p class="text-slate-700 text-xs">
+                                    Ganti $x = \frac{1}{y}$ dan $\frac{1}{x} = y$ dengan $y \to 0$:
+                                    $$\lim_{y \to 0} \frac{1}{y} \cdot \sin(3y) = \lim_{y \to 0} \frac{\sin 3y}{y} = \mathbf{3}$$
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Contoh 2: $\lim_{x \to \infty} x^2 \left[1 - \cos\left(\frac{4}{x}\right)\right]$</span>
+                                <p class="text-slate-700 text-xs">
+                                    Ganti $x^2 = \frac{1}{y^2}$ dan $\frac{1}{x} = y$ dengan $y \to 0$:
+                                    $$\lim_{y \to 0} \frac{1 - \cos 4y}{y^2} = \frac{1}{2}(4)^2 = \mathbf{8}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: PEMODELAN KONTEKSTUAL (KECEPATAN SESAAT & KONDISI TUNAK) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Pemodelan Sains &amp; Fisika</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🚀 Pemodelan Laju Perubahan Sesaat &amp; Populasi Jangka Panjang
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perilaku Limit di Ketakhinggaan Menuju Garis Asimtot Datar y = L</span>
+                            <svg viewBox="0 0 440 175" class="w-full max-w-md h-auto">
+    <line x1="30" y1="135" x2="410" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="75" y1="160" x2="75" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <!-- Horizontal asymptote y = L at y = 75 -->
+    <line x1="35" y1="75" x2="405" y2="75" stroke="#e11d48" stroke-width="2" stroke-dasharray="6 4"/>
+    <!-- Curve approaching y = L as x -> inf -->
+    <path d="M 95 20 Q 145 70 400 73" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <text x="65" y="79" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">y = L</text>
+    <text x="310" y="62" font-size="11" font-weight="bold" fill="#1d4ed8">x → ∞ : f(x) → L (Asimtot Datar)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Jembatan ke Turunan</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs sm:text-sm">
+                            <!-- Model 1: Kecepatan Sesaat -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-blue-800 block">1. Laju Perubahan / Kecepatan Sesaat ($h \to 0$)</span>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    Jika posisi benda saat waktu $t$ adalah $s(t) = 5t^2$, maka kecepatan sesaat pada detik $t = 3$ didefinisikan sebagai limit kecepatan rata-rata ketika selang waktu $h \to 0$:
+                                    $$v(3) = \lim_{h \to 0} \frac{s(3 + h) - s(3)}{h} = \lim_{h \to 0} \frac{5(3 + h)^2 - 5(3)^2}{h}$$
+                                    $$= \lim_{h \to 0} \frac{5(9 + 6h + h^2) - 45}{h} = \lim_{h \to 0} \frac{30h + 5h^2}{h} = \mathbf{30\text{ m/s}}$$
+                                    <em>(Inilah definisi formal dari Turunan Fungsi di Bab 3!).</em>
+                                </p>
+                            </div>
+
+                            <!-- Model 2: Kondisi Tunak Populasi / Konsentrasi Obat -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-emerald-800 block">2. Kapasitas Dukung Populasi ($t \to \infty$)</span>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    Populasi ikan di sebuah danau konservasi setelah $t$ bulan dimodelkan oleh fungsi rasional:
+                                    $$P(t) = \frac{1200t + 500}{2t + 5}$$
+                                    Berapakah jumlah populasi maksimum yang stabil dalam jangka waktu sangat panjang ($t \to \infty$)?
+                                    $$P_{\text{stabil}} = \lim_{t \to \infty} \frac{1200t + 500}{2t + 5} = \frac{1200}{2} = \mathbf{600\text{ ekor}}$$
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF HOTS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi HOTS</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Evaluasi Problem Solving HOTS Limit Fungsi
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Visualisasi Limit Bentuk Tak Tentu 0/0 sebagai Titik Berlubang (a, L)</span>
+                            <svg viewBox="0 0 420 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="380" y2="140" stroke="#334155" stroke-width="2"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="2"/>
+    <line x1="85" y1="130" x2="335" y2="30" stroke="#2563eb" stroke-width="3"/>
+    <line x1="210" y1="80" x2="210" y2="140" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <line x1="65" y1="80" x2="210" y2="80" stroke="#94a3b8" stroke-dasharray="4 3"/>
+    <!-- Open circle hole at (a, L) = (210, 80) -->
+    <circle cx="210" cy="80" r="6" fill="#ffffff" stroke="#e11d48" stroke-width="3"/>
+    <text x="210" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x → a</text>
+    <text x="50" y="84" text-anchor="end" font-size="12" font-weight="bold" fill="#be123c">L</text>
+    <text x="285" y="75" font-size="11" font-weight="bold" fill="#1d4ed8">Bentuk 0/0: Lubang di (a, L)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Soal HOTS</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji kemampuan analisis tingkat tinggi Anda pada 5 soal HOTS Limit Fungsi berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Karena penyebut bernilai 0 saat x = 1 dan hasil limitnya 5, maka x = 1 adalah akar dari x² + ax + b = 0. Faktorkan pembilang menjadi (x - 1)(x - r) / (x - 1) = x - r. Saat x → 1, diperoleh 1 - r = 5 ⇒ r = -4. Maka x² + ax + b = (x - 1)(x + 4) = x² + 3x - 4, sehingga a = 3, b = -4, dan a - b = 3 - (-4) = 7.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Menentukan Koefisien Polinomial dari Limit</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika diketahui $\lim_{x \to 1} \frac{x^2 + ax + b}{x - 1} = 5$, maka nilai dari $a - b$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $5$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $7$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $9$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Gunakan rumus lim_{x→0} [1 - (cos ax)^n] / x² = ½ n a² dengan a = 4 dan n = ½: pembilang menghasilkan ½ (½)(4²) = 4, sedangkan penyebut x · tan 2x menghasilkan 2x². Maka nilai limitnya adalah 4 / 2 = 2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Limit Akar Cosinus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to 0} \frac{1 - \sqrt{\cos 4x}}{x \cdot \tan 2x}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $1$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $4$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $\frac{1}{2}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Misalkan y = 1/x ⇒ y → 0. Bentuk limit menjadi lim_{y→0} [1 - cos(6y)] / [y · tan(3y)] = lim_{y→0} [2 sin²(3y)] / [y · tan(3y)] = 2 · 3 · (3/3) = 6.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Limit Trigonometri di Ketakhinggaan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai dari $\lim_{x \to \infty} \frac{x \left(1 - \cos\dfrac{6}{x}\right)}{\tan\dfrac{3}{x}}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $4$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $6$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Tulis 2x - 1 = √(4x² - 4x + 1). Agar limit selisih akar √(ax² + bx + 5) - √(4x² - 4x + 1) bernilai hingga (yaitu 3), koefisien x² harus sama: a = 4. Selanjutnya gunakan rumus (b - q)/(2√a) = 3 ⇒ (b - (-4)) / (2√4) = 3 ⇒ (b + 4) / 4 = 3 ⇒ b + 4 = 12 ⇒ b = 8. Maka a + b = 4 + 8 = 12.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Menentukan Parameter dari Limit Tak Hingga</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika diketahui $\lim_{x \to \infty} \left(\sqrt{ax^2 + bx + 5} - 2x + 1\right) = 3$, maka nilai dari $a + b$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $12$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $10$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $8$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $16$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Substitusikan f(x) = 3x² - 2x: lim_{h→0} [3(2+h)² - 2(2+h) - (3(4) - 4)] / h = lim_{h→0} [12 + 12h + 3h² - 4 - 2h - 8] / h = lim_{h→0} (10h + 3h²) / h = 10.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Limit Kuosien Selisih (Laju Perubahan Sesaat)</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui fungsi $f(x) = 3x^2 - 2x$. Nilai dari $\lim_{h \to 0} \frac{f(2 + h) - f(2)}{h}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $6$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $8$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $10$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $12$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Chapter 2: Limits and Derivatives (Problems Plus).</p>
+                    <p><strong>Purcell, Edwin J. &amp; Varberg, Dale.</strong> (2007). <em>Calculus</em> (9th ed.). Prentice Hall.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & HUB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="kontinuitas-fungsi-dan-teorema-nilai-antara.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Kontinuitas &amp; Teorema Nilai Antara
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6</span>
+                    <a href="/matematika/kelas-12/turunan-fungsi/definisi-limit-turunan-dan-aturan-dasar-diferensial.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut Bab 3: Turunan Fungsi &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

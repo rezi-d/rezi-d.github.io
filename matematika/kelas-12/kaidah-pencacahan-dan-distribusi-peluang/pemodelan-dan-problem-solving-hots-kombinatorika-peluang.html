@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Solving HOTS Kombinatorika & Distribusi Peluang - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari teknik kombinatorika HOTS: Stars and Bars (De Moivre), lintasan terpendek pada grid kota, teknik sela (gap method), derangement, dan peluang geometris.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="kaidah-pencacahan-dan-distribusi-peluang">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 6 · Kaidah Pencacahan & Distribusi Peluang</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 mb-2">
+                                🏆 Sub-Materi 6 dari 6 · Problem Solving & HOTS
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Problem Solving HOTS Kombinatorika & Distribusi Peluang
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Metode Bintang dan Sekat (Stars and Bars) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Kombinasi dengan Pengulangan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Metode Bintang & Sekat (Stars and Bars): $x_1 + x_2 + \dots + x_k = n$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Dalil De Moivre</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Berapa banyak cara membagikan $n$ buah apel yang <strong>identik</strong> kepada $k$ orang anak yang berbeda (atau banyaknya solusi bilangan bulat dari persamaan $x_1 + x_2 + \dots + x_k = n$)? Bayangkan $n$ buah apel sebagai <strong>$n$ bola</strong> yang dipisahkan oleh <strong>$(k - 1)$ buah tongkat penyekat</strong>:
+                        </p>
+
+                        <!-- SVG Stars and Bars -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Ilustrasi Membagi $n = 6$ Bola Identik ke $k = 3$ Kotak Berbeda dengan $k - 1 = 2$ Sekat Merah ($x_1 + x_2 + x_3 = 6$)
+                            </p>
+                            <svg viewBox="0 0 560 135" class="w-full max-w-xl mx-auto h-auto">
+                                <rect x="25" y="15" width="510" height="80" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" />
+                                <!-- Group 1: 2 balls -->
+                                <circle cx="75" cy="55" r="16" fill="#3b82f6" />
+                                <circle cx="125" cy="55" r="16" fill="#3b82f6" />
+                                <!-- Bar 1 -->
+                                <rect x="172" y="25" width="8" height="60" rx="4" fill="#e11d48" />
+                                <!-- Group 2: 3 balls -->
+                                <circle cx="225" cy="55" r="16" fill="#3b82f6" />
+                                <circle cx="275" cy="55" r="16" fill="#3b82f6" />
+                                <circle cx="325" cy="55" r="16" fill="#3b82f6" />
+                                <!-- Bar 2 -->
+                                <rect x="372" y="25" width="8" height="60" rx="4" fill="#e11d48" />
+                                <!-- Group 3: 1 ball -->
+                                <circle cx="425" cy="55" r="16" fill="#3b82f6" />
+
+                                <text x="100" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">x₁ = 2</text>
+                                <text x="176" y="118" text-anchor="middle" font-size="12" font-weight="800" fill="#be123c">+</text>
+                                <text x="275" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">x₂ = 3</text>
+                                <text x="376" y="118" text-anchor="middle" font-size="12" font-weight="800" fill="#be123c">+</text>
+                                <text x="425" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">x₃ = 1</text>
+                                <text x="500" y="118" text-anchor="middle" font-size="12" font-weight="800" fill="#047857">= 6</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Boleh Kosong (Bilangan Bulat Non-Negatif $x_i \ge 0$)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center">
+                                    $$\text{Banyak Solusi} = \binom{n + k - 1}{k - 1}$$
+                                </div>
+                                <p class="text-xs text-slate-600">Contoh $x_1 + x_2 + x_3 = 6$ dengan $x_i \ge 0$: $\binom{6+3-1}{3-1} = \binom{8}{2} = 28$ solusi.</p>
+                            </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">2. Wajib Minimal Satu (Bilangan Asli $x_i \ge 1$)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center">
+                                    $$\text{Banyak Solusi} = \binom{n - 1}{k - 1}$$
+                                </div>
+                                <p class="text-xs text-slate-600">Contoh $x_1 + x_2 + x_3 = 6$ dengan $x_i \ge 1$: $\binom{6-1}{3-1} = \binom{5}{2} = 10$ solusi.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Lintasan Terpendek pada Kisi Grid (Shortest Grid Path) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Kombinatorika Lintasan Grid</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Banyak Rute Terpendek pada Peta Kisi Kota (Grid Path)
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Permutasi Langkah K & A</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Untuk berjalan paling pendek dari titik $A(0, 0)$ ke titik $B(m, n)$ pada jaringan jalan berbentuk persegi panjang (hanya boleh melangkah ke <strong>Kanan (K)</strong> dan ke <strong>Atas (A)</strong>), kita pasti harus melakukan tepat $m$ langkah Kanan dan $n$ langkah Atas. Ini identik dengan menyusun kata dari $m$ huruf K dan $n$ huruf A!
+                        </p>
+
+                        <!-- SVG Grid Path A -> P -> B -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Rute Terpendek dari $A(0,0)$ ke $B(5,3)$ yang Wajib Melewati Pos $P(3,2)$
+                            </p>
+                            <svg viewBox="0 0 540 195" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Grid 5x3 from (80, 35) to (380, 155), step = 60x40 -->
+                                <g stroke="#cbd5e1" stroke-width="1.8">
+                                    <line x1="80" y1="35" x2="380" y2="35" />
+                                    <line x1="80" y1="75" x2="380" y2="75" />
+                                    <line x1="80" y1="115" x2="380" y2="115" />
+                                    <line x1="80" y1="155" x2="380" y2="155" />
+                                    <line x1="80" y1="35" x2="80" y2="155" />
+                                    <line x1="140" y1="35" x2="140" y2="155" />
+                                    <line x1="200" y1="35" x2="200" y2="155" />
+                                    <line x1="260" y1="35" x2="260" y2="155" />
+                                    <line x1="320" y1="35" x2="320" y2="155" />
+                                    <line x1="380" y1="35" x2="380" y2="155" />
+                                </g>
+
+                                <!-- Sub-grid 1: A(0,0) to P(3,2) shaded -->
+                                <rect x="80" y="75" width="180" height="80" fill="#bfdbfe" fill-opacity="0.35" />
+                                <!-- Sub-grid 2: P(3,2) to B(5,3) shaded -->
+                                <rect x="260" y="35" width="120" height="40" fill="#a7f3d0" fill-opacity="0.45" />
+
+                                <!-- Sample Highlighted Path A -> P -> B -->
+                                <polyline points="80,155 140,155 200,155 200,115 260,115 260,75 320,75 320,35 380,35" fill="none" stroke="#e11d48" stroke-width="3.5" />
+
+                                <!-- Nodes A, P, B -->
+                                <circle cx="80" cy="155" r="6" fill="#1d4ed8" />
+                                <circle cx="260" cy="75" r="6" fill="#e11d48" />
+                                <circle cx="380" cy="35" r="6" fill="#059669" />
+
+                                <text x="65" y="175" font-size="12" font-weight="800" fill="#1e3a8a">A(0,0)</text>
+                                <text x="265" y="93" font-size="12" font-weight="800" fill="#be123c">P(3,2)</text>
+                                <text x="392" y="38" font-size="12" font-weight="800" fill="#065f46">B(5,3)</text>
+
+                                <!-- Legend on Right -->
+                                <text x="455" y="75" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">A → P (3K, 2A):</text>
+                                <text x="455" y="92" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">C(5,2) = 10 rute</text>
+                                <text x="455" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#047857">P → B (2K, 1A):</text>
+                                <text x="455" y="139" text-anchor="middle" font-size="12" font-weight="800" fill="#065f46">C(3,1) = 3 rute</text>
+                                <text x="455" y="168" text-anchor="middle" font-size="12" font-weight="800" fill="#be123c">Total = 10 × 3 = 30</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 text-center space-y-2">
+                            <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs">
+                                $$\text{Banyak Rute Terpendek }(0,0) \to (m,n) = \frac{(m + n)!}{m!\,n!} = \binom{m + n}{m}$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Teknik Sela (Gap Method) & Derangement -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Objek Tidak Boleh Berdampingan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Metode Sela (Gap Method) & Permutasi Tanpa Titik Tetap (Derangement)
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Jurus Sela Kursi</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika terdapat<strong> $3$ objek atau lebih yang TIDAK BOLEH saling berdampingan</strong> (misalnya $4$ siswa putra dan $3$ siswa putri duduk berjajar di mana tidak boleh ada dua putri duduk bersebelahan), jangan gunakan komplemen! Gunakan <strong>Metode Sela (Gap Method)</strong>: dudukkan $4$ putra terlebih dahulu ($4!$), lalu sisipkan $3$ putri ke dalam $5$ celah kosong di antaranya ($P_3^5$)!
+                        </p>
+
+                        <!-- SVG Gap Method -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Ilustrasi Metode Sela: $4$ Putra Menciptakan $4 + 1 = 5$ Celah Sela (✓) untuk Tempat Duduk Putri
+                            </p>
+                            <svg viewBox="0 0 560 115" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- 5 Gaps (Checkboxes) and 4 Boys (Circles) -->
+                                <rect x="35" y="38" width="38" height="38" rx="8" fill="#fef2f2" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2" />
+                                <text x="54" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#be123c">S₁</text>
+
+                                <circle cx="110" cy="57" r="20" fill="#2563eb" />
+                                <text x="110" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">L₁</text>
+
+                                <rect x="147" y="38" width="38" height="38" rx="8" fill="#fef2f2" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2" />
+                                <text x="166" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#be123c">S₂</text>
+
+                                <circle cx="222" cy="57" r="20" fill="#2563eb" />
+                                <text x="222" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">L₂</text>
+
+                                <rect x="259" y="38" width="38" height="38" rx="8" fill="#fef2f2" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2" />
+                                <text x="278" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#be123c">S₃</text>
+
+                                <circle cx="334" cy="57" r="20" fill="#2563eb" />
+                                <text x="334" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">L₃</text>
+
+                                <rect x="371" y="38" width="38" height="38" rx="8" fill="#fef2f2" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2" />
+                                <text x="390" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#be123c">S₄</text>
+
+                                <circle cx="446" cy="57" r="20" fill="#2563eb" />
+                                <text x="446" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">L₄</text>
+
+                                <rect x="483" y="38" width="38" height="38" rx="8" fill="#fef2f2" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2" />
+                                <text x="502" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#be123c">S₅</text>
+
+                                <text x="280" y="102" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">Banyak Susunan = 4! (Putra) × P(5, 3) (Putri di 5 Sela) = 24 × 60 = 1.440</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-2">
+                            <h3 class="font-bold text-purple-950 text-sm">Permutasi Kacau / Tanpa Titik Tetap (Derangement $D_n = !n$)</h3>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Banyak cara memasukkan $n$ surat ke dalam $n$ amplop bernama sehingga <strong>TIDAK ADA satu pun surat yang masuk ke amplop yang benar</strong>:
+                            </p>
+                            <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs text-center">
+                                $$D_1 = 0, \quad D_2 = 1, \quad D_3 = 2, \quad D_4 = 9, \quad D_5 = 44 \quad \left(D_n = n!\sum_{k=0}^n \frac{(-1)^k}{k!}\right)$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Peluang Geometris (Geometric Probability) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 4 · Peluang Kontinu pada Bidang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Peluang Geometris & Masalah Pertemuan Dua Orang
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">Rasio Luas Daerah</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika sebuah titik dipilih secara acak merata di dalam suatu daerah bidang datar $S$ (atau dua orang datang secara acak pada rentang waktu $[0, T]$ dan saling menunggu paling lama $w$ menit, yakni $|x - y| \le w$), maka peluangnya adalah perbandingan luas:
+                        </p>
+
+                        <!-- SVG Peluang Geometris Pertemuan |x - y| <= w -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Visualisasi Masalah Pertemuan $|x - y| \le 15$ Menit dalam Rentang $60$ Menit
+                            </p>
+                            <svg viewBox="0 0 540 190" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Square 120x120 from (120, 25) to (240, 145) -->
+                                <rect x="120" y="25" width="120" height="120" fill="#fee2e2" stroke="#334155" stroke-width="2" />
+                                <!-- Shaded Diagonal Band |x - y| <= 15 (1/4 of 120 = 30px) -->
+                                <polygon points="120,145 150,145 240,55 240,25 210,25 120,115" fill="#6ee7b7" fill-opacity="0.8" stroke="#059669" stroke-width="1.8" />
+
+                                <text x="120" y="162" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">0</text>
+                                <text x="150" y="162" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">15</text>
+                                <text x="240" y="162" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">60</text>
+                                <text x="105" y="118" text-anchor="end" font-size="11" font-weight="bold" fill="#1e293b">15</text>
+                                <text x="105" y="30" text-anchor="end" font-size="11" font-weight="bold" fill="#1e293b">60</text>
+
+                                <!-- Formula Explanation on Right -->
+                                <rect x="280" y="25" width="235" height="120" rx="10" fill="#ffffff" stroke="#cbd5e1" />
+                                <text x="397" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">Luas Persegi Total = 60² = 3600</text>
+                                <text x="397" y="75" text-anchor="middle" font-size="11" font-weight="bold" fill="#be123c">2 Segitiga Gagal = (60 - 15)² = 45²</text>
+                                <text x="397" y="102" text-anchor="middle" font-size="12" font-weight="800" fill="#047857">P(Bertemu) = 1 - (45/60)²</text>
+                                <text x="397" y="124" text-anchor="middle" font-size="12" font-weight="800" fill="#065f46">= 1 - 9/16 = 7/16</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Problem Solving HOTS Kombinatorika & Peluang
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal HOTS</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji ketajaman problem solving HOTS kombinatorika dan peluang Anda pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Stars and Bars (Solusi Bilangan Asli)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Banyaknya pasangan bilangan bulat positif $(x, y, z)$ dengan $x \ge 1, y \ge 1, z \ge 1$ yang memenuhi persamaan $x + y + z = 10$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $28$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $36$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $45$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $66$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 2 (dengan Diagram SVG) -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Lintasan Terpendek Grid Kota</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Perhatikan jaringan jalan kota berukuran $4 \times 3$ blok pada gambar di bawah! Banyaknya rute terpendek dari titik $A(0,0)$ menuju titik $B(4,3)$ jika hanya boleh bergerak ke Kanan dan ke Atas adalah ....
+                                </p>
+                                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                                    <svg viewBox="0 0 320 135" class="w-full max-w-xs mx-auto h-auto">
+                                        <g stroke="#94a3b8" stroke-width="1.8">
+                                            <line x1="60" y1="20" x2="260" y2="20" />
+                                            <line x1="60" y1="53" x2="260" y2="53" />
+                                            <line x1="60" y1="86" x2="260" y2="86" />
+                                            <line x1="60" y1="120" x2="260" y2="120" />
+                                            <line x1="60" y1="20" x2="60" y2="120" />
+                                            <line x1="110" y1="20" x2="110" y2="120" />
+                                            <line x1="160" y1="20" x2="160" y2="120" />
+                                            <line x1="210" y1="20" x2="210" y2="120" />
+                                            <line x1="260" y1="20" x2="260" y2="120" />
+                                        </g>
+                                        <circle cx="60" cy="120" r="5" fill="#2563eb" />
+                                        <circle cx="260" cy="20" r="5" fill="#059669" />
+                                        <text x="42" y="125" font-size="11" font-weight="bold" fill="#1d4ed8">A</text>
+                                        <text x="272" y="24" font-size="11" font-weight="bold" fill="#047857">B</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $12$ rute
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $24$ rute
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $35$ rute
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $70$ rute
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Metode Sela (Tidak Boleh Berdampingan)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Empat siswa putra dan tiga siswa putri duduk berjajar pada satu baris kursi. Jika <strong>tidak boleh ada dua siswa putri yang duduk berdampingan</strong>, maka peluang susunan tersebut terjadi dari seluruh kemungkinan duduk bebas adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{2}{7}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{1}{7}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{3}{7}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{4}{7}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Derangement (Amplop Salah Alamat)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Empat pucuk surat berbeda dimasukkan secara acak ke dalam empat amplop yang telah tertulis alamat masing-masing. Peluang bahwa <strong>tidak ada satu pun surat yang masuk ke amplop yang benar</strong> adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{1}{24}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{1}{4}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{1}{3}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{3}{8}$ (yaitu $\frac{9}{24}$)
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Peluang Binomial "Paling Sedikit Satu"</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Sebuah dadu bersisi enam dilempar sebanyak $4$ kali. Peluang munculnya mata dadu $6$ <strong>paling sedikit satu kali</strong> adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{625}{1296}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{500}{1296}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{671}{1296}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{2}{3}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/distribusi-peluang-kontinu-dan-distribusi-normal-baku.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Distribusi Normal (Skor-Z)</span>
+                    </a>
+                    <a href="/matematika/kelas-12/pengayaan-olimpiade/kalkulus-olimpiade-dan-ketaksamaan-jensen-karamata.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut ke Bab 7: Pengayaan Olimpiade Sains (OSN)</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Sempurna!</strong> Penguasaan teknik kombinatorika HOTS Anda sangat tajam.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

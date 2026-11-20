@@ -559,6 +559,106 @@ const kurikulum = {
                 ]
             }
         ]
+    },
+    "mtk-12": {
+        label: "Kelas XII",
+        mapelNama: "Matematika",
+        mapel: "matematika",
+        icon: "📐",
+        pathPrefix: "/matematika/kelas-12",
+        bab: [
+            {
+                slug: "dimensi-tiga",
+                title: "Geometri Ruang (Dimensi Tiga)",
+                deskripsi: "Analisis komprehensif geometri Euklides berdimensi tiga: aksioma kedudukan titik, garis, dan bidang pada bangun ruang (kubus, balok, limas, prisma), perhitungan jarak titik ke titik dan titik ke garis (proyeksi ortogonal, Teorema Pythagoras 3D & kesamaan luas segitiga), jarak titik ke bidang dan jarak dua garis bersilangan, sudut antara dua garis dan garis terhadap bidang, sudut tumpuan (dihedral) antara dua bidang, serta problem solving HOTS & pemodelan arsitektur ruang.",
+                subbab: [
+                    { file: "kedudukan-titik-garis-dan-bidang-dimensi-tiga.html", title: "Kedudukan Titik, Garis & Bidang dalam Ruang 3D" },
+                    { file: "jarak-titik-ke-titik-dan-titik-ke-garis.html", title: "Jarak Titik ke Titik & Jarak Titik ke Garis" },
+                    { file: "jarak-titik-ke-bidang-dan-garis-bersilangan.html", title: "Jarak Titik ke Bidang & Dua Garis Bersilangan" },
+                    { file: "sudut-antara-dua-garis-dan-garis-dengan-bidang.html", title: "Sudut Antara Dua Garis & Garis terhadap Bidang" },
+                    { file: "sudut-antara-dua-bidang-dihedral.html", title: "Sudut Antara Dua Bidang (Sudut Tumpuan / Dihedral)" },
+                    { file: "pemodelan-dan-problem-solving-hots-dimensi-tiga.html", title: "Problem Solving HOTS & Pemodelan Geometri Ruang" }
+                ]
+            },
+            {
+                slug: "limit-fungsi",
+                title: "Limit Fungsi Aljabar, Trigonometri & Ketakhinggaan",
+                deskripsi: "Fondasi kalkulus diferensial dan integral: konsep intuitif & formal limit fungsi di satu titik, syarat eksistensi limit kiri dan limit kanan, teorema sifat-sifat limit, teknik penyelesaian bentuk tak tentu 0/0 pada limit aljabar (faktorisasi, skema Horner, & rasionalisasi akar sekawan), limit di ketakhinggaan (polinomial, rasional, irasional √(ax²+bx+c) - √(ax²+px+q) & analisis asimtot), limit fungsi trigonometri dasar & sudut rangkap (Teorema Apit), kontinuitas fungsi & Teorema Nilai Antara, serta problem solving HOTS.",
+                subbab: [
+                    { file: "konsep-dasar-limit-kiri-kanan-dan-sifat-limit.html", title: "Konsep Dasar Limit, Limit Kiri-Kanan & Sifat-Sifat Limit" },
+                    { file: "limit-fungsi-aljabar-faktorisasi-dan-akar-sekawan.html", title: "Limit Fungsi Aljabar: Faktorisasi & Rasionalisasi Akar" },
+                    { file: "limit-di-ketakhinggaan-dan-asimtot-kurva.html", title: "Limit di Ketakhinggaan & Analisis Asimtot Kurva" },
+                    { file: "limit-fungsi-trigonometri-dasar-dan-sudut-rangkap.html", title: "Limit Fungsi Trigonometri Dasar & Rumus Sudut Rangkap" },
+                    { file: "kontinuitas-fungsi-dan-teorema-nilai-antara.html", title: "Kontinuitas Fungsi, Diskontinuitas & Teorema Nilai Antara" },
+                    { file: "pemodelan-dan-problem-solving-hots-limit-fungsi.html", title: "Problem Solving HOTS & Pemodelan Limit Fungsi" }
+                ]
+            },
+            {
+                slug: "turunan-fungsi",
+                title: "Turunan Fungsi (Diferensial) & Aplikasinya",
+                deskripsi: "Kalkulus diferensial lengkap dari fondasi hingga aplikasi tingkat lanjut: definisi limit turunan (kuosien selisih), syarat keterdiferensialan vs kontinuitas, aturan pangkat, hasil kali & hasil bagi (u·v dan u/v), Aturan Rantai (Chain Rule), turunan fungsi implisit, turunan tingkat tinggi, turunan 6 fungsi trigonometri beserta Aturan L'Hôpital untuk limit 0/0, persamaan garis singgung & garis normal kurva, analisis fungsi naik/turun, titik stasioner, kecekungan & titik belok, serta problem solving HOTS optimasi maksimum-minimum dan laju berkaitan (related rates).",
+                subbab: [
+                    { file: "definisi-limit-turunan-dan-aturan-dasar-diferensial.html", title: "Definisi Limit Turunan, Rumus Dasar & Operasi Aljabar" },
+                    { file: "aturan-rantai-turunan-implisit-dan-tingkat-tinggi.html", title: "Aturan Rantai (Chain Rule), Turunan Implisit & Tingkat Tinggi" },
+                    { file: "turunan-fungsi-trigonometri-dan-dalil-lhopital.html", title: "Turunan Fungsi Trigonometri & Aturan L'Hôpital" },
+                    { file: "persamaan-garis-singgung-garis-normal-dan-kinematika.html", title: "Persamaan Garis Singgung, Garis Normal & Kinematika" },
+                    { file: "fungsi-naik-turun-stasioner-dan-titik-belok.html", title: "Fungsi Naik-Turun, Titik Stasioner, Kecekungan & Titik Belok" },
+                    { file: "optimasi-maksimum-minimum-dan-laju-berkaitan-hots.html", title: "Problem Solving HOTS: Optimasi Maksimum-Minimum & Laju Berkaitan" }
+                ]
+            },
+            {
+                slug: "integral",
+                title: "Integral (Antiturunan) & Aplikasi Luas-Volume",
+                deskripsi: "Kalkulus integral lengkap dari antiturunan hingga geometri benda putar: konsep dasar integral tak tentu (antiturunan), peran konstanta integrasi C & masalah nilai awal, rumus dasar integrasi aljabar & trigonometri, teknik integrasi substitusi aljabar & trigonometri, teknik integrasi parsial ( ∫ u dv = uv - ∫ v du & metode tabel Tanzalin), jumlah Riemann, Teorema Dasar Kalkulus I & II pada integral tentu beserta sifat simetri fungsi ganjil-genap, aplikasi luas daerah di bawah & di antara dua kurva (termasuk rumus cepat D√D / 6a²), serta volume benda putar metode cakram, cincin & kulit tabung.",
+                subbab: [
+                    { file: "konsep-integral-tak-tentu-dan-rumus-dasar.html", title: "Konsep Integral Tak Tentu, Rumus Dasar & Masalah Nilai Awal" },
+                    { file: "teknik-integrasi-substitusi-aljabar-dan-trigonometri.html", title: "Teknik Integrasi Substitusi Aljabar & Trigonometri" },
+                    { file: "teknik-integrasi-parsial-dan-metode-tanzalin.html", title: "Teknik Integrasi Parsial & Metode Tabel Tanzalin" },
+                    { file: "integral-tentu-teorema-dasar-kalkulus-dan-sifat-simetri.html", title: "Integral Tentu, Teorema Dasar Kalkulus & Sifat Simetri" },
+                    { file: "aplikasi-integral-luas-daerah-di-antara-dua-kurva.html", title: "Aplikasi Integral: Luas Daerah di Bawah & di Antara Dua Kurva" },
+                    { file: "volume-benda-putar-dan-problem-solving-hots-integral.html", title: "Volume Benda Putar & Problem Solving HOTS Integral" }
+                ]
+            },
+            {
+                slug: "irisan-kerucut",
+                title: "Geometri Analitik: Irisan Kerucut (Conic Sections)",
+                deskripsi: "Geometri analitik bidang tingkat lanjut: persamaan standar & bentuk umum lingkaran, kuasa titik & kedudukan garis terhadap lingkaran, rumus bagi adil persamaan garis singgung lingkaran & garis kutub (polar), definisi lokus dan eksentrisitas irisan kerucut (e = 0, e < 1, e = 1, e > 1), parabola vertikal & horizontal (puncak, fokus, direktriks, latus rectum, & garis singgung), elips (sumbu mayor/minor, fokus c² = a² - b², & garis singgung), hiperbola (fokus c² = a² + b², asimtot, & garis singgung), serta aplikasi sifat pantul optik dan orbit planet Kepler.",
+                subbab: [
+                    { file: "persamaan-lingkaran-analitik-dan-kedudukan-titik-garis.html", title: "Persamaan Lingkaran Analitik, Kuasa Titik & Kedudukan Garis" },
+                    { file: "persamaan-garis-singgung-lingkaran-dan-berkas-lingkaran.html", title: "Persamaan Garis Singgung Lingkaran (Bagi Adil) & Garis Polar" },
+                    { file: "irisan-kerucut-parabola-fokus-direktriks-dan-garis-singgung.html", title: "Parabola: Fokus, Direktriks, Latus Rectum & Garis Singgung" },
+                    { file: "irisan-kerucut-elips-eksentrisitas-dan-garis-singgung.html", title: "Elips: Sumbu Mayor-Minor, Fokus, Eksentrisitas & Garis Singgung" },
+                    { file: "irisan-kerucut-hiperbola-asimtot-dan-garis-singgung.html", title: "Hiperbola: Fokus, Persamaan Asimtot & Garis Singgung" },
+                    { file: "pemodelan-optik-orbit-dan-problem-solving-hots-irisan-kerucut.html", title: "Pemodelan Optik, Orbit Kepler & Problem Solving HOTS Irisan Kerucut" }
+                ]
+            },
+            {
+                slug: "kaidah-pencacahan-dan-distribusi-peluang",
+                title: "Kaidah Pencacahan, Kombinatorika & Distribusi Peluang",
+                deskripsi: "Kombinatorika dan statistika inferensial dasar Kelas XII: aturan penjumlahan dan aturan perkalian (filling slots), notasi faktorial, permutasi n objek, permutasi unsur yang sama & permutasi siklis, kombinasi & Teorema Binomial Newton, peluang kejadian majemuk (saling lepas, tidak saling lepas), peluang bersyarat, kejadian saling bebas & Teorema Bayes, variabel acak diskrit (fungsi massa peluang, nilai harapan E(X), variansi) & Distribusi Binomial B(n,p), variabel acak kontinu & Distribusi Normal Baku (skor-Z), serta problem solving HOTS.",
+                subbab: [
+                    { file: "aturan-penjumlahan-perkalian-dan-notasi-faktorial.html", title: "Aturan Penjumlahan, Perkalian (Filling Slots) & Faktorial" },
+                    { file: "permutasi-unsur-sama-siklis-dan-kombinasi.html", title: "Permutasi, Unsur Sama, Siklis, Kombinasi & Binomial Newton" },
+                    { file: "peluang-kejadian-majemuk-bersyarat-dan-teorema-bayes.html", title: "Peluang Kejadian Majemuk, Bersyarat & Teorema Bayes" },
+                    { file: "variabel-acak-diskrit-dan-distribusi-peluang-binomial.html", title: "Variabel Acak Diskrit, Ekspektasi & Distribusi Binomial" },
+                    { file: "distribusi-peluang-kontinu-dan-distribusi-normal-baku.html", title: "Variabel Acak Kontinu & Distribusi Normal Baku (Skor-Z)" },
+                    { file: "pemodelan-dan-problem-solving-hots-kombinatorika-peluang.html", title: "Problem Solving HOTS Kombinatorika & Distribusi Peluang" }
+                ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN Matematika)",
+                deskripsi: "Modul puncak persiapan kompetisi matematika tingkat provinsi dan nasional (OSN-P, OSN Nasional, & seleksi IMO): kalkulus analitik & ketaksamaan konveksitas Jensen-Karamata, persamaan fungsional (Functional Equations) atas bilangan riil & metode diferensial, teori bilangan tingkat lanjut (Lifting The Exponent Lemma / LTE, orde modulo, & simbol Legendre), kombinatorika fungsi pembangkit, relasi rekurensi karakteristik & rantai peluang rekursif, geometri vektor ruang 3D & tetrahedron, serta bedah soal esai pembuktian rigor OSN.",
+                subbab: [
+                    { file: "kalkulus-olimpiade-dan-ketaksamaan-jensen-karamata.html", title: "Kalkulus Analitik & Ketaksamaan Konveksitas Jensen" },
+                    { file: "persamaan-fungsional-cauchy-dan-analisis-kontinuitas.html", title: "Persamaan Fungsional (Functional Equations) & Cauchy" },
+                    { file: "teori-bilangan-lanjutan-residu-kuadratik-dan-lte.html", title: "Teori Bilangan Lanjutan: Lemma LTE, Orde & Legendre" },
+                    { file: "kombinatorika-pembangkit-rekurensi-dan-probabilitas-markov.html", title: "Fungsi Pembangkit, Rekurensi Linier & Peluang Rekursif" },
+                    { file: "geometri-analitik-barycentric-dan-vektor-ruang-olimpiade.html", title: "Geometri Vektor Ruang 3D & Tetrahedron Olimpiade" },
+                    { file: "bedah-soal-dan-strategi-esai-osn-nasional-matematika.html", title: "Bedah Soal & Strategi Pembuktian Esai OSN Matematika" }
+                ]
+            }
+        ]
     }
 };
 

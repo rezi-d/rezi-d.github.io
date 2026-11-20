@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aturan Rantai (Chain Rule), Turunan Implisit & Tingkat Tinggi — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai Aturan Rantai (Chain Rule) untuk fungsi komposisi f(g(x)) dan notasi Leibniz dy/dx = (dy/du)(du/dx), teknik turunan implisit F(x, y) = 0, serta turunan kedua dan tingkat tinggi f^(n)(x).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/aturan-rantai-turunan-implisit-dan-tingkat-tinggi.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/aturan-rantai-turunan-implisit-dan-tingkat-tinggi.html">
+    <meta property="og:title" content="⛓️ Aturan Rantai, Turunan Implisit & Tingkat Tinggi — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Chain Rule fungsi komposisi, diferensiasi implisit kurva, dan pola turunan ke-n.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛓️</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="turunan-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Turunan Fungsi (Diferensial)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Aturan Rantai (Chain Rule), Turunan Implisit &amp; Tingkat Tinggi
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Bagaimana menurunkan fungsi bersarang seperti $(3x^2 - 5x + 1)^{10}$ tanpa menjabarkannya, atau mencari kemiringan garis singgung lingkaran $x^2 + y^2 = 25$ tanpa memisahkan variabel $y$? Kuasai <strong>Aturan Rantai (Chain Rule)</strong> dalam notasi Lagrange dan Leibniz, teknik <strong>diferensiasi implisit</strong>, serta pola <strong>turunan tingkat tinggi $f^{(n)}(x)$</strong>.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: ATURAN RANTAI (CHAIN RULE) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Turunan Fungsi Komposisi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⛓️ Aturan Rantai (Chain Rule): Turunan Luar $\times$ Turunan Dalam
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Skema Komposisi Fungsi dan Alur Perkalian Aturan Rantai dy/dx</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="25" y="25" width="130" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Input Variabel</text>
+    <text x="90" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">x</text>
+
+    <line x1="155" y1="57" x2="205" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="180" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">du/dx</text>
+
+    <rect x="205" y="25" width="130" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="270" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#064e3b">Fungsi Dalam</text>
+    <text x="270" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">u = g(x)</text>
+
+    <line x1="335" y1="57" x2="385" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="360" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">dy/du</text>
+
+    <rect x="385" y="25" width="130" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="450" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#881337">Fungsi Luar</text>
+    <text x="450" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">y = f(u)</text>
+
+    <text x="270" y="112" text-anchor="middle" font-size="12" font-weight="800" fill="#1e293b">Aturan Rantai: dy/dx = (dy/du) × (du/dx)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">dy/dx = (dy/du)·(du/dx)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jika $y = (f \circ g)(x) = f(g(x))$ dengan $u = g(x)$ terdiferensialkan di $x$ dan $f$ terdiferensialkan di $u = g(x)$, maka turunan fungsi komposisi tersebut adalah hasil kali <strong>turunan fungsi luar</strong> terhadap fungsi dalam, dikalikan <strong>turunan fungsi dalam</strong>:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-1.5">
+                                <span class="font-bold text-blue-950 block">1. Notasi Komposisi Lagrange</span>
+                                <div class="p-2 bg-white rounded-lg border border-blue-100 font-mono text-center font-bold text-blue-900">
+                                    $$[f(g(x))]' = f'(g(x)) \cdot g'(x)$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Khusus pangkat fungsi: $\frac{d}{dx}[u(x)]^n = n \cdot [u(x)]^{n-1} \cdot u'(x)$.
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
+                                <span class="font-bold text-emerald-950 block">2. Notasi Rantai Leibniz</span>
+                                <div class="p-2 bg-white rounded-lg border border-emerald-100 font-mono text-center font-bold text-emerald-900">
+                                    $$\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Untuk 3 lapis ($y = f(u), u = g(v), v = h(x)$): $\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dv} \cdot \frac{dv}{dx}$.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm space-y-1.5">
+                            <span class="font-bold text-slate-900 block">💡 Rumus Cepat Turunan Bentuk Akar $\sqrt{u(x)}$:</span>
+                            <p class="text-slate-700 text-xs">
+                                Karena $\frac{d}{dx}\sqrt{u} = \frac{1}{2\sqrt{u}} \cdot u'$, hafalkan pola instan ini:
+                                $$y = \sqrt{u(x)} \implies y' = \mathbf{\frac{u'(x)}{2\sqrt{u(x)}}}$$
+                                <em>Contoh:</em> $f(x) = \sqrt{x^2 + 5x} \implies f'(x) = \frac{2x + 5}{2\sqrt{x^2 + 5x}}$. Selesai dalam 3 detik!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: KOMBINASI ATURAN RANTAI & PERKALIAN/PEMBAGIAN -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Ekstraksi Faktor Persekutuan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧠 Kombinasi Aturan Hasil Kali &amp; Aturan Rantai
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Skema Komposisi Fungsi dan Alur Perkalian Aturan Rantai dy/dx</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="25" y="25" width="130" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Input Variabel</text>
+    <text x="90" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">x</text>
+
+    <line x1="155" y1="57" x2="205" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="180" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">du/dx</text>
+
+    <rect x="205" y="25" width="130" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="270" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#064e3b">Fungsi Dalam</text>
+    <text x="270" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">u = g(x)</text>
+
+    <line x1="335" y1="57" x2="385" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="360" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">dy/du</text>
+
+    <rect x="385" y="25" width="130" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="450" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#881337">Fungsi Luar</text>
+    <text x="450" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">y = f(u)</text>
+
+    <text x="270" y="112" text-anchor="middle" font-size="12" font-weight="800" fill="#1e293b">Aturan Rantai: dy/dx = (dy/du) × (du/dx)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Pemfaktoran Turunan</span>
+                        </div>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 block">Studi Kasus 1: Turunan Perkalian Pangkat Tinggi $f(x) = (2x - 1)^4 (x + 3)^5$</span>
+                            <div class="p-3.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1.5">
+                                <p>
+                                    1. Misalkan $u = (2x - 1)^4 \implies u' = 4(2x - 1)^3 \cdot (2) = 8(2x - 1)^3$.<br>
+                                    2. Misalkan $v = (x + 3)^5 \implies v' = 5(x + 3)^4 \cdot (1) = 5(x + 3)^4$.<br>
+                                    3. Gunakan $f'(x) = u'v + uv'$, lalu keluarkan faktor pangkat terkecil $(2x - 1)^3 (x + 3)^4$:
+                                    $$f'(x) = 8(2x - 1)^3(x + 3)^5 + (2x - 1)^4 \cdot 5(x + 3)^4$$
+                                    $$= (2x - 1)^3(x + 3)^4 \left[ 8(x + 3) + 5(2x - 1) \right] = \mathbf{(2x - 1)^3(x + 3)^4 (18x + 19)}$$
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2 text-xs sm:text-sm">
+                            <span class="font-bold text-blue-950 block">Studi Kasus 2: Mencari $f'(x)$ Jika Diketahui $f(g(x)) = H(x)$</span>
+                            <p class="text-slate-700 text-xs leading-relaxed">
+                                <strong>Soal UTBK:</strong> Diketahui $f(2x - 1) = 6x^2 + 4x - 5$. Tentukan nilai dari $f'(3)$!<br>
+                                <strong>Trik Cepat Tanpa Mencari Rumus $f(x)$:</strong><br>
+                                &bull; Turunkan kedua ruas langsung terhadap $x$ dengan Aturan Rantai:
+                                $$\frac{d}{dx}[f(2x - 1)] = \frac{d}{dx}[6x^2 + 4x - 5] \implies f'(2x - 1) \cdot 2 = 12x + 4$$
+                                &bull; Agar argumen di dalam $f'(2x - 1)$ bernilai $3$, pilih $2x - 1 = 3 \implies x = 2$.<br>
+                                &bull; Substitusikan $x = 2$: $f'(3) \cdot 2 = 12(2) + 4 = 28 \implies f'(3) = \mathbf{14}$!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: TURUNAN FUNGSI IMPLISIT -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Persamaan Kurva Tak Eksplisit</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 Teknik Turunan Fungsi Implisit $F(x, y) = 0$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Garis Singgung dan Garis Normal Saling Tegak Lurus di Titik Singgung</span>
+                            <svg viewBox="0 0 440 175" class="w-full max-w-md h-auto">
+    <line x1="35" y1="145" x2="405" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <line x1="65" y1="160" x2="65" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 90 135 Q 210 20 350 115" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <!-- Point of tangency P(200, 72) -->
+    <line x1="110" y1="117" x2="310" y2="17" stroke="#2563eb" stroke-width="2.5"/>
+    <line x1="165" y1="2" x2="245" y2="162" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <circle cx="200" cy="72" r="5" fill="#e11d48"/>
+    <text x="315" y="32" font-size="11" font-weight="800" fill="#1d4ed8">Garis Singgung (m_s = f'(x₁))</text>
+    <text x="295" y="135" font-size="11" font-weight="800" fill="#be123c">Garis Normal (m_n = -1/m_s)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">d/dx (yⁿ) = n·yⁿ⁻¹ · dy/dx</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pada persamaan kurva implisit seperti $x^2 + y^2 = 25$ atau $x^3 + y^3 = 6xy$, variabel $y$ merupakan fungsi dari $x$ ($y = y(x)$). Saat menurunkan suku yang memuat $y$ terhadap $x$, berdasarkan Aturan Rantai kita <strong>wajib mengalikan dengan $y' = \frac{dy}{dx}$</strong>:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-purple-50/70 border border-purple-200 space-y-2">
+                                <span class="font-bold text-purple-950 block">1. Prosedur Standar Turunan Implisit</span>
+                                <p class="text-slate-700 text-xs">
+                                    Contoh pada lingkaran $x^2 + y^2 = 25$:
+                                    $$\frac{d}{dx}(x^2) + \frac{d}{dx}(y^2) = \frac{d}{dx}(25)$$
+                                    $$2x + 2y \cdot \frac{dy}{dx} = 0 \implies \frac{dy}{dx} = \mathbf{-\frac{x}{y}}$$
+                                    Di titik $(3, 4)$, gradien garis singgungnya adalah $m = -\frac{3}{4}$.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2">
+                                <span class="font-bold text-emerald-950 block">2. Rumus Kilat Turunan Parsial ($F(x, y) = 0$)</span>
+                                <p class="text-slate-700 text-xs">
+                                    Pindahkan semua suku ke ruas kiri menjadi $F(x, y) = 0$. Maka $\frac{dy}{dx}$ dapat dihitung langsung:
+                                </p>
+                                <div class="p-2 bg-white rounded-lg border border-emerald-200 font-mono text-center font-bold text-emerald-900">
+                                    $$\frac{dy}{dx} = -\frac{F_x}{F_y} = -\frac{\text{Turunan terhadap } x \text{ (anggap } y \text{ konstan)}}{\text{Turunan terhadap } y \text{ (anggap } x \text{ konstan)}}$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TURUNAN TINGKAT TINGGI (TURUNAN KE-n) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Diferensiasi Berulang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🚀 Turunan Kedua $f''(x)$ &amp; Pola Turunan Tingkat Tinggi $f^{(n)}(x)$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Siklus 4 Langkah Turunan Fungsi Sinus dan Cosinus</span>
+                            <svg viewBox="0 0 500 135" class="w-full max-w-lg h-auto">
+    <rect x="20" y="40" width="90" height="45" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="65" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#1e3a8a">sin x</text>
+
+    <text x="130" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="150" y="40" width="90" height="45" rx="8" fill="#a7f3d0" stroke="#059669" stroke-width="2"/>
+    <text x="195" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#065f46">cos x</text>
+
+    <text x="260" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="280" y="40" width="90" height="45" rx="8" fill="#fecdd3" stroke="#e11d48" stroke-width="2"/>
+    <text x="325" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#881337">-sin x</text>
+
+    <text x="390" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="410" y="40" width="80" height="45" rx="8" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+    <text x="450" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#92400e">-cos x</text>
+
+    <path d="M 450 85 Q 255 130 65 85" fill="none" stroke="#475569" stroke-width="1.8" stroke-dasharray="4 2"/>
+    <text x="255" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">Siklus Berulang Setiap 4 Kali Turunan: f⁽⁴⁾(x) = f(x)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">d²y / dx²</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jika turunan pertama $f'(x)$ diturunkan sekali lagi terhadap $x$, kita memperoleh <strong>turunan kedua</strong> yang dinotasikan $f''(x) = \frac{d^2y}{dx^2}$. Secara umum, turunan ke-$n$ ditulis $f^{(n)}(x) = \frac{d^n y}{dx^n}$.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">1. Turunan ke-$n$ Polinomial $f(x) = x^n$</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    &bull; $f'(x) = n x^{n-1}$<br>
+                                    &bull; $f''(x) = n(n-1) x^{n-2}$<br>
+                                    &bull; Turunan ke-$n$: **$f^{(n)}(x) = n!$** (konstanta faktorial).<br>
+                                    &bull; Turunan ke-$(n+1)$: **$f^{(n+1)}(x) = 0$**!
+                                </p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">2. Turunan ke-$n$ Fungsi Kebalikan $f(x) = \frac{1}{x}$</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    &bull; $f'(x) = -x^{-2} = -\frac{1!}{x^2}$<br>
+                                    &bull; $f''(x) = +2x^{-3} = +\frac{2!}{x^3}$<br>
+                                    &bull; $f'''(x) = -6x^{-4} = -\frac{3!}{x^4}$<br>
+                                    &bull; Rumus umum: **$f^{(n)}(x) = \frac{(-1)^n \cdot n!}{x^{n+1}}$**.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Aturan Rantai, Turunan Implisit &amp; Tingkat Tinggi
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Skema Komposisi Fungsi dan Alur Perkalian Aturan Rantai dy/dx</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="25" y="25" width="130" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Input Variabel</text>
+    <text x="90" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">x</text>
+
+    <line x1="155" y1="57" x2="205" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="180" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">du/dx</text>
+
+    <rect x="205" y="25" width="130" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="270" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#064e3b">Fungsi Dalam</text>
+    <text x="270" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">u = g(x)</text>
+
+    <line x1="335" y1="57" x2="385" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="360" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">dy/du</text>
+
+    <rect x="385" y="25" width="130" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="450" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#881337">Fungsi Luar</text>
+    <text x="450" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">y = f(u)</text>
+
+    <text x="270" y="112" text-anchor="middle" font-size="12" font-weight="800" fill="#1e293b">Aturan Rantai: dy/dx = (dy/du) × (du/dx)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji penguasaan Aturan Rantai, turunan implisit, dan turunan tingkat tinggi pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Gunakan Aturan Rantai: f'(x) = 4(x² - 3x + 1)³ · (2x - 3). Substitusikan x = 2: f'(2) = 4(4 - 6 + 1)³ · (4 - 3) = 4(-1)³ · (1) = -4.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Aturan Rantai Pangkat Komposisi</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui fungsi $f(x) = (x^2 - 3x + 1)^4$. Nilai dari $f'(2)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $4$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $-1$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $-4$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $8$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Gunakan rumus cepat turunan akar f'(x) = u'(x) / (2√u(x)) = (2x + 3) / (2√(x² + 3x + 5)). Untuk x = 1: f'(1) = (2(1) + 3) / (2√(1 + 3 + 5)) = 5 / (2√9) = 5/6.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Aturan Rantai Bentuk Akar Kuadrat</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika $f(x) = \sqrt{x^2 + 3x + 5}$, maka nilai dari $f'(1)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $\frac{5}{3}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{5}{6}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{1}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $\frac{2}{3}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Turunkan kedua ruas dengan Aturan Rantai: f'(3x - 2) · 3 = 12x - 6 ⇒ f'(3x - 2) = 4x - 2. Agar 3x - 2 = 4, pilih 3x = 6 ⇒ x = 2. Maka f'(4) = 4(2) - 2 = 6.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Turunan Fungsi Komposisi Abstrak</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika diketahui $f(3x - 2) = 6x^2 - 6x + 1$, maka nilai dari $f'(4)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $6$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $12$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $18$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $24$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Turunkan secara implisit terhadap x: 2x + 4y(dy/dx) = 0 ⇒ dy/dx = -2x / (4y) = -x / (2y). Di titik (2, 1), nilai dy/dx = -2 / (2(1)) = -1.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Turunan Fungsi Implisit</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Nilai turunan $\frac{dy}{dx}$ dari persamaan elips $x^2 + 2y^2 = 6$ di titik $(2, 1)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $-\frac{1}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $1$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $-1$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="f'(x) = 4x³ - 12x² + 10x - 3; f''(x) = 12x² - 24x + 10; f'''(x) = 24x - 24. Untuk x = 2: f'''(2) = 24(2) - 24 = 24.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Turunan Tingkat Tinggi</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui polinomial $f(x) = x^4 - 4x^3 + 5x^2 - 3x + 7$. Nilai dari turunan ketiga $f'''(2)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $12$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $24$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $36$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $48$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus Diferensial.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Section 3.4: The Chain Rule; Section 3.5: Implicit Differentiation.</p>
+                    <p><strong>Purcell, Edwin J. &amp; Varberg, Dale.</strong> (2007). <em>Calculus</em> (9th ed.). Prentice Hall.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="definisi-limit-turunan-dan-aturan-dasar-diferensial.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Definisi &amp; Aturan Dasar Turunan
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="turunan-fungsi-trigonometri-dan-dalil-lhopital.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Turunan Trigonometri &amp; L'Hôpital &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

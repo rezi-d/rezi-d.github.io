@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulus Analitik & Ketaksamaan Konveksitas Jensen - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari aplikasi kalkulus pada olimpiade matematika (OSN): fungsi konveks dan konkaf, Ketaksamaan Jensen, Teorema Nilai Rata-Rata Lagrange, dan Tangent Line Trick.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="pengayaan-olimpiade">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 7 · Pengayaan Olimpiade Sains (OSN)</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+                                🏅 Sub-Materi 1 dari 6 · Pengayaan OSN Matematika
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Kalkulus Analitik & Ketaksamaan Konveksitas Jensen
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Konveksitas Fungsi & Ketaksamaan Jensen -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Konveksitas & Turunan Kedua</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Fungsi Konveks ($f''(x) \ge 0$), Konkaf ($f''(x) \le 0$) & Ketaksamaan Jensen
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Senjata Utama Aljabar OSN</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Banyak ketaksamaan olimpiade yang tampak mustahil diselesaikan dengan AM-GM atau Cauchy-Schwarz dapat ditaklukkan dalam tiga baris menggunakan <strong>Ketaksamaan Jensen</strong>! Secara geometris, pada fungsi <strong>konveks</strong> (cekung ke atas, $f''(x) \ge 0$), titik tengah tali busur selalu berada <strong>di atas</strong> titik pada kurva:
+                        </p>
+
+                        <!-- SVG Geometri Ketaksamaan Jensen -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Interpretasi Geometris Ketaksamaan Jensen pada Fungsi Konveks ($f''(x) \ge 0$): Rata-Rata Fungsi $\ge$ Fungsi Rata-Rata
+                            </p>
+                            <svg viewBox="0 0 560 215" class="w-full max-w-xl mx-auto h-auto">
+                                <line x1="45" y1="180" x2="515" y2="180" stroke="#334155" stroke-width="2" />
+                                <line x1="70" y1="195" x2="70" y2="15" stroke="#334155" stroke-width="2" />
+
+                                <!-- Convex Curve y = f(x) -->
+                                <path d="M 95 145 Q 260 175 445 30" fill="none" stroke="#2563eb" stroke-width="3" />
+
+                                <!-- Secant Chord between (x1, f(x1))=(130, 147) and (x2, f(x2))=(410, 56) -->
+                                <line x1="130" y1="147" x2="410" y2="56" stroke="#e11d48" stroke-width="2.2" stroke-dasharray="5 3" />
+
+                                <!-- Vertical lines at x1, (x1+x2)/2 = 270, and x2 -->
+                                <line x1="130" y1="147" x2="130" y2="180" stroke="#94a3b8" stroke-dasharray="3 2" />
+                                <line x1="270" y1="101.5" x2="270" y2="180" stroke="#475569" stroke-width="1.8" stroke-dasharray="3 2" />
+                                <line x1="410" y1="56" x2="410" y2="180" stroke="#94a3b8" stroke-dasharray="3 2" />
+
+                                <!-- Points -->
+                                <circle cx="130" cy="147" r="4" fill="#2563eb" />
+                                <circle cx="410" cy="56" r="4" fill="#2563eb" />
+                                <circle cx="270" cy="101.5" r="5" fill="#e11d48" />
+                                <circle cx="270" cy="133" r="5" fill="#059669" />
+
+                                <text x="130" y="196" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">x₁</text>
+                                <text x="270" y="196" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">(x₁ + x₂)/2</text>
+                                <text x="410" y="196" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">x₂</text>
+
+                                <text x="255" y="88" text-anchor="end" font-size="11" font-weight="800" fill="#be123c">[f(x₁) + f(x₂)] / 2 (Di Atas)</text>
+                                <text x="282" y="146" font-size="11" font-weight="800" fill="#047857">f((x₁ + x₂)/2) (Di Bawah)</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Fungsi Konveks ($f''(x) \ge 0$ pada $I$)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center">
+                                    $$\frac{f(x_1) + f(x_2) + \dots + f(x_n)}{n} \ge f\left(\frac{x_1 + x_2 + \dots + x_n}{n}\right)$$
+                                </div>
+                                <p class="text-xs text-slate-600">Contoh: $x^2, x^n (n \ge 1, x &gt; 0), e^x, -\ln x, \tan x$ pada $(0, \pi/2)$.</p>
+                            </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">2. Fungsi Konkaf ($f''(x) \le 0$ pada $I$)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center">
+                                    $$\frac{f(x_1) + f(x_2) + \dots + f(x_n)}{n} \le f\left(\frac{x_1 + x_2 + \dots + x_n}{n}\right)$$
+                                </div>
+                                <p class="text-xs text-slate-600">Contoh: $\sqrt{x}, \ln x, \sin x$ pada $(0, \pi)$. Kesamaan terjadi jika dan hanya jika $x_1 = x_2 = \dots = x_n$.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Aplikasi Jensen pada Trigonometri Segitiga -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Ketaksamaan Sudut Segitiga</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Nilai Ekstremum Trigonometri Segitiga dengan Jensen
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">$A + B + C = 180^\circ$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Pada setiap segitiga $\triangle ABC$, jumlah ketiga sudutnya konstan $A + B + C = \pi$ ($180^\circ$), sehingga rata-rata ketiga sudutnya selalu $\frac{A + B + C}{3} = \frac{\pi}{3} = 60^\circ$.
+                        </p>
+
+                        <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-3">
+                            <h3 class="font-bold text-emerald-950 text-sm">Pembuktian 3 Baris: $\sin A + \sin B + \sin C \le \frac{3\sqrt{3}}{2}$</h3>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Tinjau fungsi $f(x) = \sin x$ pada interval sudut segitiga $x \in (0, \pi)$. Turunan keduanya adalah $f''(x) = -\sin x &lt; 0$, sehingga $f(x) = \sin x$ adalah <strong>fungsi konkaf</strong> pada $(0, \pi)$. Dengan Ketaksamaan Jensen:
+                            </p>
+                            <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center">
+                                $$\frac{\sin A + \sin B + \sin C}{3} \le \sin\left(\frac{A + B + C}{3}\right) = \sin(60^\circ) = \frac{1}{2}\sqrt{3} \implies \sin A + \sin B + \sin C \le \frac{3}{2}\sqrt{3}$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Nilai maksimum $\frac{3}{2}\sqrt{3}$ tercapai saat segitiga tersebut sama sisi ($A = B = C = 60^\circ$).
+                            </p>
+                        </div>
+                    </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Sifat Kurva Konveks Selalu Berada di Atas Garis Singgungnya (Jensen & Tangent Trick)</span>
+                            <svg viewBox="0 0 440 165" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="405" y2="140" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 75 115 Q 220 145 365 25" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="95" y1="130" x2="375" y2="60" stroke="#e11d48" stroke-width="2.2" stroke-dasharray="5 3"/>
+    <circle cx="235" cy="95" r="5" fill="#e11d48"/>
+    <text x="235" y="155" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">f(x) ≥ f(x₀) + f'(x₀)(x - x₀) (Kurva Konveks di Atas Singgung)</text>
+</svg>
+                        </div>
+
+
+                    <!-- SLIDE 3: Teorema Nilai Rata-Rata (MVT) Lagrange & Rolle -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Eksistensi Titik & Akar Turunan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Teorema Rolle & Teorema Nilai Rata-Rata (MVT) Lagrange
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Gradien Sekan = Singgung</span>
+                        </div>
+
+                        <!-- SVG Teorema Nilai Rata-Rata Lagrange -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Teorema Nilai Rata-Rata Lagrange: Ada $c \in (a, b)$ di mana Garis Singgung Sejajar Tali Busur $AB$
+                            </p>
+                            <svg viewBox="0 0 540 195" class="w-full max-w-xl mx-auto h-auto">
+                                <line x1="40" y1="165" x2="500" y2="165" stroke="#334155" stroke-width="2" />
+                                <line x1="65" y1="180" x2="65" y2="15" stroke="#334155" stroke-width="2" />
+
+                                <!-- Curve -->
+                                <path d="M 110 135 Q 230 10 410 75" fill="none" stroke="#7c3aed" stroke-width="3" />
+                                <!-- Secant line AB -->
+                                <line x1="110" y1="135" x2="410" y2="75" stroke="#2563eb" stroke-width="2" stroke-dasharray="5 3" />
+                                <!-- Parallel Tangent Line at c = 250, y = 63 -->
+                                <line x1="130" y1="87" x2="370" y2="39" stroke="#e11d48" stroke-width="2.5" />
+
+                                <line x1="110" y1="135" x2="110" y2="165" stroke="#94a3b8" stroke-dasharray="3 2" />
+                                <line x1="250" y1="63" x2="250" y2="165" stroke="#e11d48" stroke-dasharray="3 2" />
+                                <line x1="410" y1="75" x2="410" y2="165" stroke="#94a3b8" stroke-dasharray="3 2" />
+
+                                <circle cx="110" cy="135" r="4" fill="#2563eb" />
+                                <circle cx="410" cy="75" r="4" fill="#2563eb" />
+                                <circle cx="250" cy="63" r="4.5" fill="#e11d48" />
+
+                                <text x="110" y="182" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">a</text>
+                                <text x="250" y="182" text-anchor="middle" font-size="12" font-weight="bold" fill="#be123c">c</text>
+                                <text x="410" y="182" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">b</text>
+                                <text x="250" y="32" text-anchor="middle" font-size="12" font-weight="800" fill="#be123c">f'(c) = [f(b) - f(a)] / (b - a)</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-purple-50/70 rounded-xl p-4 border border-purple-200 space-y-1">
+                                <h3 class="font-bold text-purple-950 text-xs uppercase">1. Teorema Rolle</h3>
+                                <p class="text-xs text-slate-700">Jika $f$ kontinu pada $[a,b]$, terdiferensialkan pada $(a,b)$, dan $f(a) = f(b)$, maka terdapat $c \in (a,b)$ sehingga <strong>$f'(c) = 0$</strong>. (Di antara dua akar $f(x)$ selalu ada minimal satu akar $f'(x)$!).</p>
+                            </div>
+                            <div class="bg-indigo-50/70 rounded-xl p-4 border border-indigo-200 space-y-1">
+                                <h3 class="font-bold text-indigo-950 text-xs uppercase">2. Aplikasi Ketaksamaan Lipschitz</h3>
+                                <p class="text-xs text-slate-700">Karena $\frac{\sin b - \sin a}{b - a} = \cos c$ dan $|\cos c| \le 1$, maka untuk setiap $a, b \in \mathbb{R}$ berlaku <strong>$|\sin b - \sin a| \le |b - a|$</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Metode Garis Singgung (Tangent Line Trick) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 4 · Tangent Line Trick</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Trik Garis Singgung untuk Membuktikan Ketaksamaan Simetris
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">$f(x) \ge f(x_0) + f'(x_0)(x - x_0)$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Sifat ajaib fungsi konveks adalah <strong>grafiknya selalu berada di atas garis singgungnya</strong>! Jika kita ingin membuktikan $\sum f(x_i) \ge 3f(x_0)$ dengan syarat $x_1 + x_2 + x_3 = 3x_0$, cukup cari persamaan garis singgung $y = f(x_0) + f'(x_0)(x - x_0)$ di titik kesamaan $x = x_0$:
+                        </p>
+
+                        <div class="bg-rose-50/70 rounded-xl p-5 border border-rose-200 space-y-2">
+                            <h3 class="font-bold text-rose-950 text-sm">Rumus Umum Tangent Line Trick (Untuk $f$ Konveks di Sekitar $x_0$):</h3>
+                            <div class="bg-white rounded-lg p-3 border border-rose-100 text-xs text-center">
+                                $$f(x) \ge f(x_0) + f'(x_0)(x - x_0)$$
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Saat dijumlahkan untuk $x = a, b, c$, suku $f'(x_0)\big[(a - x_0) + (b - x_0) + (c - x_0)\big]$ akan <strong>saling menghilangkan menjadi $0$</strong> karena $a + b + c = 3x_0$!
+                            </p>
+                        </div>
+                    </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Sifat Kurva Konveks Selalu Berada di Atas Garis Singgungnya (Jensen & Tangent Trick)</span>
+                            <svg viewBox="0 0 440 165" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="405" y2="140" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 75 115 Q 220 145 365 25" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="95" y1="130" x2="375" y2="60" stroke="#e11d48" stroke-width="2.2" stroke-dasharray="5 3"/>
+    <circle cx="235" cy="95" r="5" fill="#e11d48"/>
+    <text x="235" y="155" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">f(x) ≥ f(x₀) + f'(x₀)(x - x₀) (Kurva Konveks di Atas Singgung)</text>
+</svg>
+                        </div>
+
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Kalkulus Olimpiade & Ketaksamaan Jensen
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal OSN</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji pemahaman kalkulus analitik dan ketaksamaan konveksitas Anda pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Ketaksamaan Jensen Trigonometri Segitiga Lancip</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Pada sebuah segitiga lancip $\triangle ABC$, fungsi $f(x) = \tan x$ bersifat konveks ($f''(x) &gt; 0$) pada interval $(0, \frac{\pi}{2})$. Nilai <strong>minimum</strong> dari $\tan A + \tan B + \tan C$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\sqrt{3}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $3$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $3\sqrt{3}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{3\sqrt{3}}{2}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Sifat Kurva Konveks Selalu Berada di Atas Garis Singgungnya (Jensen & Tangent Trick)</span>
+                            <svg viewBox="0 0 440 165" class="w-full max-w-md h-auto">
+    <line x1="35" y1="140" x2="405" y2="140" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 75 115 Q 220 145 365 25" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="95" y1="130" x2="375" y2="60" stroke="#e11d48" stroke-width="2.2" stroke-dasharray="5 3"/>
+    <circle cx="235" cy="95" r="5" fill="#e11d48"/>
+    <text x="235" y="155" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">f(x) ≥ f(x₀) + f'(x₀)(x - x₀) (Kurva Konveks di Atas Singgung)</text>
+</svg>
+                        </div>
+
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Ketaksamaan Jensen Fungsi Konkaf Akar</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Diketahui bilangan riil positif $a, b, c$ memenuhi $a + b + c = 12$. Dengan menggunakan kecekungan fungsi $f(x) = \sqrt{2x + 1}$, nilai <strong>maksimum</strong> dari $\sqrt{2a + 1} + \sqrt{2b + 1} + \sqrt{2c + 1}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $6$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $9$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $12$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $15$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Teorema Nilai Rata-Rata (MVT) Lagrange</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Untuk fungsi $f(x) = x^3 - 3x$ pada interval $[0, 3]$, nilai $c \in (0, 3)$ yang memenuhi Teorema Nilai Rata-Rata Lagrange $f'(c) = \frac{f(3) - f(0)}{3 - 0}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\sqrt{3}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{3}{2}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $2$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\sqrt{2}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Banyak Akar Riil dengan Teorema Rolle & Kemonotonan</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Banyaknya solusi bilangan riil $x$ yang memenuhi persamaan $x^5 + 5x - 6 = 0$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $0$ (tidak punya akar riil)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. Tepat $1$ akar riil (karena $f'(x) = 5x^4 + 5 &gt; 0$ selalu naik murni)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. Tepat $3$ akar riil
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. Tepat $5$ akar riil
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Nilai Maksimum Fungsi Eksponensial $x^{1/x}$</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Dengan menganalisis turunan fungsi $g(x) = \frac{\ln x}{x}$ untuk $x &gt; 0$, manakah di antara bilangan berikut yang nilainya <strong>paling besar</strong>?
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $2^{1/2}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\pi^{1/\pi}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $3^{1/3}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $e^{1/e}$ (karena maksimum global $x^{1/x}$ tercapai di $x = e$)
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/pemodelan-dan-problem-solving-hots-kombinatorika-peluang.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Bab Sebelumnya: Kombinatorika & Distribusi Peluang</span>
+                    </a>
+                    <a href="/matematika/kelas-12/pengayaan-olimpiade/persamaan-fungsional-cauchy-dan-analisis-kontinuitas.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Persamaan Fungsional (Functional Equations)</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Sangat tajam!</strong> Analisis konveksitas Jensen dan Teorema Nilai Rata-Rata Anda tepat.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turunan Fungsi Trigonometri & Aturan L'Hôpital — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai rumus turunan 6 fungsi trigonometri (sin, cos, tan, cot, sec, csc), Aturan Rantai trigonometri berpangkat sin^n(u(x)), serta penggunaan Aturan L'Hôpital untuk memecahkan limit bentuk tak tentu 0/0.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/turunan-fungsi-trigonometri-dan-dalil-lhopital.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/turunan-fungsi-trigonometri-dan-dalil-lhopital.html">
+    <meta property="og:title" content="🌊 Turunan Fungsi Trigonometri & Aturan L'Hôpital — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Turunan 6 fungsi trigonometri, aturan rantai 3 lapis (Pangkat-Trigo-Sudut), dan Dalil L'Hôpital.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌊</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="turunan-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Turunan Fungsi (Diferensial)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Turunan Fungsi Trigonometri &amp; Aturan L'Hôpital
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Kuasai rumus turunan dari keenam fungsi trigonometri ($\sin, \cos, \tan, \cot, \sec, \csc$), jembatan mnemonik bahwa <em>semua fungsi berawalan huruf "C" memiliki turunan bertanda negatif</em>, algoritma 3 lapis <strong>Pangkat–Trigonometri–Sudut</strong> untuk menurunkan $\sin^n(u(x))$, serta senjata pamungkas <strong>Aturan L'Hôpital</strong> untuk menyelesaikan limit bentuk tak tentu $\frac{0}{0}$.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: TABEL TURUNAN 6 FUNGSI TRIGONOMETRI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; 6 Rumus Dasar Trigonometri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌊 Tabel Turunan 6 Fungsi Trigonometri (Sudut Radian)
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Siklus 4 Langkah Turunan Fungsi Sinus dan Cosinus</span>
+                            <svg viewBox="0 0 500 135" class="w-full max-w-lg h-auto">
+    <rect x="20" y="40" width="90" height="45" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="65" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#1e3a8a">sin x</text>
+
+    <text x="130" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="150" y="40" width="90" height="45" rx="8" fill="#a7f3d0" stroke="#059669" stroke-width="2"/>
+    <text x="195" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#065f46">cos x</text>
+
+    <text x="260" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="280" y="40" width="90" height="45" rx="8" fill="#fecdd3" stroke="#e11d48" stroke-width="2"/>
+    <text x="325" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#881337">-sin x</text>
+
+    <text x="390" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="410" y="40" width="80" height="45" rx="8" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+    <text x="450" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#92400e">-cos x</text>
+
+    <path d="M 450 85 Q 255 130 65 85" fill="none" stroke="#475569" stroke-width="1.8" stroke-dasharray="4 2"/>
+    <text x="255" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">Siklus Berulang Setiap 4 Kali Turunan: f⁽⁴⁾(x) = f(x)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Awalan "C" ⇒ Negatif (-)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Dari definisi limit $\lim_{h \to 0} \frac{\sin(x+h) - \sin x}{h} = \cos x$ dan aturan hasil bagi, diperoleh rumus turunan untuk keenam fungsi trigonometri berikut:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-mono">
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$f(x) = \sin x$</span>
+                                <span class="font-bold text-blue-800">$f'(x) = \cos x$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$f(x) = \mathbf{c}\text{os } x$</span>
+                                <span class="font-bold text-rose-800">$f'(x) = -\sin x$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$f(x) = \tan x$</span>
+                                <span class="font-bold text-blue-800">$f'(x) = \sec^2 x$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$f(x) = \mathbf{c}\text{ot } x$</span>
+                                <span class="font-bold text-rose-800">$f'(x) = -\csc^2 x$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$f(x) = \sec x$</span>
+                                <span class="font-bold text-blue-800">$f'(x) = \sec x \cdot \tan x$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$f(x) = \mathbf{c}\text{sc } x$</span>
+                                <span class="font-bold text-rose-800">$f'(x) = -\csc x \cdot \cot x$</span>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950">
+                            💡 <strong>Jembatan Keledai (Mnemonik):</strong> Perhatikan kolom kanan — ketiga fungsi yang diawali huruf <strong>"C"</strong> ($\mathbf{c}\text{os}$, $\mathbf{c}\text{ot}$, $\mathbf{c}\text{sc}$) turunannya <strong>selalu bertanda negatif ($-$)</strong>!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: ATURAN RANTAI 3 LAPIS (PANGKAT - TRIGO - SUDUT) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Chain Rule Trigonometri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⛓️ Rumus 3 Lapis (Pangkat – Trigonometri – Sudut)
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Skema Komposisi Fungsi dan Alur Perkalian Aturan Rantai dy/dx</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="25" y="25" width="130" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="90" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Input Variabel</text>
+    <text x="90" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">x</text>
+
+    <line x1="155" y1="57" x2="205" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="180" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">du/dx</text>
+
+    <rect x="205" y="25" width="130" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="270" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#064e3b">Fungsi Dalam</text>
+    <text x="270" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">u = g(x)</text>
+
+    <line x1="335" y1="57" x2="385" y2="57" stroke="#475569" stroke-width="2"/>
+    <text x="360" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#e11d48">dy/du</text>
+
+    <rect x="385" y="25" width="130" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="450" y="52" text-anchor="middle" font-size="12" font-weight="800" fill="#881337">Fungsi Luar</text>
+    <text x="450" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">y = f(u)</text>
+
+    <text x="270" y="112" text-anchor="middle" font-size="12" font-weight="800" fill="#1e293b">Aturan Rantai: dy/dx = (dy/du) × (du/dx)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">y = [sin(u(x))]ⁿ</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Saat menurunkan fungsi trigonometri berpangkat dengan sudut berupa fungsi $u(x)$, seperti $y = \sin^n(u(x)) = [\sin(u(x))]^n$, kupas dari lapisan paling luar ke lapisan paling dalam:
+                        </p>
+
+                        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-center font-mono text-xs sm:text-sm font-bold text-emerald-950">
+                            $$y = \sin^n(u) \implies y' = \underbrace{n \cdot \sin^{n-1}(u)}_{\text{1. Turunan Pangkat}} \cdot \underbrace{\cos(u)}_{\text{2. Turunan Trigo}} \cdot \underbrace{u'(x)}_{\text{3. Turunan Sudut}}$$
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Contoh 1: $f(x) = \cos(4x^2 - 3x)$</span>
+                                <p class="text-slate-700 text-xs">
+                                    &bull; Turunan $\cos u$ adalah $-\sin u$.<br>
+                                    &bull; Turunan sudut $u = 4x^2 - 3x$ adalah $u' = 8x - 3$.<br>
+                                    &bull; Maka: $f'(x) = \mathbf{-(8x - 3)\sin(4x^2 - 3x)}$.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-slate-900 block">Contoh 2: $f(x) = \sin^3(2x + 1)$</span>
+                                <p class="text-slate-700 text-xs">
+                                    &bull; Lapis 1 (Pangkat): $3\sin^2(2x + 1)$<br>
+                                    &bull; Lapis 2 (Trigo): $\cos(2x + 1)$<br>
+                                    &bull; Lapis 3 (Sudut): $2$<br>
+                                    &bull; Kalikan: $f'(x) = \mathbf{6\sin^2(2x + 1)\cos(2x + 1)}$.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: TURUNAN KE-n SIN X DAN COS X (SIKLUS 4) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Siklus Modulo 4</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 Siklus 4 Langkah Turunan Tingkat Tinggi $\sin(ax)$ &amp; $\cos(ax)$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Siklus 4 Langkah Turunan Fungsi Sinus dan Cosinus</span>
+                            <svg viewBox="0 0 500 135" class="w-full max-w-lg h-auto">
+    <rect x="20" y="40" width="90" height="45" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="65" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#1e3a8a">sin x</text>
+
+    <text x="130" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="150" y="40" width="90" height="45" rx="8" fill="#a7f3d0" stroke="#059669" stroke-width="2"/>
+    <text x="195" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#065f46">cos x</text>
+
+    <text x="260" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="280" y="40" width="90" height="45" rx="8" fill="#fecdd3" stroke="#e11d48" stroke-width="2"/>
+    <text x="325" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#881337">-sin x</text>
+
+    <text x="390" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="410" y="40" width="80" height="45" rx="8" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+    <text x="450" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#92400e">-cos x</text>
+
+    <path d="M 450 85 Q 255 130 65 85" fill="none" stroke="#475569" stroke-width="1.8" stroke-dasharray="4 2"/>
+    <text x="255" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">Siklus Berulang Setiap 4 Kali Turunan: f⁽⁴⁾(x) = f(x)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">f^(n)(x) = aⁿ sin(ax + nπ/2)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Turunan dari $\sin x$ berputar kembali ke $\sin x$ setiap <strong>4 kali penurunan</strong>:
+                            $$\sin x \xrightarrow{D} \cos x \xrightarrow{D} -\sin x \xrightarrow{D} -\cos x \xrightarrow{D} \sin x$$
+                            Secara umum, setiap kali menurunkan $\sin(ax)$ atau $\cos(ax)$, koefisien $a$ keluar satu kali dan fasanya bergeser $+\frac{\pi}{2}$:
+                        </p>
+
+                        <div class="p-4 bg-purple-50 rounded-xl border border-purple-200 text-center font-mono text-xs sm:text-sm font-bold text-purple-950">
+                            $$f(x) = \sin(ax) \implies f^{(n)}(x) = a^n \sin\left(ax + \frac{n\pi}{2}\right)$$
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+                            <strong>Contoh Soal:</strong> Tentukan turunan ke-$2026$ dari $f(x) = \sin(2x)$!<br>
+                            &bull; Setiap kali diturunkan keluar faktor $2$, sehingga setelah $2026$ kali muncul **$2^{2026}$**.<br>
+                            &bull; Sisa pembagian $2026$ oleh $4$ adalah $2026 = 4(506) + 2$ (sisa $2$). Urutan ke-2 dari $\sin$ adalah **$-\sin$**.<br>
+                            &bull; Maka $f^{(2026)}(x) = \mathbf{-2^{2026}\sin(2x)}$!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: ATURAN L'HOPITAL UNTUK LIMIT 0/0 -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Senjata Pamungkas Limit</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🚀 Aturan L'Hôpital untuk Limit Bentuk Tak Tentu $\frac{0}{0}$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Garis Singgung dan Garis Normal Saling Tegak Lurus di Titik Singgung</span>
+                            <svg viewBox="0 0 440 175" class="w-full max-w-md h-auto">
+    <line x1="35" y1="145" x2="405" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <line x1="65" y1="160" x2="65" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 90 135 Q 210 20 350 115" fill="none" stroke="#1e293b" stroke-width="3"/>
+    <!-- Point of tangency P(200, 72) -->
+    <line x1="110" y1="117" x2="310" y2="17" stroke="#2563eb" stroke-width="2.5"/>
+    <line x1="165" y1="2" x2="245" y2="162" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <circle cx="200" cy="72" r="5" fill="#e11d48"/>
+    <text x="315" y="32" font-size="11" font-weight="800" fill="#1d4ed8">Garis Singgung (m_s = f'(x₁))</text>
+    <text x="295" y="135" font-size="11" font-weight="800" fill="#be123c">Garis Normal (m_n = -1/m_s)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">lim f(x)/g(x) = lim f'(x)/g'(x)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Setelah Anda menguasai turunan aljabar dan trigonometri, Anda dapat menyelesaikan hampir semua soal limit bentuk tak tentu **$\frac{0}{0}$** atau **$\frac{\infty}{\infty}$** dari Bab 2 dalam hitungan detik menggunakan <strong>Aturan L'Hôpital (Guillaume de l'Hôpital, 1696)</strong>:
+                        </p>
+
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-300 text-center font-mono text-xs sm:text-sm font-bold text-amber-950">
+                            $$\text{Jika } \lim_{x \to c} \frac{f(x)}{g(x)} = \frac{0}{0}, \quad \text{maka } \lim_{x \to c} \frac{f(x)}{g(x)} = \lim_{x \to c} \frac{f'(x)}{g'(x)}$$
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-rose-800 block">⚠️ Dua Aturan Wajib L'Hôpital:</span>
+                                <p class="text-slate-700 text-xs">
+                                    1. <strong>Wajib cek $\frac{0}{0}$ dulu!</strong> Jika bukan $\frac{0}{0}$ atau $\frac{\infty}{\infty}$, L'Hôpital dilarang dipakai.<br>
+                                    2. <strong>Turunkan pembilang dan penyebut SENDIRI-SENDIRI</strong> ($\frac{f'(x)}{g'(x)}$), BUKAN menggunakan rumus pembagian $\frac{u'v - uv'}{v^2}$!
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                <span class="font-bold text-blue-900 block">Contoh L'Hôpital 2 Kali Berturut-turut:</span>
+                                <p class="text-slate-700 text-xs">
+                                    $$\lim_{x \to 0} \frac{1 - \cos 4x}{x^2} \stackrel{\frac{0}{0}}{=} \lim_{x \to 0} \frac{4\sin 4x}{2x} \stackrel{\frac{0}{0}}{=} \lim_{x \to 0} \frac{16\cos 4x}{2} = \frac{16(1)}{2} = \mathbf{8}$$
+                                    Tanpa perlu hafal rumus sudut rangkap!
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Turunan Trigonometri &amp; Aturan L'Hôpital
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Siklus 4 Langkah Turunan Fungsi Sinus dan Cosinus</span>
+                            <svg viewBox="0 0 500 135" class="w-full max-w-lg h-auto">
+    <rect x="20" y="40" width="90" height="45" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="65" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#1e3a8a">sin x</text>
+
+    <text x="130" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="150" y="40" width="90" height="45" rx="8" fill="#a7f3d0" stroke="#059669" stroke-width="2"/>
+    <text x="195" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#065f46">cos x</text>
+
+    <text x="260" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="280" y="40" width="90" height="45" rx="8" fill="#fecdd3" stroke="#e11d48" stroke-width="2"/>
+    <text x="325" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#881337">-sin x</text>
+
+    <text x="390" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="410" y="40" width="80" height="45" rx="8" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+    <text x="450" y="67" text-anchor="middle" font-size="13" font-weight="800" fill="#92400e">-cos x</text>
+
+    <path d="M 450 85 Q 255 130 65 85" fill="none" stroke="#475569" stroke-width="1.8" stroke-dasharray="4 2"/>
+    <text x="255" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">Siklus Berulang Setiap 4 Kali Turunan: f⁽⁴⁾(x) = f(x)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah jawaban yang paling tepat pada 5 soal evaluasi turunan trigonometri berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="f'(x) = 3(2)cos(2x) - 4(-sin x) = 6 cos(2x) + 4 sin x. Untuk x = π/2: f'(π/2) = 6 cos(π) + 4 sin(π/2) = 6(-1) + 4(1) = -6 + 4 = -2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Turunan Dasar Sinus &amp; Cosinus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui fungsi $f(x) = 3\sin(2x) - 4\cos x$. Nilai dari $f'\left(\frac{\pi}{2}\right)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-10$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $-2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $2$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $10$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Gunakan aturan 3 lapis (Pangkat - Trigo - Sudut): f'(x) = 2 sin(3x) · cos(3x) · 3 = 3 · [2 sin(3x) cos(3x)] = 3 sin(6x).">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Aturan Rantai &amp; Sudut Rangkap Sinus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Turunan pertama dari fungsi $f(x) = \sin^2(3x)$ dapat disederhanakan menjadi ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2\sin(3x)\cos(3x)$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $6\cos^2(3x)$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $6\sin(6x)$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $3\sin(6x)$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Turunan dari tan(u) adalah u' · sec²(u). Untuk f(x) = tan(2x - π/4), diperoleh f'(x) = 2 sec²(2x - π/4). Saat x = π/4: f'(π/4) = 2 sec²(π/2 - π/4) = 2 sec²(π/4) = 2(√2)² = 4.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Turunan Fungsi Tangen</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Jika $f(x) = \tan\left(2x - \frac{\pi}{4}\right)$, maka nilai dari $f'\left(\frac{\pi}{4}\right)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $4$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $2\sqrt{2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $1$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Terapkan Aturan L'Hôpital pada bentuk 0/0: turunkan pembilang menjadi 3 cos(3x) - 3 cos x, dan penyebut menjadi 3x². Karena masih 0/0, gunakan L'Hôpital lebih mudah pada lim_{x→0} (sin 3x - 3x) / x³: L'Hôpital 1x → (3 cos 3x - 3)/(3x²); L'Hôpital 2x → (-9 sin 3x)/(6x) = -9(3)/6 = -9/2.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Kekuatan Aturan L'Hôpital Bertingkat</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Dengan menggunakan Aturan L'Hôpital, nilai dari $\lim_{x \to 0} \frac{\sin 3x - 3x}{x^3}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $0$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $-\frac{3}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $-\frac{9}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $-9$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Setiap penurunan cos(3x) mengeluarkan faktor 3. Karena 4 habis dibagi 4 (satu siklus penuh: cos → -sin → -cos → sin → cos), maka turunan ke-4 kembali ke +cos(3x) dikali 3⁴ = 81 cos(3x).">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Turunan Ke-4 Fungsi Cosinus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Turunan keempat $f^{(4)}(x)$ dari fungsi $f(x) = \cos(3x)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $-81\cos(3x)$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $81\cos(3x)$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $27\sin(3x)$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $12\cos(3x)$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F+ (Kelas XII SMA/MA)</em>. Elemen Kalkulus.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Section 3.3: Derivatives of Trigonometric Functions; Section 4.4: Indeterminate Forms and L'Hospital's Rule.</p>
+                    <p><strong>Thomas, George B.</strong> (2018). <em>Thomas' Calculus</em> (14th ed.). Pearson.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="aturan-rantai-turunan-implisit-dan-tingkat-tinggi.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Aturan Rantai &amp; Turunan Implisit
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="persamaan-garis-singgung-garis-normal-dan-kinematika.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Garis Singgung, Garis Normal &amp; Kinematika &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

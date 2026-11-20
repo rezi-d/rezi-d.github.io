@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Integral Tak Tentu, Rumus Dasar & Masalah Nilai Awal — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai konsep dasar integral tak tentu (antiturunan): hubungan kebalikan dengan turunan, arti geometris keluarga kurva konstanta C, rumus dasar integrasi aljabar dan trigonometri, serta penyelesaian masalah nilai awal (kurva & kinematika).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/integral/konsep-integral-tak-tentu-dan-rumus-dasar.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/integral/konsep-integral-tak-tentu-dan-rumus-dasar.html">
+    <meta property="og:title" content="∫ Konsep Integral Tak Tentu & Rumus Dasar — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Antiturunan, konstanta integrasi C, rumus dasar integral aljabar & trigonometri, dan masalah nilai awal.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>∫</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="integral">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Integral (Antiturunan)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Integral Tak Tentu, Rumus Dasar &amp; Masalah Nilai Awal
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Jika di Bab 3 kita menurunkan fungsi $F(x)$ untuk mendapatkan laju perubahannya $f(x)$, maka <strong>integral tak tentu (antiturunan)</strong> melakukan proses kebalikannya: merekonstruksi fungsi asal $F(x) + C$ dari turunannya! Pahami makna geometris keluarga kurva sejajar vertikal $+ C$, aturan pangkat integrasi $\frac{a}{n+1}x^{n+1}$, rumus dasar integral trigonometri, serta penyelesaian masalah nilai awal.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI ANTITURUNAN & MAKNA KONSTANTA C -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Operasi Balikan Turunan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔄 Definisi Antiturunan &amp; Makna Geometris Konstanta $+ C$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">F'(x) = f(x)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Sebuah fungsi $F(x)$ disebut sebagai <strong>antiturunan</strong> dari $f(x)$ apabila **$F'(x) = f(x)$**. Karena turunan dari sembarang konstanta $C \in \mathbb{R}$ adalah nol ($C' = 0$), maka seluruh fungsi berbentuk $F(x) + C$ memiliki turunan yang sama persis yaitu $f(x)$:
+                        </p>
+
+                        <div class="p-4 bg-blue-50 rounded-xl border border-blue-200 text-center font-mono text-xs sm:text-sm text-blue-950 font-bold">
+                            $$\int f(x)\,dx = F(x) + C \iff \frac{d}{dx}[F(x) + C] = f(x)$$
+                        </div>
+
+                        <!-- DIAGRAM SVG KELUARGA KURVA ANTITURUNAN F(x) + C -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Keluarga Kurva Antiturunan $\int 2x\,dx = x^2 + C$ (Kemiringan Garis Singgung Identik di Setiap Absis $x$)</span>
+                            <svg viewBox="0 0 380 175" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Sumbu X & Y -->
+                                <line x1="35" y1="125" x2="345" y2="125" stroke="#475569" stroke-width="1.5"/>
+                                <line x1="190" y1="165" x2="190" y2="10" stroke="#475569" stroke-width="1.5"/>
+                                <!-- Garis vertikal x = 1 (x = 240) -->
+                                <line x1="240" y1="15" x2="240" y2="160" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+                                <!-- 3 Parabola x^2 + C -->
+                                <path d="M 100 10 Q 190 160 280 10" fill="none" stroke="#059669" stroke-width="2.5"/>
+                                <path d="M 100 40 Q 190 190 280 40" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+                                <path d="M 100 70 Q 190 220 280 70" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+                                <!-- Titik di x = 240 pada ketiga parabola -->
+                                <circle cx="240" cy="62" r="4" fill="#059669"/>
+                                <circle cx="240" cy="92" r="4" fill="#2563eb"/>
+                                <circle cx="240" cy="122" r="4" fill="#e11d48"/>
+                                <!-- Label -->
+                                <text x="275" y="22" font-size="11" font-weight="bold" fill="#059669">y = x² + 2</text>
+                                <text x="285" y="50" font-size="11" font-weight="bold" fill="#2563eb">y = x² (C=0)</text>
+                                <text x="285" y="80" font-size="11" font-weight="bold" fill="#e11d48">y = x² - 2</text>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: RUMUS DASAR INTEGRAL ALJABAR -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Aturan Pangkat Integrasi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⚡ Rumus Dasar Integral Fungsi Aljabar ($n \ne -1$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">∫ a·xⁿ dx = [a/(n+1)]·xⁿ⁺¹ + C</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jika pada turunan kita <em>mengalikan pangkat lalu mengurangi pangkat dengan 1</em>, maka pada integral kita melakukan kebalikannya: <strong>tambahkan pangkat dengan 1, lalu bagi koefisien dengan pangkat baru tersebut</strong>:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-mono">
+                            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                                <span class="font-sans font-semibold text-slate-700">1. Integral Konstanta</span>
+                                <span class="font-bold text-blue-800">$\int k\,dx = kx + C$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                                <span class="font-sans font-bold text-blue-950">2. Aturan Pangkat ($n \ne -1$)</span>
+                                <span class="font-bold text-blue-900">$\int ax^n\,dx = \frac{a}{n+1}x^{n+1} + C$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+                                <span class="font-sans font-bold text-emerald-950">3. Bentuk Akar $\int \sqrt{x}\,dx$</span>
+                                <span class="font-bold text-emerald-900">$\frac{2}{3}x^{3/2} + C = \frac{2}{3}x\sqrt{x} + C$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between">
+                                <span class="font-sans font-bold text-amber-950">4. Khusus $n = -1$ ($\int \frac{1}{x}\,dx$)</span>
+                                <span class="font-bold text-amber-900">$\ln|x| + C$</span>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Interpretasi Geometris Integral sebagai Akumulasi Luas Bertanda F(b) - F(a)</span>
+                            <svg viewBox="0 0 460 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="135" x2="425" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 110 135 L 110 95 Q 230 15 350 75 L 350 135 Z" fill="#bfdbfe" fill-opacity="0.65"/>
+    <path d="M 90 110 Q 230 5 375 88" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="110" y1="95" x2="110" y2="135" stroke="#1d4ed8" stroke-dasharray="4 2"/>
+    <line x1="350" y1="75" x2="350" y2="135" stroke="#1d4ed8" stroke-dasharray="4 2"/>
+    <text x="110" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">a</text>
+    <text x="350" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">b</text>
+    <text x="230" y="102" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">∫ f(x) dx = F(b) - F(a)</text>
+</svg>
+                        </div>
+
+
+                        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs sm:text-sm space-y-1">
+                            <span class="font-bold text-rose-950 block">⚠️ Aturan Penting: Tidak Ada "Rumus Perkalian/Pembagian Langsung" di Integral!</span>
+                            <p class="text-slate-700 text-xs">
+                                Jika integran berupa perkalian atau pembagian seperti $\int (2x - 1)(x + 3)\,dx$ atau $\int \frac{x^3 - 4x}{\sqrt{x}}\,dx$, <strong>jabarkan (kalikan/bagi) terlebih dahulu</strong> menjadi penjumlahan suku-suku pangkat $ax^n$ sebelum diintegralkan!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: RUMUS DASAR INTEGRAL TRIGONOMETRI -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Antiturunan Trigonometri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌊 Rumus Dasar Integral Fungsi Trigonometri
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Hasil "C" ⇒ Negatif (-)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Dengan membalik tabel turunan fungsi trigonometri (dan membagi dengan koefisien sudut linier $a$), diperoleh 6 rumus dasar integral trigonometri:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-mono">
+                            <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$\int \sin(ax + b)\,dx$</span>
+                                <span class="font-bold text-rose-800">$-\frac{1}{a}\mathbf{c}\text{os}(ax + b) + C$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$\int \cos(ax + b)\,dx$</span>
+                                <span class="font-bold text-blue-800">$+\frac{1}{a}\sin(ax + b) + C$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$\int \sec^2(ax)\,dx$</span>
+                                <span class="font-bold text-blue-800">$+\frac{1}{a}\tan(ax) + C$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$\int \csc^2(ax)\,dx$</span>
+                                <span class="font-bold text-rose-800">$-\frac{1}{a}\mathbf{c}\text{ot}(ax) + C$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$\int \sec x \tan x\,dx$</span>
+                                <span class="font-bold text-blue-800">$+\sec x + C$</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between">
+                                <span class="font-bold text-slate-900">$\int \csc x \cot x\,dx$</span>
+                                <span class="font-bold text-rose-800">$-\mathbf{c}\text{sc } x + C$</span>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Interpretasi Geometris Integral sebagai Akumulasi Luas Bertanda F(b) - F(a)</span>
+                            <svg viewBox="0 0 460 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="135" x2="425" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 110 135 L 110 95 Q 230 15 350 75 L 350 135 Z" fill="#bfdbfe" fill-opacity="0.65"/>
+    <path d="M 90 110 Q 230 5 375 88" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="110" y1="95" x2="110" y2="135" stroke="#1d4ed8" stroke-dasharray="4 2"/>
+    <line x1="350" y1="75" x2="350" y2="135" stroke="#1d4ed8" stroke-dasharray="4 2"/>
+    <text x="110" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">a</text>
+    <text x="350" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">b</text>
+    <text x="230" y="102" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">∫ f(x) dx = F(b) - F(a)</text>
+</svg>
+                        </div>
+
+
+                        <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950">
+                            💡 <strong>Jembatan Keledai:</strong> Setiap hasil integral trigonometri yang menghasilkan fungsi berawalan huruf <strong>"C"</strong> ($\mathbf{c}\text{os}$, $\mathbf{c}\text{ot}$, $\mathbf{c}\text{sc}$) selalu diberi tanda <strong>negatif ($-$)</strong>!
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: MASALAH NILAI AWAL (MENENTUKAN KONSTANTA C) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Menemukan Kurva &amp; Posisi Spesifik</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🎯 Masalah Nilai Awal: Menentukan Konstanta $C$
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">f(x) = ∫ f'(x) dx</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-purple-50/70 border border-purple-200 space-y-2">
+                                <span class="font-bold text-purple-950 block">1. Menentukan Persamaan Kurva dari Gradien</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Jika gradien garis singgung kurva di setiap titik $(x, y)$ diketahui $m = \frac{dy}{dx} = f'(x)$ dan kurva melalui satu titik $(x_0, y_0)$:<br>
+                                    1. Integralkan $y = \int f'(x)\,dx = F(x) + C$.<br>
+                                    2. Substitusikan $(x_0, y_0)$ untuk mendapatkan nilai spesifik $C$!
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                                <span class="font-bold text-blue-950 block">2. Rekonstruksi Kinematika ($a(t) \to v(t) \to s(t)$)</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Kebalikan dari turunan kinematika:<br>
+                                    &bull; Kecepatan dari percepatan: **$v(t) = \int a(t)\,dt$**<br>
+                                    &bull; Posisi dari kecepatan: **$s(t) = \int v(t)\,dt$**
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Interpretasi Geometris Integral sebagai Akumulasi Luas Bertanda F(b) - F(a)</span>
+                            <svg viewBox="0 0 460 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="135" x2="425" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 110 135 L 110 95 Q 230 15 350 75 L 350 135 Z" fill="#bfdbfe" fill-opacity="0.65"/>
+    <path d="M 90 110 Q 230 5 375 88" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="110" y1="95" x2="110" y2="135" stroke="#1d4ed8" stroke-dasharray="4 2"/>
+    <line x1="350" y1="75" x2="350" y2="135" stroke="#1d4ed8" stroke-dasharray="4 2"/>
+    <text x="110" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">a</text>
+    <text x="350" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">b</text>
+    <text x="230" y="102" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">∫ f(x) dx = F(b) - F(a)</text>
+</svg>
+                        </div>
+
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Integral Tak Tentu &amp; Masalah Nilai Awal
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah jawaban yang paling tepat pada 5 soal evaluasi integral tak tentu berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Jabarkan terlebih dahulu: (2x - 3)(x + 2) = 2x² + x - 6. Integralkan per suku: ∫ (2x² + x - 6) dx = (2/3)x³ + (1/2)x² - 6x + C.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Integral Polinomial Hasil Perkalian</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Hasil dari $\int (2x - 3)(x + 2)\,dx$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $\frac{2}{3}x^3 - \frac{1}{2}x^2 - 6x + C$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{2}{3}x^3 + \frac{1}{2}x^2 - 6x + C$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $2x^3 + \frac{1}{2}x^2 - 6x + C$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $\frac{2}{3}x^3 + x^2 - 6x + C$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Interpretasi Geometris Integral sebagai Akumulasi Luas Bertanda F(b) - F(a)</span>
+                            <svg viewBox="0 0 460 170" class="w-full max-w-md h-auto">
+    <line x1="35" y1="135" x2="425" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="65" y1="155" x2="65" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 110 135 L 110 95 Q 230 15 350 75 L 350 135 Z" fill="#bfdbfe" fill-opacity="0.65"/>
+    <path d="M 90 110 Q 230 5 375 88" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="110" y1="95" x2="110" y2="135" stroke="#1d4ed8" stroke-dasharray="4 2"/>
+    <line x1="350" y1="75" x2="350" y2="135" stroke="#1d4ed8" stroke-dasharray="4 2"/>
+    <text x="110" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">a</text>
+    <text x="350" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">b</text>
+    <text x="230" y="102" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">∫ f(x) dx = F(b) - F(a)</text>
+</svg>
+                        </div>
+
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Ubah ke pangkat rasional: ∫ (3x^(1/2) - 4x^(-3)) dx = 3 · (2/3)x^(3/2) - 4 · (-1/2)x^(-2) + C = 2x√x + 2/x² + C.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Integral Bentuk Akar &amp; Pecahan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Hasil dari $\int \left(3\sqrt{x} - \frac{4}{x^3}\right)\,dx$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2x\sqrt{x} + \frac{2}{x^2} + C$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $2x\sqrt{x} - \frac{2}{x^2} + C$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{9}{2}x\sqrt{x} + \frac{2}{x^2} + C$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $2x\sqrt{x} + \frac{1}{x^2} + C$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="∫ [6 sin(3x) - 4 cos(2x)] dx = 6(-⅓ cos 3x) - 4(½ sin 2x) + C = -2 cos(3x) - 2 sin(2x) + C.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Integral Dasar Trigonometri</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Hasil dari $\int \left(6\sin 3x - 4\cos 2x\right)\,dx$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $2\cos 3x - 2\sin 2x + C$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $-2\cos 3x + 2\sin 2x + C$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $-2\cos 3x - 2\sin 2x + C$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $-18\cos 3x - 8\sin 2x + C$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="f(x) = ∫ (3x² - 4x + 2) dx = x³ - 2x² + 2x + C. Karena f(1) = 5, maka 1³ - 2(1)² + 2(1) + C = 5 ⇒ 1 + C = 5 ⇒ C = 4. Maka f(2) = 2³ - 2(2)² + 2(2) + 4 = 8 - 8 + 4 + 4 = 8.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Masalah Nilai Awal Kurva</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Diketahui turunan pertama suatu fungsi adalah $f'(x) = 3x^2 - 4x + 2$. Jika grafik $y = f(x)$ melalui titik $(1, 5)$, maka nilai dari $f(2)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $4$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $5$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $6$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $8$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="s(t) = ∫ v(t) dt = ∫ (4t + 3) dt = 2t² + 3t + C. Karena s(0) = 5, maka C = 5 ⇒ s(t) = 2t² + 3t + 5. Untuk t = 3 detik: s(3) = 2(9) + 3(3) + 5 = 18 + 9 + 5 = 32 meter.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Rekonstruksi Posisi dari Kecepatan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Sebuah benda bergerak lurus dengan kecepatan $v(t) = (4t + 3)\text{ m/s}$. Jika pada saat $t = 0$ posisi awal benda adalah $s(0) = 5\text{ meter}$, maka posisi benda pada saat $t = 3\text{ detik}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $27\text{ meter}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $32\text{ meter}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $35\text{ meter}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $37\text{ meter}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus Integral.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Section 4.9: Antiderivatives.</p>
+                    <p><strong>Purcell, Edwin J. &amp; Varberg, Dale.</strong> (2007). <em>Calculus</em> (9th ed.). Prentice Hall. Chapter 3.8: Antiderivatives.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (HUB & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="/matematika/kelas-12/index.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Hub Matematika Kelas XII
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="teknik-integrasi-substitusi-aljabar-dan-trigonometri.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Teknik Integrasi Substitusi &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variabel Acak Diskrit, Ekspektasi & Distribusi Binomial - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari variabel acak diskrit, fungsi distribusi kumulatif F(x), nilai harapan E(X), variansi, serta rumus peluang dan rata-rata Distribusi Binomial B(n, p).">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="kaidah-pencacahan-dan-distribusi-peluang">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 6 · Kaidah Pencacahan & Distribusi Peluang</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 mb-2">
+                                📊 Sub-Materi 4 dari 6 · Kombinatorika & Peluang
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Variabel Acak Diskrit, Ekspektasi & Distribusi Binomial
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Variabel Acak Diskrit & Fungsi Distribusi Peluang -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Konsep Variabel Acak Diskrit</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Fungsi Massa Peluang $f(x)$ & Distribusi Kumulatif $F(x)$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">$\sum P(X = x) = 1$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            <strong>Variabel Acak Diskrit ($X$)</strong> adalah fungsi yang memetakan setiap hasil percobaan di ruang sampel ke sebuah bilangan bulat/tercacah (misalnya $X =$ banyaknya gambar yang muncul pada pelemparan $3$ koin, sehingga $X \in \{0, 1, 2, 3\}$).
+                        </p>
+
+                        <!-- SVG Grafik Batang Distribusi Peluang Diskrit 3 Koin -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Grafik Distribusi Peluang Diskrit $f(x) = P(X = x)$ untuk Banyaknya Gambar pada 3 Koin
+                            </p>
+                            <svg viewBox="0 0 540 190" class="w-full max-w-xl mx-auto h-auto">
+                                <line x1="65" y1="150" x2="480" y2="150" stroke="#334155" stroke-width="2" />
+                                <line x1="85" y1="165" x2="85" y2="20" stroke="#334155" stroke-width="2" />
+
+                                <!-- Bars for x = 0, 1, 2, 3 with P = 1/8, 3/8, 3/8, 1/8 -->
+                                <rect x="130" y="114" width="38" height="36" rx="4" fill="#93c5fd" stroke="#2563eb" stroke-width="2" />
+                                <rect x="220" y="42" width="38" height="108" rx="4" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2" />
+                                <rect x="310" y="42" width="38" height="108" rx="4" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2" />
+                                <rect x="400" y="114" width="38" height="36" rx="4" fill="#93c5fd" stroke="#2563eb" stroke-width="2" />
+
+                                <text x="149" y="106" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">1/8</text>
+                                <text x="239" y="34" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">3/8</text>
+                                <text x="329" y="34" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">3/8</text>
+                                <text x="419" y="106" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">1/8</text>
+
+                                <text x="149" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x = 0</text>
+                                <text x="239" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x = 1</text>
+                                <text x="329" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x = 2</text>
+                                <text x="419" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">x = 3</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Syarat Sah Fungsi Peluang $f(x)$</h3>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center">
+                                    $$0 \le f(x_i) \le 1 \quad \text{dan} \quad \sum_{i=1}^n f(x_i) = 1$$
+                                </div>
+                                <p class="text-xs text-slate-600">Total seluruh peluang dalam satu tabel distribusi wajib sama dengan $1$.</p>
+                            </div>
+
+                            <div class="bg-indigo-50/70 rounded-xl p-5 border border-indigo-200 space-y-2">
+                                <h3 class="font-bold text-indigo-950 text-sm">2. Fungsi Distribusi Kumulatif $F(t)$</h3>
+                                <div class="bg-white rounded-lg p-3 border border-indigo-100 text-xs text-center">
+                                    $$F(t) = P(X \le t) = \sum_{x \le t} f(x)$$
+                                </div>
+                                <p class="text-xs text-slate-600">Sehingga $f(k) = P(X = k) = F(k) - F(k - 1)$.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Nilai Harapan (Ekspektasi) & Variansi Variabel Acak -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Ukuran Pemusatan & Penyebaran</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Nilai Harapan (Ekspektasi $\mu = E(X)$) & Variansi $\sigma^2$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Rata-Rata Tertimbang</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">1. Nilai Harapan / Mean ($\mu = E(X)$)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center">
+                                    $$\mu = E(X) = \sum_{i=1}^n x_i \cdot P(X = x_i)$$
+                                </div>
+                                <p class="text-xs text-slate-600">Sifat linieritas ekspektasi: $E(aX + b) = a \cdot E(X) + b$.</p>
+                            </div>
+
+                            <div class="bg-teal-50/70 rounded-xl p-5 border border-teal-200 space-y-2">
+                                <h3 class="font-bold text-teal-950 text-sm">2. Variansi ($\sigma^2 = \text{Var}(X)$)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-teal-100 text-xs text-center">
+                                    $$\sigma^2 = E(X^2) - \big[E(X)\big]^2 = \left(\sum x_i^2 P(x_i)\right) - \mu^2$$
+                                </div>
+                                <p class="text-xs text-slate-600">Sifat variansi: $\text{Var}(aX + b) = a^2 \cdot \text{Var}(X)$.</p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Distribusi Massa Peluang Binomial B(n, p) dengan Rata-Rata μ = np</span>
+                            <svg viewBox="0 0 460 165" class="w-full max-w-md h-auto">
+    <line x1="45" y1="135" x2="415" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <rect x="75" y="115" width="36" height="20" rx="4" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="135" y="75" width="36" height="60" rx="4" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="195" y="32" width="36" height="103" rx="4" fill="#7c3aed" stroke="#4c1d95" stroke-width="2"/>
+    <rect x="255" y="55" width="36" height="80" rx="4" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="315" y="102" width="36" height="33" rx="4" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.8"/>
+    <line x1="213" y1="15" x2="213" y2="135" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="213" y="152" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Puncak Rata-Rata μ = n · p (Simpangan σ = √(npq))</text>
+</svg>
+                        </div>
+
+                    </div>
+
+                    <!-- SLIDE 3: Percobaan Bernoulli & Distribusi Peluang Binomial -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Percobaan Sukses-Gagal Berulang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Distribusi Peluang Binomial $X \sim B(n, p)$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">4 Syarat Binomial</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Suatu percobaan mengikuti <strong>Distribusi Binomial $B(n, p)$</strong> jika memenuhi 4 syarat:
+                            (1) Dilakukan sebanyak $n$ kali pengulangan,
+                            (2) Setiap percobaan hanya punya <strong>2 hasil: Sukses ($p$) atau Gagal ($q = 1 - p$)</strong>,
+                            (3) Peluang sukses $p$ selalu tetap di setiap pengulangan, dan
+                            (4) Antar pengulangan saling bebas.
+                        </p>
+
+                        <div class="bg-gradient-to-br from-purple-50 to-indigo-50/70 rounded-xl p-6 border border-purple-200 space-y-3">
+                            <h3 class="font-bold text-purple-950 text-sm uppercase tracking-wider">Rumus Peluang Tepat $k$ Sukses dari $n$ Percobaan:</h3>
+                            <div class="bg-white rounded-xl p-4 border border-purple-100 text-center overflow-x-auto">
+                                $$P(X = k) = b(k; n, p) = \binom{n}{k} \cdot p^k \cdot q^{n-k} \quad \text{dengan } q = 1 - p$$
+                            </div>
+                            <div class="text-xs text-slate-700 space-y-1">
+                                <p><strong>Contoh:</strong> Peluang seorang penembak tepat sasaran adalah $p = \frac{3}{4}$ ($q = \frac{1}{4}$). Jika ia menembak $4$ kali, peluang tepat $3$ kali mengenai sasaran adalah:</p>
+                                $$P(X = 3) = \binom{4}{3} \left(\frac{3}{4}\right)^3 \left(\frac{1}{4}\right)^1 = 4 \cdot \frac{27}{64} \cdot \frac{1}{4} = \frac{27}{64}$$
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Distribusi Massa Peluang Binomial B(n, p) dengan Rata-Rata μ = np</span>
+                            <svg viewBox="0 0 460 165" class="w-full max-w-md h-auto">
+    <line x1="45" y1="135" x2="415" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <rect x="75" y="115" width="36" height="20" rx="4" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="135" y="75" width="36" height="60" rx="4" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="195" y="32" width="36" height="103" rx="4" fill="#7c3aed" stroke="#4c1d95" stroke-width="2"/>
+    <rect x="255" y="55" width="36" height="80" rx="4" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="315" y="102" width="36" height="33" rx="4" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.8"/>
+    <line x1="213" y1="15" x2="213" y2="135" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="213" y="152" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Puncak Rata-Rata μ = n · p (Simpangan σ = √(npq))</text>
+</svg>
+                        </div>
+
+                    </div>
+
+                    <!-- SLIDE 4: Rata-Rata, Variansi & Simpangan Baku Binomial -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Poin 4 · Parameter Statistik Binomial</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Rumus Instan Rata-Rata ($\mu = np$) & Simpangan Baku ($\sigma = \sqrt{npq}$)
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700">Jurus 5 Detik</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Khusus untuk variabel acak yang berdistribusi Binomial $X \sim B(n, p)$, kita tidak perlu membuat tabel $\sum x_i P(x_i)$ untuk mencari rata-rata dan simpangan bakunya! Cukup gunakan rumus instan berikut:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="bg-amber-50/70 rounded-xl p-5 border border-amber-200 text-center space-y-2">
+                                <div class="text-xs font-bold text-amber-900 uppercase">Rata-Rata / Ekspektasi</div>
+                                <div class="bg-white rounded-lg p-3 border border-amber-100 text-sm font-bold">
+                                    $$\mu = E(X) = n \cdot p$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Distribusi Massa Peluang Binomial B(n, p) dengan Rata-Rata μ = np</span>
+                            <svg viewBox="0 0 460 165" class="w-full max-w-md h-auto">
+    <line x1="45" y1="135" x2="415" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <rect x="75" y="115" width="36" height="20" rx="4" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="135" y="75" width="36" height="60" rx="4" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="195" y="32" width="36" height="103" rx="4" fill="#7c3aed" stroke="#4c1d95" stroke-width="2"/>
+    <rect x="255" y="55" width="36" height="80" rx="4" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="315" y="102" width="36" height="33" rx="4" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.8"/>
+    <line x1="213" y1="15" x2="213" y2="135" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="213" y="152" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Puncak Rata-Rata μ = n · p (Simpangan σ = √(npq))</text>
+</svg>
+                        </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 text-center space-y-2">
+                                <div class="text-xs font-bold text-emerald-900 uppercase">Variansi (Ragam)</div>
+                                <div class="bg-white rounded-lg p-3 border border-emerald-100 text-sm font-bold">
+                                    $$\sigma^2 = n \cdot p \cdot q$$
+                                </div>
+                            </div>
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 text-center space-y-2">
+                                <div class="text-xs font-bold text-blue-900 uppercase">Simpangan Baku</div>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-sm font-bold">
+                                    $$\sigma = \sqrt{n \cdot p \cdot q}$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Variabel Acak Diskrit & Distribusi Binomial
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Kerjakan 5 soal evaluasi variabel acak diskrit dan distribusi binomial berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Konstanta Fungsi Peluang Diskrit</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Suatu variabel acak diskrit $X$ memiliki fungsi massa peluang $f(x) = k(x + 1)$ untuk $x \in \{1, 2, 3\}$ dan $f(x) = 0$ untuk $x$ lainnya. Nilai konstanta $k$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{1}{6}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{1}{8}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{1}{9}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{1}{10}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Distribusi Massa Peluang Binomial B(n, p) dengan Rata-Rata μ = np</span>
+                            <svg viewBox="0 0 460 165" class="w-full max-w-md h-auto">
+    <line x1="45" y1="135" x2="415" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <rect x="75" y="115" width="36" height="20" rx="4" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="135" y="75" width="36" height="60" rx="4" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="195" y="32" width="36" height="103" rx="4" fill="#7c3aed" stroke="#4c1d95" stroke-width="2"/>
+    <rect x="255" y="55" width="36" height="80" rx="4" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.8"/>
+    <rect x="315" y="102" width="36" height="33" rx="4" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.8"/>
+    <line x1="213" y1="15" x2="213" y2="135" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="213" y="152" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Puncak Rata-Rata μ = n · p (Simpangan σ = √(npq))</text>
+</svg>
+                        </div>
+
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Nilai Harapan (Ekspektasi) E(X)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Diketahui distribusi peluang variabel acak $X$: $P(X = 1) = 0{,}2$, $P(X = 2) = 0{,}5$, dan $P(X = 3) = 0{,}3$. Nilai harapan $E(X)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $2{,}0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $2{,}1$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $2{,}2$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $2{,}5$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Distribusi Peluang Binomial</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Sebuah koin setimbang dilempar sebanyak $5$ kali. Peluang munculnya sisi Angka tepat sebanyak $3$ kali adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{5}{16}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{3}{16}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{5}{32}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{15}{32}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Peluang Binomial Tendangan Penalti</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Peluang seorang pemain sepak bola mencetak gol dari tendangan penalti adalah $\frac{4}{5}$. Jika ia melakukan $3$ kali tendangan penalti, peluang ia mencetak <strong>tepat $2$ gol</strong> adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{16}{125}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{32}{125}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{64}{125}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{48}{125}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Rata-Rata & Simpangan Baku Binomial</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Sebuah tes terdiri atas $100$ soal pilihan ganda dengan $5$ opsi jawaban (A, B, C, D, E). Jika seorang siswa menjawab seluruh soal dengan cara menebak secara acak, maka rata-rata ($\mu$) dan simpangan baku ($\sigma$) banyak jawaban benar siswa tersebut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\mu = 20$ dan $\sigma = 16$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\mu = 20$ dan $\sigma = 4$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\mu = 25$ dan $\sigma = 4$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\mu = 20$ dan $\sigma = 2\sqrt{5}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/peluang-kejadian-majemuk-bersyarat-dan-teorema-bayes.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Peluang Majemuk & Bayes</span>
+                    </a>
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/distribusi-peluang-kontinu-dan-distribusi-normal-baku.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Variabel Acak Kontinu & Distribusi Normal (Skor-Z)</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Sangat tepat!</strong> Perhitungan variabel acak diskrit dan distribusi binomial Anda benar.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

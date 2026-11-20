@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persamaan Fungsional (Functional Equations) & Cauchy - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari teknik menyelesaikan persamaan fungsional olimpiade (OSN): sistem involusi f(x) dan f(1/x), 4 persamaan Cauchy, injektivitas-surjektivitas, dan metode diferensial.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="pengayaan-olimpiade">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 7 · Pengayaan Olimpiade Sains (OSN)</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+                                🏅 Sub-Materi 2 dari 6 · Pengayaan OSN Matematika
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Persamaan Fungsional (Functional Equations) & Cauchy
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Teknik Substitusi Involusi & Siklik -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Sistem Eliminasi Fungsi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Substitusi Involusi ($g(g(x)) = x$) & Siklus Orde-3
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Langganan OSN-K & OSN-P</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika sebuah persamaan fungsional memuat $f(x)$ dan $f(g(x))$ di mana fungsi $g$ bersifat <strong>involusi</strong> ($g(g(x)) = x$, seperti $g(x) = -x$, $g(x) = a - x$, $g(x) = \frac{1}{x}$, atau $g(x) = \frac{x+1}{x-1}$), substitusikan $x \longleftarrow g(x)$ untuk membentuk <strong>SPLDV dalam variabel $f(x)$ dan $f(g(x))$</strong>!
+                        </p>
+
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-3">
+                            <h3 class="font-bold text-blue-950 text-sm">Contoh Klasik OSN: $2f(x) + f\left(\frac{1}{x}\right) = 3x$ untuk $x \neq 0$</h3>
+                            <div class="text-xs text-slate-800 space-y-1.5">
+                                <p>1. Persamaan awal: $2f(x) + f(1/x) = 3x \quad \dots (1)$</p>
+                                <p>2. Ganti $x \longleftarrow \frac{1}{x}$: $2f(1/x) + f(x) = \frac{3}{x} \quad \dots (2)$</p>
+                                <p>3. Kalikan persamaan $(1)$ dengan $2$ lalu kurangkan dengan persamaan $(2)$ untuk mengeliminasi $f(1/x)$:</p>
+                                $$3f(x) = 6x - \frac{3}{x} \implies f(x) = 2x - \frac{1}{x}$$
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+                    </div>
+
+                    <!-- SLIDE 2: Injektivitas, Surjektivitas & Titik Tetap -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Struktur Pemetaan pada FE</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Memanfaatkan Injektivitas ($f(a)=f(b) \implies a=b$) & Surjektivitas
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Strategi Pembuktian</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">1. Cara Membuktikan $f$ Injektif</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Jika pada persamaan fungsional muncul bentuk $f(f(x)) = ax + b$ dengan $a \neq 0$, maka $f$ <strong>pasti injektif</strong>! Mengapa? Jika $f(u) = f(v)$, maka $f(f(u)) = f(f(v)) \implies au + b = av + b \implies u = v$.Setelah $f$ terbukti injektif, setiap persamaan berbentuk $f(\text{kiri}) = f(\text{kanan})$ langsung dapat dicoret $f$-nya menjadi $\text{kiri} = \text{kanan}$!
+                                </p>
+                            </div>
+
+                            <div class="bg-teal-50/70 rounded-xl p-5 border border-teal-200 space-y-2">
+                                <h3 class="font-bold text-teal-950 text-sm">2. Cara Membuktikan $f$ Surjektif</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Jika suatu ekspresi di ruas kanan yang memuat $x$ dapat menghasilkan semua bilangan riil $\mathbb{R}$ (misal $f(\text{sesuatu}) = x$), maka $f$ bersifat <strong>surjektif</strong>. Artinya, terdapat $c \in \mathbb{R}$ sehingga <strong>$f(c) = 0$</strong> (pembuat nol fungsi), yang sangat ampuh untuk menyederhanakan suku $f(x)f(y)$!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+                    </div>
+
+                    <!-- SLIDE 3: Empat Persamaan Fungsional Klasik Cauchy -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Fondasi Cauchy</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Empat Persamaan Fungsional Klasik Cauchy (Kontinu / Monoton)
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Induksi $\mathbb{N} \to \mathbb{Z} \to \mathbb{Q} \to \mathbb{R}$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika fungsi $f: \mathbb{R} \to \mathbb{R}$ memenuhi persamaan aditif Cauchy $f(x + y) = f(x) + f(y)$, maka melalui induksi matematika berlaku $f(qx) = q\cdot f(x)$ untuk semua bilangan rasional $q \in \mathbb{Q}$. Jika ditambah syarat <strong>kontinu</strong>, <strong>monoton</strong>, atau <strong>terbatas pada suatu interval</strong>, maka solusinya tunggal:
+                        </p>
+
+                        <!-- SVG Bagan 4 Persamaan Cauchy -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <svg viewBox="0 0 600 170" class="w-full max-w-2xl mx-auto h-auto">
+                                <rect x="15" y="12" width="275" height="68" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8" />
+                                <text x="152" y="36" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">1. Aditif: f(x + y) = f(x) + f(y)</text>
+                                <text x="152" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#2563eb">Solusi: f(x) = c · x</text>
+
+                                <rect x="310" y="12" width="275" height="68" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="1.8" />
+                                <text x="447" y="36" text-anchor="middle" font-size="12" font-weight="800" fill="#064e3b">2. Eksponensial: f(x + y) = f(x) · f(y)</text>
+                                <text x="447" y="60" text-anchor="middle" font-size="12" font-weight="bold" fill="#059669">Solusi: f(x) = aˣ (atau f(x) ≡ 0)</text>
+
+                                <rect x="15" y="92" width="275" height="68" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.8" />
+                                <text x="152" y="116" text-anchor="middle" font-size="12" font-weight="800" fill="#78350f">3. Logaritmik: f(x · y) = f(x) + f(y)</text>
+                                <text x="152" y="140" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">Solusi: f(x) = c · ln(x) (x &gt; 0)</text>
+
+                                <rect x="310" y="92" width="275" height="68" rx="8" fill="#fef2f2" stroke="#e11d48" stroke-width="1.8" />
+                                <text x="447" y="116" text-anchor="middle" font-size="12" font-weight="800" fill="#881337">4. Multiplikatif: f(x · y) = f(x) · f(y)</text>
+                                <text x="447" y="140" text-anchor="middle" font-size="12" font-weight="bold" fill="#be123c">Solusi: f(x) = xᶜ (x &gt; 0)</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Metode Diferensial pada Persamaan Fungsional -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 4 · Kalkulus pada Persamaan Fungsional</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Metode Turunan Parsial terhadap $y$ lalu Substitusi $y = 0$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">Jurus Cepat Diferensial</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika diketahui $f$ adalah fungsi yang <strong>terdiferensialkan</strong> (atau polinomial) dan memenuhi hubungan dua variabel $x, y$, kita dapat <strong>menurunkan kedua ruas terhadap variabel $y$</strong> (menganggap $x$ sebagai konstanta), lalu mensubstitusikan $y = 0$ (atau $y = 1$) untuk mendapatkan persamaan diferensial biasa dalam $f'(x)$!
+                        </p>
+
+                        <div class="bg-rose-50/70 rounded-xl p-5 border border-rose-200 space-y-2">
+                            <h3 class="font-bold text-rose-950 text-sm">Contoh: $f(x + y) = f(x) + f(y) + 2xy$ dengan $f'(0) = 3$</h3>
+                            <div class="text-xs text-slate-800 space-y-1">
+                                <p>1. Substitusi $x = y = 0 \implies f(0) = 0$.</p>
+                                <p>2. Turunkan kedua ruas terhadap $y$ (dengan $x$ dianggap tetap):</p>
+                                $$f'(x + y) \cdot 1 = 0 + f'(y) + 2x$$
+                                <p>3. Substitusikan $y = 0$:</p>
+                                $$f'(x) = f'(0) + 2x = 3 + 2x \implies f(x) = \int (2x + 3)\,dx = x^2 + 3x + C$$
+                                <p>Karena $f(0) = 0 \implies C = 0$, maka $f(x) = x^2 + 3x$.</p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Persamaan Fungsional Olimpiade
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal OSN</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Selesaikan 5 soal persamaan fungsional tingkat olimpiade berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Sistem Involusi $f(x)$ dan $f(1 - x)$</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Jika fungsi $f: \mathbb{R} \to \mathbb{R}$ memenuhi $2f(x) + 3f(1 - x) = 5x$ untuk setiap $x \in \mathbb{R}$, maka nilai dari $f(2)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $-7$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $-5$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $5$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $7$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Identitas Kunci Olimpiade Matematika (Valuasi Legendre, LTE & Struktur Aljabar)</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="20" width="235" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="137" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Rumus Legendre Faktorial</text>
+    <text x="137" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">v_p(n!) = ∑ ⌊n / pᵏ⌋ = (n - s_p(n))/(p-1)</text>
+
+    <rect x="285" y="20" width="235" height="80" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="402" y="46" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Lifting The Exponent (LTE)</text>
+    <text x="402" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">v_p(xⁿ - yⁿ) = v_p(x - y) + v_p(n)</text>
+</svg>
+                        </div>
+
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Persamaan Aditif Cauchy Teriferensialkan</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Fungsi terdiferensialkan $f: \mathbb{R} \to \mathbb{R}$ memenuhi $f(x + y) = f(x) + f(y) + 3xy(x + y)$ untuk semua $x, y \in \mathbb{R}$. Jika $f'(0) = 2$, maka nilai dari $f(3)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $27$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $30$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $33$ (karena $f(x) = x^3 + 2x$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $36$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Deret Teleskopik dari Persamaan Fungsional $f(x) + f(1-x) = 1$</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Diberikan fungsi $f(x) = \frac{4^x}{4^x + 2}$. Dengan membuktikan identitas $f(x) + f(1 - x) = 1$, nilai dari $\sum_{k=1}^{99} f\left(\frac{k}{100}\right)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $49$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $49{,}5$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $50$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $50{,}5$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Persamaan Fungsional Polinomial $P(x)P(y) = P(xy)$</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Sebuah polinomial tak nol $P(x)$ memenuhi $P(x) \cdot P\left(\frac{1}{x}\right) = P(x) + P\left(\frac{1}{x}\right)$ untuk setiap $x \neq 0$. Jika $P(2) = 9$, maka nilai dari $P(3)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $19$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $26$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $27$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $28$ (karena $P(x) = 1 \pm x^n \implies P(x) = 1 + x^3$)
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Siklus Orde-3: $g(x) = \frac{x - 1}{x}$</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Diketahui fungsi $f(x) + f\left(\frac{x - 1}{x}\right) = 2x$ untuk setiap $x \notin \{0, 1\}$. Nilai dari $f(2)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $2$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{5}{2}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $3$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{7}{2}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/pengayaan-olimpiade/kalkulus-olimpiade-dan-ketaksamaan-jensen-karamata.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Kalkulus & Ketaksamaan Jensen</span>
+                    </a>
+                    <a href="/matematika/kelas-12/pengayaan-olimpiade/teori-bilangan-lanjutan-residu-kuadratik-dan-lte.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Teori Bilangan Lanjutan (LTE & Legendre)</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Brilian!</strong> Strategi substitusi persamaan fungsional Anda sangat tepat.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

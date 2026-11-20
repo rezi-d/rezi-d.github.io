@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudut Antara Dua Bidang (Sudut Tumpuan / Dihedral) — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai konsep sudut antara dua bidang (sudut tumpuan / dihedral angle) dalam ruang 3D: prosedur garis potong persekutuan, teorema tiga garis tegak lurus, dan rumus luas proyeksi bidang (L' = L cos θ).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/dimensi-tiga/sudut-antara-dua-bidang-dihedral.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/dimensi-tiga/sudut-antara-dua-bidang-dihedral.html">
+    <meta property="og:title" content="📖 Sudut Antara Dua Bidang (Sudut Tumpuan / Dihedral) — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Sudut tumpuan dua bidang, rumus luas proyeksi ortogonal, serta aplikasi pada kubus, limas, dan bidang empat.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="dimensi-tiga">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 1: Geometri Ruang (Dimensi Tiga)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Sudut Antara Dua Bidang (Sudut Tumpuan / Dihedral)
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Bayangkan sebuah buku yang sedang dibuka: seberapa lebar bukaan antara dua halamannya diukur oleh <strong>sudut tumpuan (dihedral angle)</strong>. Pelajari algoritma 3 langkah menentukan sudut dua bidang melalui garis potong persekutuan, bedah sudut pada kubus, limas, dan bidang empat beraturan (tetrahedron), hingga trik sakti <strong>Teorema Luas Proyeksi Bidang ($\cos \theta = L_{\text{proyeksi}} / L_{\text{asli}}$)</strong>.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: DEFINISI SUDUT TUMPUAN (DIHEDRAL ANGLE) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Konsep Sudut Tumpuan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📖 Definisi Sudut Tumpuan (Dihedral) &amp; Garis Potong
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Garis Tumpuan (α, β)</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Sudut antara dua bidang berpotongan $\alpha$ dan $\beta$ (disebut <strong>sudut tumpuan</strong> atau <em>dihedral angle</em>) adalah sudut yang dibentuk oleh dua sinar garis $g \subset \alpha$ dan $h \subset \beta$ yang ditarik dari <strong>satu titik yang sama $T$</strong> pada garis potong $(\alpha, \beta)$ dan <strong>keduanya tegak lurus terhadap garis potong $(\alpha, \beta)$</strong>.
+                        </p>
+
+                        <!-- DIAGRAM SVG SUDUT DIHEDRAL -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Konstruksi Sudut Tumpuan $\theta = \angle(g, h)$ dengan $g \perp (\alpha, \beta)$ dan $h \perp (\alpha, \beta)$</span>
+                            <svg viewBox="0 0 430 200" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Bidang Beta (alas horizontal) -->
+                                <polygon points="60,165 310,165 380,105 130,105" fill="#f1f5f9" stroke="#64748b" stroke-width="1.8"/>
+                                <!-- Bidang Alpha (miring ke atas) -->
+                                <polygon points="60,165 130,105 270,25 200,85" fill="#dbeafe" fill-opacity="0.75" stroke="#2563eb" stroke-width="1.8"/>
+                                <!-- Garis potong persekutuan (alpha, beta) -->
+                                <line x1="50" y1="173" x2="145" y2="92" stroke="#1e293b" stroke-width="3.5"/>
+
+                                <!-- Titik T pada garis potong (95, 135) -->
+                                <!-- Garis g di bidang alpha tegak lurus garis potong -->
+                                <line x1="95" y1="135" x2="235" y2="55" stroke="#2563eb" stroke-width="3"/>
+                                <!-- Garis h di bidang beta tegak lurus garis potong -->
+                                <line x1="95" y1="135" x2="285" y2="135" stroke="#059669" stroke-width="3"/>
+                                <!-- Garis penghubung ujung segitiga -->
+                                <line x1="235" y1="55" x2="285" y2="135" stroke="#e11d48" stroke-width="2" stroke-dasharray="5,3"/>
+
+                                <!-- Busur sudut theta -->
+                                <path d="M 145 135 A 50 50 0 0 0 138 110" fill="none" stroke="#d97706" stroke-width="2.5"/>
+                                <text x="152" y="126" font-size="13" font-weight="bold" fill="#d97706">θ</text>
+
+                                <!-- Titik -->
+                                <circle cx="95" cy="135" r="4.5" fill="#1e293b"/>
+                                <text x="45" y="135" font-size="12" font-weight="bold" fill="#1e293b">T ∈ (α, β)</text>
+                                <text x="160" y="75" font-size="11" font-weight="bold" fill="#2563eb">g ⊂ α (g ⊥ potong)</text>
+                                <text x="180" y="152" font-size="11" font-weight="bold" fill="#059669">h ⊂ β (h ⊥ potong)</text>
+                                <text x="320" y="155" font-size="12" font-weight="bold" fill="#475569">Bidang β</text>
+                                <text x="205" y="42" font-size="12" font-weight="bold" fill="#1d4ed8">Bidang α</text>
+                            </svg>
+                        </div>
+
+                        <!-- ALGORITMA 3 LANGKAH -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200">
+                                <strong class="text-blue-950 block mb-1">1. Cari Garis Potong $(\alpha, \beta)$</strong>
+                                Temukan dua titik yang dimiliki bersama oleh bidang $\alpha$ dan bidang $\beta$. Garis yang menghubungkan kedua titik itu adalah <strong>engsel / garis potong $(\alpha, \beta)$</strong>.
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200">
+                                <strong class="text-blue-950 block mb-1">2. Pilih Titik Tumpu $T$</strong>
+                                Ambil titik $T$ pada garis potong (biasanya titik tengah garis potong jika segitiganya sama kaki, atau gunakan Teorema Tiga Garis Tegak Lurus).
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200">
+                                <strong class="text-blue-950 block mb-1">3. Tarik Dua Sinar $\perp$</strong>
+                                Tarik garis $g \subset \alpha$ dan $h \subset \beta$ yang keduanya tegak lurus garis potong di titik $T$. Sudut $\angle(g, h)$ adalah sudut kedua bidang!
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: BEDAH KASUS SUDUT DUA BIDANG PADA KUBUS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Aplikasi pada Kubus</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🧊 Sudut Antara Bidang Segitiga $BDG$ dan Alas $ABCD$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Dua Bidang Sejajar ACH ∥ BEG Membagi Tiga Sama Panjang Diagonal Ruang DF</span>
+                            <svg viewBox="0 0 380 190" class="w-full max-w-sm h-auto">
+    <polygon points="70,150 235,110 120,35" fill="#a7f3d0" fill-opacity="0.45" stroke="#059669" stroke-width="2"/>
+    <polygon points="185,150 70,75 235,35" fill="#bfdbfe" fill-opacity="0.45" stroke="#2563eb" stroke-width="2"/>
+    <line x1="70" y1="150" x2="185" y2="150" stroke="#334155" stroke-width="1.8"/>
+    <line x1="185" y1="150" x2="235" y2="110" stroke="#334155" stroke-width="1.8"/>
+    <line x1="120" y1="110" x2="235" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="150" x2="120" y2="110" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="70" y1="75" x2="185" y2="75" stroke="#334155" stroke-width="1.8"/>
+    <line x1="185" y1="75" x2="235" y2="35" stroke="#334155" stroke-width="1.8"/>
+    <line x1="120" y1="35" x2="235" y2="35" stroke="#334155" stroke-width="1.8"/>
+    <line x1="70" y1="75" x2="120" y2="35" stroke="#334155" stroke-width="1.8"/>
+    <line x1="70" y1="150" x2="70" y2="75" stroke="#334155" stroke-width="1.8"/>
+    <line x1="185" y1="150" x2="185" y2="75" stroke="#334155" stroke-width="1.8"/>
+    <line x1="235" y1="110" x2="235" y2="35" stroke="#334155" stroke-width="1.8"/>
+    <!-- Space diagonal DF trisected into 1/3 : 1/3 : 1/3 -->
+    <line x1="120" y1="110" x2="185" y2="75" stroke="#e11d48" stroke-width="3"/>
+    <text x="56" y="162" font-size="11" font-weight="bold" fill="#1e293b">A</text>
+    <text x="190" y="162" font-size="11" font-weight="bold" fill="#1e293b">B</text>
+    <text x="243" y="115" font-size="11" font-weight="bold" fill="#1e293b">C</text>
+    <text x="108" y="106" font-size="11" font-weight="bold" fill="#be123c">D</text>
+    <text x="56" y="75" font-size="11" font-weight="bold" fill="#1e293b">E</text>
+    <text x="192" y="70" font-size="11" font-weight="bold" fill="#be123c">F</text>
+    <text x="243" y="38" font-size="11" font-weight="bold" fill="#1e293b">G</text>
+    <text x="108" y="30" font-size="11" font-weight="bold" fill="#1e293b">H</text>
+    <text x="265" y="78" font-size="11" font-weight="800" fill="#065f46">ACH ∥ BEG (⅓a√3)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">tan θ = √2</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Mari kita terapkan algoritma 3 langkah pada soal paling populer di kelas XII: menentukan sudut antara bidang **$BDG$** dan bidang alas **$ABCD$** pada kubus $ABCD.EFGH$ berusuk $a$:
+                        </p>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs sm:text-sm">
+                            <ul class="space-y-2 text-slate-700">
+                                <li>
+                                    <strong>Langkah 1 (Garis Potong):</strong> Bidang $BDG$ dan bidang $ABCD$ sama-sama memuat titik $B$ dan $D$. Maka garis potongnya adalah diagonal alas **$BD$**.
+                                </li>
+                                <li>
+                                    <strong>Langkah 2 (Titik Tumpu $P$):</strong> Karena $\triangle BDG$ sama sisi ($BG = DG$) dan $\triangle BCD$ sama kaki ($BC = CD$), pilih titik tengah $BD$, yaitu pusat alas **$P$**.
+                                </li>
+                                <li>
+                                    <strong>Langkah 3 (Dua Garis Wakil Tegak Lurus $BD$):</strong><br>
+                                    &bull; Di bidang $ABCD$: garis **$PC$** tegak lurus $BD$ di $P$, dengan panjang $PC = \frac{1}{2}a\sqrt{2}$.<br>
+                                    &bull; Di bidang $BDG$: garis tinggi **$PG$** tegak lurus $BD$ di $P$, dengan panjang $PG = \frac{1}{2}a\sqrt{6}$.<br>
+                                    &bull; Maka sudut antara bidang $BDG$ dan $ABCD$ adalah **$\theta = \angle GPC$** pada $\triangle PCG$ siku-siku di $C$ ($CG = a$)!
+                                </li>
+                            </ul>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-center text-xs font-bold text-emerald-950 pt-2">
+                                <div class="p-2.5 bg-white rounded-xl border border-emerald-200">
+                                    $$\tan \theta = \frac{CG}{PC} = \frac{a}{\frac{1}{2}a\sqrt{2}} = \mathbf{\sqrt{2}}$$
+                                </div>
+                                <div class="p-2.5 bg-white rounded-xl border border-emerald-200">
+                                    $$\cos \theta = \frac{PC}{PG} = \frac{\frac{1}{2}a\sqrt{2}}{\frac{1}{2}a\sqrt{6}} = \mathbf{\frac{1}{3}\sqrt{3}}$$
+                                </div>
+                                <div class="p-2.5 bg-white rounded-xl border border-emerald-200">
+                                    $$\sin \theta = \frac{CG}{PG} = \frac{a}{\frac{1}{2}a\sqrt{6}} = \mathbf{\frac{1}{3}\sqrt{6}}$$
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: SUDUT DUA BIDANG PADA LIMAS & TETRAHEDRON -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Limas &amp; Bidang Empat</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🏔️ Sudut Bidang pada Limas &amp; Bidang Empat Beraturan
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Segitiga Siku-Siku Tinggi TO dan Apotema TP pada Limas Tegak T.ABCD</span>
+                            <svg viewBox="0 0 380 195" class="w-full max-w-sm h-auto">
+    <polygon points="75,155 215,155 265,115 125,115" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+    <polygon points="170,25 215,155 265,115" fill="#dbeafe" fill-opacity="0.45"/>
+    <line x1="75" y1="155" x2="265" y2="115" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="215" y1="155" x2="125" y2="115" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <!-- Apex T(170, 25) to base vertices and center O(170, 135) -->
+    <line x1="170" y1="25" x2="75" y2="155" stroke="#334155" stroke-width="2"/>
+    <line x1="170" y1="25" x2="215" y2="155" stroke="#334155" stroke-width="2"/>
+    <line x1="170" y1="25" x2="265" y2="115" stroke="#334155" stroke-width="2"/>
+    <line x1="170" y1="25" x2="125" y2="115" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <!-- Altitude TO and Apothem TP to midpoint P(240, 135) -->
+    <line x1="170" y1="25" x2="170" y2="135" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="4 2"/>
+    <line x1="170" y1="135" x2="240" y2="135" stroke="#2563eb" stroke-width="2"/>
+    <line x1="170" y1="25" x2="240" y2="135" stroke="#059669" stroke-width="2.5"/>
+    <circle cx="170" cy="25" r="4" fill="#1e293b"/>
+    <circle cx="170" cy="135" r="4" fill="#e11d48"/>
+    <circle cx="240" cy="135" r="4" fill="#059669"/>
+    <text x="170" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">T (Puncak)</text>
+    <text x="60" y="165" font-size="12" font-weight="bold" fill="#1e293b">A</text>
+    <text x="220" y="168" font-size="12" font-weight="bold" fill="#1e293b">B</text>
+    <text x="275" y="118" font-size="12" font-weight="bold" fill="#1e293b">C</text>
+    <text x="112" y="112" font-size="11" font-weight="bold" fill="#64748b">D</text>
+    <text x="155" y="146" font-size="11" font-weight="800" fill="#be123c">O</text>
+    <text x="252" y="142" font-size="11" font-weight="800" fill="#047857">P</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">cos θ = 1/3 (Tetrahedron)</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs sm:text-sm">
+                            <!-- Bidang Empat Beraturan -->
+                            <div class="p-5 rounded-2xl bg-purple-50/70 border border-purple-200 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-purple-950 text-sm">1. Bidang Empat Beraturan (Tetrahedron) $T.ABC$</span>
+                                    <span class="px-2 py-0.5 bg-purple-200 text-purple-900 font-mono font-bold text-xs rounded">$\cos \theta = \frac{1}{3}$</span>
+                                </div>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    Keempat sisinya adalah segitiga sama sisi identik berusuk $a$. Berapa nilai $\cos \theta$ antara bidang sisi tegak $TBC$ dan bidang alas $ABC$?
+                                </p>
+                                <ul class="space-y-1 text-slate-700 text-xs">
+                                    <li>&bull; Garis potong: rusuk $BC$. Ambil titik tengah $M$ pada $BC$.</li>
+                                    <li>&bull; Garis tinggi $TM \perp BC$ dan $AM \perp BC$, dengan $TM = AM = \frac{1}{2}a\sqrt{3}$.</li>
+                                    <li>&bull; Proyeksi puncak $T$ pada alas $\triangle ABC$ jatuh di titik berat $O$, yang membagi garis berat $AM$ dalam rasio $AO : OM = 2 : 1$.</li>
+                                    <li>&bull; Maka $OM = \frac{1}{3}AM$. Pada $\triangle TOM$ siku-siku di $O$:
+                                        $$\cos \theta = \frac{OM}{TM} = \frac{\frac{1}{3}AM}{AM} = \mathbf{\frac{1}{3}}$$
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Limas Segiempat Beraturan -->
+                            <div class="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-amber-950 text-sm">2. Limas Segiempat Beraturan $T.ABCD$</span>
+                                    <span class="px-2 py-0.5 bg-amber-200 text-amber-900 font-mono font-bold text-xs rounded">Apotema $TM$</span>
+                                </div>
+                                <p class="text-slate-700 text-xs leading-relaxed">
+                                    Berapa sudut antara bidang sisi tegak $TBC$ dan bidang alas persegi $ABCD$ (rusuk alas $a$, tinggi limas $t$)?
+                                </p>
+                                <ul class="space-y-1 text-slate-700 text-xs">
+                                    <li>&bull; Garis potong: rusuk $BC$. Ambil titik tengah $M$ pada $BC$.</li>
+                                    <li>&bull; Dari pusat alas $O$, tarik $OM \perp BC$ dengan panjang $OM = \frac{1}{2}AB = \frac{1}{2}a$.</li>
+                                    <li>&bull; Di bidang $TBC$, tarik garis tinggi (apotema) $TM \perp BC$.</li>
+                                    <li>&bull; Sudut tumpuannya adalah $\theta = \angle TMO$ pada $\triangle TOM$ siku-siku di $O$:
+                                        $$\tan \theta = \frac{TO}{OM} = \frac{t}{\frac{1}{2}a} = \frac{2t}{a}$$
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: TEOREMA LUAS PROYEKSI BIDANG (SENJATA OLIMPIADE & UTBK) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Jalan Pintas Tanpa Menggambar</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🚀 Teorema Luas Proyeksi Bidang: $\cos \theta = \frac{L_{\text{proyeksi}}}{L_{\text{asli}}}$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Hubungan Luas Bidang Miring dan Proyeksinya: L_proyeksi = L_asli · cos θ</span>
+                            <svg viewBox="0 0 460 175" class="w-full max-w-md h-auto">
+    <!-- Base plane -->
+    <polygon points="40,145 310,145 370,100 100,100" fill="#e2e8f0" stroke="#475569" stroke-width="1.8"/>
+    <!-- Projected triangle on base -->
+    <polygon points="100,135 260,135 215,110" fill="#93c5fd" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <!-- Inclined original triangle -->
+    <polygon points="100,135 260,135 215,35" fill="#fde68a" fill-opacity="0.75" stroke="#d97706" stroke-width="2.5"/>
+    <!-- Vertical projection ray -->
+    <line x1="215" y1="35" x2="215" y2="110" stroke="#e11d48" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="180" y="75" font-size="12" font-weight="800" fill="#92400e">L_asli</text>
+    <text x="180" y="128" font-size="11" font-weight="800" fill="#1e3a8a">L_proyeksi = L_asli · cos θ</text>
+    <text x="135" y="130" font-size="12" font-weight="800" fill="#be123c">θ</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-rose-100 text-rose-800 font-semibold px-2.5 py-1 rounded-full font-mono">L' = L cos θ</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jika sebuah bangun datar pada bidang miring $\alpha$ dengan luas $L_{\text{asli}}$ diproyeksikan secara tegak lurus ke bidang datar $\beta$ menghasilkan bangun bayangan dengan luas $L_{\text{proyeksi}}$, maka kosinus sudut $\theta$ antara kedua bidang selalu memenuhi:
+                        </p>
+
+                        <div class="p-4 bg-rose-50 rounded-xl border border-rose-200 text-center font-mono text-sm sm:text-base text-rose-950 font-bold">
+                            $$L_{\text{proyeksi}} = L_{\text{asli}} \cdot \cos \theta \iff \cos \theta = \frac{L_{\text{proyeksi}}}{L_{\text{asli}}}$$
+                        </div>
+
+                        <!-- BUKTI KEAMPUHAN RUMUS LUAS PROYEKSI -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs sm:text-sm">
+                            <span class="font-bold text-slate-900 block">⚡ Contoh Keampuhan (Selesai dalam 10 Detik!):</span>
+                            <p class="text-slate-700 text-xs leading-relaxed">
+                                Hitung kembali $\cos \theta$ antara bidang segitiga **$BDG$** (bidang miring) dan bidang alas **$ABCD$** pada kubus berusuk $a$ menggunakan Teorema Luas Proyeksi:<br>
+                                1. Proyeksi titik $B, D, G$ ke bidang alas $ABCD$ berturut-turut adalah $B, D, C$. Jadi bayangan dari $\triangle BDG$ di alas adalah **$\triangle BDC$**!<br>
+                                2. Luas bayangan $\triangle BDC$ (siku-siku di $C$): $L_{\text{proyeksi}} = \frac{1}{2} a^2$.<br>
+                                3. Luas asli $\triangle BDG$ (sama sisi dengan sisi $s = a\sqrt{2}$): $L_{\text{asli}} = \frac{1}{4}s^2\sqrt{3} = \frac{1}{4}(2a^2)\sqrt{3} = \frac{1}{2}a^2\sqrt{3}$.<br>
+                                4. Langsung bagi keduanya:
+                                $$\cos \theta = \frac{L_{\triangle BDC}}{L_{\triangle BDG}} = \frac{\frac{1}{2}a^2}{\frac{1}{2}a^2\sqrt{3}} = \frac{1}{\sqrt{3}} = \mathbf{\frac{1}{3}\sqrt{3}}$$
+                                Tanpa perlu mencari garis potong maupun menggambar segitiga bantu sama sekali!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Kuis Sudut Antara Dua Bidang (Dihedral)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Pilihlah jawaban yang paling tepat pada 5 soal evaluasi sudut antara dua bidang berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Bayangan ΔACH pada bidang alas ABCD adalah ΔACD (luas = ½ a²), sedangkan luas ΔACH sama sisi (s = a√2) adalah ½ a²√3. Maka cos θ = L_ACD / L_ACH = (½ a²) / (½ a²√3) = ⅓√3.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Sudut Bidang Segitiga terhadap Alas Kubus</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ berikut. Jika $\theta$ adalah sudut tumpuan antara bidang segitiga $ACH$ dan bidang alas $ABCD$, maka nilai $\cos \theta$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 1: Sudut Bidang ACH terhadap Alas ABCD -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang ACH (Merah transparan) -->
+                                        <polygon points="75,170 225,130 115,30" fill="#ffe4e6" fill-opacity="0.6" stroke="#e11d48" stroke-width="2"/>
+                                        <!-- Garis tinggi HP dan DP (Sudut θ di P) -->
+                                        <line x1="115" y1="30" x2="150" y2="150" stroke="#e11d48" stroke-width="2.5"/>
+                                        <line x1="115" y1="130" x2="150" y2="150" stroke="#059669" stroke-width="2.5"/>
+                                        <!-- Rusuk kubus -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="75" cy="170" r="3.5" fill="#e11d48"/>
+                                        <circle cx="225" cy="130" r="3.5" fill="#e11d48"/>
+                                        <circle cx="115" cy="30" r="3.5" fill="#e11d48"/>
+                                        <circle cx="150" cy="150" r="4" fill="#2563eb"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#e11d48">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#334155">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#e11d48">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#059669">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#334155">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#334155">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#e11d48">H</text>
+                                        <text x="155" y="164" font-size="11" font-weight="bold" fill="#2563eb">P</text>
+                                        <text x="131" y="135" font-size="12" font-weight="bold" fill="#2563eb">θ</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $\frac{1}{3}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{1}{3}\sqrt{3}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{1}{3}\sqrt{6}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $\frac{1}{2}\sqrt{2}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Pada bidang empat beraturan (tetrahedron) T.ABC yang keempat sisinya berupa segitiga sama sisi kongruen, proyeksi puncak T pada alas ABC jatuh di titik berat O yang berjarak ⅓ dari tinggi segitiga alas CM. Maka cos θ = OM / TM = ⅓.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Sudut Tumpuan Bidang Empat Beraturan</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan bidang empat beraturan (tetrahedron) $T.ABC$ dengan panjang rusuk $6\text{ cm}$ berikut. Nilai kosinus sudut antara bidang sisi tegak $TAB$ dan bidang alas $ABC$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Tetrahedron Soal 2 -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang AC (putus-putus) -->
+                                        <line x1="70" y1="150" x2="245" y2="135" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Segitiga siku-siku TOM -->
+                                        <polygon points="160,30 165,147 125,163" fill="#dbeafe" fill-opacity="0.65" stroke="#2563eb" stroke-width="1.8"/>
+                                        <!-- Tinggi TO & Garis berat CM -->
+                                        <line x1="160" y1="30" x2="165" y2="147" stroke="#e11d48" stroke-width="2.2" stroke-dasharray="4,2"/>
+                                        <line x1="245" y1="135" x2="125" y2="163" stroke="#059669" stroke-width="2" stroke-dasharray="4,2"/>
+                                        <!-- Rusuk Tetrahedron -->
+                                        <line x1="70" y1="150" x2="180" y2="175" stroke="#334155" stroke-width="2.2"/>
+                                        <line x1="180" y1="175" x2="245" y2="135" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="160" y1="30" x2="70" y2="150" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="160" y1="30" x2="180" y2="175" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="160" y1="30" x2="245" y2="135" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="160" y1="30" x2="125" y2="163" stroke="#2563eb" stroke-width="2.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="160" cy="30" r="4" fill="#2563eb"/>
+                                        <circle cx="125" cy="163" r="4" fill="#e11d48"/>
+                                        <circle cx="165" cy="147" r="3.5" fill="#e11d48"/>
+                                        <text x="155" y="20" font-size="12" font-weight="bold" fill="#2563eb">T</text>
+                                        <text x="53" y="156" font-size="12" font-weight="bold" fill="#334155">A</text>
+                                        <text x="180" y="190" font-size="12" font-weight="bold" fill="#334155">B</text>
+                                        <text x="252" y="140" font-size="12" font-weight="bold" fill="#334155">C</text>
+                                        <text x="112" y="178" font-size="11" font-weight="bold" fill="#e11d48">M</text>
+                                        <text x="172" y="153" font-size="11" font-weight="bold" fill="#e11d48">O</text>
+                                        <text x="138" y="152" font-size="12" font-weight="bold" fill="#e11d48">θ</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $\frac{1}{3}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $\frac{1}{2}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $\frac{1}{3}\sqrt{3}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $\frac{2}{3}\sqrt{2}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Tinjau ΔTOM siku-siku di O (pusat alas), dengan M titik tengah BC. Panjang OM = ½ AB = 3 cm dan tinggi limas TO = 3√3 cm. Maka tan θ = TO / OM = (3√3) / 3 = √3 ⇒ θ = 60°.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Sudut Bidang Tegak Limas terhadap Alas</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan limas segiempat beraturan $T.ABCD$ dengan panjang rusuk alas $6\text{ cm}$ dan tinggi limas $3\sqrt{3}\text{ cm}$ berikut. Besar sudut tumpuan antara bidang sisi tegak $TBC$ dan bidang alas $ABCD$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Limas Soal 3: Sudut TBC terhadap ABCD -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Alas belakang -->
+                                        <line x1="115" y1="135" x2="235" y2="135" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="135" x2="70" y2="175" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="155" y1="30" x2="115" y2="135" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Segitiga siku-siku TOM -->
+                                        <polygon points="155,30 152.5,155 212.5,155" fill="#fef3c7" fill-opacity="0.75" stroke="#d97706" stroke-width="1.8"/>
+                                        <line x1="155" y1="30" x2="152.5" y2="155" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="4,2"/>
+                                        <line x1="152.5" y1="155" x2="212.5" y2="155" stroke="#059669" stroke-width="2.5"/>
+                                        <line x1="155" y1="30" x2="212.5" y2="155" stroke="#2563eb" stroke-width="2.8"/>
+                                        <!-- Rusuk depan limas -->
+                                        <line x1="70" y1="175" x2="190" y2="175" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="190" y1="175" x2="235" y2="135" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="155" y1="30" x2="70" y2="175" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="155" y1="30" x2="190" y2="175" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="155" y1="30" x2="235" y2="135" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="155" cy="30" r="4" fill="#2563eb"/>
+                                        <circle cx="152.5" cy="155" r="3.5" fill="#e11d48"/>
+                                        <circle cx="212.5" cy="155" r="4" fill="#059669"/>
+                                        <text x="150" y="20" font-size="12" font-weight="bold" fill="#2563eb">T</text>
+                                        <text x="53" y="182" font-size="12" font-weight="bold" fill="#334155">A</text>
+                                        <text x="188" y="190" font-size="12" font-weight="bold" fill="#334155">B</text>
+                                        <text x="242" y="138" font-size="12" font-weight="bold" fill="#334155">C</text>
+                                        <text x="100" y="132" font-size="11" font-weight="bold" fill="#64748b">D</text>
+                                        <text x="138" y="165" font-size="11" font-weight="bold" fill="#e11d48">O</text>
+                                        <text x="220" y="162" font-size="11" font-weight="bold" fill="#059669">M</text>
+                                        <text x="195" y="150" font-size="12" font-weight="bold" fill="#e11d48">θ</text>
+                                        <text x="115" y="100" font-size="10" font-weight="bold" fill="#e11d48">3√3 cm</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $30^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $45^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $60^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $75^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Garis potong bidang BCHE dan ABCD adalah rusuk BC. Karena AB ⊥ BC (di bidang ABCD) dan EB ⊥ BC (di bidang BCHE), maka sudutnya adalah ∠ABE pada ΔABE siku-siku sama kaki di A (AB = AE = a). Maka ∠ABE = 45°.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Sudut Bidang Diagonal terhadap Alas</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan kubus $ABCD.EFGH$ berikut. Besar sudut yang dibentuk oleh bidang diagonal $BCHE$ dan bidang alas $ABCD$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Kubus Soal 4: Sudut BCHE terhadap ABCD -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 200" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Rusuk belakang -->
+                                        <line x1="115" y1="130" x2="225" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="75" y2="170" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <line x1="115" y1="130" x2="115" y2="30" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                        <!-- Bidang Diagonal BCHE -->
+                                        <polygon points="185,170 225,130 115,30 75,70" fill="#dbeafe" fill-opacity="0.6" stroke="#2563eb" stroke-width="2"/>
+                                        <!-- Rusuk kubus -->
+                                        <line x1="75" y1="170" x2="185" y2="170" stroke="#059669" stroke-width="2.8"/>
+                                        <line x1="75" y1="70" x2="185" y2="70" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="75" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="185" y2="170" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="170" x2="225" y2="130" stroke="#e11d48" stroke-width="2.8"/>
+                                        <line x1="225" y1="130" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="115" y1="30" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="75" y1="70" x2="115" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <line x1="185" y1="70" x2="225" y2="30" stroke="#334155" stroke-width="1.8"/>
+                                        <!-- Titik & Label -->
+                                        <circle cx="75" cy="170" r="3.5" fill="#059669"/>
+                                        <circle cx="185" cy="170" r="4" fill="#e11d48"/>
+                                        <circle cx="75" cy="70" r="3.5" fill="#2563eb"/>
+                                        <text x="58" y="180" font-size="12" font-weight="bold" fill="#059669">A</text>
+                                        <text x="190" y="180" font-size="12" font-weight="bold" fill="#e11d48">B</text>
+                                        <text x="233" y="135" font-size="12" font-weight="bold" fill="#e11d48">C</text>
+                                        <text x="100" y="126" font-size="11" font-weight="bold" fill="#64748b">D</text>
+                                        <text x="58" y="74" font-size="12" font-weight="bold" fill="#2563eb">E</text>
+                                        <text x="172" y="64" font-size="12" font-weight="bold" fill="#334155">F</text>
+                                        <text x="233" y="34" font-size="12" font-weight="bold" fill="#334155">G</text>
+                                        <text x="100" y="25" font-size="12" font-weight="bold" fill="#2563eb">H</text>
+                                        <text x="155" y="162" font-size="12" font-weight="bold" fill="#e11d48">θ</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $30^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $60^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $90^\circ$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $45^\circ$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Berdasarkan Teorema Luas Proyeksi Bidang: L_proyeksi = L_asli × cos θ = 24√3 × cos 30° = 24√3 × (½√3) = 12 × 3 = 36 cm².">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Aplikasi Teorema Luas Proyeksi Bidang</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Sebuah pelat segitiga dengan luas $24\sqrt{3}\text{ cm}^2$ terletak pada bidang $\alpha$ yang membentuk sudut $30^\circ$ terhadap bidang lantai horizontal $\beta$. Luas bayangan proyeksi ortogonal pelat tersebut pada bidang lantai $\beta$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Proyeksi Pelat Segitiga Soal 5 -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 320 175" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Bidang lantai beta -->
+                                        <polygon points="30,150 250,150 295,105 75,105" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+                                        <!-- Bayangan segitiga di lantai (Hijau) -->
+                                        <polygon points="85,140 220,140 190,115" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+                                        <!-- Pelat segitiga asli miring (Biru) -->
+                                        <polygon points="85,140 220,75 190,45" fill="#dbeafe" fill-opacity="0.8" stroke="#2563eb" stroke-width="2.2"/>
+                                        <!-- Garis proyeksi vertikal -->
+                                        <line x1="220" y1="75" x2="220" y2="140" stroke="#e11d48" stroke-width="1.8" stroke-dasharray="4,3"/>
+                                        <line x1="190" y1="45" x2="190" y2="115" stroke="#e11d48" stroke-width="1.8" stroke-dasharray="4,3"/>
+                                        <text x="135" y="135" font-size="11" font-weight="bold" fill="#e11d48">30°</text>
+                                        <text x="115" y="75" font-size="11" font-weight="bold" fill="#1d4ed8">L = 24√3 cm²</text>
+                                        <text x="140" y="164" font-size="11" font-weight="bold" fill="#047857">L' = L cos 30°</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $12\sqrt{3}\text{ cm}^2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $36\text{ cm}^2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $18\sqrt{3}\text{ cm}^2$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $24\text{ cm}^2$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F (Kelas XI–XII SMA/MA)</em>. Elemen Geometri Ruang.</p>
+                    <p><strong>Kiselev, A. P.</strong> (2008). <em>Kiselev's Geometry, Book II: Stereometry</em>. Sumizdat. Section: Dihedral Angles and Orthogonal Projections.</p>
+                    <p><strong>Coxeter, H. S. M.</strong> (1969). <em>Introduction to Geometry</em> (2nd ed.). John Wiley &amp; Sons.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & NEXT SUBBAB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="sudut-antara-dua-garis-dan-garis-dengan-bidang.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Sudut Dua Garis &amp; Garis-Bidang
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="pemodelan-dan-problem-solving-hots-dimensi-tiga.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut: Problem Solving HOTS Dimensi Tiga &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

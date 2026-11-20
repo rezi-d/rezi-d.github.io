@@ -26,6 +26,12 @@ const mapelConfig = [
                 label: "Kelas XI",
                 sublabel: "Fase F — Invers, Lingkaran, Bivariat, Polinomial, Matriks, Transformasi, Trigonometri Lanjutan & Pengayaan OSN",
                 path: "/matematika/kelas-11/index.html"
+            },
+            {
+                kelas: "XII",
+                label: "Kelas XII",
+                sublabel: "Fase F Lanjutan — Dimensi Tiga, Limit, Turunan, Integral, Irisan Kerucut, Kombinatorika-Peluang & Pengayaan OSN",
+                path: "/matematika/kelas-12/index.html"
             }
         ]
     },

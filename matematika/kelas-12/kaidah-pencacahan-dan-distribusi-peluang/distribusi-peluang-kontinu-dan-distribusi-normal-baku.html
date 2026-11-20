@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variabel Acak Kontinu & Distribusi Normal Baku (Skor-Z) - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari fungsi kepadatan peluang kontinu (PDF), kurva lonceng Distribusi Normal Gauss, aturan empiris 68-95-99.7%, dan transformasi skor-Z normal baku.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="kaidah-pencacahan-dan-distribusi-peluang">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 6 · Kaidah Pencacahan & Distribusi Peluang</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+                                🔔 Sub-Materi 5 dari 6 · Kombinatorika & Peluang
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Variabel Acak Kontinu & Distribusi Normal Baku (Skor-$Z$)
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Variabel Acak Kontinu & Fungsi Kepadatan Peluang (PDF) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Peluang sebagai Luas Integral</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Variabel Acak Kontinu & Fungsi Kepadatan Peluang $f(x)$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">$\int_{-\infty}^{\infty} f(x)\,dx = 1$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika variabel acak diskrit bernilai bulat (hasil membilang), maka <strong>Variabel Acak Kontinu ($X$)</strong> dapat mengambil sembarang nilai riil dalam suatu interval (hasil mengukur, seperti tinggi badan, berat, waktu, atau suhu). Karena jumlah titik dalam interval tak hingga, peluang pada satu titik tepat adalah nol ($P(X = c) = 0$), dan peluang dihitung sebagai <strong>luas daerah di bawah kurva Fungsi Kepadatan Peluang (PDF) $f(x)$</strong>:
+                        </p>
+
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-3">
+                            <div class="bg-white rounded-lg p-4 border border-blue-100 text-center overflow-x-auto">
+                                $$\text{Syarat Total Luas: }\int_{-\infty}^{\infty} f(x)\,dx = 1 \quad \text{dan} \quad P(a \le X \le b) = P(a &lt; X &lt; b) = \int_a^b f(x)\,dx$$
+                            </div>
+                            <div class="text-xs text-slate-700 space-y-1">
+                                <p><strong>Contoh:</strong> Diketahui PDF $f(x) = \frac{3}{8}x^2$ untuk $0 \le x \le 2$. Hitung peluang $P(1 \le X \le 2)$:</p>
+                                $$P(1 \le X \le 2) = \int_1^2 \frac{3}{8}x^2\,dx = \left[\frac{1}{8}x^3\right]_1^2 = \frac{8}{8} - \frac{1}{8} = \frac{7}{8}$$
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Standarisasi Kurva Lonceng Normal Baku Z = (X - μ) / σ</span>
+                            <svg viewBox="0 0 460 160" class="w-full max-w-md h-auto">
+    <path d="M 155 125 L 155 55 C 180 28, 205 18, 230 18 C 255 18, 280 28, 305 55 L 305 125 Z" fill="#93c5fd" fill-opacity="0.65"/>
+    <path d="M 35 125 C 100 124, 130 105, 155 55 C 180 28, 205 18, 230 18 C 255 18, 280 28, 305 55 C 330 105, 360 124, 425 125" fill="none" stroke="#1d4ed8" stroke-width="2.8"/>
+    <line x1="25" y1="125" x2="435" y2="125" stroke="#334155" stroke-width="1.8"/>
+    <line x1="230" y1="18" x2="230" y2="125" stroke="#1e3a8a" stroke-dasharray="4 2"/>
+    <text x="155" y="142" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">-z₀</text>
+    <text x="230" y="142" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Z = 0 (μ)</text>
+    <text x="305" y="142" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">+z₀</text>
+    <text x="230" y="85" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Z = (X - μ) / σ</text>
+</svg>
+                        </div>
+
+                    </div>
+
+                    <!-- SLIDE 2: Kurva Lonceng Gauss & Aturan Empiris 68-95-99.7% -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Distribusi Normal Gauss $N(\mu, \sigma^2)$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Karakteristik Kurva Lonceng & Aturan Empiris $68\% - 95\% - 99{,}7\%$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Simetris di $x = \mu$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Distribusi peluang kontinu terpenting dalam sains adalah <strong>Distribusi Normal</strong> dengan fungsi kepadatan $f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$. Kurvanya berbentuk <strong>lonceng simetris</strong> dengan puncak tepat di rata-rata $\mu$ (= median = modus) dan titik belok di $\mu \pm \sigma$:
+                        </p>
+
+                        <!-- SVG Kurva Lonceng Normal & Aturan Empiris 68-95-99.7 -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Aturan Empiris Kurva Lonceng Normal: $68{,}26\%$ dalam $\mu \pm 1\sigma$, $95{,}44\%$ dalam $\mu \pm 2\sigma$, dan $99{,}74\%$ dalam $\mu \pm 3\sigma$
+                            </p>
+                            <svg viewBox="0 0 600 220" class="w-full max-w-2xl mx-auto h-auto">
+                                <!-- Shaded 2-sigma region -->
+                                <path d="M 130 165 C 165 155, 185 120, 215 80 C 245 40, 270 25, 300 25 C 330 25, 355 40, 385 80 C 415 120, 435 155, 470 165 Z" fill="#a7f3d0" fill-opacity="0.45" />
+                                <!-- Shaded 1-sigma central region -->
+                                <path d="M 215 165 L 215 80 C 245 40, 270 25, 300 25 C 330 25, 355 40, 385 80 L 385 165 Z" fill="#6ee7b7" fill-opacity="0.7" />
+
+                                <!-- Bell Curve Outline -->
+                                <path d="M 45 165 C 125 164, 165 155, 215 80 C 245 40, 270 25, 300 25 C 330 25, 355 40, 385 80 C 435 155, 475 164, 555 165" fill="none" stroke="#047857" stroke-width="3" />
+
+                                <!-- Base Axis & Vertical Divisions -->
+                                <line x1="35" y1="165" x2="565" y2="165" stroke="#1e293b" stroke-width="2" />
+                                <line x1="300" y1="25" x2="300" y2="165" stroke="#065f46" stroke-width="2" stroke-dasharray="4 3" />
+                                <line x1="215" y1="80" x2="215" y2="165" stroke="#059669" stroke-width="1.5" stroke-dasharray="3 3" />
+                                <line x1="385" y1="80" x2="385" y2="165" stroke="#059669" stroke-width="1.5" stroke-dasharray="3 3" />
+                                <line x1="130" y1="145" x2="130" y2="165" stroke="#059669" stroke-width="1.5" />
+                                <line x1="470" y1="145" x2="470" y2="165" stroke="#059669" stroke-width="1.5" />
+
+                                <!-- Percentages -->
+                                <text x="257" y="115" text-anchor="middle" font-size="13" font-weight="800" fill="#064e3b">34,13%</text>
+                                <text x="343" y="115" text-anchor="middle" font-size="13" font-weight="800" fill="#064e3b">34,13%</text>
+                                <text x="175" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#047857">13,6%</text>
+                                <text x="425" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#047857">13,6%</text>
+
+                                <!-- Labels on X-axis -->
+                                <text x="130" y="183" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">μ - 2σ</text>
+                                <text x="215" y="183" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">μ - σ</text>
+                                <text x="300" y="183" text-anchor="middle" font-size="12" font-weight="800" fill="#064e3b">μ (Mean)</text>
+                                <text x="385" y="183" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">μ + σ</text>
+                                <text x="470" y="183" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">μ + 2σ</text>
+                                <text x="300" y="206" text-anchor="middle" font-size="11" font-weight="bold" fill="#047857">Luas Kiri μ = 0,5000 | Luas Kanan μ = 0,5000</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Transformasi Skor-Z & Membaca Luas Normal Baku -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Standarisasi Skor-$Z$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Rumus Transformasi Skor-$Z$ & Sifat Simetri Tabel Normal Baku
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">$Z \sim N(0, 1)$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Agar kita bisa menggunakan satu tabel peluang universal untuk semua nilai rata-rata $\mu$ dan simpangan baku $\sigma$, setiap variabel normal $X \sim N(\mu, \sigma^2)$ ditransformasikan menjadi <strong>Variabel Normal Baku $Z \sim N(0, 1)$</strong> (rata-rata $0$, simpangan baku $1$):
+                        </p>
+
+                        <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 text-center space-y-2">
+                            <div class="bg-white rounded-xl p-4 border border-purple-100">
+                                $$Z = \frac{X - \mu}{\sigma} \quad \Longleftrightarrow \quad X = \mu + Z \cdot \sigma$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Nilai $Z$ menyatakan <strong>berapa kali simpangan baku ($\sigma$)</strong> suatu data $X$ menyimpang di atas ($Z &gt; 0$) atau di bawah ($Z &lt; 0$) rata-rata $\mu$.
+                            </p>
+                        </div>
+
+                        <!-- 3 Rumus Luas Kurva Normal Baku -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-1">
+                                <div class="text-xs font-bold text-blue-800 uppercase">1. Sifat Simetri</div>
+                                <div class="text-xs text-slate-800">
+                                    $$P(-z_0 \le Z \le 0) = P(0 \le Z \le z_0)$$
+                                    $$P(Z \le -z_0) = P(Z \ge z_0)$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Standarisasi Kurva Lonceng Normal Baku Z = (X - μ) / σ</span>
+                            <svg viewBox="0 0 460 160" class="w-full max-w-md h-auto">
+    <path d="M 155 125 L 155 55 C 180 28, 205 18, 230 18 C 255 18, 280 28, 305 55 L 305 125 Z" fill="#93c5fd" fill-opacity="0.65"/>
+    <path d="M 35 125 C 100 124, 130 105, 155 55 C 180 28, 205 18, 230 18 C 255 18, 280 28, 305 55 C 330 105, 360 124, 425 125" fill="none" stroke="#1d4ed8" stroke-width="2.8"/>
+    <line x1="25" y1="125" x2="435" y2="125" stroke="#334155" stroke-width="1.8"/>
+    <line x1="230" y1="18" x2="230" y2="125" stroke="#1e3a8a" stroke-dasharray="4 2"/>
+    <text x="155" y="142" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">-z₀</text>
+    <text x="230" y="142" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Z = 0 (μ)</text>
+    <text x="305" y="142" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">+z₀</text>
+    <text x="230" y="85" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Z = (X - μ) / σ</text>
+</svg>
+                        </div>
+
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-1">
+                                <div class="text-xs font-bold text-emerald-800 uppercase">2. Ekor Kanan ($Z &gt; z_0$)</div>
+                                <div class="text-xs text-slate-800">
+                                    $$P(Z &gt; z_0) = 0{,}5 - P(0 \le Z \le z_0)$$
+                                    $$= 1 - P(Z \le z_0)$$
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-1">
+                                <div class="text-xs font-bold text-rose-800 uppercase">3. Antara $-z_1$ dan $+z_2$</div>
+                                <div class="text-xs text-slate-800">
+                                    $$P(-z_1 \le Z \le z_2) =$$
+                                    $$P(0 \le Z \le z_1) + P(0 \le Z \le z_2)$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Nilai Z Istimewa & Aplikasi Penentuan Kuota -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Poin 4 · Nilai $Z$ Istimewa & Aplikasi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Tabel Ringkas Nilai $Z$ Istimewa & Penentuan Batas Kelulusan
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700">Referensi Tabel-$Z$</span>
+                        </div>
+
+                        <div class="bg-amber-50/70 rounded-xl p-5 border border-amber-200 space-y-3">
+                            <h3 class="font-bold text-amber-950 text-sm">Nilai Luas Tabel-$Z$ dari $0$ sampai $z_0$ ($P(0 \le Z \le z_0)$) yang Paling Sering Digunakan:</h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-center">
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-100">
+                                    <strong>$Z = 0{,}50$</strong><br>Luas $= 0{,}1915$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-100">
+                                    <strong>$Z = 1{,}00$</strong><br>Luas $= 0{,}3413$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-100">
+                                    <strong>$Z = 1{,}28$</strong><br>Luas $= 0{,}4000$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-100">
+                                    <strong>$Z = 1{,}50$</strong><br>Luas $= 0{,}4332$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-100">
+                                    <strong>$Z = 1{,}645$</strong><br>Luas $= 0{,}4500$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-100">
+                                    <strong>$Z = 1{,}96$</strong><br>Luas $= 0{,}4750$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-100">
+                                    <strong>$Z = 2{,}00$</strong><br>Luas $= 0{,}4772$
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-amber-100">
+                                    <strong>$Z = 3{,}00$</strong><br>Luas $= 0{,}4987$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Standarisasi Kurva Lonceng Normal Baku Z = (X - μ) / σ</span>
+                            <svg viewBox="0 0 460 160" class="w-full max-w-md h-auto">
+    <path d="M 155 125 L 155 55 C 180 28, 205 18, 230 18 C 255 18, 280 28, 305 55 L 305 125 Z" fill="#93c5fd" fill-opacity="0.65"/>
+    <path d="M 35 125 C 100 124, 130 105, 155 55 C 180 28, 205 18, 230 18 C 255 18, 280 28, 305 55 C 330 105, 360 124, 425 125" fill="none" stroke="#1d4ed8" stroke-width="2.8"/>
+    <line x1="25" y1="125" x2="435" y2="125" stroke="#334155" stroke-width="1.8"/>
+    <line x1="230" y1="18" x2="230" y2="125" stroke="#1e3a8a" stroke-dasharray="4 2"/>
+    <text x="155" y="142" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">-z₀</text>
+    <text x="230" y="142" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Z = 0 (μ)</text>
+    <text x="305" y="142" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">+z₀</text>
+    <text x="230" y="85" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Z = (X - μ) / σ</text>
+</svg>
+                        </div>
+
+                        </div>
+
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-sm">Contoh Soal Penentuan Batas Nilai Minimum (Passing Grade):</h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Nilai ujian $1.000$ peserta berdistribusi normal dengan rata-rata $\mu = 70$ dan simpangan baku $\sigma = 10$. Jika panitia hanya meluluskan <strong>$10\%$ peserta terbaik</strong> (ekor kanan $= 0{,}1000 \implies$ luas dari $0$ ke $Z$ adalah $0{,}5 - 0{,}1 = 0{,}4000 \implies Z = 1{,}28$), berapakah batas nilai minimum kelulusan?<br>
+                                $$X_{\min} = \mu + Z \cdot \sigma = 70 + (1{,}28)(10) = 82{,}8$$
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Variabel Acak Kontinu & Distribusi Normal
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji penguasaan integral peluang kontinu dan transformasi skor-$Z$ pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Fungsi Kepadatan Peluang Kontinu (PDF)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Suatu variabel acak kontinu $X$ memiliki fungsi kepadatan peluang $f(x) = kx$ untuk $0 \le x \le 4$ dan $f(x) = 0$ untuk $x$ lainnya. Nilai dari $P(1 \le X \le 3)$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{1}{4}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{1}{2}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{5}{8}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{3}{4}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Perhitungan Skor-Z</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Tinggi badan siswa kelas XII berdistribusi normal dengan rata-rata $\mu = 165\text{ cm}$ dan simpangan baku $\sigma = 6\text{ cm}$. Skor baku ($Z$) untuk seorang siswa yang memiliki tinggi badan $174\text{ cm}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $Z = 1{,}20$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $Z = 1{,}25$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $Z = 1{,}50$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $Z = 2{,}00$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 (dengan Diagram SVG) -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Luas Daerah Kurva Normal Baku</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Diketahui $P(0 \le Z \le 1) = 0{,}3413$ dan $P(0 \le Z \le 2) = 0{,}4772$. Luas daerah yang diarsir untuk $P(-1 \le Z \le 2)$ seperti pada gambar di bawah adalah ....
+                                </p>
+                                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                                    <svg viewBox="0 0 360 135" class="w-full max-w-xs mx-auto h-auto">
+                                        <path d="M 125 105 L 125 52 C 145 25, 162 15, 180 15 C 198 15, 215 25, 235 52 C 255 80, 270 98, 290 105 Z" fill="#a7f3d0" fill-opacity="0.7" />
+                                        <path d="M 25 105 C 75 104, 100 95, 125 52 C 145 25, 162 15, 180 15 C 198 15, 215 25, 235 52 C 260 95, 285 104, 335 105" fill="none" stroke="#059669" stroke-width="2.5" />
+                                        <line x1="20" y1="105" x2="340" y2="105" stroke="#334155" stroke-width="1.8" />
+                                        <line x1="180" y1="15" x2="180" y2="105" stroke="#065f46" stroke-dasharray="3 2" />
+                                        <text x="125" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">-1</text>
+                                        <text x="180" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">0</text>
+                                        <text x="290" y="122" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">2</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $0{,}1359$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $0{,}6826$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $0{,}7772$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $0{,}8185$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Estimasi Jumlah Sampel Berdistribusi Normal</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Masa pakai $1.000$ buah lampu LED berdistribusi normal dengan rata-rata $5.000\text{ jam}$ dan simpangan baku $400\text{ jam}$. Jika diketahui $P(0 \le Z \le 1{,}5) = 0{,}4332$, maka perkiraan banyak lampu yang memiliki masa pakai <strong>lebih dari $5.600\text{ jam}$</strong> adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $67$ lampu (dari $0{,}0668 \times 1000$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $134$ lampu
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $433$ lampu
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $933$ lampu
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Menentukan Batas Nilai dari Persentase Kuota</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Skor tes potensi akademik berdistribusi normal dengan rata-rata $\mu = 500$ dan simpangan baku $\sigma = 80$. Jika diketahui $P(Z &gt; 1{,}645) = 0{,}05$, maka skor minimum agar seorang peserta masuk dalam kelompok <strong>$5\%$ peserta terbaik</strong> adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $602{,}4$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $620{,}0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $631{,}6$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $660{,}0$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/variabel-acak-diskrit-dan-distribusi-peluang-binomial.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Distribusi Peluang Binomial</span>
+                    </a>
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/pemodelan-dan-problem-solving-hots-kombinatorika-peluang.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Problem Solving HOTS Kombinatorika & Peluang</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Luar biasa!</strong> Penguasaan distribusi normal dan transformasi skor-$Z$ Anda sangat tepat.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

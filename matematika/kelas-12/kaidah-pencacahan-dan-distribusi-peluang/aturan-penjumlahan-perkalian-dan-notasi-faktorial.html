@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aturan Penjumlahan, Perkalian (Filling Slots) & Faktorial - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari kaidah pencacahan dasar: aturan penjumlahan, aturan perkalian, metode pengisian tempat (filling slots) dengan syarat khusus, dan notasi faktorial.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="kaidah-pencacahan-dan-distribusi-peluang">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 6 · Kaidah Pencacahan & Distribusi Peluang</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 mb-2">
+                                🔢 Sub-Materi 1 dari 6 · Kombinatorika & Peluang
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Aturan Penjumlahan, Perkalian (Filling Slots) & Faktorial
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Aturan Penjumlahan vs Aturan Perkalian -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Prinsip Dasar Pencacahan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Aturan Penjumlahan ("ATAU") vs Aturan Perkalian ("DAN")
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Fondasi Kombinatorika</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Seluruh bangunan kombinatorika bertumpu pada dua kaidah logika sederhana: kapan kita harus <strong>menjumlahkan</strong> banyak cara, dan kapan kita harus <strong>mengalikannya</strong>?
+                        </p>
+
+                        <!-- SVG Diagram Jaringan Rute Kota A -> B -> C vs Jalur Langsung -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Ilustrasi Rute Perjalanan: Jalur Bertahap $A \to B \to C$ ($3 \times 2 = 6$) ATAU Jalur Langsung $A \to D \to C$ ($2 \times 1 = 2$)
+                            </p>
+                            <svg viewBox="0 0 580 185" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Paths A(80,95) to B(290,45) - 3 paths -->
+                                <path d="M 80 95 Q 185 5 290 45" fill="none" stroke="#2563eb" stroke-width="2.2" />
+                                <line x1="80" y1="95" x2="290" y2="45" stroke="#2563eb" stroke-width="2.2" />
+                                <path d="M 80 95 Q 185 85 290 45" fill="none" stroke="#2563eb" stroke-width="2.2" />
+
+                                <!-- Paths B(290,45) to C(500,95) - 2 paths -->
+                                <path d="M 290 45 Q 395 15 500 95" fill="none" stroke="#059669" stroke-width="2.2" />
+                                <path d="M 290 45 Q 395 85 500 95" fill="none" stroke="#059669" stroke-width="2.2" />
+
+                                <!-- Alternative Route via D(290,145): A to D (2 paths), D to C (1 path) -->
+                                <path d="M 80 95 Q 185 115 290 145" fill="none" stroke="#d97706" stroke-width="2.2" />
+                                <path d="M 80 95 Q 185 170 290 145" fill="none" stroke="#d97706" stroke-width="2.2" />
+                                <line x1="290" y1="145" x2="500" y2="95" stroke="#e11d48" stroke-width="2.2" />
+
+                                <!-- Nodes -->
+                                <circle cx="80" cy="95" r="18" fill="#1e293b" />
+                                <circle cx="290" cy="45" r="18" fill="#2563eb" />
+                                <circle cx="290" cy="145" r="18" fill="#d97706" />
+                                <circle cx="500" cy="95" r="18" fill="#059669" />
+
+                                <text x="80" y="99" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">A</text>
+                                <text x="290" y="49" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">B</text>
+                                <text x="290" y="149" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">D</text>
+                                <text x="500" y="99" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">C</text>
+
+                                <text x="175" y="25" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">3 jalur</text>
+                                <text x="405" y="28" text-anchor="middle" font-size="11" font-weight="bold" fill="#047857">2 jalur</text>
+                                <text x="175" y="168" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">2 jalur</text>
+                                <text x="405" y="145" text-anchor="middle" font-size="11" font-weight="bold" fill="#be123c">1 jalur</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Aturan Penjumlahan (Kata Kunci: ATAU)</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Digunakan jika beberapa pilihan kejadian <strong>saling lepas</strong> (tidak mungkin dilakukan bersamaan, hanya dipilih salah satu skenario):
+                                </p>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center font-bold">
+                                    $$\text{Total Cara} = k_1 + k_2 + \dots + k_m$$
+                                </div>
+                            </div>
+
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">2. Aturan Perkalian (Kata Kunci: DAN / Bertahap)</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Digunakan jika suatu aktivitas terdiri atas beberapa <strong>tahapan berurutan</strong> yang semuanya harus diselesaikan:
+                                </p>
+                                <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center font-bold">
+                                    $$\text{Total Cara} = k_1 \times k_2 \times \dots \times k_m$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Metode Pengisian Tempat (Filling Slots) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Teknik Filling Slots</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Aturan Emas Filling Slots: Isi Kotak Bersyarat Khusus Terlebih Dahulu!
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Prioritas Slot</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Saat menyusun bilangan atau kode PIN dengan syarat tertentu (misalnya <em>"bilangan ganjil"</em>, <em>"habis dibagi $5$"</em>, atau <em>"lebih besar dari $400$"</em>) dengan angka <strong>tidak boleh berulang</strong>, wajib <strong>kerjakan kotak yang memiliki syarat khusus terlebih dahulu</strong>!
+                        </p>
+
+                        <!-- SVG Filling Slots -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Contoh: Menyusun Bilangan Ratusan Ganjil (Angka Berbeda) dari $\{1, 2, 3, 4, 5, 6\}$
+                            </p>
+                            <svg viewBox="0 0 560 150" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Slot 1: Ratusan -->
+                                <rect x="55" y="30" width="115" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5" />
+                                <text x="112" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Ratusan (Urutan 2)</text>
+                                <text x="112" y="80" text-anchor="middle" font-size="22" font-weight="800" fill="#2563eb">5</text>
+                                <text x="112" y="115" text-anchor="middle" font-size="10" fill="#475569">Sisa 5 angka</text>
+
+                                <text x="197" y="70" text-anchor="middle" font-size="20" font-weight="bold" fill="#64748b">×</text>
+
+                                <!-- Slot 2: Puluhan -->
+                                <rect x="222" y="30" width="115" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5" />
+                                <text x="280" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Puluhan (Urutan 3)</text>
+                                <text x="280" y="80" text-anchor="middle" font-size="22" font-weight="800" fill="#2563eb">4</text>
+                                <text x="280" y="115" text-anchor="middle" font-size="10" fill="#475569">Sisa 4 angka</text>
+
+                                <text x="364" y="70" text-anchor="middle" font-size="20" font-weight="bold" fill="#64748b">×</text>
+
+                                <!-- Slot 3: Satuan (Prioritas 1) -->
+                                <rect x="390" y="30" width="115" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2.5" />
+                                <text x="447" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#881337">Satuan (ISI DULU!)</text>
+                                <text x="447" y="80" text-anchor="middle" font-size="22" font-weight="800" fill="#e11d48">3</text>
+                                <text x="447" y="115" text-anchor="middle" font-size="10" font-weight="bold" fill="#be123c">Ganjil: {1, 3, 5}</text>
+                            </svg>
+                            <p class="text-xs text-center font-bold text-slate-700 mt-1">
+                                Total bilangan ratusan ganjil yang dapat dibentuk $= 5 \times 4 \times 3 = 60$ bilangan.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Kasus Jebakan Filling Slots (Angka 0 & Irisan Syarat) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 3 · Waspada Jebakan Irisan Syarat</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Kapan Filling Slots Harus Dipecah Menjadi Dua Kasus?
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">Jebakan Angka 0</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika terdapat <strong>dua kotak yang sama-sama memiliki syarat khusus dan anggota syaratnya saling beririsan</strong> (misalnya menyusun <em>bilangan ratusan genap</em> dari angka $\{0, 1, 2, 3, 4\}$ di mana ratusan tidak boleh $0$, sedangkan satuan boleh $0, 2, 4$), kita <strong>WAJIB memecahnya menjadi 2 kasus saling lepas</strong>!
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-rose-50/70 rounded-xl p-5 border border-rose-200 space-y-2">
+                                <h3 class="font-bold text-rose-950 text-sm">Kasus 1: Angka Satuan $= \{0\}$ (1 pilihan)</h3>
+                                <p class="text-xs text-slate-700">
+                                    Karena angka $0$ sudah dipakai di satuan, kotak ratusan bebas diisi oleh 4 angka sisanya $\{1, 2, 3, 4\}$:
+                                </p>
+                                <div class="bg-white rounded-lg p-3 border border-rose-100 text-xs text-center font-bold">
+                                    $$\text{Kasus 1} = \underbrace{4}_{\text{Ratusan}} \times \underbrace{3}_{\text{Puluhan}} \times \underbrace{1}_{\text{Satuan } \{0\}} = 12\text{ cara}$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Struktur Segitiga Pascal dan Koefisien Kombinasi Binomial</span>
+                            <svg viewBox="0 0 480 155" class="w-full max-w-md h-auto">
+    <rect x="20" y="15" width="440" height="125" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="240" y="38" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Segitiga Pascal &amp; Koefisien Binomial C(n, k)</text>
+    <text x="240" y="60" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=0:           1</text>
+    <text x="240" y="78" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=1:         1   1</text>
+    <text x="240" y="96" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#2563eb">n=2:       1   2   1</text>
+    <text x="240" y="114" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#059669">n=3:     1   3   3   1</text>
+    <text x="240" y="132" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#be123c">n=4:   1   4   6   4   1</text>
+</svg>
+                        </div>
+
+
+                            <div class="bg-amber-50/70 rounded-xl p-5 border border-amber-200 space-y-2">
+                                <h3 class="font-bold text-amber-950 text-sm">Kasus 2: Angka Satuan $\in \{2, 4\}$ (2 pilihan)</h3>
+                                <p class="text-xs text-slate-700">
+                                    Karena angka $0$ belum terpakai dan ratusan tidak boleh $0$, kotak ratusan hanya punya $5 - 1 - 1 = 3$ pilihan:
+                                </p>
+                                <div class="bg-white rounded-lg p-3 border border-amber-100 text-xs text-center font-bold">
+                                    $$\text{Kasus 2} = \underbrace{3}_{\text{Ratusan}} \times \underbrace{3}_{\text{Puluhan}} \times \underbrace{2}_{\text{Satuan } \{2,4\}} = 18\text{ cara}$$
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 text-white rounded-xl p-4 text-center text-xs">
+                            Dengan Aturan Penjumlahan, total seluruh bilangan ratusan genap berbeda adalah <strong>$12 + 18 = 30$ bilangan</strong>.
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Notasi Faktorial & Manipulasi Aljabar -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 4 · Aljabar Kombinatorika</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Notasi Faktorial ($n!$) & Persamaan Faktorial
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">$0! = 1$</span>
+                        </div>
+
+                        <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-3">
+                            <h3 class="font-bold text-purple-950 text-sm">Definisi & Sifat Rekursif Faktorial</h3>
+                            <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs text-center space-y-1">
+                                $$n! = n \times (n - 1) \times (n - 2) \times \dots \times 3 \times 2 \times 1$$
+                                $$n! = n \cdot (n - 1)! \quad \text{dengan kesepakatan dasar: } 0! = 1 \text{ dan } 1! = 1$$
+                            </div>
+                            <p class="text-xs text-slate-700">
+                                <strong>Hafalan Wajib Faktorial:</strong> $3! = 6$, $4! = 24$, $5! = 120$, $6! = 720$, $7! = 5040$.
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-sm">Contoh Persamaan Faktorial:</h4>
+                            <p class="text-xs text-slate-700">
+                                Tentukan nilai $n$ yang memenuhi $\frac{(n + 1)!}{(n - 1)!} = 30$.
+                            </p>
+                            <div class="text-xs text-slate-800 space-y-1">
+                                <p>Uraikan faktorial yang lebih besar yaitu $(n+1)!$ hingga bertemu $(n-1)!$:</p>
+                                $$\frac{(n + 1) \cdot n \cdot (n - 1)!}{(n - 1)!} = 30 \implies (n + 1)n = 6 \times 5 \implies n = 5$$
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Struktur Segitiga Pascal dan Koefisien Kombinasi Binomial</span>
+                            <svg viewBox="0 0 480 155" class="w-full max-w-md h-auto">
+    <rect x="20" y="15" width="440" height="125" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="240" y="38" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Segitiga Pascal &amp; Koefisien Binomial C(n, k)</text>
+    <text x="240" y="60" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=0:           1</text>
+    <text x="240" y="78" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=1:         1   1</text>
+    <text x="240" y="96" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#2563eb">n=2:       1   2   1</text>
+    <text x="240" y="114" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#059669">n=3:     1   3   3   1</text>
+    <text x="240" y="132" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#be123c">n=4:   1   4   6   4   1</text>
+</svg>
+                        </div>
+
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Kaidah Pencacahan, Filling Slots & Faktorial
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji ketelitian pencacahan dan teknik *filling slots* Anda pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Rute Perjalanan Pulang-Pergi Tanpa Rute Sama</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Dari kota $A$ ke kota $B$ terdapat $4$ jalur bus, dan dari kota $B$ ke kota $C$ terdapat $3$ jalur bus. Seseorang berangkat dari $A$ ke $C$ melalui $B$, kemudian kembali lagi ke $A$ melalui $B$. Jika saat pulang ia <strong>tidak boleh melewati jalur bus yang sama</strong> dengan saat berangkat, banyak cara perjalanan orang tersebut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $24$ cara
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $36$ cara
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $72$ cara
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $144$ cara
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Struktur Segitiga Pascal dan Koefisien Kombinasi Binomial</span>
+                            <svg viewBox="0 0 480 155" class="w-full max-w-md h-auto">
+    <rect x="20" y="15" width="440" height="125" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="240" y="38" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a">Segitiga Pascal &amp; Koefisien Binomial C(n, k)</text>
+    <text x="240" y="60" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=0:           1</text>
+    <text x="240" y="78" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#334155">n=1:         1   1</text>
+    <text x="240" y="96" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#2563eb">n=2:       1   2   1</text>
+    <text x="240" y="114" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#059669">n=3:     1   3   3   1</text>
+    <text x="240" y="132" text-anchor="middle" font-size="12" font-family="monospace" font-weight="bold" fill="#be123c">n=4:   1   4   6   4   1</text>
+</svg>
+                        </div>
+
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Filling Slots Bilangan Lebih dari 400</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Dari angka-angka $\{1, 2, 3, 4, 5, 6\}$ akan disusun bilangan ratusan dengan angka-angka yang <strong>berbeda</strong>. Banyaknya bilangan yang nilainya <strong>lebih besar dari $400$</strong> adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $40$ bilangan
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $60$ bilangan
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $80$ bilangan
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $120$ bilangan
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Jebakan Angka 0 pada Bilangan Genap</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Dari himpunan angka $\{0, 1, 2, 3, 4, 5\}$ akan dibentuk bilangan ribuan ($4$ angka) yang bernilai <strong>genap</strong> dan tidak ada angka yang berulang. Banyak bilangan yang dapat dibentuk adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $120$ bilangan
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $144$ bilangan
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $150$ bilangan
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $156$ bilangan
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Penyederhanaan Ekspresi Faktorial</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Nilai dari $\frac{10!}{8! \cdot 2!} - \frac{7!}{5!}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $3$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $13$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $24$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $48$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Persamaan Aljabar Faktorial</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Jika $\frac{(n + 2)!}{n!} = 56$, maka nilai dari $(n - 3)!$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $6$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $6$ (karena $n = 6 \implies 3! = 6$)
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $24$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $120$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/irisan-kerucut/pemodelan-optik-orbit-dan-problem-solving-hots-irisan-kerucut.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Bab Sebelumnya: Geometri Analitik Irisan Kerucut</span>
+                    </a>
+                    <a href="/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/permutasi-unsur-sama-siklis-dan-kombinasi.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Permutasi, Siklis, Kombinasi & Binomial Newton</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Tepat sekali!</strong> Analisis kaidah pencacahan dan pengisian tempat Anda benar.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>.';
+            }
+        }
+    </script>
+</body>
+
+</html>

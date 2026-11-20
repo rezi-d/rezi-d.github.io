@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Integral: Luas Daerah di Antara Dua Kurva - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari cara menghitung luas daerah di atas/bawah sumbu-X, luas di antara dua kurva, dan rumus cepat diskriminan L = D√D / (6a²) beserta diagram SVG.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="integral">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 4 · Integral & Aplikasi Luas-Volume</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 mb-2">
+                                📊 Sub-Materi 5 dari 6 · Kalkulus Integral
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Aplikasi Integral: Luas Daerah di Antara Dua Kurva
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Luas Daerah terhadap Sumbu-X -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Luas terhadap Sumbu-X</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Daerah di Atas, di Bawah & Memotong Sumbu-$X$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Luas Selalu Positif</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Ingat bahwa <strong>luas geometri selalu bernilai positif ($L \ge 0$)</strong>, sedangkan integral tentu $\int_a^b f(x)\,dx$ dapat bernilai negatif jika kurva berada di bawah sumbu-$X$. Oleh karena itu, jika sebuah kurva memotong sumbu-$X$ di titik $x = c$, kita <strong>wajib memecah integralnya</strong>:
+                        </p>
+
+                        <!-- SVG Luas di Atas dan di Bawah Sumbu-X -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Pemisahan Integral pada Daerah yang Memotong Sumbu-$X$ di $x = c$
+                            </p>
+                            <svg viewBox="0 0 560 220" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Axes -->
+                                <line x1="40" y1="115" x2="520" y2="115" stroke="#334155" stroke-width="2" />
+                                <line x1="70" y1="200" x2="70" y2="20" stroke="#334155" stroke-width="2" />
+
+                                <!-- Shaded L1 (Above X-axis) -->
+                                <path d="M 110 115 Q 195 15 280 115 Z" fill="#bfdbfe" fill-opacity="0.7" />
+                                <!-- Shaded L2 (Below X-axis) -->
+                                <path d="M 280 115 Q 365 215 450 115 Z" fill="#fecdd3" fill-opacity="0.7" />
+
+                                <!-- Curve -->
+                                <path d="M 95 135 Q 195 0 280 115 Q 365 230 465 95" fill="none" stroke="#1e293b" stroke-width="3" />
+
+                                <!-- Labels -->
+                                <text x="110" y="133" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">a</text>
+                                <text x="280" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">c</text>
+                                <text x="450" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">b</text>
+                                <text x="195" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#1d4ed8">L₁ (f(x) ≥ 0)</text>
+                                <text x="365" y="152" text-anchor="middle" font-size="14" font-weight="bold" fill="#be123c">L₂ (f(x) ≤ 0)</text>
+                                <text x="485" y="85" font-size="13" font-weight="bold" fill="#1e293b">y = f(x)</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                            <h3 class="font-bold text-blue-950 text-sm">Rumus Umum Luas terhadap Sumbu-$X$:</h3>
+                            <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center overflow-x-auto">
+                                $$L_{\text{total}} = \int_a^b |f(x)|\,dx = L_1 + L_2 = \int_a^c f(x)\,dx - \int_c^b f(x)\,dx$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                <strong>Contoh:</strong> Luas daerah yang dibatasi $y = x^2 - 4$, sumbu-$X$, dari $x = 0$ sampai $x = 3$:<br>
+                                Kurva memotong sumbu-$X$ di $x = 2$. Pada $[0, 2]$ kurva di bawah sumbu-$X$, sedangkan pada $[2, 3]$ di atas sumbu-$X$:
+                                $$L = -\int_0^2 (x^2 - 4)\,dx + \int_2^3 (x^2 - 4)\,dx = \frac{16}{3} + \frac{7}{3} = \frac{23}{3}\text{ satuan luas}$$
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Luas Daerah di Antara Dua Kurva -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Dua Kurva Berpotongan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Prinsip Atas dikurangi Bawah ($dx$) & Kanan dikurangi Kiri ($dy$)
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Bebas Posisi Sumbu</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Keunggulan luar biasa dari rumus selisih dua kurva adalah <strong>tidak peduli apakah daerahnya berada di atas atau di bawah sumbu-$X$</strong>! Selama kurva $y_{\text{atas}} \ge y_{\text{bawah}}$ pada interval $[a, b]$, luasnya selalu positif:
+                        </p>
+
+                        <!-- SVG Dua Kurva (dx vs dy) -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Pias Vertikal ($\Delta x$: Atas − Bawah) vs Pias Horizontal ($\Delta y$: Kanan − Kiri)
+                            </p>
+                            <svg viewBox="0 0 600 220" class="w-full max-w-2xl mx-auto h-auto">
+                                <!-- LEFT: Vertical Strip dx -->
+                                <line x1="25" y1="185" x2="275" y2="185" stroke="#334155" stroke-width="2" />
+                                <line x1="45" y1="200" x2="45" y2="20" stroke="#334155" stroke-width="2" />
+                                <!-- Shaded intersection between parabola and line -->
+                                <path d="M 80 140 Q 160 30 240 90 Q 160 175 80 140 Z" fill="#a7f3d0" fill-opacity="0.6" />
+                                <!-- Curves -->
+                                <path d="M 65 160 Q 160 15 255 105" fill="none" stroke="#059669" stroke-width="2.5" />
+                                <path d="M 65 130 Q 160 185 255 80" fill="none" stroke="#2563eb" stroke-width="2.5" />
+                                <!-- Vertical strip -->
+                                <rect x="152" y="75" width="14" height="63" fill="#047857" fill-opacity="0.45" stroke="#065f46" stroke-width="1.5" />
+                                <line x1="80" y1="140" x2="80" y2="185" stroke="#64748b" stroke-dasharray="3 3" />
+                                <line x1="240" y1="90" x2="240" y2="185" stroke="#64748b" stroke-dasharray="3 3" />
+                                <text x="80" y="200" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">a</text>
+                                <text x="240" y="200" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">b</text>
+                                <text x="160" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#059669">y_atas = f(x)</text>
+                                <text x="175" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#2563eb">y_bawah = g(x)</text>
+
+                                <!-- RIGHT: Horizontal Strip dy -->
+                                <line x1="330" y1="185" x2="575" y2="185" stroke="#334155" stroke-width="2" />
+                                <line x1="355" y1="200" x2="355" y2="20" stroke="#334155" stroke-width="2" />
+                                <!-- Shaded region for x = f(y) -->
+                                <path d="M 410 155 Q 540 100 450 45 L 395 155 Z" fill="#ddd6fe" fill-opacity="0.65" />
+                                <path d="M 395 165 Q 555 100 440 35" fill="none" stroke="#7c3aed" stroke-width="2.5" />
+                                <line x1="390" y1="165" x2="460" y2="35" stroke="#e11d48" stroke-width="2.5" />
+                                <!-- Horizontal strip -->
+                                <rect x="424" y="96" width="66" height="12" fill="#6d28d9" fill-opacity="0.45" stroke="#4c1d95" stroke-width="1.5" />
+                                <text x="342" y="158" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">c</text>
+                                <text x="342" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">d</text>
+                                <text x="530" y="105" text-anchor="middle" font-size="12" font-weight="bold" fill="#7c3aed">x_kanan</text>
+                                <text x="395" y="85" text-anchor="middle" font-size="12" font-weight="bold" fill="#e11d48">x_kiri</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                                <h3 class="font-bold text-emerald-950 text-sm">1. Integrasi terhadap $x$ (Pias Tegak)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs text-center">
+                                    $$L = \int_a^b \big( y_{\text{atas}} - y_{\text{bawah}} \big)\,dx$$
+                                </div>
+                                <p class="text-xs text-slate-600">Batas $x = a$ dan $x = b$ diperoleh dari absis titik potong kedua kurva ($y_1 = y_2$).</p>
+                            </div>
+
+                            <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-2">
+                                <h3 class="font-bold text-purple-950 text-sm">2. Integrasi terhadap $y$ (Pias Mendatar)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs text-center">
+                                    $$L = \int_c^d \big( x_{\text{kanan}} - x_{\text{kiri}} \big)\,dy$$
+                                </div>
+                                <p class="text-xs text-slate-600">Digunakan untuk parabola tidur seperti $x = y^2 - 4y$ dan garis $x = 2y - 5$.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Rumus Cepat Diskriminan L = D√D / 6a^2 -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Poin 3 · Rumus Sakti SNBT & Ujian Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Rumus Cepat Parabola: $L = \frac{D\sqrt{D}}{6a^2}$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700">Tanpa Mengintegralkan!</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika suatu daerah tertutup dibatasi <strong>hanya oleh dua kurva</strong> (Parabola dengan Garis, Parabola dengan Sumbu-$X$, atau Parabola dengan Parabola) tanpa dibatasi garis vertikal $x = k$ lainnya, kita dapat menghitung luasnya tanpa mencari titik potong dan tanpa mengintegralkan!
+                        </p>
+
+                        <div class="bg-gradient-to-br from-amber-50 to-orange-50/70 rounded-xl p-6 border border-amber-200 space-y-4">
+                            <h3 class="font-bold text-amber-950 text-sm uppercase tracking-wider">Langkah Penggunaan Rumus Diskriminan:</h3>
+                            <ol class="text-xs text-slate-700 space-y-1.5 list-decimal list-inside">
+                                <li>Samakan kedua kurva ($y_1 = y_2$) lalu pindahkan ke satu ruas menjadi persamaan kuadrat gabungan: <strong>$ax^2 + bx + c = 0$</strong>.</li>
+                                <li>Hitung nilai diskriminan: <strong>$D = b^2 - 4ac$</strong> (pastikan $D > 0$ agar kedua kurva berpotongan di dua titik).</li>
+                                <li>Substitusikan $D$ dan koefisien $a$ ke dalam rumus:</li>
+                            </ol>
+                            <div class="bg-white rounded-xl p-4 border border-amber-200 text-center">
+                                $$L = \frac{D\sqrt{D}}{6a^2}$$
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Luas Daerah Tertutup Antara Dua Kurva dengan Rumus Diskriminan</span>
+                            <svg viewBox="0 0 440 165" class="w-full max-w-md h-auto">
+    <line x1="30" y1="135" x2="410" y2="135" stroke="#334155" stroke-width="1.8"/>
+    <line x1="80" y1="150" x2="80" y2="15" stroke="#334155" stroke-width="1.8"/>
+    <path d="M 115 110 L 325 45 Q 220 165 115 110 Z" fill="#fde68a" fill-opacity="0.7"/>
+    <path d="M 95 75 Q 220 190 345 20" fill="none" stroke="#d97706" stroke-width="2.5"/>
+    <line x1="90" y1="118" x2="350" y2="37" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="220" y="95" text-anchor="middle" font-size="13" font-weight="800" fill="#92400e">L = (D√D) / (6a²)</text>
+    <text x="220" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">y₁ - y₂ = ax² + bx + c = 0 (D = b² - 4ac)</text>
+</svg>
+                        </div>
+
+
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-sm">Contoh Perbandingan Kecepatan:</h4>
+                            <p class="text-xs text-slate-700">
+                                Tentukan luas daerah yang dibatasi oleh parabola $y = x^2 - 2x$ dan garis $y = x + 4$.
+                            </p>
+                            <div class="text-xs text-slate-800 space-y-1">
+                                <p>1. Persamaan gabungan $y_1 - y_2 = 0 \implies x^2 - 2x - (x + 4) = 0 \implies x^2 - 3x - 4 = 0$.</p>
+                                <p>2. Diperoleh $a = 1, b = -3, c = -4 \implies D = (-3)^2 - 4(1)(-4) = 9 + 16 = 25$.</p>
+                                $$L = \frac{25\sqrt{25}}{6(1)^2} = \frac{25 \cdot 5}{6} = \frac{125}{6}\text{ satuan luas}$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Pembagian Luas Daerah & Luas Kurva Trigonometri -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 4 · Kasus Khusus & HOTS</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Luas Satu Lembah Sinus & Garis Pembagi Dua Luas Sama Besar
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">Hafalan Wajib</span>
+                        </div>
+
+                        <!-- SVG Satu Bukit Sinus -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Fakta Ajaib: Luas Satu Bukit Utuh $y = \sin x$ pada $[0, \pi]$ Tepat Sama dengan $2$!
+                            </p>
+                            <svg viewBox="0 0 540 190" class="w-full max-w-xl mx-auto h-auto">
+                                <line x1="40" y1="145" x2="500" y2="145" stroke="#334155" stroke-width="2" />
+                                <line x1="70" y1="170" x2="70" y2="20" stroke="#334155" stroke-width="2" />
+                                <!-- Shaded full arch [0, pi] -->
+                                <path d="M 70 145 Q 175 -15 280 145 Z" fill="#bfdbfe" fill-opacity="0.7" />
+                                <!-- Half arch [pi, 3pi/2] -->
+                                <path d="M 280 145 Q 332 225 385 145" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 3" />
+                                <path d="M 70 145 Q 175 -15 280 145" fill="none" stroke="#2563eb" stroke-width="3" />
+                                <line x1="175" y1="65" x2="175" y2="145" stroke="#1d4ed8" stroke-dasharray="4 3" />
+                                <text x="70" y="163" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">0</text>
+                                <text x="175" y="163" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">π/2</text>
+                                <text x="280" y="163" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">π</text>
+                                <text x="135" y="120" text-anchor="middle" font-size="14" font-weight="800" fill="#1e40af">L = 1</text>
+                                <text x="215" y="120" text-anchor="middle" font-size="14" font-weight="800" fill="#1e40af">L = 1</text>
+                                <text x="175" y="45" text-anchor="middle" font-size="13" font-weight="bold" fill="#1d4ed8">y = sin x (Total 1 Bukit = 2)</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Rumus Cepat Bukit Sinus/Kosinus</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Untuk kurva $y = A\sin(kx)$ pada satu setengah gelombang $[0, \pi/k]$:
+                                </p>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center">
+                                    $$L_{\text{1 bukit}} = \frac{2|A|}{k} \quad \text{dan} \quad L_{\text{1/2 bukit}} = \frac{|A|}{k}$$
+                                </div>
+                            </div>
+
+                            <div class="bg-rose-50/70 rounded-xl p-5 border border-rose-200 space-y-2">
+                                <h3 class="font-bold text-rose-950 text-sm">2. Garis Pembagi Dua Luas Sama Besar</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Jika daerah antara parabola $y = ax^2$ dan garis $y = h$ dibagi dua sama luas oleh garis mendatar $y = c$, maka berlaku hubungan pangkat $3/2$:
+                                </p>
+                                <div class="bg-white rounded-lg p-3 border border-rose-100 text-xs text-center">
+                                    $$\left(\frac{c}{h}\right)^{3/2} = \frac{1}{2} \implies c = \frac{h}{\sqrt[3]{4}}$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Aplikasi Luas Daerah Integral
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Perhatikan grafik dan persamaan kurva pada 5 soal berikut untuk menentukan luas daerah yang diarsir:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 (dengan Diagram SVG) -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Luas Daerah Parabola & Sumbu-X</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Perhatikan gambar berikut! Luas daerah yang diarsir yang dibatasi oleh parabola $y = 4x - x^2$ dan sumbu-$X$ adalah ....
+                                </p>
+                                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                                    <svg viewBox="0 0 360 160" class="w-full max-w-sm mx-auto h-auto">
+                                        <line x1="30" y1="130" x2="330" y2="130" stroke="#334155" stroke-width="2" />
+                                        <line x1="70" y1="150" x2="70" y2="15" stroke="#334155" stroke-width="2" />
+                                        <path d="M 70 130 Q 170 -30 270 130 Z" fill="#bfdbfe" fill-opacity="0.7" />
+                                        <path d="M 60 148 Q 170 -35 280 148" fill="none" stroke="#2563eb" stroke-width="2.5" />
+                                        <text x="62" y="145" font-size="12" font-weight="bold" fill="#1e293b">0</text>
+                                        <text x="270" y="145" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">4</text>
+                                        <text x="170" y="32" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">y = 4x - x²</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{16}{3}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $8$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{32}{3}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $16$ satuan luas
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 2 (dengan Diagram SVG) -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Luas Daerah Antara Parabola & Garis</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Luas daerah tertutup yang dibatasi oleh parabola $y = x^2$ dan garis $y = x + 2$ seperti pada gambar di bawah adalah ....
+                                </p>
+                                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                                    <svg viewBox="0 0 360 170" class="w-full max-w-sm mx-auto h-auto">
+                                        <line x1="30" y1="140" x2="330" y2="140" stroke="#334155" stroke-width="2" />
+                                        <line x1="150" y1="160" x2="150" y2="15" stroke="#334155" stroke-width="2" />
+                                        <path d="M 105 112 L 240 45 Q 170 175 105 112 Z" fill="#a7f3d0" fill-opacity="0.7" />
+                                        <path d="M 85 75 Q 150 205 255 25" fill="none" stroke="#059669" stroke-width="2.5" />
+                                        <line x1="80" y1="125" x2="265" y2="32" stroke="#e11d48" stroke-width="2.5" />
+                                        <text x="105" y="155" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">-1</text>
+                                        <text x="240" y="155" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">2</text>
+                                        <text x="275" y="55" font-size="11" font-weight="bold" fill="#059669">y = x²</text>
+                                        <text x="90" y="95" font-size="11" font-weight="bold" fill="#e11d48">y = x + 2</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{7}{2}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{9}{2}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{11}{2}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $6$ satuan luas
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Luas Daerah di Antara Dua Parabola</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Luas daerah tertutup yang dibatasi oleh dua parabola $y = 6x - x^2$ dan $y = x^2 - 2x$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{32}{3}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $16$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{128}{3}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{64}{3}$ satuan luas
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Kurva Memotong Sumbu-X (Kubik)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Luas daerah yang dibatasi oleh kurva $y = x^3$, sumbu-$X$, garis $x = -1$, dan garis $x = 2$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{17}{4}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\frac{15}{4}$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $4$ satuan luas
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{9}{4}$ satuan luas
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Luas Kurva Trigonometri</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Luas daerah di kuadran I yang dibatasi oleh kurva $y = \cos x$, kurva $y = \sin x$, dan sumbu-$Y$ pada interval $0 \le x \le \frac{\pi}{4}$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\sqrt{2} + 1$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $\sqrt{2} - 1$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $2 - \sqrt{2}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $1$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/integral/integral-tentu-teorema-dasar-kalkulus-dan-sifat-simetri.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Integral Tentu & Sifat Simetri</span>
+                    </a>
+                    <a href="/matematika/kelas-12/integral/volume-benda-putar-dan-problem-solving-hots-integral.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Volume Benda Putar & Problem Solving HOTS</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Luar biasa!</strong> Perhitungan luas daerah integral Anda sangat akurat.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>. Gunakan rumus $L = \\frac{D\\sqrt{D}}{6a^2}$ atau periksa batas pemotongan sumbu-X.';
+            }
+        }
+    </script>
+</body>
+
+</html>

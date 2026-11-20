@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Solving HOTS: Optimasi Maksimum-Minimum & Laju Berkaitan — Matematika Kelas XII</title>
+    <meta name="description" content="Kuasai pemecahan masalah HOTS Turunan Fungsi: Teorema Nilai Ekstrem mutlak pada interval tertutup [a, b], optimasi geometri (kotak tanpa tutup, silinder maksimum dalam kerucut/bola), optimasi laba ekonomi, serta laju berkaitan (related rates).">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/optimasi-maksimum-minimum-dan-laju-berkaitan-hots.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AjarKita">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:url" content="https://kimia.ajarkita.my.id/matematika/kelas-12/turunan-fungsi/optimasi-maksimum-minimum-dan-laju-berkaitan-hots.html">
+    <meta property="og:title" content="🏆 Optimasi Maksimum-Minimum & Laju Berkaitan (HOTS) — Matematika Kelas XII">
+    <meta property="og:description" content="Modul interaktif Matematika Kelas XII SMA: Optimasi volume kotak & tabung, biaya minimum, dan laju perubahan berkaitan (related rates).">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+
+    <!-- Styling Tailwind CSS & Font Inter/Plus Jakarta -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KaTeX untuk Formula Matematika -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="matematika" data-kelas="mtk-12" data-bab="turunan-fungsi">
+
+    <!-- HEADER (dimuat otomatis) -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT UTAMA (SIDEBAR + KONTEN) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-1 w-full">
+
+        <!-- SIDEBAR (dimuat otomatis oleh js/include.js) -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO KARTU JUDUL SUB-BAB -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 3: Turunan Fungsi (Diferensial)
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">Problem Solving HOTS &amp; SNBT</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        6. Problem Solving HOTS: Optimasi Maksimum-Minimum &amp; Laju Berkaitan
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Salah satu kegunaan paling bernilai tinggi dari kalkulus di dunia industri, teknik, dan ekonomi adalah <strong>optimasi</strong> (memaksimumkan volume/keuntungan atau meminimumkan biaya/bahan baku) serta <strong>laju berkaitan (related rates)</strong>. Kuasai algoritma pemodelan fungsi tujuan satu variabel, uji ujung interval tertutup $[a, b]$, hingga diferensiasi implisit terhadap waktu $t$.
+                    </p>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDER WRAPPER (CAROUSEL POIN MATERI) -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: EKSTREM MUTLAK (GLOBAL) PADA SELANG TERTUTUP [a, b] -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Teorema Nilai Ekstrem</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🏔️ Maksimum &amp; Minimum Mutlak pada Interval Tertutup $[a, b]$
+                                </h2>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Perubahan Kecekungan Kurva dan Titik Belok (f''(x) = 0)</span>
+                            <svg viewBox="0 0 540 175" class="w-full max-w-xl h-auto">
+    <line x1="35" y1="145" x2="505" y2="145" stroke="#334155" stroke-width="1.8"/>
+    <!-- Cubic curve switching from concave down to concave up at inflection point I(270, 85) -->
+    <path d="M 70 135 Q 170 5 270 85 Q 370 165 470 35" fill="none" stroke="#2563eb" stroke-width="3"/>
+    <line x1="270" y1="20" x2="270" y2="145" stroke="#e11d48" stroke-width="2" stroke-dasharray="5 3"/>
+    <circle cx="170" cy="45" r="4.5" fill="#059669"/>
+    <circle cx="270" cy="85" r="5.5" fill="#e11d48"/>
+    <circle cx="370" cy="125" r="4.5" fill="#059669"/>
+    <text x="155" y="28" text-anchor="middle" font-size="11" font-weight="800" fill="#065f46">Cekung Bawah (f'' &lt; 0)</text>
+    <text x="270" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Titik Belok (f'' = 0)</text>
+    <text x="395" y="138" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Cekung Atas (f'' &gt; 0)</text>
+</svg>
+                        </div>
+
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">Wajib Cek Ujung f(a) &amp; f(b)!</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Jangan tertukar antara <strong>maksimum lokal (stasioner)</strong> dengan <strong>maksimum mutlak (global)</strong> pada suatu interval tertutup $[a, b]$! Nilai tertinggi atau terendah bisa saja terjadi di titik ujung interval $x = a$ atau $x = b$.
+                        </p>
+
+                        <div class="p-4 sm:p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2.5 text-xs sm:text-sm">
+                            <span class="font-bold text-blue-950 block">Prosedur 3 Langkah Mencari Ekstrem Mutlak pada $[a, b]$:</span>
+                            <ul class="space-y-1.5 text-slate-700 text-xs">
+                                <li><strong>1. Cari Titik Stasioner di Dalam $(a, b)$:</strong> Selesaikan $f'(x) = 0$. Ambil hanya nilai $x$ yang berada di dalam interval $[a, b]$.</li>
+                                <li><strong>2. Evaluasi Nilai Fungsi:</strong> Hitung nilai $f(x)$ di titik-titik stasioner tersebut <strong>DAN di kedua ujung interval</strong> $f(a)$ serta $f(b)$.</li>
+                                <li><strong>3. Bandingkan:</strong> Nilai terbesar adalah <strong>Maksimum Mutlak</strong>, dan nilai terkecil adalah <strong>Minimum Mutlak</strong>!</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: PEMODELAN OPTIMASI GEOMETRI (KOTAK TANPA TUTUP & PAGAR) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Optimasi Bangun Ruang</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📦 Optimasi Geometri: Kotak Tanpa Tutup &amp; Jarak Terdekat ke Kurva
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">x = 1/6 Sisi Karton</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 block">Masalah Klasik: Kotak Tanpa Tutup dari Karton Persegi $L \times L$</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Selembar karton persegi bersisi $L$ dipotong keempat pojoknya berupa persegi berukuran $x \times x$, lalu dilipat ke atas membentuk kotak tanpa tutup:<br>
+                                    &bull; Panjang alas $= L - 2x$, lebar $= L - 2x$, tinggi $= x$.<br>
+                                    &bull; Fungsi volume: $V(x) = x(L - 2x)^2$.<br>
+                                    &bull; Turunkan $V'(x) = (L - 2x)^2 + x \cdot 2(L - 2x)(-2) = (L - 2x)(L - 6x) = 0$.<br>
+                                    &bull; Maka volume kotak mencapai <strong>maksimum</strong> saat potongan pojoknya tepat **$\mathbf{x = \frac{1}{6}L}$**!
+                                </p>
+                            </div>
+
+                            <!-- Diagram SVG Karton Kotak Tanpa Tutup -->
+                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                                <span class="text-[11px] font-bold text-slate-700 uppercase mb-1">Desain Pemotongan 4 Pojok Karton $x \times x$</span>
+                                <svg viewBox="0 0 240 165" class="w-full max-w-[230px] h-auto" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Karton utama -->
+                                    <rect x="45" y="10" width="140" height="140" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                                    <!-- 4 Pojok yang dipotong (Merah) -->
+                                    <rect x="45" y="10" width="30" height="30" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                    <rect x="155" y="10" width="30" height="30" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                    <rect x="45" y="120" width="30" height="30" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                    <rect x="155" y="120" width="30" height="30" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                    <!-- Garis lipat alas (Hijau) -->
+                                    <rect x="75" y="40" width="80" height="80" fill="#ecfdf5" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,2"/>
+                                    <!-- Label -->
+                                    <text x="56" y="29" font-size="10" font-weight="bold" fill="#e11d48">x</text>
+                                    <text x="92" y="84" font-size="11" font-weight="bold" fill="#047857">L - 2x</text>
+                                    <text x="90" y="162" font-size="10" font-weight="bold" fill="#1e293b">x_maks = ⅙ L</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: OPTIMASI EKONOMI & TABUNG MINIMUM -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Optimasi Industri &amp; Ekonomi</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    💰 Optimasi Laba Maksimum ($MR = MC$) &amp; Kaleng Tabung
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">Tabung Ideal: t = 2r</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
+                                <span class="font-bold text-amber-950 block">1. Prinsip Laba Maksimum Ekonomi ($\Pi'(x) = 0$)</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Jika fungsi pendapatan total dari penjualan $x$ unit barang adalah $R(x)$ dan biaya produksi total adalah $C(x)$, maka fungsi keuntungan (laba) adalah $\Pi(x) = R(x) - C(x)$. Laba maksimum tercapai saat:
+                                    $$\Pi'(x) = 0 \iff R'(x) = C'(x) \quad (\text{Marginal Revenue} = \text{Marginal Cost})$$
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                                <span class="font-bold text-blue-950 block">2. Desain Kaleng Silinder Tertutup Paling Hemat Bahan</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Untuk membuat tabung tertutup dengan volume tetap $V = \pi r^2 t$ menggunakan luas bahan permukaan $L = 2\pi r^2 + 2\pi r t$ yang <strong>paling minimum</strong> (atau volume maksimum untuk luas permukaan tetap), hasil optimasi $L'(r) = 0$ selalu menghasilkan proporsi emas:
+                                    $$\mathbf{t = 2r = d} \quad (\text{Tinggi tabung} = \text{Diameter alas!})$$
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG Poin 3: KURVA LABA & TABUNG IDEAL t = 2r -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Visualisasi Desain Kaleng Silinder Ideal ($t = 2r$) &amp; Titik Puncak Laba ($\Pi'(x) = 0$)</span>
+                            <svg viewBox="0 0 400 165" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Kiri: Tabung Ideal t = 2r -->
+                                <ellipse cx="95" cy="35" rx="45" ry="14" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                                <path d="M 50 35 L 50 125 A 45 14 0 0 0 140 125 L 140 35" fill="#eff6ff" fill-opacity="0.7" stroke="#2563eb" stroke-width="2"/>
+                                <ellipse cx="95" cy="125" rx="45" ry="14" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4,3"/>
+                                <!-- Jari-jari r dan tinggi t = 2r -->
+                                <line x1="95" y1="35" x2="140" y2="35" stroke="#e11d48" stroke-width="2"/>
+                                <line x1="152" y1="35" x2="152" y2="125" stroke="#059669" stroke-width="2"/>
+                                <text x="110" y="30" font-size="11" font-weight="bold" fill="#e11d48">r</text>
+                                <text x="158" y="84" font-size="11" font-weight="bold" fill="#059669">t = 2r</text>
+                                <text x="48" y="154" font-size="10" font-weight="bold" fill="#1e293b">Luas Bahan Minimum</text>
+
+                                <!-- Kanan: Kurva Laba Maksimum MR = MC -->
+                                <line x1="220" y1="135" x2="380" y2="135" stroke="#475569" stroke-width="1.5"/>
+                                <line x1="230" y1="145" x2="230" y2="20" stroke="#475569" stroke-width="1.5"/>
+                                <path d="M 235 125 Q 300 -15 365 125" fill="none" stroke="#d97706" stroke-width="2.8"/>
+                                <line x1="265" y1="55" x2="335" y2="55" stroke="#059669" stroke-width="2" stroke-dasharray="4,2"/>
+                                <line x1="300" y1="55" x2="300" y2="135" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                <circle cx="300" cy="55" r="4" fill="#059669"/>
+                                <text x="260" y="45" font-size="10" font-weight="bold" fill="#059669">Π'(x)=0 (MR = MC)</text>
+                                <text x="285" y="150" font-size="10" font-weight="bold" fill="#1e293b">x_opt</text>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: LAJU PERUBAHAN BERKAITAN (RELATED RATES) -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Diferensiasi terhadap Waktu $t$</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ⏱️ Laju Perubahan Berkaitan (Related Rates: $\frac{dV}{dt} = \frac{dV}{dr} \cdot \frac{dr}{dt}$)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-purple-100 text-purple-800 font-semibold px-2.5 py-1 rounded-full font-mono">Related Rates</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Ketika dua atau lebih besaran (seperti jari-jari balon $r$ dan volumenya $V$, atau tinggi tangga $y$ dan jarak alas tangga $x$) berubah bersama-sama terhadap waktu $t$, laju perubahan mereka dihubungkan melalui <strong>Aturan Rantai / Turunan Implisit terhadap $t$</strong>:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <!-- Kasus 1: Balon Bola -->
+                            <div class="p-4 rounded-xl bg-purple-50/70 border border-purple-200 space-y-2">
+                                <span class="font-bold text-purple-950 block">Kasus 1: Balon Bola yang Ditiup ($V = \frac{4}{3}\pi r^3$)</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Turunkan kedua ruas terhadap waktu $t$:
+                                    $$\frac{dV}{dt} = 4\pi r^2 \cdot \frac{dr}{dt}$$
+                                    Jika udara dipompa dengan laju $\frac{dV}{dt} = 36\pi\text{ cm}^3/\text{s}$, maka pada saat $r = 3\text{ cm}$, laju pertambahan jari-jarinya adalah:
+                                    $$36\pi = 4\pi(3)^2 \frac{dr}{dt} \implies \frac{dr}{dt} = \mathbf{1\text{ cm/s}}$$
+                                </p>
+                            </div>
+
+                            <!-- Kasus 2: Tangga Melorot -->
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                                <span class="font-bold text-slate-900 block">Kasus 2: Tangga Bersandar yang Melorot ($x^2 + y^2 = L^2$)</span>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Tangga sepanjang $L = 5\text{ m}$ bersandar di dinding. Turunkan $x^2 + y^2 = 25$ terhadap $t$:
+                                    $$2x\frac{dx}{dt} + 2y\frac{dy}{dt} = 0 \implies \frac{dy}{dt} = -\frac{x}{y}\frac{dx}{dt}$$
+                                    Saat $x = 3\text{ m}$ ($y = 4\text{ m}$) dan kaki tangga bergeser $\frac{dx}{dt} = 2\text{ m/s}$, ujung atas turun dengan laju $\frac{dy}{dt} = -\frac{3}{4}(2) = \mathbf{-1{,}5\text{ m/s}}$.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG Poin 4: BALON MENGEMBANG & TANGGA MELOROT -->
+                        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Visualisasi Laju Berkaitan: Balon Mengembang ($\frac{dV}{dt}$) &amp; Tangga Melorot ($x^2 + y^2 = L^2$)</span>
+                            <svg viewBox="0 0 400 165" class="w-full max-w-md h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Kiri: Balon Bola -->
+                                <circle cx="95" cy="80" r="32" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+                                <circle cx="95" cy="80" r="52" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="4,3"/>
+                                <line x1="95" y1="80" x2="147" y2="80" stroke="#e11d48" stroke-width="2"/>
+                                <circle cx="95" cy="80" r="3" fill="#1e293b"/>
+                                <text x="108" y="75" font-size="11" font-weight="bold" fill="#e11d48">dr/dt</text>
+                                <text x="52" y="152" font-size="10" font-weight="bold" fill="#5b21b6">dV/dt = 4πr² (dr/dt)</text>
+
+                                <!-- Kanan: Tangga Bersandar Melorot -->
+                                <line x1="235" y1="15" x2="235" y2="135" stroke="#334155" stroke-width="3"/>
+                                <line x1="235" y1="135" x2="375" y2="135" stroke="#334155" stroke-width="3"/>
+                                <!-- Tangga L = 5 m -->
+                                <line x1="235" y1="35" x2="325" y2="135" stroke="#2563eb" stroke-width="3.5"/>
+                                <!-- Panah dy/dt ke bawah dan dx/dt ke kanan -->
+                                <line x1="222" y1="35" x2="222" y2="70" stroke="#e11d48" stroke-width="2.5"/>
+                                <line x1="325" y1="148" x2="365" y2="148" stroke="#059669" stroke-width="2.5"/>
+                                <circle cx="235" cy="35" r="4" fill="#e11d48"/>
+                                <circle cx="325" cy="135" r="4" fill="#059669"/>
+                                <text x="190" y="55" font-size="10" font-weight="bold" fill="#e11d48">dy/dt ↓</text>
+                                <text x="328" y="162" font-size="10" font-weight="bold" fill="#059669">dx/dt →</text>
+                                <text x="285" y="78" font-size="11" font-weight="bold" fill="#2563eb">L = 5 m</text>
+                                <text x="242" y="92" font-size="10" font-weight="bold" fill="#475569">y = 4</text>
+                                <text x="272" y="130" font-size="10" font-weight="bold" fill="#475569">x = 3</text>
+                            </svg>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: KUIS INTERAKTIF HOTS -->
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi HOTS</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    ✍️ Evaluasi HOTS: Optimasi &amp; Laju Berkaitan
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-semibold px-2.5 py-1 rounded-full font-mono">5 Soal HOTS</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600">
+                            Uji ketajaman pemodelan optimasi dan laju berkaitan Anda melalui 5 soal HOTS berikut:
+                        </p>
+
+                        <div class="space-y-6" id="quiz-container">
+                            <!-- KUIS 1 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="B" data-exp="Volume kotak tanpa tutup dari karton persegi bersisi L = 18 cm mencapai maksimum saat potongan pojoknya x = ⅙ L = ⅙ (18) = 3 cm. Maka ukuran kotak adalah: panjang = 18 - 6 = 12 cm, lebar = 12 cm, tinggi = 3 cm, sehingga V_maks = 12 × 12 × 3 = 432 cm³.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 &middot; Volume Maksimum Kotak Tanpa Tutup</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Selembar karton berbentuk persegi dengan panjang sisi $18\text{ cm}$ akan dibuat kotak tanpa tutup dengan cara memotong keempat pojoknya berbentuk persegi berukuran $x \times x\text{ cm}$ lalu melipatnya seperti gambar berikut. Volume maksimum kotak yang dapat terbentuk adalah ....
+                                </p>
+                                <!-- Diagram SVG Soal 1: Karton 18x18 -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 280 155" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="75" y="10" width="125" height="125" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                                        <rect x="75" y="10" width="25" height="25" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                        <rect x="175" y="10" width="25" height="25" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                        <rect x="75" y="110" width="25" height="25" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                        <rect x="175" y="110" width="25" height="25" fill="#ffe4e6" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="3,2"/>
+                                        <rect x="100" y="35" width="75" height="75" fill="#ecfdf5" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,2"/>
+                                        <text x="84" y="26" font-size="10" font-weight="bold" fill="#e11d48">x</text>
+                                        <text x="115" y="76" font-size="11" font-weight="bold" fill="#047857">18 - 2x</text>
+                                        <text x="118" y="148" font-size="11" font-weight="bold" fill="#1e293b">18 cm</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $324\text{ cm}^3$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $432\text{ cm}^3$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $486\text{ cm}^3$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $512\text{ cm}^3$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 2 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Keliling kawat di tepi dinding: x + 2y = 80 ⇒ x = 80 - 2y. Luas kandang L(y) = x · y = (80 - 2y)y = 80y - 2y². Syarat maksimum: L'(y) = 80 - 4y = 0 ⇒ y = 20 m dan x = 40 m. Maka luas maksimumnya adalah 40 × 20 = 800 m².">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 &middot; Optimasi Luas Kandang Berdinding Satu Sisi</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Seorang peternak memiliki kawat pagar sepanjang $80\text{ meter}$ untuk memagari kandang berbentuk persegi panjang yang salah satu sisinya menempel pada tembok batu seperti gambar di bawah ini. Luas maksimum kandang yang dapat dipagari adalah ....
+                                </p>
+                                <!-- Diagram SVG Soal 2: Kandang di Tepi Tembok -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 300 140" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Tembok batu di atas -->
+                                        <rect x="40" y="15" width="220" height="16" fill="#cbd5e1" stroke="#475569" stroke-width="1.8"/>
+                                        <text x="110" y="27" font-size="10" font-weight="bold" fill="#1e293b">TEMBOK BATU</text>
+                                        <!-- Kandang persegi panjang (3 sisi kawat) -->
+                                        <rect x="75" y="31" width="150" height="80" fill="#ecfdf5" stroke="none"/>
+                                        <polyline points="75,31 75,111 225,111 225,31" fill="none" stroke="#059669" stroke-width="3"/>
+                                        <text x="52" y="75" font-size="12" font-weight="bold" fill="#059669">y</text>
+                                        <text x="235" y="75" font-size="12" font-weight="bold" fill="#059669">y</text>
+                                        <text x="115" y="128" font-size="12" font-weight="bold" fill="#059669">x = 80 - 2y</text>
+                                        <text x="115" y="75" font-size="11" font-weight="bold" fill="#047857">Luas = x · y</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $400\text{ m}^2$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $600\text{ m}^2$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $800\text{ m}^2$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $1600\text{ m}^2$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 3 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="A" data-exp="Biaya total untuk x hari adalah B(x) = x · (2x + 600/x - 40) = 2x² - 40x + 600 (dalam juta rupiah). Agar biaya total minimum: B'(x) = 4x - 40 = 0 ⇒ x = 10 hari. Biaya minimumnya: B(10) = 2(100) - 40(10) + 600 = 200 - 400 + 600 = 400 juta rupiah.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 &middot; Optimasi Biaya Proyek Minimum</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Suatu proyek pembangunan gedung dapat diselesaikan dalam $x$ hari dengan biaya proyek <strong>per hari</strong> sebesar $\left(2x + \frac{600}{x} - 40\right)$ juta rupiah. Biaya total proyek akan mencapai minimum jika proyek tersebut dikerjakan selama ....
+                                </p>
+                                <!-- Diagram SVG Soal 3: Kurva Biaya Total Minimum B(x) -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 300 145" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="40" y1="120" x2="270" y2="120" stroke="#475569" stroke-width="1.5"/>
+                                        <line x1="55" y1="130" x2="55" y2="15" stroke="#475569" stroke-width="1.5"/>
+                                        <!-- Kurva parabola terbuka ke atas B(x) = 2x² - 40x + 600 -->
+                                        <path d="M 75 25 Q 155 155 235 25" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+                                        <line x1="115" y1="90" x2="195" y2="90" stroke="#e11d48" stroke-width="2" stroke-dasharray="4,2"/>
+                                        <line x1="155" y1="90" x2="155" y2="120" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,3"/>
+                                        <circle cx="155" cy="90" r="4.5" fill="#e11d48"/>
+                                        <text x="125" y="80" font-size="10" font-weight="bold" fill="#e11d48">B'(x) = 0 (Minimum)</text>
+                                        <text x="135" y="135" font-size="11" font-weight="bold" fill="#1e293b">x Hari</text>
+                                        <text x="62" y="25" font-size="10" font-weight="bold" fill="#2563eb">Biaya Total B(x)</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $10\text{ hari}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $15\text{ hari}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $20\text{ hari}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $30\text{ hari}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 4 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="D" data-exp="Luas lingkaran L = πr². Turunkan terhadap waktu t: dL/dt = 2πr · (dr/dt). Substitusikan r = 10 cm dan dr/dt = 3 cm/s: dL/dt = 2π(10)(3) = 60π cm²/s.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 &middot; Laju Berkaitan (Related Rates) Riak Air</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Sebuah batu dijatuhkan ke permukaan danau yang tenang sehingga menimbulkan gelombang riak lingkaran yang jari-jarinya membesar dengan laju konstan $\frac{dr}{dt} = 3\text{ cm/detik}$ seperti gambar berikut. Laju pertambahan luas daerah lingkaran riak tersebut tepat pada saat jari-jarinya mencapai $r = 10\text{ cm}$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Soal 4: Riak Lingkaran Mengembang -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 300 150" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="150" cy="75" r="24" fill="#dbeafe" stroke="#2563eb" stroke-width="1.8"/>
+                                        <circle cx="150" cy="75" r="42" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,3"/>
+                                        <circle cx="150" cy="75" r="60" fill="none" stroke="#059669" stroke-width="2.2" stroke-dasharray="5,3"/>
+                                        <line x1="150" y1="75" x2="210" y2="75" stroke="#e11d48" stroke-width="2.5"/>
+                                        <circle cx="150" cy="75" r="3.5" fill="#1e293b"/>
+                                        <text x="158" y="69" font-size="11" font-weight="bold" fill="#e11d48">r = 10 cm</text>
+                                        <text x="158" y="92" font-size="10" font-weight="bold" fill="#047857">dr/dt = 3 cm/s →</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $15\pi\text{ cm}^2/\text{detik}$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $30\pi\text{ cm}^2/\text{detik}$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $45\pi\text{ cm}^2/\text{detik}$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $60\pi\text{ cm}^2/\text{detik}$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+
+                            <!-- KUIS 5 -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 quiz-card" data-correct="C" data-exp="Cari titik stasioner f'(x) = 3x² - 3 = 0 ⇒ x = -1 atau x = 1 (keduanya di dalam [-1, 3]). Evaluasi nilai f(x) di titik stasioner dan ujung interval: f(-1) = -1 + 3 + 2 = 4; f(1) = 1 - 3 + 2 = 0; f(3) = 27 - 9 + 2 = 20. Maka nilai maksimum mutlaknya adalah 20 di ujung x = 3.">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 &middot; Maksimum Mutlak pada Interval Tertutup</span>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-900">
+                                    Perhatikan grafik fungsi $f(x) = x^3 - 3x + 2$ pada interval tertutup $[-1, 3]$ berikut. Nilai maksimum mutlak (global) dari fungsi tersebut pada $[-1, 3]$ adalah ....
+                                </p>
+                                <!-- Diagram SVG Soal 5: Grafik f(x) = x³ - 3x + 2 pada [-1, 3] -->
+                                <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-center">
+                                    <svg viewBox="0 0 300 155" class="w-full max-w-xs h-auto" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="30" y1="125" x2="275" y2="125" stroke="#475569" stroke-width="1.5"/>
+                                        <line x1="110" y1="140" x2="110" y2="10" stroke="#475569" stroke-width="1.5"/>
+                                        <!-- Kurva dari x=-1 (70, 95) ke x=1 (150, 125) ke x=3 (230, 20) -->
+                                        <path d="M 70 95 C 95 95, 125 125, 150 125 C 180 125, 205 70, 230 20" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+                                        <line x1="70" y1="95" x2="70" y2="125" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3"/>
+                                        <line x1="230" y1="20" x2="230" y2="125" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3"/>
+                                        <circle cx="70" cy="95" r="4" fill="#059669"/>
+                                        <circle cx="150" cy="125" r="4" fill="#d97706"/>
+                                        <circle cx="230" cy="20" r="4.5" fill="#e11d48"/>
+                                        <text x="48" y="88" font-size="10" font-weight="bold" fill="#059669">(-1, f(-1))</text>
+                                        <text x="135" y="140" font-size="10" font-weight="bold" fill="#d97706">(1, 0)</text>
+                                        <text x="180" y="22" font-size="10" font-weight="bold" fill="#e11d48">Maks di x = 3</text>
+                                        <text x="64" y="140" font-size="10" font-weight="bold" fill="#1e293b">-1</text>
+                                        <text x="226" y="140" font-size="10" font-weight="bold" fill="#1e293b">3</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+                                    <button onclick="checkQuiz(this, 'A')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">A. $4$</button>
+                                    <button onclick="checkQuiz(this, 'B')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">B. $16$</button>
+                                    <button onclick="checkQuiz(this, 'C')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">C. $20$</button>
+                                    <button onclick="checkQuiz(this, 'D')" class="quiz-opt p-3 rounded-xl border border-slate-200 bg-white hover:bg-blue-50 text-left font-medium transition">D. $24$</button>
+                                </div>
+                                <div class="quiz-feedback hidden p-3 rounded-xl text-xs sm:text-sm mt-2"></div>
+                            </div>
+                        </div>
+
+                        <!-- JAVASCRIPT KUIS INTERAKTIF -->
+                        <script>
+                            function checkQuiz(btn, selected) {
+                                const card = btn.closest('.quiz-card');
+                                const correct = card.getAttribute('data-correct');
+                                const exp = card.getAttribute('data-exp') || '';
+                                const feedback = card.querySelector('.quiz-feedback');
+                                const allBtns = card.querySelectorAll('.quiz-opt');
+
+                                allBtns.forEach(b => {
+                                    b.disabled = true;
+                                    b.classList.remove('hover:bg-blue-50', 'bg-white');
+                                    if (b.innerText.trim().startsWith(correct)) {
+                                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                                    } else {
+                                        b.classList.add('bg-slate-100', 'text-slate-400', 'opacity-60');
+                                    }
+                                });
+
+                                feedback.classList.remove('hidden');
+                                if (selected === correct) {
+                                    btn.classList.add('ring-2', 'ring-emerald-500');
+                                    feedback.classList.add('bg-emerald-50', 'text-emerald-900', 'border', 'border-emerald-200');
+                                    feedback.innerHTML = "<strong>Benar! 🎉</strong> " + exp;
+                                } else {
+                                    btn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                                    feedback.classList.add('bg-rose-50', 'text-rose-900', 'border', 'border-rose-200');
+                                    feedback.innerHTML = "<strong>Kurang Tepat! 💡</strong> Jawaban yang benar adalah <strong>" + correct + "</strong>. " + exp;
+                                }
+
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(feedback, {
+                                        delimiters: [
+                                            { left: '$$', right: '$$', display: true },
+                                            { left: '$', right: '$', display: false }
+                                        ]
+                                    });
+                                }
+                            }
+                        </script>
+                    </section>
+
+                </div> <!-- END OF #ielts-slider-container -->
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Capaian Pembelajaran Matematika Fase F &amp; F+ (Kelas XI–XII SMA/MA)</em>. Elemen Kalkulus Diferensial.</p>
+                    <p><strong>Stewart, James.</strong> (2020). <em>Calculus: Early Transcendentals</em> (9th ed.). Cengage Learning. Section 3.9: Related Rates; Section 4.7: Optimization Problems.</p>
+                    <p><strong>Thomas, George B.</strong> (2018). <em>Thomas' Calculus</em> (14th ed.). Pearson.</p>
+                </div>
+
+                <!-- NAVIGASI BAWAH (PREV & HUB) -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="fungsi-naik-turun-stasioner-dan-titik-belok.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">
+                        &larr; Sebelumnya: Fungsi Naik-Turun &amp; Titik Belok
+                    </a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6</span>
+                    <a href="/matematika/kelas-12/integral/konsep-integral-tak-tentu-dan-rumus-dasar.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">
+                        Lanjut Bab 4: Integral Fungsi &rarr;
+                    </a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261120"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261120"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

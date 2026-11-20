@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiperbola: Fokus, Persamaan Asimtot & Garis Singgung - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari definisi lokus hiperbola (||TF1| - |TF2|| = 2a), sumbu nyata dan sekawan, fokus c² = a² + b², kotak asimtot, eksentrisitas e > 1, dan garis singgung hiperbola.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="irisan-kerucut">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 5 · Geometri Analitik: Irisan Kerucut</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 mb-2">
+                                ☄️ Sub-Materi 5 dari 6 · Geometri Analitik
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Hiperbola: Fokus, Persamaan Asimtot & Garis Singgung
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Definisi Lokus Hiperbola & Segitiga c^2 = a^2 + b^2 -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 1 · Anatomi Hiperbola ($e &gt; 1$)</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Definisi Lokus Hiperbola ($||TF_1| - |TF_2|| = 2a$) & Hubungan $c^2 = a^2 + b^2$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">$c$ Selalu Terbesar!</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika pada elips jumlah jarak ke kedua fokus konstan, maka <strong>Hiperbola</strong> adalah tempat kedudukan titik-titik $T(x, y)$ yang <strong>nilai mutlak SELISIH jaraknya ke dua titik tetap $F_1$ dan $F_2$ (titik fokus) selalu konstan sebesar $2a$</strong>:
+                            $$\big| |TF_1| - |TF_2| \big| = 2a$$
+                        </p>
+
+                        <!-- SVG Anatomi Hiperbola & Kotak Asimtot -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Anatomi Hiperbola Horizontal, Kotak Bantu $2a \times 2b$, Diagonal Asimtot, dan Jarak Fokus $c = \sqrt{a^2 + b^2}$
+                            </p>
+                            <svg viewBox="0 0 580 230" class="w-full max-w-xl mx-auto h-auto">
+                                <!-- Axes -->
+                                <line x1="30" y1="115" x2="550" y2="115" stroke="#334155" stroke-width="2" />
+                                <line x1="290" y1="215" x2="290" y2="15" stroke="#334155" stroke-width="2" />
+
+                                <!-- Asymptote Reference Box 2a x 2b -->
+                                <rect x="210" y="60" width="160" height="110" fill="#fef3c7" fill-opacity="0.45" stroke="#d97706" stroke-width="1.8" stroke-dasharray="4 3" />
+
+                                <!-- Two Diagonal Asymptotes y = ±(b/a)x -->
+                                <line x1="85" y1="201" x2="495" y2="29" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" />
+                                <line x1="85" y1="29" x2="495" y2="201" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" />
+
+                                <!-- Right Triangle O - A2(a,0) - Corner(a,b) showing diagonal = c -->
+                                <polygon points="290,115 370,115 370,60" fill="#fde68a" fill-opacity="0.7" />
+                                <line x1="290" y1="115" x2="370" y2="60" stroke="#e11d48" stroke-width="2.5" />
+
+                                <!-- Left and Right Hyperbola Branches -->
+                                <path d="M 105 22 Q 315 115 105 208" fill="none" stroke="#e11d48" stroke-width="3" />
+                                <path d="M 475 22 Q 265 115 475 208" fill="none" stroke="#e11d48" stroke-width="3" />
+
+                                <!-- Vertices A1, A2 and Foci F1, F2 -->
+                                <circle cx="210" cy="115" r="4" fill="#2563eb" />
+                                <circle cx="370" cy="115" r="4" fill="#2563eb" />
+                                <circle cx="176" cy="115" r="4.5" fill="#e11d48" />
+                                <circle cx="404" cy="115" r="4.5" fill="#e11d48" />
+
+                                <text x="225" y="132" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">A₁(-a,0)</text>
+                                <text x="355" y="132" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">A₂(a,0)</text>
+                                <text x="160" y="132" text-anchor="middle" font-size="11" font-weight="bold" fill="#be123c">F₁(-c,0)</text>
+                                <text x="425" y="132" text-anchor="middle" font-size="11" font-weight="bold" fill="#be123c">F₂(c,0)</text>
+                                <text x="380" y="92" font-size="12" font-weight="800" fill="#059669">b</text>
+                                <text x="330" y="112" font-size="12" font-weight="800" fill="#1d4ed8">a</text>
+                                <text x="320" y="80" font-size="12" font-weight="800" fill="#be123c">c</text>
+                                <text x="485" y="48" font-size="11" font-weight="bold" fill="#475569">Asimtot y = (b/a)x</text>
+                            </svg>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="bg-blue-50/70 rounded-xl p-4 border border-blue-200">
+                                <div class="text-xs font-bold text-blue-900 uppercase">Sumbu Nyata / Transversal ($2a$)</div>
+                                <p class="text-xs text-slate-700 mt-1">Ruas garis yang menghubungkan kedua titik puncak hiperbola $A_1$ dan $A_2$. ($a$ bisa lebih besar, sama, atau lebih kecil dari $b$!).</p>
+                            </div>
+                            <div class="bg-emerald-50/70 rounded-xl p-4 border border-emerald-200">
+                                <div class="text-xs font-bold text-emerald-900 uppercase">Sumbu Sekawan / Imajiner ($2b$)</div>
+                                <p class="text-xs text-slate-700 mt-1">Sumbu tegak lurus sumbu nyata yang membentuk kotak bantu asimtot berukuran $2a \times 2b$.</p>
+                            </div>
+                            <div class="bg-rose-50/70 rounded-xl p-4 border border-rose-200">
+                                <div class="text-xs font-bold text-rose-900 uppercase">Jarak Fokus ($c$ Terbesar!)</div>
+                                <p class="text-xs text-slate-700 mt-1">Berlaku hubungan Pythagoras hiperbola: <strong>$c^2 = a^2 + b^2$</strong> (setengah diagonal kotak asimtot).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Hiperbola Horizontal vs Vertikal -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 2 · Perbandingan Orientasi Hiperbola</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Hiperbola Horizontal vs Vertikal: Lihat Suku yang Bertanda Positif ($+$)!
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Bukan Ukuran Penyebut!</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            ⚠️ <strong>Perbedaan Penting dengan Elips:</strong> Pada hiperbola, penentu arah bukaan <strong>BUKAN mana penyebut yang lebih besar</strong>, melainkan <strong>suku mana yang bertanda positif ($+$)</strong>! Penyebut di bawah suku positif selalu merupakan <strong>$a^2$</strong>:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">1. Hiperbola Horizontal ($x^2$ Positif: Kiri–Kanan)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs text-center">
+                                    $$\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$$
+                                </div>
+                                <ul class="text-xs text-slate-700 space-y-1">
+                                    <li>• <strong>Titik Puncak:</strong> $(\pm a, 0)$</li>
+                                    <li>• <strong>Titik Fokus:</strong> $F(\pm c, 0)$ dengan $c = \sqrt{a^2 + b^2}$</li>
+                                    <li>• <strong>Persamaan Asimtot:</strong> $y = \pm \frac{b}{a}x$</li>
+                                    <li>• <strong>Garis Direktriks:</strong> $x = \pm \frac{a^2}{c}$</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-rose-50/70 rounded-xl p-5 border border-rose-200 space-y-2">
+                                <h3 class="font-bold text-rose-950 text-sm">2. Hiperbola Vertikal ($y^2$ Positif: Atas–Bawah)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-rose-100 text-xs text-center">
+                                    $$\frac{y^2}{a^2} - \frac{x^2}{b^2} = 1$$
+                                </div>
+                                <ul class="text-xs text-slate-700 space-y-1">
+                                    <li>• <strong>Titik Puncak:</strong> $(0, \pm a)$</li>
+                                    <li>• <strong>Titik Fokus:</strong> $F(0, \pm c)$ dengan $c = \sqrt{a^2 + b^2}$</li>
+                                    <li>• <strong>Persamaan Asimtot:</strong> $y = \pm \frac{a}{b}x$</li>
+                                    <li>• <strong>Garis Direktriks:</strong> $y = \pm \frac{a^2}{c}$</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Cabang Hiperbola, Kotak Bantu 2a × 2b, dan Diagonal Asimtot</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="30" y1="85" x2="410" y2="85" stroke="#334155" stroke-width="1.8"/>
+    <line x1="220" y1="160" x2="220" y2="10" stroke="#334155" stroke-width="1.8"/>
+    <rect x="160" y="45" width="120" height="80" fill="#fef3c7" fill-opacity="0.4" stroke="#d97706" stroke-dasharray="4 2"/>
+    <line x1="70" y1="152" x2="370" y2="18" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 3"/>
+    <line x1="70" y1="18" x2="370" y2="152" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 3"/>
+    <path d="M 85 15 Q 235 85 85 155" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <path d="M 355 15 Q 205 85 355 155" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="220" y="156" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Kotak Asimtot 2a × 2b &amp; Diagonal y = ±(b/a)x</text>
+</svg>
+                        </div>
+
+
+                        <div class="bg-amber-50/70 rounded-xl p-5 border border-amber-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-bold text-amber-950 text-sm">Eksentrisitas Hiperbola ($e &gt; 1$)</h4>
+                                <div class="text-xs text-slate-800 mt-1">
+                                    $$e = \frac{c}{a} = \frac{\sqrt{a^2 + b^2}}{a} &gt; 1$$
+                                    Jika $a = b$ (hiperbola sama sisi / ortogonal), asimtotnya saling tegak lurus ($y = \pm x$) dan $e = \sqrt{2}$.
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-amber-950 text-sm">Panjang Latus Rectum Hiperbola ($LR$)</h4>
+                                <div class="text-xs text-slate-800 mt-1">
+                                    $$LR = \frac{2b^2}{a}$$
+                                    Rumusnya identik dengan panjang latus rectum elips!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Trik Cepat Asimtot & Hiperbola Berpusat di P(h, k) -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 3 · Trik Cepat Persamaan Asimtot</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Cara 3 Detik Mencari Asimtot: Ubah Ruas Kanan $1 \longrightarrow 0$!
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Anti Terbalik $a/b$ vs $b/a$</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Sering lupa apakah gradien asimtotnya $\pm \frac{b}{a}$ atau $\pm \frac{a}{b}$, terutama saat pusatnya di $P(h, k)$? Gunakan <strong>Trik Nol</strong>: cukup ganti angka $1$ di ruas kanan persamaan standar hiperbola menjadi $0$, lalu akarkan!
+                        </p>
+
+                        <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-3">
+                            <h3 class="font-bold text-emerald-950 text-sm">Demonstrasi Trik Nol untuk Pusat $P(h, k)$:</h3>
+                            <div class="bg-white rounded-lg p-4 border border-emerald-100 text-xs space-y-2 overflow-x-auto">
+                                $$\text{Persamaan Hiperbola:}\quad \frac{(x - h)^2}{p^2} - \frac{(y - k)^2}{q^2} = 1$$
+                                $$\text{Ganti } 1 \to 0:\quad \frac{(x - h)^2}{p^2} - \frac{(y - k)^2}{q^2} = 0 \implies \frac{(y - k)^2}{q^2} = \frac{(x - h)^2}{p^2}$$
+                                $$\text{Akarkan kedua ruas:}\quad \frac{y - k}{q} = \pm \frac{x - h}{p} \implies y - k = \pm \frac{q}{p}(x - h)$$
+                            </div>
+                            <p class="text-xs text-slate-700">
+                                Dengan cara ini, kamu <strong>tidak akan pernah terbalik</strong> antara hiperbola horizontal maupun vertikal!
+                            </p>
+                        </div>
+                    </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Cabang Hiperbola, Kotak Bantu 2a × 2b, dan Diagonal Asimtot</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="30" y1="85" x2="410" y2="85" stroke="#334155" stroke-width="1.8"/>
+    <line x1="220" y1="160" x2="220" y2="10" stroke="#334155" stroke-width="1.8"/>
+    <rect x="160" y="45" width="120" height="80" fill="#fef3c7" fill-opacity="0.4" stroke="#d97706" stroke-dasharray="4 2"/>
+    <line x1="70" y1="152" x2="370" y2="18" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 3"/>
+    <line x1="70" y1="18" x2="370" y2="152" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 3"/>
+    <path d="M 85 15 Q 235 85 85 155" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <path d="M 355 15 Q 205 85 355 155" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="220" y="156" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Kotak Asimtot 2a × 2b &amp; Diagonal y = ±(b/a)x</text>
+</svg>
+                        </div>
+
+
+                    <!-- SLIDE 4: Persamaan Garis Singgung Hiperbola -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 4 · Garis Singgung Hiperbola</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Rumus Bagi Adil & Garis Singgung Hiperbola Bergradien $m$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">PGSH</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-2">
+                                <h3 class="font-bold text-purple-950 text-sm">1. Di Titik Singgung $T(x_1, y_1)$ (Bagi Adil)</h3>
+                                <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs space-y-2 text-center">
+                                    $$\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1 \implies \frac{x_1 x}{a^2} - \frac{y_1 y}{b^2} = 1$$
+                                    $$\frac{(x-h)^2}{a^2} - \frac{(y-k)^2}{b^2} = 1 \implies \frac{(x_1-h)(x-h)}{a^2} - \frac{(y_1-k)(y-k)}{b^2} = 1$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Geometri Cabang Hiperbola, Kotak Bantu 2a × 2b, dan Diagonal Asimtot</span>
+                            <svg viewBox="0 0 440 170" class="w-full max-w-md h-auto">
+    <line x1="30" y1="85" x2="410" y2="85" stroke="#334155" stroke-width="1.8"/>
+    <line x1="220" y1="160" x2="220" y2="10" stroke="#334155" stroke-width="1.8"/>
+    <rect x="160" y="45" width="120" height="80" fill="#fef3c7" fill-opacity="0.4" stroke="#d97706" stroke-dasharray="4 2"/>
+    <line x1="70" y1="152" x2="370" y2="18" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 3"/>
+    <line x1="70" y1="18" x2="370" y2="152" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 3"/>
+    <path d="M 85 15 Q 235 85 85 155" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <path d="M 355 15 Q 205 85 355 155" fill="none" stroke="#e11d48" stroke-width="2.5"/>
+    <text x="220" y="156" text-anchor="middle" font-size="11" font-weight="800" fill="#be123c">Kotak Asimtot 2a × 2b &amp; Diagonal y = ±(b/a)x</text>
+</svg>
+                        </div>
+
+
+                            <div class="bg-indigo-50/70 rounded-xl p-5 border border-indigo-200 space-y-2">
+                                <h3 class="font-bold text-indigo-950 text-sm">2. Dengan Gradien $m$ Diketahui</h3>
+                                <div class="bg-white rounded-lg p-3 border border-indigo-100 text-xs space-y-2 text-center">
+                                    $$\text{Horizontal }\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1 \implies y = mx \pm \sqrt{a^2 m^2 - b^2}$$
+                                    $$\text{Vertikal }\frac{y^2}{a^2} - \frac{x^2}{b^2} = 1 \implies y = mx \pm \sqrt{a^2 - b^2 m^2}$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Geometri Analitik Hiperbola
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji penguasaan fokus, asimtot, eksentrisitas, dan garis singgung hiperbola pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 (dengan Diagram SVG) -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Fokus & Asimtot Hiperbola</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Perhatikan hiperbola $\frac{x^2}{16} - \frac{y^2}{9} = 1$ pada gambar di bawah! Koordinat kedua titik fokus dan persamaan garis asimtotnya adalah ....
+                                </p>
+                                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                                    <svg viewBox="0 0 360 150" class="w-full max-w-xs mx-auto h-auto">
+                                        <line x1="20" y1="75" x2="340" y2="75" stroke="#334155" stroke-width="1.8" />
+                                        <line x1="180" y1="140" x2="180" y2="10" stroke="#334155" stroke-width="1.8" />
+                                        <line x1="50" y1="135" x2="310" y2="15" stroke="#94a3b8" stroke-dasharray="4 3" />
+                                        <line x1="50" y1="15" x2="310" y2="135" stroke="#94a3b8" stroke-dasharray="4 3" />
+                                        <path d="M 65 15 Q 200 75 65 135" fill="none" stroke="#e11d48" stroke-width="2.5" />
+                                        <path d="M 295 15 Q 160 75 295 135" fill="none" stroke="#e11d48" stroke-width="2.5" />
+                                        <circle cx="95" cy="75" r="3.5" fill="#1d4ed8" />
+                                        <circle cx="265" cy="75" r="3.5" fill="#1d4ed8" />
+                                        <text x="140" y="92" font-size="10" font-weight="bold" fill="#be123c">-4</text>
+                                        <text x="216" y="92" font-size="10" font-weight="bold" fill="#be123c">4</text>
+                                        <text x="95" y="92" text-anchor="middle" font-size="10" font-weight="bold" fill="#1d4ed8">F₁</text>
+                                        <text x="265" y="92" text-anchor="middle" font-size="10" font-weight="bold" fill="#1d4ed8">F₂</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $F(\pm 5, 0)$ dan $y = \pm \frac{4}{3}x$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $F(\pm 5, 0)$ dan $y = \pm \frac{3}{4}x$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $F(\pm \sqrt{7}, 0)$ dan $y = \pm \frac{3}{4}x$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $F(0, \pm 5)$ dan $y = \pm \frac{3}{4}x$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Eksentrisitas & Fokus Hiperbola Vertikal</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Koordinat titik fokus dan nilai eksentrisitas dari hiperbola $\frac{y^2}{25} - \frac{x^2}{144} = 1$ berturut-turut adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $F(\pm 13, 0)$ dan $e = \frac{13}{12}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $F(0, \pm 13)$ dan $e = \frac{13}{12}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $F(0, \pm 13)$ dan $e = \frac{13}{5}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $F(\pm 13, 0)$ dan $e = \frac{13}{5}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Asimtot Hiperbola Berpusat di P(h, k)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Persamaan kedua garis asimtot dari hiperbola $\frac{(x - 2)^2}{9} - \frac{(y + 1)^2}{4} = 1$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $y + 1 = \pm \frac{2}{3}(x - 2)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $y + 1 = \pm \frac{3}{2}(x - 2)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $y - 1 = \pm \frac{2}{3}(x + 2)$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $y + 1 = \pm \frac{4}{9}(x - 2)$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Garis Singgung Hiperbola (Bagi Adil)</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Persamaan garis singgung pada hiperbola $\frac{x^2}{9} - \frac{y^2}{16} = 1$ di titik $T(5, \frac{16}{3})$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $5x + 3y - 9 = 0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $3x - 5y - 9 = 0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $5x - 3y - 16 = 0$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $5x - 3y - 9 = 0$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Garis Singgung Hiperbola Bergradien m</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Persamaan garis singgung pada hiperbola $\frac{x^2}{4} - \frac{y^2}{12} = 1$ yang memiliki gradien $m = 2$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $y = 2x \pm 4$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $y = 2x \pm 2$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $y = 2x \pm 2\sqrt{7}$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $y = 2x \pm \sqrt{2}$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/irisan-kerucut/irisan-kerucut-elips-eksentrisitas-dan-garis-singgung.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Irisan Kerucut Elips</span>
+                    </a>
+                    <a href="/matematika/kelas-12/irisan-kerucut/pemodelan-optik-orbit-dan-problem-solving-hots-irisan-kerucut.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Pemodelan Optik, Orbit & Problem Solving HOTS</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Tepat sekali!</strong> Pemahaman fokus, asimtot, dan garis singgung hiperbola Anda sangat tajam.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>. Ingat bahwa pada hiperbola $c^2 = a^2 + b^2$ dan $a^2$ berada di bawah suku yang bertanda positif.';
+            }
+        }
+    </script>
+</body>
+
+</html>

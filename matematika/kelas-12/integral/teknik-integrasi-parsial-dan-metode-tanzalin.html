@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teknik Integrasi Parsial & Metode Tabel Tanzalin - Matematika Kelas XII | AjarKita</title>
+    <meta name="description"
+        content="Pelajari rumus integral parsial, aturan prioritas LIATE/ILATE, metode tabel Tanzalin untuk integral parsial berulang, dan integral siklik beserta kuis interaktif.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(feedback, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white"
+    data-mapel="matematika" data-kelas="mtk-12" data-bab="integral">
+
+    <!-- Header Partial -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- Sidebar Curriculum -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-24">
+                <div id="sidebar-placeholder"></div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-6">
+
+                <!-- Breadcrumb & Badge -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 mb-3">
+                        <a href="/matematika/index.html" class="hover:text-blue-600 transition">Matematika</a>
+                        <span>/</span>
+                        <a href="/matematika/kelas-12/index.html" class="hover:text-blue-600 transition">Kelas XII</a>
+                        <span>/</span>
+                        <span class="text-blue-600">Bab 4 · Integral & Aplikasi Luas-Volume</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 mb-2">
+                                🧩 Sub-Materi 3 dari 6 · Kalkulus Integral
+                            </span>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold font-display text-slate-900 tracking-tight">
+                                Teknik Integrasi Parsial & Metode Tabel Tanzalin
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SLIDER CONTROLLER (TOP STICKY) -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Slider Container -->
+                <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
+
+                    <!-- SLIDE 1: Rumus Integral Parsial & Prioritas LIATE -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 1 · Konsep & Prioritas Pilihan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Rumus Integral Parsial $\int u\,dv$ & Aturan LIATE
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">Asal-Usul Rumus</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Bagaimana jika sebuah integral memuat perkalian dua fungsi yang <strong>tidak memiliki hubungan turunan</strong> (misalnya $\int x \cos x\,dx$ atau $\int x^2 \ln x\,dx$), sehingga metode substitusi gagal? Kita menggunakan <strong>Integral Parsial</strong> yang diturunkan dari aturan perkalian turunan $(u \cdot v)'$:
+                        </p>
+
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50/70 rounded-xl p-5 border border-blue-200 space-y-3">
+                            <h3 class="font-bold text-blue-950 text-sm uppercase tracking-wider">Penurunan Rumus Integral Parsial</h3>
+                            <p class="text-xs text-slate-600">Dari diferensial hasil kali $d(u \cdot v) = u\,dv + v\,du$, integralkan kedua ruas:</p>
+                            <div class="bg-white rounded-lg p-4 border border-blue-100 text-center overflow-x-auto">
+                                $$\int u\,dv = u \cdot v - \int v\,du$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Kunci keberhasilan integral parsial adalah memilih bagian mana yang menjadi $u$ (yang akan <strong>diturunkan</strong> menjadi $du$) dan bagian mana yang menjadi $dv$ (yang akan <strong>diintegralkan</strong> menjadi $v$).
+                            </p>
+                        </div>
+
+                        <!-- Diagram SVG Prioritas LIATE -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Hierarki Prioritas Pemilihan $u$ — Aturan LIATE (Dari Kiri ke Kanan)
+                            </p>
+                            <svg viewBox="0 0 650 140" class="w-full max-w-2xl mx-auto h-auto">
+                                <!-- Box L -->
+                                <rect x="15" y="25" width="110" height="75" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" />
+                                <text x="70" y="52" text-anchor="middle" font-size="20" font-weight="800" fill="#4338ca">L</text>
+                                <text x="70" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#312e81">Logaritma</text>
+                                <text x="70" y="86" text-anchor="middle" font-size="10" fill="#6366f1">$\ln x, \log x$</text>
+
+                                <!-- Arrow 1 -->
+                                <text x="135" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#94a3b8">&gt;</text>
+
+                                <!-- Box I -->
+                                <rect x="145" y="25" width="110" height="75" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
+                                <text x="200" y="52" text-anchor="middle" font-size="20" font-weight="800" fill="#1d4ed8">I</text>
+                                <text x="200" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#1e3a8a">Invers Trigo</text>
+                                <text x="200" y="86" text-anchor="middle" font-size="10" fill="#3b82f6">$\arcsin x, \arctan x$</text>
+
+                                <!-- Arrow 2 -->
+                                <text x="265" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#94a3b8">&gt;</text>
+
+                                <!-- Box A -->
+                                <rect x="275" y="25" width="110" height="75" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2" />
+                                <text x="330" y="52" text-anchor="middle" font-size="20" font-weight="800" fill="#047857">A</text>
+                                <text x="330" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#064e3b">Aljabar</text>
+                                <text x="330" y="86" text-anchor="middle" font-size="10" fill="#059669">$x^n, (2x+1)^3$</text>
+
+                                <!-- Arrow 3 -->
+                                <text x="395" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#94a3b8">&gt;</text>
+
+                                <!-- Box T -->
+                                <rect x="405" y="25" width="110" height="75" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2" />
+                                <text x="460" y="52" text-anchor="middle" font-size="20" font-weight="800" fill="#b45309">T</text>
+                                <text x="460" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#78350f">Trigonometri</text>
+                                <text x="460" y="86" text-anchor="middle" font-size="10" fill="#d97706">$\sin x, \cos x, \sec^2 x$</text>
+
+                                <!-- Arrow 4 -->
+                                <text x="525" y="67" text-anchor="middle" font-size="16" font-weight="bold" fill="#94a3b8">&gt;</text>
+
+                                <!-- Box E -->
+                                <rect x="535" y="25" width="100" height="75" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2" />
+                                <text x="585" y="52" text-anchor="middle" font-size="20" font-weight="800" fill="#be123c">E</text>
+                                <text x="585" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#881337">Eksponen</text>
+                                <text x="585" y="86" text-anchor="middle" font-size="10" fill="#e11d48">$e^x, 2^x$</text>
+
+                                <!-- Caption bar -->
+                                <text x="150" y="125" text-anchor="middle" font-size="11" font-weight="700" fill="#4338ca">⬅ Prioritas Utama sebagai $u$ (Diturunkan)</text>
+                                <text x="500" y="125" text-anchor="middle" font-size="11" font-weight="700" fill="#be123c">Prioritas Utama sebagai $dv$ (Diintegralkan) ➡</text>
+                            </svg>
+                        </div>
+
+                        <div class="bg-amber-50/70 rounded-xl p-5 border border-amber-200 space-y-2">
+                            <h4 class="font-bold text-amber-950 text-sm">Contoh Klasik: $\int x^2 \ln x\,dx$</h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Ada fungsi Aljabar ($x^2$) dan Logaritma ($\ln x$). Karena <strong>L</strong> lebih kiri dari <strong>A</strong> pada LIATE, maka wajib pilih $u = \ln x$ dan $dv = x^2\,dx$:
+                            </p>
+                            <div class="text-xs text-slate-800 space-y-1">
+                                $$u = \ln x \implies du = \frac{1}{x}\,dx \quad \text{dan} \quad dv = x^2\,dx \implies v = \frac{1}{3}x^3$$
+                                $$\int x^2 \ln x\,dx = (\ln x)\left(\frac{1}{3}x^3\right) - \int \frac{1}{3}x^3 \cdot \frac{1}{x}\,dx = \frac{1}{3}x^3 \ln x - \frac{1}{3}\int x^2\,dx = \frac{1}{3}x^3 \ln x - \frac{1}{9}x^3 + C$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Metode Tabel Tanzalin -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Poin 2 · Jurus Cepat Polinomial</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Metode Tabel Tanzalin (Turunkan & Integralkan)
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Wajib Kuasai</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Jika fungsi yang dipilih sebagai $u$ adalah <strong>polinomial aljabar</strong> ($x^n$) yang jika diturunkan terus-menerus akan mencapai <strong>$0$</strong>, jangan gunakan rumus $\int u\,dv$ berulang kali! Gunakan <strong>Metode Tabel Tanzalin</strong> (<em>Tabular Integration by Parts</em>):
+                        </p>
+
+                        <!-- Visualisasi SVG Bagan Tanzalin -->
+                        <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 text-center">
+                                Bagan Panah Diagonal Tanzalin untuk $\int x^2 \sin(2x)\,dx$
+                            </p>
+                            <svg viewBox="0 0 580 235" class="w-full max-w-xl mx-auto h-auto">
+                                <defs>
+                                    <marker id="arrow-tz" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                        <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" />
+                                    </marker>
+                                </defs>
+                                <!-- Header -->
+                                <rect x="30" y="10" width="120" height="32" rx="6" fill="#e0e7ff" />
+                                <rect x="210" y="10" width="140" height="32" rx="6" fill="#dcfce7" />
+                                <rect x="410" y="10" width="140" height="32" rx="6" fill="#fef3c7" />
+                                <text x="90" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">Tanda (+/-)</text>
+                                <text x="280" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46">Turunkan ($u$)</text>
+                                <text x="480" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">Integralkan ($dv$)</text>
+
+                                <!-- Row 1 -->
+                                <text x="90" y="68" text-anchor="middle" font-size="15" font-weight="800" fill="#059669">+</text>
+                                <text x="280" y="68" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">x²</text>
+                                <text x="480" y="68" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">sin(2x)</text>
+
+                                <!-- Row 2 -->
+                                <text x="90" y="113" text-anchor="middle" font-size="15" font-weight="800" fill="#e11d48">-</text>
+                                <text x="280" y="113" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">2x</text>
+                                <text x="480" y="113" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">-½ cos(2x)</text>
+
+                                <!-- Row 3 -->
+                                <text x="90" y="158" text-anchor="middle" font-size="15" font-weight="800" fill="#059669">+</text>
+                                <text x="280" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">2</text>
+                                <text x="480" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">-¼ sin(2x)</text>
+
+                                <!-- Row 4 -->
+                                <text x="90" y="203" text-anchor="middle" font-size="15" font-weight="800" fill="#e11d48">-</text>
+                                <text x="280" y="203" text-anchor="middle" font-size="14" font-weight="bold" fill="#94a3b8">0 (Berhenti)</text>
+                                <text x="480" y="203" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563eb">+⅛ cos(2x)</text>
+
+                                <!-- Diagonal Arrows -->
+                                <line x1="310" y1="68" x2="425" y2="105" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-tz)" />
+                                <line x1="310" y1="113" x2="425" y2="150" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-tz)" />
+                                <line x1="310" y1="158" x2="425" y2="195" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-tz)" />
+                            </svg>
+                        </div>
+
+                        <div class="bg-emerald-50/70 rounded-xl p-5 border border-emerald-200 space-y-2">
+                            <h3 class="font-bold text-emerald-950 text-sm">Cara Membaca Hasil Panah Diagonal Tanzalin:</h3>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                Kalikan elemen kolom <strong>Turunkan ($u$)</strong> dengan elemen <strong>satu baris di bawahnya</strong> pada kolom <strong>Integralkan ($dv$)</strong> sesuai tanda $+, -, +$:
+                            </p>
+                            <div class="bg-white rounded-lg p-3 border border-emerald-100 text-xs overflow-x-auto">
+                                $$\int x^2 \sin(2x)\,dx = +(x^2)\left(-\frac{1}{2}\cos 2x\right) - (2x)\left(-\frac{1}{4}\sin 2x\right) + (2)\left(\frac{1}{8}\cos 2x\right) + C$$
+                                $$= -\frac{1}{2}x^2 \cos(2x) + \frac{1}{2}x \sin(2x) + \frac{1}{4}\cos(2x) + C$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: Integral Parsial Bentuk Aljabar x Pangkat/Akar -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Poin 3 · Perbandingan Dua Metode</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Integral Bentuk $\int x(ax+b)^n\,dx$ & $\int x\sqrt{ax+b}\,dx$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700">Tanzalin vs Substitusi</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Integral berbentuk $\int x\sqrt{2x+1}\,dx$ atau $\int x(3x-2)^5\,dx$ sering muncul di ujian karena dapat diselesaikan dengan <strong>Metode Tanzalin</strong> maupun <strong>Substitusi Aljabar</strong>. Mari kita bandingkan keduanya pada satu contoh soal!
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-purple-50/70 rounded-xl p-5 border border-purple-200 space-y-2">
+                                <h3 class="font-bold text-purple-950 text-sm">Cara 1: Metode Tabel Tanzalin (Lebih Cepat!)</h3>
+                                <p class="text-xs text-slate-700">Selesaikan $\int x(2x+1)^{1/2}\,dx$:</p>
+                                <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+                                    <li><strong>Baris 1 ($+$):</strong> $u = x$, $dv = (2x+1)^{1/2}$</li>
+                                    <li><strong>Baris 2 ($-$):</strong> $u' = 1$, $\int dv = \frac{1}{2}\cdot \frac{2}{3}(2x+1)^{3/2} = \frac{1}{3}(2x+1)^{3/2}$</li>
+                                    <li><strong>Baris 3 ($+$):</strong> $u'' = 0$, $\iint dv = \frac{1}{3}\cdot \frac{1}{2}\cdot \frac{2}{5}(2x+1)^{5/2} = \frac{1}{15}(2x+1)^{5/2}$</li>
+                                </ul>
+                                <div class="bg-white rounded-lg p-3 border border-purple-100 text-xs">
+                                    $$= \frac{1}{3}x(2x+1)^{3/2} - \frac{1}{15}(2x+1)^{5/2} + C$$
+                                </div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Alur Transformasi Variabel Integrasi Substitusi dan Parsial</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="25" width="145" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="92" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Integral Awal (Variabel x)</text>
+    <text x="92" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">∫ f(g(x)) · g'(x) dx</text>
+
+    <text x="188" y="62" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="210" y="25" width="125" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="272" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Transformasi u</text>
+    <text x="272" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">∫ f(u) du = F(u)+C</text>
+
+    <text x="356" y="62" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="378" y="25" width="142" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="449" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#881337">Kembalikan u = g(x)</text>
+    <text x="449" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">F(g(x)) + C</text>
+</svg>
+                        </div>
+
+
+                            <div class="bg-blue-50/70 rounded-xl p-5 border border-blue-200 space-y-2">
+                                <h3 class="font-bold text-blue-950 text-sm">Cara 2: Penyederhanaan Faktor Persekutuan</h3>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    Pada pilihan ganda, bentuk $\frac{1}{3}x(2x+1)^{3/2} - \frac{1}{15}(2x+1)^{5/2}$ biasanya difaktorkan dengan mengeluarkan $\frac{1}{15}(2x+1)^{3/2}$:
+                                </p>
+                                <div class="bg-white rounded-lg p-3 border border-blue-100 text-xs space-y-1">
+                                    $$= \frac{1}{15}(2x+1)^{3/2} \Big[ 5x - (2x+1) \Big] + C$$
+                                    $$= \frac{1}{15}(3x-1)(2x+1)\sqrt{2x+1} + C$$
+                                </div>
+                                <p class="text-xs text-slate-600">
+                                    Perhatikan betapa rapi hasil akhirnya setelah difaktorkan!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4: Integral Parsial Siklik / Berulang -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Poin 4 · Teknik Lanjutan & Olimpiade</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    Integral Parsial Siklik (Boomerang): $\int e^{ax}\sin(bx)\,dx$
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">Teknik Boomerang</span>
+                        </div>
+
+                        <p class="text-slate-600 leading-relaxed">
+                            Bagaimana jika baik $u$ maupun $dv$ <strong>tidak pernah mencapai nol</strong> saat diturunkan (misalnya perkalian fungsi Eksponensial $e^x$ dan Trigonometri $\sin x$)? Setelah dua kali integrasi parsial, bentuk integral awal akan muncul kembali seperti bumerang!
+                        </p>
+
+                        <div class="bg-rose-50/60 rounded-xl p-5 border border-rose-200 space-y-3">
+                            <h3 class="font-bold text-rose-950 text-sm">Bedah Langkah: Misalkan $I = \int e^x \sin x\,dx$</h3>
+                            <div class="text-xs text-slate-700 space-y-2">
+                                <p><strong>Parsial Pertama:</strong> Pilih $u = \sin x \implies du = \cos x\,dx$ dan $dv = e^x\,dx \implies v = e^x$:</p>
+                                $$I = e^x \sin x - \int e^x \cos x\,dx$$
+                                <p><strong>Parsial Kedua</strong> pada $\int e^x \cos x\,dx$: Pilih $u = \cos x \implies du = -\sin x\,dx$ dan $dv = e^x\,dx \implies v = e^x$:</p>
+                                $$I = e^x \sin x - \Big( e^x \cos x - \int e^x (-\sin x)\,dx \Big)$$
+                                $$I = e^x \sin x - e^x \cos x - \underbrace{\int e^x \sin x\,dx}_{I}$$
+                                <p>Pindahkan $-I$ di ruas kanan ke ruas kiri menjadi $2I$:</p>
+                                $$2I = e^x (\sin x - \cos x) \implies I = \frac{1}{2}e^x (\sin x - \cos x) + C$$
+                            </div>
+                        </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Alur Transformasi Variabel Integrasi Substitusi dan Parsial</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="25" width="145" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="92" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Integral Awal (Variabel x)</text>
+    <text x="92" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">∫ f(g(x)) · g'(x) dx</text>
+
+    <text x="188" y="62" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="210" y="25" width="125" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="272" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Transformasi u</text>
+    <text x="272" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">∫ f(u) du = F(u)+C</text>
+
+    <text x="356" y="62" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="378" y="25" width="142" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="449" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#881337">Kembalikan u = g(x)</text>
+    <text x="449" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">F(g(x)) + C</text>
+</svg>
+                        </div>
+
+
+                        <div class="bg-slate-900 text-white rounded-xl p-5 space-y-2">
+                            <h4 class="font-bold text-amber-400 text-sm">⚡ Rumus Cepat Integral Eksponensial × Trigonometri</h4>
+                            <div class="text-xs text-slate-200 space-y-2 overflow-x-auto">
+                                $$\int e^{ax}\sin(bx)\,dx = \frac{e^{ax}}{a^2 + b^2}\big(a\sin bx - b\cos bx\big) + C$$
+                                $$\int e^{ax}\cos(bx)\,dx = \frac{e^{ax}}{a^2 + b^2}\big(a\cos bx + b\sin bx\big) + C$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5: Kuis Interaktif -->
+                    <div class="ielts-slide bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Poin 5 · Evaluasi Pemahaman</span>
+                                <h2 class="text-xl sm:text-2xl font-bold font-display text-slate-900 mt-1">
+                                    ✍️ Kuis Integral Parsial & Metode Tanzalin
+                                </h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">5 Butir Soal</span>
+                        </div>
+
+                        <p class="text-sm text-slate-600">
+                            Uji penguasaan aturan prioritas LIATE dan metode tabel Tanzalin pada 5 soal berikut:
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Soal 1 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 1 · Integral Parsial Trigonometri</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Hasil dari $\int x \sin(3x)\,dx$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{1}{3}x\cos(3x) - \frac{1}{9}\sin(3x) + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $-\frac{1}{3}x\cos(3x) + \frac{1}{9}\sin(3x) + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $-\frac{1}{3}x\cos(3x) - \frac{1}{9}\sin(3x) + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $-3x\cos(3x) + 9\sin(3x) + C$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                        <!-- DIAGRAM SVG VISUALISASI KONSEP -->
+                        <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center my-4">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3 text-center">Alur Transformasi Variabel Integrasi Substitusi dan Parsial</span>
+                            <svg viewBox="0 0 540 125" class="w-full max-w-xl h-auto">
+    <rect x="20" y="25" width="145" height="65" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="92" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a">Integral Awal (Variabel x)</text>
+    <text x="92" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">∫ f(g(x)) · g'(x) dx</text>
+
+    <text x="188" y="62" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="210" y="25" width="125" height="65" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="272" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#064e3b">Transformasi u</text>
+    <text x="272" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">∫ f(u) du = F(u)+C</text>
+
+    <text x="356" y="62" text-anchor="middle" font-size="16" font-weight="bold" fill="#64748b">→</text>
+
+    <rect x="378" y="25" width="142" height="65" rx="10" fill="#fef2f2" stroke="#e11d48" stroke-width="2"/>
+    <text x="449" y="50" text-anchor="middle" font-size="11" font-weight="800" fill="#881337">Kembalikan u = g(x)</text>
+    <text x="449" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#be123c">F(g(x)) + C</text>
+</svg>
+                        </div>
+
+
+                            <!-- Soal 2 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 2 · Integral Fungsi Logaritma Natural</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Hasil dari $\int x \ln x\,dx$ untuk $x > 0$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'C')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{1}{2}x^2 \ln x + \frac{1}{4}x^2 + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $x^2 \ln x - \frac{1}{2}x^2 + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $\frac{1}{2}x^2 \ln x - \frac{1}{4}x^2 + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'C')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{1}{2}x^2 \ln x - \frac{1}{2}x^2 + C$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 3 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 3 · Metode Tabel Tanzalin Polinomial × Eksponen</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Hasil dari $\int x^2 e^x\,dx$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'A')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $(x^2 - 2x + 2)e^x + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $(x^2 + 2x + 2)e^x + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $(x^2 - 2x - 2)e^x + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'A')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{1}{3}x^3 e^x + C$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 4 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 4 · Tanzalin Aljabar Pangkat Tinggi</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Hasil dari $\int 20x(x-1)^3\,dx$ dalam bentuk terfaktor adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'D')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $(5x - 1)(x-1)^4 + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $(4x + 1)(x-1)^5 + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $5x(x-1)^4 + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'D')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $(4x + 1)(x-1)^4 + C$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+
+                            <!-- Soal 5 -->
+                            <div class="quiz-card bg-slate-50/80 rounded-xl p-5 border border-slate-200 space-y-4">
+                                <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">Soal 5 · Integral Logaritma Murni</div>
+                                <p class="font-semibold text-slate-800 text-sm sm:text-base">
+                                    Dengan memilih $u = \ln x$ dan $dv = 1\,dx$, hasil dari $\int \ln x\,dx$ adalah ....
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                    <button onclick="checkQuiz(this, 'B')" data-option="A"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        A. $\frac{1}{x} + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="B"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        B. $x \ln x - x + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="C"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        C. $x \ln x + x + C$
+                                    </button>
+                                    <button onclick="checkQuiz(this, 'B')" data-option="D"
+                                        class="quiz-option text-left px-4 py-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 transition text-sm font-medium">
+                                        D. $\frac{1}{2}(\ln x)^2 + C$
+                                    </button>
+                                </div>
+                                <div class="quiz-feedback hidden text-xs p-3 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SLIDER BOTTOM NAV -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Chapter Navigation -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a href="/matematika/kelas-12/integral/teknik-integrasi-substitusi-aljabar-dan-trigonometri.html"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition">
+                        <span>←</span>
+                        <span>Sub-Materi Sebelumnya: Substitusi Aljabar & Trigo</span>
+                    </a>
+                    <a href="/matematika/kelas-12/integral/integral-tentu-teorema-dasar-kalkulus-dan-sifat-simetri.html"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition">
+                        <span>Lanjut: Integral Tentu & Teorema Dasar Kalkulus</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Partial -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/mapel-config.js"></script>
+    <script src="/js/include.js"></script>
+    <script src="/ielts/ielts-slider.js"></script>
+    <script>
+        function checkQuiz(btn, correctOption) {
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.quiz-option');
+            const feedback = card.querySelector('.quiz-feedback');
+            const selected = btn.getAttribute('data-option');
+
+            options.forEach(opt => {
+                opt.disabled = true;
+                opt.classList.remove('hover:border-blue-400', 'hover:bg-blue-50/40');
+                if (opt.getAttribute('data-option') === correctOption) {
+                    opt.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-800', 'bg-rose-50', 'text-rose-800');
+            if (selected === correctOption) {
+                feedback.classList.add('bg-emerald-50', 'text-emerald-800');
+                feedback.innerHTML = '✅ <strong>Benar!</strong> Pilihan $u$ dan langkah integrasi parsial Anda sangat tepat.';
+            } else {
+                btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                feedback.classList.add('bg-rose-50', 'text-rose-800');
+                feedback.innerHTML = '❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah opsi <strong>' + correctOption + '</strong>. Periksa kembali tanda $+, -$ pada tabel Tanzalin.';
+            }
+        }
+    </script>
+</body>
+
+</html>
