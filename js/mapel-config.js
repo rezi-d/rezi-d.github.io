@@ -73,7 +73,7 @@ const mapelConfig = [
             {
                 kelas: "XII",
                 label: "Kelas XII",
-                sublabel: "Fase F Lanjutan — Asam Basa, Elektrokimia & Senyawa Karbon",
+                sublabel: "Fase F Lanjutan — Sifat Koligatif, Elektrokimia, Senyawa Karbon & Pengayaan OSN Kimia",
                 path: "/kelas-12/index.html"
             }
         ]

@@ -344,6 +344,19 @@ const kurikulum = {
                     { file: "logam-transisi-periode-keempat-dan-senyawa-kompleks.html", title: "Logam Transisi Periode 4 & Senyawa Kompleks Koordinasi" },
                     { file: "proses-pengolahan-industri-dan-latihan-chang.html", title: "Proses Metalurgi Industri & Latihan Pemecahan Masalah Chang" }
                 ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN Kimia)",
+                deskripsi: "Modul pengayaan tingkat lanjut persiapan Olimpiade Sains Nasional (OSN-K & OSN-P Kimia) bidang Elektrokimia Lanjut, Stereokimia Organik & Mekanisme Reaksi: Persamaan Nernst & Diagram Latimer/Frost, Sel Konsentrasi & Potensiometri Analitis, Stereokimia Organik (Kiralitas, R/S Cahn-Ingold-Prelog & Enansiomer), Mekanisme Reaksi Substitusi & Eliminasi (SN1, SN2, E1, E2) serta Adisi Karbonil, Aromatisitas Hückel & SEAr Terarah, serta Bedah Soal Asli & Strategi Penalaran Cepat OSN-K Kimia Kelas XII.",
+                subbab: [
+                    { file: "elektrokimia-lanjut-nernst-dan-diagram-frost.html", title: "Elektrokimia Lanjut: Persamaan Nernst & Diagram Latimer-Frost" },
+                    { file: "sel-konsentrasi-dan-potensiometri-analitis.html", title: "Sel Konsentrasi, Baterai Lanjut & Potensiometri Analitis" },
+                    { file: "stereokimia-organik-kiralitas-dan-konfigurasi-rs.html", title: "Stereokimia Organik: Kiralitas, Konfigurasi R/S & Isomerisme Optik" },
+                    { file: "mekanisme-reaksi-substitusi-dan-eliminasi.html", title: "Mekanisme Reaksi Organik: SN1, SN2, E1, E2 & Reaktivitas Karbonil" },
+                    { file: "aromatisitas-lanjut-dan-substitusi-elektrofilik.html", title: "Aromatisitas Hückel, Delokalisasi Elektron & SEAr Terarah" },
+                    { file: "bedah-soal-asli-dan-strategi-osnk-kimia-12.html", title: "Bedah Soal Asli OSN-K Kimia Kelas XII & Strategi Penalaran Cepat" }
+                ]
             }
         ]
     },
