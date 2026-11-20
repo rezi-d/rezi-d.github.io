@@ -454,7 +454,7 @@
 
     <form id="quiz-form" class="space-y-6">
         <!-- Soal 1 -->
-        <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
             <span class="text-xs font-bold text-teal-700 block">SOAL 1 (Interpretasi Spektrum PES)</span>
             <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
                 Berdasarkan gambar spektrum PES pada grafik di atas, suatu unsur netral $X$ menghasilkan tiga puncak terpisah dengan rasio tinggi $A : B : C = 2 : 2 : 3$. Nilai energi ikat berturut-turut adalah $39{,}6\,\text{MJ/mol}$, $3{,}04\,\text{MJ/mol}$, dan $1{,}40\,\text{MJ/mol}$. Identitas unsur $X$ dan jumlah elektron valensinya adalah...
@@ -477,10 +477,11 @@
                     <span>D. Fosforus ($Z = 15$), dengan 5 elektron valensi</span>
                 </label>
             </div>
+            <div id="feedback-q1" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
         </div>
 
         <!-- Soal 2 -->
-        <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
             <span class="text-xs font-bold text-teal-700 block">SOAL 2 (Simpul Nodal Orbital)</span>
             <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
                 Suatu elektron menempati orbital dengan fungsi gelombang yang memiliki 2 bidang simpul sudut (angular nodes) dan 1 simpul radial (radial node). Orbital tersebut dan jumlah total simpulnya adalah...
@@ -503,10 +504,11 @@
                     <span>D. Orbital 5f dengan total 4 simpul</span>
                 </label>
             </div>
+            <div id="feedback-q2" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
         </div>
 
         <!-- Soal 3 -->
-        <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
             <span class="text-xs font-bold text-teal-700 block">SOAL 3 (Konfigurasi Elektron Kation Transisi)</span>
             <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
                 Unsur Mangan memiliki nomor atom $Z = 25$. Konfigurasi elektron kation $\text{Mn}^{2+}$ pada keadaan dasar (ground state) serta jumlah elektron tak berpasangan yang dimilikinya adalah...
@@ -529,10 +531,11 @@
                     <span>D. $[\text{Ar}]\,4s^2\,3d^5$, dengan 5 elektron tak berpasangan</span>
                 </label>
             </div>
+            <div id="feedback-q3" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
         </div>
 
         <!-- Soal 4 -->
-        <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
             <span class="text-xs font-bold text-teal-700 block">SOAL 4 (Panjang Gelombang de Broglie)</span>
             <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
                 Sebuah elektron ($m = 9{,}11 \times 10^{-31}\,\text{kg}$) dipercepat dari keadaan diam melewati beda potensial elektrostatik $100\,\text{V}$ sehingga memperoleh energi kinetik $E_k = 1{,}602 \times 10^{-17}\,\text{J}$. Panjang gelombang de Broglie elektron tersebut mendekati... ($h = 6{,}626 \times 10^{-34}\,\text{J}\cdot\text{s}$)
@@ -555,17 +558,57 @@
                     <span>D. $12{,}3\,\text{nm}$</span>
                 </label>
             </div>
+            <div id="feedback-q4" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
         </div>
 
-        <div class="pt-2">
-            <button type="button" onclick="checkOsnQuiz()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-bold transition shadow-xs">
-                Periksa Seluruh Jawaban Kuis
+        <div class="pt-2 flex flex-wrap items-center gap-3">
+            <button type="button" onclick="checkOsnQuiz()" class="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-bold transition shadow-xs flex items-center gap-2">
+                <span>✓</span> Periksa Seluruh Jawaban Kuis
+            </button>
+            <button type="button" onclick="resetOsnQuiz()" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold transition">
+                Ulangi Kuis
             </button>
         </div>
     </form>
 
-    <div id="quiz-result" class="hidden p-5 rounded-2xl border space-y-4 text-xs sm:text-sm">
-        <!-- Skor dan feedback terisi via JS -->
+    <div id="quiz-result" class="hidden space-y-5 pt-2">
+        <!-- Banner Ringkasan Skor -->
+        <div id="quiz-score-banner" class="p-5 rounded-2xl border shadow-xs transition-all">
+            <div class="flex items-center justify-between">
+                <h3 id="quiz-score-title" class="font-bold text-base sm:text-lg"></h3>
+                <span id="quiz-score-badge" class="px-3 py-1 rounded-full text-xs font-bold"></span>
+            </div>
+            <p id="quiz-score-desc" class="text-xs mt-1.5"></p>
+        </div>
+
+        <!-- Pembahasan Ilmiah Statis (Bebas dari escape JS, KaTeX render sempurna) -->
+        <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-slate-50 space-y-4 text-xs sm:text-sm text-slate-800 shadow-xs">
+            <div class="flex items-center justify-between border-b border-slate-200/80 pb-3">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <span class="text-teal-600">📖</span> Pembahasan Kunci Jawaban &amp; Analisis Ilmiah
+                </h4>
+                <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800">Standar OSN-K</span>
+            </div>
+            <div class="space-y-3">
+                <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <strong>Soal 1 (Jawaban B - Nitrogen, Z = 7):</strong><br>
+            Tiga puncak PES mewakili subkulit $1s^2, 2s^2, 2p^3$ (karena rasio tinggi $2 : 2 : 3$). Total elektron $= 2 + 2 + 3 = 7$. Atom dengan $Z = 7$ adalah Nitrogen ($[\text{He}]\,2s^2\,2p^3$) yang memiliki $2 + 3 = 5$ elektron valensi.
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <strong>Soal 2 (Jawaban B - Orbital 4d, 3 simpul):</strong><br>
+            Simpul sudut $= l = 2$ (berarti orbital $d$). Simpul radial $= n - l - 1 = 1 \implies n - 2 - 1 = 1 \implies n = 4$. Jadi orbital tersebut adalah $4d$. Total simpul $= n - 1 = 4 - 1 = 3$.
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <strong>Soal 3 (Jawaban B - [Ar] 3d⁵, 5 elektron tak berpasangan):</strong><br>
+            Atom Mangan netral memiliki konfigurasi $[\text{Ar}]\,4s^2\,3d^5$. Ketika membentuk ion $\text{Mn}^{2+}$, dua elektron pada kulit terluar $4s$ dilepas terlebih dahulu! Konfigurasi ion menjadi $[\text{Ar}]\,3d^5$. Kelima elektron menempati masing-masing 1 orbital $d$ dengan spin paralel (Kaidah Hund), sehingga memiliki 5 elektron tak berpasangan (sangat paramagnetik).
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <strong>Soal 4 (Jawaban A - 0,123 nm):</strong><br>
+            Hubungan energi kinetik dan momentum: $p = \sqrt{2mE_k} = \sqrt{2 \times 9{,}11 \times 10^{-31} \times 1{,}602 \times 10^{-17}} = 5{,}40 \times 10^{-24}\,\text{kg}\cdot\text{m/s}$.<br>
+            Panjang gelombang de Broglie: $\lambda = \frac{h}{p} = \frac{6{,}626 \times 10^{-34}}{5{,}40 \times 10^{-24}} = 1{,}227 \times 10^{-10}\,\text{m} = 0{,}123\,\text{nm}\,(1{,}23\,\text{Å})$.
+        </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -598,69 +641,126 @@
     <script src="/js/task-fab.js" defer></script>
 
     <script>
+const osnKeys = { q1: "B", q2: "B", q3: "B", q4: "A" };
+
 function checkOsnQuiz() {
-    const keys = { q1: "B", q2: "B", q3: "B", q4: "A" };
     const form = document.getElementById('quiz-form');
     let score = 0;
-    let total = 4;
-    let html = '';
+    const total = Object.keys(osnKeys).length;
 
-    for (let q in keys) {
+    for (let q in osnKeys) {
         const selected = form.elements[q] ? form.elements[q].value : null;
-        if (selected === keys[q]) {
+        const fb = document.getElementById('feedback-' + q);
+        const card = form.elements[q] ? (form.elements[q][0] || form.elements[q]).closest('.quiz-card') : null;
+
+        if (selected === osnKeys[q]) {
             score++;
+            if (fb) {
+                fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! Pilihan (${selected}) benar.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-rose-300', 'bg-rose-50/20');
+                card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+            }
+        } else if (selected) {
+            if (fb) {
+                fb.innerHTML = `<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Pilihan Anda (${selected}) belum tepat. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-emerald-300', 'bg-emerald-50/20');
+                card.classList.add('border-rose-300', 'bg-rose-50/20');
+            }
+        } else {
+            if (fb) {
+                fb.innerHTML = `<span class="text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200 block">⚠️ Belum dijawab. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-emerald-300', 'border-rose-300', 'bg-emerald-50/20', 'bg-rose-50/20');
+            }
         }
     }
 
     const percentage = Math.round((score / total) * 100);
     const resultBox = document.getElementById('quiz-result');
+    const banner = document.getElementById('quiz-score-banner');
+    const title = document.getElementById('quiz-score-title');
+    const badge = document.getElementById('quiz-score-badge');
+    const desc = document.getElementById('quiz-score-desc');
+
     resultBox.classList.remove('hidden');
 
     if (percentage >= 75) {
-        resultBox.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-950 space-y-4";
-        html += `<div class="flex items-center justify-between">
-            <h3 class="font-bold text-base text-emerald-900">🎉 Luar Biasa! Skor Anda: ${percentage}% (${score}/${total})</h3>
-            <span class="px-2.5 py-1 rounded-full bg-emerald-200 text-emerald-800 text-xs font-bold">Lolos Kualifikasi OSN-K</span>
-        </div>`;
+        banner.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-950 shadow-xs";
+        title.className = "font-bold text-base sm:text-lg text-emerald-900";
+        title.innerHTML = `🎉 Luar Biasa! Skor Anda: ${percentage}% (${score}/${total})`;
+        badge.className = "px-3 py-1 rounded-full bg-emerald-200 text-emerald-800 text-xs font-bold";
+        badge.textContent = "Lolos Kualifikasi OSN-K";
+        if (desc) desc.textContent = "Pemahaman konsep Anda sudah sangat matang dan siap bersaing di tingkat olimpiade sains!";
     } else {
-        resultBox.className = "p-5 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 space-y-4";
-        html += `<div class="flex items-center justify-between">
-            <h3 class="font-bold text-base text-amber-900">Skor Anda: ${percentage}% (${score}/${total})</h3>
-            <span class="px-2.5 py-1 rounded-full bg-amber-200 text-amber-800 text-xs font-bold">Perlu Review Konsep</span>
-        </div>`;
+        banner.className = "p-5 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 shadow-xs";
+        title.className = "font-bold text-base sm:text-lg text-amber-900";
+        title.innerHTML = `Skor Anda: ${percentage}% (${score}/${total})`;
+        badge.className = "px-3 py-1 rounded-full bg-amber-200 text-amber-800 text-xs font-bold";
+        badge.textContent = "Perlu Review Konsep";
+        if (desc) desc.textContent = "Pelajari kembali langkah eliminasi dan rumus analitis pada pembahasan di bawah ini.";
     }
 
-    html += `<div class="space-y-3 pt-2 border-t border-slate-200/60 text-xs text-slate-800">
-        <h4 class="font-bold text-slate-900 text-sm">Pembahasan Kunci Jawaban Ilmiah:</h4>
-        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <strong>Soal 1 (Jawaban B - Nitrogen, Z = 7):</strong><br>
-            Tiga puncak PES mewakili subkulit $1s^2, 2s^2, 2p^3$ (karena rasio tinggi $2 : 2 : 3$). Total elektron $= 2 + 2 + 3 = 7$. Atom dengan $Z = 7$ adalah Nitrogen ($[\text{He}]\,2s^2\,2p^3$) yang memiliki $2 + 3 = 5$ elektron valensi.
-        </div>
-        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <strong>Soal 2 (Jawaban B - Orbital 4d, 3 simpul):</strong><br>
-            Simpul sudut $= l = 2$ (berarti orbital $d$). Simpul radial $= n - l - 1 = 1 \implies n - 2 - 1 = 1 \implies n = 4$. Jadi orbital tersebut adalah $4d$. Total simpul $= n - 1 = 4 - 1 = 3$.
-        </div>
-        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <strong>Soal 3 (Jawaban B - [Ar] 3d⁵, 5 elektron tak berpasangan):</strong><br>
-            Atom Mangan netral memiliki konfigurasi $[\text{Ar}]\,4s^2\,3d^5$. Ketika membentuk ion $\text{Mn}^{2+}$, dua elektron pada kulit terluar $4s$ dilepas terlebih dahulu! Konfigurasi ion menjadi $[\text{Ar}]\,3d^5$. Kelima elektron menempati masing-masing 1 orbital $d$ dengan spin paralel (Kaidah Hund), sehingga memiliki 5 elektron tak berpasangan (sangat paramagnetik).
-        </div>
-        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <strong>Soal 4 (Jawaban A - 0,123 nm):</strong><br>
-            Hubungan energi kinetik dan momentum: $p = \sqrt{2mE_k} = \sqrt{2 \times 9{,}11 \times 10^{-31} \times 1{,}602 \times 10^{-17}} = 5{,}40 \times 10^{-24}\,\text{kg}\cdot\text{m/s}$.<br>
-            Panjang gelombang de Broglie: $\lambda = \frac{h}{p} = \frac{6{,}626 \times 10^{-34}}{5{,}40 \times 10^{-24}} = 1{,}227 \times 10^{-10}\,\text{m} = 0{,}123\,\text{nm}\,(1{,}23\,\text{Å})$.
-        </div>
-    </div>`;
-
-    resultBox.innerHTML = html;
     if (typeof renderMathInElement === 'function') {
         renderMathInElement(resultBox, {
             delimiters: [
                 {left: "$$", right: "$$", display: true},
                 {left: "$", right: "$", display: false}
-            ]
+            ],
+            throwOnError: false
         });
     }
+
+    const anyRadio = form.querySelector('input[type="radio"]:checked') || form.querySelector('input[type="radio"]');
+    if (anyRadio) anyRadio.dispatchEvent(new Event('change', { bubbles: true }));
+
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+function resetOsnQuiz() {
+    const form = document.getElementById('quiz-form');
+    if (form) form.reset();
+    document.querySelectorAll('.quiz-feedback').forEach(fb => fb.innerHTML = '');
+    document.querySelectorAll('.quiz-card').forEach(c => {
+        c.classList.remove('border-emerald-300', 'border-rose-300', 'bg-emerald-50/20', 'bg-rose-50/20');
+    });
+    const resultBox = document.getElementById('quiz-result');
+    if (resultBox) resultBox.classList.add('hidden');
+    const anyRadio = form ? form.querySelector('input[type="radio"]') : null;
+    if (anyRadio) anyRadio.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('quiz-form');
+    if (form) {
+        form.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const q = this.name;
+                const fb = document.getElementById('feedback-' + q);
+                const card = this.closest('.quiz-card');
+                if (osnKeys[q]) {
+                    if (this.value === osnKeys[q]) {
+                        if (fb) fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! Pilihan (${this.value}) benar.</span>`;
+                        if (card) {
+                            card.classList.remove('border-rose-300', 'bg-rose-50/20');
+                            card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+                        }
+                    } else {
+                        if (fb) fb.innerHTML = `<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Pilihan (${this.value}) belum tepat. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+                        if (card) {
+                            card.classList.remove('border-emerald-300', 'bg-emerald-50/20');
+                            card.classList.add('border-rose-300', 'bg-rose-50/20');
+                        }
+                    }
+                }
+            });
+        });
+    }
+});
 </script>
 
     <script>

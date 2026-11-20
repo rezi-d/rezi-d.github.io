@@ -508,7 +508,7 @@
 
     <form id="quiz-form" class="space-y-6">
         <!-- Soal 1 -->
-        <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
             <span class="text-xs font-bold text-teal-700 block">SOAL 1 (Geometri Ion Poliatomik Interhalogen)</span>
             <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
                 Ion triiodida ($[\text{I}_3]^-$) dan ion tetrakloroiodat ($[\text{ICl}_4]^-$) memiliki atom pusat iodin ($Z = 53$). Bentuk geometri molekul kedua ion tersebut berturut-turut adalah...
@@ -531,10 +531,11 @@
                     <span>D. Bentuk-T dan Oktahedral</span>
                 </label>
             </div>
+            <div id="feedback-q1" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
         </div>
 
         <!-- Soal 2 -->
-        <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
             <span class="text-xs font-bold text-teal-700 block">SOAL 2 (Resonansi Stabil Dinitrogen Oksida N₂O)</span>
             <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
                 Molekul dinitrogen monoksida memiliki susunan atom $\text{N-N-O}$. Di antara struktur Lewis berikut, manakah struktur resonansi yang merupakan <strong>kontributor paling dominan (paling stabil)</strong> berdasarkan kriteria muatan formal?
@@ -557,10 +558,11 @@
                     <span>D. Ketiga struktur memberikan kontribusi yang sama persis</span>
                 </label>
             </div>
+            <div id="feedback-q2" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
         </div>
 
         <!-- Soal 3 -->
-        <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
             <span class="text-xs font-bold text-teal-700 block">SOAL 3 (Penyimpangan Sudut Ikatan VSEPR)</span>
             <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
                 Molekul klorin trifluorida ($\text{ClF}_3$) memiliki geometri bentuk-T (T-shaped). Sudut ikatan nyata antara atom fluorin aksial dan fluorin ekuatorial ($ngle\text{F}_{\text{ax}}-\text{Cl}-\text{F}_{\text{eq}}$) adalah...
@@ -583,10 +585,11 @@
                     <span>D. Tepat $120^\circ$</span>
                 </label>
             </div>
+            <div id="feedback-q3" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
         </div>
 
         <!-- Soal 4 -->
-        <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+        <div class="quiz-card bg-white p-4 sm:p-5 rounded-xl border border-slate-200 space-y-3 shadow-xs transition-colors">
             <span class="text-xs font-bold text-teal-700 block">SOAL 4 (Domain Elektron Senyawa Xenon Oksifluorida)</span>
             <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
                 Pada molekul xenon oksitetrafluorida ($\text{XeOF}_4$), atom pusat xenon mengikat 1 atom oksigen melalui ikatan rangkap dua dan 4 atom fluorin melalui ikatan tunggal. Jumlah pasangan elektron bebas (PEB) pada atom xenon dan kepolaran molekul $\text{XeOF}_4$ adalah...
@@ -609,17 +612,58 @@
                     <span>D. 1 PEB, bersifat Nonpolar</span>
                 </label>
             </div>
+            <div id="feedback-q4" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
         </div>
 
-        <div class="pt-2">
-            <button type="button" onclick="checkOsnQuiz()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-bold transition shadow-xs">
-                Periksa Seluruh Jawaban Kuis
+        <div class="pt-2 flex flex-wrap items-center gap-3">
+            <button type="button" onclick="checkOsnQuiz()" class="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-bold transition shadow-xs flex items-center gap-2">
+                <span>✓</span> Periksa Seluruh Jawaban Kuis
+            </button>
+            <button type="button" onclick="resetOsnQuiz()" class="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold transition">
+                Ulangi Kuis
             </button>
         </div>
     </form>
 
-    <div id="quiz-result" class="hidden p-5 rounded-2xl border space-y-4 text-xs sm:text-sm">
-        <!-- Skor dan feedback terisi via JS -->
+    <div id="quiz-result" class="hidden space-y-5 pt-2">
+        <!-- Banner Ringkasan Skor -->
+        <div id="quiz-score-banner" class="p-5 rounded-2xl border shadow-xs transition-all">
+            <div class="flex items-center justify-between">
+                <h3 id="quiz-score-title" class="font-bold text-base sm:text-lg"></h3>
+                <span id="quiz-score-badge" class="px-3 py-1 rounded-full text-xs font-bold"></span>
+            </div>
+            <p id="quiz-score-desc" class="text-xs mt-1.5"></p>
+        </div>
+
+        <!-- Pembahasan Ilmiah Statis (Bebas dari escape JS, KaTeX render sempurna) -->
+        <div class="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-slate-50 space-y-4 text-xs sm:text-sm text-slate-800 shadow-xs">
+            <div class="flex items-center justify-between border-b border-slate-200/80 pb-3">
+                <h4 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <span class="text-teal-600">📖</span> Pembahasan Kunci Jawaban &amp; Analisis Ilmiah
+                </h4>
+                <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800">Standar OSN-K</span>
+            </div>
+            <div class="space-y-3">
+                <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <strong>Soal 1 (Jawaban B - Linear dan Square Planar):</strong><br>
+            - Pada $[\text{I}_3]^-$, atom I pusat memiliki $7 + 1 + 2 = 10$ elektron valensi (2 PEI + 3 PEB). Bilangan sterik $= 5$ (tipe $AX_2E_3$). Ketiga PEB berada di bidang ekuatorial, menghasilkan geometri <strong>Linear ($180^\circ$)</strong>.<br>
+            - Pada $[\text{ICl}_4]^-$, atom I pusat memiliki $7 + 1 + 4 = 12$ elektron valensi (4 PEI + 2 PEB). Bilangan sterik $= 6$ (tipe $AX_4E_2$). Kedua PEB menempati posisi trans aksial berseberangan, menghasilkan geometri <strong>Persegi Datar (Square Planar)</strong>.
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <strong>Soal 2 (Jawaban A - Struktur dengan FC O = -1):</strong><br>
+            Kedua struktur A dan B memiliki magnitudo muatan formal yang sama (satu atom bernilai +1 dan satu atom bernilai -1). Namun, elektronegativitas Oksigen ($3{,}5$) lebih tinggi daripada Nitrogen ($3{,}0$). Berdasarkan aturan emas seleksi resonansi, struktur di mana muatan negatif berada pada atom yang paling elektronegatif (Oksigen) adalah kontributor paling dominan dan stabil.
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <strong>Soal 3 (Jawaban B - Sekitar 87,5°):</strong><br>
+            $\text{ClF}_3$ memiliki tipe $AX_3E_2$ dengan 2 PEB di posisi ekuatorial. Gaya tolak PEB-PEI lebih kuat daripada gaya tolak PEI-PEI. Kedua PEB ekuatorial ini mendorong ikatan $\text{Cl-F}_{\text{ax}}$ ke arah dalam menjauhi bidang ekuatorial, sehingga sudut $\angle\text{F}_{\text{ax}}-\text{Cl}-\text{F}_{\text{eq}}$ menyusut dari $90^\circ$ ideal menjadi sekitar $87{,}5^\circ$.
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+            <strong>Soal 4 (Jawaban B - 1 PEB, Polar):</strong><br>
+            Elektron valensi atom $\text{Xe} = 8$. Ikatan dengan 1 oksigen ($\text{Xe=O}$) memakai 2 elektron, dan 4 ikatan dengan fluorin ($\text{Xe-F}$) memakai 4 elektron. Total elektron ikatan $= 2 + 4 = 6$ elektron. Sisa elektron bebas $= 8 - 6 = 2$ elektron ($1$ pasang / 1 PEB).<br>
+            Bilangan sterik $= 5$ ikatan + $1$ PEB $= 6$ (tipe $AX_5E$, piramida alas persegi). Karena ikatan $\text{Xe=O}$ di posisi aksial atas tidak dapat diimbangi oleh PEB di aksial bawah, resultan momen dipolnya tidak nol ($\mu \neq 0$, molekul bersifat <strong>Polar</strong>).
+        </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -652,70 +696,126 @@
     <script src="/js/task-fab.js" defer></script>
 
     <script>
+const osnKeys = { q1: "B", q2: "A", q3: "B", q4: "B" };
+
 function checkOsnQuiz() {
-    const keys = { q1: "B", q2: "A", q3: "B", q4: "B" };
     const form = document.getElementById('quiz-form');
     let score = 0;
-    let total = 4;
-    let html = '';
+    const total = Object.keys(osnKeys).length;
 
-    for (let q in keys) {
+    for (let q in osnKeys) {
         const selected = form.elements[q] ? form.elements[q].value : null;
-        if (selected === keys[q]) {
+        const fb = document.getElementById('feedback-' + q);
+        const card = form.elements[q] ? (form.elements[q][0] || form.elements[q]).closest('.quiz-card') : null;
+
+        if (selected === osnKeys[q]) {
             score++;
+            if (fb) {
+                fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! Pilihan (${selected}) benar.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-rose-300', 'bg-rose-50/20');
+                card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+            }
+        } else if (selected) {
+            if (fb) {
+                fb.innerHTML = `<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Pilihan Anda (${selected}) belum tepat. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-emerald-300', 'bg-emerald-50/20');
+                card.classList.add('border-rose-300', 'bg-rose-50/20');
+            }
+        } else {
+            if (fb) {
+                fb.innerHTML = `<span class="text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200 block">⚠️ Belum dijawab. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+            }
+            if (card) {
+                card.classList.remove('border-emerald-300', 'border-rose-300', 'bg-emerald-50/20', 'bg-rose-50/20');
+            }
         }
     }
 
     const percentage = Math.round((score / total) * 100);
     const resultBox = document.getElementById('quiz-result');
+    const banner = document.getElementById('quiz-score-banner');
+    const title = document.getElementById('quiz-score-title');
+    const badge = document.getElementById('quiz-score-badge');
+    const desc = document.getElementById('quiz-score-desc');
+
     resultBox.classList.remove('hidden');
 
     if (percentage >= 75) {
-        resultBox.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-950 space-y-4";
-        html += `<div class="flex items-center justify-between">
-            <h3 class="font-bold text-base text-emerald-900">🎉 Luar Biasa! Skor Anda: ${percentage}% (${score}/${total})</h3>
-            <span class="px-2.5 py-1 rounded-full bg-emerald-200 text-emerald-800 text-xs font-bold">Lolos Kualifikasi OSN-K</span>
-        </div>`;
+        banner.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-950 shadow-xs";
+        title.className = "font-bold text-base sm:text-lg text-emerald-900";
+        title.innerHTML = `🎉 Luar Biasa! Skor Anda: ${percentage}% (${score}/${total})`;
+        badge.className = "px-3 py-1 rounded-full bg-emerald-200 text-emerald-800 text-xs font-bold";
+        badge.textContent = "Lolos Kualifikasi OSN-K";
+        if (desc) desc.textContent = "Pemahaman konsep Anda sudah sangat matang dan siap bersaing di tingkat olimpiade sains!";
     } else {
-        resultBox.className = "p-5 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 space-y-4";
-        html += `<div class="flex items-center justify-between">
-            <h3 class="font-bold text-base text-amber-900">Skor Anda: ${percentage}% (${score}/${total})</h3>
-            <span class="px-2.5 py-1 rounded-full bg-amber-200 text-amber-800 text-xs font-bold">Perlu Review Konsep</span>
-        </div>`;
+        banner.className = "p-5 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 shadow-xs";
+        title.className = "font-bold text-base sm:text-lg text-amber-900";
+        title.innerHTML = `Skor Anda: ${percentage}% (${score}/${total})`;
+        badge.className = "px-3 py-1 rounded-full bg-amber-200 text-amber-800 text-xs font-bold";
+        badge.textContent = "Perlu Review Konsep";
+        if (desc) desc.textContent = "Pelajari kembali langkah eliminasi dan rumus analitis pada pembahasan di bawah ini.";
     }
 
-    html += `<div class="space-y-3 pt-2 border-t border-slate-200/60 text-xs text-slate-800">
-        <h4 class="font-bold text-slate-900 text-sm">Pembahasan Kunci Jawaban Ilmiah:</h4>
-        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <strong>Soal 1 (Jawaban B - Linear dan Square Planar):</strong><br>
-            - Pada $[\text{I}_3]^-$, atom I pusat memiliki $7 + 1 + 2 = 10$ elektron valensi (2 PEI + 3 PEB). Bilangan sterik $= 5$ (tipe $AX_2E_3$). Ketiga PEB berada di bidang ekuatorial, menghasilkan geometri <strong>Linear ($180^\circ$)</strong>.<br>
-            - Pada $[\text{ICl}_4]^-$, atom I pusat memiliki $7 + 1 + 4 = 12$ elektron valensi (4 PEI + 2 PEB). Bilangan sterik $= 6$ (tipe $AX_4E_2$). Kedua PEB menempati posisi trans aksial berseberangan, menghasilkan geometri <strong>Persegi Datar (Square Planar)</strong>.
-        </div>
-        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <strong>Soal 2 (Jawaban A - Struktur dengan FC O = -1):</strong><br>
-            Kedua struktur A dan B memiliki magnitudo muatan formal yang sama (satu atom bernilai +1 dan satu atom bernilai -1). Namun, elektronegativitas Oksigen ($3{,}5$) lebih tinggi daripada Nitrogen ($3{,}0$). Berdasarkan aturan emas seleksi resonansi, struktur di mana muatan negatif berada pada atom yang paling elektronegatif (Oksigen) adalah kontributor paling dominan dan stabil.
-        </div>
-        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <strong>Soal 3 (Jawaban B - Sekitar 87,5°):</strong><br>
-            $\text{ClF}_3$ memiliki tipe $AX_3E_2$ dengan 2 PEB di posisi ekuatorial. Gaya tolak PEB-PEI lebih kuat daripada gaya tolak PEI-PEI. Kedua PEB ekuatorial ini mendorong ikatan $\text{Cl-F}_{\text{ax}}$ ke arah dalam menjauhi bidang ekuatorial, sehingga sudut $\angle\text{F}_{\text{ax}}-\text{Cl}-\text{F}_{\text{eq}}$ menyusut dari $90^\circ$ ideal menjadi sekitar $87{,}5^\circ$.
-        </div>
-        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <strong>Soal 4 (Jawaban B - 1 PEB, Polar):</strong><br>
-            Elektron valensi atom $\text{Xe} = 8$. Ikatan dengan 1 oksigen ($	ext{Xe=O}$) memakai 2 elektron, dan 4 ikatan dengan fluorin ($	ext{Xe-F}$) memakai 4 elektron. Total elektron ikatan $= 2 + 4 = 6$ elektron. Sisa elektron bebas $= 8 - 6 = 2$ elektron ($1$ pasang / 1 PEB).<br>
-            Bilangan sterik $= 5$ ikatan + $1$ PEB $= 6$ (tipe $AX_5E$, piramida alas persegi). Karena ikatan $\text{Xe=O}$ di posisi aksial atas tidak dapat diimbangi oleh PEB di aksial bawah, resultan momen dipolnya tidak nol ($\mu \neq 0$, molekul bersifat <strong>Polar</strong>).
-        </div>
-    </div>`;
-
-    resultBox.innerHTML = html;
     if (typeof renderMathInElement === 'function') {
         renderMathInElement(resultBox, {
             delimiters: [
                 {left: "$$", right: "$$", display: true},
                 {left: "$", right: "$", display: false}
-            ]
+            ],
+            throwOnError: false
         });
     }
+
+    const anyRadio = form.querySelector('input[type="radio"]:checked') || form.querySelector('input[type="radio"]');
+    if (anyRadio) anyRadio.dispatchEvent(new Event('change', { bubbles: true }));
+
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+function resetOsnQuiz() {
+    const form = document.getElementById('quiz-form');
+    if (form) form.reset();
+    document.querySelectorAll('.quiz-feedback').forEach(fb => fb.innerHTML = '');
+    document.querySelectorAll('.quiz-card').forEach(c => {
+        c.classList.remove('border-emerald-300', 'border-rose-300', 'bg-emerald-50/20', 'bg-rose-50/20');
+    });
+    const resultBox = document.getElementById('quiz-result');
+    if (resultBox) resultBox.classList.add('hidden');
+    const anyRadio = form ? form.querySelector('input[type="radio"]') : null;
+    if (anyRadio) anyRadio.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('quiz-form');
+    if (form) {
+        form.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const q = this.name;
+                const fb = document.getElementById('feedback-' + q);
+                const card = this.closest('.quiz-card');
+                if (osnKeys[q]) {
+                    if (this.value === osnKeys[q]) {
+                        if (fb) fb.innerHTML = `<span class="text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 block">✅ Tepat sekali! Pilihan (${this.value}) benar.</span>`;
+                        if (card) {
+                            card.classList.remove('border-rose-300', 'bg-rose-50/20');
+                            card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+                        }
+                    } else {
+                        if (fb) fb.innerHTML = `<span class="text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 block">❌ Pilihan (${this.value}) belum tepat. Kunci: <strong>${osnKeys[q]}</strong>.</span>`;
+                        if (card) {
+                            card.classList.remove('border-emerald-300', 'bg-emerald-50/20');
+                            card.classList.add('border-rose-300', 'bg-rose-50/20');
+                        }
+                    }
+                }
+            });
+        });
+    }
+});
 </script>
 
     <script>
