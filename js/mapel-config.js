@@ -61,7 +61,7 @@ const mapelConfig = [
             {
                 kelas: "X",
                 label: "Kelas X",
-                sublabel: "Fase E — Kimia Hijau, Struktur Atom, Redoks & SPU",
+                sublabel: "Fase E — Kimia Hijau, Struktur Atom, Redoks, SPU & Pengayaan OSN Kimia",
                 path: "/kelas-10/index.html"
             },
             {

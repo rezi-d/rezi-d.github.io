@@ -88,6 +88,19 @@ const kurikulum = {
                     { file: "aturan-tata-nama-senyawa-anorganik.html", title: "Aturan Tata Nama Senyawa Ionik, Kovalen, & Asam" },
                     { file: "latihan-pemecahan-masalah-tata-nama-chang.html", title: "Latihan Pemecahan Masalah Rumus & Tata Nama (Chang 2.35 - 2.50)" }
                 ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN Kimia)",
+                deskripsi: "Modul pengayaan tingkat tinggi persiapan Olimpiade Sains Nasional Tingkat Kabupaten/Kota (OSN-K Kimia) jenjang SMA: Mekanika Kuantum & Spektroskopi Fotoelektron (PES), Muatan Inti Efektif (Aturan Slater) & Tren Periodik Non-Ideal, Geometri Molekul Lanjutan VSEPR & Muatan Formal, Gas Nyata Van der Waals & Stoikiometri Campuran, Reaksi Redoks Kompleks & Titrasi Analitis (Permanganometri-Iodometri), serta Bedah Soal Asli & Trik Cepat OSN-K.",
+                subbab: [
+                    { file: "mekanika-kuantum-konfigurasi-elektron-dan-pes.html", title: "Mekanika Kuantum, Bilangan Kuantum & Spektroskopi PES" },
+                    { file: "muatan-inti-efektif-aturan-slater-dan-sifat-periodik.html", title: "Muatan Inti Efektif (Aturan Slater) & Sifat Periodik Non-Ideal" },
+                    { file: "geometri-molekul-vsepr-lanjut-dan-muatan-formal.html", title: "Geometri Molekul Lanjutan VSEPR (SN 5 & 6) & Muatan Formal" },
+                    { file: "stoikiometri-gas-nyata-dan-analisis-campuran.html", title: "Gas Nyata Van der Waals & Analisis Campuran Multi-Komponen" },
+                    { file: "reaksi-redoks-kompleks-dan-titrasi-analitis.html", title: "Penyetaraan Redoks Kompleks & Titrasi Analitis (Permanganometri & Iodometri)" },
+                    { file: "bedah-soal-asli-dan-strategi-osnk-kimia.html", title: "Bedah Soal Asli OSN-K Kimia & Strategi Penalaran Cepat" }
+                ]
             }
         ]
     },
