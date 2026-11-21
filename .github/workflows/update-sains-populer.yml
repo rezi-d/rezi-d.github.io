@@ -2,9 +2,13 @@ name: Update Mingguan Sains Populer
 
 on:
   schedule:
-    # Berjalan setiap hari Senin pukul 00:15 UTC (Pukul 07:15 WIB pagi)
-    # Digeser 15 menit melewati pergantian jam untuk menghindari antrean sibuk (queue delay) GitHub Actions
-    - cron: '15 0 * * 1'
+    # Berjalan setiap hari Minggu pukul 20:25 UTC (Pukul 03:25 WIB dini hari)
+    # Jadwal ini dipilih karena:
+    # 1. Antrean global runner GitHub Actions berada pada titik paling lengang.
+    # 2. Trafik pengunjung web di Indonesia berada di zona terendah (dead-zone).
+    # 3. Menit acak :25 menghindari kemacetan cron pada menit :00 / :30.
+    # 4. Artikel baru siap terbit segar saat pembaca membuka web di Minggu pagi atau Senin pagi.
+    - cron: '25 20 * * 6'
   workflow_dispatch:
     # Memungkinkan admin memicu update secara manual kapan saja dari tab Actions di GitHub
 
@@ -24,7 +28,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: 🤖 Jalankan Generator Sains Populer (Gemini AI)
+      - name: 🤖 Jalankan Generator Sains Populer (Gemini AI Multi-Disiplin)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
@@ -38,7 +42,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "Tidak ada perubahan artikel baru."
           else
-            git commit -m "chore(sains-populer): auto-update 2 artikel warta sains mingguan via gemini [skip ci]"
+            git commit -m "chore(sains-populer): auto-update warta sains mingguan multi-disiplin via gemini [skip ci]"
             git push origin main
-            echo "✅ Artikel baru berhasil dipush ke website!"
+            echo "✅ Artikel baru multi-disiplin berhasil dipush ke website!"
           fi

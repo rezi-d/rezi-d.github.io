@@ -5,16 +5,238 @@
 // =================================================================
 
 const DAFTAR_ARTIKEL_SAINS = [
+{
+        "id": "eht-memotret-lubang-hitam-sagittarius-a",
+        "slug": "eht-memotret-lubang-hitam-sagittarius-a",
+        "title": "Memotret yang Tak Terlihat: Bagaimana Teleskop Seukuran Bumi Menangkap Bayangan Lubang Hitam Sagittarius A*",
+        "subtitle": "Teknologi Interferometri Garis Dasar Sangat Panjang (VLBI) yang menggabungkan 8 teleskop radio global untuk merekam cincin plasma bercahaya di tepi horizon peristiwa.",
+        "category": "Astronomi & Antariksa",
+        "categoryColor": "amber",
+        "icon": "🕳️",
+        "readTime": "5 menit baca",
+        "author": "Tim Sains AjarKita",
+        "coverImage": {
+                "type": "gradient",
+                "bg": "from-slate-950 via-zinc-950 to-orange-950",
+                "badge": "Astrofisika Relativistik × Sinergi Global",
+                "icon": "🌌"
+        },
+        "summary": "Meskipun memiliki gravitasi begitu dahsyat hingga cahaya pun tak dapat lolos, lubang hitam dapat dipotret melalui siluet bayangannya di depan gas plasma yang berpijar terang. Kolaborasi Event Horizon Telescope (EHT) berhasil mengabadikan foto pertama Sagittarius A*, monster gravitasi bermassa 4 juta kali massa matahari di jantung galaksi Bima Sakti kita.",
+        "tahukahKamu": "Resolusi angular yang dibutuhkan untuk memotret Sagittarius A* dari Bumi setara dengan mengamati buah donat kecil yang berada di permukaan Bulan dari halaman rumahmu!",
+        "kaitanMateri": [
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Konsep Skalar vs Vektor & Representasi Geometris Vektor",
+                        "desc": "Resultan vektor momentum sudut dan kecepatan orbit piringan akresi gas relativistik mendekati kelajuan cahaya.",
+                        "url": "/fisika/kelas-10/vektor-dan-dasar-kinematika/konsep-skalar-dan-notasi-vektor.html"
+                },
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Ketidakpastian Pengukuran Tunggal/Berulang, Presisi & Ralat Eksperimen",
+                        "desc": "Sinkronisasi jam atom hidrogen maser presisi pikodetik dan algoritma koreksi ralat atmosferik lintas benua.",
+                        "url": "/fisika/kelas-10/pengukuran-dalam-kerja-ilmiah/ketidakpastian-pengukuran-dan-ralat.html"
+                }
+        ],
+        "contentHtml": "\n        <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n            Di pusat galaksi kita, sekitar 27.000 tahun cahaya dari Bumi, terdapat titik gravitasi tak terbayangkan: <strong>Sagittarius A* (Sgr A*)</strong>. Di titik ini, massa setara 4 juta matahari terpadatkan dalam ruang yang lebih kecil dari orbit planet Merkurius. Pada 12 Mei 2022, konsorsium ilmuwan dunia mengumumkan foto perdana sang monster kosmik.\n        </p>\n        <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Bagaimana Memotret Sesuatu yang Menelan Cahaya?</h3>\n        <p class=\"text-slate-700 leading-relaxed mb-4\">\n            Lubang hitam memang gelap total karena dibatasi oleh <strong>Horizon Peristiwa (Event Horizon)</strong>—ambang batas di mana kecepatan lepas melampaui kecepatan cahaya ($v_{\\text{lepas}} > c$). Namun ruang di luar horizon peristiwa dipenuhi gas, debu, dan medan magnet dahsyat yang berputar dengan kecepatan mendekati kecepatan cahaya, menghasilkan gesekan termal yang memancarkan gelombang radio terang benderang.\n        </p>\n        <p class=\"text-slate-700 leading-relaxed mb-4\">\n            Yang dipotret oleh teleskop bukanlah lubang hitamnya secara langsung, melainkan <em>bayangan siluet</em> lubang hitam di tengah cincin gas plasma yang berpijar keemasan!\n        </p>\n        <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Menjadikan Seluruh Planet Bumi Sebagai Satu Teleskop Raksasa</h3>\n        <p class=\"text-slate-700 leading-relaxed mb-4\">\n            Hukum difraksi gelombang menyatakan bahwa resolusi sudut teleskop berbanding lurus dengan panjang gelombang dan berbanding terbalik dengan diameter bukaan:\n        </p>\n        <div class=\"p-4 my-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-slate-800 text-sm leading-relaxed\">\n            $$\\theta \\approx 1{,}22 \\frac{\\lambda}{D}$$\n            <p class=\"text-xs text-amber-900 mt-2 text-center font-medium\">\n                Untuk mendapatkan resolusi super-tajam (mikro-detik busur), para ilmuwan membutuhkan teleskop radio dengan diameter $D$ sebesar diameter planet Bumi (~12.742 km)!\n            </p>\n        </div>\n        <p class=\"text-slate-700 leading-relaxed mb-4\">\n            Karena mustahil membangun satu piringan sebesar bumi, para ilmuwan menggunakan teknik <strong>Very Long Baseline Interferometry (VLBI)</strong>: menyinkronkan 8 observatorium radio di Chile, Hawaii, Spanyol, Meksiko, hingga Kutub Selatan dengan jam atom hidrogen maser berakurasi 1 detik per 100 juta tahun.\n        </p>\n        <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">3. Kemenangan Mutlak Teori Relativitas Umum Einstein</h3>\n        <p class=\"text-slate-700 leading-relaxed mb-4\">\n            Saat data berukuran ribuan terabyte selesai diproses oleh algoritma pencitraan superkomputer, bentuk cincin dan diameter bayangan yang muncul persis sama dengan rumus yang diturunkan Albert Einstein dan Karl Schwarzschild lebih dari seabad yang lalu. Fisika terbukti berlaku universal, dari laboratorium sekolah di Bumi hingga tepi jurang ruang-waktu terliar di pusat galaksi!\n        </p>\n    ",
+        "diskusi": "Jika gelombang elektromagnetik dibelokkan oleh medan gravitasi kuat lubang hitam (fenomena gravitational lensing), bagaimana lintasan foton cahaya yang melintasi tepat di luar horizon peristiwa?"
+},
+{
+        "id": "komputer-kuantum-superposisi-dan-qubit",
+        "slug": "komputer-kuantum-superposisi-dan-qubit",
+        "title": "Komputer Kuantum: Menembus Batas Komputasi dengan Superposisi dan Quantum Entanglement",
+        "subtitle": "Bagaimana bit kuantum (qubit) yang dapat bernilai 0 dan 1 sekaligus mampu menyelesaikan kalkulasi triliunan kemungkinan dalam hitungan detik.",
+        "category": "Fisika & Kuantum",
+        "categoryColor": "indigo",
+        "icon": "⚛️",
+        "readTime": "6 menit baca",
+        "author": "Tim Sains AjarKita",
+        "coverImage": {
+                "type": "gradient",
+                "bg": "from-slate-900 via-indigo-950 to-slate-900",
+                "badge": "Mekanika Kuantum × Super-Komputasi",
+                "icon": "⚛️"
+        },
+        "summary": "Komputer klasik tercepat di dunia membutuhkan ribuan tahun untuk memecahkan simulasi struktur molekul obat baru atau enkripsi data tingkat tinggi. Menembus batas fisika semikonduktor silikon, komputer kuantum memanfaatkan fenomena aneh dunia subatomik: superposisi linear dan keterikatan kuantum (entanglement) untuk menghitung semua skenario secara serentak.",
+        "tahukahKamu": "Jika komputer biner biasa dengan 50 bit hanya bisa memeriksa satu kombinasi dari 2^50 (sekitar 1 kuadriliun) status dalam satu waktu, prosesor kuantum 50 qubit dapat berada dalam ke-1 kuadriliun status tersebut secara bersamaan!",
+        "kaitanMateri": [
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Vektor & Dasar Kinematika Gerak",
+                        "desc": "Representasi vektor keadaan fungsi gelombang kuantum (|ψ⟩ = α|0⟩ + β|1⟩) dalam koordinat bola Bloch 3 dimensi.",
+                        "url": "/fisika/kelas-10/vektor-dan-dasar-kinematika/konsep-skalar-dan-notasi-vektor.html"
+                },
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Kimia SMA",
+                        "bab": "Struktur Atom & Konfigurasi Elektron",
+                        "desc": "Prinsip probabilitas mekanika kuantum, orbital Schrödinger, dan spin elektron (up/down).",
+                        "url": "/kelas-10/struktur-atom/konfigurasi-elektron-bohr-dan-mekanika-kuantum.html"
+                }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Selama lebih dari setengah abad, dunia komputasi tunduk pada <strong>Hukum Moore</strong>: jumlah transistor pada cip silikon berlipat ganda setiap dua tahun. Namun kini, kita telah tiba di batas fundamental fisika. Ukuran transistor telah sekecil beberapa nanometer—begitu rapatnya hingga elektron mulai 'bocor' menembus pembatas akibat fenomena <em>quantum tunneling</em>. Jawabannya bukan membuat transistor lebih kecil, melainkan menciptakan cara berpikir baru: <strong>Komputer Kuantum</strong>.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Dari Bit Klasik Menuju Qubit Superposisi</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Pada komputer digital yang kita gunakan sehari-hari, data disimpan dalam bentuk <strong>bit</strong> bernilai tegas: $0$ (saklar mati) atau $1$ (saklar hidup). Pada komputer kuantum, unit dasarnya adalah <strong>qubit (quantum bit)</strong> yang biasanya berupa spin elektron tunggal, foton, atau sirkuit superkonduktor transmisi mikro.\n            </p>\n            <div class=\"p-4 my-4 rounded-2xl bg-indigo-50/80 border border-indigo-200 text-slate-800 text-sm leading-relaxed\">\n                $$\\lvert \\psi \\rangle = \\alpha \\lvert 0 \\rangle + \\beta \\lvert 1 \\rangle$$\n                <p class=\"text-xs text-indigo-900 mt-2 text-center font-medium\">\n                    Di mana $\\alpha$ dan $\\beta$ adalah amplitudo probabilitas bilangan kompleks, dengan syarat kekekalan total probabilitas: $\\lvert \\alpha \\rvert^2 + \\lvert \\beta \\rvert^2 = 1$.\n                </p>\n            </div>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Artinya, sebelum diukur, sebuah qubit tidak hanya bernilai 0 atau 1, melainkan berada dalam perpaduan probabilitas kontinu dari keduanya secara bersamaan (*superposisi*).\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Quantum Entanglement: Sambungan Mistis Antar Partikel</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Keajaiban kedua adalah <strong>keterikatan kuantum (entanglement)</strong>—fenomena yang pernah dijuluki Albert Einstein sebagai <em>'spooky action at a distance'</em>. Dua atau lebih qubit dapat saling terjalin begitu eratnya sehingga kondisi fisik satu qubit seketika menentukan kondisi qubit pasangannya, meskipun keduanya dipisahkan jarak jutaan kilometer.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">3. Revolusi Sains Masa Depan: Obat Baru & Katalis Kimia</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Mengapa para ilmuwan begitu bersemangat mengembangkan komputer kuantum? Karena alam semesta di tingkat atomik pada dasarnya bekerja secara mekanika kuantum! Dengan komputer kuantum, ilmuwan dapat:\n            </p>\n            <ul class=\"space-y-2 mb-6 text-slate-700 pl-4 list-disc text-sm\">\n                <li><strong>Desain Obat & Vaksin Presisi:</strong> Mensimulasikan pelipatan protein dan interaksi reseptor molekuler secara riil tanpa eksperimen lab bertahun-tahun.</li>\n                <li><strong>Katalis Fiksasi Nitrogen:</strong> Menemukan katalis pengganti proses Haber-Bosch yang dapat menghemat 2% konsumsi energi total seluruh planet bumi.</li>\n                <li><strong>Optimasi Material Superkonduktor:</strong> Merancang superkonduktor suhu ruang untuk transmisi listrik tanpa hambatan sama sekali.</li>\n            </ul>\n        ",
+        "diskusi": "Jika enkripsi data perbankan dunia saat ini (seperti RSA 2048-bit) dapat dibongkar oleh algoritma Shor pada komputer kuantum di masa depan, bagaimanakah cara para fisikawan dan kriptografer membangun 'Kriptografi Pasca-Kuantum' (Post-Quantum Cryptography)?"
+},
+{
+        "id": "teleskop-james-webb-dan-relativitas-cahaya",
+        "slug": "teleskop-james-webb-dan-relativitas-cahaya",
+        "title": "Mata Terjauh Umat Manusia: Bagaimana Teleskop James Webb Mengintip Cahaya Galaksi Tertua 13 Miliar Tahun Lalu",
+        "subtitle": "Pemanfaatan pergeseran merah kosmologis (redshift), lensa gravitasi Einstein, dan cermin berilium berlapis emas di titik orbit Lagrange L2.",
+        "category": "Astronomi & Antariksa",
+        "categoryColor": "amber",
+        "icon": "🔭",
+        "readTime": "6 menit baca",
+        "author": "Tim Sains AjarKita",
+        "coverImage": {
+                "type": "gradient",
+                "bg": "from-slate-950 via-amber-950 to-slate-900",
+                "badge": "Astrofisika × Kosmologi Observasional",
+                "icon": "🌌"
+        },
+        "summary": "Teleskop Luar Angkasa James Webb (JWST) merevolusi pemahaman astrofisika tentang awal mula semesta. Beroperasi pada titik Lagrange L2 sejauh 1,5 juta kilometer dari Bumi, teleskop berdiameter 6,5 meter ini menangkap foton cahaya yang telah menempuh perjalanan selama lebih dari 13,4 miliar tahun sejak era fajar semesta (Cosmic Dawn).",
+        "tahukahKamu": "Lapisan emas yang memantulkan cahaya inframerah pada 18 cermin heksagonal JWST berukuran raksasa tersebut ternyata sangat tipis! Total seluruh emas murni yang digunakan pada cermin JWST hanya seberat 48 gram—kira-kira setara dengan sebuah bola golf!",
+        "kaitanMateri": [
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Efek Rumah Kaca & Keseimbangan Radiasi Termal Bumi",
+                        "desc": "Hukum pergeseran Wien (λ_max · T = b) dan sifat penyerapan radiasi inframerah termal.",
+                        "url": "/fisika/kelas-10/pemanasan-global-dan-dinamika-lingkungan/efek-rumah-kaca-dan-keseimbangan-radiasi.html"
+                },
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Penggunaan Alat Ukur Presisi: Jangka Sorong, Mikrometer & Neraca",
+                        "desc": "Akurasi pergeseran cermin optik nanometer dan analisis ketidakpastian eksperimental instrumen observasi antariksa.",
+                        "url": "/fisika/kelas-10/pengukuran-dalam-kerja-ilmiah/penggunaan-alat-ukur-presisi.html"
+                }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Melihat jauh ke luar angkasa sesungguhnya adalah <strong>melihat ke masa lalu</strong>. Karena kecepatan cahaya di ruang hampa memiliki batas mutlak $c \\approx 300.000\\text{ km/detik}$, cahaya dari galaksi yang berjarak miliaran tahun cahaya membawa rekaman visual dari miliaran tahun silam saat alam semesta masih berusia balita.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Mengapa Teleskop Webb Harus Menggunakan Inframerah?</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Berbeda dengan Teleskop Hubble yang mengamati cahaya tampak (ultraviolet-visible), Teleskop James Webb dirancang khusus untuk mendeteksi <strong>gelombang inframerah dekat dan menengah (0,6 – 28 mikrometer)</strong>. Mengapa demikian?\n            </p>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Akibat ekspansi ruang alam semesta (Hukum Hubble), panjang gelombang cahaya dari galaksi purba terus meregang sepanjang perjalanannya selama miliaran tahun—fenomena ini disebut <strong>Pergeseran Merah Kosmologis (Cosmological Redshift, $z$)</strong>:\n            </p>\n            <div class=\"p-4 my-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-slate-800 text-sm leading-relaxed\">\n                $$1 + z = \\frac{\\lambda_{\\text{teramati}}}{\\lambda_{\\text{dipancarkan}}}$$\n                <p class=\"text-xs text-amber-900 mt-2 text-center font-medium\">\n                    Cahaya biru dan ultraviolet yang dipancarkan oleh bintang-bintang generasi pertama kini telah tergeser panjang gelombangnya menjadi inframerah yang tak kasat mata bagi mata manusia maupun teleskop optik konvensional.\n                </p>\n            </div>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Payung Raksasa Pelindung Panas Bersuhu -233°C</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Agar sensor inframerah tidak terganggu oleh radiasi panas tubuh instrumen teleskop itu sendiri (sesuai hukum radiasi benda hitam Planck), instrumen JWST harus didinginkan hingga suhu ekstrem: <strong>di bawah 40 Kelvin (-233°C)</strong>. Untuk mencapainya, JWST dilengkapi pelindung matahari (<em>sunshield</em>) berbahan membran polimer Kapton 5 lapis sebesar lapangan tenis.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">3. Menemukan Uap Air dan Karbon Dioksida di Atmosfer Eksoplanet</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Selain memotret galaksi purba, instrumen spektroskopi transmisi JWST mampu menganalisis komposisi kimia atmosfer planet di luar tata surya kita (eksoplanet). Saat planet melintas di depan bintang induknya, molekul di atmosfernya menyerap panjang gelombang inframerah tertentu. Melalui metode ini, JWST telah berhasil mendeteksi keberadaan air ($H_2O$), karbon dioksida ($CO_2$), dan gas metana ($CH_4$) pada planet-planet asing di galaksi Bima Sakti!\n            </p>\n        ",
+        "diskusi": "Mengapa cermin utama teleskop luar angkasa inframerah dilapisi oleh logam Emas (Au) alih-alih Perak (Ag) atau Aluminium (Al) yang lazim dipakai pada cermin optik laboratorium di Bumi?"
+},
+{
+        "id": "sel-surya-perovskit-efisiensi-rekor",
+        "slug": "sel-surya-perovskit-efisiensi-rekor",
+        "title": "Revolusi Sel Surya Perovskit Tandem: Melampaui Batas Efisiensi Silikon untuk Transisi Energi Bersih",
+        "subtitle": "Material kristal semikonduktor berstruktur mineral perovskit yang fleksibel, berbiaya murah, dan mampu memanen spektrum surya hingga efisiensi >33%.",
+        "category": "Energi & Iklim",
+        "categoryColor": "cyan",
+        "icon": "☀️",
+        "readTime": "5 menit baca",
+        "author": "Tim Sains AjarKita",
+        "coverImage": {
+                "type": "gradient",
+                "bg": "from-slate-900 via-teal-950 to-slate-900",
+                "badge": "Energi Terbarukan × Rekayasa Kristal",
+                "icon": "⚡"
+        },
+        "summary": "Selama lebih dari empat dekade, industri panel surya global didominasi oleh kristal silikon dengan batas efisiensi teoretis Shockley-Queisser sekitar 29%. Kini, lompatan teknologi kristal Perovskit berbasis halida organik berhasil memecahkan rekor efisiensi laboratorium melampaui 33,9%, membuka era energi surya murah dan dapat dicetak fleksibel.",
+        "tahukahKamu": "Mineral Perovskit pertama kali ditemukan di Pegunungan Ural Rusia pada tahun 1839 dan dinamai menurut ahli mineralogi Rusia L. A. Perovski. Struktur kristalnya yang unik (ABX₃) memungkinkan para ilmuwan merekayasa 'celah pita energi' (bandgap) secara presisi hanya dengan mengganti jenis ion halogen di dalamnya!",
+        "kaitanMateri": [
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Pembangkit Listrik Energi Alternatif: Surya, Angin, Air, Geotermal & Biomassa",
+                        "desc": "Prinsip konversi efek fotovoltaik sel surya dan kurva karakteristik daya listrik foton.",
+                        "url": "/fisika/kelas-10/energi-terbarukan-dan-perubahan-iklim/pembangkit-listrik-energi-alternatif.html"
+                },
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Perhitungan Daya, Efisiensi Konversi Energi & Konservasi Energi",
+                        "desc": "Rumus efisiensi sel surya (η = P_out / P_in) dan perhitungan penghematan biaya listrik tahunan.",
+                        "url": "/fisika/kelas-10/energi-terbarukan-dan-perubahan-iklim/efisiensi-dan-konservasi-energi.html"
+                }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Matahari memancarkan energi ke permukaan bumi dalam waktu satu jam lebih dari cukup untuk memenuhi kebutuhan listrik seluruh peradaban manusia selama satu tahun penuh. Tantangan terbesarnya selalu ada pada perangkat penangkapnya: <strong>bagaimana mengubah cahaya matahari menjadi arus listrik dengan efisiensi setinggi mungkin dan biaya semurah mungkin?</strong>\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Masalah Utama Sel Surya Silikon Konvensional</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Panel surya biru tua yang terpasang di atap rumah saat ini terbuat dari wafer kristal silikon berderajat kemurnian sangat tinggi (99,9999%). Pembuatan silikon membutuhkan pemanasan pasir kuarsa dalam tanur busur listrik pada suhu lebih dari 1.400°C—sebuah proses yang padat energi dan mahal.\n            </p>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Selain itu, celah pita energi (*bandgap*) silikon bernilai tetap ($E_g \\approx 1{,}1\\text{ eV}$). Foton berenergi tinggi (cahaya biru dan ultraviolet) membuang sebagian besar energinya sebagai panas limbah, sedangkan foton berenergi rendah tak mampu membangkitkan elektron.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Duet Maut: Sel Surya Tandem Perovskit-Silikon</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Alih-alih membuang silikon, para rekayasawan menggabungkannya dalam struktur <strong>sel surya tandem bertingkat</strong>:\n            </p>\n            <ul class=\"space-y-2 mb-6 text-slate-700 pl-4 list-disc text-sm\">\n                <li><strong>Lapisan Atas (Perovskit, $E_g \\approx 1{,}7\\text{ eV}$):</strong> Menyerap foton berenergi tinggi dari spektrum cahaya biru dan hijau, mengubahnya menjadi arus listrik dengan efisiensi maksimal tanpa banyak panas terbuang.</li>\n                <li><strong>Lapisan Bawah (Silikon, $E_g \\approx 1{,}1\\text{ eV}$):</strong> Meneruskan foton berenergi lebih rendah dari spektrum cahaya merah dan inframerah yang lolos dari lapisan atas.</li>\n            </ul>\n            <div class=\"p-4 my-4 rounded-2xl bg-cyan-50/80 border border-cyan-200 text-slate-800 text-sm leading-relaxed\">\n                $$\\eta_{\\text{total}} = \\frac{P_{\\text{listrik (maks)}}}{\\text{Irradiansi Matahari} \\times \\text{Luas Permukaan}} > 33\\%$$\n                <p class=\"text-xs text-cyan-900 mt-2 text-center font-medium\">\n                    Efisiensi sel tandem melompat jauh di atas rekor silikon murni (sekitar 26%), memotong luas lahan atau bidang atap yang dibutuhkan hingga sepertiga untuk menghasilkan daya listrik yang sama!\n                </p>\n            </div>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">3. Sel Surya Fleksibel yang Bisa Dicetak Seperti Koran</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Karena kristal perovskit dapat dilarutkan dalam pelarut cair pada suhu rendah (< 100°C), lapisan aktif sel surya dapat dicetak menggunakan metode *roll-to-roll printing* pada lembaran plastik polimer tipis yang lentur. Di masa depan, panel surya tidak lagi berupa kaca kaku yang berat, melainkan stiker fotovoltaik transparan yang bisa ditempelkan di jendela gedung kaca, bodi mobil listrik, hingga kain ransel pengisi daya gawai!\n            </p>\n        ",
+        "diskusi": "Berdasarkan prinsip konversi energi, jelaskan mengapa pelapisan sel surya bertingkat (tandem) dengan bandgap berbeda mampu mengurangi rugi-rugi termalisasi foton dibanding sel tunggal!"
+},
+{
+        "id": "crispr-cas9-gunting-genetika-revolusioner",
+        "slug": "crispr-cas9-gunting-genetika-revolusioner",
+        "title": "Gunting Molekuler CRISPR-Cas9: Memprogram Ulang Kode Kehidupan untuk Melawan Penyakit Genetik",
+        "subtitle": "Dari mekanisme kekebalan purba bakteri melawan virus menjadi teknologi pengeditan DNA paling presisi yang diganjar Hadiah Nobel Kimia.",
+        "category": "Biologi & Bioteknologi",
+        "categoryColor": "emerald",
+        "icon": "🧬",
+        "readTime": "5 menit baca",
+        "author": "Tim Sains AjarKita",
+        "coverImage": {
+                "type": "gradient",
+                "bg": "from-slate-900 via-emerald-950 to-slate-900",
+                "badge": "Rekayasa Genomik × Biologi Molekuler",
+                "icon": "✂️"
+        },
+        "summary": "Selama ribuan tahun manusia hanya bisa memodifikasi gen melalui persilangan tradisional yang lambat dan tak terduga. Penemuan sistem CRISPR-Cas9 oleh Emmanuelle Charpentier dan Jennifer Doudna memberi manusia sebuah alat pemotong gen yang luar biasa presisi: mampu menemukan satu kesalahan huruf basa DNA di antara 3 miliar pasang basa manusia dan memperbaikinya.",
+        "tahukahKamu": "Sistem CRISPR (Clustered Regularly Interspaced Short Palindromic Repeats) sebenarnya adalah 'kartu memori imun' bakteri! Saat bakteri diserang oleh virus (bakteriofag), bakteri memotong sepotong DNA virus tersebut dan menyimpannya di genomnya sendiri agar dapat dikenali dan dihancurkan jika virus yang sama menyerang kembali!",
+        "kaitanMateri": [
+                {
+                        "kelas": "Kelas XII",
+                        "mapel": "Kimia SMA",
+                        "bab": "Makromolekul: Protein & Asam Amino",
+                        "desc": "Struktur heliks ganda asam nukleat DNA, ikatan fosfodiester gula ribosa, dan peran enzimatik protein nuklease.",
+                        "url": "/kelas-12/makromolekul/protein-asam-amino-dan-uji-identifikasi.html"
+                },
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Hakikat Fisika, Metode Ilmiah & Prosedur Keselamatan Kerja Lab",
+                        "desc": "Penerapan metode ilmiah, eksperimen hipotesis terukur, dan standar keselamatan/bioetika laboratorium modern.",
+                        "url": "/fisika/kelas-10/pengukuran-dalam-kerja-ilmiah/hakikat-fisika-dan-metode-ilmiah.html"
+                }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Bayangkan sebuah buku ensiklopedia setebal 3.000 jilid yang mewakili genom manusia. Di dalam salah satu halaman pada salah satu jilid, terdapat satu huruf yang salah cetak (mutasi titik), yang menyebabkan penyakit mematikan seperti Anemia Sel Sabit (<em>Sickle Cell Anemia</em>). Bagaimana cara memperbaikinya tanpa merusak ribuan halaman lainnya? Jawabannya adalah <strong>CRISPR-Cas9</strong>.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Dua Komponen Utama: RNA Pemandu dan Enzim Cas9</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Sistem CRISPR-Cas9 bekerja dengan prinsip kerja dua instrumen sederhana yang terkoordinasi sempurna:\n            </p>\n            <ul class=\"space-y-2 mb-6 text-slate-700 pl-4 list-disc text-sm\">\n                <li><strong>guide RNA (gRNA):</strong> Molekul penuntun yang dirancang ilmuwan untuk mengenali dan mencocokkan urutan basa nitrogen spesifik (misalnya 20 huruf basa sasaran) pada untai DNA target dengan ketepatan absolut.</li>\n                <li><strong>Enzim Cas9:</strong> Protein nuklease yang bertindak sebagai 'mata pisau gunting molekuler', memotong kedua untai heliks ganda DNA tepat di lokasi yang ditunjukkan oleh RNA pemandu.</li>\n            </ul>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Menyunting DNA: Menghapus, Mengganti, atau Menyisipkan Gen</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Setelah enzim Cas9 memotong untai DNA yang rusak, sel secara alami akan berusaha menyambung kembali patahan tersebut melalui mekanisme reparasi seluler (<em>Homology-Directed Repair / HDR</em>). Pada tahap inilah para peneliti dapat menyelipkan untai DNA cetakan normal yang sehat. Sel akan meniru cetakan tersebut, menyembuhkan mutasi genetik selamanya!\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">3. Fajar Baru Terapi Medis dan Ketahanan Pangan</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Pada tahun 2023, badan pengawas obat dunia (FDA dan MHRA Inggris) resmi menyetujui terapi berbasis CRISPR pertama di dunia (Casgevy) untuk menyembuhkan pasien anemia sel sabit. Di sektor pertanian, CRISPR digunakan untuk merancang bibit padi yang tahan banjir ekstrem, gandum bebas gluten, serta tanaman kedelai yang hemat air di tengah krisis pemanasan global.\n            </p>\n        ",
+        "diskusi": "Mengapa batas etika penelitian rekayasa genetika CRISPR sangat ketat melarang pengeditan pada sel punca gamet/embrio (germline editing) dibanding pada sel tubuh somatik pasien dewasa?"
+},
+{
+        "id": "gelombang-gravitasi-ligo-dan-ruang-waktu",
+        "slug": "gelombang-gravitasi-ligo-dan-ruang-waktu",
+        "title": "Mendengarkan Riak Ruang-Waktu: Bagaimana Detektor LIGO Menangkap Gelombang Gravitasi Lubang Hitam",
+        "subtitle": "Interferometer laser raksasa sepanjang 4 kilometer yang mendeteksi distorsi ruang-waktu berukuran 10.000 kali lebih kecil dari diameter inti atom.",
+        "category": "Fisika & Kuantum",
+        "categoryColor": "indigo",
+        "icon": "🌀",
+        "readTime": "6 menit baca",
+        "author": "Tim Sains AjarKita",
+        "coverImage": {
+                "type": "gradient",
+                "bg": "from-slate-950 via-purple-950 to-slate-900",
+                "badge": "Relativitas Umum × Fisika Eksperimen Presisi",
+                "icon": "🌌"
+        },
+        "summary": "Seratus tahun setelah Albert Einstein meramalkan keberadaan gelombang gravitasi pada tahun 1916, observatorium LIGO (Laser Interferometer Gravitational-Wave Observatory) di Amerika Serikat untuk pertama kalinya mencatat 'getaran kosmik' yang dihasilkan oleh tabrakan dua lubang hitam raksasa bermassa puluhan kali massa matahari.",
+        "tahukahKamu": "Perubahan panjang lengan detektor LIGO sepanjang 4 kilometer saat dilewati gelombang gravitasi hanya sebesar 10⁻¹⁸ meter! Itu setara dengan mengukur perubahan jarak dari Bumi ke bintang terdekat (Alpha Centauri) dengan ketelitian setebal sehelai rambut manusia!",
+        "kaitanMateri": [
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Ketidakpastian Pengukuran Tunggal/Berulang, Presisi & Ralat Eksperimen",
+                        "desc": "Prinsip isolasi derau (noise cancelling), peredaman seismik kuantum, dan presisi instrumen batas ralat mikroskopis.",
+                        "url": "/fisika/kelas-10/pengukuran-dalam-kerja-ilmiah/ketidakpastian-pengukuran-dan-ralat.html"
+                },
+                {
+                        "kelas": "Kelas X",
+                        "mapel": "Fisika SMA",
+                        "bab": "Konsep Skalar vs Vektor & Representasi Geometris Vektor",
+                        "desc": "Propagasi medan tensor gravitasi dan vektor percepatan gelombang transversa kuadrupolar di ruang 3 dimensi.",
+                        "url": "/fisika/kelas-10/vektor-dan-dasar-kinematika/konsep-skalar-dan-notasi-vektor.html"
+                }
+        ],
+        "contentHtml": "\n            <p class=\"lead text-lg text-slate-700 leading-relaxed font-normal mb-6\">\n                Selama berabad-abad, astronomi hanya mengandalkan cahaya tampak, gelombang radio, dan sinar-X (gelombang elektromagnetik) untuk memandang semesta. Namun benda-benda paling masif dan misterius di alam semesta—seperti lubang hitam yang sedang bertabrakan—sama sekali tidak memancarkan cahaya. Lalu bagaimana kita bisa mendeteksinya? Melalui <strong>Gelombang Gravitasi</strong>.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">1. Apa Sebenarnya Gelombang Gravitasi Itu?</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Dalam Teori Relativitas Umum Einstein, gravitasi bukanlah gaya tarik biasa, melainkan kelengkungan jalinan ruang-waktu yang disebabkan oleh massa. Ketika dua benda sangat masif (seperti dua lubang hitam atau bintang neutron) saling mengitari dengan kecepatan mendekati kecepatan cahaya sebelum akhirnya bertabrakan, peristiwa katastropik tersebut memicu riak gelombang kejut yang meregangkan dan memampatkan struktur ruang-waktu itu sendiri!\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">2. Prinsip Kerja Interferometri Laser LIGO</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Detektor LIGO berbentuk huruf L raksasa dengan dua tabung hampa udara sepanjang masing-masing 4 kilometer. Berkas sinar laser dibagi dua menggunakan cermin pembagi berkas (*beam splitter*) dan ditembakkan bolak-balik menyusuri kedua lengan tersebut sebelum dipantulkan kembali oleh cermin berbobot 40 kg.\n            </p>\n            <div class=\"p-4 my-4 rounded-2xl bg-indigo-50/80 border border-indigo-200 text-slate-800 text-sm leading-relaxed\">\n                $$h = \\frac{\\Delta L}{L} \\sim 10^{-21}$$\n                <p class=\"text-xs text-indigo-900 mt-2 text-center font-medium\">\n                    Di mana $h$ adalah regangan gravitasi (*strain*), $\\Delta L$ adalah perubahan panjang lengan detektor, dan $L = 4.000\\text{ meter}$.\n                </p>\n            </div>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Saat gelombang gravitasi melintas di atas Bumi, satu lengan detektor meregang sedikit sedangkan lengan lainnya tertekan sedikit. Perbedaan panjang sepersekian miliar ukuran atom ini mengubah fase gelombang laser dan menciptakan pola interferensi cahaya pada detektor fotodioda.\n            </p>\n            <h3 class=\"text-xl font-bold text-slate-900 mt-8 mb-4\">3. Era Baru Astronomi Multi-Messenger</h3>\n            <p class=\"text-slate-700 leading-relaxed mb-4\">\n                Penemuan ini menganugerahkan Hadiah Nobel Fisika tahun 2017 kepada para pendiri LIGO (Rainer Weiss, Barry Barish, dan Kip Thorne). Kini umat manusia tidak hanya 'melihat' semesta melalui cahaya, melainkan juga 'mendengarkan' denyut gravitasi dari peristiwa terdahsyat di alam semesta.\n            </p>\n        ",
+        "diskusi": "Mengapa gelombang gravitasi sangat sulit dideteksi di Bumi dari gerakan benda sehari-hari (seperti mobil atau pesawat terbang), dan hanya dapat diamati dari peristiwa kosmik massa ekstrem seperti tabrakan bintang neutron atau lubang hitam?"
+},
     {
         "id": "penyimpanan-data-dna",
         "slug": "penyimpanan-data-dna",
         "title": "Hard Disk Biologis: Menyimpan Jutaan Gigabyte Data Digital ke Dalam Rantai Molekul DNA",
         "subtitle": "Mengkodekan file biner 0 dan 1 ke dalam urutan basa nitrogen Adenin, Timin, Guanin, dan Sitosin untuk arsip pengetahuan ribuan tahun.",
-        "category": "Nobel & Terobosan Sains",
-        "categoryColor": "teal",
+        "category": "Biologi & Bioteknologi",
+        "categoryColor": "emerald",
         "icon": "💾",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-indigo-950 to-teal-950",
@@ -47,11 +269,11 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "beton-biomineralisasi-bakteri",
         "title": "Beton Hidup yang Bisa Menambal Retak Sendiri Berkat Bakteri dan Kalsium Karbonat",
         "subtitle": "Inovasi 'Bio-concrete' memanfaatkan spora bakteri tahan basa ekstrem yang aktif memicu presipitasi kristal kalsit saat retakan jalan kemasukan air hujan.",
-        "category": "Material Masa Depan",
-        "categoryColor": "indigo",
+        "category": "Biologi & Bioteknologi",
+        "categoryColor": "emerald",
         "icon": "🧱",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-amber-950 to-stone-950",
@@ -83,11 +305,11 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "daur-ulang-baterai-litium-hidrometalurgi",
         "title": "Daur Ulang Baterai Mobil Listrik dengan Hidrometalurgi Kimia Hijau",
         "subtitle": "Mengekstraksi kembali logam berharga Kobalt, Nikel, dan Litium dari limbah baterai menggunakan asam sitrat dan hidrogen peroksida ramah lingkungan.",
-        "category": "Material Masa Depan",
-        "categoryColor": "indigo",
+        "category": "Kimia & Material Maju",
+        "categoryColor": "teal",
         "icon": "🔄",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-indigo-950 to-emerald-950",
@@ -120,11 +342,11 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "biohidrogen-mikroalga-energi",
         "title": "Biohidrogen dari Mikroalga: Pabrik Bahan Bakar Bersih Bertenaga Fotosintesis",
         "subtitle": "Rekayasa biokimia mikroalga hijau Chlamydomonas reinhardtii yang mengubah air dan sinar matahari menjadi gas hidrogen murni tanpa jejak karbon.",
-        "category": "Nobel & Terobosan Sains",
-        "categoryColor": "teal",
+        "category": "Energi & Iklim",
+        "categoryColor": "cyan",
         "icon": "🌱",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-emerald-950 to-teal-950",
@@ -156,11 +378,11 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "cat-pendingin-barium-sulfat",
         "title": "Cat Ultra-Putih Barium Sulfat: Mendinginkan Bangunan Tanpa AC Lewat Pendinginan Radiatif Pasif",
         "subtitle": "Ilmuwan Universitas Purdue menciptakan cat paling putih di dunia yang memantulkan 98,1% sinar matahari dan membuang panas langsung ke luar angkasa.",
-        "category": "Material Masa Depan",
-        "categoryColor": "indigo",
+        "category": "Energi & Iklim",
+        "categoryColor": "cyan",
         "icon": "❄️",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-sky-950 to-indigo-950",
@@ -193,11 +415,11 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "membran-grafena-desalinasi",
         "title": "Membran Nanopori Grafena: Mengubah Air Laut Menjadi Air Minum dalam Sekejap",
         "subtitle": "Lembaran atom karbon setebal satu atom berpori terkalibrasi yang mampu menyaring ion garam dengan efisiensi energi 100 kali lipat.",
-        "category": "Teknologi Masa Depan",
-        "categoryColor": "amber",
+        "category": "Kimia & Material Maju",
+        "categoryColor": "teal",
         "icon": "💧",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-teal-950 to-blue-950",
@@ -229,12 +451,12 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "fotosintesis-buatan-daun-artifisial",
         "title": "Daun Artifisial: Meniru Fotosintesis Mengubah Karbon Dioksida Menjadi Bahan Bakar Bersih",
         "subtitle": "Bagaimana fotokatalis nano merevolusi reduksi karbon dioksida dan fotolisis air demi bahan bakar nir-emisi masa depan.",
-        "category": "Teknologi Masa Depan",
-        "categoryColor": "teal",
+        "category": "Energi & Iklim",
+        "categoryColor": "cyan",
         "icon": "🍃",
         "publishDate": "2 November 2026",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-emerald-950 via-teal-900 to-cyan-900",
@@ -269,12 +491,12 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "mof-spons-kristal-pemanen-air",
         "title": "Metal-Organic Frameworks: 'Spons Molekuler' Pemanen Air Bersih dari Udara Gurun",
         "subtitle": "Arsitektur koordinasi logam-organik dengan luas permukaan raksasa yang mampu mengekstraksi molekul uap air di kelembapan ekstrem.",
-        "category": "Material Masa Depan",
-        "categoryColor": "indigo",
+        "category": "Kimia & Material Maju",
+        "categoryColor": "teal",
         "icon": "💧",
         "publishDate": "2 November 2026",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-indigo-950 via-slate-900 to-sky-950",
@@ -308,12 +530,12 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "plastik-biodegradable-rumput-laut",
         "title": "Plastik Alami dari Rumput Laut: Hancur Ditelan Tanah dalam Hitungan Pekan",
         "subtitle": "Menyulap polisakarida alginat menjadi kemasan makanan biodegradable yang bahkan aman jika termakan hewan laut.",
-        "category": "Material Masa Depan",
-        "categoryColor": "indigo",
+        "category": "Biologi & Bioteknologi",
+        "categoryColor": "emerald",
         "icon": "🌊",
         "publishDate": "2 November 2026",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-indigo-950 to-teal-950",
@@ -375,12 +597,12 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "kaca-pintar-elektrokromik",
         "title": "Kaca Pintar Elektrokromik: Jendela Masa Depan yang Menyesuaikan Cahaya Otomatis Berkat Reaksi Redoks",
         "subtitle": "Teknologi jendela pintar berbasis film tipis Tungsten Trioksida (WO₃) yang mampu berubah gelap-terang hanya dengan sentuhan voltase listrik rendah.",
-        "category": "Teknologi Masa Depan",
-        "categoryColor": "amber",
+        "category": "Energi & Iklim",
+        "categoryColor": "cyan",
         "icon": "🪟",
         "publishDate": "2 November 2026",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-amber-950 to-blue-950",
@@ -460,11 +682,11 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "baterai-sodium-ion-garam",
         "title": "Baterai Garam Sodium-Ion: Solusi Mobil Listrik Murah Pengganti Tambang Litium",
         "subtitle": "Bagaimana natrium dari garam dapur merevolusi industri energi hijau dan mengapa potensial reduksinya menantang kimiawan dunia.",
-        "category": "Teknologi Masa Depan",
-        "categoryColor": "amber",
+        "category": "Energi & Iklim",
+        "categoryColor": "cyan",
         "icon": "🔋",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-amber-950 to-orange-950",
@@ -497,11 +719,11 @@ const DAFTAR_ARTIKEL_SAINS = [
         "slug": "fusi-nuklir-matahari-buatan",
         "title": "Reaktor Fusi Nuklir Tokamak: Meniru Reaksi Kimia-Fisika Inti Matahari di Bumi",
         "subtitle": "Menyingkap reaksi fusi isotop Deuterium dan Tritium bersuhu 100 juta derajat celcius untuk energi bersih tanpa limbah radioaktif.",
-        "category": "Nobel & Terobosan Sains",
-        "categoryColor": "teal",
+        "category": "Fisika & Kuantum",
+        "categoryColor": "indigo",
         "icon": "☀️",
         "readTime": "5 menit baca",
-        "author": "Tim Litbang KimiaInteraktif",
+        "author": "Tim Sains AjarKita",
         "coverImage": {
             "type": "gradient",
             "bg": "from-slate-900 via-teal-950 to-sky-950",
@@ -533,8 +755,8 @@ const DAFTAR_ARTIKEL_SAINS = [
         slug: "tesla-roadster-terbang",
         title: "Mobil Terbang Tesla Roadster: Mengapa Elon Musk Pakai Gas Dingin & Bukan Api Roket?",
         subtitle: "Menyingkap rahasia kimia gas ideal, ikatan kovalen serat karbon, dan baterai daya tinggi di balik paket SpaceX Thruster yang bikin mobil melayang.",
-        category: "Teknologi Masa Depan",
-        categoryColor: "amber",
+        category: "Fisika & Kuantum",
+        categoryColor: "indigo",
         icon: "🏎️",
         publishDate: "28 Oktober 2026",
         readTime: "5 menit baca",
@@ -661,8 +883,8 @@ const DAFTAR_ARTIKEL_SAINS = [
         slug: "nobel-kimia-ai-protein",
         title: "Nobel Kimia Terbaru: Saat AI Memecahkan 'Origami Molekul' Protein & Asam Amino",
         subtitle: "Mengapa David Baker, Demis Hassabis, dan John Jumper dianugerahi Nobel Kimia 2024? Kisah bagaimana kode komputer menguraikan rahasia 20 jenis asam amino.",
-        category: "Nobel & Terobosan Sains",
-        categoryColor: "teal",
+        category: "Biologi & Bioteknologi",
+        categoryColor: "emerald",
         icon: "🧬",
         publishDate: "28 Oktober 2026",
         readTime: "6 menit baca",
@@ -783,8 +1005,8 @@ const DAFTAR_ARTIKEL_SAINS = [
         slug: "aerogel-material-masa-depan",
         title: "Aerogel 'Asap Padat': Material Paling Ringan di Bumi yang Mampu Menahan Api Las",
         subtitle: "Dikenal sebagai padatan tertipis di dunia dengan 99,8% volume berupa udara. Intip rekayasa ikatan silika nanometer yang dipakai baju astronot Mars.",
-        category: "Material Masa Depan",
-        categoryColor: "indigo",
+        category: "Kimia & Material Maju",
+        categoryColor: "teal",
         icon: "☁️",
         publishDate: "28 Oktober 2026",
         readTime: "4 menit baca",

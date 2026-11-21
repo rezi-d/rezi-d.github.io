@@ -11,8 +11,22 @@ const path = require('path');
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 const ARTIKEL_FILE_PATH = path.resolve(__dirname, '../sains-populer/data/artikel.js');
 
-// Database materi kimia SMA yang valid di web ini
+// Database materi sains SMA yang valid di web ini
 const MATERI_VALID_SMA = [
+    // MATERI FISIKA SMA KELAS X
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Hakikat Fisika & Metode Ilmiah", url: "/fisika/kelas-10/pengukuran-dalam-kerja-ilmiah/hakikat-fisika-dan-metode-ilmiah.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Penggunaan Alat Ukur Presisi", url: "/fisika/kelas-10/pengukuran-dalam-kerja-ilmiah/penggunaan-alat-ukur-presisi.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Ketidakpastian & Ralat Eksperimen", url: "/fisika/kelas-10/pengukuran-dalam-kerja-ilmiah/ketidakpastian-pengukuran-dan-ralat.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Pembangkit Listrik Energi Surya & Alternatif", url: "/fisika/kelas-10/energi-terbarukan-dan-perubahan-iklim/pembangkit-listrik-energi-alternatif.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Efisiensi Daya & Konservasi Energi", url: "/fisika/kelas-10/energi-terbarukan-dan-perubahan-iklim/efisiensi-dan-konservasi-energi.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Efek Rumah Kaca & Keseimbangan Radiasi", url: "/fisika/kelas-10/pemanasan-global-dan-dinamika-lingkungan/efek-rumah-kaca-dan-keseimbangan-radiasi.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Dampak Perubahan Iklim & Siklus Cuaca", url: "/fisika/kelas-10/pemanasan-global-dan-dinamika-lingkungan/dampak-perubahan-iklim-global.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Analisis Data Temperatur & Audit Energi", url: "/fisika/kelas-10/pemanasan-global-dan-dinamika-lingkungan/analisis-data-dan-aksi-lingkungan.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Konsep Skalar vs Vektor", url: "/fisika/kelas-10/vektor-dan-dasar-kinematika/konsep-skalar-dan-notasi-vektor.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Penguraian Vektor pada Sumbu Kartesius", url: "/fisika/kelas-10/vektor-dan-dasar-kinematika/penguraian-vektor-dan-komponen-kartesius.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Perkalian Dot & Cross Product", url: "/fisika/kelas-10/vektor-dan-dasar-kinematika/perkalian-vektor-dot-dan-cross-product.html" },
+    { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Kinematika 1D (GLB & GLBB)", url: "/fisika/kelas-10/vektor-dan-dasar-kinematika/kinematika-1d-glb-dan-glbb.html" },
+    // MATERI KIMIA SMA
     { kelas: "Kelas X", bab: "Struktur Atom & Konfigurasi", url: "/kelas-10/struktur-atom/konfigurasi-elektron-bohr-dan-mekanika-kuantum.html" },
     { kelas: "Kelas X", bab: "Tabel Periodik & Keperiodikan Unsur", url: "/kelas-10/tabel-periodik-unsur/jari-jari-atom-dan-energi-ionisasi.html" },
     { kelas: "Kelas X", bab: "Reaksi Redoks & Bilangan Oksidasi", url: "/kelas-10/reaksi-redoks/aturan-dan-penentuan-bilangan-oksidasi.html" },
@@ -44,7 +58,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "amber",
         icon: "🔋",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-amber-950 to-orange-950",
@@ -98,7 +112,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "teal",
         icon: "☀️",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-teal-950 to-sky-950",
@@ -151,7 +165,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "indigo",
         icon: "🌊",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-indigo-950 to-teal-950",
@@ -197,7 +211,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "amber",
         icon: "🪟",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-amber-950 to-blue-950",
@@ -246,7 +260,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "indigo",
         icon: "❄️",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-sky-950 to-indigo-950",
@@ -296,7 +310,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "amber",
         icon: "💧",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-teal-950 to-blue-950",
@@ -343,7 +357,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "indigo",
         icon: "🔄",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-indigo-950 to-emerald-950",
@@ -390,7 +404,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "teal",
         icon: "🌱",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-emerald-950 to-teal-950",
@@ -443,7 +457,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "teal",
         icon: "💾",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-indigo-950 to-teal-950",
@@ -490,7 +504,7 @@ const BANK_KURASI_SAINS = [
         categoryColor: "indigo",
         icon: "🧱",
         readTime: "5 menit baca",
-        author: "Tim Litbang KimiaInteraktif",
+        author: "Tim Sains AjarKita",
         coverImage: {
             type: "gradient",
             bg: "from-slate-900 via-amber-950 to-stone-950",
@@ -728,7 +742,7 @@ async function main() {
     if (GEMINI_API_KEY) {
         const prompt = `Buat 2 artikel warta sains populer kimia baru untuk website SMA https://kimia.ajarkita.my.id/sains-populer/
 Topik TIDAK BOLEH sama dengan: [${slugArray.join(', ')}].
-Format TEPAT JSON array of objects berisi id, slug, title, subtitle, category ("Teknologi Masa Depan"|"Nobel & Terobosan Sains"|"Material Masa Depan"), categoryColor ("amber"|"teal"|"indigo"), icon, publishDate: "${tglFormatted}", readTime: "5 menit baca", author: "Tim Litbang KimiaInteraktif", coverImage: { type: "gradient", bg, badge, icon }, summary, tahukahKamu, kaitanMateri: [{ kelas, bab, desc, url }], contentHtml, diskusi. Hubungkan dengan kurikulum kimia SMA Indonesia (Kelas X, XI, atau XII).`;
+Format TEPAT JSON array of objects berisi id, slug, title, subtitle, category ("Teknologi Masa Depan"|"Nobel & Terobosan Sains"|"Material Masa Depan"), categoryColor ("amber"|"teal"|"indigo"), icon, publishDate: "${tglFormatted}", readTime: "5 menit baca", author: "Tim Sains AjarKita", coverImage: { type: "gradient", bg, badge, icon }, summary, tahukahKamu, kaitanMateri: [{ kelas, bab, desc, url }], contentHtml, diskusi. Hubungkan dengan kurikulum kimia SMA Indonesia (Kelas X, XI, atau XII).`;
         newArticles = await tryCallGemini(prompt);
     }
 
