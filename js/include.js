@@ -1968,6 +1968,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(fabScript);
     }
 
+    // Inisialisasi Slider Materi Otomatis jika kontainer slider ditemukan
+    if ((document.getElementById('ielts-slider-container') || document.getElementById('materi-slider-container') || document.getElementById('slides-wrapper')) && !document.getElementById('materi-slider-script')) {
+        const sliderScript = document.createElement('script');
+        sliderScript.id = 'materi-slider-script';
+        sliderScript.src = '/js/materi-slider.js';
+        sliderScript.defer = true;
+        document.head.appendChild(sliderScript);
+    }
+
     // Re-render KaTeX untuk elemen yang dibuat dinamis (TOC, Sidebar, dll) jika KaTeX aktif
     
     // Proteksi global: Pastikan .katex-mathml tidak pernah tampil ganda di browser modern

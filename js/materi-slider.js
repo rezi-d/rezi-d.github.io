@@ -19,10 +19,10 @@ class MateriSlider {
     }
 
     init() {
-        this.container = document.getElementById('ielts-slider-container') || document.getElementById('materi-slider-container');
+        this.container = document.getElementById('ielts-slider-container') || document.getElementById('materi-slider-container') || document.getElementById('slides-wrapper');
         if (!this.container) return;
 
-        this.slides = Array.from(this.container.querySelectorAll('.ielts-slide, .materi-slide'));
+        this.slides = Array.from(this.container.querySelectorAll('.ielts-slide, .materi-slide, .slide-content, section[id^="slide-"]'));
         this.totalSlides = this.slides.length;
         if (this.totalSlides === 0) return;
 
@@ -41,9 +41,33 @@ class MateriSlider {
         }
 
         this.renderDots();
+        this.setupButtons();
         this.setupTouchSwipe();
         this.setupKeyboard();
         this.updateSlide(false); // initial render without scroll
+    }
+
+    setupButtons() {
+        const prevBtns = [document.getElementById('slider-btn-prev'), document.getElementById('slider-btn-prev-bottom'), document.getElementById('prev-slide')];
+        prevBtns.forEach(btn => {
+            if (btn && !btn._hasSliderClick) {
+                btn._hasSliderClick = true;
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.prev();
+                });
+            }
+        });
+        const nextBtns = [document.getElementById('slider-btn-next'), document.getElementById('slider-btn-next-bottom'), document.getElementById('next-slide')];
+        nextBtns.forEach(btn => {
+            if (btn && !btn._hasSliderClick) {
+                btn._hasSliderClick = true;
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.next();
+                });
+            }
+        });
     }
 
     injectStyles() {
