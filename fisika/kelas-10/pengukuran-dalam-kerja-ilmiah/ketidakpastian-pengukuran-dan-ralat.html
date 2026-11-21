@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Ketidakpastian Pengukuran Tunggal/Berulang, Presisi & Ralat Eksperimen — Fisika Kelas X SMA — AjarKita</title>
+    <meta name="description" content="Modul Fisika Kelas X Bab 1 Sub-Materi 5: Ralat sistematis dan acak, ketidakpastian pengukuran tunggal dan berulang, deviasi standar, perambatan ketidakpastian, dan ralat relatif.">
+    <meta name="robots" content="index, follow">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+    <!-- FONT & TAILWIND -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- KATEX (Render Formula Fisika Presisi) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="fisika" data-kelas="fis-10" data-bab="pengukuran-dalam-kerja-ilmiah">
+
+    <!-- HEADER (dimuat otomatis oleh include.js) -->
+    <div id="header-placeholder"></div>
+
+    <!-- WRAPPER UTAMA -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- BREADCRUMBS -->
+        <nav class="flex items-center gap-2 text-xs text-slate-500 mb-6 font-medium" aria-label="Breadcrumb">
+            <a href="/index.html" class="hover:text-slate-900 transition-colors">Beranda</a>
+            <span>/</span>
+            <a href="/fisika/index.html" class="hover:text-slate-900 transition-colors">Fisika</a>
+            <span>/</span>
+            <a href="/fisika/kelas-10/index.html" class="hover:text-slate-900 transition-colors">Kelas X</a>
+            <span>/</span>
+            <span class="text-slate-900 font-semibold">Bab 1: Sub-Materi 5</span>
+        </nav>
+
+        <!-- HERO CARD & REFERENSI INTERNASIONAL -->
+        <header class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] mb-8">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200/60">
+                    <span>⚡</span> Bab 1: Pengukuran dalam Kerja Ilmiah
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                    Sub-Materi 5 dari 6
+                </span>
+            </div>
+
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                5. Ketidakpastian Pengukuran Tunggal/Berulang, Presisi &amp; Ralat Eksperimen
+            </h1>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                Memahami hakikat ralat acak dan ralat sistematis, formulasi ketidakpastian mutlak/relatif, analisis statistik pengukuran berulang (deviasi standar), serta hukum perambatan ketidakpastian kuadratur (*propagation of errors*).
+            </p>
+
+            <!-- KOTAK REFERENSI BUKU INTERNASIONAL -->
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-50/80 via-orange-50/50 to-slate-50 border border-amber-200/70 text-xs text-amber-950 space-y-2">
+                <div class="flex items-center gap-2 font-bold text-amber-900 text-xs">
+                    <span>📘</span> Referensi Buku Teks Internasional &amp; Pustaka Fisika:
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-700 pl-1">
+                    <li><strong>John R. Taylor</strong> — <em>An Introduction to Error Analysis: The Study of Uncertainties in Physical Measurements</em> (University Science Books), Ch. 2–3.</li>
+                    <li><strong>Halliday, Resnick, &amp; Walker</strong> — <em>Fundamentals of Physics</em>, Ch. 1: <em>Estimating and Accuracy</em>.</li>
+                    <li><strong>Philip R. Bevington &amp; D. Keith Robinson</strong> — <em>Data Reduction and Error Analysis for the Physical Sciences</em> (McGraw-Hill).</li>
+                </ul>
+                <div class="pt-1.5 border-t border-amber-200/50 flex items-start gap-2 text-[11px] text-amber-800">
+                    <span class="shrink-0 font-bold">💡 Filosofi Pengukuran:</span>
+                    <span>Tidak ada pengukuran di alam semesta yang bernilai mutlak tanpa ketidakpastian. Nilai ukur fisika yang bermakna selalu dituliskan dalam rentang: $x = (x_0 \pm \Delta x)$ beserta satuan dan persentase ketelitiannya.</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- STICKY TOP SLIDER CONTROLLER -->
+        <nav class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-sm rounded-2xl p-2.5 mb-8 flex items-center justify-between gap-2" aria-label="Navigasi Slide">
+            <button id="slider-btn-prev" class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+                &larr; Prev
+            </button>
+            <div class="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-1" id="slider-dots">
+                <!-- Dots dirender oleh include.js / slider handler -->
+            </div>
+            <div class="flex items-center gap-2">
+                <span id="slider-counter" class="text-xs font-mono font-semibold text-slate-500">1/5</span>
+                <button id="slider-btn-next" class="px-3.5 py-1.5 rounded-xl bg-amber-600 text-white text-xs font-semibold hover:bg-amber-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xs">
+                    Next &rarr;
+                </button>
+            </div>
+        </nav>
+
+        <!-- SLIDER CONTAINER (5 SLIDES) -->
+        <div id="ielts-slider-container" data-accent="amber" class="space-y-6">
+
+            <!-- SLIDE 1: JENIS-JENIS KESALAHAN EKSPERIMEN -->
+            <section id="slide-1" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">1</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Klasifikasi Kesalahan Eksperimen: Akurasi vs Presisi
+                        </h2>
+                    </div>
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Taksonomi Ralat</span>
+                </div>
+
+                <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                    Dalam analisis eksperimen fisika, terdapat perbedaan mendasar antara <strong>Akurasi</strong> (seberapa dekat hasil pengukuran dengan nilai sebenarnya) dan <strong>Presisi</strong> (seberapa konsisten hasil ukur yang diperoleh saat pengukuran diulang):
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <strong class="text-rose-800 text-sm block">1. Kesalahan Sistematis (*Systematic Errors*)</strong>
+                        <p class="text-slate-600 leading-relaxed text-justify">
+                            Penyimpangan data yang terjadi secara konsisten ke satu arah (selalu lebih besar atau selalu lebih kecil dari nilai riil). Mempengaruhi <strong>akurasi</strong>.
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-600 pl-1">
+                            <li><strong>Ralat Kalibrasi Alat:</strong> Jarum penunjuk tidak berada di angka nol (*zero error*).</li>
+                            <li><strong>Ralat Lingkungan:</strong> Suhu laboratorium memuai mistar logam.</li>
+                            <li><strong>Ralat Paralaks:</strong> Posisi mata pengamat tidak tegak lurus terhadap skala ukur.</li>
+                            <li><em>Solusi:</em> Kalibrasi ulang alat ukur sebelum percobaan.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <strong class="text-blue-800 text-sm block">2. Kesalahan Acak (*Random Errors*)</strong>
+                        <p class="text-slate-600 leading-relaxed text-justify">
+                            Fluktuasi tak terduga yang nilainya berubah-ubah secara positif dan negatif di sekitar nilai rata-rata. Mempengaruhi <strong>presisi</strong>.
+                        </p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-600 pl-1">
+                            <li><strong>Fluktuasi Tegangan:</strong> Voltase listrik PLN yang naik-turun sesaat.</li>
+                            <li><strong>Getaran Landasan:</strong> Getaran meja praktikum akibat kendaraan lewat.</li>
+                            <li><strong>Derau Termal:</strong> Gerak Brown partikel udara pada neraca mikro.</li>
+                            <li><em>Solusi:</em> Pengukuran berulang ($N \ge 5$) dan rata-rata statistik.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- DIAGRAM SVG: TARGET PANAH AKURASI VS PRESISI -->
+                <div class="py-2">
+                    <svg class="w-full max-w-lg mx-auto h-48 rounded-2xl bg-slate-900 border border-slate-700 shadow-inner p-3" viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg">
+                        <text x="250" y="22" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">Visualisasi Sasaran: Akurasi vs Presisi</text>
+
+                        <!-- Target 1: Akurat & Presisi -->
+                        <circle cx="100" cy="100" r="45" fill="none" stroke="#64748b" stroke-width="1.5"/>
+                        <circle cx="100" cy="100" r="30" fill="none" stroke="#64748b" stroke-width="1.5"/>
+                        <circle cx="100" cy="100" r="15" fill="none" stroke="#34d399" stroke-width="2"/>
+                        <!-- Titik kumpul di tengah -->
+                        <circle cx="100" cy="100" r="3" fill="#34d399"/><circle cx="103" cy="98" r="3" fill="#34d399"/><circle cx="98" cy="102" r="3" fill="#34d399"/>
+                        <text x="100" y="160" fill="#a7f3d0" font-size="8.5" font-weight="bold" text-anchor="middle">Akurat &amp; Presisi</text>
+
+                        <!-- Target 2: Presisi tapi Tidak Akurat (Ralat Sistematis) -->
+                        <circle cx="250" cy="100" r="45" fill="none" stroke="#64748b" stroke-width="1.5"/>
+                        <circle cx="250" cy="100" r="30" fill="none" stroke="#64748b" stroke-width="1.5"/>
+                        <circle cx="250" cy="100" r="15" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+                        <!-- Titik kumpul meleset di pojok -->
+                        <circle cx="280" cy="75" r="3" fill="#f43f5e"/><circle cx="282" cy="73" r="3" fill="#f43f5e"/><circle cx="279" cy="77" r="3" fill="#f43f5e"/>
+                        <text x="250" y="160" fill="#fde68a" font-size="8.5" font-weight="bold" text-anchor="middle">Presisi Tinggi, Tak Akurat</text>
+
+                        <!-- Target 3: Tak Akurat & Tak Presisi (Ralat Acak Tinggi) -->
+                        <circle cx="400" cy="100" r="45" fill="none" stroke="#64748b" stroke-width="1.5"/>
+                        <circle cx="400" cy="100" r="30" fill="none" stroke="#64748b" stroke-width="1.5"/>
+                        <circle cx="400" cy="100" r="15" fill="none" stroke="#64748b" stroke-width="1.5"/>
+                        <!-- Titik tersebar acak -->
+                        <circle cx="380" cy="80" r="3" fill="#94a3b8"/><circle cx="420" cy="115" r="3" fill="#94a3b8"/><circle cx="395" cy="130" r="3" fill="#94a3b8"/>
+                        <text x="400" y="160" fill="#94a3b8" font-size="8.5" font-weight="bold" text-anchor="middle">Tak Akurat &amp; Tak Presisi</text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: PENGUKURAN TUNGGAL -->
+            <section id="slide-2" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">2</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Pelaporan Ketidakpastian Pengukuran Tunggal
+                        </h2>
+                    </div>
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Single Measurement</span>
+                </div>
+
+                <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                    Pengukuran tunggal dilakukan hanya <strong>satu kali</strong> (misalnya karena objek pengukuran berubah bentuk atau waktu terbatas). Ketidakpastian mutlak ($\Delta x$) pengukuran tunggal secara baku ditetapkan sebesar <strong>setengah nilai skala terkecil ($\frac{1}{2}\text{NST}$)</strong>:
+                </p>
+
+                <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-center font-mono text-sm sm:text-base font-bold text-amber-950">
+                    $$x = (x_0 \pm \Delta x) \quad \text{dengan} \quad \Delta x = \frac{1}{2} \times \text{NST}$$
+                </div>
+
+                <!-- CONTOH KASUS PENGUKURAN TUNGGAL -->
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+                    <strong class="text-slate-900 text-sm block">Contoh Pelaporan Pengukuran:</strong>
+                    <ul class="list-disc list-inside space-y-1 text-slate-700 font-mono">
+                        <li>Pengukuran panjang balok dengan mistar ($\text{NST} = 1\,\text{mm}$): $\Delta x = 0{,}5\,\text{mm} = 0{,}05\,\text{cm}$. Terbaca $12{,}4\,\text{cm}$.<br>
+                            ➔ Dilaporkan: $L = (12{,}40 \pm 0{,}05)\,\text{cm}$.</li>
+                        <li>Pengukuran diameter kawat dengan mikrometer sekrup ($\text{NST} = 0{,}01\,\text{mm}$): $\Delta x = 0{,}005\,\text{mm}$. Terbaca $3{,}24\,\text{mm}$.<br>
+                            ➔ Dilaporkan: $d = (3{,}240 \pm 0{,}005)\,\text{mm}$.</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-2">
+                    <strong class="text-slate-900 block text-sm">Ketidakpastian Relatif (Ralat Relatif):</strong>
+                    <p class="leading-relaxed text-justify">
+                        Menunjukkan mutu dan presisi hasil ukur dalam persentase:
+                        $$\text{Ralat Relatif} = \frac{\Delta x}{x_0} \times 100\%$$
+                        • Jika Ralat Relatif $\approx 10\%$, berhak atas <strong>2 Angka Penting</strong>.<br>
+                        • Jika Ralat Relatif $\approx 1\%$, berhak atas <strong>3 Angka Penting</strong>.<br>
+                        • Jika Ralat Relatif $\approx 0{,}1\%$, berhak atas <strong>4 Angka Penting</strong>.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: PENGUKURAN BERULANG & STATISTIK -->
+            <section id="slide-3" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">3</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Pengukuran Berulang &amp; Analisis Statistik Deviasi Standar
+                        </h2>
+                    </div>
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Repeated Trials</span>
+                </div>
+
+                <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                    Untuk mereduksi ralat acak, pengukuran diulang sebanyak $N$ kali ($x_1, x_2, \dots, x_N$). Nilai terbaik yang mewakili besaran tersebut adalah <strong>rata-rata hitung ($\bar{x}$)</strong>:
+                </p>
+
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center font-mono text-sm sm:text-base font-bold text-amber-950">
+                    $$\bar{x} = \frac{\sum_{i=1}^N x_i}{N}$$
+                </div>
+
+                <p class="text-xs text-slate-700 leading-relaxed text-justify">
+                    Ketidakpastian pengukuran berulang dinyatakan oleh <strong>standar deviasi rata-rata sampel</strong> ($\Delta x = s_{\bar{x}}$):
+                </p>
+
+                <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-center font-mono text-sm sm:text-base font-bold text-amber-950">
+                    $$\Delta x = \frac{s_x}{\sqrt{N}} = \frac{1}{\sqrt{N}} \sqrt{\frac{\sum (x_i - \bar{x})^2}{N - 1}} = \frac{1}{N} \sqrt{\frac{N \sum x_i^2 - (\sum x_i)^2}{N - 1}}$$
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Perhatikan faktor $\frac{1}{\sqrt{N}}$! Ini membuktikan bahwa semakin banyak percobaan diulang ($N$ bertambah besar), ketidakpastian eksperimen ($\Delta x$) akan <strong>semakin mengecil secara berbanding terbalik dengan akar $N$</strong>.
+                </p>
+            </section>
+
+            <!-- SLIDE 4: PERAMBATAN KETIDAKPASTIAN (PROPAGATION OF ERRORS) -->
+            <section id="slide-4" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">4</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Hukum Perambatan Ketidakpastian (*Propagation of Uncertainty*)
+                        </h2>
+                    </div>
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Kombinasi Ralat</span>
+                </div>
+
+                <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                    Jika suatu besaran fisika $z$ dihitung dari beberapa variabel independen $x$ dan $y$ yang masing-masing memiliki ketidakpastian $\Delta x$ dan $\Delta y$, ketidakpastian $\Delta z$ dihitung melalui rumus perambatan kuadratur Gauss:
+                </p>
+
+                <!-- TABEL RUMUS PERAMBATAN RALAT -->
+                <div class="overflow-x-auto text-xs">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-800 font-bold">
+                                <th class="p-3 border-b border-slate-200 rounded-tl-xl">Operasi Fisis</th>
+                                <th class="p-3 border-b border-slate-200">Hubungan Fungsi</th>
+                                <th class="p-3 border-b border-slate-200 rounded-tr-xl">Rumus Perambatan Ketidakpastian ($\Delta z$)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-mono text-slate-700">
+                            <tr>
+                                <td class="p-3 font-sans font-bold text-slate-900">Penjumlahan / Pengurangan</td>
+                                <td class="p-3">$z = x \pm y$</td>
+                                <td class="p-3 text-amber-800 font-bold">$$\Delta z = \sqrt{(\Delta x)^2 + (\Delta y)^2}$$</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-sans font-bold text-slate-900">Perkalian / Pembagian</td>
+                                <td class="p-3">$z = x \cdot y \quad \text{atau} \quad z = \frac{x}{y}$</td>
+                                <td class="p-3 text-teal-800 font-bold">$$\frac{\Delta z}{z} = \sqrt{\left(\frac{\Delta x}{x}\right)^2 + \left(\frac{\Delta y}{y}\right)^2}$$</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-sans font-bold text-slate-900">Perpangkatan</td>
+                                <td class="p-3">$z = x^n$</td>
+                                <td class="p-3 text-rose-800 font-bold">$$\frac{\Delta z}{z} = |n| \cdot \frac{\Delta x}{x}$$</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-sans font-bold text-slate-900">Fungsi Gabungan Umum</td>
+                                <td class="p-3">$z = k \cdot \frac{x^a y^b}{w^c}$</td>
+                                <td class="p-3 text-indigo-800 font-bold">$$\frac{\Delta z}{z} \approx a\frac{\Delta x}{x} + b\frac{\Delta y}{y} + c\frac{\Delta w}{w}$$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-950 space-y-1">
+                    <strong class="block">Contoh Aplikasi Nyata (Massa Jenis $\rho = \frac{m}{V}$):</strong>
+                    <span>Jika ketidakpastian relatif massa $\frac{\Delta m}{m} = 1\%$ dan volume $\frac{\Delta V}{V} = 2\%$, maka ketidakpastian relatif massa jenis adalah $\frac{\Delta \rho}{\rho} \approx 1\% + 2\% = 3\%$.</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: KUIS EVALUASI KETIDAKPASTIAN & RALAT -->
+            <section id="slide-5" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">5</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Kuis Pemahaman: Ketidakpastian Pengukuran &amp; Ralat
+                        </h2>
+                    </div>
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/70">4 Soal HOTS</span>
+                </div>
+
+                <p class="text-xs text-slate-500">
+                    Pilihlah salah satu jawaban yang paling tepat. Feedback instan akan langsung muncul setelah Anda memilih.
+                </p>
+
+                <!-- FORM KUIS -->
+                <form id="quiz-form" class="space-y-6">
+                    <!-- SOAL 1 -->
+                    <div class="quiz-card p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3" data-q="1" data-answer="A">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-800">SOAL 1 (Pelaporan Pengukuran Tunggal)</span>
+                            <span class="text-[11px] font-semibold text-slate-400">Pengukuran Mistar</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                            Seorang siswa mengukur panjang pensil menggunakan mistar berskala terkecil $1\,\text{mm}$. Ujung pensil menunjuk tepat di angka $8{,}4\,\text{cm}$. Penulisan laporan hasil pengukuran pensil yang benar menurut kaidah ketidakpastian tunggal adalah...
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="A" class="text-amber-600 focus:ring-amber-500">
+                                <span>A. $(8{,}40 \pm 0{,}05)\,\text{cm}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="B" class="text-amber-600 focus:ring-amber-500">
+                                <span>B. $(8{,}4 \pm 0{,}1)\,\text{cm}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="C" class="text-amber-600 focus:ring-amber-500">
+                                <span>C. $(8{,}4 \pm 0{,}05)\,\text{cm}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="D" class="text-amber-600 focus:ring-amber-500">
+                                <span>D. $(8{,}40 \pm 0{,}5)\,\text{cm}$</span>
+                            </label>
+                        </div>
+                        <div id="feedback-q1" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 2 -->
+                    <div class="quiz-card p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3" data-q="2" data-answer="B">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-800">SOAL 2 (Perambatan Ralat Volume Kubus)</span>
+                            <span class="text-[11px] font-semibold text-slate-400">Ralat Perpangkatan</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                            Pengukuran panjang rusuk kubus menghasilkan ketidakpastian relatif sebesar $1{,}5\%$. Jika volume kubus dihitung dari rumus $V = s^3$, maka persentase ketidakpastian relatif dari volume kubus tersebut adalah...
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="A" class="text-amber-600 focus:ring-amber-500">
+                                <span>A. $1{,}5\%$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="B" class="text-amber-600 focus:ring-amber-500">
+                                <span>B. $4{,}5\%$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="C" class="text-amber-600 focus:ring-amber-500">
+                                <span>C. $3{,}375\%$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="D" class="text-amber-600 focus:ring-amber-500">
+                                <span>D. $0{,}5\%$</span>
+                            </label>
+                        </div>
+                        <div id="feedback-q2" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 3 -->
+                    <div class="quiz-card p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3" data-q="3" data-answer="C">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-800">SOAL 3 (Perambatan Ralat Massa Jenis)</span>
+                            <span class="text-[11px] font-semibold text-slate-400">Pembagian Berantai</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                            Massa suatu balok diukur sebesar $m = (100 \pm 1)\,\text{g}$ dan volumenya diukur sebesar $V = (20 \pm 0{,}4)\,\text{cm}^3$. Massa jenis balok tersebut beserta ketidakpastian mutlaknya adalah...
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="A" class="text-amber-600 focus:ring-amber-500">
+                                <span>A. $(5{,}0 \pm 0{,}05)\,\text{g/cm}^3$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="B" class="text-amber-600 focus:ring-amber-500">
+                                <span>B. $(5{,}0 \pm 0{,}6)\,\text{g/cm}^3$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="C" class="text-amber-600 focus:ring-amber-500">
+                                <span>C. $(5{,}0 \pm 0{,}15)\,\text{g/cm}^3$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="D" class="text-amber-600 focus:ring-amber-500">
+                                <span>D. $(5{,}0 \pm 1{,}4)\,\text{g/cm}^3$</span>
+                            </label>
+                        </div>
+                        <div id="feedback-q3" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 4 -->
+                    <div class="quiz-card p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3" data-q="4" data-answer="D">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-800">SOAL 4 (Pengaruh Jumlah Pengulangan N)</span>
+                            <span class="text-[11px] font-semibold text-slate-400">Statistik Eksperimen</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                            Jika suatu pengukuran berulang yang awalnya dilakukan sebanyak 4 kali diulang kembali menjadi 16 kali pada kondisi laboratorium yang identik, maka ketidakpastian baku rata-rata ($\Delta \bar{x}$) akan berkurang menjadi...
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q4" value="A" class="text-amber-600 focus:ring-amber-500">
+                                <span>A. Sama seperti semula</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q4" value="B" class="text-amber-600 focus:ring-amber-500">
+                                <span>B. $\frac{1}{4}$ kali semula</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q4" value="C" class="text-amber-600 focus:ring-amber-500">
+                                <span>C. $\frac{1}{16}$ kali semula</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q4" value="D" class="text-amber-600 focus:ring-amber-500">
+                                <span>D. $\frac{1}{2}$ kali semula</span>
+                            </label>
+                        </div>
+                        <div id="feedback-q4" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- TOMBOL EVALUASI -->
+                    <button type="button" id="btn-submit-quiz" class="w-full py-3 px-6 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]">
+                        Periksa Seluruh Jawaban Kuis
+                    </button>
+                </form>
+
+                <!-- HASIL REKAP KUIS & PEMBAHASAN -->
+                <div id="quiz-result" class="hidden p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span id="quiz-score-badge" class="font-bold text-slate-900 text-sm"></span>
+                        <span class="text-xs px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-semibold">Analisis Soal Standar Internasional</span>
+                    </div>
+
+                    <div class="border-t border-amber-200/60 pt-3 space-y-3 text-xs text-slate-700 leading-relaxed">
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                            <strong class="text-amber-900">Soal 1 (Jawaban A - (8,40 ± 0,05) cm):</strong><br>
+                            $\text{NST mistar} = 0{,}1\,\text{cm}$, maka $\Delta x = \frac{1}{2} \times 0{,}1\,\text{cm} = 0{,}05\,\text{cm}$. Karena $\Delta x$ memiliki dua tempat desimal, maka nilai ukur $x_0 = 8{,}4$ wajib disesuaikan menjadi dua tempat desimal: $\mathbf{(8{,}40 \pm 0{,}05)\,\text{cm}}$.
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                            <strong class="text-amber-900">Soal 2 (Jawaban B - 4,5%):</strong><br>
+                            $V = s^3$. Berdasarkan hukum perambatan ralat perpangkatan: $\frac{\Delta V}{V} = 3 \times \frac{\Delta s}{s} = 3 \times 1{,}5\% = \mathbf{4{,}5\%}$.
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                            <strong class="text-amber-900">Soal 3 (Jawaban C - (5,0 ± 0,15) g/cm³):</strong><br>
+                            $\rho = \frac{m}{V} = \frac{100}{20} = 5{,}0\,\text{g/cm}^3$.<br>
+                            Ralat relatif: $\frac{\Delta \rho}{\rho} \approx \frac{\Delta m}{m} + \frac{\Delta V}{V} = \frac{1}{100} + \frac{0{,}4}{20} = 0{,}01 + 0{,}02 = 0{,}03$ ($3\%$).<br>
+                            $\Delta \rho = 0{,}03 \times 5{,}0 = 0{,}15\,\text{g/cm}^3$. Jadi $\mathbf{\rho = (5{,}0 \pm 0{,}15)\,\text{g/cm}^3}$.
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                            <strong class="text-amber-900">Soal 4 (Jawaban D - 1/2 kali semula):</strong><br>
+                            $\Delta \bar{x} \propto \frac{1}{\sqrt{N}}$. Perbandingan ketidakpastian: $\frac{\Delta \bar{x}_2}{\Delta \bar{x}_1} = \frac{\sqrt{N_1}}{\sqrt{N_2}} = \frac{\sqrt{4}}{\sqrt{16}} = \frac{2}{4} = \mathbf{\frac{1}{2}}$ kali semula.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- REKAP MANDIRI KARTU NILAI (TERHUBUNG KE include.js) -->
+        <div id="quiz-report-card" class="mt-8 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <span class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                    <span>📊</span> Rekap Mandiri Belajar Siswa
+                </span>
+                <span id="rekap-nilai-badge" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
+                    Nilai: --
+                </span>
+            </div>
+            <p class="text-xs text-slate-500">
+                Selesaikan kuis di atas untuk mencatat skor latihan mandiri ke dalam riwayat kemajuan belajar dan portofolio Anda.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- FOOTER GLOBAL (dimuat otomatis oleh include.js) -->
+    <div id="footer-placeholder"></div>
+
+    <!-- SPU MODAL -->
+    <div id="spu-placeholder"></div>
+
+    <!-- SCRIPT LOGIKA BERSAMA -->
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA INTERAKTIF KUIS LOKAL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('quiz-form');
+            const submitBtn = document.getElementById('btn-submit-quiz');
+            const resultBox = document.getElementById('quiz-result');
+            const scoreBadge = document.getElementById('quiz-score-badge');
+            const reportBadge = document.getElementById('rekap-nilai-badge');
+
+            if (!form || !submitBtn) return;
+
+            const cards = form.querySelectorAll('.quiz-card');
+            const correctAnswers = {};
+            cards.forEach(card => {
+                const qNum = card.dataset.q;
+                correctAnswers['q' + qNum] = card.dataset.answer;
+            });
+
+            // Instant feedback per radio click
+            cards.forEach(card => {
+                const qNum = card.dataset.q;
+                const correct = card.dataset.answer;
+                const feedbackEl = card.querySelector('#feedback-q' + qNum);
+                const radios = card.querySelectorAll(`input[name="q${qNum}"]`);
+
+                radios.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        if (radio.value === correct) {
+                            feedbackEl.textContent = '✅ Benar! ' + (radio.value === 'A' && qNum === '1' ? 'Ditulis (8,40 ± 0,05) cm sesuai desimal ralat mutlak.' : (radio.value === 'B' && qNum === '2' ? 'Ralat relatif volume adalah 3 x 1,5% = 4,5%.' : (radio.value === 'C' && qNum === '3' ? 'Massa jenis adalah (5,0 ± 0,15) g/cm³.' : 'Ketidakpastian berkurang 1/2 kali semula karena sebanding 1/√N.')));
+                            feedbackEl.className = 'quiz-feedback text-xs min-h-[16px] font-semibold text-emerald-600';
+                            card.classList.remove('border-rose-300', 'bg-rose-50/20');
+                            card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+                        } else {
+                            feedbackEl.textContent = '❌ Kurang tepat. Cermati kembali rumus perambatan ralat kuadratur dan desimal skala.';
+                            feedbackEl.className = 'quiz-feedback text-xs min-h-[16px] font-semibold text-rose-600';
+                            card.classList.remove('border-emerald-300', 'bg-emerald-50/20');
+                            card.classList.add('border-rose-300', 'bg-rose-50/20');
+                        }
+                    });
+                });
+            });
+
+            // Submit check
+            submitBtn.addEventListener('click', () => {
+                let correctCount = 0;
+                const totalQuestions = Object.keys(correctAnswers).length;
+
+                for (let q in correctAnswers) {
+                    const selected = form.querySelector(`input[name="${q}"]:checked`);
+                    if (selected && selected.value === correctAnswers[q]) {
+                        correctCount++;
+                    }
+                }
+
+                const score = Math.round((correctCount / totalQuestions) * 100);
+                if (resultBox) {
+                    resultBox.classList.remove('hidden');
+                    scoreBadge.textContent = `Skor Latihan: ${score} / 100 (${correctCount}/${totalQuestions} Benar)`;
+                }
+                if (reportBadge) {
+                    reportBadge.textContent = `Nilai: ${score}`;
+                    reportBadge.className = score >= 75 
+                        ? 'text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800'
+                        : 'text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800';
+                }
+
+                // Kirim event custom untuk include.js auto-saver
+                document.dispatchEvent(new CustomEvent('quizCompleted', {
+                    detail: {
+                        score: score,
+                        correct: correctCount,
+                        total: totalQuestions,
+                        moduleKey: 'fis-10/pengukuran-dalam-kerja-ilmiah/ketidakpastian-pengukuran-dan-ralat.html'
+                    }
+                }));
+
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+    </script>
+</body>
+</html>

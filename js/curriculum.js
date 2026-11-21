@@ -699,8 +699,348 @@ const kurikulum = {
             }
         ]
     }
-};
+    ,
+    "fis-10": {
+        label: "Kelas X",
+        mapelNama: "Fisika",
+        mapel: "fisika",
+        icon: "⚡",
+        pathPrefix: "/fisika/kelas-10",
+        bab: [
+            {
+                slug: "pengukuran-dalam-kerja-ilmiah",
+                title: "Pengukuran dalam Kerja Ilmiah",
+                deskripsi: "Hakikat fisika, metode ilmiah, besaran pokok/turunan, dimensi besaran SI, ketelitian jangka sorong dan mikrometer sekrup, aturan angka penting, notasi ilmiah, serta analisis ketidakpastian/ralat eksperimen.",
+                subbab: [
+                    { file: "hakikat-fisika-dan-metode-ilmiah.html", title: "Hakikat Fisika, Metode Ilmiah & Prosedur Keselamatan Kerja Lab" },
+                    { file: "besaran-satuan-dan-analisis-dimensi.html", title: "Besaran Pokok, Besaran Turunan, Satuan SI & Analisis Dimensi" },
+                    { file: "penggunaan-alat-ukur-presisi.html", title: "Penggunaan Alat Ukur Presisi: Jangka Sorong, Mikrometer & Neraca" },
+                    { file: "aturan-angka-penting-dan-notasi-ilmiah.html", title: "Aturan Angka Penting, Operasi Hitung Presisi & Notasi Ilmiah" },
+                    { file: "ketidakpastian-pengukuran-dan-ralat.html", title: "Ketidakpastian Pengukuran Tunggal/Berulang, Presisi & Ralat Eksperimen" },
+                    { file: "latihan-pemecahan-masalah-pengukuran.html", title: "Latihan Pemecahan Masalah & HOTS Analisis Data Pengukuran" }
+                ]
+            },
+            {
+                slug: "energi-terbarukan-dan-perubahan-iklim",
+                title: "Energi Terbarukan & Perubahan Iklim",
+                deskripsi: "Bentuk-bentuk energi, hukum kekekalan energi mekanik, perbandingan energi fosil vs alternatif (surya, angin, mikrohidro, biomassa, panas bumi), prinsip konversi pembangkit listrik, serta analisis efisiensi energi.",
+                subbab: [
+                    { file: "bentuk-dan-transformasi-energi.html", title: "Bentuk-Bentuk Energi & Transformasi Energi dalam Kehidupan" },
+                    { file: "hukum-kekekalan-energi-mekanik.html", title: "Hukum Kekekalan Energi Mekanik & Usaha Sederhana" },
+                    { file: "sumber-energi-terbarukan-dan-tak-terbarukan.html", title: "Sumber Energi Tak Terbarukan vs Energi Terbarukan Ramah Lingkungan" },
+                    { file: "pembangkit-listrik-energi-alternatif.html", title: "Pembangkit Listrik Energi Surya, Angin, Air, Geotermal & Biomassa" },
+                    { file: "efisiensi-dan-konservasi-energi.html", title: "Perhitungan Daya, Efisiensi Konversi Energi & Konservasi Energi" },
+                    { file: "desain-proyek-rekayasa-energi.html", title: "Proyek Desain Prototipe & Studi Kasus Ketahanan Energi Nasional" }
+                ]
+            },
+            {
+                slug: "pemanasan-global-dan-dinamika-lingkungan",
+                title: "Pemanasan Global & Dinamika Lingkungan",
+                deskripsi: "Mekanisme efek rumah kaca alami dan antropogenik, emisi gas rumah kaca (CO2, CH4, N2O), jejak karbon, dinamika iklim global, fenomena cuaca ekstrem, mitigasi teknologi hijau, dan kesepakatan internasional.",
+                subbab: [
+                    { file: "efek-rumah-kaca-dan-keseimbangan-radiasi.html", title: "Efek Rumah Kaca & Keseimbangan Radiasi Termal Bumi" },
+                    { file: "gas-rumah-kaca-dan-jejak-karbon.html", title: "Gas Rumah Kaca (GRK), Emisi Karbon & Jejak Karbon Pribadi" },
+                    { file: "dampak-perubahan-iklim-global.html", title: "Dampak Perubahan Iklim Global: Anomali Cuaca & Kenaikan Muka Laut" },
+                    { file: "solusi-mitigasi-dan-adaptasi-iklim.html", title: "Solusi Rekayasa Mitigasi & Adaptasi Pemanasan Global" },
+                    { file: "kesepakatan-internasional-dan-net-zero.html", title: "Kesepakatan Iklim Global: Paris Agreement & Target Net Zero Emission" },
+                    { file: "analisis-data-dan-aksi-lingkungan.html", title: "Analisis Data Temperatur Global & Refleksi Aksi Nyata Lingkungan" }
+                ]
+            },
+            {
+                slug: "vektor-dan-dasar-kinematika",
+                title: "Vektor & Dasar Kinematika Gerak",
+                deskripsi: "Konsep besaran skalar dan vektor, representasi grafis, metode poligon dan jajaran genjang, penguraian komponen kartesius 2D/3D, dot product, cross product, serta analisis GLB dan GLBB satu dimensi.",
+                subbab: [
+                    { file: "konsep-skalar-dan-notasi-vektor.html", title: "Konsep Skalar vs Vektor & Representasi Geometris Vektor" },
+                    { file: "penjumlahan-dan-pengurangan-vektor.html", title: "Metode Grafis: Poligon, Jajaran Genjang & Pengurangan Vektor" },
+                    { file: "penguraian-vektor-dan-komponen-kartesius.html", title: "Penguraian Vektor pada Sumbu Kartesius (x, y) & Vektor Satuan" },
+                    { file: "perkalian-vektor-dot-dan-cross-product.html", title: "Perkalian Titik (Dot Product) & Perkalian Silang (Cross Product)" },
+                    { file: "kinematika-1d-glb-dan-glbb.html", title: "Posisi, Perpindahan, Kecepatan, Percepatan & Gerak Lurus (GLB / GLBB)" },
+                    { file: "latihan-pemecahan-masalah-vektor-kinematika.html", title: "Latihan Pemecahan Masalah Terpadu Vektor & Kinematika 1D" }
+                ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN Fisika)",
+                deskripsi: "Modul pengayaan tingkat tinggi untuk persiapan seleksi OSN-K & OSN-P Fisika Fase E: analisis dimensi Buckingham Pi, kinematika vektor kalkulus diferensial, gerak relatif Galilean, gerak proyektil miring, dan mekanika kompetisi.",
+                subbab: [
+                    { file: "analisis-dimensi-lanjut-dan-teorema-buckingham.html", title: "Analisis Dimensi Lanjut & Teorema Buckingham Pi" },
+                    { file: "kinematika-vektor-dengan-kalkulus.html", title: "Kinematika Vektor dengan Pendekatan Kalkulus Diferensial & Integral" },
+                    { file: "gerak-relatif-dan-transformasi-galilean.html", title: "Gerak Relatif 2D & Transformasi Koordinat Galilean" },
+                    { file: "gerak-proyektil-pada-bidang-miring.html", title: "Gerak Parabola Non-Standar: Bidang Miring & Efek Hambatan Udara" },
+                    { file: "pengantar-dinamika-partikel-kompetisi.html", title: "Dinamika Partikel Tingkat Kompetisi: Hukum Newton & Batasan Geometris" },
+                    { file: "bedah-soal-asli-dan-strategi-osnk-fisika-10.html", title: "Bedah Soal Asli & Strategi OSN-K Fisika Fase E" }
+                ]
+            }
+        ]
+    },
+    "fis-11": {
+        label: "Kelas XI",
+        mapelNama: "Fisika",
+        mapel: "fisika",
+        icon: "⚡",
+        pathPrefix: "/fisika/kelas-11",
+        bab: [
+            {
+                slug: "kinematika-gerak-lanjutan",
+                title: "Kinematika Gerak 2D & 3D",
+                deskripsi: "Gerak parabola, gerak melingkar beraturan (GMB) dan berubah beraturan (GMBB), percepatan sentripetal, serta kecepatan sudut dan linear.",
+                subbab: [
+                    { file: "analisis-vektor-posisi-kecepatan-percepatan.html", title: "Analisis Vektor Posisi, Kecepatan & Percepatan 2D" },
+                    { file: "gerak-parabola-dan-lintasan-peluru.html", title: "Karakteristik Gerak Parabola, Titik Tertinggi & Jangkauan Maksimum" },
+                    { file: "gerak-melingkar-beraturan-dan-berubah-beraturan.html", title: "Gerak Melingkar Beraturan (GMB) & Dinamika Sudut GMBB" },
+                    { file: "percepatan-tangensial-dan-sentripetal.html", title: "Percepatan Sentripetal, Tangensial & Percepatan Total" },
+                    { file: "hubungan-roda-roda-dan-transmisi-gerak.html", title: "Hubungan Roda-Roda Sepusat, Bersinggungan & Dihubungkan Rantai" },
+                    { file: "latihan-pemecahan-masalah-kinematika-2d.html", title: "Latihan Pemecahan Masalah Kinematika Gerak Dua Dimensi" }
+                ]
+            },
+            {
+                slug: "dinamika-partikel-dan-hukum-newton",
+                title: "Dinamika Partikel & Hukum Newton",
+                deskripsi: "Hukum I, II, dan III Newton tentang gerak, diagram benda bebas (FBD), gaya kontak, gaya normal, gaya gesekan statis/kinetis, dan sistem katrol.",
+                subbab: [
+                    { file: "hukum-newton-dan-diagram-benda-bebas.html", title: "Hukum-Hukum Newton tentang Gerak & Teknik Diagram Benda Bebas" },
+                    { file: "analisis-gaya-gesekan-statis-dan-kinetis.html", title: "Analisis Gaya Gesekan Kering: Koefisien Statis & Kinetis" },
+                    { file: "dinamika-pada-bidang-miring-dan-sistem-terhubung.html", title: "Gerak Benda pada Bidang Miring Kasar & Rangkaian Terhubung" },
+                    { file: "sistem-katrol-dan-tegangan-tali.html", title: "Dinamika Sistem Katrol Majemuk & Analisis Tegangan Tali" },
+                    { file: "gaya-sentripetal-pada-tikungan-dan-loop.html", title: "Aplikasi Gaya Sentripetal: Tikungan Jalan Miring & Ayunan Konis" },
+                    { file: "latihan-pemecahan-masalah-dinamika-newton.html", title: "Latihan Pemecahan Masalah Dinamika Partikel HOTS" }
+                ]
+            },
+            {
+                slug: "gravitasi-universal-dan-hukum-kepler",
+                title: "Gravitasi Universal & Hukum Kepler",
+                deskripsi: "Hukum gravitasi universal Newton, medan gravitasi, energi potensial gravitasi, kecepatan orbit, kecepatan lepas, serta Hukum I, II, dan III Kepler.",
+                subbab: [
+                    { file: "hukum-gravitasi-newton-dan-medan-gravitasi.html", title: "Hukum Gravitasi Universal Newton & Kuat Medan Gravitasi" },
+                    { file: "energi-potensial-dan-potensial-gravitasi.html", title: "Energi Potensial Gravitasi Universal & Potensial Gravitasi" },
+                    { file: "kecepatan-orbit-dan-kecepatan-lepas.html", title: "Kecepatan Satelit Mengorbit Bumi & Kecepatan Lepas (Escape Velocity)" },
+                    { file: "hukum-kepler-tentang-gerak-planet.html", title: "Hukum I, II, dan III Kepler tentang Orbit Gerak Tata Surya" },
+                    { file: "aplikasi-satelit-geostasioner-dan-orbit-rendah.html", title: "Aplikasi Satelit Geostasioner, LEO & Dinamika Wahana Antariksa" },
+                    { file: "latihan-pemecahan-masalah-gravitasi.html", title: "Latihan Pemecahan Masalah Gravitasi Universal & Kepler" }
+                ]
+            },
+            {
+                slug: "usaha-energi-dan-daya",
+                title: "Usaha, Energi & Daya",
+                deskripsi: "Konsep usaha sebagai perkalian skalar, teorema usaha-energi kinetik, gaya konservatif vs non-konservatif, hukum kekekalan energi mekanik, dan daya.",
+                subbab: [
+                    { file: "konsep-usaha-dan-perkalian-skalar.html", title: "Konsep Usaha oleh Gaya Konstan & Gaya Berubah secara Integral" },
+                    { file: "teorema-usaha-energi-kinetik.html", title: "Teorema Usaha-Energi Kinetik & Perubahan Laju Benda" },
+                    { file: "gaya-konservatif-dan-energi-potensial.html", title: "Gaya Konservatif, Gaya Non-Konservatif & Kurva Energi Potensial" },
+                    { file: "hukum-kekekalan-energi-mekanik-komprehensif.html", title: "Hukum Kekekalan Energi Mekanik pada Sistem Pegas & Gravitasi" },
+                    { file: "konsep-daya-dan-efisiensi-mesin.html", title: "Konsep Daya Rata-Rata, Daya Sesaat & Efisiensi Mekanis" },
+                    { file: "latihan-pemecahan-masalah-usaha-energi.html", title: "Latihan Pemecahan Masalah Usaha, Energi & Daya" }
+                ]
+            },
+            {
+                slug: "momentum-impuls-dan-tumbukan",
+                title: "Momentum, Impuls & Tumbukan",
+                deskripsi: "Momentum linear, impuls gaya, hukum kekekalan momentum linear, jenis tumbukan (lenting sempurna, sebagian, tidak lenting), dan konsep pusat massa.",
+                subbab: [
+                    { file: "konsep-momentum-dan-teorema-impuls.html", title: "Konsep Momentum Linear & Teorema Impuls-Momentum" },
+                    { file: "hukum-kekekalan-momentum-linear.html", title: "Hukum Kekekalan Momentum Linear pada Sistem Terisolasi" },
+                    { file: "tumbukan-lenting-dan-koefisien-restitusi.html", title: "Klasifikasi Tumbukan 1D & Nilai Koefisien Restitusi (e)" },
+                    { file: "tumbukan-dua-dimensi-dan-sudut-hamburan.html", title: "Analisis Tumbukan Dua Dimensi (2D) & Sudut Hamburan" },
+                    { file: "konsep-pusat-massa-dan-gerak-roket.html", title: "Pusat Massa Sistem Benda Banyak & Prinsip Pendorong Roket" },
+                    { file: "latihan-pemecahan-masalah-momentum-tumbukan.html", title: "Latihan Pemecahan Masalah Momentum, Impuls & Tumbukan" }
+                ]
+            },
+            {
+                slug: "dinamika-rotasi-dan-kesetimbangan-tegar",
+                title: "Dinamika Rotasi & Kesetimbangan Benda Tegar",
+                deskripsi: "Torsi/momen gaya, momen inersia berbagai benda pejal, hukum II Newton untuk rotasi, kekekalan momentum sudut, menggelinding murni, dan kesetimbangan statik.",
+                subbab: [
+                    { file: "torsi-dan-hukum-ii-newton-rotasi.html", title: "Momen Gaya (Torsi) & Formulasi Hukum II Newton untuk Rotasi" },
+                    { file: "momen-inersia-dan-teorema-sumbu-sejajar.html", title: "Momen Inersia Berbagai Benda Pejal & Teorema Sumbu Sejajar" },
+                    { file: "dinamika-menggelinding-murni.html", title: "Kinematika & Dinamika Gerak Menggelinding Murni pada Bidang Miring" },
+                    { file: "kekekalan-momentum-sudut.html", title: "Hukum Kekekalan Momentum Sudut & Efek Giroskopik" },
+                    { file: "syarat-kesetimbangan-benda-tegar.html", title: "Syarat Kesetimbangan Statis Translasi dan Rotasi Benda Tegar" },
+                    { file: "latihan-pemecahan-masalah-dinamika-rotasi.html", title: "Latihan Pemecahan Masalah Dinamika Rotasi & Kesetimbangan" }
+                ]
+            },
+            {
+                slug: "elastisitas-dan-getaran-harmonis",
+                title: "Elastisitas & Getaran Harmonis",
+                deskripsi: "Tegangan, regangan, modulus Young, hukum Hooke, energi potensial pegas, getaran harmonik sederhana (GHS), periode pegas dan ayunan sederhana.",
+                subbab: [
+                    { file: "tegangan-regangan-dan-modulus-young.html", title: "Tegangan, Regangan, Deformasi Bahan & Modulus Young" },
+                    { file: "hukum-hooke-dan-susunan-pegas.html", title: "Hukum Hooke, Rangkaian Pegas Seri-Paralel & Energi Elastis" },
+                    { file: "persamaan-gerak-harmonis-sederhana.html", title: "Kinematika Getaran Harmonis: Posisi, Kecepatan & Percepatan GHS" },
+                    { file: "periode-dan-frekuensi-osilasi.html", title: "Periode dan Frekuensi Osilasi Sistem Pegas & Bandul Sederhana" },
+                    { file: "analisis-energi-pada-gerak-harmonis.html", title: "Kekekalan Energi Mekanik pada Osilasi Harmonik Sederhana" },
+                    { file: "latihan-pemecahan-masalah-osilasi.html", title: "Latihan Pemecahan Masalah Elastisitas & Getaran Harmonis" }
+                ]
+            },
+            {
+                slug: "mekanika-fluida-statis-dan-dinamis",
+                title: "Mekanika Fluida: Statis & Dinamis",
+                deskripsi: "Tekanan hidrostatis, hukum Pascal, hukum Archimedes, tegangan permukaan, viskositas, persamaan kontinuitas, hukum Bernoulli, dan terapannya.",
+                subbab: [
+                    { file: "tekanan-hidrostatis-dan-hukum-pascal.html", title: "Tekanan Hidrostatis, Paradoks Hidrostatis & Hukum Pascal" },
+                    { file: "hukum-archimedes-dan-gaya-apung.html", title: "Hukum Archimedes, Gaya Apung, Kondisi Terapung, Melayang & Tenggelam" },
+                    { file: "tegangan-permukaan-kapilaritas-viskositas.html", title: "Tegangan Permukaan, Meniskus, Kapilaritas & Viskositas Fluida" },
+                    { file: "persamaan-kontinuitas-debit-fluida.html", title: "Fluida Ideal, Garis Arus & Persamaan Kontinuitas Aliran" },
+                    { file: "hukum-bernoulli-dan-penerapannya.html", title: "Persamaan Bernoulli, Venturimeter, Tabung Pitot & Gaya Angkat Pesawat" },
+                    { file: "latihan-pemecahan-masalah-mekanika-fluida.html", title: "Latihan Pemecahan Masalah Mekanika Fluida Statis & Dinamis" }
+                ]
+            },
+            {
+                slug: "termodinamika-dan-teori-kinetik-gas",
+                title: "Termodinamika & Teori Kinetik Gas",
+                deskripsi: "Konsep suhu dan kalor, asas Black, persamaan gas ideal, energi kinetik partikel gas, hukum ke-0, I, dan II termodinamika, siklus Carnot, dan efisiensi.",
+                subbab: [
+                    { file: "suhu-pemuaian-dan-asas-black.html", title: "Suhu, Kalor, Pemuaian Termal & Asas Black Perpindahan Kalor" },
+                    { file: "persamaan-keadaan-gas-ideal.html", title: "Persamaan Keadaan Gas Ideal (Boyle, Charles, Gay-Lussac)" },
+                    { file: "teori-kinetik-gas-dan-ekipartisi-energi.html", title: "Tekanan Gas Mikroskopis, Kelajuan RMS & Teorema Ekipartisi Energi" },
+                    { file: "hukum-pertama-termodinamika-dan-proses-gas.html", title: "Hukum I Termodinamika: Usaha pada Proses Isotermal, Isokhorik, Isobarik & Adiabatik" },
+                    { file: "hukum-kedua-termodinamika-dan-siklus-carnot.html", title: "Hukum II Termodinamika, Siklus Mesin Kalor Carnot & Mesin Pendingin" },
+                    { file: "latihan-pemecahan-masalah-termodinamika.html", title: "Latihan Pemecahan Masalah Termodinamika & Gas Ideal" }
+                ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN Fisika)",
+                deskripsi: "Materi tingkat lanjut OSN Fisika Kelas XI: pengantar formulasi Lagrangian, osilasi teredam & terpaksa resonansi, dinamika dua benda berputar, fluida viskos Navier-Stokes sederhana, dan pemodelan gas riil Van der Waals.",
+                subbab: [
+                    { file: "mekanika-analitik-pengantar-lagrangian.html", title: "Pengantar Mekanika Analitik: Formulasi Energi Lagrangian Sederhana" },
+                    { file: "osilasi-harmonis-teredam-dan-terpaksa.html", title: "Osilasi Teredam, Osilasi Terpaksa & Resonansi Mekanik Amplitudo" },
+                    { file: "masalah-dua-benda-dan-massa-tereduksi.html", title: "Masalah Dua Benda (Two-Body Problem) & Konsep Massa Tereduksi" },
+                    { file: "tumbukan-2d-dalam-kerangka-pusat-massa.html", title: "Analisis Tumbukan 2D Menggunakan Kerangka Pusat Massa (Center of Mass Frame)" },
+                    { file: "persamaan-gas-riil-van-der-waals.html", title: "Termodinamika Gas Riil: Persamaan Keadaan Van der Waals & Gas Non-Ideal" },
+                    { file: "bedah-soal-asli-dan-strategi-osnk-fisika-11.html", title: "Bedah Soal Asli & Strategi OSN-K Fisika Kelas XI" }
+                ]
+            }
+        ]
+    },
+    "fis-12": {
+        label: "Kelas XII",
+        mapelNama: "Fisika",
+        mapel: "fisika",
+        icon: "⚡",
+        pathPrefix: "/fisika/kelas-12",
+        bab: [
+            {
+                slug: "gelombang-mekanik-dan-bunyi",
+                title: "Gelombang Mekanik & Bunyi",
+                deskripsi: "Persamaan umum gelombang berjalan dan stasioner, superposisi gelombang, resonansi bunyi pada dawai dan pipa organa, intensitas dan taraf intensitas, serta efek Doppler.",
+                subbab: [
+                    { file: "karakteristik-dan-persamaan-gelombang-berjalan.html", title: "Karakteristik & Formulasi Persamaan Gelombang Berjalan" },
+                    { file: "gelombang-stasioner-ujung-terikat-dan-bebas.html", title: "Gelombang Stasioner: Simpul & Perut pada Ujung Bebas dan Terikat" },
+                    { file: "gelombang-bunyi-cepat-rambat-dan-resonansi.html", title: "Cepat Rambat Gelombang Bunyi, Resonansi Dawai & Pipa Organa" },
+                    { file: "intensitas-dan-taraf-intensitas-bunyi.html", title: "Intensitas, Taraf Intensitas Bunyi (Desibel) & Sumber Bunyi Jamak" },
+                    { file: "efek-doppler-dan-pelayangan-bunyi.html", title: "Efek Doppler dengan Medium Bergerak & Fenomena Pelayangan Gelombang" },
+                    { file: "latihan-pemecahan-masalah-gelombang-bunyi.html", title: "Latihan Pemecahan Masalah Gelombang Mekanik & Akustika" }
+                ]
+            },
+            {
+                slug: "gelombang-cahaya-dan-optika-fisis",
+                title: "Gelombang Cahaya & Optika Fisis",
+                deskripsi: "Interferensi celah ganda Young, interferensi lapisan tipis, difraksi celah tunggal dan kisi difraksi, daya urai Rayleigh, serta polarisasi cahaya (hukum Brewster dan Malus).",
+                subbab: [
+                    { file: "interferensi-cahaya-celah-ganda-young.html", title: "Interferensi Celah Ganda Thomas Young: Pola Terang & Gelap" },
+                    { file: "interferensi-selaput-tipis-dan-cincin-newton.html", title: "Interferensi Selaput Tipis & Cincin Newton (Pergeseran Fasa)" },
+                    { file: "difraksi-celah-tunggal-dan-kisi-difraksi.html", title: "Difraksi Celah Tunggal Fraunhofer & Kisi Difraksi Resolusi Tinggi" },
+                    { file: "daya-urai-optik-dan-kriteria-rayleigh.html", title: "Kriteria Rayleigh & Daya Urai Instrumen Optik Teleskop/Mikroskop" },
+                    { file: "polarisasi-cahaya-dan-hukum-malus-brewster.html", title: "Polarisasi Cahaya: Absorpsi Selektif, Hukum Malus & Sudut Brewster" },
+                    { file: "latihan-pemecahan-masalah-optika-fisis.html", title: "Latihan Pemecahan Masalah Gelombang Cahaya & Optika Fisis" }
+                ]
+            },
+            {
+                slug: "listrik-statis-dan-kapasitor",
+                title: "Listrik Statis & Kapasitor",
+                deskripsi: "Hukum Coulomb, kuat medan listrik, hukum Gauss, potensial dan energi potensial listrik, kapasitansi kapasitor keping sejajar, rangkaian kapasitor seri-paralel, dan bahan dielektrik.",
+                subbab: [
+                    { file: "hukum-coulomb-dan-interaksi-muatan.html", title: "Hukum Coulomb, Gaya Elektrostatik & Prinsip Superposisi Muatan" },
+                    { file: "kuat-medan-listrik-dan-hukum-gauss.html", title: "Kuat Medan Listrik, Garis Gaya & Hukum Gauss untuk Bidang Simetris" },
+                    { file: "potensial-dan-energi-potensial-listrik.html", title: "Potensial Listrik Skalar & Energi Potensial Sistem Muatan Jamak" },
+                    { file: "kapasitansi-kapasitor-keping-sejajar.html", title: "Kapasitansi Kapasitor Keping Sejajar & Pengaruh Bahan Dielektrik" },
+                    { file: "susunan-kapasitor-dan-penyimpanan-energi.html", title: "Rangkaian Kapasitor Seri-Paralel & Rapat Energi Elektrostatik" },
+                    { file: "latihan-pemecahan-masalah-listrik-statis.html", title: "Latihan Pemecahan Masalah Elektrostatika & Kapasitor" }
+                ]
+            },
+            {
+                slug: "listrik-arus-searah-dc",
+                title: "Listrik Arus Searah (DC)",
+                deskripsi: "Arus listrik, hambatan dan hukum Ohm, resistivitas bergantung suhu, rangkaian resistor seri-paralel, hukum I dan II Kirchhoff pada rangkaian multi-loop, jembatan Wheatstone, dan daya listrik.",
+                subbab: [
+                    { file: "arus-listrik-hukum-ohm-dan-resistivitas.html", title: "Arus Listrik Mikroskopis, Hukum Ohm & Resistivitas Bergantung Suhu" },
+                    { file: "rangkaian-resistor-dan-gaya-gerak-listrik.html", title: "Rangkaian Hambatan Seri-Paralel, GGL & Hambatan Dalam Baterai" },
+                    { file: "hukum-kirchhoff-pada-rangkaian-multiloop.html", title: "Hukum I & II Kirchhoff: Solusi Sistematis Rangkaian Majemuk Multiloop" },
+                    { file: "jembatan-wheatstone-dan-potensiometer.html", title: "Metode Jembatan Wheatstone & Potensiometer Pengukuran Presisi" },
+                    { file: "energi-daya-listrik-dan-transmisi-daya.html", title: "Energi Listrik Joule, Daya Listrik & Efisiensi Transmisi Arus DC" },
+                    { file: "latihan-pemecahan-masalah-listrik-dc.html", title: "Latihan Pemecahan Masalah Listrik Arus Searah DC HOTS" }
+                ]
+            },
+            {
+                slug: "medan-magnet-dan-induksi-elektromagnetik",
+                title: "Medan Magnet & Induksi Elektromagnetik",
+                deskripsi: "Medan magnetik kawat berarus (Biot-Savart dan hukum Ampere), gaya Lorentz pada muatan dan kawat berarus, fluks magnetik, hukum Faraday dan hukum Lenz, induktansi diri, dan transformator.",
+                subbab: [
+                    { file: "medan-magnet-di-sekitar-kawat-berarus.html", title: "Hukum Biot-Savart & Hukum Ampere: Medan Magnet Kawat Lurus, Lingkaran & Solenoida" },
+                    { file: "gaya-lorentz-pada-muatan-dan-kawat.html", title: "Gaya Lorentz pada Partikel Bermuatan Bergerak & Kawat Berarus Sejajar" },
+                    { file: "hukum-faraday-dan-hukum-lenz-induksi.html", title: "Fluks Magnetik, Formulasi Hukum Induksi Faraday & Arah Arus Lenz" },
+                    { file: "ggl-induksi-kawat-bergerak-dan-generator.html", title: "GGL Induksi Kawat Konduktor Memotong Medan Magnet & Prinsip Generator" },
+                    { file: "induktansi-diri-dan-transformator.html", title: "Induktansi Diri Solenoida, Energi Medan Magnet & Transformator Listrik" },
+                    { file: "latihan-pemecahan-masalah-elektromagnetik.html", title: "Latihan Pemecahan Masalah Kemagnetan & Induksi Elektromagnetik" }
+                ]
+            },
+            {
+                slug: "rangkaian-arus-bolak-balik-ac",
+                title: "Rangkaian Arus Bolak-Balik (AC)",
+                deskripsi: "Tegangan dan arus sinusoidal, nilai efektif dan maksimum, reaktansi induktif dan kapasitif, impedansi rangkaian RLC seri, diagram fasor, resonansi rangkaian AC, dan faktor daya.",
+                subbab: [
+                    { file: "tegangan-arus-sinusoidal-dan-nilai-efektif.html", title: "Tegangan & Arus Sinusoidal: Nilai Puncak, Efektif (RMS) & Rata-Rata" },
+                    { file: "rangkaian-resistor-induktor-kapasitor-murni.html", title: "Respon AC pada Resistor, Induktor Murni (XL) & Kapasitor Murni (XC)" },
+                    { file: "rangkaian-rlc-seri-dan-impedansi.html", title: "Rangkaian RLC Seri, Formulasi Impedansi Total (Z) & Sudut Fase" },
+                    { file: "diagram-fasor-dan-analisis-daya-ac.html", title: "Representasi Diagram Fasor & Segitiga Daya: Daya Nyata, Semu & Faktor Daya" },
+                    { file: "resonansi-rangkaian-rlc-dan-penala.html", title: "Kondisi Resonansi RLC Seri, Frekuensi Resonansi & Rangkaian Penala Radio" },
+                    { file: "latihan-pemecahan-masalah-rangkaian-ac.html", title: "Latihan Pemecahan Masalah Rangkaian Arus Bolak-Balik AC" }
+                ]
+            },
+            {
+                slug: "gelombang-elektromagnetik-dan-relativitas",
+                title: "Gelombang Elektromagnetik & Relativitas Khusus",
+                deskripsi: "Spektrum gelombang elektromagnetik, energi gelombang elektromagnetik (vektor Poynting), postulat relativitas khusus Einstein, dilatasi waktu, kontraksi panjang, dan kesetaraan massa-energi E=mc².",
+                subbab: [
+                    { file: "spektrum-gelombang-elektromagnetik-dan-energi.html", title: "Spektrum Gelombang Elektromagnetik & Rapat Energi Vektor Poynting" },
+                    { file: "postulat-relativitas-khusus-einstein.html", title: "Percobaan Michelson-Morley & Dua Postulat Relativitas Khusus Einstein" },
+                    { file: "dilatasi-waktu-dan-paradoks-kembar.html", title: "Relativitas Waktu (Dilatasi Waktu) & Analisis Paradoks Kembar" },
+                    { file: "kontraksi-panjang-dan-relativitas-kecepatan.html", title: "Kontraksi Panjang Lorentz & Penjumlahan Kecepatan Relativistik" },
+                    { file: "massa-momentum-dan-energi-relativistik.html", title: "Massa Relativistik, Momentum Relativistik & Kesetaraan Massa-Energi (E=mc²)" },
+                    { file: "latihan-pemecahan-masalah-relativitas.html", title: "Latihan Pemecahan Masalah Relativitas Khusus HOTS" }
+                ]
+            },
+            {
+                slug: "fisika-kuantum-dan-fisika-inti",
+                title: "Fisika Kuantum & Fisika Inti",
+                deskripsi: "Radiasi benda hitam Planck, efek fotolistrik Einstein, hamburan Compton, panjang gelombang de Broglie, struktur inti atom, defek massa, energi ikat inti, peluruhan radioaktif, dan reaksi fisi-fusi nuklir.",
+                subbab: [
+                    { file: "radiasi-benda-hitam-dan-kuantum-planck.html", title: "Radiasi Benda Hitam, Hukum Pergeseran Wien & Hipotesis Kuantum Planck" },
+                    { file: "efek-fotolistrik-dan-hamburan-compton.html", title: "Efek Fotolistrik Einstein & Hamburan Foton Compton (Sifat Partikel Cahaya)" },
+                    { file: "dualitas-gelombang-partikel-de-broglie.html", title: "Hipotesis Gelombang Materi Louis de Broglie & Ketidakpastian Heisenberg" },
+                    { file: "struktur-inti-defek-massa-energi-ikat.html", title: "Karakteristik Inti Atom, Defek Massa & Energi Ikat per Nukleon" },
+                    { file: "radioaktivitas-dan-hukum-peluruhan.html", title: "Sinar Radioaktif (Alfa, Beta, Gamma), Waktu Paruh & Aktivitas Radiasi" },
+                    { file: "reaksi-inti-fisi-fusi-dan-teknologi-nuklir.html", title: "Reaksi Fisi Terkendali, Fusi Termonuklir & Pemanfaatan Radioisotop" }
+                ]
+            },
+            {
+                slug: "pengayaan-olimpiade",
+                title: "Pengayaan Olimpiade Sains (OSN Fisika)",
+                deskripsi: "Materi tingkat tinggi OSN Fisika Kelas XII: elektrodinamika analitik, sirkuit transien induktif-kapasitif non-linier, persamaan Maxwell diferensial dasar, optika matriks, dan mekanika relativistik 4-vektor.",
+                subbab: [
+                    { file: "analisis-transien-rangkaian-rc-dan-rl.html", title: "Solusi Persamaan Diferensial Transien Rangkaian RC & RL DC" },
+                    { file: "hukum-gauss-dan-ampere-bentuk-diferensial.html", title: "Pengantar Kalkulus Vektor Medan: Bentuk Diferensial Hukum Gauss & Ampere" },
+                    { file: "optika-matriks-dan-metode-fermat.html", title: "Prinsip Waktu Terpendek Fermat & Pengantar Optika Matriks Transfer" },
+                    { file: "mekanika-relativistik-4-vektor.html", title: "Formulasi Momentum-Energi 4-Vektor dalam Tumbukan Partikel Berkecepatan Tinggi" },
+                    { file: "elektrodinamika-dan-radiasi-dipol.html", title: "Induksi Medan Elektromagnetik Lanjut & Polarisabilitas Dielektrik" },
+                    { file: "bedah-soal-asli-dan-strategi-osnk-fisika-12.html", title: "Bedah Soal Asli & Strategi OSN-K Fisika Kelas XII" }
+                ]
+            }
+        ]
+    }
 
+};
 // Modul di luar struktur Kelas/Bab (tampil sebagai menu terpisah di header)
 const modulLain = [
     { slug: "sas-x",         title: "SAS Kimia X",     path: "/kelas-10/ujian-sas-ganjil.html", icon: "🧪", status: "aktif", desc: "Kisi-kisi resmi, bedah 20 butir soal & simulasi CBT SAS Ganjil Kimia Kelas X T.P. 2026/2027.", action: "Buka kisi-kisi & CBT" },

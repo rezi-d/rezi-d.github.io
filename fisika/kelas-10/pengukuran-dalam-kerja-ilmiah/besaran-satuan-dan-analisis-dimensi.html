@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. Besaran Pokok, Besaran Turunan, Satuan SI & Analisis Dimensi — Fisika Kelas X SMA — AjarKita</title>
+    <meta name="description" content="Modul Fisika Kelas X Bab 1 Sub-Materi 2: Besaran pokok SI, besaran turunan, dimensi fisika, prinsip homogenitas dimensi, dan metode penurunan rumus.">
+    <meta name="robots" content="index, follow">
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+
+    <!-- FONT & TAILWIND -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- KATEX (Render Formula Fisika Presisi) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="fisika" data-kelas="fis-10" data-bab="pengukuran-dalam-kerja-ilmiah">
+
+    <!-- HEADER (dimuat otomatis oleh include.js) -->
+    <div id="header-placeholder"></div>
+
+    <!-- WRAPPER UTAMA -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- BREADCRUMBS -->
+        <nav class="flex items-center gap-2 text-xs text-slate-500 mb-6 font-medium" aria-label="Breadcrumb">
+            <a href="/index.html" class="hover:text-slate-900 transition-colors">Beranda</a>
+            <span>/</span>
+            <a href="/fisika/index.html" class="hover:text-slate-900 transition-colors">Fisika</a>
+            <span>/</span>
+            <a href="/fisika/kelas-10/index.html" class="hover:text-slate-900 transition-colors">Kelas X</a>
+            <span>/</span>
+            <span class="text-slate-900 font-semibold">Bab 1: Sub-Materi 2</span>
+        </nav>
+
+        <!-- HERO CARD & REFERENSI INTERNASIONAL -->
+        <header class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] mb-8">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200/60">
+                    <span>⚡</span> Bab 1: Pengukuran dalam Kerja Ilmiah
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                    Sub-Materi 2 dari 6
+                </span>
+            </div>
+
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+                2. Besaran Pokok, Besaran Turunan, Satuan SI &amp; Analisis Dimensi
+            </h1>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                Memahami sistem 7 besaran pokok Sistem Internasional (SI), menurunkan besaran turunan, menguji konsistensi fisis dengan prinsip homogenitas dimensi, serta menurunkan relasi fisika baru melalui analisis dimensi.
+            </p>
+
+            <!-- KOTAK REFERENSI BUKU INTERNASIONAL -->
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-50/80 via-orange-50/50 to-slate-50 border border-amber-200/70 text-xs text-amber-950 space-y-2">
+                <div class="flex items-center gap-2 font-bold text-amber-900 text-xs">
+                    <span>📘</span> Referensi Buku Teks Internasional &amp; Pustaka Fisika:
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-700 pl-1">
+                    <li><strong>Halliday, Resnick, &amp; Walker</strong> — <em>Fundamentals of Physics (Extended 11th Ed.)</em>, Section 1.1: <em>The International System of Units &amp; Changing Units</em>.</li>
+                    <li><strong>David Morin</strong> — <em>Introduction to Classical Mechanics</em>, Appendix A: <em>Dimensional Analysis &amp; Buckingham Pi Theorem</em>.</li>
+                    <li><strong>I.E. Irodov</strong> — <em>Problems in General Physics</em>, Ch. 1: <em>Physical Fundamentals of Mechanics</em>.</li>
+                </ul>
+                <div class="pt-1.5 border-t border-amber-200/50 flex items-start gap-2 text-[11px] text-amber-800">
+                    <span class="shrink-0 font-bold">💡 Catatan Analisis Dimensi:</span>
+                    <span>Analisis dimensi adalah "alat filter" tercepat untuk menguji keabsahan rumus fisika. Jika dimensi ruas kiri tidak sama dengan dimensi ruas kanan ($[LHS] \ne [RHS]$), maka persamaan tersebut PASTI salah tanpa perlu menghitung angka!</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- STICKY TOP SLIDER CONTROLLER -->
+        <nav class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-sm rounded-2xl p-2.5 mb-8 flex items-center justify-between gap-2" aria-label="Navigasi Slide">
+            <button id="slider-btn-prev" class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+                &larr; Prev
+            </button>
+            <div class="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-1" id="slider-dots">
+                <!-- Dots dirender oleh include.js / slider handler -->
+            </div>
+            <div class="flex items-center gap-2">
+                <span id="slider-counter" class="text-xs font-mono font-semibold text-slate-500">1/5</span>
+                <button id="slider-btn-next" class="px-3.5 py-1.5 rounded-xl bg-amber-600 text-white text-xs font-semibold hover:bg-amber-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xs">
+                    Next &rarr;
+                </button>
+            </div>
+        </nav>
+
+        <!-- SLIDER CONTAINER (5 SLIDES) -->
+        <div id="ielts-slider-container" data-accent="amber" class="space-y-6">
+
+            <!-- SLIDE 1: 7 BESARAN POKOK SI -->
+            <section id="slide-1" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">1</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Tujuh Besaran Pokok Sistem Internasional (SI) &amp; Dimensinya
+                        </h2>
+                    </div>
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Standar BIPM</span>
+                </div>
+
+                <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                    Besaran pokok adalah besaran yang satuannya telah didefinisikan secara khusus melalui konsensus internasional (BIPM / <em>Bureau International des Poids et Mesures</em>) dan tidak diturunkan dari besaran lain. Dimensi menunjukkan cara suatu besaran tersusun dari besaran-besaran pokok:
+                </p>
+
+                <!-- TABEL 7 BESARAN POKOK -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-800 font-bold">
+                                <th class="p-2.5 border-b border-slate-200 rounded-tl-xl">Besaran Pokok</th>
+                                <th class="p-2.5 border-b border-slate-200">Satuan SI</th>
+                                <th class="p-2.5 border-b border-slate-200">Simbol Satuan</th>
+                                <th class="p-2.5 border-b border-slate-200">Lambang Dimensi</th>
+                                <th class="p-2.5 border-b border-slate-200 rounded-tr-xl">Alat Ukur Utama</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-700 font-mono">
+                            <tr>
+                                <td class="p-2.5 font-bold font-sans text-slate-900">Panjang (*Length*)</td>
+                                <td class="p-2.5 font-sans">meter</td>
+                                <td class="p-2.5">$\text{m}$</td>
+                                <td class="p-2.5 font-bold text-amber-700">$[\text{L}]$</td>
+                                <td class="p-2.5 font-sans">Mistar, Jangka Sorong, Mikrometer</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 font-bold font-sans text-slate-900">Massa (*Mass*)</td>
+                                <td class="p-2.5 font-sans">kilogram</td>
+                                <td class="p-2.5">$\text{kg}$</td>
+                                <td class="p-2.5 font-bold text-amber-700">$[\text{M}]$</td>
+                                <td class="p-2.5 font-sans">Neraca Ohaus, Neraca Analitis</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 font-bold font-sans text-slate-900">Waktu (*Time*)</td>
+                                <td class="p-2.5 font-sans">sekon</td>
+                                <td class="p-2.5">$\text{s}$</td>
+                                <td class="p-2.5 font-bold text-amber-700">$[\text{T}]$</td>
+                                <td class="p-2.5 font-sans">Stopwatch, Jam Atom Cesium</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 font-bold font-sans text-slate-900">Kuat Arus Listrik (*Current*)</td>
+                                <td class="p-2.5 font-sans">ampere</td>
+                                <td class="p-2.5">$\text{A}$</td>
+                                <td class="p-2.5 font-bold text-amber-700">$[\text{I}]$</td>
+                                <td class="p-2.5 font-sans">Amperemeter, Multimeter Digital</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 font-bold font-sans text-slate-900">Suhu Termodinamika (*Temperature*)</td>
+                                <td class="p-2.5 font-sans">kelvin</td>
+                                <td class="p-2.5">$\text{K}$</td>
+                                <td class="p-2.5 font-bold text-amber-700">$[\theta]$</td>
+                                <td class="p-2.5 font-sans">Termometer, Pirometer Optik</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 font-bold font-sans text-slate-900">Jumlah Zat (*Amount of Substance*)</td>
+                                <td class="p-2.5 font-sans">mol</td>
+                                <td class="p-2.5">$\text{mol}$</td>
+                                <td class="p-2.5 font-bold text-amber-700">$[\text{N}]$</td>
+                                <td class="p-2.5 font-sans">Pengukuran tidak langsung via massa molar</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2.5 font-bold font-sans text-slate-900">Intensitas Cahaya (*Luminous Intensity*)</td>
+                                <td class="p-2.5 font-sans">kandela</td>
+                                <td class="p-2.5">$\text{cd}$</td>
+                                <td class="p-2.5 font-bold text-amber-700">$[\text{J}]$</td>
+                                <td class="p-2.5 font-sans">Luxmeter, Fotometer</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+                    <strong class="text-slate-900 block mb-1">Catatan Sudut Tambahan:</strong>
+                    Sudut datar (satuan <strong>radian</strong>, $\text{rad}$) dan sudut ruang (satuan <strong>steradian</strong>, $\text{sr}$) adalah besaran tambahan yang berdimensi satu / tidak berdimensi ($[\text{dimensi}] = 1$).
+                </div>
+            </section>
+
+            <!-- SLIDE 2: BESARAN TURUNAN & DERIVASI DIMENSI -->
+            <section id="slide-2" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">2</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Besaran Turunan &amp; Teknik Penentuan Dimensi
+                        </h2>
+                    </div>
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Derivasi Fisis</span>
+                </div>
+
+                <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                    Besaran turunan adalah besaran yang diturunkan dari satu atau lebih besaran pokok melalui perkalian dan pembagian. Untuk menentukan dimensi suatu besaran, uraikan besaran tersebut ke dalam rumus definisi dasarnya:
+                </p>
+
+                <!-- CONTOH-CONTOH PENENTUAN DIMENSI -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <strong class="text-amber-800 text-sm block">1. Gaya ($F$)</strong>
+                        <p class="text-slate-600">Rumus: $F = m \cdot a = \text{massa} \times \frac{\Delta v}{\Delta t}$</p>
+                        <p class="font-mono bg-white p-2 rounded-xl border border-slate-200">
+                            $[F] = [\text{M}] \times \frac{[\text{L}]}{[\text{T}]^2} = \mathbf{[\text{M}][\text{L}][\text{T}]^{-2}}$
+                        </p>
+                        <p class="text-[11px] text-slate-500">Satuan SI: $\text{kg}\cdot\text{m}\cdot\text{s}^{-2} = \text{Newton (N)}$</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <strong class="text-amber-800 text-sm block">2. Usaha &amp; Energi ($W, E$)</strong>
+                        <p class="text-slate-600">Rumus: $W = F \cdot s = \text{gaya} \times \text{perpindahan}$</p>
+                        <p class="font-mono bg-white p-2 rounded-xl border border-slate-200">
+                            $[W] = [\text{M}][\text{L}][\text{T}]^{-2} \times [\text{L}] = \mathbf{[\text{M}][\text{L}]^2[\text{T}]^{-2}}$
+                        </p>
+                        <p class="text-[11px] text-slate-500">Satuan SI: $\text{kg}\cdot\text{m}^2\cdot\text{s}^{-2} = \text{Joule (J)}$</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <strong class="text-amber-800 text-sm block">3. Tekanan ($P$)</strong>
+                        <p class="text-slate-600">Rumus: $P = \frac{F}{A} = \frac{\text{gaya}}{\text{luas penampang}}$</p>
+                        <p class="font-mono bg-white p-2 rounded-xl border border-slate-200">
+                            $[P] = \frac{[\text{M}][\text{L}][\text{T}]^{-2}}{[\text{L}]^2} = \mathbf{[\text{M}][\text{L}]^{-1}[\text{T}]^{-2}}$
+                        </p>
+                        <p class="text-[11px] text-slate-500">Satuan SI: $\text{N/m}^2 = \text{Pascal (Pa)}$</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <strong class="text-amber-800 text-sm block">4. Konstanta Gravitasi Universal ($G$)</strong>
+                        <p class="text-slate-600">Rumus: $F = G \frac{m_1 m_2}{r^2} \implies G = \frac{F \cdot r^2}{m_1 m_2}$</p>
+                        <p class="font-mono bg-white p-2 rounded-xl border border-slate-200">
+                            $[G] = \frac{([\text{M}][\text{L}][\text{T}]^{-2})([\text{L}]^2)}{[\text{M}]^2} = \mathbf{[\text{M}]^{-1}[\text{L}]^3[\text{T}]^{-2}}$
+                        </p>
+                        <p class="text-[11px] text-slate-500">Satuan SI: $\text{N}\cdot\text{m}^2\cdot\text{kg}^{-2} = \text{m}^3\cdot\text{kg}^{-1}\cdot\text{s}^{-2}$</p>
+                    </div>
+                </div>
+
+                <!-- DIAGRAM SVG: HIERARKI PENURUNAN DIMENSI -->
+                <div class="py-2">
+                    <svg class="w-full max-w-lg mx-auto h-48 rounded-2xl bg-slate-900 border border-slate-700 shadow-inner p-3" viewBox="0 0 500 190" xmlns="http://www.w3.org/2000/svg">
+                        <text x="250" y="24" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">Silsilah Turunan Dimensi Mekanika Klasik</text>
+
+                        <!-- Box Pokok -->
+                        <rect x="30" y="50" width="80" height="32" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+                        <text x="70" y="70" fill="#fef08a" font-size="10" font-weight="bold" text-anchor="middle">[L] &amp; [T]</text>
+
+                        <!-- Panah ke Kecepatan -->
+                        <path d="M 110 66 L 155 66" stroke="#94a3b8" stroke-width="1.5"/>
+
+                        <!-- Box v -->
+                        <rect x="160" y="50" width="100" height="32" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+                        <text x="210" y="70" fill="#bae6fd" font-size="9.5" font-weight="bold" text-anchor="middle">v = [L][T]⁻¹</text>
+
+                        <!-- Panah ke Percepatan -->
+                        <path d="M 260 66 L 305 66" stroke="#94a3b8" stroke-width="1.5"/>
+
+                        <!-- Box a -->
+                        <rect x="310" y="50" width="100" height="32" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+                        <text x="360" y="70" fill="#bae6fd" font-size="9.5" font-weight="bold" text-anchor="middle">a = [L][T]⁻²</text>
+
+                        <!-- Panah ke Gaya (+ M) -->
+                        <path d="M 360 82 L 360 120" stroke="#94a3b8" stroke-width="1.5"/>
+
+                        <!-- Box Gaya -->
+                        <rect x="290" y="120" width="140" height="34" rx="6" fill="#1e293b" stroke="#f43f5e" stroke-width="1.5"/>
+                        <text x="360" y="141" fill="#fda4af" font-size="9.5" font-weight="bold" text-anchor="middle">F = [M][L][T]⁻² (N)</text>
+
+                        <!-- Panah ke Energi -->
+                        <path d="M 290 137 L 220 137" stroke="#94a3b8" stroke-width="1.5"/>
+
+                        <!-- Box Energi -->
+                        <rect x="70" y="120" width="140" height="34" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+                        <text x="140" y="141" fill="#a7f3d0" font-size="9.5" font-weight="bold" text-anchor="middle">W, E = [M][L]²[T]⁻² (J)</text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: PRINSIP HOMOGENITAS DIMENSI -->
+            <section id="slide-3" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">3</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Prinsip Homogenitas Dimensi &amp; Pengujian Persamaan
+                        </h2>
+                    </div>
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Validasi Matematis</span>
+                </div>
+
+                <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                    <strong>Prinsip Homogenitas Dimensi</strong> menyatakan bahwa dalam suatu persamaan fisika yang valid, setiap suku yang dijumlahkan, dikurangkan, atau disamakan <strong>wajib memiliki dimensi yang identik</strong>. Dua besaran fisis yang memiliki dimensi berbeda tidak dapat dijumlahkan (misal: menjumlahkan massa $5\,\text{kg}$ dengan panjang $2\,\text{meter}$ secara fisis tidak memiliki makna).
+                </p>
+
+                <!-- CONTOH UJI PERSAMAAN KINEMATIKA -->
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs sm:text-sm">
+                    <strong class="text-slate-900 block text-sm">Studi Kasus: Memeriksa Keabsahan Persamaan Perpindahan GLBB</strong>
+                    <p class="font-mono bg-white p-3 rounded-xl border border-slate-200 text-center text-sm font-bold text-amber-900">
+                        $$s = v_0 t + \frac{1}{2} a t^2$$
+                    </p>
+                    <p class="text-slate-700 leading-relaxed">
+                        Mari kita analisis dimensi setiap sukunya:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1.5 pl-2 font-mono text-xs text-slate-600">
+                        <li>Ruas Kiri: $[s] = \mathbf{[\text{L}]}$ (Perpindahan berdimensi panjang).</li>
+                        <li>Suku Pertama Ruas Kanan: $[v_0 t] = [v_0][t] = ([\text{L}][\text{T}]^{-1})([\text{T}]) = \mathbf{[\text{L}]}$.</li>
+                        <li>Suku Kedua Ruas Kanan: $[\frac{1}{2} a t^2] = [a][t]^2 = ([\text{L}][\text{T}]^{-2})([\text{T}]^2) = \mathbf{[\text{L}]}$ (konstanta $\frac{1}{2}$ tidak berdimensi).</li>
+                    </ul>
+                    <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 font-semibold">
+                        ✅ Kesimpulan: Karena setiap suku memiliki dimensi yang sama ($[\text{L}] = [\text{L}] + [\text{L}]$), persamaan ini secara dimensional <strong>HOMOGEN (BENAR)</strong>.
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-950 space-y-1">
+                    <span class="font-bold block">⚠️ Catatan Krusial Olimpiade:</span>
+                    <span>Persamaan yang benar secara fisis <em>pasti homogen secara dimensi</em>. Namun sebaliknya, persamaan yang homogen secara dimensi <em>belum tentu benar secara fisis</em> karena analisis dimensi tidak dapat mendeteksi konstanta tak berdimensi (misalnya angka $2\pi, \frac{1}{2}, \ln x$).</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: PENURUNAN RUMUS VIA METODE RAYLEIGH -->
+            <section id="slide-4" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">4</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Menurunkan Rumus Fisika Baru melalui Analisis Dimensi
+                        </h2>
+                    </div>
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Metode Rayleigh</span>
+                </div>
+
+                <p class="text-sm text-slate-700 leading-relaxed text-justify">
+                    Salah satu kekuatan terbesar analisis dimensi adalah kemampuannya merumuskan bentuk ketergantungan fungsi fisis sebelum eksperimen atau penurunan kalkulus yang rumit dilakukan (Lord Rayleigh's Method):
+                </p>
+
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs sm:text-sm">
+                    <strong class="text-slate-900 block text-sm">Contoh: Menurunkan Rumus Periode Ayunan Bandul Sederhana ($T$)</strong>
+                    <p class="text-slate-700 leading-relaxed text-xs">
+                        Diduga periode $T$ bergantung pada massa beban ($m$), panjang tali ($L$), dan percepatan gravitasi ($g$):
+                        $$T = k \cdot m^a \cdot L^b \cdot g^c$$
+                        dengan $k$ adalah konstanta tak berdimensi.
+                    </p>
+
+                    <div class="space-y-1.5 font-mono text-xs bg-white p-3 rounded-xl border border-slate-200">
+                        <p>Tuliskan dimensi masing-masing besaran:</p>
+                        <p class="text-amber-800">$$[\text{T}]^1 = [\text{M}]^a \cdot [\text{L}]^b \cdot ([\text{L}][\text{T}]^{-2})^c = [\text{M}]^a \cdot [\text{L}]^{b+c} \cdot [\text{T}]^{-2c}$$</p>
+                        <p class="text-slate-700">Samakan pangkat dimensi di kedua ruas:</p>
+                        <ul class="list-disc list-inside space-y-1 pl-2 text-slate-600">
+                            <li>Pangkat $[\text{M}]$: $a = 0$ ➔ <strong>Periode bandul TIDAK bergantung pada massa beban!</strong></li>
+                            <li>Pangkat $[\text{T}]$: $-2c = 1 \implies c = -\frac{1}{2}$</li>
+                            <li>Pangkat $[\text{L}]$: $b + c = 0 \implies b - \frac{1}{2} = 0 \implies b = \frac{1}{2}$</li>
+                        </ul>
+                    </div>
+
+                    <p class="text-slate-800 text-xs font-semibold">
+                        Substitusikan kembali nilai $a, b, c$:
+                    </p>
+                    <p class="font-mono bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-center text-sm font-bold text-amber-950">
+                        $$T = k \cdot m^0 \cdot L^{1/2} \cdot g^{-1/2} = k \sqrt{\frac{L}{g}}$$
+                    </p>
+                    <p class="text-slate-600 text-xs">
+                        Analisis dimensi membuktikan secara elegan bahwa $T \propto \sqrt{\frac{L}{g}}$. Nilai konstanta $k = 2\pi$ kemudian dapat diperoleh melalui eksperimen laboratorium atau solusi persamaan diferensial gerak harmonis!
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: KUIS EVALUASI BESARAN & DIMENSI -->
+            <section id="slide-5" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-sm">5</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                            Kuis Pemahaman: Besaran, Satuan &amp; Analisis Dimensi
+                        </h2>
+                    </div>
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/70">4 Soal HOTS</span>
+                </div>
+
+                <p class="text-xs text-slate-500">
+                    Pilihlah salah satu jawaban yang paling tepat. Feedback instan akan langsung muncul setelah Anda memilih.
+                </p>
+
+                <!-- FORM KUIS -->
+                <form id="quiz-form" class="space-y-6">
+                    <!-- SOAL 1 -->
+                    <div class="quiz-card p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3" data-q="1" data-answer="A">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-800">SOAL 1 (Dimensi Besaran Impuls & Momentum)</span>
+                            <span class="text-[11px] font-semibold text-slate-400">Analisis Dimensi</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                            Impuls gaya didefinisikan sebagai hasil kali gaya dengan selang waktu sentuh ($I = F \cdot \Delta t$). Dimensi dari besaran impuls tersebut adalah...
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="A" class="text-amber-600 focus:ring-amber-500">
+                                <span>A. $[\text{M}][\text{L}][\text{T}]^{-1}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="B" class="text-amber-600 focus:ring-amber-500">
+                                <span>B. $[\text{M}][\text{L}][\text{T}]^{-2}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="C" class="text-amber-600 focus:ring-amber-500">
+                                <span>C. $[\text{M}][\text{L}]^2[\text{T}]^{-1}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q1" value="D" class="text-amber-600 focus:ring-amber-500">
+                                <span>D. $[\text{M}][\text{L}]^{-1}[\text{T}]^{-1}$</span>
+                            </label>
+                        </div>
+                        <div id="feedback-q1" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 2 -->
+                    <div class="quiz-card p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3" data-q="2" data-answer="C">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-800">SOAL 2 (Penentuan Dimensi Konstanta Fisika)</span>
+                            <span class="text-[11px] font-semibold text-slate-400">Konstanta Gas Ideal</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                            Persamaan gas ideal dinyatakan oleh $P \cdot V = n \cdot R \cdot T$, dengan $P$ adalah tekanan, $V$ adalah volume, $n$ adalah jumlah mol gas, dan $T$ adalah suhu mutlak. Dimensi dari tetapan gas universal ($R$) adalah...
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="A" class="text-amber-600 focus:ring-amber-500">
+                                <span>A. $[\text{M}][\text{L}][\text{T}]^{-2}[\theta]^{-1}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="B" class="text-amber-600 focus:ring-amber-500">
+                                <span>B. $[\text{M}][\text{L}]^2[\text{T}]^{-2}[\text{N}]^{-1}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="C" class="text-amber-600 focus:ring-amber-500">
+                                <span>C. $[\text{M}][\text{L}]^2[\text{T}]^{-2}[\theta]^{-1}[\text{N}]^{-1}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q2" value="D" class="text-amber-600 focus:ring-amber-500">
+                                <span>D. $[\text{M}]^{-1}[\text{L}]^3[\text{T}]^{-2}[\theta]^{-1}$</span>
+                            </label>
+                        </div>
+                        <div id="feedback-q2" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 3 -->
+                    <div class="quiz-card p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3" data-q="3" data-answer="B">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-800">SOAL 3 (Prinsip Homogenitas Suku Persamaan)</span>
+                            <span class="text-[11px] font-semibold text-slate-400">Kinematika Polinomial</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                            Posisi partikel yang bergerak dinyatakan oleh persamaan $x(t) = A + B t + C t^2 + D t^3$, dengan $x$ dalam meter dan $t$ dalam sekon. Dimensi dari konstanta $D$ adalah...
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="A" class="text-amber-600 focus:ring-amber-500">
+                                <span>A. $[\text{L}][\text{T}]^{-2}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="B" class="text-amber-600 focus:ring-amber-500">
+                                <span>B. $[\text{L}][\text{T}]^{-3}$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="C" class="text-amber-600 focus:ring-amber-500">
+                                <span>C. $[\text{L}][\text{T}]^3$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q3" value="D" class="text-amber-600 focus:ring-amber-500">
+                                <span>D. $[\text{L}]^2[\text{T}]^{-3}$</span>
+                            </label>
+                        </div>
+                        <div id="feedback-q3" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- SOAL 4 -->
+                    <div class="quiz-card p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3" data-q="4" data-answer="D">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-800">SOAL 4 (Penurunan Rumus Gaya Sentripetal)</span>
+                            <span class="text-[11px] font-semibold text-slate-400">Analisis Pangkat Dimensi</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed text-justify">
+                            Gaya sentripetal ($F_s$) yang bekerja pada benda bermassa $m$ yang bergerak melingkar dengan kelajuan $v$ dan jari-jari lintasan $r$ dinyatakan sebagai $F_s = k \cdot m^x \cdot v^y \cdot r^z$. Nilai eksponen $x, y, z$ berturut-turut adalah...
+                        </p>
+                        <div class="space-y-2 text-xs">
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q4" value="A" class="text-amber-600 focus:ring-amber-500">
+                                <span>A. $1, 1, 1$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q4" value="B" class="text-amber-600 focus:ring-amber-500">
+                                <span>B. $1, 2, 1$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q4" value="C" class="text-amber-600 focus:ring-amber-500">
+                                <span>C. $2, 1, -1$</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 cursor-pointer transition-colors">
+                                <input type="radio" name="q4" value="D" class="text-amber-600 focus:ring-amber-500">
+                                <span>D. $1, 2, -1$</span>
+                            </label>
+                        </div>
+                        <div id="feedback-q4" class="quiz-feedback text-xs min-h-[16px] font-semibold"></div>
+                    </div>
+
+                    <!-- TOMBOL EVALUASI -->
+                    <button type="button" id="btn-submit-quiz" class="w-full py-3 px-6 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-[0.99]">
+                        Periksa Seluruh Jawaban Kuis
+                    </button>
+                </form>
+
+                <!-- HASIL REKAP KUIS & PEMBAHASAN -->
+                <div id="quiz-result" class="hidden p-5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span id="quiz-score-badge" class="font-bold text-slate-900 text-sm"></span>
+                        <span class="text-xs px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-semibold">Analisis Soal Standar Internasional</span>
+                    </div>
+
+                    <div class="border-t border-amber-200/60 pt-3 space-y-3 text-xs text-slate-700 leading-relaxed">
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                            <strong class="text-amber-900">Soal 1 (Jawaban A - Dimensi Impuls):</strong><br>
+                            $[I] = [F] \cdot [t] = ([\text{M}][\text{L}][\text{T}]^{-2})([\text{T}]) = \mathbf{[\text{M}][\text{L}][\text{T}]^{-1}}$. Dimensi ini tepat setara dengan dimensi momentum ($p = m \cdot v$), membuktikan Teorema Impuls-Momentum!
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                            <strong class="text-amber-900">Soal 2 (Jawaban C - Dimensi Tetapan Gas R):</strong><br>
+                            $R = \frac{P \cdot V}{n \cdot T}$. Dimensi $P \cdot V$ adalah energi: $[\text{M}][\text{L}]^2[\text{T}]^{-2}$. Dibagi dengan $[n] = [\text{N}]$ dan $[T] = [\theta]$, diperoleh $\mathbf{[\text{M}][\text{L}]^2[\text{T}]^{-2}[\theta]^{-1}[\text{N}]^{-1}}$ (satuan $\text{J}\cdot\text{mol}^{-1}\cdot\text{K}^{-1}$).
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                            <strong class="text-amber-900">Soal 3 (Jawaban B - Dimensi Suku D):</strong><br>
+                            Berdasarkan asas homogenitas: $[D \cdot t^3] = [x] = [\text{L}] \implies [D] \cdot [\text{T}]^3 = [\text{L}] \implies [D] = \mathbf{[\text{L}][\text{T}]^{-3}}$ (satuan $\text{m/s}^3$, laju perubahan percepatan atau *jerk*).
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
+                            <strong class="text-amber-900">Soal 4 (Jawaban D - Pangkat 1, 2, -1):</strong><br>
+                            $[F] = [\text{M}][\text{L}][\text{T}]^{-2} = [\text{M}]^x ([\text{L}][\text{T}]^{-1})^y [\text{L}]^z = [\text{M}]^x [\text{L}]^{y+z} [\text{T}]^{-y}$.<br>
+                            Dari $[\text{M}]$: $x = 1$. Dari $[\text{T}]$: $-y = -2 \implies y = 2$. Dari $[\text{L}]$: $y + z = 1 \implies 2 + z = 1 \implies z = -1$.<br>
+                            Sehingga $F_s = \frac{m v^2}{r}$, terbukti eksponen berturut-turut adalah $1, 2, -1$.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- REKAP MANDIRI KARTU NILAI (TERHUBUNG KE include.js) -->
+        <div id="quiz-report-card" class="mt-8 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <span class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                    <span>📊</span> Rekap Mandiri Belajar Siswa
+                </span>
+                <span id="rekap-nilai-badge" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
+                    Nilai: --
+                </span>
+            </div>
+            <p class="text-xs text-slate-500">
+                Selesaikan kuis di atas untuk mencatat skor latihan mandiri ke dalam riwayat kemajuan belajar dan portofolio Anda.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- FOOTER GLOBAL (dimuat otomatis oleh include.js) -->
+    <div id="footer-placeholder"></div>
+
+    <!-- SPU MODAL -->
+    <div id="spu-placeholder"></div>
+
+    <!-- SCRIPT LOGIKA BERSAMA -->
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- LOGIKA INTERAKTIF KUIS LOKAL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('quiz-form');
+            const submitBtn = document.getElementById('btn-submit-quiz');
+            const resultBox = document.getElementById('quiz-result');
+            const scoreBadge = document.getElementById('quiz-score-badge');
+            const reportBadge = document.getElementById('rekap-nilai-badge');
+
+            if (!form || !submitBtn) return;
+
+            const cards = form.querySelectorAll('.quiz-card');
+            const correctAnswers = {};
+            cards.forEach(card => {
+                const qNum = card.dataset.q;
+                correctAnswers['q' + qNum] = card.dataset.answer;
+            });
+
+            // Instant feedback per radio click
+            cards.forEach(card => {
+                const qNum = card.dataset.q;
+                const correct = card.dataset.answer;
+                const feedbackEl = card.querySelector('#feedback-q' + qNum);
+                const radios = card.querySelectorAll(`input[name="q${qNum}"]`);
+
+                radios.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        if (radio.value === correct) {
+                            feedbackEl.textContent = '✅ Benar! ' + (radio.value === 'A' && qNum === '1' ? 'Dimensi impuls adalah [M][L][T]⁻¹.' : (radio.value === 'C' && qNum === '2' ? 'Dimensi tetapan gas R adalah [M][L]²[T]⁻²[θ]⁻¹[N]⁻¹.' : (radio.value === 'B' && qNum === '3' ? 'Dimensi konstanta D adalah [L][T]⁻³.' : 'Eksponen gaya sentripetal adalah 1, 2, -1 (F = mv²/r).')));
+                            feedbackEl.className = 'quiz-feedback text-xs min-h-[16px] font-semibold text-emerald-600';
+                            card.classList.remove('border-rose-300', 'bg-rose-50/20');
+                            card.classList.add('border-emerald-300', 'bg-emerald-50/20');
+                        } else {
+                            feedbackEl.textContent = '❌ Kurang tepat. Cermati kembali analisis dimensi suku dan satuannya.';
+                            feedbackEl.className = 'quiz-feedback text-xs min-h-[16px] font-semibold text-rose-600';
+                            card.classList.remove('border-emerald-300', 'bg-emerald-50/20');
+                            card.classList.add('border-rose-300', 'bg-rose-50/20');
+                        }
+                    });
+                });
+            });
+
+            // Submit check
+            submitBtn.addEventListener('click', () => {
+                let correctCount = 0;
+                const totalQuestions = Object.keys(correctAnswers).length;
+
+                for (let q in correctAnswers) {
+                    const selected = form.querySelector(`input[name="${q}"]:checked`);
+                    if (selected && selected.value === correctAnswers[q]) {
+                        correctCount++;
+                    }
+                }
+
+                const score = Math.round((correctCount / totalQuestions) * 100);
+                if (resultBox) {
+                    resultBox.classList.remove('hidden');
+                    scoreBadge.textContent = `Skor Latihan: ${score} / 100 (${correctCount}/${totalQuestions} Benar)`;
+                }
+                if (reportBadge) {
+                    reportBadge.textContent = `Nilai: ${score}`;
+                    reportBadge.className = score >= 75 
+                        ? 'text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800'
+                        : 'text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800';
+                }
+
+                // Kirim event custom untuk include.js auto-saver
+                document.dispatchEvent(new CustomEvent('quizCompleted', {
+                    detail: {
+                        score: score,
+                        correct: correctCount,
+                        total: totalQuestions,
+                        moduleKey: 'fis-10/pengukuran-dalam-kerja-ilmiah/besaran-satuan-dan-analisis-dimensi.html'
+                    }
+                }));
+
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
+    </script>
+</body>
+</html>

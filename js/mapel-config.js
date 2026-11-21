@@ -38,14 +38,33 @@ const mapelConfig = [
     {
         nama: "Fisika",
         slug: "fisika",
-        status: "segera",
+        status: "tersedia",
         group: "Sains",
         materi: true,
         osn: true,
         aktif: true,
         icon: "⚡",
-        deskripsi: "Mekanika Klasik, Termodinamika, Gelombang, Optika, serta Kelistrikan & Kemagnetan SMA.",
-        jenjang: []
+        deskripsi: "Pengukuran Kerja Ilmiah, Energi Terbarukan, Vektor, Mekanika Klasik, Fluida, Termodinamika, Gelombang, Elektromagnetika & Fisika Modern SMA sesuai CP-ATP Kurikulum Merdeka.",
+        jenjang: [
+            {
+                kelas: "X",
+                label: "Kelas X",
+                sublabel: "Fase E — Pengukuran Kerja Ilmiah, Energi Alternatif, Pemanasan Global, Vektor & Pengayaan OSN Fisika",
+                path: "/fisika/kelas-10/index.html"
+            },
+            {
+                kelas: "XI",
+                label: "Kelas XI",
+                sublabel: "Fase F — Kinematika 2D/3D, Dinamika Newton, Gravitasi, Usaha-Energi, Momentum, Rotasi, Fluida, Termo & Pengayaan OSN",
+                path: "/fisika/kelas-11/index.html"
+            },
+            {
+                kelas: "XII",
+                label: "Kelas XII",
+                sublabel: "Fase F Lanjutan — Gelombang Bunyi/Cahaya, Listrik Statis/DC, Kemagnetan, RLC AC, Relativitas, Fisika Kuantum & OSN",
+                path: "/fisika/kelas-12/index.html"
+            }
+        ]
     },
     {
         nama: "Kimia",
