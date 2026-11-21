@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Data Temperatur Global & Refleksi Aksi Nyata Lingkungan — Fisika Kelas X</title>
+    <meta name="description" content="Pelajari analisis time-series anomali suhu NASA GISTEMP, dinamika kurva Keeling Mauna Loa, proyeksi skenario SSP1-1.9 hingga SSP5-8.5 IPCC AR6, dan desain audit energi sekolah rendah karbon.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" data-mapel="fisika" data-kelas="fis-10" data-bab="pemanasan-global-dan-dinamika-lingkungan">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- SIDEBAR -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- MAIN CONTENT -->
+        <div class="lg:col-span-3 space-y-6">
+
+            <!-- Hero Card Sub-Bab -->
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <span class="px-2.5 py-1 text-xs font-bold bg-blue-100 text-blue-700 rounded-md">FISIKA KELAS X &middot; BAB 3</span>
+                    <span class="px-2.5 py-1 text-xs font-semibold bg-slate-100 text-slate-600 rounded-md">Sub-Bab 6 dari 6</span>
+                    <span class="px-2.5 py-1 text-xs font-semibold bg-emerald-100 text-emerald-800 rounded-md">Fase E &middot; Kurikulum Merdeka</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug mb-3">
+                    6. Analisis Data Temperatur Global & Refleksi Aksi Nyata Lingkungan
+                </h1>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
+                    Menganalisis rangkaian data empiris deret waktu (<em>time-series</em>) anomali suhu NASA GISTEMP dan NOAA, dinamika Kurva Keeling konsentrasi $\text{CO}_2$ atmosfer, pemodelan proyeksi iklim skenario SSP1-1.9 hingga SSP5-8.5 IPCC AR6, serta panduan praktis audit energi dan aksi nyata gaya hidup berkelanjutan di lingkungan sekolah.
+                </p>
+
+                <div class="pt-2 border-t border-slate-100">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 block mb-2">🧭 Navigasi Cepat Materi (5 Poin Pembelajaran)</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs font-medium">
+                        <button type="button" onclick="ieltsSlider.goTo(0)" class="p-2 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 border border-slate-200/80 transition-colors text-left flex items-center justify-between">
+                            <span>1. Kurva Keeling</span>
+                            <span class="text-blue-500 font-bold">&rarr;</span>
+                        </button>
+                        <button type="button" onclick="ieltsSlider.goTo(1)" class="p-2 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 border border-slate-200/80 transition-colors text-left flex items-center justify-between">
+                            <span>2. Skenario SSP</span>
+                            <span class="text-blue-500 font-bold">&rarr;</span>
+                        </button>
+                        <button type="button" onclick="ieltsSlider.goTo(2)" class="p-2 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 border border-slate-200/80 transition-colors text-left flex items-center justify-between">
+                            <span>3. Aksi Sekolah</span>
+                            <span class="text-blue-500 font-bold">&rarr;</span>
+                        </button>
+                        <button type="button" onclick="ieltsSlider.goTo(3)" class="p-2 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 border border-slate-200/80 transition-colors text-left flex items-center justify-between">
+                            <span>4. Soal Terbimbing</span>
+                            <span class="text-blue-500 font-bold">&rarr;</span>
+                        </button>
+                        <button type="button" onclick="ieltsSlider.goTo(4)" class="p-2 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 border border-slate-200/80 transition-colors text-left flex items-center justify-between">
+                            <span>5. Kuis Mandiri</span>
+                            <span class="text-blue-500 font-bold">&rarr;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Sticky Slider Controller Bar -->
+            <div class="sticky top-20 z-10 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-2">
+                <button type="button" id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-100 flex items-center gap-1.5 transition-all">
+                    <span>&larr;</span>
+                    <span class="hidden sm:inline">Sebelumnya</span>
+                </button>
+                <div class="flex items-center gap-3">
+                    <span id="slider-counter" class="text-xs sm:text-sm font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200 font-mono">
+                        Poin 1 / 5
+                    </span>
+                    <div id="slider-dots" class="flex gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-600 transition-all"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-300 transition-all"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-300 transition-all"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-300 transition-all"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-300 transition-all"></span>
+                    </div>
+                </div>
+                <button type="button" id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-2 rounded-lg bg-blue-600 text-white text-xs sm:text-sm font-semibold hover:bg-blue-700 flex items-center gap-1.5 shadow-xs transition-all">
+                    <span class="hidden sm:inline">Berikutnya</span>
+                    <span>&rarr;</span>
+                </button>
+            </div>
+
+            <!-- CAROUSEL CONTAINER -->
+            <div id="ielts-slider-container" data-accent="blue" class="relative">
+                <main class="space-y-6">
+
+                    <!-- SLIDE 1: DATA EMPIRIS & KURVA KEELING -->
+                    <section id="slide-1" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; Bukti Empiris Sains Iklim</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📈 1. Anomali Suhu NASA GISTEMP & Kurva Keeling
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">>420 ppm CO2</span>
+                        </div>
+
+                        <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+                            Bagaimana ilmuwan membuktikan bahwa pemanasan bumi adalah kenyataan fisik yang tak terbantahkan? Bukti empiris paling solid berasal dari dua set data observasi jangka panjang: analisis <strong>anomali temperatur global</strong> dan rekaman konsentrasi $\text{CO}_2$ atmosfer pada <strong>Kurva Keeling</strong>.
+                        </p>
+
+                        <!-- Box Anomali Suhu -->
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50/50 p-5 rounded-2xl border border-blue-200 space-y-3">
+                            <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wider">Metodologi Anomali Temperatur (NASA GISTEMP & HadCRUT5)</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Dalam klimatologi, ilmuwan tidak melacak rata-rata suhu mutlak ($T_{\text{abs}}$) karena perbedaan ketinggian topografi dan iklim lokal stasiun akan menciptakan galat spasial yang besar. Sebagai gantinya, digunakan <strong>anomali temperatur ($\Delta T$)</strong>:
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-blue-200 text-center font-mono text-xs sm:text-sm text-blue-950 font-bold overflow-x-auto">
+                                $$\Delta T_i = T_{\text{observasi}, i} - \overline{T}_{\text{baseline}} \quad (\text{Baseline Standar: Periode 1951 - 1980})$$
+                            </div>
+                            <p class="text-xs text-slate-600">
+                                Data NASA menunjukkan bahwa dekade 2014–2024 mencatat rata-rata anomali global $\Delta T > +1{,}15^\circ\text{C}$, dengan tahun 2023 dan 2024 menjadi tahun terpanas dalam sejarah modern manusia ($\approx +1{,}45^\circ\text{C}$ di atas rata-rata pra-industri).
+                            </p>
+                        </div>
+
+                        <!-- Kurva Keeling & Pernapasan Biosfer -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                                <span>🏔️</span> Kurva Keeling: Bukti Nyata Akumulasi $\text{CO}_2$
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Dimulai oleh geokimiawan <strong>Charles David Keeling</strong> pada tahun 1958 di puncak gunung api Mauna Loa, Hawaii ($3.400\,\text{m}$ di atas permukaan laut, bebas polusi lokal), kurva ini mencatat dua fitur fisis spektakuler:
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-700">
+                                <div class="p-3 bg-white rounded-xl border border-slate-200">
+                                    <strong class="text-red-700 block mb-1">1. Tren Kenaikan Sekuler Monoton:</strong>
+                                    Konsentrasi $\text{CO}_2$ melesat dari $315\,\text{ppm}$ (1958) menjadi lebih dari $422\,\text{ppm}$ (2024), dengan laju akselerasi melonjak dari $+0{,}7\,\text{ppm/thn}$ menjadi $+2{,}4\,\text{ppm/thn}$.
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-slate-200">
+                                    <strong class="text-emerald-700 block mb-1">2. Osilasi Musiman "Bumi Bernapas":</strong>
+                                    Terdapat gelombang gigi gergaji sinusoidal amplitudo $\pm 5 - 6\,\text{ppm}$ setiap tahun. Mengapa? Karena belahan bumi utara memiliki biomassa daratan $2\times$ lebih luas dibanding selatan. Saat musim semi-panas utara (Mei–Oktober), fotosintesis masif menyedot $\text{CO}_2$, dan saat musim gugur-dingin mikroba tanah melepaskannya kembali.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 2: SKENARIO PROYEKSI SSP IPCC AR6 -->
+                    <section id="slide-2" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; Pemodelan Matematika Masa Depan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🔮 2. Proyeksi Skenario SSP (Shared Socioeconomic Pathways)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">IPCC AR6 WGI</span>
+                        </div>
+
+                        <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+                            Masa depan iklim bumi bergantung pada keputusan sosial-ekonomi dan laju transisi energi yang diambil peradaban manusia saat ini. Laporan IPCC AR6 merumuskan lima skenario utama gabungan jalur sosioekonomi (SSP) dan tingkat pemaksaan radiasi (<em>Radiative Forcing</em> pada tahun 2100):
+                        </p>
+
+                        <!-- High-Contrast SVG Proyeksi SSP -->
+                        <div class="bg-slate-900 p-5 rounded-2xl text-white shadow-md">
+                            <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-2 text-center">Trayektori Kenaikan Suhu Global Skenario SSP IPCC AR6 (1950 - 2100)</h3>
+                            <svg viewBox="0 0 760 300" class="w-full h-auto max-h-[300px] mx-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Grid Lines -->
+                                <line x1="80" y1="240" x2="720" y2="240" stroke="#334155" stroke-width="1"/>
+                                <line x1="80" y1="180" x2="720" y2="180" stroke="#334155" stroke-width="1"/>
+                                <line x1="80" y1="120" x2="720" y2="120" stroke="#334155" stroke-width="1"/>
+                                <line x1="80" y1="60" x2="720" y2="60" stroke="#334155" stroke-width="1"/>
+
+                                <!-- Y Axis Labels -->
+                                <text x="70" y="245" fill="#94a3b8" font-size="10" text-anchor="end">0,0°C</text>
+                                <text x="70" y="185" fill="#94a3b8" font-size="10" text-anchor="end">+1,5°C</text>
+                                <text x="70" y="125" fill="#94a3b8" font-size="10" text-anchor="end">+3,0°C</text>
+                                <text x="70" y="65" fill="#94a3b8" font-size="10" text-anchor="end">+4,5°C</text>
+
+                                <!-- X Axis Labels -->
+                                <text x="120" y="260" fill="#94a3b8" font-size="10" text-anchor="middle">1950</text>
+                                <text x="240" y="260" fill="#94a3b8" font-size="10" text-anchor="middle">2000</text>
+                                <text x="360" y="260" fill="#94a3b8" font-size="10" text-anchor="middle">2024</text>
+                                <text x="500" y="260" fill="#94a3b8" font-size="10" text-anchor="middle">2050</text>
+                                <text x="680" y="260" fill="#94a3b8" font-size="10" text-anchor="middle">2100</text>
+
+                                <!-- Garis Batas Paris 1,5°C -->
+                                <line x1="80" y1="180" x2="720" y2="180" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                <text x="710" y="172" fill="#38bdf8" font-size="10" text-anchor="end" font-weight="bold">Ambang Paris: +1,5°C</text>
+
+                                <!-- Kurva Historis 1950 - 2024 -->
+                                <path d="M 120 240 Q 200 238 240 220 T 360 195" fill="none" stroke="#f8fafc" stroke-width="3"/>
+                                <text x="240" y="210" fill="#f8fafc" font-size="11" font-weight="bold">Historis (+1,2°C)</text>
+
+                                <!-- Skenario SSP5-8.5 (Bahan Bakar Fosil Tinggi) -->
+                                <path d="M 360 195 Q 500 130 680 65" fill="none" stroke="#ef4444" stroke-width="3"/>
+                                <text x="690" y="65" fill="#f87171" font-size="11" font-weight="bold">SSP5-8.5 (+4,4°C)</text>
+
+                                <!-- Skenario SSP2-4.5 (Kebijakan Sedang / Tren Saat Ini) -->
+                                <path d="M 360 195 Q 500 160 680 135" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+                                <text x="690" y="135" fill="#fbbf24" font-size="11" font-weight="bold">SSP2-4.5 (+2,7°C)</text>
+
+                                <!-- Skenario SSP1-1.9 (Dekarbonisasi Sangat Agresif / Net Zero 2050) -->
+                                <path d="M 360 195 Q 450 175 520 180 T 680 183" fill="none" stroke="#22c55e" stroke-width="3"/>
+                                <text x="690" y="190" fill="#4ade80" font-size="11" font-weight="bold">SSP1-1.9 (~1,4°C)</text>
+                            </svg>
+                        </div>
+
+                        <!-- Tabel Skenario SSP -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-300">
+                                        <th class="p-3">Skenario SSP</th>
+                                        <th class="p-3">Karakteristik Sosioekonomi</th>
+                                        <th class="p-3">Puncak Emisi $\text{CO}_2$</th>
+                                        <th class="p-3">Proyeksi Suhu 2100</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-semibold text-emerald-700">SSP1-1.9</td>
+                                        <td class="p-3">Pembangunan berkelanjutan, dekarbonisasi cepat, Net Zero 2050</td>
+                                        <td class="p-3 font-mono">Tahun 2025</td>
+                                        <td class="p-3 font-mono font-bold text-emerald-600">$1{,}2 - 1{,}7^\circ\text{C}$</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-semibold text-blue-700">SSP1-2.6</td>
+                                        <td class="p-3">Jalur hijau kuat, emisi nol tercapai paruh kedua abad 21</td>
+                                        <td class="p-3 font-mono">Tahun 2030</td>
+                                        <td class="p-3 font-mono font-bold text-blue-600">$1{,}3 - 2{,}4^\circ\text{C}$</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-semibold text-amber-700">SSP2-4.5</td>
+                                        <td class="p-3">Jalur tengah (kebijakan iklim saat ini, penurunan emisi lambat)</td>
+                                        <td class="p-3 font-mono">Tahun 2050</td>
+                                        <td class="p-3 font-mono font-bold text-amber-600">$2{,}1 - 3{,}5^\circ\text{C}$</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-semibold text-red-700">SSP5-8.5</td>
+                                        <td class="p-3">Pembangunan berbasis eksploitasi masif bahan bakar fosil tinggi</td>
+                                        <td class="p-3 font-mono">Terus Naik (2080+)</td>
+                                        <td class="p-3 font-mono font-bold text-red-600">$3{,}3 - 5{,}7^\circ\text{C}$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 3: AKSI NYATA LINGKUNGAN SEKOLAH & AUDIT ENERGI -->
+                    <section id="slide-3" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 3 &middot; Implementasi Nyata Profil Pelajar Pancasila</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    🌱 3. Panduan Aksi Nyata: Audit Energi & Sekolah Hijau
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">Gaya Hidup Berkelanjutan</span>
+                        </div>
+
+                        <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+                            Pemahaman teori fisika lingkungan tidak boleh berhenti di atas lembar ujian. Melalui proyek kolaboratif sekolah (P5: Tema Gaya Hidup Berkelanjutan), peserta didik dapat mengaplikasikan hukum fisika untuk mengukur dan menurunkan emisi nyata di lingkungan sekitar:
+                        </p>
+
+                        <!-- Tiga Pilar Aksi Sekolah -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Pilar 1: Audit Listrik -->
+                            <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-200 space-y-2">
+                                <span class="px-2 py-0.5 text-xs font-bold bg-blue-600 text-white rounded">Pilar 1</span>
+                                <h3 class="text-sm font-bold text-blue-900">Audit Energi Listrik Kelas</h3>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Menginventarisasi daya alat ($P$) dan durasi pemakaian ($t$):
+                                </p>
+                                <div class="bg-white p-2 rounded-lg border border-blue-200 text-center font-mono text-xs font-bold text-blue-950">
+                                    $$E = P \cdot t \quad [\text{kWh}]$$
+                                </div>
+                                <ul class="text-xs text-slate-700 list-disc list-inside space-y-1">
+                                    <li>Suhu AC ideal: <strong>$24 - 25^\circ\text{C}$</strong>. Menaikkan setelan AC dari $18^\circ\text{C}$ ke $24^\circ\text{C}$ memangkas konsumsi daya kompresor hingga $30 - 36\%$.</li>
+                                    <li>Mematikan stop kontak proyektor & dispenser untuk memutus <em>vampire power</em> saat libur.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Pilar 2: Sirkularitas Sampah -->
+                            <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200 space-y-2">
+                                <span class="px-2 py-0.5 text-xs font-bold bg-emerald-600 text-white rounded">Pilar 2</span>
+                                <h3 class="text-sm font-bold text-emerald-900">Reduksi Metana Kantin</h3>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Pencegahan pembusukan sampah makanan secara anaerobik di TPA:
+                                </p>
+                                <ul class="text-xs text-slate-700 list-disc list-inside space-y-1">
+                                    <li>Program "Kantin Bersih Habiskan Makanan" untuk memangkas emisi metana rantai makanan.</li>
+                                    <li>Pengomposan aerobik aerob komposter biopori atau biokonversi maggot BSF (<em>Black Soldier Fly</em>) yang mengubah sisa organik menjadi pupuk kaya protein dalam hitungan hari tanpa gas $\text{CH}_4$.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Pilar 3: Mobilitas Rendah Emisi -->
+                            <div class="bg-purple-50/70 p-4 rounded-xl border border-purple-200 space-y-2">
+                                <span class="px-2 py-0.5 text-xs font-bold bg-purple-600 text-white rounded">Pilar 3</span>
+                                <h3 class="text-sm font-bold text-purple-900">Mobilitas Aktif Hijau</h3>
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    Dekarbonisasi perjalanan pulang-pergi warga sekolah:
+                                </p>
+                                <ul class="text-xs text-slate-700 list-disc list-inside space-y-1">
+                                    <li>Kampanye bersepeda dan berjalan kaki bagi siswa dalam radius $<1{,}5\,\text{km}$.</li>
+                                    <li>Gerakan <em>Carpooling</em> (berbagi kendaraan) dan penggunaan transportasi publik massal untuk memotong emisi bensin per kapita hingga $70\%$.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 4: CONTOH SOAL TERBIMBING & KUANTIFIKASI ENERGI -->
+                    <section id="slide-4" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 4 &middot; Aplikasi Perhitungan Sains Lingkungan</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📐 4. Contoh Soal Terbimbing: Analisis Data & Audit Efisiensi
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">Langkah demi Langkah</span>
+                        </div>
+
+                        <!-- Contoh 1: Laju Kenaikan Keeling -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 text-xs font-bold bg-blue-600 text-white rounded">Studi Kasus 1</span>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-900">Perhitungan Laju Pertumbuhan Konsentrasi $\text{CO}_2$ Atmosfer</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Data pengamatan stasiun Mauna Loa mencatat konsentrasi gas $\text{CO}_2$ pada tahun 1960 sebesar $317\,\text{ppm}$, dan melonjak menjadi $422\,\text{ppm}$ pada tahun 2024. Hitunglah: (a) Laju rata-rata pertambahan konsentrasi $\text{CO}_2$ per tahun, dan (b) Persentase kenaikan total konsentrasi $\text{CO}_2$ selama periode 64 tahun tersebut!
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 text-xs sm:text-sm">
+                                <p class="font-bold text-slate-800">Langkah Penyelesaian Terstruktur:</p>
+                                <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                                    <li>Selisih konsentrasi dan rentang waktu:
+                                        $$\Delta C = 422 - 317 = 105\,\text{ppm}$$
+                                        $$\Delta t = 2024 - 1960 = 64\,\text{tahun}$$
+                                    </li>
+                                    <li>Laju pertumbuhan rata-rata tahunan:
+                                        $$r = \frac{\Delta C}{\Delta t} = \frac{105\,\text{ppm}}{64\,\text{tahun}} \approx 1{,}64\,\text{ppm/tahun}$$
+                                    </li>
+                                    <li>Persentase pertambahan total:
+                                        $$\% \text{ Kenaikan} = \frac{\Delta C}{C_{\text{awal}}} \times 100\% = \frac{105}{317} \times 100\% \approx 33{,}1\%$$
+                                    </li>
+                                </ol>
+                                <div class="p-2.5 bg-emerald-50 rounded-lg text-emerald-900 font-semibold text-xs">
+                                    💡 Insight: Dalam kurun waktu masa hidup kakek-nenek kita (64 tahun), konsentrasi gas rumah kaca utama bumi meningkat sepertiga lebih tinggi dibanding akumulasi alamiah selama ribuan tahun sebelumnya!
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contoh 2: Reduksi Emisi Audit AC Sekolah -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 text-xs font-bold bg-blue-600 text-white rounded">Studi Kasus 2</span>
+                                <h3 class="text-sm sm:text-base font-bold text-slate-900">Audit Reduksi Emisi Karbon Penyesuaian Suhu AC Sekolah</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                Suatu SMA memiliki 20 ruang kelas, di mana setiap kelas menggunakan unit pendingin AC dengan daya rata-rata $1.000\,\text{Watt}$ yang beroperasi selama $8\,\text{jam/hari}$ selama 25 hari efektif per bulan pada setelan suhu dingin $18^\circ\text{C}$. Tim adiwiyata sekolah mengubah SOP setelan suhu AC menjadi $24^\circ\text{C}$, yang menghasilkan penghematan daya operasional sebesar $30\%$. Jika faktor emisi jaringan listrik PLN adalah $0{,}85\,\text{kg CO}_2/\text{kWh}$, berapakah massa emisi gas $\text{CO}_2$ yang berhasil dihindarkan oleh sekolah tersebut setiap bulannya?
+                            </p>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 text-xs sm:text-sm">
+                                <p class="font-bold text-slate-800">Langkah Analisis:</p>
+                                <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                                    <li>Konsumsi energi listrik total awal per bulan (20 unit AC):
+                                        $$E_{\text{awal}} = 20 \times (1\,\text{kW}) \times (8\,\text{jam/hari}) \times (25\,\text{hari}) = 4.000\,\text{kWh/bulan}$$
+                                    </li>
+                                    <li>Besar penghematan energi listrik ($30\%$):
+                                        $$\Delta E_{\text{hemat}} = 30\% \times 4.000\,\text{kWh} = 1.200\,\text{kWh/bulan}$$
+                                    </li>
+                                    <li>Reduksi emisi $\text{CO}_2$ yang berhasil dicegah:
+                                        $$\Delta \text{Emisi} = \Delta E_{\text{hemat}} \times EF_{\text{PLN}} = 1.200\,\text{kWh} \times 0{,}85\,\text{kg CO}_2/\text{kWh} = 1.020\,\text{kg CO}_2/\text{bulan}$$
+                                    </li>
+                                </ol>
+                                <p class="text-xs text-slate-600 italic">
+                                    Hanya dengan mengatur tombol remote AC ke $24^\circ\text{C}$, sekolah tersebut mencegah lebih dari $1\,\text{ton}$ emisi $\text{CO}_2$ terlepas ke atmosfer setiap bulan, sekaligus memangkas tagihan listrik sekolah hingga jutaan rupiah.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SLIDE 5: LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                    <section id="slide-5" class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-6">
+                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                                </h2>
+                            </div>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Pilihlah salah satu opsi jawaban pada masing-masing soal. Sistem pelacak progres akan merekam nilai secara otomatis saat seluruh soal terjawab.
+                        </p>
+
+                        <div class="space-y-5">
+                            <!-- SOAL 1 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Metodologi Sains Analisis Suhu Global</span>
+                                <p class="text-sm text-slate-800 mb-3 font-medium">
+                                    Mengapa ilmuwan klimatologi menggunakan indikator <em>anomali temperatur</em> ($\Delta T$) daripada suhu mutlak stasiun dalam memetakan tren pemanasan global?
+                                </p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q1" value="A" class="accent-blue-600">
+                                        <span>A. Karena anomali temperatur mengeliminasi bias perbedaan elevasi geografis dan iklim mikro lokal, memungkinkan perbandingan perubahan termal antarwilayah yang valid.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q1" value="B" class="accent-blue-600">
+                                        <span>B. Karena termometer digital tidak mampu mengukur suhu di bawah 0°C.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q1" value="C" class="accent-blue-600">
+                                        <span>C. Agar angka hasil pengukuran selalu bernilai bilangan bulat tanpa desimal.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q1" value="D" class="accent-blue-600">
+                                        <span>D. Karena satelit altimetri hanya mengukur ketinggian gelombang laut tanpa memindai inframerah.</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-fis-10-3-6-q1" class="mt-3"></div>
+                            </div>
+
+                            <!-- SOAL 2 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Siklus Musiman Kurva Keeling</span>
+                                <p class="text-sm text-slate-800 mb-3 font-medium">
+                                    Penyebab fisik utama dari osilasi naik-turun musiman konsentrasi $\text{CO}_2$ atmosfer sebesar $\pm 5 - 6\,\text{ppm}$ setiap tahun pada Kurva Keeling adalah...
+                                </p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q2" value="A" class="accent-blue-600">
+                                        <span>A. Erupsi gunung berapi yang terjadi secara rutin bergantian setiap 6 bulan.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q2" value="B" class="accent-blue-600">
+                                        <span>B. Siklus fotosintesis musiman vegetasi daratan di Belahan Bumi Utara yang jauh lebih luas dibanding Belahan Bumi Selatan.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q2" value="C" class="accent-blue-600">
+                                        <span>C. Perubahan jarak bumi ke matahari akibat orbit elips bumi saat perihelion dan aphelion.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q2" value="D" class="accent-blue-600">
+                                        <span>D. Variasi periodik pasang surut gravitasi bulan terhadap lapisan atmosfer stratosfer.</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-fis-10-3-6-q2" class="mt-3"></div>
+                            </div>
+
+                            <!-- SOAL 3 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Pemahaman Skenario Proyeksi SSP IPCC</span>
+                                <p class="text-sm text-slate-800 mb-3 font-medium">
+                                    Di antara skenario proyeksi IPCC AR6 berikut, skenario manakah yang memodelkan komitmen dekarbonisasi paling ambisius untuk menjaga pemanasan global tetap berada di sekitar batas $1{,}5^\circ\text{C}$ pada tahun 2100?
+                                </p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q3" value="A" class="accent-blue-600">
+                                        <span>A. SSP5-8.5</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q3" value="B" class="accent-blue-600">
+                                        <span>B. SSP3-7.0</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q3" value="C" class="accent-blue-600">
+                                        <span>C. SSP2-4.5</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q3" value="D" class="accent-blue-600">
+                                        <span>D. SSP1-1.9</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-fis-10-3-6-q3" class="mt-3"></div>
+                            </div>
+
+                            <!-- SOAL 4 -->
+                            <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                                <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Kuantifikasi Audit Penghematan Energi Listrik</span>
+                                <p class="text-sm text-slate-800 mb-3 font-medium">
+                                    Sebuah laboratorium komputer sekolah memiliki 30 unit PC dengan konsumsi daya gabungan $6\,\text{kW}$. Selama ini, seluruh PC dibiarkan menyala dalam mode <em>standby</em> selama 15 jam setiap malam dengan beban daya parasitik $10\%$ dari daya aktif. Jika sekolah membuat kebijakan memutus total saklar utama setiap malam, berapakah energi listrik yang dihemat dalam satu bulan (30 hari)?
+                                </p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q4" value="A" class="accent-blue-600">
+                                        <span>A. $90\,\text{kWh}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q4" value="B" class="accent-blue-600">
+                                        <span>B. $270\,\text{kWh}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q4" value="C" class="accent-blue-600">
+                                        <span>C. $540\,\text{kWh}$</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                        <input type="radio" name="fis-10-3-6-q4" value="D" class="accent-blue-600">
+                                        <span>D. $1.800\,\text{kWh}$</span>
+                                    </label>
+                                </div>
+                                <div id="feedback-fis-10-3-6-q4" class="mt-3"></div>
+                            </div>
+                        </div>
+
+                        <!-- Auto-Score Script -->
+                        <script>
+                        (function() {
+                            const answers = {
+                                "fis-10-3-6-q1": { correct: "A", explanation: "Tepat sekali! Menggunakan anomali suhu (selisih terhadap baseline acuan) meniadakan pengaruh perbedaan ketinggian dan kondisi geografis lokal, sehingga gambaran pemanasan rata-rata regional maupun global menjadi seragam dan akurat." },
+                                "fis-10-3-6-q2": { correct: "B", explanation: "Tepat sekali! Belahan bumi utara memiliki proporsi daratan berhutan jauh lebih besar. Saat musim semi-panas, fotosintesis masif menyerap CO2 sehingga konsentrasi turun, sedangkan saat musim gugur-dingin serasah membusuk melepaskan kembali CO2 ke udara." },
+                                "fis-10-3-6-q3": { correct: "D", explanation: "Tepat sekali! Skenario SSP1-1.9 adalah skenario keberlanjutan paling ambisius di IPCC AR6, menargetkan dekarbonisasi cepat menuju Net Zero Emission sekitar tahun 2050 dan membatasi pemanasan pada ~1,4°C di tahun 2100." },
+                                "fis-10-3-6-q4": { correct: "B", explanation: "Tepat sekali! Daya standby = 10% × 6 kW = 0,6 kW. Energi yang dihemat per malam = 0,6 kW × 15 jam = 9 kWh/malam. Penghematan dalam 30 hari = 9 kWh × 30 hari = 270 kWh." }
+                            };
+
+                            Object.keys(answers).forEach(qName => {
+                                const radios = document.querySelectorAll(`input[name="${qName}"]`);
+                                radios.forEach(r => {
+                                    r.addEventListener('change', () => {
+                                        const fb = document.getElementById(`feedback-${qName}`);
+                                        if (r.value === answers[qName].correct) {
+                                            fb.innerHTML = `<div class="p-3 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-xs sm:text-sm font-semibold">✅ Tepat sekali! ${answers[qName].explanation}</div>`;
+                                        } else {
+                                            fb.innerHTML = `<div class="p-3 bg-rose-50 text-rose-800 rounded-xl border border-rose-200 text-xs sm:text-sm font-semibold">❌ Jawaban belum tepat. Coba telaah kembali materi pada slide sebelumnya!</div>`;
+                                        }
+                                        if (window.renderMathInElement) {
+                                            renderMathInElement(fb, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+                                        }
+                                    });
+                                });
+                            });
+                        })();
+                        </script>
+                    </section>
+
+                </main>
+            </div>
+
+            <!-- Bottom Slider Navigation Buttons -->
+            <div class="flex items-center justify-between gap-3 pt-2">
+                <button type="button" id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-slate-700 hover:bg-slate-100 flex items-center gap-2 transition-all">
+                    <span>&larr;</span>
+                    <span>Poin Sebelumnya</span>
+                </button>
+                <button type="button" id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs sm:text-sm font-bold hover:bg-blue-700 flex items-center gap-2 shadow-sm transition-all">
+                    <span>Poin Berikutnya</span>
+                    <span>&rarr;</span>
+                </button>
+            </div>
+
+            <!-- Academic Reference Box -->
+            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/80 text-xs sm:text-sm text-slate-600 space-y-2">
+                <div class="font-bold text-slate-900 flex items-center gap-2">
+                    <span>📚</span> Sumber Referensi Akademik & Kurikulum:
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-600">
+                    <li>Kemendikbudristek RI. (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Fisika Fase E</em>.</li>
+                    <li>IPCC. (2021). <em>Sixth Assessment Report (AR6): The Physical Science Basis - Chapter 1: Framing, Context, and Methods</em>. Cambridge University Press.</li>
+                    <li>NASA Goddard Institute for Space Studies (GISS). (2024). <em>GISS Surface Temperature Analysis (GISTEMP v4)</em>.</li>
+                    <li>NOAA Global Monitoring Laboratory. (2024). <em>Trends in Atmospheric Carbon Dioxide (Mauna Loa Observatory)</em>.</li>
+                    <li>Keeling, C. D., et al. (1976). <em>Atmospheric carbon dioxide variations at Mauna Loa Observatory, Hawaii</em>. Tellus, 28(6), 538-551.</li>
+                </ul>
+            </div>
+
+            <!-- Sub-Materi Prev / Next Bar -->
+            <div class="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-200 shadow-xs text-xs sm:text-sm">
+                <a href="kesepakatan-internasional-dan-net-zero.html" class="font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1.5">
+                    <span>&larr;</span> Sub-Bab 5: Kesepakatan Iklim Global & Net Zero
+                </a>
+                <span class="font-bold text-emerald-600 flex items-center gap-1.5">
+                    ✅ Bab 3 Selesai (Menuju Bab 4: Vektor & Kinematika)
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer-placeholder"></div>
+
+    <!-- SCRIPTS -->
+    <script src="../../js/curriculum.js"></script>
+    <script src="../../js/include.js"></script>
+    <script src="../../ielts/ielts-slider.js"></script>
+    <script src="../../js/materi-slider.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof renderMathInElement === "function") {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
