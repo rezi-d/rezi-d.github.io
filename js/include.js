@@ -90,6 +90,10 @@ function getCurrentSubbabKey() {
         kelasId = kelasId || 'mtk-' + parts[1].replace('kelas-', '');
         babSlug = babSlug || parts[2];
     }
+    if ((!kelasId || !babSlug) && parts.length >= 4 && parts[0] === 'fisika' && parts[1].startsWith('kelas-')) {
+        kelasId = kelasId || 'fis-' + parts[1].replace('kelas-', '');
+        babSlug = babSlug || parts[2];
+    }
     if (!kelasId || !babSlug || !halamanIni) return null;
     return `${kelasId}/${babSlug}/${halamanIni}`;
 }
@@ -111,6 +115,12 @@ function bangunSidebar() {
     }
     if ((!kelasId || !babSlug) && pathParts.length >= 4 && pathParts[0] === 'matematika' && pathParts[1].startsWith('kelas-')) {
         kelasId = kelasId || 'mtk-' + pathParts[1].replace('kelas-', '');
+        babSlug = babSlug || pathParts[2];
+        document.body.dataset.kelas = kelasId;
+        document.body.dataset.bab = babSlug;
+    }
+    if ((!kelasId || !babSlug) && pathParts.length >= 4 && pathParts[0] === 'fisika' && pathParts[1].startsWith('kelas-')) {
+        kelasId = kelasId || 'fis-' + pathParts[1].replace('kelas-', '');
         babSlug = babSlug || pathParts[2];
         document.body.dataset.kelas = kelasId;
         document.body.dataset.bab = babSlug;
