@@ -8,6 +8,7 @@ const DAFTAR_ARTIKEL_SAINS = [
 {
         "id": "eht-memotret-lubang-hitam-sagittarius-a",
         "slug": "eht-memotret-lubang-hitam-sagittarius-a",
+        "publishDate": "21 November 2026",
         "title": "Memotret yang Tak Terlihat: Bagaimana Teleskop Seukuran Bumi Menangkap Bayangan Lubang Hitam Sagittarius A*",
         "subtitle": "Teknologi Interferometri Garis Dasar Sangat Panjang (VLBI) yang menggabungkan 8 teleskop radio global untuk merekam cincin plasma bercahaya di tepi horizon peristiwa.",
         "category": "Astronomi & Antariksa",
@@ -45,6 +46,7 @@ const DAFTAR_ARTIKEL_SAINS = [
 {
         "id": "komputer-kuantum-superposisi-dan-qubit",
         "slug": "komputer-kuantum-superposisi-dan-qubit",
+        "publishDate": "21 November 2026",
         "title": "Komputer Kuantum: Menembus Batas Komputasi dengan Superposisi dan Quantum Entanglement",
         "subtitle": "Bagaimana bit kuantum (qubit) yang dapat bernilai 0 dan 1 sekaligus mampu menyelesaikan kalkulasi triliunan kemungkinan dalam hitungan detik.",
         "category": "Fisika & Kuantum",
@@ -82,6 +84,7 @@ const DAFTAR_ARTIKEL_SAINS = [
 {
         "id": "teleskop-james-webb-dan-relativitas-cahaya",
         "slug": "teleskop-james-webb-dan-relativitas-cahaya",
+        "publishDate": "21 November 2026",
         "title": "Mata Terjauh Umat Manusia: Bagaimana Teleskop James Webb Mengintip Cahaya Galaksi Tertua 13 Miliar Tahun Lalu",
         "subtitle": "Pemanfaatan pergeseran merah kosmologis (redshift), lensa gravitasi Einstein, dan cermin berilium berlapis emas di titik orbit Lagrange L2.",
         "category": "Astronomi & Antariksa",
@@ -119,6 +122,7 @@ const DAFTAR_ARTIKEL_SAINS = [
 {
         "id": "sel-surya-perovskit-efisiensi-rekor",
         "slug": "sel-surya-perovskit-efisiensi-rekor",
+        "publishDate": "21 November 2026",
         "title": "Revolusi Sel Surya Perovskit Tandem: Melampaui Batas Efisiensi Silikon untuk Transisi Energi Bersih",
         "subtitle": "Material kristal semikonduktor berstruktur mineral perovskit yang fleksibel, berbiaya murah, dan mampu memanen spektrum surya hingga efisiensi >33%.",
         "category": "Energi & Iklim",
@@ -156,6 +160,7 @@ const DAFTAR_ARTIKEL_SAINS = [
 {
         "id": "crispr-cas9-gunting-genetika-revolusioner",
         "slug": "crispr-cas9-gunting-genetika-revolusioner",
+        "publishDate": "21 November 2026",
         "title": "Gunting Molekuler CRISPR-Cas9: Memprogram Ulang Kode Kehidupan untuk Melawan Penyakit Genetik",
         "subtitle": "Dari mekanisme kekebalan purba bakteri melawan virus menjadi teknologi pengeditan DNA paling presisi yang diganjar Hadiah Nobel Kimia.",
         "category": "Biologi & Bioteknologi",
@@ -193,6 +198,7 @@ const DAFTAR_ARTIKEL_SAINS = [
 {
         "id": "gelombang-gravitasi-ligo-dan-ruang-waktu",
         "slug": "gelombang-gravitasi-ligo-dan-ruang-waktu",
+        "publishDate": "21 November 2026",
         "title": "Mendengarkan Riak Ruang-Waktu: Bagaimana Detektor LIGO Menangkap Gelombang Gravitasi Lubang Hitam",
         "subtitle": "Interferometer laser raksasa sepanjang 4 kilometer yang mendeteksi distorsi ruang-waktu berukuran 10.000 kali lebih kecil dari diameter inti atom.",
         "category": "Fisika & Kuantum",
