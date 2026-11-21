@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perkalian Titik (Dot Product) &amp; Perkalian Silang (Cross Product) — Fisika Kelas X</title>
+    <meta name="description" content="Modul Fisika Kelas X Bab 4: Konsep perkalian skalar dot product dan perkalian vektor cross product, aturan tangan kanan, matriks determinan torsi, dan usaha fisis berstandar Halliday-Resnick.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" 
+      data-mapel="fisika" 
+      data-kelas="fis-10" 
+      data-bab="vektor-dan-dasar-kinematika">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- WRAPPER UTAMA: 4 KOLOM -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- KOLOM KIRI (lg:col-span-1): SIDEBAR OTOMATIS -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- KOLOM KANAN (lg:col-span-3): KONTEN MATERI -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO CARD -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor &amp; Dasar Kinematika Gerak
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        4. Perkalian Titik (Dot Product) &amp; Perkalian Silang (Cross Product)
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Membedah dua bentuk operasi perkalian vektor fundamental dalam fisika: perkalian skalar (dot product) yang menghasilkan kuantitas energi skalar serta perkalian silang (cross product) yang menghasilkan vektor rotasi ortogonal dengan aturan tangan kanan dan ekspansi determinan matriks $3\times 3$.
+                    </p>
+                </div>
+
+                <!-- TOP STICKY SLIDER CONTROLLER -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDE 1 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-1">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Perkalian Skalar (Dot Product): Definisi, Sifat &amp; Aplikasi Fisis Usaha ($W$)
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Perkalian Skalar</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Perkalian titik atau perkalian skalar (<em>dot product</em> / <em>scalar product</em>) antara dua vektor $\vec{A}$ dan $\vec{B}$ didefinisikan sebagai hasil kali antara besar kedua vektor dengan nilai kosinus sudut terkecil $\theta$ yang diapit oleh keduanya. Hasil operasi ini berupa <strong>bilangan skalar murni (tanpa arah)</strong>.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50/70 p-5 rounded-2xl border border-blue-200/90 space-y-2">
+                            <h3 class="text-sm font-bold text-blue-900 flex items-center gap-2">
+                                <span>📐 1. Formulasi Geometris &amp; Aljabar</span>
+                            </h3>
+                            <div class="bg-white p-3 rounded-xl border border-blue-100 text-xs space-y-2 text-slate-800">
+                                <div><strong>Bentuk Sudut Geometris:</strong></div>
+                                $$\vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos\theta = AB\cos\theta$$
+                                <div><strong>Bentuk Komponen Kartesius:</strong></div>
+                                $$\vec{A} \cdot \vec{B} = A_x B_x + A_y B_y + A_z B_z$$
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                                <span>⚡ 2. Sifat-Sifat Aljabar Dot Product</span>
+                            </h3>
+                            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+                                <li><strong>Komutatif:</strong> $\vec{A} \cdot \vec{B} = \vec{B} \cdot \vec{A}$</li>
+                                <li><strong>Distributif:</strong> $\vec{A} \cdot (\vec{B} + \vec{C}) = \vec{A} \cdot \vec{B} + \vec{A} \cdot \vec{C}$</li>
+                                <li><strong>Perkalian Vektor Satuan Sejenis:</strong> $\hat{i} \cdot \hat{i} = \hat{j} \cdot \hat{j} = \hat{k} \cdot \hat{k} = 1$ (karena $\cos 0^\circ = 1$)</li>
+                                <li><strong>Ortogonal (Tegak Lurus):</strong> $\hat{i} \cdot \hat{j} = \hat{j} \cdot \hat{k} = \hat{k} \cdot \hat{i} = 0$ (karena $\cos 90^\circ = 0$)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- APLIKASI FISIS USAHA -->
+                    <div class="bg-gradient-to-r from-emerald-50 to-teal-50 p-5 rounded-2xl border border-emerald-200 space-y-2 text-xs sm:text-sm text-slate-700">
+                        <span class="font-bold text-emerald-900 text-xs uppercase tracking-wide block">Aplikasi Fisis Utama: Usaha Mekanik &amp; Daya Sesaat</span>
+                        <p class="leading-relaxed">
+                            Dalam termodinamika dan mekanika klasik, <strong>Usaha ($W$)</strong> yang dilakukan oleh gaya konstan $\vec{F}$ yang menyebabkan perpindahan $\vec{s}$ didefinisikan secara eksak sebagai perkalian titik:
+                            $$W = \vec{F} \cdot \vec{s} = F s \cos\theta$$
+                            Jika gaya tegak lurus perpindahan ($\theta = 90^\circ$), maka usaha $W = 0$ (contoh: gaya sentripetal pada gerak melingkar tidak melakukan usaha). Sedangkan <strong>Daya sesaat ($P$)</strong> adalah $P = \vec{F} \cdot \vec{v}$.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- SLIDE 2 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-2">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Perkalian Silang (Cross Product), Aturan Tangan Kanan &amp; Momen Gaya ($\vec{\tau}$)
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Perkalian Vektor</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Perkalian silang atau perkalian vektor (<em>cross product</em> / <em>vector product</em>) antara dua vektor $\vec{A}$ dan $\vec{B}$ menghasilkan <strong>vektor baru $\vec{C} = \vec{A} \times \vec{B}$</strong> yang arahnya <em>tegak lurus terhadap bidang yang dibentuk oleh $\vec{A}$ dan $\vec{B}$</em> sesuai dengan <strong>Aturan Tangan Kanan (Right-Hand Rule)</strong>.
+                    </p>
+
+                    <!-- SVG DIAGRAM GELAP BERKONTRAS TINGGI -->
+                    <div class="w-full bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-inner overflow-x-auto">
+                        <svg viewBox="0 0 720 380" class="w-full min-w-[620px] h-auto select-none font-sans" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="b4-s4-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                                    <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+                                </pattern>
+                                <marker id="c-cyan" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8"/>
+                                </marker>
+                                <marker id="c-yellow" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#facc15"/>
+                                </marker>
+                                <marker id="c-emerald" markerWidth="12" markerHeight="12" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 12 3.5, 0 7" fill="#34d399"/>
+                                </marker>
+                                <marker id="c-rose" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#f43f5e"/>
+                                </marker>
+                            </defs>
+
+                            <rect width="720" height="380" fill="#0f172a" rx="12"/>
+                            <rect width="720" height="380" fill="url(#b4-s4-grid)" rx="12"/>
+
+                            <!-- Bidang Datar Isometrik Tempat Vektor r dan F berada -->
+                            <!-- Titik pusat rotasi O=(240, 240) -->
+                            <polygon points="80 240, 320 310, 480 240, 240 170" fill="#1e293b" stroke="#475569" stroke-width="1.5" opacity="0.8"/>
+                            <text x="370" y="270" fill="#64748b" font-size="11" font-style="italic">Bidang Datar (r, F)</text>
+
+                            <!-- Vektor r (Lengan Momen / Radius) di bidang datar: dari (240, 240) ke (130, 275) -->
+                            <line x1="240" y1="240" x2="138" y2="272" stroke="#38bdf8" stroke-width="3.5" marker-end="url(#c-cyan)"/>
+                            <text x="140" y="300" fill="#38bdf8" font-size="13" font-weight="800">r (Lengan Gaya)</text>
+
+                            <!-- Vektor F (Gaya Tarik) di bidang datar: dari (240, 240) ke (390, 220) -->
+                            <line x1="240" y1="240" x2="380" y2="222" stroke="#facc15" stroke-width="3.5" marker-end="url(#c-yellow)"/>
+                            <text x="360" y="210" fill="#facc15" font-size="13" font-weight="800">F (Gaya Tarik)</text>
+
+                            <!-- Busur Putaran Sudut dari r menuju F -->
+                            <path d="M 180 258 A 70 30 0 0 0 310 231" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2"/>
+                            <text x="250" y="265" fill="#f59e0b" font-size="11" font-weight="700">Putaran (r → F)</text>
+
+                            <!-- Vektor Hasil Silang: Torsi tau = r x F (TEGAK LURUS KE ATAS / +z) -->
+                            <line x1="240" y1="240" x2="240" y2="60" stroke="#34d399" stroke-width="5" marker-end="url(#c-emerald)"/>
+                            <text x="250" y="80" fill="#34d399" font-size="15" font-weight="800">τ = r × F (Torsi +z)</text>
+                            <text x="250" y="98" fill="#a7f3d0" font-size="10">Arah Ibu Jari (Keluar/Atas)</text>
+
+                            <!-- Vektor Kebalikan: F x r = -tau (TEGAK LURUS KE BAWAH / -z) -->
+                            <line x1="240" y1="240" x2="240" y2="350" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#c-rose)"/>
+                            <text x="250" y="345" fill="#f43f5e" font-size="11" font-weight="700">-τ = F × r (Anti-komutatif)</text>
+
+                            <!-- SIKLUS PERMUTASI VEKTOR SATUAN SIKLIK (Panel Kanan) -->
+                            <rect x="500" y="45" width="200" height="290" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                            <text x="515" y="75" fill="#f8fafc" font-size="12" font-weight="700">Siklus Vektor Satuan:</text>
+                            
+                            <!-- Lingkaran Siklik: Center (600, 150), R=45 -->
+                            <circle cx="600" cy="150" r="45" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3"/>
+                            
+                            <!-- i, j, k posisi -->
+                            <!-- k di puncak (600, 105) -->
+                            <circle cx="600" cy="105" r="14" fill="#3b82f6"/>
+                            <text x="597" y="110" fill="#ffffff" font-size="12" font-weight="800">k̂</text>
+
+                            <!-- i di kiri bawah (561, 172) -->
+                            <circle cx="561" cy="172" r="14" fill="#10b981"/>
+                            <text x="559" y="177" fill="#ffffff" font-size="12" font-weight="800">î</text>
+
+                            <!-- j di kanan bawah (639, 172) -->
+                            <circle cx="639" cy="172" r="14" fill="#f59e0b"/>
+                            <text x="637" y="177" fill="#ffffff" font-size="12" font-weight="800">ĵ</text>
+
+                            <!-- Panah Siklik Searah Jarum Jam -->
+                            <path d="M 575 160 A 45 45 0 0 1 590 115" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#c-emerald)"/>
+                            <path d="M 610 115 A 45 45 0 0 1 630 155" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#c-emerald)"/>
+                            <path d="M 625 185 A 45 45 0 0 1 575 185" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#c-emerald)"/>
+
+                            <text x="515" y="225" fill="#cbd5e1" font-size="11" font-family="monospace">î × ĵ = +k̂</text>
+                            <text x="515" y="245" fill="#cbd5e1" font-size="11" font-family="monospace">ĵ × k̂ = +î</text>
+                            <text x="515" y="265" fill="#cbd5e1" font-size="11" font-family="monospace">k̂ × î = +ĵ</text>
+
+                            <text x="515" y="295" fill="#fca5a5" font-size="10">Jika berlawanan arah siklus:</text>
+                            <text x="515" y="315" fill="#f87171" font-size="11" font-family="monospace">ĵ × î = -k̂  (Anti-komutatif)</text>
+                        </svg>
+                    </div>
+
+                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 text-xs text-indigo-950 leading-relaxed">
+                        <strong>🖐️ Cara Praktis Aturan Tangan Kanan:</strong> Buka telapak tangan kanan lurus mengarah ke vektor pertama $\vec{A}$. Tekuk keempat jari Anda ke arah vektor kedua $\vec{B}$ melalui sudut terkecil. Maka, <strong>ibu jari yang teracung tegak lurus</strong> langsung menunjukkan arah dari $\vec{A} \times \vec{B}$.
+                    </div>
+                </section>
+
+                <!-- SLIDE 3 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Tabel Komparasi Fundamental: Perkalian Skalar (Dot) vs Perkalian Silang (Cross)
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Matriks Perbandingan</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Kedua jenis perkalian vektor ini memainkan peran vital dalam formulasi hukum alam semesta (mekanika, elektrodinamika Maxwell, dan fisika kuantum). Perbandingan komprehensif disajikan pada tabel berikut:
+                    </p>
+
+                    <!-- TABEL DATA LENGKAP -->
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse bg-white">
+                            <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-r border-slate-200">Karakteristik Operasi</th>
+                                    <th class="p-3 border-r border-slate-200 text-blue-700">Perkalian Titik (Dot Product) $\vec{A} \cdot \vec{B}$</th>
+                                    <th class="p-3 text-indigo-700">Perkalian Silang (Cross Product) $\vec{A} \times \vec{B}$</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-700">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Jenis Kuantitas Hasil</td>
+                                    <td class="p-3 border-r border-slate-200 font-bold text-blue-900">Skalar Murni (Hanya angka dan satuan)</td>
+                                    <td class="p-3 font-bold text-indigo-900">Vektor Sejati (Memiliki besar dan arah ortogonal)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Formula Magnitudo</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">$|\vec{A}\cdot\vec{B}| = AB\cos\theta$</td>
+                                    <td class="p-3 font-mono text-xs">$|\vec{A}\times\vec{B}| = AB\sin\theta$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Nilai Maksimum</td>
+                                    <td class="p-3 border-r border-slate-200">Saat $\theta = 0^\circ$ (Sejajar searah, $\cos 0^\circ = 1$)</td>
+                                    <td class="p-3">Saat $\theta = 90^\circ$ (Saling tegak lurus, $\sin 90^\circ = 1$)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Kondisi Bernilai Nol ($=0$)</td>
+                                    <td class="p-3 border-r border-slate-200 text-rose-700 font-semibold">Saat $\theta = 90^\circ$ (Vektor ortogonal)</td>
+                                    <td class="p-3 text-rose-700 font-semibold">Saat $\theta = 0^\circ$ atau $180^\circ$ (Vektor kolinier/sejajar)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Sifat Komutatif Aljabar</td>
+                                    <td class="p-3 border-r border-slate-200 text-emerald-700"><strong>Komutatif:</strong> $\vec{A}\cdot\vec{B} = \vec{B}\cdot\vec{A}$</td>
+                                    <td class="p-3 text-rose-700"><strong>Anti-komutatif:</strong> $\vec{A}\times\vec{B} = -(\vec{B}\times\vec{A})$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Vektor Satuan Sejenis</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">$\hat{i}\cdot\hat{i} = \hat{j}\cdot\hat{j} = \hat{k}\cdot\hat{k} = 1$</td>
+                                    <td class="p-3 font-mono text-xs">$\hat{i}\times\hat{i} = \hat{j}\times\hat{j} = \hat{k}\times\hat{k} = \vec{0}$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Interpretasi Geometris</td>
+                                    <td class="p-3 border-r border-slate-200">Panjang proyeksi satu vektor pada garis kerja vektor lain</td>
+                                    <td class="p-3">Luas jajaran genjang yang dibentuk oleh kedua vektor</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Contoh Besaran Fisis</td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        Usaha ($W = \vec{F}\cdot\vec{s}$)<br>
+                                        Daya ($P = \vec{F}\cdot\vec{v}$)<br>
+                                        Fluks Magnetik ($\Phi = \vec{B}\cdot\vec{A}$)
+                                    </td>
+                                    <td class="p-3">
+                                        Momen Gaya / Torsi ($\vec{\tau} = \vec{r}\times\vec{F}$)<br>
+                                        Momentum Sudut ($\vec{L} = \vec{r}\times\vec{p}$)<br>
+                                        Gaya Lorentz ($\vec{F}_B = q(\vec{v}\times\vec{B})$)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SLIDE 4 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Contoh Soal Terbimbing: Perhitungan Usaha Fisis &amp; Torsi Determinan $3\times 3$
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Kalkulasi Analitis</span>
+                    </div>
+
+                    <!-- KASUS 1 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Kasus 1: Perhitungan Usaha Mekanik &amp; Sudut Antara Dua Vektor</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-full">Level: Aplikasi Dot Product</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Sebuah balok ditarik oleh gaya konstan $\vec{F} = (4\hat{i} + 3\hat{j})\text{ Newton}$ sehingga mengalami perpindahan sejauh $\vec{s} = (5\hat{i} + 2\hat{j})\text{ meter}$. Tentukan:<br>
+                            (a) Besar usaha ($W$) yang dilakukan oleh gaya tersebut.<br>
+                            (b) Besar sudut ($\theta$) antara arah vektor gaya dan arah perpindahannya.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-bold text-slate-900 text-xs uppercase tracking-wide">Langkah Penyelesaian Sistematis:</p>
+                            <p class="text-xs">
+                                <strong>1. Perhitungan Usaha ($W = \vec{F} \cdot \vec{s}$):</strong>
+                                $$W = F_x s_x + F_y s_y = (4)(5) + (3)(2) = 20 + 6 = 26\text{ Joule}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Menghitung Besar Masing-Masing Vektor:</strong>
+                                $$|\vec{F}| = \sqrt{4^2 + 3^2} = \sqrt{16 + 9} = \sqrt{25} = 5\text{ N}$$
+                                $$|\vec{s}| = \sqrt{5^2 + 2^2} = \sqrt{25 + 4} = \sqrt{29} \approx 5{,}385\text{ m}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>3. Menghitung Sudut $\theta$:</strong>
+                                $$\cos\theta = \frac{\vec{F} \cdot \vec{s}}{|\vec{F}| |\vec{s}|} = \frac{26}{5 \times 5{,}385} = \frac{26}{26{,}925} \approx 0{,}9656$$
+                                $$\theta = \arccos(0{,}9656) \approx 15{,}07^\circ$$
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Usaha yang ditransfer ke balok adalah sebesar $26\text{ Joule}$, dengan sudut antara gaya penarik dan arah luncur balok hanya $15{,}07^\circ$.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KASUS 2 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Kasus 2: Momen Gaya (Torsi) dengan Matriks Determinan $3\times 3$</span>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">Level: HOTS Cross Product 3D</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Suatu gaya $\vec{F} = (2\hat{i} + 3\hat{j} - \hat{k})\text{ Newton}$ bekerja pada ujung batang engsel yang memiliki vektor posisi lengan gaya $\vec{r} = (4\hat{i} - \hat{j} + 2\hat{k})\text{ meter}$. Tentukan vektor momen gaya (torsi) $\vec{\tau} = \vec{r} \times \vec{F}$ menggunakan ekspansi determinan kofaktor!
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="text-xs">
+                                <strong>1. Susunan Determinan Matriks $3\times 3$:</strong>
+                                $$\vec{\tau} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ r_x & r_y & r_z \\ F_x & F_y & F_z \end{vmatrix} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ 4 & -1 & 2 \\ 2 & 3 & -1 \end{vmatrix}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Ekspansi Kofaktor Baris Pertama:</strong>
+                                $$\vec{\tau} = \hat{i} \begin{vmatrix} -1 & 2 \\ 3 & -1 \end{vmatrix} - \hat{j} \begin{vmatrix} 4 & 2 \\ 2 & -1 \end{vmatrix} + \hat{k} \begin{vmatrix} 4 & -1 \\ 2 & 3 \end{vmatrix}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>3. Evaluasi Determinan $2\times 2$:</strong>
+                                <ul>
+                                    <li>Komponen $\hat{i}$: $(-1)(-1) - (2)(3) = 1 - 6 = -5$</li>
+                                    <li>Komponen $\hat{j}$: $-[(4)(-1) - (2)(2)] = -[-4 - 4] = -(-8) = +8$</li>
+                                    <li>Komponen $\hat{k}$: $(4)(3) - (-1)(2) = 12 - (-2) = 12 + 2 = +14$</li>
+                                </ul>
+                                Maka: $\vec{\tau} = (-5\hat{i} + 8\hat{j} + 14\hat{k})\text{ N}\cdot\text{m}$.
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Torsi putar memiliki komponen sumbu $x$ sebesar $-5\text{ N}\cdot\text{m}$, sumbu $y$ sebesar $+8\text{ N}\cdot\text{m}$, dan komponen sumbu $z$ paling dominan $+14\text{ N}\cdot\text{m}$.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-5">
+                    <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                            </h2>
+                        </div>
+                        <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Pilihlah salah satu opsi jawaban pada masing-masing soal. Sistem pelacak progres akan merekam nilai secara otomatis saat seluruh soal terjawab.
+                    </p>
+
+                    <div class="space-y-5">
+                        <!-- SOAL 1 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Syarat Nilai Nol Perkalian Titik</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Dua buah vektor $\vec{A}$ dan $\vec{B}$ tak-nol diketahui memiliki perkalian titik $\vec{A} \cdot \vec{B} = 0$. Hubungan geometris antara kedua vektor tersebut adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q1" value="A" class="accent-blue-600">
+                                    <span>A. Kedua vektor sejajar dan searah ($\theta = 0^\circ$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q1" value="B" class="accent-blue-600">
+                                    <span>B. Kedua vektor saling tegak lurus ($\theta = 90^\circ$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q1" value="C" class="accent-blue-600">
+                                    <span>C. Kedua vektor berlawanan arah ($\theta = 180^\circ$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q1" value="D" class="accent-blue-600">
+                                    <span>D. Salah satu vektor bernilai negatif dari yang lain</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-4-q1" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Hitung Dot Product Komponen</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Diketahui dua vektor $\vec{A} = 3\hat{i} + 4\hat{j}$ dan $\vec{B} = 2\hat{i} - 5\hat{j}$. Nilai dari perkalian skalar $\vec{A} \cdot \vec{B}$ adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q2" value="A" class="accent-blue-600">
+                                    <span>A. $-14$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q2" value="B" class="accent-blue-600">
+                                    <span>B. $+26$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q2" value="C" class="accent-blue-600">
+                                    <span>C. $-14\hat{k}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q2" value="D" class="accent-blue-600">
+                                    <span>D. $0$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-4-q2" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Perkalian Silang Vektor Satuan</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Berdasarkan aturan permutasi siklik perkalian silang vektor satuan pada koordinat kartesius kanan, hasil dari perkalian silang $\hat{k} \times \hat{j}$ adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q3" value="A" class="accent-blue-600">
+                                    <span>A. $+\hat{i}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q3" value="B" class="accent-blue-600">
+                                    <span>B. $-\hat{i}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q3" value="C" class="accent-blue-600">
+                                    <span>C. $0$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q3" value="D" class="accent-blue-600">
+                                    <span>D. $1$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-4-q3" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 4 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Besaran Fisis Hasil Cross Product</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Manakah di antara besaran fisika berikut yang diformulasikan menggunakan operasi <strong>perkalian silang (cross product)</strong>?
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q4" value="A" class="accent-blue-600">
+                                    <span>A. Usaha mekanik ($W = \vec{F} \cdot \vec{s}$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q4" value="B" class="accent-blue-600">
+                                    <span>B. Daya sesaat ($P = \vec{F} \cdot \vec{v}$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q4" value="C" class="accent-blue-600">
+                                    <span>C. Momen gaya / torsi ($\vec{\tau} = \vec{r} \times \vec{F}$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-4-q4" value="D" class="accent-blue-600">
+                                    <span>D. Fluks magnetik ($\Phi = \vec{B} \cdot \vec{A}$)</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-4-q4" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- SKRIP AUTO-SCORE EVENT LISTENER (STANDAR EMAS MATEMATIKA) -->
+                    <script>
+                    (function() {
+                        const answers = {
+                            "fis-10-4-4-q1": { correct: "B", explanation: "\\vec{A} \\cdot \\vec{B} = AB\\cos\\theta = 0. Karena A \\ne 0 dan B \\ne 0, maka \\cos\\theta = 0 \\implies \\theta = 90° (kedua vektor saling tegak lurus/ortogonal)." },
+                            "fis-10-4-4-q2": { correct: "A", explanation: "\\vec{A} \\cdot \\vec{B} = (3)(2) + (4)(-5) = 6 - 20 = -14 (hasilnya adalah skalar murni, bukan vektor berarah \\hat{k})." },
+                            "fis-10-4-4-q3": { correct: "B", explanation: "Karena urutan siklus adalah î -> ĵ -> k̂ -> î, maka perkalian ĵ × k̂ = +î, tetapi k̂ × ĵ berlawanan siklus sehingga bernilai -î." },
+                            "fis-10-4-4-q4": { correct: "C", explanation: "Torsi \\vec{\\tau} = \\vec{r} \\times \\vec{F} merupakan perkalian silang (menghasilkan vektor rotasi). Usaha, daya, dan fluks adalah perkalian titik (menghasilkan besaran skalar)." }
+                        };
+
+                        Object.keys(answers).forEach(qName => {
+                            const radios = document.querySelectorAll(`input[name="${qName}"]`);
+                            radios.forEach(r => {
+                                r.addEventListener('change', () => {
+                                    const fb = document.getElementById(`feedback-${qName}`);
+                                    if (r.value === answers[qName].correct) {
+                                        fb.innerHTML = `<div class="p-3 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-xs sm:text-sm font-semibold">✅ Tepat sekali! ${answers[qName].explanation}</div>`;
+                                    } else {
+                                        fb.innerHTML = `<div class="p-3 bg-rose-50 text-rose-800 rounded-xl border border-rose-200 text-xs sm:text-sm font-semibold">❌ Jawaban belum tepat. Coba telaah kembali materi pada slide sebelumnya!</div>`;
+                                    }
+                                    if (window.renderMathInElement) {
+                                        renderMathInElement(fb, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+                                    }
+                                });
+                            });
+                        });
+                    })();
+                    </script>
+                </section>
+
+                <!-- BOTTOM SLIDER NAVIGATION BAR -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Fisika Fase E</em>.</p>
+                    <p><strong>Halliday, David, Resnick, Robert, &amp; Walker, Jearl.</strong> (2018). <em>Fundamentals of Physics</em> (11th ed. Extended). John Wiley &amp; Sons.</p>
+                    <p><strong>Serway, Raymond A. &amp; Jewett, John W.</strong> (2018). <em>Physics for Scientists and Engineers with Modern Physics</em> (10th ed.). Cengage Learning.</p>
+                    <p><strong>David Morin.</strong> (2008). <em>Introduction to Classical Mechanics: With Problems and Solutions</em>. Cambridge University Press.</p>
+                </div>
+
+                <!-- NAVIGASI SUB-BAB SEBELUMNYA / SELANJUTNYA -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="penguraian-vektor-dan-komponen-kartesius.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">&larr; Sebelumnya: 3. Penguraian Komponen Kartesius</a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 4 dari 6</span>
+                    <a href="kinematika-1d-glb-dan-glbb.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">Lanjut: 5. Kinematika 1D (GLB &amp; GLBB) &rarr;</a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT & ASSETS -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

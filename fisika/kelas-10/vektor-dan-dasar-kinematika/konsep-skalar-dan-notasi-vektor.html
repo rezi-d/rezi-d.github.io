@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsep Skalar vs Vektor &amp; Representasi Geometris Vektor — Fisika Kelas X</title>
+    <meta name="description" content="Modul Fisika Kelas X Bab 4: Konsep perbedaan besaran skalar dan vektor, representasi geometris anak panah, sudut arah pada bidang kartesius, dan sifat translasi vektor bebas berstandar Halliday-Resnick.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" 
+      data-mapel="fisika" 
+      data-kelas="fis-10" 
+      data-bab="vektor-dan-dasar-kinematika">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- WRAPPER UTAMA: 4 KOLOM -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- KOLOM KIRI (lg:col-span-1): SIDEBAR OTOMATIS -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- KOLOM KANAN (lg:col-span-3): KONTEN MATERI -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO CARD -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor &amp; Dasar Kinematika Gerak
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        1. Konsep Skalar vs Vektor &amp; Representasi Geometris Vektor
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Membedakan secara hakiki besaran skalar yang hanya memiliki magnitudo (nilai dan satuan) dengan besaran vektor yang memiliki magnitudo sekaligus arah fisis dalam ruang, memahami konvensi representasi geometris segmen garis berarah, sudut arah pada bidang kartesius, serta sifat invarian translasi vektor bebas.
+                    </p>
+                </div>
+
+                <!-- TOP STICKY SLIDER CONTROLLER -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDE 1 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-1">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Konsep Dasar: Perbedaan Hakiki Besaran Skalar &amp; Besaran Vektor
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Landasan Mekanika</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Dalam fisika, seluruh besaran fisis terbagi menjadi dua klasifikasi fundamental berdasarkan ketergantungannya terhadap orientasi spasial di alam semesta: <strong>besaran skalar</strong> dan <strong>besaran vektor</strong>. Pemahaman distingsi ini merupakan prasyarat mutlak sebelum mempelajari dinamika gerak, hukum gravitasi, dan mekanika benda tegar.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50/60 p-5 rounded-2xl border border-blue-200/80 space-y-2">
+                            <div class="flex items-center gap-2 text-blue-900 font-bold text-sm sm:text-base">
+                                <span class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs">S</span>
+                                <span>Besaran Skalar (Scalar Quantity)</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Besaran yang terdeskripsikan secara lengkap <strong>hanya dengan sebuah nilai kuantitatif (magnitudo)</strong> dan satuan fisis yang relevan. Besaran skalar mematuhi hukum aljabar aritmatika biasa (komutatif, asosiatif, distributif langsung tanpa memperhitungkan sudut orientasi).
+                            </p>
+                            <div class="bg-white/80 p-3 rounded-xl border border-blue-100 text-xs text-slate-700 font-mono">
+                                Contoh: Massa ($m = 5\text{ kg}$), Waktu ($t = 12\text{ s}$), Suhu ($T = 300\text{ K}$), Jarak ($s = 100\text{ m}$), Energi/Usaha ($W = 50\text{ J}$).
+                            </div>
+                        </div>
+
+                        <div class="bg-indigo-50/60 p-5 rounded-2xl border border-indigo-200/80 space-y-2">
+                            <div class="flex items-center gap-2 text-indigo-900 font-bold text-sm sm:text-base">
+                                <span class="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs">V</span>
+                                <span>Besaran Vektor (Vector Quantity)</span>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Besaran yang memerlukan <strong>magnitudo (besar), satuan, dan arah fisis spesifik</strong> dalam ruang untuk dapat dipahami secara utuh. Penjumlahan dan pengurangan besaran vektor wajib mengikuti aturan aljabar vektor (geometri trigonometri atau komponen kartesius).
+                            </p>
+                            <div class="bg-white/80 p-3 rounded-xl border border-indigo-100 text-xs text-slate-700 font-mono">
+                                Contoh: Perpindahan ($\vec{r}$), Kecepatan ($\vec{v}$), Percepatan ($\vec{a}$), Gaya ($\vec{F}$), Momentum ($\vec{p}$), Torsi ($\vec{\tau}$).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <span>📝 Notasi Matematis &amp; Karakter Vektor Bebas</span>
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Berdasarkan konsensus internasional IUPAP dan standar pustaka <em>Fundamentals of Physics</em> (Halliday, Resnick &amp; Walker):
+                        </p>
+                        <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+                            <li><strong>Simbol Vektor:</strong> Dituliskan dengan huruf berpanah di atasnya seperti $\vec{A}$, $\vec{v}$, $\vec{F}$, atau huruf tebal tegak (bold) $\mathbf{A}, \mathbf{v}, \mathbf{F}$.</li>
+                            <li><strong>Besar (Magnitudo) Vektor:</strong> Merupakan kuantitas skalar non-negatif ($A \ge 0$) yang dinyatakan dengan tanda mutlak $|\vec{A}|$ atau cukup huruf miring biasa $A$. Besar vektor selalu bernilai positif atau nol.</li>
+                            <li><strong>Vektor Negatif ($-\vec{A}$):</strong> Vektor yang memiliki magnitudo tepat sama dengan $\vec{A}$ ($|-\vec{A}| = |\vec{A}|$), namun arah orientasinya tepat berlawanan $180^\circ$ dari $\vec{A}$.</li>
+                            <li><strong>Invarian Translasi (Vektor Bebas):</strong> Sebuah vektor tidak terikat pada satu titik tetap di ruang. Suatu vektor boleh digeser (ditranslasikan) ke mana saja asalkan <em>panjang</em> dan <em>arah sudutnya</em> tidak diubah.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- SLIDE 2 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-2">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Representasi Geometris &amp; Sudut Arah Bidang Kartesius 2D
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Visualisasi Geometri</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Secara geometris, besaran vektor direpresentasikan sebagai <strong>segmen garis berarah (anak panah)</strong>. Panjang anak panah menggambarkan nilai atau besar vektor sebanding dengan skala yang ditentukan, sedangkan mata panah menunjukkan arah vektor. Arah vektor dua dimensi diukur sebagai sudut $\theta$ berlawanan arah putaran jarum jam (<em>counter-clockwise</em>) dari sumbu horizontal positif ($+x$).
+                    </p>
+
+                    <!-- SVG DIAGRAM GELAP BERKONTRAS TINGGI -->
+                    <div class="w-full bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-inner overflow-x-auto">
+                        <svg viewBox="0 0 720 380" class="w-full min-w-[620px] h-auto select-none font-sans" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="b4-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                                    <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.5" stroke-dasharray="2,2"/>
+                                </pattern>
+                                <marker id="arrow-cyan" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8"/>
+                                </marker>
+                                <marker id="arrow-teal" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#2dd4bf"/>
+                                </marker>
+                                <marker id="arrow-rose" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#f43f5e"/>
+                                </marker>
+                                <marker id="arrow-axis" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                                    <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
+                                </marker>
+                            </defs>
+
+                            <!-- Background Grid -->
+                            <rect width="720" height="380" fill="#0f172a" rx="12"/>
+                            <rect width="720" height="380" fill="url(#b4-grid)" rx="12"/>
+
+                            <!-- Sumbu Koordinat Utama (Origin at x=220, y=260) -->
+                            <line x1="60" y1="260" x2="660" y2="260" stroke="#64748b" stroke-width="1.8" marker-end="url(#arrow-axis)"/>
+                            <line x1="220" y1="350" x2="220" y2="40" stroke="#64748b" stroke-width="1.8" marker-end="url(#arrow-axis)"/>
+                            <text x="665" y="264" fill="#94a3b8" font-size="12" font-weight="700">+x (Timur / 0°)</text>
+                            <text x="225" y="35" fill="#94a3b8" font-size="12" font-weight="700">+y (Utara / 90°)</text>
+                            <text x="205" y="278" fill="#94a3b8" font-size="12" font-family="monospace">O (0,0)</text>
+
+                            <!-- Vektor A Primer: dari (220, 260) ke (420, 110) dx=+200, dy=-150 -> theta = 36.87 deg -->
+                            <!-- Proyeksi garis putus-putus -->
+                            <line x1="220" y1="110" x2="420" y2="110" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,4" opacity="0.6"/>
+                            <line x1="420" y1="260" x2="420" y2="110" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4,4" opacity="0.6"/>
+                            <circle cx="220" cy="260" r="4" fill="#38bdf8"/>
+                            <circle cx="420" cy="110" r="4" fill="#38bdf8"/>
+
+                            <!-- Vektor A -->
+                            <line x1="220" y1="260" x2="415" y2="114" stroke="#38bdf8" stroke-width="3.5" marker-end="url(#arrow-cyan)"/>
+                            <text x="310" y="170" fill="#38bdf8" font-size="14" font-weight="800">A = 250 N</text>
+
+                            <!-- Busur Sudut Theta -->
+                            <path d="M 280 260 A 60 60 0 0 0 268 224" fill="none" stroke="#facc15" stroke-width="2"/>
+                            <text x="285" y="240" fill="#facc15" font-size="12" font-weight="700">θ = 36,9°</text>
+
+                            <!-- Label Komponen A_x dan A_y -->
+                            <text x="300" y="280" fill="#38bdf8" font-size="11" font-family="monospace">A_x = 200 N</text>
+                            <text x="430" y="190" fill="#38bdf8" font-size="11" font-family="monospace">A_y = 150 N</text>
+
+                            <!-- Titik Tangkap dan Kepala Panah Text -->
+                            <rect x="90" y="285" width="125" height="30" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+                            <text x="98" y="304" fill="#cbd5e1" font-size="10">Pangkal (Titik Tangkap)</text>
+                            <line x1="210" y1="290" x2="220" y2="265" stroke="#94a3b8" stroke-width="1"/>
+
+                            <rect x="440" y="80" width="115" height="30" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+                            <text x="448" y="99" fill="#cbd5e1" font-size="10">Ujung (Kepala Panah)</text>
+                            <line x1="440" y1="100" x2="422" y2="110" stroke="#94a3b8" stroke-width="1"/>
+
+                            <!-- Vektor Ekuivalen A' (Translasi Bebas) -->
+                            <!-- Dari (340, 180) ke (540, 30) dx=+200, dy=-150 -->
+                            <line x1="360" y1="200" x2="555" y2="54" stroke="#2dd4bf" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrow-teal)"/>
+                            <text x="480" y="130" fill="#2dd4bf" font-size="11" font-weight="700">A' (Vektor Bebas Ekuivalen)</text>
+                            <text x="480" y="145" fill="#94a3b8" font-size="9">|A'| = |A|, arah sejajar θ</text>
+
+                            <!-- Vektor Negatif -A: dari (220, 260) ke (20, 410) -> displayed to (80, 365) dx=-140, dy=+105 -->
+                            <line x1="220" y1="260" x2="90" y2="357" stroke="#f43f5e" stroke-width="3" marker-end="url(#arrow-rose)"/>
+                            <text x="75" y="340" fill="#f43f5e" font-size="12" font-weight="800">-A (Vektor Negatif)</text>
+                            <text x="75" y="355" fill="#fca5a5" font-size="9">Arah berbalik 180°</text>
+
+                            <!-- Legend Box -->
+                            <rect x="490" y="270" width="210" height="90" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                            <text x="505" y="290" fill="#f8fafc" font-size="11" font-weight="700">Keterangan Geometris:</text>
+                            <circle cx="515" cy="310" r="4" fill="#38bdf8"/>
+                            <text x="528" y="313" fill="#cbd5e1" font-size="10">Vektor Primer A (Mag: 250 N)</text>
+                            <circle cx="515" cy="328" r="4" fill="#2dd4bf"/>
+                            <text x="528" y="331" fill="#cbd5e1" font-size="10">Translasi Bebas A' (Invarian)</text>
+                            <circle cx="515" cy="346" r="4" fill="#f43f5e"/>
+                            <text x="528" y="349" fill="#cbd5e1" font-size="10">Vektor Negatif -A (Beda 180°)</text>
+                        </svg>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 text-xs text-blue-900 leading-relaxed">
+                        <strong>💡 Prinsip Fisika Kunci:</strong> Dua buah vektor dinyatakan <em>sama persis (ekuivalen)</em> jika dan hanya jika keduanya memiliki <strong>besar yang sama</strong> dan <strong>arah orientasi yang sama</strong>, tanpa memedulikan di mana titik pangkalnya berada pada sistem koordinat.
+                    </div>
+                </section>
+
+                <!-- SLIDE 3 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Tabel Komparasi Komprehensif Besaran Skalar vs Besaran Vektor
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Tabel Komparasi</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Banyak besaran dalam fisika memiliki satuan yang identik namun beroperasi berdasarkan sifat aljabar yang sangat berlainan karena status skalar dan vektornya. Tabel berikut merangkum pasangan besaran pokok dan turunan dalam mekanika klasik:
+                    </p>
+
+                    <!-- TABEL DATA LENGKAP -->
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse bg-white">
+                            <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-r border-slate-200">Aspek / Pasangan</th>
+                                    <th class="p-3 border-r border-slate-200 text-blue-700">Besaran Skalar</th>
+                                    <th class="p-3 border-r border-slate-200 text-indigo-700">Besaran Vektor</th>
+                                    <th class="p-3">Dampak Fisis Perubahan Arah</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-700">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Panjang Lintasan</td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Jarak ($s$)</strong><br>
+                                        <span class="text-xs text-slate-500">Total panjang seluruh jejak tempuh objek. Selalu positif ($s \ge 0$).</span>
+                                    </td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Perpindahan ($\Delta \vec{r}$)</strong><br>
+                                        <span class="text-xs text-slate-500">Perubahan posisi dari titik awal ke titik akhir ($\vec{r}_2 - \vec{r}_1$).</span>
+                                    </td>
+                                    <td class="p-3 text-xs">Jika kembali ke titik awal, jarak $s > 0$, sedangkan perpindahan $\Delta \vec{r} = 0$.</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Laju Perubahan Gerak</td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Kelajuan ($v = \Delta s / \Delta t$)</strong><br>
+                                        <span class="text-xs text-slate-500">Besaran skalar pembacaan speedometer kendaraan.</span>
+                                    </td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Kecepatan ($\vec{v} = \Delta \vec{r} / \Delta t$)</strong><br>
+                                        <span class="text-xs text-slate-500">Laju perubahan posisi berarah spesifik.</span>
+                                    </td>
+                                    <td class="p-3 text-xs">Mobil berputar di tikungan dengan kelajuan tetap mengalami percepatan karena kecepatan vektornya berubah arah!</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Gaya &amp; Inersia</td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Massa ($m$)</strong><br>
+                                        <span class="text-xs text-slate-500">Ukuran kelembaman intrinsik materi (satuan: kg). Tetap di mana pun.</span>
+                                    </td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Berat / Gaya Berat ($\vec{w} = m\vec{g}$)</strong><br>
+                                        <span class="text-xs text-slate-500">Gaya gravitasi menarik objek menuju pusat massa bumi (satuan: N).</span>
+                                    </td>
+                                    <td class="p-3 text-xs">Massa astronot di bumi dan di bulan sama persis ($60\text{ kg}$), namun beratnya di bulan berkurang menjadi $1/6\times$.</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Pengaruh Dinamik</td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Usaha &amp; Energi ($W, E_k, E_p$)</strong><br>
+                                        <span class="text-xs text-slate-500">Hasil kali skalar (dot product) gaya dan perpindahan ($W = \vec{F} \cdot \vec{s}$).</span>
+                                    </td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Momen Gaya / Torsi ($\vec{\tau} = \vec{r} \times \vec{F}$)</strong><br>
+                                        <span class="text-xs text-slate-500">Hasil kali silang (cross product) vektor lengan gaya dan gaya putar.</span>
+                                    </td>
+                                    <td class="p-3 text-xs">Usaha fisis bernilai skalar (Joule), sedangkan torsi memiliki arah putar searah atau berlawanan jarum jam ($\text{N}\cdot\text{m}$).</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Kerapatan Impuls</td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Tekanan ($P = F_\perp / A$)</strong><br>
+                                        <span class="text-xs text-slate-500">Gaya normal per satuan luas permukaan (Skalar Pascal).</span>
+                                    </td>
+                                    <td class="p-3 border-r border-slate-200">
+                                        <strong>Momentum Linier ($\vec{p} = m\vec{v}$)</strong><br>
+                                        <span class="text-xs text-slate-500">Kuantitas gerak benda berarah sama dengan kecepatan.</span>
+                                    </td>
+                                    <td class="p-3 text-xs">Tumbukan lenting sempurna membalik arah $\vec{p}$ dari $+mv$ menjadi $-mv$, menghasilkan perubahan momentum $\Delta p = 2mv$.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SLIDE 4 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Contoh Soal Terbimbing: Analisis Jarak vs Perpindahan &amp; Vektor Posisi
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Pemecahan Masalah Terbimbing</span>
+                    </div>
+
+                    <!-- KASUS 1 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Kasus 1: Distingsi Jarak Tempuh vs Perpindahan 2D</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-full">Level: Konseptual-Analitis</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Seorang siswa berlari di lapangan terbuka. Mula-mula ia berlari ke arah <strong>timur sejauh $120\text{ meter}$</strong>, kemudian ia berbelok tajam tepat ke arah <strong>utara sejauh $50\text{ meter}$</strong>. Tentukan:<br>
+                            (a) Jarak total ($s$) yang ditempuh siswa tersebut.<br>
+                            (b) Besar vektor perpindahan ($|\Delta \vec{r}|$) yang dialami siswa dari posisi awal.<br>
+                            (c) Sudut arah perpindahan ($\theta$) diukur relatif terhadap arah timur (sumbu $+x$).
+                        </p>
+                        
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-bold text-slate-900 text-xs uppercase tracking-wide">Langkah Penyelesaian Sistematis:</p>
+                            <p><strong>1. Identifikasi Data:</strong></p>
+                            <ul class="list-disc list-inside space-y-1 text-xs">
+                                <li>Segmen 1 (Timur / sumbu $+x$): $\Delta x = +120\text{ m}$</li>
+                                <li>Segmen 2 (Utara / sumbu $+y$): $\Delta y = +50\text{ m}$</li>
+                            </ul>
+                            
+                            <p class="pt-2"><strong>2. Perhitungan Jarak Skalar ($s$):</strong></p>
+                            <p class="text-xs">
+                                Jarak merupakan besaran skalar, dijumlahkan secara aljabar skalar biasa tanpa memedulikan sudut belokan:
+                                $$s = s_1 + s_2 = 120\text{ m} + 50\text{ m} = 170\text{ meter}$$
+                            </p>
+
+                            <p class="pt-2"><strong>3. Perhitungan Besar Vektor Perpindahan ($|\Delta \vec{r}|$):</strong></p>
+                            <p class="text-xs">
+                                Perpindahan adalah garis lurus dari titik awal ke titik akhir. Karena arah timur dan utara membentuk sudut siku-siku ($90^\circ$), berlaku Teorema Pythagoras:
+                                $$|\Delta \vec{r}| = \sqrt{(\Delta x)^2 + (\Delta y)^2} = \sqrt{120^2 + 50^2} = \sqrt{14400 + 2500} = \sqrt{16900} = 130\text{ meter}$$
+                            </p>
+
+                            <p class="pt-2"><strong>4. Perhitungan Sudut Arah Vektor ($\theta$):</strong></p>
+                            <p class="text-xs">
+                                Tangens sudut arah terhadap sumbu horizontal timur:
+                                $$\tan\theta = \frac{\Delta y}{\Delta x} = \frac{50}{120} = \frac{5}{12} \approx 0{,}4167 \implies \theta = \arctan(0{,}4167) \approx 22{,}62^\circ$$
+                            </p>
+
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Jarak total yang ditempuh siswa adalah $170\text{ m}$, namun perpindahan bersihnya hanya $130\text{ m}$ dengan arah $22{,}62^\circ$ condong ke arah utara dari timur (U-T). Terbukti bahwa $|\Delta \vec{r}| \le s$.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KASUS 2 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Kasus 2: Vektor Posisi Titik Tangkap ke Titik Ujung</span>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">Level: Penerapan Aljabar</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Sebuah partikel di laboratorium bergerak pada bidang $xy$ dari titik koordinat awal $P_1(2, 3)\text{ m}$ menuju koordinat akhir $P_2(8, 11)\text{ m}$. Tentukan:<br>
+                            (a) Vektor perpindahan $\Delta \vec{r}$ dalam komponen sumbu $x$ dan $y$.<br>
+                            (b) Panjang perpindahan $|\Delta \vec{r}|$.<br>
+                            (c) Sudut arah $\theta$ terhadap sumbu $+x$.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-bold text-slate-900 text-xs uppercase tracking-wide">Langkah Penyelesaian Sistematis:</p>
+                            <p class="text-xs">
+                                <strong>1. Komponen Vektor Perpindahan:</strong>
+                                $$\Delta x = x_2 - x_1 = 8\text{ m} - 2\text{ m} = 6\text{ meter}$$
+                                $$\Delta y = y_2 - y_1 = 11\text{ m} - 3\text{ m} = 8\text{ meter}$$
+                                Maka dalam notasi vektor komponen: $\Delta \vec{r} = (6\text{ m})\hat{i} + (8\text{ m})\hat{j}$.
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Panjang Vektor Perpindahan:</strong>
+                                $$|\Delta \vec{r}| = \sqrt{\Delta x^2 + \Delta y^2} = \sqrt{6^2 + 8^2} = \sqrt{36 + 64} = \sqrt{100} = 10\text{ meter}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>3. Arah Vektor Perpindahan:</strong>
+                                $$\tan\theta = \frac{\Delta y}{\Delta x} = \frac{8}{6} = \frac{4}{3} \implies \theta = \arctan(1{,}333) \approx 53{,}13^\circ$$
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Partikel mengalami perpindahan sejauh $10\text{ meter}$ membentuk sudut $53{,}13^\circ$ terhadap sumbu $+x$ di Kuadran I.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-5">
+                    <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                            </h2>
+                        </div>
+                        <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Pilihlah salah satu opsi jawaban pada masing-masing soal. Sistem pelacak progres akan merekam nilai secara otomatis saat seluruh soal terjawab.
+                    </p>
+
+                    <div class="space-y-5">
+                        <!-- SOAL 1 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Klasifikasi Besaran Fisis</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Manakah di antara kelompok besaran berikut yang <strong>seluruhnya</strong> merupakan besaran vektor dalam mekanika fisika?
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q1" value="A" class="accent-blue-600">
+                                    <span>A. Jarak, kelajuan, dan massa</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q1" value="B" class="accent-blue-600">
+                                    <span>B. Perpindahan, kecepatan, dan percepatan</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q1" value="C" class="accent-blue-600">
+                                    <span>C. Energi kinetik, usaha, dan daya</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q1" value="D" class="accent-blue-600">
+                                    <span>D. Waktu, suhu mutlak, dan volume</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-1-q1" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Jarak vs Perpindahan Lintasan Tertutup</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Seorang atlet berlari mengelilingi lintasan atletik melingkar dengan keliling $400\text{ meter}$ tepat sebanyak $2$ kali putaran penuh dan kembali berhenti di garis start awal. Nilai jarak tempuh ($s$) dan besar perpindahan ($|\Delta \vec{r}|$) atlet berturut-turut adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q2" value="A" class="accent-blue-600">
+                                    <span>A. $s = 0\text{ m}$ dan $|\Delta \vec{r}| = 800\text{ m}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q2" value="B" class="accent-blue-600">
+                                    <span>B. $s = 800\text{ m}$ dan $|\Delta \vec{r}| = 400\text{ m}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q2" value="C" class="accent-blue-600">
+                                    <span>C. $s = 800\text{ m}$ dan $|\Delta \vec{r}| = 0\text{ m}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q2" value="D" class="accent-blue-600">
+                                    <span>D. $s = 400\text{ m}$ dan $|\Delta \vec{r}| = 0\text{ m}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-1-q2" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Karakteristik Vektor Negatif</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Jika diketahui vektor gaya $\vec{F}_1 = 50\text{ N}$ mengarah ke sudut $30^\circ$ terhadap sumbu $+x$, maka vektor negatif $-\vec{F}_1$ memiliki karakteristik...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q3" value="A" class="accent-blue-600">
+                                    <span>A. Besar $50\text{ N}$ dengan arah $210^\circ$ terhadap sumbu $+x$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q3" value="B" class="accent-blue-600">
+                                    <span>B. Besar $-50\text{ N}$ dengan arah $30^\circ$ terhadap sumbu $+x$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q3" value="C" class="accent-blue-600">
+                                    <span>C. Besar $50\text{ N}$ dengan arah $120^\circ$ terhadap sumbu $+x$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q3" value="D" class="accent-blue-600">
+                                    <span>D. Besar $-50\text{ N}$ dengan arah $210^\circ$ terhadap sumbu $+x$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-1-q3" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 4 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Besar Perpindahan Bidang Koordinat</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Suatu drone bergeser dari koordinat $(1, 2)\text{ m}$ ke koordinat $(4, 6)\text{ m}$. Besar perpindahan total yang dialami drone tersebut adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q4" value="A" class="accent-blue-600">
+                                    <span>A. $7\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q4" value="B" class="accent-blue-600">
+                                    <span>B. $5\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q4" value="C" class="accent-blue-600">
+                                    <span>C. $25\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-1-q4" value="D" class="accent-blue-600">
+                                    <span>D. $\sqrt{7}\text{ meter}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-1-q4" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- SKRIP AUTO-SCORE EVENT LISTENER (STANDAR EMAS MATEMATIKA) -->
+                    <script>
+                    (function() {
+                        const answers = {
+                            "fis-10-4-1-q1": { correct: "B", explanation: "Perpindahan, kecepatan, dan percepatan semuanya mensyaratkan besar dan arah spesifik. Jarak, laju, massa, energi, waktu, dan suhu adalah besaran skalar." },
+                            "fis-10-4-1-q2": { correct: "C", explanation: "Jarak skalar adalah total keliling: 2 x 400 m = 800 m. Karena kembali persis ke titik start, posisi akhir = posisi awal sehingga perpindahan bernilai 0 m." },
+                            "fis-10-4-1-q3": { correct: "A", explanation: "Besar vektor selalu positif (|-\vec{F}_1| = 50 N). Arahnya berlawanan 180°: 30° + 180° = 210° terhadap sumbu +x." },
+                            "fis-10-4-1-q4": { correct: "B", explanation: "\Delta x = 4 - 1 = 3 m dan \Delta y = 6 - 2 = 4 m. Besar perpindahan = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = 5 m." }
+                        };
+
+                        Object.keys(answers).forEach(qName => {
+                            const radios = document.querySelectorAll(`input[name="${qName}"]`);
+                            radios.forEach(r => {
+                                r.addEventListener('change', () => {
+                                    const fb = document.getElementById(`feedback-${qName}`);
+                                    if (r.value === answers[qName].correct) {
+                                        fb.innerHTML = `<div class="p-3 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-xs sm:text-sm font-semibold">✅ Tepat sekali! ${answers[qName].explanation}</div>`;
+                                    } else {
+                                        fb.innerHTML = `<div class="p-3 bg-rose-50 text-rose-800 rounded-xl border border-rose-200 text-xs sm:text-sm font-semibold">❌ Jawaban belum tepat. Coba telaah kembali materi pada slide sebelumnya!</div>`;
+                                    }
+                                    if (window.renderMathInElement) {
+                                        renderMathInElement(fb, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+                                    }
+                                });
+                            });
+                        });
+                    })();
+                    </script>
+                </section>
+
+                <!-- BOTTOM SLIDER NAVIGATION BAR -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Fisika Fase E</em>.</p>
+                    <p><strong>Halliday, David, Resnick, Robert, &amp; Walker, Jearl.</strong> (2018). <em>Fundamentals of Physics</em> (11th ed. Extended). John Wiley &amp; Sons.</p>
+                    <p><strong>Serway, Raymond A. &amp; Jewett, John W.</strong> (2018). <em>Physics for Scientists and Engineers with Modern Physics</em> (10th ed.). Cengage Learning.</p>
+                    <p><strong>David Morin.</strong> (2008). <em>Introduction to Classical Mechanics: With Problems and Solutions</em>. Cambridge University Press.</p>
+                </div>
+
+                <!-- NAVIGASI SUB-BAB SEBELUMNYA / SELANJUTNYA -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <span class="text-xs text-slate-400 font-semibold select-none">&larr; Awal Bab 4</span>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 1 dari 6</span>
+                    <a href="penjumlahan-dan-pengurangan-vektor.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">Lanjut: Metode Grafis &amp; Poligon &rarr;</a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT & ASSETS -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

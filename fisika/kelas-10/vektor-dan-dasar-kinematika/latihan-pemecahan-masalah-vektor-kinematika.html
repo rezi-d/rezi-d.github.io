@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Pemecahan Masalah Terpadu Vektor &amp; Kinematika 1D — Fisika Kelas X</title>
+    <meta name="description" content="Modul Fisika Kelas X Bab 4: Latihan pemecahan masalah terpadu vektor dan kinematika 1D, analisis gerak berpapasan, kasus susul-menyusul, dan penyeberangan sungai berarus berstandar Halliday-Resnick.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" 
+      data-mapel="fisika" 
+      data-kelas="fis-10" 
+      data-bab="vektor-dan-dasar-kinematika">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- WRAPPER UTAMA: 4 KOLOM -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- KOLOM KIRI (lg:col-span-1): SIDEBAR OTOMATIS -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- KOLOM KANAN (lg:col-span-3): KONTEN MATERI -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO CARD -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor &amp; Dasar Kinematika Gerak
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        6. Latihan Pemecahan Masalah Terpadu Vektor &amp; Kinematika 1D
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Mengintegrasikan pemahaman konsep aljabar vektor, dekomposisi komponen kartesius, dan persamaan gerak kinematika untuk memecahkan problem fisika kompleks multiobjek bertaraf HOTS dan persiapan Olimpiade Sains: masalah berpapasan, kejar-mengejar kendaraan, serta gerak relatif dua dimensi perahu menyeberangi sungai berarus.
+                    </p>
+                </div>
+
+                <!-- TOP STICKY SLIDER CONTROLLER -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDE 1 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-1">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Strategi Heuristik Polya &amp; Konsep Kecepatan Relatif pada Sistem Bergerak
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Problem Solving Framework</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Menghadapi persoalan fisika lanjutan menuntut kerangka berpikir terstruktur, bukan sekadar menghafal rumus. Berdasarkan metodologi pemecahan masalah George Polya dan buku teks <em>Introduction to Classical Mechanics</em> (David Morin), setiap problem kinematika diselesaikan melalui empat tahap logis:
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-200/80 space-y-1">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold mb-1">1</span>
+                            <h3 class="font-bold text-blue-900 text-xs">Pahami &amp; Sketsa</h3>
+                            <p class="text-[11px] text-slate-600 leading-relaxed">Gambarkan diagram koordinat fisis, tentukan titik acuan origin $x=0$, dan tetapkan arah positif (+x).</p>
+                        </div>
+                        <div class="bg-indigo-50/70 p-4 rounded-xl border border-indigo-200/80 space-y-1">
+                            <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold mb-1">2</span>
+                            <h3 class="font-bold text-indigo-900 text-xs">Rancang Relasi</h3>
+                            <p class="text-[11px] text-slate-600 leading-relaxed">Tuliskan persamaan posisi masing-masing objek $x_A(t)$ dan $x_B(t)$ secara independen.</p>
+                        </div>
+                        <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200/80 space-y-1">
+                            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold mb-1">3</span>
+                            <h3 class="font-bold text-emerald-900 text-xs">Eksekusi Aljabar</h3>
+                            <p class="text-[11px] text-slate-600 leading-relaxed">Terapkan kondisi fisis pertemuan ($x_A = x_B$) dan pecahkan persamaan kuadrat atau linier.</p>
+                        </div>
+                        <div class="bg-amber-50/70 p-4 rounded-xl border border-amber-200/80 space-y-1">
+                            <span class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs font-bold mb-1">4</span>
+                            <h3 class="font-bold text-amber-900 text-xs">Evaluasi Fisis</h3>
+                            <p class="text-[11px] text-slate-600 leading-relaxed">Cek apakah hasil $t > 0$, periksa satuan SI, dan uji kasus batas ekstrem logisnya.</p>
+                        </div>
+                    </div>
+
+                    <!-- KECEPATAN RELATIF -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <span>🧭 Transformasi Kecepatan Relatif Galilean</span>
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Kecepatan objek $A$ yang diukur oleh pengamat yang berada pada objek $B$ ($\vec{v}_{AB}$) didefinisikan sebagai pengurangan vektor:
+                        </p>
+                        <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs space-y-1 text-slate-800">
+                            $$\vec{v}_{AB} = \vec{v}_A - \vec{v}_B$$
+                            <ul class="list-disc list-inside space-y-1 pt-1 text-slate-600">
+                                <li><strong>Objek Bergerak Berlawanan Arah (Saling Mendekat):</strong> Besar kecepatan relatif adalah penjumlahan kelajuan: $v_{\text{rel}} = v_A + v_B$. Waktu temu: $t = \frac{d}{v_A + v_B}$.</li>
+                                <li><strong>Objek Bergerak Searah (Kejar-Mengejar):</strong> Besar kecepatan relatif adalah selisih kelajuan: $v_{\text{rel}} = v_A - v_B$. Waktu kejar: $t = \frac{d_0}{v_A - v_B}$ (hanya terkejar jika $v_A > v_B$).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 2 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-2">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Visualisasi Vektor Kecepatan Relatif: Kasus Perahu Menyeberangi Sungai Berarus
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Dinamika 2 Dimensi</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Sebuah perahu menyeberangi sungai berarus deras dengan lebar $d$. Kecepatan total perahu terhadap pengamat di tepi daratan ($\vec{v}_{\text{total}}$) adalah penjumlahan vektor dari kecepatan mesin perahu di air tenang ($\vec{v}_{\text{perahu}}$) dan kecepatan arus sungai ($\vec{v}_{\text{arus}}$): $\vec{v}_{\text{total}} = \vec{v}_{\text{perahu}} + \vec{v}_{\text{arus}}$.
+                    </p>
+
+                    <!-- SVG DIAGRAM GELAP BERKONTRAS TINGGI -->
+                    <div class="w-full bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-inner overflow-x-auto">
+                        <svg viewBox="0 0 720 380" class="w-full min-w-[620px] h-auto select-none font-sans" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="b4-s6-grid" width="25" height="25" patternUnits="userSpaceOnUse">
+                                    <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+                                </pattern>
+                                <marker id="r-cyan" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8"/>
+                                </marker>
+                                <marker id="r-yellow" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#facc15"/>
+                                </marker>
+                                <marker id="r-emerald" markerWidth="11" markerHeight="11" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 11 3.5, 0 7" fill="#34d399"/>
+                                </marker>
+                                <marker id="r-rose" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#f43f5e"/>
+                                </marker>
+                            </defs>
+
+                            <rect width="720" height="380" fill="#0f172a" rx="12"/>
+                            <rect width="720" height="380" fill="url(#b4-s6-grid)" rx="12"/>
+
+                            <!-- Tepian Sungai Atas (Utara) & Bawah (Selatan) -->
+                            <rect x="30" y="40" width="660" height="30" fill="#334155" rx="4"/>
+                            <text x="50" y="60" fill="#cbd5e1" font-size="11" font-weight="700">Tepian Utara (Seberang)</text>
+                            
+                            <rect x="30" y="310" width="660" height="30" fill="#334155" rx="4"/>
+                            <text x="50" y="330" fill="#cbd5e1" font-size="11" font-weight="700">Tepian Selatan (Start)</text>
+
+                            <!-- Area Air Sungai: y: 70..310 (Tinggi = 240 px, mewakili lebar sungai d) -->
+                            <rect x="30" y="70" width="660" height="240" fill="#0369a1" opacity="0.15"/>
+
+                            <!-- Garis-Garis Aliran Arus Air Sungai (Arus ke arah Timur / Kanan) -->
+                            <g stroke="#38bdf8" stroke-width="1" stroke-dasharray="8,8" opacity="0.4">
+                                <line x1="50" y1="120" x2="670" y2="120"/>
+                                <line x1="50" y1="180" x2="670" y2="180"/>
+                                <line x1="50" y1="240" x2="670" y2="240"/>
+                            </g>
+                            
+                            <!-- Panah Kecepatan Arus Sungai v_arus -->
+                            <line x1="260" y1="180" x2="380" y2="180" stroke="#facc15" stroke-width="3" marker-end="url(#r-yellow)"/>
+                            <text x="280" y="170" fill="#facc15" font-size="12" font-weight="800">v_arus = 3 m/s (Timur)</text>
+
+                            <!-- Indikator Lebar Sungai d -->
+                            <line x1="70" y1="70" x2="70" y2="310" stroke="#94a3b8" stroke-width="1.5"/>
+                            <line x1="65" y1="70" x2="75" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+                            <line x1="65" y1="310" x2="75" y2="310" stroke="#94a3b8" stroke-width="1.5"/>
+                            <text x="80" y="195" fill="#94a3b8" font-size="12" font-weight="700">Lebar d = 160 m</text>
+
+                            <!-- SKENARIO A: Arah Perahu Tegak Lurus Arus (Waktu Tersingkat) -->
+                            <!-- Titik Start P_0 = (200, 310) -->
+                            <circle cx="200" cy="310" r="5" fill="#ffffff"/>
+                            <text x="180" y="330" fill="#ffffff" font-size="11" font-weight="700">Start (A)</text>
+
+                            <!-- Vektor Kemudi Mesin Perahu v_p (Tegak Lurus ke Utara): dari (200, 310) ke (200, 190) dy=-120 -->
+                            <line x1="200" y1="310" x2="200" y2="198" stroke="#38bdf8" stroke-width="3.5" marker-end="url(#r-cyan)"/>
+                            <text x="110" y="250" fill="#38bdf8" font-size="12" font-weight="800">v_p = 4 m/s</text>
+
+                            <!-- Garis Arus dari Kepala v_p ke Kanan: dx=+90 -->
+                            <line x1="200" y1="190" x2="285" y2="190" stroke="#facc15" stroke-width="2.5" stroke-dasharray="4,2" marker-end="url(#r-yellow)"/>
+
+                            <!-- Vektor Resultan Kecepatan Nyata v_tot: dari (200, 310) ke (290, 190) -->
+                            <line x1="200" y1="310" x2="285" y2="196" stroke="#34d399" stroke-width="4" marker-end="url(#r-emerald)"/>
+                            <text x="260" y="260" fill="#34d399" font-size="13" font-weight="800">v_tot = 5 m/s</text>
+
+                            <!-- Lintasan Hanyut Sebenarnya ke Titik Seberang (200 + 120 = 320, 70) -->
+                            <line x1="200" y1="310" x2="360" y2="70" stroke="#34d399" stroke-width="1.8" stroke-dasharray="6,4"/>
+                            <circle cx="360" cy="70" r="5" fill="#34d399"/>
+                            <text x="370" y="85" fill="#34d399" font-size="11" font-weight="700">Tiba di B' (Hanyut)</text>
+
+                            <!-- Titik Tepat di Seberang B (200, 70) -->
+                            <circle cx="200" cy="70" r="4" fill="#64748b"/>
+                            <text x="160" y="65" fill="#94a3b8" font-size="10">Titik Tepat Seberang (B)</text>
+
+                            <!-- Garis Jarak Hanyut di Tepian Utara: dari (200, 70) ke (360, 70) -->
+                            <line x1="200" y1="70" x2="360" y2="70" stroke="#f43f5e" stroke-width="2.5"/>
+                            <text x="220" y="95" fill="#f43f5e" font-size="11" font-weight="800">Jarak Hanyut = 120 m</text>
+
+                            <!-- Info Box Kanan -->
+                            <rect x="440" y="90" width="250" height="200" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                            <text x="455" y="115" fill="#f8fafc" font-size="12" font-weight="700">Analisis Penyeberangan Sungai:</text>
+                            
+                            <text x="455" y="140" fill="#38bdf8" font-size="11">Kecepatan mesin: v_p = 4 m/s (ke Utara)</text>
+                            <text x="455" y="158" fill="#facc15" font-size="11">Kecepatan arus: v_a = 3 m/s (ke Timur)</text>
+                            
+                            <line x1="455" y1="168" x2="675" y2="168" stroke="#475569" stroke-width="0.8"/>
+                            
+                            <text x="455" y="190" fill="#34d399" font-size="11" font-weight="700">1. Laju terhadap tanah (v_tot):</text>
+                            <text x="470" y="206" fill="#cbd5e1" font-size="10" font-family="monospace">√(4² + 3²) = 5 m/s</text>
+                            
+                            <text x="455" y="228" fill="#34d399" font-size="11" font-weight="700">2. Waktu Tempuh Penyeberangan:</text>
+                            <text x="470" y="244" fill="#cbd5e1" font-size="10" font-family="monospace">t = d / v_p = 160 / 4 = 40 detik</text>
+                            
+                            <text x="455" y="266" fill="#f43f5e" font-size="11" font-weight="700">3. Jarak Hanyut di Seberang:</text>
+                            <text x="470" y="282" fill="#cbd5e1" font-size="10" font-family="monospace">x = v_a × t = 3 × 40 = 120 meter</text>
+                        </svg>
+                    </div>
+
+                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 text-xs text-indigo-950 leading-relaxed">
+                        <strong>💡 Strategi Khusus (Lintasan Terpendek):</strong> Jika nakhoda perahu ingin tiba <em>tepat tegak lurus di titik B tanpa hanyut</em>, perahu wajib dikemudikan <strong>menyerong ke arah hulu sungai (melawan arus)</strong> dengan sudut $\sin\theta = \frac{v_{\text{arus}}}{v_{\text{perahu}}}$. Syarat mutlak: kecepatan mesin perahu wajib lebih besar dari kecepatan arus ($v_p > v_a$).
+                    </div>
+                </section>
+
+                <!-- SLIDE 3 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Tabel Matriks Analisis Kasus Kinematika Kompleks &amp; Strategi Penyelesaiannya
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Matriks Strategi</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Tabel berikut memetakan 4 model soal standar olimpiade dan ujian kompetitif dalam materi vektor dan kinematika beserta kunci strategi matematisnya:
+                    </p>
+
+                    <!-- TABEL DATA LENGKAP -->
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse bg-white">
+                            <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-r border-slate-200">Model Permasalahan</th>
+                                    <th class="p-3 border-r border-slate-200">Kondisi Fisis Kunci</th>
+                                    <th class="p-3 border-r border-slate-200 text-blue-700">Persamaan Matematis Pokok</th>
+                                    <th class="p-3">Catatan Khusus / Jebakan Ujian</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-700">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Berpapasan dari Arah Berlawanan</td>
+                                    <td class="p-3 border-r border-slate-200">Kedua objek terpisah jarak awal $d$ dan saling mendekat</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">
+                                        $x_A(t) + x_B(t) = d$<br>
+                                        $t_{\text{temu}} = \frac{d}{v_A + v_B}$ (jika GLB)
+                                    </td>
+                                    <td class="p-3 text-xs">Perhatikan jika salah satu objek berangkat lebih dulu ($\Delta t \ne 0$). Kurangi dulu jarak awal dengan jarak tempuh awal objek pertama!</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">Susul-Menyusul / Kejar-Mengejar</td>
+                                    <td class="p-3 border-r border-slate-200">Objek pengejar berada di belakang dan memiliki percepatan/kelajuan lebih tinggi</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">
+                                        $x_{\text{kejar}}(t) = x_{\text{target}}(t)$<br>
+                                        $\frac{1}{2}a t^2 = v_0 t$ (kasus GLBB menyusul GLB)
+                                    </td>
+                                    <td class="p-3 text-xs">Akan muncul dua solusi waktu dari persamaan kuadrat: $t=0$ (saat start) dan $t > 0$ (saat tepat tersusul). Ambil selalu $t > 0$.</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 bg-blue-50/30">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200 text-blue-900">Perahu: Waktu Tempuh Minimum ($t_{\min}$)</td>
+                                    <td class="p-3 border-r border-slate-200">Kemudi perahu diarahkan tegak lurus tepian sungai ($\theta = 90^\circ$)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs text-blue-900">
+                                        $t_{\min} = \frac{d}{v_{\text{perahu}}}$<br>
+                                        $x_{\text{hanyut}} = v_{\text{arus}} \times t_{\min}$
+                                    </td>
+                                    <td class="p-3 text-xs">Waktu penyeberangan sama sekali <strong>tidak dipengaruhi</strong> oleh kelajuan arus sungai! Arus hanya menyebabkan perahu hanyut menyamping.</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 bg-indigo-50/30">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200 text-indigo-900">Perahu: Lintasan Terpendek (Tanpa Hanyut)</td>
+                                    <td class="p-3 border-r border-slate-200">Resultan perahu wajib tepat tegak lurus tepian menuju titik seberang</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs text-indigo-900">
+                                        $\sin\theta = \frac{v_{\text{arus}}}{v_{\text{perahu}}}$<br>
+                                        $v_{\text{tot}} = \sqrt{v_p^2 - v_a^2}$
+                                    </td>
+                                    <td class="p-3 text-xs">Hanya mungkin jika $v_p > v_a$. Jika $v_p \le v_a$, mustahil perahu dapat tiba tegak lurus seberang!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SLIDE 4 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Contoh Soal Terbimbing: Masalah Kejar-Mengejar Mobil Polisi &amp; Penyeberangan Sungai
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Analisis HOTS Tingkat Lanjut</span>
+                    </div>
+
+                    <!-- KASUS 1 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Kasus 1: Polisi Mengejar Pelanggar Kecepatan</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-full">Level: HOTS GLB vs GLBB</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Sebuah sedan melanggar batas kecepatan dengan kelajuan tetap $v_s = 30\text{ m/s}$ ($108\text{ km/jam}$). Tepat pada saat sedan melewati pos polisi lalu lintas, seorang polisi langsung menyalakan mobil patroli dan mengejar dari keadaan diam ($v_0 = 0$) dengan percepatan konstan $a_p = 3\text{ m/s}^2$. Tentukan:<br>
+                            (a) Waktu ($t$) yang dibutuhkan polisi hingga berhasil menyusul mobil sedan.<br>
+                            (b) Jarak ($x$) yang ditempuh mobil polisi dari pos hingga menyusul sedan.<br>
+                            (c) Kelajuan mobil polisi ($v_p$) tepat pada saat menyusul.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-bold text-slate-900 text-xs uppercase tracking-wide">Langkah Penyelesaian Sistematis:</p>
+                            <p class="text-xs">
+                                <strong>1. Persamaan Posisi Kedua Kendaraan:</strong>
+                                <ul>
+                                    <li>Sedan (GLB murni): $x_s(t) = v_s \cdot t = 30 t$</li>
+                                    <li>Polisi (GLBB dari diam): $x_p(t) = \frac{1}{2} a_p t^2 = \frac{1}{2}(3) t^2 = 1{,}5 t^2$</li>
+                                </ul>
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Syarat Menyusul ($x_p(t) = x_s(t)$):</strong>
+                                $$1{,}5 t^2 = 30 t \implies 1{,}5 t^2 - 30 t = 0 \implies t(1{,}5 t - 30) = 0$$
+                                Solusi yang relevan ($t > 0$):
+                                $$1{,}5 t = 30 \implies t = \frac{30}{1{,}5} = 20\text{ detik}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>3. Jarak Tempuh Menyusul:</strong>
+                                $$x = 30 \times 20 = 600\text{ meter}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>4. Kecepatan Polisi saat Menyusul:</strong>
+                                $$v_p = a_p \cdot t = 3\text{ m/s}^2 \times 20\text{ s} = 60\text{ m/s} = 216\text{ km/jam}$$
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Polisi berhasil menyusul sedan setelah $20\text{ detik}$ pada jarak $600\text{ m}$ dari pos, dengan kecepatan yang sangat tinggi yaitu dua kali lipat kecepatan sedan ($60\text{ m/s}$).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KASUS 2 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Kasus 2: Penyeberangan Sungai Lintasan Terpendek</span>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">Level: Vektor 2D Analitis</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Sebuah perahu bermotor memiliki kelajuan $v_p = 5\text{ m/s}$ di air tenang. Perahu tersebut hendak menyeberangi sungai selebar $240\text{ meter}$ yang memiliki arus sungai seragam berkecepatan $v_a = 3\text{ m/s}$. Agar perahu mendarat <strong>tepat di titik seberang tegak lurus</strong>, tentukan:<br>
+                            (a) Sudut kemudi ($\theta$) perahu terhadap arah aliran arus sungai.<br>
+                            (b) Besar kecepatan resultan perahu relatif terhadap tanah.<br>
+                            (c) Waktu yang dibutuhkan perahu untuk tiba di seberang.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="text-xs">
+                                <strong>1. Menghitung Sudut Kemudi:</strong>
+                                Komponen perahu yang melawan arus harus tepat meniadakan arus:
+                                $$v_p \sin\phi = v_a \implies \sin\phi = \frac{v_a}{v_p} = \frac{3}{5} = 0{,}6 \implies \phi = 37^\circ \text{ (ke arah hulu dari garis tegak lurus)}$$
+                                Sudut terhadap arah aliran arus sungai: $\theta = 90^\circ + 37^\circ = 127^\circ$.
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Besar Kecepatan Resultan Terhadap Tanah:</strong>
+                                $$v_{\text{tot}} = \sqrt{v_p^2 - v_a^2} = \sqrt{5^2 - 3^2} = \sqrt{25 - 9} = \sqrt{16} = 4\text{ m/s (tepat ke arah utara)}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>3. Waktu Penyeberangan:</strong>
+                                $$t = \frac{d}{v_{\text{tot}}} = \frac{240\text{ m}}{4\text{ m/s}} = 60\text{ detik}$$
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Perahu menyeberang tepat tegak lurus dalam waktu $60\text{ detik}$ dengan kecepatan bersih $4\text{ m/s}$ setelah sebagian tenaga mesin perahu dikorbankan untuk menahan laju arus sungai.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-5">
+                    <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                            </h2>
+                        </div>
+                        <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Pilihlah salah satu opsi jawaban pada masing-masing soal. Sistem pelacak progres akan merekam nilai secara otomatis saat seluruh soal terjawab.
+                    </p>
+
+                    <div class="space-y-5">
+                        <!-- SOAL 1 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Waktu Berpapasan Dua Benda</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Dua mobil $A$ dan $B$ terpisah jarak sejauh $300\text{ meter}$. Keduanya bergerak saling mendekati pada lintasan lurus yang sama dengan kelajuan tetap masing-masing $v_A = 15\text{ m/s}$ dan $v_B = 10\text{ m/s}$. Waktu yang dibutuhkan hingga kedua mobil tersebut berpapasan adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q1" value="A" class="accent-blue-600">
+                                    <span>A. $60\text{ detik}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q1" value="B" class="accent-blue-600">
+                                    <span>B. $20\text{ detik}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q1" value="C" class="accent-blue-600">
+                                    <span>C. $12\text{ detik}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q1" value="D" class="accent-blue-600">
+                                    <span>D. $30\text{ detik}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-6-q1" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Kecepatan Bersih Perahu Tegak Lurus Arus</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Sebuah perahu diarahkan tegak lurus menyeberangi sungai dengan kecepatan mesin $v_p = 8\text{ m/s}$. Jika kecepatan arus air sungai adalah $v_a = 6\text{ m/s}$, maka besar kecepatan gerak perahu yang teramati oleh orang di tepi sungai adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q2" value="A" class="accent-blue-600">
+                                    <span>A. $14\text{ m/s}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q2" value="B" class="accent-blue-600">
+                                    <span>B. $10\text{ m/s}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q2" value="C" class="accent-blue-600">
+                                    <span>C. $2\text{ m/s}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q2" value="D" class="accent-blue-600">
+                                    <span>D. $48\text{ m/s}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-6-q2" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Waktu Penyeberangan Minimum</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Sebuah sungai memiliki lebar $100\text{ meter}$ dengan kecepatan arus $4\text{ m/s}$. Sebuah perahu menyeberangi sungai dengan mengarahkan moncongnya tegak lurus tepian dengan kecepatan mesin $5\text{ m/s}$. Waktu yang diperlukan perahu hingga tiba di seberang adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q3" value="A" class="accent-blue-600">
+                                    <span>A. $20\text{ detik}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q3" value="B" class="accent-blue-600">
+                                    <span>B. $25\text{ detik}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q3" value="C" class="accent-blue-600">
+                                    <span>C. $15{,}6\text{ detik}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q3" value="D" class="accent-blue-600">
+                                    <span>D. $100\text{ detik}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-6-q3" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 4 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Syarat Kemudi Bebas Hanyut</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Agar sebuah perahu dapat menyeberangi sungai berarus dan mendarat tepat lurus di titik seberang tanpa hanyut sedikit pun ke hilir, maka kemudi perahu harus diarahkan...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q4" value="A" class="accent-blue-600">
+                                    <span>A. Tepat searah dengan aliran arus sungai</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q4" value="B" class="accent-blue-600">
+                                    <span>B. Tepat tegak lurus tepian sungai</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q4" value="C" class="accent-blue-600">
+                                    <span>C. Menyerong ke arah hulu sungai melawan arah arus</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-6-q4" value="D" class="accent-blue-600">
+                                    <span>D. Menyerong ke arah hilir sungai mengikuti arus</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-6-q4" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- SKRIP AUTO-SCORE EVENT LISTENER (STANDAR EMAS MATEMATIKA) -->
+                    <script>
+                    (function() {
+                        const answers = {
+                            "fis-10-4-6-q1": { correct: "C", explanation: "t_{\\text{temu}} = \\frac{d}{v_A + v_B} = \\frac{300}{15 + 10} = \\frac{300}{25} = 12 detik." },
+                            "fis-10-4-6-q2": { correct: "B", explanation: "Karena kecepatan perahu dan arus saling tegak lurus (90°): v_{\\text{tot}} = \\sqrt{v_p^2 + v_a^2} = \\sqrt{8^2 + 6^2} = \\sqrt{64 + 36} = 10 m/s." },
+                            "fis-10-4-6-q3": { correct: "A", explanation: "Waktu penyeberangan hanya bergantung pada lebar sungai dan komponen kecepatan tegak lurus: t = \\frac{d}{v_p} = \\frac{100 m}{5 m/s} = 20 detik (arus hanya menghanyutkan ke hilir tanpa memperlambat penyeberangan)." },
+                            "fis-10-4-6-q4": { correct: "C", explanation: "Perahu wajib mengarahkan kemudi menyerong ke arah hulu sungai agar komponen horizontal kecepatan perahu tepat meniadakan dorongan kecepatan arus sungai." }
+                        };
+
+                        Object.keys(answers).forEach(qName => {
+                            const radios = document.querySelectorAll(`input[name="${qName}"]`);
+                            radios.forEach(r => {
+                                r.addEventListener('change', () => {
+                                    const fb = document.getElementById(`feedback-${qName}`);
+                                    if (r.value === answers[qName].correct) {
+                                        fb.innerHTML = `<div class="p-3 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-xs sm:text-sm font-semibold">✅ Tepat sekali! ${answers[qName].explanation}</div>`;
+                                    } else {
+                                        fb.innerHTML = `<div class="p-3 bg-rose-50 text-rose-800 rounded-xl border border-rose-200 text-xs sm:text-sm font-semibold">❌ Jawaban belum tepat. Coba telaah kembali materi pada slide sebelumnya!</div>`;
+                                    }
+                                    if (window.renderMathInElement) {
+                                        renderMathInElement(fb, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+                                    }
+                                });
+                            });
+                        });
+                    })();
+                    </script>
+                </section>
+
+                <!-- BOTTOM SLIDER NAVIGATION BAR -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Fisika Fase E</em>.</p>
+                    <p><strong>Halliday, David, Resnick, Robert, &amp; Walker, Jearl.</strong> (2018). <em>Fundamentals of Physics</em> (11th ed. Extended). John Wiley &amp; Sons.</p>
+                    <p><strong>Serway, Raymond A. &amp; Jewett, John W.</strong> (2018). <em>Physics for Scientists and Engineers with Modern Physics</em> (10th ed.). Cengage Learning.</p>
+                    <p><strong>David Morin.</strong> (2008). <em>Introduction to Classical Mechanics: With Problems and Solutions</em>. Cambridge University Press.</p>
+                </div>
+
+                <!-- NAVIGASI SUB-BAB SEBELUMNYA / SELANJUTNYA -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="kinematika-1d-glb-dan-glbb.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">&larr; Sebelumnya: 5. Kinematika 1D (GLB &amp; GLBB)</a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 6 dari 6</span>
+                    <a href="/fisika/kelas-10/index.html" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">🎉 Tuntas Bab 4: Kembali ke Menu Fisika 10 &rarr;</a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT & ASSETS -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

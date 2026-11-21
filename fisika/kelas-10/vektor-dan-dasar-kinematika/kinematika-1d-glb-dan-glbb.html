@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posisi, Perpindahan, Kecepatan, Percepatan &amp; Gerak Lurus (GLB / GLBB) — Fisika Kelas X</title>
+    <meta name="description" content="Modul Fisika Kelas X Bab 4: Konsep posisi, kecepatan, percepatan, persamaan kinematika GLB dan GLBB, interpretasi grafik x-t, v-t, a-t, serta gerak vertikal bebas berstandar Halliday-Resnick.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" 
+      data-mapel="fisika" 
+      data-kelas="fis-10" 
+      data-bab="vektor-dan-dasar-kinematika">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- WRAPPER UTAMA: 4 KOLOM -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- KOLOM KIRI (lg:col-span-1): SIDEBAR OTOMATIS -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- KOLOM KANAN (lg:col-span-3): KONTEN MATERI -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO CARD -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor &amp; Dasar Kinematika Gerak
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        5. Posisi, Perpindahan, Kecepatan, Percepatan &amp; Gerak Lurus (GLB / GLBB)
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Mempelajari deskripsi matematis gerak translasi satu dimensi (1D), menurunkan empat persamaan emas kinematika GLBB dengan percepatan konstan, menganalisis hubungan integral-turunan melalui interpretasi grafik $x-t$, $v-t$, dan $a-t$, serta membedah karakteristik gerak vertikal bebas di bawah pengaruh medan gravitasi bumi.
+                    </p>
+                </div>
+
+                <!-- TOP STICKY SLIDER CONTROLLER -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDE 1 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-1">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Konseptualisasi Kinematika 1D: Posisi, Kecepatan, Percepatan &amp; Formulasi GLB/GLBB
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Kinematika 1 Dimensi</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Kinematika adalah cabang mekanika yang mempelajari deskripsi gerak benda tanpa meninjau penyebab gaya yang memicunya. Dalam gerak satu dimensi sepanjang garis lurus (sumbu $x$), keadaan gerak partikel didefinisikan secara kontinu oleh fungsi posisi $x(t)$, kecepatan $v(t)$, dan percepatan $a(t)$.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-200/80 space-y-1">
+                            <span class="font-bold text-blue-900 block text-xs uppercase">1. Posisi &amp; Perpindahan</span>
+                            <p class="text-xs text-slate-600">Posisi $x(t)$ terhadap titik acuan. Perpindahan:</p>
+                            $$\Delta x = x_2 - x_1$$
+                            <span class="text-[11px] text-slate-500 block">Dapat bernilai positif, negatif, atau nol.</span>
+                        </div>
+                        <div class="bg-indigo-50/70 p-4 rounded-xl border border-indigo-200/80 space-y-1">
+                            <span class="font-bold text-indigo-900 block text-xs uppercase">2. Kecepatan Sesaat</span>
+                            <p class="text-xs text-slate-600">Turunan pertama posisi terhadap waktu:</p>
+                            $$v(t) = \lim_{\Delta t \to 0} \frac{\Delta x}{\Delta t} = \frac{dx}{dt}$$
+                            <span class="text-[11px] text-slate-500 block">Kemiringan (gradien) kurva $x-t$.</span>
+                        </div>
+                        <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200/80 space-y-1">
+                            <span class="font-bold text-emerald-900 block text-xs uppercase">3. Percepatan Sesaat</span>
+                            <p class="text-xs text-slate-600">Turunan pertama kecepatan terhadap waktu:</p>
+                            $$a(t) = \lim_{\Delta t \to 0} \frac{\Delta v}{\Delta t} = \frac{dv}{dt} = \frac{d^2x}{dt^2}$$
+                            <span class="text-[11px] text-slate-500 block">Kemiringan (gradien) kurva $v-t$.</span>
+                        </div>
+                    </div>
+
+                    <!-- EMPAT PERSAMAAN EMAS KINEMATIKA GLBB -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <span>⚡ Empat Persamaan Emas GLBB (Percepatan Konstan $a = \text{tetap}$)</span>
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Ketika percepatan bernilai konstan sepanjang interval waktu gerak ($a = \text{konstan}$), berlaku empat relasi analitis fundamental:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-xs">
+                                <span class="font-bold text-blue-700 block text-xs uppercase mb-1">Persamaan Kecepatan Waktu:</span>
+                                $$v_t = v_0 + at$$
+                                <span class="text-slate-500 text-[11px]">Tidak memuat variabel posisi / perpindahan ($\Delta x$).</span>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-xs">
+                                <span class="font-bold text-blue-700 block text-xs uppercase mb-1">Persamaan Posisi Waktu:</span>
+                                $$\Delta x = v_0 t + \frac{1}{2}at^2$$
+                                <span class="text-slate-500 text-[11px]">Tidak memuat variabel kecepatan akhir ($v_t$).</span>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-xs">
+                                <span class="font-bold text-blue-700 block text-xs uppercase mb-1">Persamaan Bebas Waktu (Torricelli):</span>
+                                $$v_t^2 = v_0^2 + 2a\Delta x$$
+                                <span class="text-slate-500 text-[11px]">Sangat ampuh jika waktu tempuh ($t$) tidak diketahui.</span>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-xs">
+                                <span class="font-bold text-blue-700 block text-xs uppercase mb-1">Persamaan Kecepatan Rata-Rata:</span>
+                                $$\Delta x = \left(\frac{v_0 + v_t}{2}\right)t$$
+                                <span class="text-slate-500 text-[11px]">Tidak memuat variabel percepatan ($a$).</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 2 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-2">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Visualisasi Grafik Kinematika Terintegrasi: Kurva $x-t$, $v-t$, dan $a-t$
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Interpretasi Grafik</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Keterkaitan fisis antara posisi, kecepatan, dan percepatan paling jelas dipahami melalui tiga grafik kinematika bersinkronisasi waktu. Gradien kurva menyatakan laju perubahan (turunan), sedangkan luas area di bawah kurva menyatakan akumulasi kuantitas (integral).
+                    </p>
+
+                    <!-- SVG DIAGRAM GELAP BERKONTRAS TINGGI -->
+                    <div class="w-full bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-inner overflow-x-auto">
+                        <svg viewBox="0 0 720 380" class="w-full min-w-[620px] h-auto select-none font-sans" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="b4-s5-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+                                </pattern>
+                                <marker id="k-axis" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 7 3.5, 0 7" fill="#64748b"/>
+                                </marker>
+                            </defs>
+
+                            <rect width="720" height="380" fill="#0f172a" rx="12"/>
+                            <rect width="720" height="380" fill="url(#b4-s5-grid)" rx="12"/>
+
+                            <!-- PANEL 1: GRAFIK x-t (KIRI: x: 40..240, y: 80..300) -->
+                            <rect x="30" y="30" width="205" height="320" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                            <text x="45" y="55" fill="#38bdf8" font-size="12" font-weight="700">1. Grafik Posisi x - t</text>
+                            
+                            <!-- Sumbu t dan x -->
+                            <line x1="50" y1="280" x2="215" y2="280" stroke="#64748b" stroke-width="1.2" marker-end="url(#k-axis)"/>
+                            <line x1="50" y1="280" x2="50" y2="70" stroke="#64748b" stroke-width="1.2" marker-end="url(#k-axis)"/>
+                            <text x="210" y="295" fill="#94a3b8" font-size="10">t (s)</text>
+                            <text x="35" y="75" fill="#94a3b8" font-size="10">x (m)</text>
+
+                            <!-- Kurva Parabola x(t) = 1/2 a t^2 -->
+                            <path d="M 50 280 Q 130 270 190 90" fill="none" stroke="#38bdf8" stroke-width="3"/>
+                            
+                            <!-- Garis Singgung Kecepatan Sesaat -->
+                            <line x1="100" y1="260" x2="190" y2="120" stroke="#facc15" stroke-width="1.5" stroke-dasharray="4,2"/>
+                            <circle cx="145" cy="190" r="3.5" fill="#facc15"/>
+                            <text x="75" y="165" fill="#facc15" font-size="9" font-weight="700">Gradien = v sesaat</text>
+
+                            <text x="45" y="325" fill="#94a3b8" font-size="10">Parabola melengkung ke atas</text>
+                            <text x="45" y="340" fill="#38bdf8" font-size="10" font-weight="700">GLBB Dipercepat (a > 0)</text>
+
+
+                            <!-- PANEL 2: GRAFIK v-t (TENGAH: x: 255..465, y: 80..300) -->
+                            <rect x="255" y="30" width="210" height="320" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                            <text x="270" y="55" fill="#34d399" font-size="12" font-weight="700">2. Grafik Kecepatan v - t</text>
+                            
+                            <!-- Sumbu t dan v -->
+                            <line x1="275" y1="280" x2="445" y2="280" stroke="#64748b" stroke-width="1.2" marker-end="url(#k-axis)"/>
+                            <line x1="275" y1="280" x2="275" y2="70" stroke="#64748b" stroke-width="1.2" marker-end="url(#k-axis)"/>
+                            <text x="440" y="295" fill="#94a3b8" font-size="10">t (s)</text>
+                            <text x="260" y="75" fill="#94a3b8" font-size="10">v (m/s)</text>
+
+                            <!-- Arsir Luas Area di bawah kurva v-t: Trapesium dari (275, 230) ke (410, 100) -->
+                            <polygon points="275 280, 275 230, 410 100, 410 280" fill="#10b981" opacity="0.25"/>
+
+                            <!-- Garis Linear v(t) = v0 + at -->
+                            <line x1="275" y1="230" x2="410" y2="100" stroke="#34d399" stroke-width="3"/>
+                            <circle cx="275" cy="230" r="3.5" fill="#34d399"/>
+                            <text x="282" y="225" fill="#cbd5e1" font-size="10">v_0</text>
+                            <circle cx="410" cy="100" r="3.5" fill="#34d399"/>
+                            <text x="415" y="105" fill="#cbd5e1" font-size="10">v_t</text>
+
+                            <!-- Label Luas Area = Delta x -->
+                            <text x="310" y="220" fill="#34d399" font-size="11" font-weight="700">LUAS AREA</text>
+                            <text x="305" y="235" fill="#a7f3d0" font-size="10">= Perpindahan Δx</text>
+
+                            <!-- Label Gradien = a -->
+                            <text x="310" y="130" fill="#facc15" font-size="10" font-weight="700">Gradien = Δv/Δt = a</text>
+
+                            <text x="270" y="325" fill="#94a3b8" font-size="10">Garis lurus miring</text>
+                            <text x="270" y="340" fill="#34d399" font-size="10" font-weight="700">Kemiringan konstan = a</text>
+
+
+                            <!-- PANEL 3: GRAFIK a-t (KANAN: x: 485..690, y: 80..300) -->
+                            <rect x="485" y="30" width="205" height="320" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                            <text x="500" y="55" fill="#f59e0b" font-size="12" font-weight="700">3. Grafik Percepatan a - t</text>
+                            
+                            <!-- Sumbu t dan a -->
+                            <line x1="505" y1="280" x2="670" y2="280" stroke="#64748b" stroke-width="1.2" marker-end="url(#k-axis)"/>
+                            <line x1="505" y1="280" x2="505" y2="70" stroke="#64748b" stroke-width="1.2" marker-end="url(#k-axis)"/>
+                            <text x="665" y="295" fill="#94a3b8" font-size="10">t (s)</text>
+                            <text x="490" y="75" fill="#94a3b8" font-size="10">a (m/s²)</text>
+
+                            <!-- Arsir Luas Area a-t: Persegi panjang -->
+                            <rect x="505" y="150" width="135" height="130" fill="#f59e0b" opacity="0.2"/>
+
+                            <!-- Garis Konstan a = tetap -->
+                            <line x1="505" y1="150" x2="640" y2="150" stroke="#f59e0b" stroke-width="3"/>
+                            <text x="515" y="140" fill="#f59e0b" font-size="11" font-weight="800">a = konstan > 0</text>
+
+                            <!-- Label Luas Area = Delta v -->
+                            <text x="535" y="220" fill="#f59e0b" font-size="11" font-weight="700">LUAS AREA</text>
+                            <text x="525" y="235" fill="#fde68a" font-size="10">= Perubahan Laju Δv</text>
+
+                            <text x="500" y="325" fill="#94a3b8" font-size="10">Garis horizontal sejajar t</text>
+                            <text x="500" y="340" fill="#f59e0b" font-size="10" font-weight="700">Percepatan Tetap</text>
+                        </svg>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 text-xs text-blue-900 leading-relaxed">
+                        <strong>💎 Teorema Kunci Kalkulus Kinematika:</strong>
+                        <ul class="list-disc list-inside mt-1 space-y-1">
+                            <li>Dari posisi ke percepatan: gunakan operasi <strong>turunan / diferensiasi</strong> (ambil gradien kemiringan garis singgung).</li>
+                            <li>Dari percepatan ke posisi: gunakan operasi <strong>integral</strong> (hitung luas daerah di bawah kurva grafik).</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- SLIDE 3 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Tabel Komparasi Ciri Fisis &amp; Formulasi GLB, GLBB, dan Gerak Vertikal
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Sintesis Rumus</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Gerak lurus satu dimensi mencakup berbagai kondisi spesifik berdasarkan keberadaan percepatan dan arah lintasan gerak terhadap gravitasi:
+                    </p>
+
+                    <!-- TABEL DATA LENGKAP -->
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse bg-white">
+                            <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-r border-slate-200">Jenis Gerak 1D</th>
+                                    <th class="p-3 border-r border-slate-200">Karakteristik Percepatan ($a$)</th>
+                                    <th class="p-3 border-r border-slate-200">Persamaan Gerak Pokok</th>
+                                    <th class="p-3">Kondisi Batas &amp; Titik Kritis</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-700">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">GLB (Lurus Beraturan)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">$a = 0$, kecepatan konstan ($v = \text{tetap}$)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs text-blue-800">$s = v \cdot t$</td>
+                                    <td class="p-3 text-xs">Jarak sebanding lurus dengan waktu. Tidak ada gaya resultan ($\sum F = 0$).</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">GLBB Dipercepat</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">$a = \text{konstan} > 0$ (searah gerak)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">
+                                        $v_t = v_0 + at$<br>
+                                        $s = v_0 t + \frac{1}{2}at^2$
+                                    </td>
+                                    <td class="p-3 text-xs">Kelajuan bertambah secara linear terhadap waktu. Jarak bertambah kuadratik.</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">GLBB Diperlambat</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">$a = \text{konstan} < 0$ (berlawanan gerak)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">
+                                        $v_t = v_0 - |a|t$<br>
+                                        $v_t^2 = v_0^2 - 2|a|s$
+                                    </td>
+                                    <td class="p-3 text-xs">Saat berhenti: $v_t = 0 \implies s_{\text{henti}} = \frac{v_0^2}{2|a|}$, waktu $t_{\text{henti}} = \frac{v_0}{|a|}$.</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 bg-blue-50/30">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200 text-blue-900">Gerak Jatuh Bebas (GJB)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">$a = +g$, tanpa kecepatan awal ($v_0 = 0$)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs text-blue-900">
+                                        $v_t = \sqrt{2gh}$<br>
+                                        $h = \frac{1}{2}gt^2 \implies t = \sqrt{\frac{2h}{g}}$
+                                    </td>
+                                    <td class="p-3 text-xs">Massa benda tidak mempengaruhi waktu jatuh dalam ruang hampa (eksperimen Galileo).</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 bg-indigo-50/30">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200 text-indigo-900">Gerak Vertikal ke Atas (GVA)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs">$a = -g$, kecepatan awal $v_0 > 0$</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono text-xs text-indigo-900">
+                                        $h_{\max} = \frac{v_0^2}{2g}$<br>
+                                        $t_{\text{naik}} = \frac{v_0}{g}$, $t_{\text{udara}} = \frac{2v_0}{g}$
+                                    </td>
+                                    <td class="p-3 text-xs">Di titik puncak tertinggi, kecepatan sesaat tepat nol ($v_{\text{puncak}} = 0$), namun percepatannya tetap $g$ ke bawah!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SLIDE 4 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Contoh Soal Terbimbing: Analisis Pengereman Kendaraan &amp; Gerak Vertikal Bola
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Penyelesaian Sistematis</span>
+                    </div>
+
+                    <!-- KASUS 1 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Kasus 1: Pengereman Mobil (GLBB Diperlambat)</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-full">Level: Aplikasi Nyata</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Sebuah mobil melaju di jalan tol dengan kecepatan awal $v_0 = 72\text{ km/jam}$ ($20\text{ m/s}$). Tiba-tiba pengemudi melihat rintangan di depan dan menginjak rem, menghasilkan perlambatan tetap sebesar $a = -4\text{ m/s}^2$ hingga mobil berhenti sempurna. Tentukan:<br>
+                            (a) Waktu ($t$) yang dibutuhkan mobil hingga berhenti.<br>
+                            (b) Jarak pengereman total ($\Delta x$) dari saat rem diinjak.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-bold text-slate-900 text-xs uppercase tracking-wide">Langkah Penyelesaian Sistematis:</p>
+                            <p class="text-xs">
+                                <strong>1. Identifikasi Data:</strong> $v_0 = 20\text{ m/s}$, $v_t = 0$ (berhenti), $a = -4\text{ m/s}^2$.
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Menghitung Waktu Berhenti:</strong>
+                                Menggunakan persamaan $v_t = v_0 + at$:
+                                $$0 = 20 + (-4)t \implies 4t = 20 \implies t = 5\text{ detik}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>3. Menghitung Jarak Pengereman:</strong>
+                                Menggunakan persamaan bebas waktu (Torricelli):
+                                $$v_t^2 = v_0^2 + 2a\Delta x \implies 0^2 = 20^2 + 2(-4)\Delta x$$
+                                $$0 = 400 - 8\Delta x \implies 8\Delta x = 400 \implies \Delta x = 50\text{ meter}$$
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Mobil berhenti dalam waktu $5\text{ detik}$ dan meluncur sejauh $50\text{ meter}$. Jika rintangan berada kurang dari $50\text{ m}$, tabrakan tak terelakkan!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KASUS 2 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Kasus 2: Gerak Vertikal ke Atas (GVA)</span>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">Level: Analisis Kinematika Gravitasi</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Sebuah bola dilemparkan vertikal ke atas dari atas tanah dengan kelajuan awal $v_0 = 30\text{ m/s}$. Abaikan gesekan udara dan gunakan percepatan gravitasi bumi $g = 10\text{ m/s}^2$. Tentukan:<br>
+                            (a) Tinggi maksimum ($h_{\max}$) yang dicapai bola.<br>
+                            (b) Waktu total ($t_{\text{udara}}$) bola melayang di udara hingga kembali menyentuh tanah.<br>
+                            (c) Ketinggian bola pada saat $t = 2\text{ detik}$.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="text-xs">
+                                <strong>1. Tinggi Maksimum ($h_{\max}$ saat $v = 0$):</strong>
+                                $$h_{\max} = \frac{v_0^2}{2g} = \frac{30^2}{2(10)} = \frac{900}{20} = 45\text{ meter}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Waktu Total di Udara:</strong>
+                                $$t_{\text{naik}} = \frac{v_0}{g} = \frac{30}{10} = 3\text{ s} \implies t_{\text{udara}} = 2 \times t_{\text{naik}} = 6\text{ detik}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>3. Ketinggian pada $t = 2\text{ s}$:</strong>
+                                $$h(2) = v_0 t - \frac{1}{2}gt^2 = (30)(2) - \frac{1}{2}(10)(2^2) = 60 - 5(4) = 60 - 20 = 40\text{ meter}$$
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Bola mencapai puncak setinggi $45\text{ m}$ pada detik ke-3, melayang selama total $6\text{ detik}$, dan pada detik ke-2 sedang berada di ketinggian $40\text{ m}$ dengan laju $v = 30 - 10(2) = 10\text{ m/s}$ mengarah ke atas.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-5">
+                    <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                            </h2>
+                        </div>
+                        <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Pilihlah salah satu opsi jawaban pada masing-masing soal. Sistem pelacak progres akan merekam nilai secara otomatis saat seluruh soal terjawab.
+                    </p>
+
+                    <div class="space-y-5">
+                        <!-- SOAL 1 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Jarak Tempuh GLB</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Sebuah kereta rel listrik (KRL) melaju konstan tanpa hambatan dengan kelajuan tetap $v = 20\text{ m/s}$ selama selang waktu $15\text{ detik}$. Jarak tempuh kereta selama waktu tersebut adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q1" value="A" class="accent-blue-600">
+                                    <span>A. $150\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q1" value="B" class="accent-blue-600">
+                                    <span>B. $300\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q1" value="C" class="accent-blue-600">
+                                    <span>C. $600\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q1" value="D" class="accent-blue-600">
+                                    <span>D. $35\text{ meter}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-5-q1" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Makna Fisis Gradien Kurva Grafik v-t</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Pada grafik kecepatan terhadap waktu ($v-t$), kemiringan atau gradien garis singgung kurva secara fisis menyatakan besaran...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q2" value="A" class="accent-blue-600">
+                                    <span>A. Jarak tempuh total</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q2" value="B" class="accent-blue-600">
+                                    <span>B. Perpindahan benda</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q2" value="C" class="accent-blue-600">
+                                    <span>C. Percepatan sesaat ($a = \frac{dv}{dt}$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q2" value="D" class="accent-blue-600">
+                                    <span>D. Energi kinetik benda</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-5-q2" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Kecepatan Akhir GLBB Dipercepat</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Sebuah motor mula-mula diam ($v_0 = 0$). Pengendara menarik gas sehingga motor mengalami percepatan konstan $a = 3\text{ m/s}^2$ selama $4\text{ detik}$. Kecepatan akhir motor pada detik ke-4 adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q3" value="A" class="accent-blue-600">
+                                    <span>A. $7\text{ m/s}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q3" value="B" class="accent-blue-600">
+                                    <span>B. $12\text{ m/s}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q3" value="C" class="accent-blue-600">
+                                    <span>C. $24\text{ m/s}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q3" value="D" class="accent-blue-600">
+                                    <span>D. $48\text{ m/s}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-5-q3" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 4 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Ketinggian Maksimum Gerak Vertikal</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Sebuah proyektil ditembakkan tegak lurus ke atas dengan kecepatan awal $v_0 = 20\text{ m/s}$ di tempat dengan percepatan gravitasi $g = 10\text{ m/s}^2$. Ketinggian maksimum yang dapat dicapai proyektil adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q4" value="A" class="accent-blue-600">
+                                    <span>A. $10\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q4" value="B" class="accent-blue-600">
+                                    <span>B. $20\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q4" value="C" class="accent-blue-600">
+                                    <span>C. $40\text{ meter}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-5-q4" value="D" class="accent-blue-600">
+                                    <span>D. $200\text{ meter}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-5-q4" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- SKRIP AUTO-SCORE EVENT LISTENER (STANDAR EMAS MATEMATIKA) -->
+                    <script>
+                    (function() {
+                        const answers = {
+                            "fis-10-4-5-q1": { correct: "B", explanation: "Pada GLB: s = v \\times t = 20 m/s \\times 15 s = 300 meter." },
+                            "fis-10-4-5-q2": { correct: "C", explanation: "Gradien kurva v-t adalah kemiringan \\Delta v / \\Delta t, yang secara matematis merupakan turunan dv/dt = a (percepatan sesaat)." },
+                            "fis-10-4-5-q3": { correct: "B", explanation: "v_t = v_0 + at = 0 + (3 m/s^2)(4 s) = 12 m/s." },
+                            "fis-10-4-5-q4": { correct: "B", explanation: "h_{\\max} = \\frac{v_0^2}{2g} = \\frac{20^2}{2(10)} = \\frac{400}{20} = 20 meter." }
+                        };
+
+                        Object.keys(answers).forEach(qName => {
+                            const radios = document.querySelectorAll(`input[name="${qName}"]`);
+                            radios.forEach(r => {
+                                r.addEventListener('change', () => {
+                                    const fb = document.getElementById(`feedback-${qName}`);
+                                    if (r.value === answers[qName].correct) {
+                                        fb.innerHTML = `<div class="p-3 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-xs sm:text-sm font-semibold">✅ Tepat sekali! ${answers[qName].explanation}</div>`;
+                                    } else {
+                                        fb.innerHTML = `<div class="p-3 bg-rose-50 text-rose-800 rounded-xl border border-rose-200 text-xs sm:text-sm font-semibold">❌ Jawaban belum tepat. Coba telaah kembali materi pada slide sebelumnya!</div>`;
+                                    }
+                                    if (window.renderMathInElement) {
+                                        renderMathInElement(fb, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+                                    }
+                                });
+                            });
+                        });
+                    })();
+                    </script>
+                </section>
+
+                <!-- BOTTOM SLIDER NAVIGATION BAR -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Fisika Fase E</em>.</p>
+                    <p><strong>Halliday, David, Resnick, Robert, &amp; Walker, Jearl.</strong> (2018). <em>Fundamentals of Physics</em> (11th ed. Extended). John Wiley &amp; Sons.</p>
+                    <p><strong>Serway, Raymond A. &amp; Jewett, John W.</strong> (2018). <em>Physics for Scientists and Engineers with Modern Physics</em> (10th ed.). Cengage Learning.</p>
+                    <p><strong>David Morin.</strong> (2008). <em>Introduction to Classical Mechanics: With Problems and Solutions</em>. Cambridge University Press.</p>
+                </div>
+
+                <!-- NAVIGASI SUB-BAB SEBELUMNYA / SELANJUTNYA -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="perkalian-vektor-dot-dan-cross-product.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">&larr; Sebelumnya: 4. Perkalian Titik &amp; Silang</a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 5 dari 6</span>
+                    <a href="latihan-pemecahan-masalah-vektor-kinematika.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">Lanjut: 6. Latihan Pemecahan Masalah Terpadu &rarr;</a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT & ASSETS -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

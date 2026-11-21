@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode Grafis: Poligon, Jajaran Genjang &amp; Pengurangan Vektor — Fisika Kelas X</title>
+    <meta name="description" content="Modul Fisika Kelas X Bab 4: Operasi penjumlahan dan pengurangan vektor secara grafis poligon, jajaran genjang, hukum cosinus resultan, aturan sinus arah, dan vektor selisih berstandar Halliday-Resnick.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" 
+      data-mapel="fisika" 
+      data-kelas="fis-10" 
+      data-bab="vektor-dan-dasar-kinematika">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- WRAPPER UTAMA: 4 KOLOM -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- KOLOM KIRI (lg:col-span-1): SIDEBAR OTOMATIS -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- KOLOM KANAN (lg:col-span-3): KONTEN MATERI -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO CARD -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor &amp; Dasar Kinematika Gerak
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        2. Metode Grafis: Poligon, Jajaran Genjang &amp; Pengurangan Vektor
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Mempelajari teknik penggabungan vektor secara geometris menggunakan metode segitiga/poligon dan metode jajaran genjang, menurunkan formulasi analitis hukum cosinus untuk menghitung besar vektor resultan dan selisih, serta menerapkan aturan sinus untuk menentukan sudut arah fisis resultan.
+                    </p>
+                </div>
+
+                <!-- TOP STICKY SLIDER CONTROLLER -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDE 1 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-1">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Prinsip Penjumlahan Vektor: Metode Poligon, Jajaran Genjang &amp; Hukum Cosinus
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Aljabar Geometris</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Dua buah vektor tidak dapat dijumlahkan dengan menjumlahkan magnitudonya secara langsung ($R \ne A + B$) kecuali jika kedua vektor berada pada satu garis lurus yang searah. Orientasi spasial menentukan nilai resultan.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                            <h3 class="text-sm font-bold text-blue-900 flex items-center gap-2">
+                                <span>🔺 1. Metode Segitiga / Poligon (Head-to-Tail)</span>
+                            </h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Pangkal (tail) vektor kedua disambungkan ke ujung kepala (head) vektor pertama. Jika ada vektor ketiga, sambungkan pangkalnya ke kepala vektor kedua, dan seterusnya. <strong>Vektor Resultan ($\vec{R}$)</strong> adalah anak panah yang ditarik dari <em>pangkal vektor pertama menuju kepala vektor terakhir</em>.
+                            </p>
+                            <div class="p-2.5 bg-blue-50/70 rounded-xl text-xs text-blue-900 font-mono">
+                                $\vec{R} = \vec{A} + \vec{B} + \vec{C}$
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                            <h3 class="text-sm font-bold text-indigo-900 flex items-center gap-2">
+                                <span>🔷 2. Metode Jajaran Genjang (Tail-to-Tail)</span>
+                            </h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Kedua vektor ditempatkan berhimpit pada satu titik tangkap (pangkal bersama) sehingga membentuk sudut apit $\theta$. Kemudian dibuat garis bantu putus-putus sejajar masing-masing vektor membentuk jajaran genjang. <strong>Vektor Resultan</strong> adalah garis diagonal utama yang berawal dari titik tangkap bersama.
+                            </p>
+                            <div class="p-2.5 bg-indigo-50/70 rounded-xl text-xs text-indigo-900 font-mono">
+                                Titik tangkap bersama $O$ mengapit sudut $\theta$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FORMULASI HUKUM COSINUS -->
+                    <div class="bg-gradient-to-br from-blue-50/80 to-indigo-50/60 p-5 rounded-2xl border border-blue-200/90 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <span>📐 Formulasi Analitis Hukum Cosinus &amp; Aturan Sinus</span>
+                        </h3>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            Berdasarkan geometri trigonometri pada jajaran genjang, besar resultan penjumlahan $\vec{R} = \vec{A} + \vec{B}$ dan besar selisih $\vec{S} = \vec{A} - \vec{B}$ diturunkan secara eksak:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div class="bg-white p-3.5 rounded-xl border border-blue-100 text-xs space-y-1">
+                                <span class="font-bold text-blue-700 block text-xs uppercase">Besar Vektor Resultan ($|\vec{R}|$):</span>
+                                $$R = \sqrt{A^2 + B^2 + 2AB\cos\theta}$$
+                                <span class="text-slate-500 text-[11px] block">Tanda $+2AB\cos\theta$ mencerminkan sudut apit antar-vektor.</span>
+                            </div>
+                            <div class="bg-white p-3.5 rounded-xl border border-indigo-100 text-xs space-y-1">
+                                <span class="font-bold text-rose-700 block text-xs uppercase">Besar Vektor Selisih ($|\vec{S}|$):</span>
+                                $$S = \sqrt{A^2 + B^2 - 2AB\cos\theta}$$
+                                <span class="text-slate-500 text-[11px] block">Selisih $\vec{A} - \vec{B} = \vec{A} + (-\vec{B})$, karena $\cos(180^\circ - \theta) = -\cos\theta$.</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/90 p-3.5 rounded-xl border border-slate-200 text-xs space-y-1">
+                            <span class="font-bold text-slate-800 block text-xs uppercase">Penentuan Arah Resultan (Aturan Sinus):</span>
+                            $$\frac{R}{\sin\theta} = \frac{A}{\sin\beta} = \frac{B}{\sin\alpha} \implies \sin\alpha = \frac{B \sin\theta}{R}$$
+                            <span class="text-slate-500 text-[11px] block">$\alpha$ adalah sudut yang dibentuk vektor resultan $\vec{R}$ terhadap vektor acuan $\vec{A}$.</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 2 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-2">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Visualisasi Grafis: Metode Jajaran Genjang, Resultan $\vec{R}$ &amp; Selisih $\vec{S}$
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Diagram Vektor</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Diagram di bawah mengilustrasikan dua vektor $\vec{A}$ (cyan) dan $\vec{B}$ (kuning) yang bermula pada titik tangkap bersama $O$ mengapit sudut $\theta = 60^\circ$. Diagonal utama menghasilkan vektor penjumlahan $\vec{R} = \vec{A} + \vec{B}$ (hijau emerald), sedangkan diagonal seberangnya menghasilkan vektor selisih $\vec{S} = \vec{A} - \vec{B}$ (merah rose).
+                    </p>
+
+                    <!-- SVG DIAGRAM GELAP BERKONTRAS TINGGI -->
+                    <div class="w-full bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-inner overflow-x-auto">
+                        <svg viewBox="0 0 720 380" class="w-full min-w-[620px] h-auto select-none font-sans" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="b4-s2-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                                    <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+                                </pattern>
+                                <marker id="arr-cyan" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8"/>
+                                </marker>
+                                <marker id="arr-yellow" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#facc15"/>
+                                </marker>
+                                <marker id="arr-emerald" markerWidth="11" markerHeight="11" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 11 3.5, 0 7" fill="#34d399"/>
+                                </marker>
+                                <marker id="arr-rose" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#f43f5e"/>
+                                </marker>
+                            </defs>
+
+                            <rect width="720" height="380" fill="#0f172a" rx="12"/>
+                            <rect width="720" height="380" fill="url(#b4-s2-grid)" rx="12"/>
+
+                            <!-- Koordinat: O=(120, 300) -->
+                            <!-- Vektor A (horizontal): dx=260, dy=0 -> P_A=(380, 300) -->
+                            <!-- Vektor B (sudut 60 deg): mag=180 -> dx=90, dy=-155.88 -> P_B=(210, 144) -->
+                            <!-- Titik seberang Jajaran Genjang P_R = P_A + (dx_B, dy_B) = (380+90, 300-156) = (470, 144) -->
+
+                            <!-- Garis bantu jajaran genjang putus-putus -->
+                            <line x1="380" y1="300" x2="470" y2="144" stroke="#64748b" stroke-width="1.8" stroke-dasharray="6,4"/>
+                            <line x1="210" y1="144" x2="470" y2="144" stroke="#64748b" stroke-width="1.8" stroke-dasharray="6,4"/>
+
+                            <!-- Busur Sudut Apit Theta = 60 deg -->
+                            <path d="M 180 300 A 60 60 0 0 0 150 248" fill="none" stroke="#facc15" stroke-width="2"/>
+                            <text x="185" y="270" fill="#facc15" font-size="12" font-weight="700">θ = 60°</text>
+
+                            <!-- Busur Sudut Arah Alpha -->
+                            <path d="M 230 300 A 110 110 0 0 0 216 250" fill="none" stroke="#34d399" stroke-width="2"/>
+                            <text x="240" y="290" fill="#34d399" font-size="12" font-weight="700">α</text>
+
+                            <!-- Vektor A -->
+                            <line x1="120" y1="300" x2="372" y2="300" stroke="#38bdf8" stroke-width="3.5" marker-end="url(#arr-cyan)"/>
+                            <text x="250" y="325" fill="#38bdf8" font-size="14" font-weight="800">A = 8 N</text>
+
+                            <!-- Vektor B -->
+                            <line x1="120" y1="300" x2="206" y2="150" stroke="#facc15" stroke-width="3.5" marker-end="url(#arr-yellow)"/>
+                            <text x="135" y="200" fill="#facc15" font-size="14" font-weight="800">B = 6 N</text>
+
+                            <!-- Diagonal Utama: Resultan R = A + B -->
+                            <line x1="120" y1="300" x2="464" y2="148" stroke="#34d399" stroke-width="4.5" marker-end="url(#arr-emerald)"/>
+                            <text x="310" y="205" fill="#34d399" font-size="15" font-weight="800">R = A + B (12,2 N)</text>
+
+                            <!-- Diagonal Kedua: Selisih S = A - B (dari P_B ke P_A) -->
+                            <line x1="210" y1="144" x2="374" y2="294" stroke="#f43f5e" stroke-width="3" stroke-dasharray="7,3" marker-end="url(#arr-rose)"/>
+                            <text x="315" y="240" fill="#f43f5e" font-size="13" font-weight="800">S = A - B (7,2 N)</text>
+
+                            <!-- Titik Tangkap O -->
+                            <circle cx="120" cy="300" r="5" fill="#ffffff"/>
+                            <text x="95" y="320" fill="#ffffff" font-size="13" font-weight="700">O</text>
+
+                            <!-- Info Box Kanan Atas -->
+                            <rect x="495" y="40" width="205" height="150" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                            <text x="510" y="65" fill="#f8fafc" font-size="12" font-weight="700">Kalkulasi Cepat (θ = 60°):</text>
+                            
+                            <text x="510" y="90" fill="#38bdf8" font-size="11">|A| = 8 N, |B| = 6 N</text>
+                            <text x="510" y="108" fill="#facc15" font-size="11">cos 60° = 0,5</text>
+                            
+                            <line x1="510" y1="116" x2="685" y2="116" stroke="#475569" stroke-width="0.8"/>
+                            
+                            <text x="510" y="135" fill="#34d399" font-size="11" font-weight="700">R = √(64 + 36 + 48) = 12,2 N</text>
+                            <text x="510" y="155" fill="#f43f5e" font-size="11" font-weight="700">S = √(64 + 36 - 48) = 7,2 N</text>
+                            <text x="510" y="175" fill="#94a3b8" font-size="10">Sudut arah α ≈ 25,3°</text>
+                        </svg>
+                    </div>
+
+                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 text-xs text-indigo-950 leading-relaxed">
+                        <strong>📌 Catatan Kritis Vektor Selisih:</strong> Vektor selisih $\vec{S} = \vec{A} - \vec{B}$ secara geometris digambarkan sebagai panah yang berpangkal di ujung $\vec{B}$ dan berujung di kepala $\vec{A}$. Sebaliknya, $\vec{B} - \vec{A} = -\vec{S}$ memiliki besar yang sama namun berujung di kepala $\vec{B}$.
+                    </div>
+                </section>
+
+                <!-- SLIDE 3 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Tabel Komparasi Nilai Resultan &amp; Selisih pada Berbagai Sudut Apit Kritis
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Analisis Sudut Kritis</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Rentang nilai resultan dari dua buah vektor sembarang $A$ dan $B$ selalu dibatasi oleh batas interval tertutup: $|A - B| \le R \le A + B$. Nilai spesifik untuk sudut-sudut istimewa disajikan dalam tabel komparasi berikut:
+                    </p>
+
+                    <!-- TABEL DATA LENGKAP -->
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse bg-white">
+                            <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-r border-slate-200">Sudut Apit ($\theta$)</th>
+                                    <th class="p-3 border-r border-slate-200">Nilai $\cos\theta$</th>
+                                    <th class="p-3 border-r border-slate-200 text-emerald-700">Besar Resultan ($R = |\vec{A} + \vec{B}|$)</th>
+                                    <th class="p-3 border-r border-slate-200 text-rose-700">Besar Selisih ($S = |\vec{A} - \vec{B}|$)</th>
+                                    <th class="p-3">Kondisi Khusus Jika $A = B$</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-700">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">$0^\circ$ (Searah)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono">$+1$</td>
+                                    <td class="p-3 border-r border-slate-200 font-semibold text-emerald-800">$R_{\max} = A + B$</td>
+                                    <td class="p-3 border-r border-slate-200 font-semibold text-rose-800">$S = |A - B|$</td>
+                                    <td class="p-3 text-xs">$R = 2A$, $S = 0$ (Saling memperkuat maksimum)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">$60^\circ$ (Lancip)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono">$+\frac{1}{2}$</td>
+                                    <td class="p-3 border-r border-slate-200">$\sqrt{A^2 + B^2 + AB}$</td>
+                                    <td class="p-3 border-r border-slate-200">$\sqrt{A^2 + B^2 - AB}$</td>
+                                    <td class="p-3 text-xs">$R = A\sqrt{3}$, $S = A$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">$90^\circ$ (Tegak Lurus / Ortogonal)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono">$0$</td>
+                                    <td class="p-3 border-r border-slate-200 font-semibold text-blue-800">$\sqrt{A^2 + B^2}$ (Pythagoras)</td>
+                                    <td class="p-3 border-r border-slate-200 font-semibold text-blue-800">$\sqrt{A^2 + B^2}$ (Pythagoras)</td>
+                                    <td class="p-3 text-xs font-semibold text-indigo-700">$R = S = A\sqrt{2}$ (Besar resultan sama persis dengan selisih!)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">$120^\circ$ (Tumpul)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono">$-\frac{1}{2}$</td>
+                                    <td class="p-3 border-r border-slate-200">$\sqrt{A^2 + B^2 - AB}$</td>
+                                    <td class="p-3 border-r border-slate-200">$\sqrt{A^2 + B^2 + AB}$</td>
+                                    <td class="p-3 text-xs font-semibold text-emerald-700">$R = A$ (Unik: resultan sama dengan besar vektor komponen!), $S = A\sqrt{3}$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-semibold bg-slate-50/50 border-r border-slate-200">$180^\circ$ (Berlawanan Arah)</td>
+                                    <td class="p-3 border-r border-slate-200 font-mono">$-1$</td>
+                                    <td class="p-3 border-r border-slate-200 font-semibold text-emerald-800">$R_{\min} = |A - B|$</td>
+                                    <td class="p-3 border-r border-slate-200 font-semibold text-rose-800">$S = A + B$</td>
+                                    <td class="p-3 text-xs">$R = 0$ (Keseimbangan sempurna / saling meniadakan), $S = 2A$</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SLIDE 4 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Contoh Soal Terbimbing: Resultan Dua Gaya Mengapit Sudut &amp; Vektor Selisih
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Studi Kasus Matematis</span>
+                    </div>
+
+                    <!-- KASUS 1 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Kasus 1: Resultan Gaya &amp; Sudut Arah Jajaran Genjang</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-full">Level: Aplikasi Standar</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Dua buah gaya tarik bekerja bersamaan pada sebuah pasak tiang bendera: $F_1 = 10\text{ N}$ dan $F_2 = 6\text{ N}$. Kedua gaya tersebut saling mengapit sudut $\theta = 60^\circ$. Hitunglah:<br>
+                            (a) Besar gaya resultan ($R$) yang dialami pasak.<br>
+                            (b) Arah resultan gaya tersebut dinyatakan sebagai sudut $\alpha$ terhadap gaya $F_1$.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-bold text-slate-900 text-xs uppercase tracking-wide">Langkah Penyelesaian Sistematis:</p>
+                            <p><strong>1. Menghitung Besar Resultan Gaya ($R$):</strong></p>
+                            <p class="text-xs">
+                                Masukkan ke formula hukum cosinus dengan $\cos 60^\circ = 0{,}5$:
+                                $$R = \sqrt{F_1^2 + F_2^2 + 2F_1 F_2 \cos 60^\circ}$$
+                                $$R = \sqrt{10^2 + 6^2 + 2(10)(6)(0{,}5)} = \sqrt{100 + 36 + 60} = \sqrt{196} = 14\text{ Newton}$$
+                            </p>
+
+                            <p class="pt-2"><strong>2. Menghitung Arah Sudut Resultan ($\alpha$):</strong></p>
+                            <p class="text-xs">
+                                Berdasarkan aturan sinus dengan $\sin 60^\circ = \frac{1}{2}\sqrt{3} \approx 0{,}866$:
+                                $$\sin\alpha = \frac{F_2 \sin\theta}{R} = \frac{6 \times 0{,}866}{14} = \frac{5{,}196}{14} \approx 0{,}3711$$
+                                $$\alpha = \arcsin(0{,}3711) \approx 21{,}79^\circ$$
+                            </p>
+
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Pasak bendera merasakan gaya total sebesar $14\text{ N}$ yang terarah pada sudut $21{,}79^\circ$ terhadap vektor gaya pertama $F_1$.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KASUS 2 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Kasus 2: Pembuktian Analitis Perbandingan Resultan dan Selisih</span>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">Level: HOTS Analitis</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Dua buah vektor gaya memiliki besar yang sama, yakni $|\vec{F}_1| = |\vec{F}_2| = F$. Jika besar vektor resultan penjumlahan kedua vektor bernilai sama dengan $\sqrt{3}$ kali besar vektor selisihnya, yaitu $|\vec{F}_1 + \vec{F}_2| = \sqrt{3} |\vec{F}_1 - \vec{F}_2|$, tentukan besar sudut apit $\theta$ antara kedua gaya tersebut!
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="font-bold text-slate-900 text-xs uppercase tracking-wide">Langkah Pembuktian Aljabar:</p>
+                            <p class="text-xs">
+                                <strong>1. Persamaan Hubungan:</strong>
+                                Kuadratkan kedua ruas persamaan:
+                                $$|\vec{F}_1 + \vec{F}_2|^2 = 3 |\vec{F}_1 - \vec{F}_2|^2$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Substitusi Hukum Cosinus ($F_1 = F_2 = F$):</strong>
+                                $$F^2 + F^2 + 2F^2 \cos\theta = 3(F^2 + F^2 - 2F^2 \cos\theta)$$
+                                $$2F^2 + 2F^2 \cos\theta = 3(2F^2 - 2F^2 \cos\theta)$$
+                                $$2F^2(1 + \cos\theta) = 6F^2(1 - \cos\theta)$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>3. Bagi Kedua Ruas dengan $2F^2$:</strong>
+                                $$1 + \cos\theta = 3(1 - \cos\theta) = 3 - 3\cos\theta$$
+                                $$4\cos\theta = 2 \implies \cos\theta = \frac{2}{4} = \frac{1}{2}$$
+                                $$\theta = \arccos\left(\frac{1}{2}\right) = 60^\circ$$
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Agar resultan penjumlahan dua vektor sama besar bernilai $\sqrt{3}$ kali selisihnya, sudut apit kedua vektor wajib tepat sebesar $60^\circ$.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-5">
+                    <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                            </h2>
+                        </div>
+                        <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Pilihlah salah satu opsi jawaban pada masing-masing soal. Sistem pelacak progres akan merekam nilai secara otomatis saat seluruh soal terjawab.
+                    </p>
+
+                    <div class="space-y-5">
+                        <!-- SOAL 1 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Resultan Dua Vektor Tegak Lurus</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Dua gaya saling tegak lurus ($\theta = 90^\circ$) masing-masing bernilai $F_1 = 8\text{ N}$ dan $F_2 = 6\text{ N}$. Besar resultan kedua gaya tersebut adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q1" value="A" class="accent-blue-600">
+                                    <span>A. $14\text{ N}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q1" value="B" class="accent-blue-600">
+                                    <span>B. $10\text{ N}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q1" value="C" class="accent-blue-600">
+                                    <span>C. $2\text{ N}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q1" value="D" class="accent-blue-600">
+                                    <span>D. $48\text{ N}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-2-q1" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Kondisi Khusus Resultan Sama dengan Komponen</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Dua buah vektor memiliki besar yang sama yaitu $A$. Berapakah sudut apit $\theta$ di antara keduanya agar besar resultan penjumlahannya juga bernilai tepat sama dengan $A$?
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q2" value="A" class="accent-blue-600">
+                                    <span>A. $0^\circ$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q2" value="B" class="accent-blue-600">
+                                    <span>B. $60^\circ$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q2" value="C" class="accent-blue-600">
+                                    <span>C. $90^\circ$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q2" value="D" class="accent-blue-600">
+                                    <span>D. $120^\circ$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-2-q2" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Syarat Kesamaan Resultan dan Selisih</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Diketahui dua vektor $\vec{A}$ dan $\vec{B}$ tak-nol. Syarat perlu dan cukup agar besar vektor penjumlahan sama dengan besar vektor pengurangannya ($|\vec{A} + \vec{B}| = |\vec{A} - \vec{B}|$) adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q3" value="A" class="accent-blue-600">
+                                    <span>A. Kedua vektor saling tegak lurus ($\theta = 90^\circ$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q3" value="B" class="accent-blue-600">
+                                    <span>B. Kedua vektor searah ($\theta = 0^\circ$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q3" value="C" class="accent-blue-600">
+                                    <span>C. Kedua vektor berlawanan arah ($\theta = 180^\circ$)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q3" value="D" class="accent-blue-600">
+                                    <span>D. Kedua vektor harus memiliki besar yang sama</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-2-q3" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 4 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Metode Poligon Tertutup</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Tiga buah gaya $\vec{F}_1, \vec{F}_2,$ dan $\vec{F}_3$ digambarkan secara berurutan dengan metode poligon (head-to-tail). Jika ujung kepala panah $\vec{F}_3$ tepat berhimpit kembali dengan pangkal $\vec{F}_1$, maka makna fisis dari keadaan tersebut adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q4" value="A" class="accent-blue-600">
+                                    <span>A. Resultan gaya bernilai maksimum</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q4" value="B" class="accent-blue-600">
+                                    <span>B. Benda pasti bergerak melingkar beraturan</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q4" value="C" class="accent-blue-600">
+                                    <span>C. Resultan gaya sama dengan nol ($\sum \vec{F} = 0$, sistem seimbang)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-2-q4" value="D" class="accent-blue-600">
+                                    <span>D. Ketiga gaya harus memiliki besar yang sama</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-2-q4" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- SKRIP AUTO-SCORE EVENT LISTENER (STANDAR EMAS MATEMATIKA) -->
+                    <script>
+                    (function() {
+                        const answers = {
+                            "fis-10-4-2-q1": { correct: "B", explanation: "Karena tegak lurus (90°), berlaku teorema Pythagoras: R = \sqrt{8^2 + 6^2} = \sqrt{64 + 36} = \sqrt{100} = 10 N." },
+                            "fis-10-4-2-q2": { correct: "D", explanation: "R^2 = A^2 + A^2 + 2A^2 \cos\theta = A^2 \implies 2A^2\cos\theta = -A^2 \implies \cos\theta = -0,5 \implies \theta = 120°." },
+                            "fis-10-4-2-q3": { correct: "A", explanation: "Kuadrat kedua persamaan: A^2 + B^2 + 2AB\cos\theta = A^2 + B^2 - 2AB\cos\theta \implies 4AB\cos\theta = 0 \implies \cos\theta = 0 \implies \theta = 90°." },
+                            "fis-10-4-2-q4": { correct: "C", explanation: "Poligon tertutup berarti posisi ujung akhir kembali ke titik tangkap awal, sehingga perpindahan resultan vektor adalah nol (\sum \vec{F} = 0, Hukum I Newton)." }
+                        };
+
+                        Object.keys(answers).forEach(qName => {
+                            const radios = document.querySelectorAll(`input[name="${qName}"]`);
+                            radios.forEach(r => {
+                                r.addEventListener('change', () => {
+                                    const fb = document.getElementById(`feedback-${qName}`);
+                                    if (r.value === answers[qName].correct) {
+                                        fb.innerHTML = `<div class="p-3 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-xs sm:text-sm font-semibold">✅ Tepat sekali! ${answers[qName].explanation}</div>`;
+                                    } else {
+                                        fb.innerHTML = `<div class="p-3 bg-rose-50 text-rose-800 rounded-xl border border-rose-200 text-xs sm:text-sm font-semibold">❌ Jawaban belum tepat. Coba telaah kembali materi pada slide sebelumnya!</div>`;
+                                    }
+                                    if (window.renderMathInElement) {
+                                        renderMathInElement(fb, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+                                    }
+                                });
+                            });
+                        });
+                    })();
+                    </script>
+                </section>
+
+                <!-- BOTTOM SLIDER NAVIGATION BAR -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Fisika Fase E</em>.</p>
+                    <p><strong>Halliday, David, Resnick, Robert, &amp; Walker, Jearl.</strong> (2018). <em>Fundamentals of Physics</em> (11th ed. Extended). John Wiley &amp; Sons.</p>
+                    <p><strong>Serway, Raymond A. &amp; Jewett, John W.</strong> (2018). <em>Physics for Scientists and Engineers with Modern Physics</em> (10th ed.). Cengage Learning.</p>
+                    <p><strong>David Morin.</strong> (2008). <em>Introduction to Classical Mechanics: With Problems and Solutions</em>. Cambridge University Press.</p>
+                </div>
+
+                <!-- NAVIGASI SUB-BAB SEBELUMNYA / SELANJUTNYA -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="konsep-skalar-dan-notasi-vektor.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">&larr; Sebelumnya: 1. Konsep Skalar vs Vektor</a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 2 dari 6</span>
+                    <a href="penguraian-vektor-dan-komponen-kartesius.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">Lanjut: 3. Penguraian Komponen Kartesius &rarr;</a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT & ASSETS -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

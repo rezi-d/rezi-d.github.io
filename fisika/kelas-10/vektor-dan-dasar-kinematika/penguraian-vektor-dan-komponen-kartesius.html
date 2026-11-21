@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penguraian Vektor pada Sumbu Kartesius (x, y) &amp; Vektor Satuan — Fisika Kelas X</title>
+    <meta name="description" content="Modul Fisika Kelas X Bab 4: Penguraian vektor 2D/3D ke sumbu kartesius, trigonometri proyeksi, vektor satuan i j k, dan metode analitis penjumlahan banyak vektor berstandar Halliday-Resnick.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .heading-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .katex-display { margin: 0.8em 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    </style>
+</head>
+<body class="bg-[#f5f5f7] text-slate-800 flex flex-col min-h-screen" 
+      data-mapel="fisika" 
+      data-kelas="fis-10" 
+      data-bab="vektor-dan-dasar-kinematika">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- WRAPPER UTAMA: 4 KOLOM -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- KOLOM KIRI (lg:col-span-1): SIDEBAR OTOMATIS -->
+        <div id="sidebar-placeholder" class="lg:col-span-1"></div>
+
+        <!-- KOLOM KANAN (lg:col-span-3): KONTEN MATERI -->
+        <main class="lg:col-span-3 space-y-6">
+            <article class="space-y-6">
+
+                <!-- HERO CARD -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Bab 4: Vektor &amp; Dasar Kinematika Gerak
+                        </span>
+                        <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">5 Poin Materi Interaktif</span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight leading-tight">
+                        3. Penguraian Vektor pada Sumbu Kartesius (x, y) &amp; Vektor Satuan
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                        Menguraikan besaran vektor dua dan tiga dimensi menjadi komponen-komponen tegak lurus pada sumbu kartesius menggunakan perbandingan trigonometri, merepresentasikan vektor dalam basis vektor satuan $\hat{i}, \hat{j}, \hat{k}$, serta menerapkan metode tabel analitis untuk menjumlahkan banyak vektor secara simultan dan presisi.
+                    </p>
+                </div>
+
+                <!-- TOP STICKY SLIDER CONTROLLER -->
+                <div class="sticky top-12 sm:top-14 z-30 bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev" onclick="ieltsSlider.prev()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none" aria-label="Poin Sebelumnya">
+                        <span>&larr;</span> <span class="hidden sm:inline">Sebelumnya</span>
+                    </button>
+                    <div class="flex flex-col items-center gap-1">
+                        <span id="slider-counter" class="text-xs font-bold text-slate-700">Poin 1 / 5</span>
+                        <div id="slider-dots" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <button id="slider-btn-next" onclick="ieltsSlider.next()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs focus:outline-none" aria-label="Poin Berikutnya">
+                        <span class="hidden sm:inline">Berikutnya</span> <span>&rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SLIDE 1 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-1">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Prinsip Dekomposisi Komponen Kartesius 2D &amp; Vektor Satuan
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Analisis Komponen</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Meskipun metode grafis (poligon dan jajaran genjang) sangat intuitif, metode tersebut memiliki keterbatasan presisi dan menjadi sangat rumit jika melibatkan lebih dari dua vektor. Dalam analisis fisika modern, kita melakukan <strong>dekomposisi vektor (penguraian)</strong> ke dalam proyeksi ortogonal pada sistem koordinat tegak lurus kartesius ($x, y, z$).
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50/70 p-5 rounded-2xl border border-blue-200/90 space-y-2">
+                            <h3 class="text-sm font-bold text-blue-900 flex items-center gap-2">
+                                <span>📐 Komponen Ortogonal Bidang 2D</span>
+                            </h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Suatu vektor $\vec{A}$ yang membentuk sudut $\theta$ terhadap sumbu $+x$ diproyeksikan secara tegak lurus ke sumbu horizontal dan vertikal:
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-blue-100 text-xs space-y-1 text-slate-800">
+                                <div><strong>Komponen Horizontal:</strong> $A_x = A\cos\theta$</div>
+                                <div><strong>Komponen Vertikal:</strong> $A_y = A\sin\theta$</div>
+                                <div class="pt-1 text-slate-500 text-[11px]">Besar vektor: $A = \sqrt{A_x^2 + A_y^2}$ dan sudut arah: $\tan\theta = \frac{A_y}{A_x}$</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-indigo-50/70 p-5 rounded-2xl border border-indigo-200/90 space-y-2">
+                            <h3 class="text-sm font-bold text-indigo-900 flex items-center gap-2">
+                                <span>🧭 Basis Vektor Satuan ($\hat{i}, \hat{j}, \hat{k}$)</span>
+                            </h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                <strong>Vektor satuan</strong> adalah vektor berdimensi murni yang memiliki panjang tepat satu satuan ($|\hat{i}| = |\hat{j}| = |\hat{k}| = 1$) tanpa satuan fisis, berfungsi semata-mata menunjukkan arah sumbu kartesius:
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-indigo-100 text-xs space-y-1 text-slate-800 font-mono">
+                                <div>$\hat{i}$ : searah sumbu $+x$</div>
+                                <div>$\hat{j}$ : searah sumbu $+y$</div>
+                                <div>$\hat{k}$ : searah sumbu $+z$</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PENJUMLAHAN ANALITIS BANYAK VEKTOR -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                            <span>⚡ Metode Penjumlahan Analitis Banyak Vektor (Metode Komponen)</span>
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Jika terdapat $N$ buah gaya $\vec{F}_1, \vec{F}_2, \dots, \vec{F}_N$, resultan gaya dihitung dengan menjumlahkan aljabar komponen sejenis pada masing-masing sumbu:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs">
+                                <span class="font-bold text-slate-800 block text-xs uppercase mb-1">1. Jumlahkan Sumbu $x$:</span>
+                                $$R_x = \sum_{i=1}^N F_{ix} = F_{1x} + F_{2x} + \dots$$
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs">
+                                <span class="font-bold text-slate-800 block text-xs uppercase mb-1">2. Jumlahkan Sumbu $y$:</span>
+                                $$R_y = \sum_{i=1}^N F_{iy} = F_{1y} + F_{2y} + \dots$$
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 text-xs">
+                                <span class="font-bold text-blue-700 block text-xs uppercase mb-1">3. Besar &amp; Arah Total:</span>
+                                $$R = \sqrt{R_x^2 + R_y^2}$$
+                                $$\tan\alpha = \frac{R_y}{R_x}$$
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 2 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-2">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Visualisasi Dekomposisi Gaya pada Bidang Kartesius &amp; Bidang Miring
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Diagram Komponen Fisis</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Diagram di bawah menunjukkan proses dekomposisi vektor secara ortogonal pada dua situasi klasik mekanika: (Kiri) Penguraian vektor gaya $\vec{F}$ ke sumbu kartesius horizontal dan vertikal, serta (Kanan) Penguraian gaya berat $\vec{w} = m\vec{g}$ pada benda di atas bidang miring bersudut $\alpha$.
+                    </p>
+
+                    <!-- SVG DIAGRAM GELAP BERKONTRAS TINGGI -->
+                    <div class="w-full bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-inner overflow-x-auto">
+                        <svg viewBox="0 0 720 380" class="w-full min-w-[620px] h-auto select-none font-sans" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="b4-s3-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                                    <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+                                </pattern>
+                                <marker id="m-cyan" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#38bdf8"/>
+                                </marker>
+                                <marker id="m-amber" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
+                                </marker>
+                                <marker id="m-emerald" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+                                </marker>
+                                <marker id="m-rose" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#f43f5e"/>
+                                </marker>
+                                <marker id="m-axis" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 7 3.5, 0 7" fill="#64748b"/>
+                                </marker>
+                            </defs>
+
+                            <rect width="720" height="380" fill="#0f172a" rx="12"/>
+                            <rect width="720" height="380" fill="url(#b4-s3-grid)" rx="12"/>
+
+                            <!-- PANEL KIRI: DEKOMPOSISI KARTESIUS (Center: x=180, y=260) -->
+                            <text x="60" y="45" fill="#f8fafc" font-size="13" font-weight="700">A. Penguraian 2D Kartesius Standar</text>
+
+                            <!-- Sumbu Koordinat Kiri -->
+                            <line x1="40" y1="260" x2="310" y2="260" stroke="#64748b" stroke-width="1.5" marker-end="url(#m-axis)"/>
+                            <line x1="80" y1="310" x2="80" y2="70" stroke="#64748b" stroke-width="1.5" marker-end="url(#m-axis)"/>
+                            <text x="315" y="264" fill="#94a3b8" font-size="11" font-weight="700">+x</text>
+                            <text x="85" y="65" fill="#94a3b8" font-size="11" font-weight="700">+y</text>
+                            <text x="65" y="275" fill="#94a3b8" font-size="10" font-family="monospace">O</text>
+
+                            <!-- Vektor F: dari (80, 260) ke (240, 140) -> dx=+160, dy=-120 (37 deg, mag=200) -->
+                            <!-- Proyeksi putus-putus -->
+                            <line x1="240" y1="260" x2="240" y2="140" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,4"/>
+                            <line x1="80" y1="140" x2="240" y2="140" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,4"/>
+
+                            <!-- Vektor Komponen Fx pada Sumbu x -->
+                            <line x1="80" y1="260" x2="232" y2="260" stroke="#f59e0b" stroke-width="3.5" marker-end="url(#m-amber)"/>
+                            <text x="135" y="280" fill="#f59e0b" font-size="12" font-weight="700">F_x = F cos θ</text>
+
+                            <!-- Vektor Komponen Fy pada Sumbu y -->
+                            <line x1="80" y1="260" x2="80" y2="148" stroke="#10b981" stroke-width="3.5" marker-end="url(#m-emerald)"/>
+                            <text x="10" y="200" fill="#10b981" font-size="12" font-weight="700">F_y = F sin θ</text>
+
+                            <!-- Vektor Primer F -->
+                            <line x1="80" y1="260" x2="234" y2="144" stroke="#38bdf8" stroke-width="4" marker-end="url(#m-cyan)"/>
+                            <text x="155" y="185" fill="#38bdf8" font-size="13" font-weight="800">F</text>
+
+                            <!-- Busur Sudut Theta -->
+                            <path d="M 130 260 A 50 50 0 0 0 120 230" fill="none" stroke="#facc15" stroke-width="2"/>
+                            <text x="135" y="245" fill="#facc15" font-size="11" font-weight="700">θ</text>
+
+                            <!-- SEPARATOR VERTIKAL -->
+                            <line x1="360" y1="30" x2="360" y2="350" stroke="#334155" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+                            <!-- PANEL KANAN: DEKOMPOSISI PADA BIDANG MIRING -->
+                            <text x="400" y="45" fill="#f8fafc" font-size="13" font-weight="700">B. Dekomposisi Gaya Berat Bidang Miring</text>
+
+                            <!-- Bidang Miring: Segitiga dari (400, 300) ke (660, 300) ke (660, 160) -> Sudut alpha ~ 28 deg -->
+                            <polygon points="400 300, 660 300, 660 160" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                            <path d="M 460 300 A 60 60 0 0 0 453 272" fill="none" stroke="#facc15" stroke-width="2"/>
+                            <text x="468" y="292" fill="#facc15" font-size="11" font-weight="700">α</text>
+
+                            <!-- Balok pada Bidang Miring: Posisi pusat massa (530, 230) -->
+                            <g transform="translate(530, 230) rotate(28.3)">
+                                <rect x="-25" y="-20" width="50" height="40" rx="4" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/>
+                            </g>
+
+                            <!-- Gaya Berat w tegak lurus ke bawah: dari (530, 230) ke (530, 335) -->
+                            <line x1="530" y1="230" x2="530" y2="330" stroke="#f43f5e" stroke-width="3.5" marker-end="url(#m-rose)"/>
+                            <text x="538" y="325" fill="#f43f5e" font-size="12" font-weight="800">w = mg</text>
+
+                            <!-- Komponen Sejajar Bidang Miring w_parallel = mg sin alpha: mengarah turun bidang -->
+                            <!-- Rotasi 28.3 deg: sejajar bidang adalah dx=-70, dy=+37.5 -->
+                            <line x1="530" y1="230" x2="465" y2="265" stroke="#f59e0b" stroke-width="3" marker-end="url(#m-amber)"/>
+                            <text x="400" y="250" fill="#f59e0b" font-size="11" font-weight="700">w_∥ = mg sin α</text>
+
+                            <!-- Komponen Tegak Lurus Bidang w_perp = mg cos alpha: tegak lurus bidang miring ke bawah -->
+                            <!-- Arah: dx=+50, dy=+94 -->
+                            <line x1="530" y1="230" x2="575" y2="315" stroke="#10b981" stroke-width="3" marker-end="url(#m-emerald)"/>
+                            <text x="585" y="310" fill="#10b981" font-size="11" font-weight="700">w_⊥ = mg cos α</text>
+
+                            <!-- Proyeksi putus-putus pada bidang miring -->
+                            <line x1="465" y1="265" x2="530" y2="330" stroke="#64748b" stroke-width="1" stroke-dasharray="3,3"/>
+                            <line x1="575" y1="315" x2="530" y2="330" stroke="#64748b" stroke-width="1" stroke-dasharray="3,3"/>
+                        </svg>
+                    </div>
+
+                    <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 text-xs text-amber-950 leading-relaxed">
+                        <strong>⚠️ Peringatan Kritis Bidang Miring:</strong> Perhatikan letak sudut $\alpha$! Pada bidang datar standar, komponen horizontal menggunakan kosinus ($F\cos\theta$). Namun pada bidang miring, sudut kemiringan $\alpha$ diukur terhadap bidang horizontal, sehingga komponen gaya berat yang <em>sejajar bidang miring</em> menggunakan <strong>sinus ($mg\sin\alpha$)</strong> dan yang <em>tegak lurus bidang</em> menggunakan <strong>kosinus ($mg\cos\alpha$)</strong>.
+                    </div>
+                </section>
+
+                <!-- SLIDE 3 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-3">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">3</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Tabel Trigonometri Sudut Istimewa &amp; Tanda Aljabar Empat Kuadran
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Referensi Komputasi</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Tanda aljabar ($+$ atau $-$) komponen vektor ditentukan oleh kuadran posisi vektor dalam sistem salib sumbu kartesius. Tabel di bawah memadukan nilai trigonometri sudut istimewa fisika beserta tanda aljabar empat kuadran:
+                    </p>
+
+                    <!-- TABEL DATA LENGKAP -->
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse bg-white">
+                            <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-r border-slate-200">Sudut ($\theta$)</th>
+                                    <th class="p-3 border-r border-slate-200 text-blue-700">$\sin\theta$</th>
+                                    <th class="p-3 border-r border-slate-200 text-amber-700">$\cos\theta$</th>
+                                    <th class="p-3 border-r border-slate-200 text-emerald-700">$\tan\theta$</th>
+                                    <th class="p-3">Karakteristik Penggunaan dalam Fisika</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-700 font-mono">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-2.5 font-bold border-r border-slate-200 font-sans">$0^\circ$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$0$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$1$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$0$</td>
+                                    <td class="p-2.5 font-sans text-xs">Vektor horizontal murni sejajar sumbu $+x$</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-2.5 font-bold border-r border-slate-200 font-sans">$30^\circ$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\frac{1}{2} = 0{,}5$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\frac{1}{2}\sqrt{3} \approx 0{,}866$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\frac{1}{3}\sqrt{3} \approx 0{,}577$</td>
+                                    <td class="p-2.5 font-sans text-xs">Kemiringan landai, gaya normal dominan</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 bg-blue-50/30">
+                                    <td class="p-2.5 font-bold border-r border-slate-200 font-sans text-blue-800">$37^\circ$ (Segitiga 3-4-5)</td>
+                                    <td class="p-2.5 border-r border-slate-200 text-blue-800">$\frac{3}{5} = 0{,}6$</td>
+                                    <td class="p-2.5 border-r border-slate-200 text-blue-800">$\frac{4}{5} = 0{,}8$</td>
+                                    <td class="p-2.5 border-r border-slate-200 text-blue-800">$\frac{3}{4} = 0{,}75$</td>
+                                    <td class="p-2.5 font-sans text-xs font-semibold text-blue-900">Sudut standar soal fisika mekanika tanpa kalkulator</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-2.5 font-bold border-r border-slate-200 font-sans">$45^\circ$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\frac{1}{2}\sqrt{2} \approx 0{,}707$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\frac{1}{2}\sqrt{2} \approx 0{,}707$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$1$</td>
+                                    <td class="p-2.5 font-sans text-xs">Komponen $x$ dan $y$ sama persis ($F_x = F_y$)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 bg-blue-50/30">
+                                    <td class="p-2.5 font-bold border-r border-slate-200 font-sans text-blue-800">$53^\circ$ (Segitiga 3-4-5)</td>
+                                    <td class="p-2.5 border-r border-slate-200 text-blue-800">$\frac{4}{5} = 0{,}8$</td>
+                                    <td class="p-2.5 border-r border-slate-200 text-blue-800">$\frac{3}{5} = 0{,}6$</td>
+                                    <td class="p-2.5 border-r border-slate-200 text-blue-800">$\frac{4}{3} \approx 1{,}333$</td>
+                                    <td class="p-2.5 font-sans text-xs font-semibold text-blue-900">Komponen vertikal lebih besar dari horizontal</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-2.5 font-bold border-r border-slate-200 font-sans">$60^\circ$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\frac{1}{2}\sqrt{3} \approx 0{,}866$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\frac{1}{2} = 0{,}5$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\sqrt{3} \approx 1{,}732$</td>
+                                    <td class="p-2.5 font-sans text-xs">Komponen vertikal dominan</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-2.5 font-bold border-r border-slate-200 font-sans">$90^\circ$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$1$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$0$</td>
+                                    <td class="p-2.5 border-r border-slate-200">$\infty$</td>
+                                    <td class="p-2.5 font-sans text-xs">Vektor vertikal murni searah sumbu $+y$</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- KUADRAN POLARITY BOX -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+                            <span class="font-bold text-slate-800 block">Kuadran I</span>
+                            <span class="text-slate-500 font-mono">$0^\circ < \theta < 90^\circ$</span>
+                            <span class="block text-emerald-600 font-bold mt-1">$A_x > 0$, $A_y > 0$</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+                            <span class="font-bold text-slate-800 block">Kuadran II</span>
+                            <span class="text-slate-500 font-mono">$90^\circ < \theta < 180^\circ$</span>
+                            <span class="block text-blue-600 font-bold mt-1">$A_x < 0$, $A_y > 0$</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+                            <span class="font-bold text-slate-800 block">Kuadran III</span>
+                            <span class="text-slate-500 font-mono">$180^\circ < \theta < 270^\circ$</span>
+                            <span class="block text-rose-600 font-bold mt-1">$A_x < 0$, $A_y < 0$</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+                            <span class="font-bold text-slate-800 block">Kuadran IV</span>
+                            <span class="text-slate-500 font-mono">$270^\circ < \theta < 360^\circ$</span>
+                            <span class="block text-amber-600 font-bold mt-1">$A_x > 0$, $A_y < 0$</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 4 -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">4</span>
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                Contoh Soal Terbimbing: Penjumlahan 3 Vektor Gaya Simultan dengan Tabel Komponen
+                            </h2>
+                        </div>
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Analisis Kuantitatif</span>
+                    </div>
+
+                    <!-- KASUS 1 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">Kasus 1: Penjumlahan Tiga Gaya Menggunakan Tabel Komponen</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-full">Level: Penerapan Komprehensif</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Tiga buah gaya sebidang bekerja pada satu partikel:<br>
+                            1. Gaya $F_1 = 20\text{ N}$ membentuk sudut $37^\circ$ di atas sumbu $+x$ (Kuadran I).<br>
+                            2. Gaya $F_2 = 10\text{ N}$ mengarah tepat ke arah sumbu $-x$ (barat).<br>
+                            3. Gaya $F_3 = 6\text{ N}$ mengarah tepat ke arah sumbu $-y$ (selatan).<br>
+                            Hitung komponen $R_x, R_y$, besar gaya resultan ($R$), dan arah sudut resultan ($\alpha$). Gunakan $\sin 37^\circ = 0{,}6$ dan $\cos 37^\circ = 0{,}8$.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-3 text-slate-700">
+                            <p class="font-bold text-slate-900 text-xs uppercase tracking-wide">Penyelesaian dengan Tabel Komponen:</p>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border border-slate-200 rounded-lg">
+                                    <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200">
+                                        <tr>
+                                            <th class="p-2 border-r border-slate-200">Vektor Gaya</th>
+                                            <th class="p-2 border-r border-slate-200">Komponen Sumbu $x$ ($F_x$)</th>
+                                            <th class="p-2">Komponen Sumbu $y$ ($F_y$)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr>
+                                            <td class="p-2 font-bold border-r border-slate-200">$\vec{F}_1 = 20\text{ N}$</td>
+                                            <td class="p-2 border-r border-slate-200">$+20\cos 37^\circ = +20(0{,}8) = +16\text{ N}$</td>
+                                            <td class="p-2">$+20\sin 37^\circ = +20(0{,}6) = +12\text{ N}$</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-bold border-r border-slate-200">$\vec{F}_2 = 10\text{ N}$</td>
+                                            <td class="p-2 border-r border-slate-200">$-10\text{ N}$ (arah barat)</td>
+                                            <td class="p-2">$0\text{ N}$</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-bold border-r border-slate-200">$\vec{F}_3 = 6\text{ N}$</td>
+                                            <td class="p-2 border-r border-slate-200">$0\text{ N}$</td>
+                                            <td class="p-2">$-6\text{ N}$ (arah selatan)</td>
+                                        </tr>
+                                        <tr class="bg-blue-50 font-bold text-blue-900 border-t-2 border-blue-200">
+                                            <td class="p-2 border-r border-slate-200">Resultan ($\sum$)</td>
+                                            <td class="p-2 border-r border-slate-200">$R_x = 16 - 10 + 0 = +6\text{ N}$</td>
+                                            <td class="p-2">$R_y = 12 + 0 - 6 = +6\text{ N}$</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p class="text-xs pt-1">
+                                <strong>2. Besar Vektor Resultan ($R$):</strong>
+                                $$R = \sqrt{R_x^2 + R_y^2} = \sqrt{6^2 + 6^2} = \sqrt{36 + 36} = \sqrt{72} = 6\sqrt{2} \approx 8{,}49\text{ Newton}$$
+                            </p>
+
+                            <p class="text-xs pt-1">
+                                <strong>3. Arah Vektor Resultan ($\alpha$):</strong>
+                                $$\tan\alpha = \frac{R_y}{R_x} = \frac{+6}{+6} = 1 \implies \alpha = 45^\circ \text{ (terhadap sumbu } +x \text{ di Kuadran I)}$$
+                            </p>
+
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs">
+                                <strong>Kesimpulan Fisis:</strong> Ketiga gaya terpadu menghasilkan gaya resultan sebesar $6\sqrt{2}\text{ N}$ yang terarah tepat $45^\circ$ ke timur laut (diagonal Kuadran I).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KASUS 2 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Kasus 2: Vektor Satuan Tiga Dimensi ($3D$)</span>
+                            <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full">Level: Konseptual 3D</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Diberikan sebuah vektor gaya dalam ruang 3 dimensi: $\vec{F} = 3\hat{i} - 4\hat{j} + 12\hat{k}\text{ Newton}$.<br>
+                            (a) Hitung besar (magnitudo) gaya $|\vec{F}|$.<br>
+                            (b) Tentukan vektor satuan ($\hat{u}_F$) yang searah dengan vektor gaya $\vec{F}$.
+                        </p>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2 text-slate-700">
+                            <p class="text-xs">
+                                <strong>1. Besar Gaya 3 Dimensi:</strong>
+                                $$|\vec{F}| = \sqrt{F_x^2 + F_y^2 + F_z^2} = \sqrt{3^2 + (-4)^2 + 12^2} = \sqrt{9 + 16 + 144} = \sqrt{169} = 13\text{ Newton}$$
+                            </p>
+                            <p class="text-xs pt-1">
+                                <strong>2. Vektor Satuan:</strong>
+                                Vektor satuan diperoleh dengan membagi vektor asli dengan magnitudonya:
+                                $$\hat{u}_F = \frac{\vec{F}}{|\vec{F}|} = \frac{3\hat{i} - 4\hat{j} + 12\hat{k}}{13} = \frac{3}{13}\hat{i} - \frac{4}{13}\hat{j} + \frac{12}{13}\hat{k}$$
+                            </p>
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900 text-xs mt-2">
+                                <strong>Kesimpulan Fisis:</strong> Gaya memiliki besar $13\text{ N}$. Vektor satuan $\hat{u}_F$ memiliki panjang tepat $1$ satuan tanpa dimensi fisis ($|\hat{u}_F| = \sqrt{(3/13)^2 + (-4/13)^2 + (12/13)^2} = \sqrt{169/169} = 1$).
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 5: EVALUASI LATIHAN SOAL INTERAKTIF (AUTO-KOREKSI) -->
+                <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-5">
+                    <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 5 &middot; Evaluasi Pemahaman Mandiri</span>
+                            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                📝 5. Latihan Soal Interaktif (Auto-Koreksi)
+                            </h2>
+                        </div>
+                        <span class="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2.5 py-1 rounded-full font-mono">4 Soal Auto-Check</span>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Pilihlah salah satu opsi jawaban pada masing-masing soal. Sistem pelacak progres akan merekam nilai secara otomatis saat seluruh soal terjawab.
+                    </p>
+
+                    <div class="space-y-5">
+                        <!-- SOAL 1 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 1 &middot; Komponen Horizontal Gaya</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Seorang anak menarik gerobak mainan dengan gaya $F = 50\text{ N}$ menggunakan tali yang membentuk sudut $60^\circ$ terhadap permukaan lantai horizontal. Besar komponen gaya yang efektif menarik gerobak maju secara horizontal ($F_x$) adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q1" value="A" class="accent-blue-600">
+                                    <span>A. $25\text{ N}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q1" value="B" class="accent-blue-600">
+                                    <span>B. $25\sqrt{3}\text{ N}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q1" value="C" class="accent-blue-600">
+                                    <span>C. $50\text{ N}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q1" value="D" class="accent-blue-600">
+                                    <span>D. $40\text{ N}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-3-q1" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 2 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 2 &middot; Panjang Vektor dalam Notasi Basis</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Suatu vektor perpindahan dinyatakan dalam notasi vektor satuan: $\vec{r} = 6\hat{i} - 8\hat{j}\text{ meter}$. Besar (panjang) perpindahan tersebut adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q2" value="A" class="accent-blue-600">
+                                    <span>A. $-2\text{ m}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q2" value="B" class="accent-blue-600">
+                                    <span>B. $14\text{ m}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q2" value="C" class="accent-blue-600">
+                                    <span>C. $10\text{ m}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q2" value="D" class="accent-blue-600">
+                                    <span>D. $48\text{ m}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-3-q2" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 3 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 3 &middot; Penjumlahan Aljabar Vektor Satuan</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Diketahui dua buah vektor: $\vec{A} = 4\hat{i} + 3\hat{j}$ dan $\vec{B} = -\hat{i} + 2\hat{j}$. Vektor resultan $\vec{R} = \vec{A} + 2\vec{B}$ adalah...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q3" value="A" class="accent-blue-600">
+                                    <span>A. $2\hat{i} + 7\hat{j}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q3" value="B" class="accent-blue-600">
+                                    <span>B. $3\hat{i} + 5\hat{j}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q3" value="C" class="accent-blue-600">
+                                    <span>C. $5\hat{i} + \hat{j}$</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q3" value="D" class="accent-blue-600">
+                                    <span>D. $6\hat{i} + 8\hat{j}$</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-3-q3" class="mt-3"></div>
+                        </div>
+
+                        <!-- SOAL 4 -->
+                        <div class="bg-slate-50/70 p-5 rounded-2xl border border-slate-200">
+                            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Soal 4 &middot; Penentuan Kuadran Hasil Resultan</span>
+                            <p class="text-sm text-slate-800 mb-3 font-medium">
+                                Suatu vektor resultan setelah dihitung komponen-komponennya menghasilkan nilai $R_x = -15\text{ N}$ dan $R_y = +8\text{ N}$. Vektor resultan tersebut berada pada...
+                            </p>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q4" value="A" class="accent-blue-600">
+                                    <span>A. Kuadran I</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q4" value="B" class="accent-blue-600">
+                                    <span>B. Kuadran II</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q4" value="C" class="accent-blue-600">
+                                    <span>C. Kuadran III</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200 hover:bg-blue-50/40 cursor-pointer transition-colors text-xs sm:text-sm">
+                                    <input type="radio" name="fis-10-4-3-q4" value="D" class="accent-blue-600">
+                                    <span>D. Kuadran IV</span>
+                                </label>
+                            </div>
+                            <div id="feedback-fis-10-4-3-q4" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- SKRIP AUTO-SCORE EVENT LISTENER (STANDAR EMAS MATEMATIKA) -->
+                    <script>
+                    (function() {
+                        const answers = {
+                            "fis-10-4-3-q1": { correct: "A", explanation: "F_x = F\cos 60° = 50 N x 0,5 = 25 N." },
+                            "fis-10-4-3-q2": { correct: "C", explanation: "|\vec{r}| = \sqrt{6^2 + (-8)^2} = \sqrt{36 + 64} = \sqrt{100} = 10 m." },
+                            "fis-10-4-3-q3": { correct: "A", explanation: "\vec{R} = (4\hat{i} + 3\hat{j}) + 2(-\hat{i} + 2\hat{j}) = (4 - 2)\hat{i} + (3 + 4)\hat{j} = 2\hat{i} + 7\hat{j}." },
+                            "fis-10-4-3-q4": { correct: "B", explanation: "Karena komponen sumbu x negatif (R_x < 0) dan komponen sumbu y positif (R_y > 0), arah vektor berada di Kuadran II (antara 90° dan 180°)." }
+                        };
+
+                        Object.keys(answers).forEach(qName => {
+                            const radios = document.querySelectorAll(`input[name="${qName}"]`);
+                            radios.forEach(r => {
+                                r.addEventListener('change', () => {
+                                    const fb = document.getElementById(`feedback-${qName}`);
+                                    if (r.value === answers[qName].correct) {
+                                        fb.innerHTML = `<div class="p-3 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-xs sm:text-sm font-semibold">✅ Tepat sekali! ${answers[qName].explanation}</div>`;
+                                    } else {
+                                        fb.innerHTML = `<div class="p-3 bg-rose-50 text-rose-800 rounded-xl border border-rose-200 text-xs sm:text-sm font-semibold">❌ Jawaban belum tepat. Coba telaah kembali materi pada slide sebelumnya!</div>`;
+                                    }
+                                    if (window.renderMathInElement) {
+                                        renderMathInElement(fb, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+                                    }
+                                });
+                            });
+                        });
+                    })();
+                    </script>
+                </section>
+
+                <!-- BOTTOM SLIDER NAVIGATION BAR -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-3">
+                    <button id="slider-btn-prev-bottom" onclick="ieltsSlider.prev()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                        <span>&larr;</span> <span>Poin Sebelumnya</span>
+                    </button>
+                    <span id="slider-bottom-counter" class="text-xs font-mono font-bold text-slate-500 hidden sm:inline">1 / 5</span>
+                    <button id="slider-btn-next-bottom" onclick="ieltsSlider.next()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                        <span id="slider-btn-next-bottom-text">Poin Selanjutnya &rarr;</span>
+                    </button>
+                </div>
+
+                <!-- SUMBER REFERENSI AKADEMIK -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-1.5">
+                    <p class="font-bold text-slate-800 text-sm mb-1 flex items-center gap-1.5">
+                        <span>📚 Sumber Referensi Kurikulum &amp; Standar:</span>
+                    </p>
+                    <p><strong>Kemendikbudristek RI.</strong> (2024). <em>Kepka BSKAP No. 032/H/KR/2024 tentang Capaian Pembelajaran Fisika Fase E</em>.</p>
+                    <p><strong>Halliday, David, Resnick, Robert, &amp; Walker, Jearl.</strong> (2018). <em>Fundamentals of Physics</em> (11th ed. Extended). John Wiley &amp; Sons.</p>
+                    <p><strong>Serway, Raymond A. &amp; Jewett, John W.</strong> (2018). <em>Physics for Scientists and Engineers with Modern Physics</em> (10th ed.). Cengage Learning.</p>
+                    <p><strong>David Morin.</strong> (2008). <em>Introduction to Classical Mechanics: With Problems and Solutions</em>. Cambridge University Press.</p>
+                </div>
+
+                <!-- NAVIGASI SUB-BAB SEBELUMNYA / SELANJUTNYA -->
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 border-t border-slate-200">
+                    <a href="penjumlahan-dan-pengurangan-vektor.html" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-blue-600 transition">&larr; Sebelumnya: 2. Metode Grafis &amp; Poligon</a>
+                    <span class="text-xs text-slate-400 font-medium">Sub-Materi 3 dari 6</span>
+                    <a href="perkalian-vektor-dot-dan-cross-product.html" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition shadow-xs">Lanjut: 4. Perkalian Titik &amp; Silang &rarr;</a>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- FOOTER & MODAL SPU -->
+    <div id="footer-placeholder"></div>
+    <div id="spu-placeholder"></div>
+
+    <!-- SLIDER SCRIPT & ASSETS -->
+    <script src="/ielts/ielts-slider.js"></script>
+    <script src="/js/mapel-config.js?v=20261112"></script>
+    <script src="/js/curriculum.js"></script>
+    <script src="/js/spu.js"></script>
+    <script src="/js/include.js?v=20261112"></script>
+
+    <!-- KaTeX Autorender -->
+    <script>
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
