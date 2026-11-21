@@ -161,15 +161,15 @@ Salin struktur HTML standar di bawah ini untuk setiap file sub-bab baru:
                 <div id="ielts-slider-container" data-accent="blue" class="space-y-6">
 
                     <!-- SLIDE 1 (Poin 1) -->
-                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
-                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
-                            <div>
-                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 1 &middot; [Topik Utama]</span>
-                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
-                                    💡 1. [Judul Poin 1]
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-1">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                    [Judul Poin 1]
                                 </h2>
                             </div>
-                            <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2.5 py-1 rounded-full font-mono">[Label Singkat]</span>
+                            <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">[Label Singkat]</span>
                         </div>
 
                         <!-- Konten Poin 1 (Teori, Penjelasan, Rumus KaTeX $...$) -->
@@ -179,18 +179,18 @@ Salin struktur HTML standar di bawah ini untuk setiap file sub-bab baru:
                     </section>
 
                     <!-- SLIDE 2 (Poin 2) -->
-                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5">
-                        <div class="border-b border-slate-200 pb-3 flex items-center justify-between flex-wrap gap-2">
-                            <div>
-                                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 block mb-0.5">Poin 2 &middot; [Topik Utama]</span>
-                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
-                                    ⚡ 2. [Judul Poin 2]
+                    <section class="ielts-slide bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-5" id="slide-2">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</span>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+                                    [Judul Poin 2]
                                 </h2>
                             </div>
-                            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full font-mono">[Label Singkat]</span>
+                            <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">[Label Singkat]</span>
                         </div>
 
-                        <!-- Konten Poin 2 -->
+                        <!-- Konten Poin 2 (Diagram Vektor SVG Dark Minimal 1) -->
                         <p class="text-sm text-slate-600 leading-relaxed text-justify">
                             [Isi materi poin 2...]
                         </p>

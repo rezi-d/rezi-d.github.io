@@ -71,3 +71,23 @@ git clone https://github.com/rezi-d/rezi-d.github.io.git
 
 Tidak perlu install apa pun. Buka `index.html` di browser (atau jalankan
 `python -m http.server` di folder ini kalau butuh server lokal untuk `fetch` partial).
+
+---
+
+## Standar Baku Modul Fisika & Matematika SMA (Wajib Diikuti)
+
+Seluruh modul pembelajaran baru (Fisika Kelas X, XI, XII dan Matematika) **WAJIB 100% konsisten** dengan format berikut:
+1. **Layout 4 Kolom Penuh Presisi**:
+   - Kolom kiri (`lg:col-span-1`): `<div id="sidebar-placeholder" class="lg:col-span-1"></div>` (render otomatis oleh `include.js`).
+   - Kolom kanan (`lg:col-span-3 space-y-6`): Hero card modul, sticky controller bar, carousel container (`#ielts-slider-container`), bottom navigation bar, box referensi akademik internasional, dan tombol navigasi sub-materi.
+2. **5 Slide per Modul**:
+   - Slide 1: Konsep Inti / Teori Fisika Formal (KaTeX `$$...$$` dan `$...$`).
+   - Slide 2: Diagram Vektor / Model Fisis SVG berlatar gelap (`#0f172a` atau `#1e293b`).
+   - Slide 3: Tabel Komparasi / Data Riset Kontekstual.
+   - Slide 4: Contoh Soal Terbimbing Langkah demi Langkah (*Step-by-Step*).
+   - Slide 5: **Latihan Soal Interaktif (Auto-Koreksi Murni)**:
+     - Header: `📝 5. Latihan Soal Interaktif (Auto-Koreksi)` + Badge `4 Soal Auto-Check`.
+     - 4 kartu soal dengan radio button (`accent-blue-600`) dan container feedback instan (`✅ Tepat sekali!` / `❌ Jawaban belum tepat.`).
+     - **DILARANG MENGGUNAKAN TOMBOL "Periksa Seluruh Jawaban" MANUAL ATAU FORM REKAP NILAI STATIS.**
+3. **Dokumentasi Lengkap & SOP**: Baca [STANDAR_MATERI_MODUL_FISIKA.md](file:///d:/pengembngan%20web/STANDAR_MATERI_MODUL_FISIKA.md).
+
