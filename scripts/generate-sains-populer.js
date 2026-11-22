@@ -27,24 +27,58 @@ const MATERI_VALID_SMA = [
     { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Perkalian Dot & Cross Product", url: "/fisika/kelas-10/vektor-dan-dasar-kinematika/perkalian-vektor-dot-dan-cross-product.html" },
     { kelas: "Kelas X", mapel: "Fisika SMA", bab: "Kinematika 1D (GLB & GLBB)", url: "/fisika/kelas-10/vektor-dan-dasar-kinematika/kinematika-1d-glb-dan-glbb.html" },
     // MATERI KIMIA SMA
-    { kelas: "Kelas X", bab: "Struktur Atom & Konfigurasi", url: "/kelas-10/struktur-atom/konfigurasi-elektron-bohr-dan-mekanika-kuantum.html" },
-    { kelas: "Kelas X", bab: "Tabel Periodik & Keperiodikan Unsur", url: "/kelas-10/tabel-periodik-unsur/jari-jari-atom-dan-energi-ionisasi.html" },
-    { kelas: "Kelas X", bab: "Reaksi Redoks & Bilangan Oksidasi", url: "/kelas-10/reaksi-redoks/aturan-dan-penentuan-bilangan-oksidasi.html" },
-    { kelas: "Kelas X", bab: "Hukum Dasar Kimia & Stoikiometri", url: "/kelas-10/hukum-dasar-kimia/hukum-kekekalan-massa-lavoisier.html" },
-    { kelas: "Kelas XI", bab: "Ikatan Kovalen & Geometri Molekul", url: "/kelas-11/ikatan-kimia/ikatan-kovalen.html" },
-    { kelas: "Kelas XI", bab: "Bentuk Molekul & Teori VSEPR", url: "/kelas-11/ikatan-kimia/bentuk-molekul-vsepr.html" },
-    { kelas: "Kelas XI", bab: "Teori Hibridisasi & Gaya Antarmolekul", url: "/kelas-11/ikatan-kimia/teori-hibridisasi.html" },
-    { kelas: "Kelas XI", bab: "Termokimia & Energi Ikatan", url: "/kelas-11/termokimia/energi-ikatan-dan-penentuan-entalpi.html" },
-    { kelas: "Kelas XI", bab: "Laju Reaksi & Katalis", url: "/kelas-11/laju-reaksi/faktor-penentu-laju-reaksi.html" },
-    { kelas: "Kelas XI", bab: "Kesetimbangan Kimia & Azas Le Chatelier", url: "/kelas-11/kesetimbangan-kimia/faktor-pergeseran-kesetimbangan.html" },
-    { kelas: "Kelas XI", bab: "Sistem Koloid & Rekayasa Partikel", url: "/kelas-11/sistem-koloid/konsep-dan-jenis-koloid.html" },
-    { kelas: "Kelas XI", bab: "Kelarutan & Hasil Kali Kelarutan (Ksp)", url: "/kelas-11/kelarutan-dan-ksp/konsep-kelarutan-dan-ksp.html" },
-    { kelas: "Kelas XII", bab: "Sifat Koligatif Larutan & Tekanan Osmotik", url: "/kelas-12/sifat-koligatif/tekanan-osmotik-larutan.html" },
-    { kelas: "Kelas XII", bab: "Sel Volta & Elektrokimia Baterai", url: "/kelas-12/sel-volta/anode-katode-potensial-sel.html" },
-    { kelas: "Kelas XII", bab: "Elektrolisis & Korosi Logam", url: "/kelas-12/elektrolisis/hukum-faraday-dan-perhitungan.html" },
-    { kelas: "Kelas XII", bab: "Makromolekul: Protein & Asam Amino", url: "/kelas-12/makromolekul/protein-asam-amino-dan-uji-identifikasi.html" },
-    { kelas: "Kelas XII", bab: "Polimer Sintetis & Daur Ulang Plastik", url: "/kelas-12/makromolekul/polimer-sintetis-dan-reaksi-polimerisasi.html" },
-    { kelas: "Kelas XII", bab: "Kimia Unsur Logam Transisi & Kompleks", url: "/kelas-12/kimia-unsur/logam-transisi-periode-keempat-dan-senyawa-kompleks.html" }
+    { kelas: "Kelas X", mapel: "Kimia SMA", bab: "Struktur Atom & Konfigurasi", url: "/kelas-10/struktur-atom/konfigurasi-elektron-dan-diagram-orbital.html" },
+    { kelas: "Kelas X", mapel: "Kimia SMA", bab: "Tabel Periodik & Keperiodikan Unsur", url: "/kelas-10/tabel-periodik-unsur/sifat-keperiodikan-unsur-dan-latihan-chang.html" },
+    { kelas: "Kelas X", mapel: "Kimia SMA", bab: "Reaksi Redoks & Bilangan Oksidasi", url: "/kelas-10/reaksi-redoks/aturan-dan-penentuan-bilangan-oksidasi.html" },
+    { kelas: "Kelas X", mapel: "Kimia SMA", bab: "Hukum Dasar Kimia & Stoikiometri", url: "/kelas-10/hukum-dasar-kimia/hukum-kekekalan-massa-lavoisier.html" },
+    { kelas: "Kelas XI", mapel: "Kimia SMA", bab: "Ikatan Kovalen & Geometri Molekul", url: "/kelas-11/ikatan-kimia/ikatan-kovalen.html" },
+    { kelas: "Kelas XI", mapel: "Kimia SMA", bab: "Bentuk Molekul & Teori VSEPR", url: "/kelas-11/ikatan-kimia/bentuk-molekul-vsepr.html" },
+    { kelas: "Kelas XI", mapel: "Kimia SMA", bab: "Teori Hibridisasi & Gaya Antarmolekul", url: "/kelas-11/ikatan-kimia/teori-hibridisasi.html" },
+    { kelas: "Kelas XI", mapel: "Kimia SMA", bab: "Termokimia & Energi Ikatan", url: "/kelas-11/termokimia/energi-ikatan-dan-penentuan-entalpi.html" },
+    { kelas: "Kelas XI", mapel: "Kimia SMA", bab: "Laju Reaksi & Katalis", url: "/kelas-11/laju-reaksi/teori-tumbukan-faktor.html" },
+    { kelas: "Kelas XI", mapel: "Kimia SMA", bab: "Kesetimbangan Kimia & Azas Le Chatelier", url: "/kelas-11/kesetimbangan-kimia/pergeseran-kesetimbangan-le-chatelier.html" },
+    { kelas: "Kelas XI", mapel: "Kimia SMA", bab: "Sistem Koloid & Rekayasa Partikel", url: "/kelas-11/sistem-koloid/konsep-dan-jenis-koloid.html" },
+    { kelas: "Kelas XI", mapel: "Kimia SMA", bab: "Kelarutan & Hasil Kali Kelarutan (Ksp)", url: "/kelas-11/kelarutan-dan-ksp/konsep-kelarutan-dan-ksp.html" },
+    { kelas: "Kelas XII", mapel: "Kimia SMA", bab: "Sifat Koligatif Larutan & Tekanan Osmotik", url: "/kelas-12/sifat-koligatif-larutan/tekanan-osmotik-larutan.html" },
+    { kelas: "Kelas XII", mapel: "Kimia SMA", bab: "Sel Volta & Elektrokimia Baterai", url: "/kelas-12/sel-volta/anode-katode-potensial-sel.html" },
+    { kelas: "Kelas XII", mapel: "Kimia SMA", bab: "Elektrolisis & Korosi Logam", url: "/kelas-12/elektrolisis/hukum-faraday.html" },
+    { kelas: "Kelas XII", mapel: "Kimia SMA", bab: "Makromolekul: Protein & Asam Amino", url: "/kelas-12/makromolekul/protein-asam-amino-dan-uji-identifikasi.html" },
+    { kelas: "Kelas XII", mapel: "Kimia SMA", bab: "Polimer Sintetis & Daur Ulang Plastik", url: "/kelas-12/makromolekul/polimer-sintetis-dan-reaksi-polimerisasi.html" },
+    { kelas: "Kelas XII", mapel: "Kimia SMA", bab: "Kimia Unsur Logam Transisi & Kompleks", url: "/kelas-12/kimia-unsur/logam-transisi-periode-keempat-dan-senyawa-kompleks.html" },
+    // MATERI MATEMATIKA SMA
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Eksponen & Sifat Operasi", url: "/matematika/kelas-10/eksponen-dan-logaritma/konsep-eksponen-dan-sifat-operasi.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Konsep Dasar & Sifat Logaritma", url: "/matematika/kelas-10/eksponen-dan-logaritma/konsep-dasar-dan-sifat-logaritma.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Fungsi Eksponensial & Grafik", url: "/matematika/kelas-10/eksponen-dan-logaritma/fungsi-eksponensial-dan-grafik.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Fungsi Kuadrat & Karakteristiknya", url: "/matematika/kelas-10/fungsi-kuadrat/konsep-dasar-dan-karakteristik-fungsi-kuadrat.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Pemodelan & Aplikasi Fungsi Kuadrat", url: "/matematika/kelas-10/fungsi-kuadrat/pemodelan-matematika-dan-aplikasi-fungsi-kuadrat.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Barisan Geometri & Rasio", url: "/matematika/kelas-10/barisan-dan-deret/barisan-geometri-dan-rasio.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Deret Geometri Hingga & Tak Hingga", url: "/matematika/kelas-10/barisan-dan-deret/deret-geometri-hingga-dan-tak-hingga.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Konsep Dasar Trigonometri", url: "/matematika/kelas-10/trigonometri/konsep-dasar-dan-perbandingan-trigonometri.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Konsep Dasar Vektor & Vektor Posisi", url: "/matematika/kelas-10/vektor/konsep-dasar-vektor-dan-vektor-posisi.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Perkalian Skalar (Dot Product) & Sudut", url: "/matematika/kelas-10/vektor/perkalian-skalar-dot-product-dan-sudut.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Ukuran Pemusatan & Penyebaran Data", url: "/matematika/kelas-10/statistika/ukuran-pemusatan-data-tunggal-dan-kelompok.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Diagram Pencar & Korelasi Data", url: "/matematika/kelas-10/statistika/diagram-pencar-dan-korelasi-data-bivariat.html" },
+    { kelas: "Kelas X", mapel: "Matematika SMA", bab: "Ruang Sampel & Peluang Kejadian", url: "/matematika/kelas-10/peluang/ruang-sampel-titik-sampel-dan-kejadian.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Matriks: Operasi & Perkalian", url: "/matematika/kelas-11/matriks/operasi-aljabar-dan-perkalian-matriks.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Determinan & Invers Matriks", url: "/matematika/kelas-11/matriks/invers-matriks-dan-persamaan-matriks.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Transformasi Geometri: Rotasi", url: "/matematika/kelas-11/transformasi-geometri/rotasi-perputaran-geometri.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Matriks Transformasi & Komposisi", url: "/matematika/kelas-11/transformasi-geometri/matriks-transformasi-dan-komposisi-transformasi.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Grafik Fungsi Trigonometri", url: "/matematika/kelas-11/trigonometri-lanjutan/grafik-fungsi-trigonometri-dan-karakteristiknya.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Polinomial & Teorema Sisa", url: "/matematika/kelas-11/polinomial/teorema-sisa-dan-teorema-faktor.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Regresi Linier (Kuadrat Terkecil)", url: "/matematika/kelas-11/statistika-bivariat/garis-regresi-linier-metode-kuadrat-terkecil.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Koefisien Korelasi Pearson", url: "/matematika/kelas-11/statistika-bivariat/koefisien-korelasi-pearson-dan-derajat-hubungan.html" },
+    { kelas: "Kelas XI", mapel: "Matematika SMA", bab: "Fungsi Komposisi & Invers", url: "/matematika/kelas-11/komposisi-fungsi-dan-fungsi-invers/konsep-fungsi-invers-dan-sifatnya.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Limit Fungsi & Sifat Limit", url: "/matematika/kelas-12/limit-fungsi/konsep-dasar-limit-kiri-kanan-dan-sifat-limit.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Turunan Fungsi & Aturan Dasar", url: "/matematika/kelas-12/turunan-fungsi/definisi-limit-turunan-dan-aturan-dasar-diferensial.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Optimasi Maksimum-Minimum & Laju Berkaitan", url: "/matematika/kelas-12/turunan-fungsi/optimasi-maksimum-minimum-dan-laju-berkaitan-hots.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Integral Tak Tentu & Rumus Dasar", url: "/matematika/kelas-12/integral/konsep-integral-tak-tentu-dan-rumus-dasar.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Luas Daerah di Antara Dua Kurva", url: "/matematika/kelas-12/integral/aplikasi-integral-luas-daerah-di-antara-dua-kurva.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Volume Benda Putar", url: "/matematika/kelas-12/integral/volume-benda-putar-dan-problem-solving-hots-integral.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Irisan Kerucut: Parabola", url: "/matematika/kelas-12/irisan-kerucut/irisan-kerucut-parabola-fokus-direktriks-dan-garis-singgung.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Irisan Kerucut: Elips", url: "/matematika/kelas-12/irisan-kerucut/irisan-kerucut-elips-eksentrisitas-dan-garis-singgung.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Distribusi Normal Baku", url: "/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/distribusi-peluang-kontinu-dan-distribusi-normal-baku.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Teorema Bayes & Peluang Bersyarat", url: "/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/peluang-kejadian-majemuk-bersyarat-dan-teorema-bayes.html" },
+    { kelas: "Kelas XII", mapel: "Matematika SMA", bab: "Dimensi Tiga: Jarak & Sudut", url: "/matematika/kelas-12/dimensi-tiga/jarak-titik-ke-bidang-dan-garis-bersilangan.html" }
 ];
 
 // Bank kurasi artikel sains viral bermutu tinggi (sebagai fallback anti-gagal berkelanjutan)
@@ -78,7 +112,7 @@ const BANK_KURASI_SAINS = [
                 kelas: "Kelas X",
                 bab: "Tabel Periodik & Keperiodikan Unsur",
                 desc: "Jari-jari ion dan sifat kereaktifan unsur logam alkali Golongan 1.",
-                url: "/kelas-10/tabel-periodik-unsur/jari-jari-atom-dan-energi-ionisasi.html"
+                url: "/kelas-10/tabel-periodik-unsur/sifat-keperiodikan-unsur-dan-latihan-chang.html"
             }
         ],
         contentHtml: `
@@ -126,7 +160,7 @@ const BANK_KURASI_SAINS = [
                 kelas: "Kelas X",
                 bab: "Struktur Atom & Konfigurasi",
                 desc: "Isotop hidrogen (Protium ¹H, Deuterium ²H, Tritium ³H) dan defek massa.",
-                url: "/kelas-10/struktur-atom/konfigurasi-elektron-bohr-dan-mekanika-kuantum.html"
+                url: "/kelas-10/struktur-atom/konfigurasi-elektron-dan-diagram-orbital.html"
             },
             {
                 kelas: "Kelas XI",
@@ -324,7 +358,7 @@ const BANK_KURASI_SAINS = [
                 kelas: "Kelas XII",
                 bab: "Sifat Koligatif Larutan & Tekanan Osmotik",
                 desc: "Konsep osmosis balik (reverse osmosis) dan perhitungan tekanan osmotik (π = M·R·T·i).",
-                url: "/kelas-12/sifat-koligatif/tekanan-osmotik-larutan.html"
+                url: "/kelas-12/sifat-koligatif-larutan/tekanan-osmotik-larutan.html"
             },
             {
                 kelas: "Kelas XI",
@@ -424,7 +458,7 @@ const BANK_KURASI_SAINS = [
                 kelas: "Kelas XI",
                 bab: "Laju Reaksi & Katalis",
                 desc: "Peran enzim sebagai biokatalis yang menurunkan energi aktivasi reaksi biokimia.",
-                url: "/kelas-11/laju-reaksi/faktor-penentu-laju-reaksi.html"
+                url: "/kelas-11/laju-reaksi/teori-tumbukan-faktor.html"
             }
         ],
         contentHtml: `
@@ -524,7 +558,7 @@ const BANK_KURASI_SAINS = [
                 kelas: "Kelas XII",
                 bab: "Elektrolisis & Korosi Logam",
                 desc: "Pencegahan korosi besi tulangan beton dengan mengisolasi air dan gas oksigen.",
-                url: "/kelas-12/elektrolisis/hukum-faraday-dan-perhitungan.html"
+                url: "/kelas-12/elektrolisis/hukum-faraday.html"
             }
         ],
         contentHtml: `
@@ -558,7 +592,7 @@ async function tryCallGemini(prompt) {
     }
 
     // 1. Coba endpoint resmi generateContent
-    const generateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-flash-latest'];
+    const generateModels = ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-flash-latest'];
     for (const model of generateModels) {
         try {
             console.log(`🤖 Mencoba Gemini API generateContent (${model})...`);
@@ -566,7 +600,7 @@ async function tryCallGemini(prompt) {
             const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                signal: AbortSignal.timeout(15000),
+                signal: AbortSignal.timeout(120000),
                 body: JSON.stringify({
                     contents: [{ parts: [{ text: prompt }] }],
                     generationConfig: {
@@ -607,7 +641,7 @@ async function tryCallGemini(prompt) {
                     'Content-Type': 'application/json',
                     'x-goog-api-key': GEMINI_API_KEY
                 },
-                signal: AbortSignal.timeout(15000),
+                signal: AbortSignal.timeout(120000),
                 body: JSON.stringify({
                     model: model,
                     input: prompt
@@ -646,6 +680,33 @@ async function tryCallGemini(prompt) {
     return null;
 }
 
+
+// Folder induk repositori (untuk memeriksa apakah halaman materi benar-benar ada)
+const REPO_ROOT = path.resolve(__dirname, '..');
+const KATEGORI_WARNA = {
+    'Fisika & Kuantum': 'indigo',
+    'Kimia & Material Maju': 'teal',
+    'Biologi & Bioteknologi': 'emerald',
+    'Astronomi & Antariksa': 'amber',
+    'Energi & Iklim': 'cyan'
+};
+
+function urlMateriAda(url) {
+    if (typeof url !== 'string' || url.includes('..')) return false;
+    if (!/^\/(kelas-\d+|fisika|matematika)\//.test(url)) return false;
+    try {
+        return fs.existsSync(path.join(REPO_ROOT, url.split('#')[0].split('?')[0]));
+    } catch (e) {
+        return false;
+    }
+}
+
+function mapelDariUrl(url) {
+    if (url.startsWith('/fisika/')) return 'Fisika SMA';
+    if (url.startsWith('/matematika/')) return 'Matematika SMA';
+    return 'Kimia SMA';
+}
+
 // Normalisasi otomatis ikon emoji dan URL materi SMA
 function normalizeArticle(art) {
     const iconMap = {
@@ -668,19 +729,23 @@ function normalizeArticle(art) {
         }
     }
 
-    // Validasi URL materi SMA agar selalu valid di website kita
+    // Kategori harus cocok dengan filter di halaman Sains Populer; warna mengikuti kategori
+    if (!KATEGORI_WARNA[art.category]) {
+        art.category = 'Kimia & Material Maju';
+    }
+    art.categoryColor = KATEGORI_WARNA[art.category];
+
+    // Validasi URL materi: halaman harus ada di repositori (Kimia, Fisika, atau Matematika)
     if (Array.isArray(art.kaitanMateri)) {
         art.kaitanMateri = art.kaitanMateri.map((km, idx) => {
-            if (!km.url || !km.url.startsWith('/kelas-')) {
-                const fallback = MATERI_VALID_SMA[idx % MATERI_VALID_SMA.length];
-                return {
-                    ...km,
-                    url: fallback.url,
-                    kelas: km.kelas || fallback.kelas,
-                    bab: km.bab || fallback.bab
-                };
+            if (km && urlMateriAda(km.url)) {
+                return { ...km, mapel: km.mapel || mapelDariUrl(km.url) };
             }
-            return km;
+            const kunci = ((km && km.mapel) || '').split(' ')[0].toLowerCase();
+            const pool = kunci ? MATERI_VALID_SMA.filter(m => m.mapel.toLowerCase().startsWith(kunci)) : [];
+            const sumber = pool.length ? pool : MATERI_VALID_SMA;
+            const fallback = sumber[idx % sumber.length];
+            return { ...km, url: fallback.url, kelas: fallback.kelas, mapel: fallback.mapel, bab: fallback.bab };
         });
     }
 
@@ -740,9 +805,17 @@ async function main() {
 
     // 1. Coba Generate via Gemini AI
     if (GEMINI_API_KEY) {
-        const prompt = `Buat 2 artikel warta sains populer kimia baru untuk website SMA https://kimia.ajarkita.my.id/sains-populer/
+        const fokusMapel = ['Kimia', 'Fisika', 'Matematika'];
+        const nomorMinggu = Math.floor(Date.now() / (7 * 24 * 3600 * 1000));
+        const fokusA = fokusMapel[nomorMinggu % 3];
+        const fokusB = fokusMapel[(nomorMinggu + 1) % 3];
+        const daftarMateri = MATERI_VALID_SMA.map(m => `- [${m.mapel}] ${m.kelas} | ${m.bab} | ${m.url}`).join('\n');
+        const prompt = `Buat 2 artikel warta sains populer baru untuk website SMA https://kimia.ajarkita.my.id/sains-populer/
+Artikel 1 berfokus pada mapel ${fokusA} dan artikel 2 berfokus pada mapel ${fokusB}. Tema boleh lintas disiplin, tetapi kaitan materi utama harus sesuai mapel fokusnya.
 Topik TIDAK BOLEH sama dengan: [${slugArray.join(', ')}].
-Format TEPAT JSON array of objects berisi id, slug, title, subtitle, category ("Teknologi Masa Depan"|"Nobel & Terobosan Sains"|"Material Masa Depan"), categoryColor ("amber"|"teal"|"indigo"), icon, publishDate: "${tglFormatted}", readTime: "5 menit baca", author: "Tim Sains AjarKita", coverImage: { type: "gradient", bg, badge, icon }, summary, tahukahKamu, kaitanMateri: [{ kelas, bab, desc, url }], contentHtml, diskusi. Hubungkan dengan kurikulum kimia SMA Indonesia (Kelas X, XI, atau XII).`;
+Format TEPAT JSON array of objects berisi id, slug, title, subtitle, category (HARUS salah satu persis dari: "Fisika & Kuantum" | "Kimia & Material Maju" | "Biologi & Bioteknologi" | "Astronomi & Antariksa" | "Energi & Iklim"), categoryColor (indigo untuk Fisika & Kuantum, teal untuk Kimia & Material Maju, emerald untuk Biologi & Bioteknologi, amber untuk Astronomi & Antariksa, cyan untuk Energi & Iklim), icon (satu emoji), publishDate: "${tglFormatted}", readTime: "5 menit baca", author: "Tim Sains AjarKita", coverImage: { type: "gradient", bg, badge, icon }, summary, tahukahKamu, kaitanMateri: [{ kelas, mapel, bab, desc, url }], contentHtml, diskusi.
+kaitanMateri berisi 2 butir. Nilai kelas, mapel, bab, dan url HARUS disalin persis dari salah satu baris daftar berikut, tanpa mengarang url:
+${daftarMateri}`;
         newArticles = await tryCallGemini(prompt);
     }
 
