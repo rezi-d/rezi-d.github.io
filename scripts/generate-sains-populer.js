@@ -688,7 +688,8 @@ const KATEGORI_WARNA = {
     'Kimia & Material Maju': 'teal',
     'Biologi & Bioteknologi': 'emerald',
     'Astronomi & Antariksa': 'amber',
-    'Energi & Iklim': 'cyan'
+    'Energi & Iklim': 'cyan',
+    'Matematika & Data': 'rose'
 };
 
 function urlMateriAda(url) {
@@ -813,7 +814,7 @@ async function main() {
         const prompt = `Buat 2 artikel warta sains populer baru untuk website SMA https://kimia.ajarkita.my.id/sains-populer/
 Artikel 1 berfokus pada mapel ${fokusA} dan artikel 2 berfokus pada mapel ${fokusB}. Tema boleh lintas disiplin, tetapi kaitan materi utama harus sesuai mapel fokusnya.
 Topik TIDAK BOLEH sama dengan: [${slugArray.join(', ')}].
-Format TEPAT JSON array of objects berisi id, slug, title, subtitle, category (HARUS salah satu persis dari: "Fisika & Kuantum" | "Kimia & Material Maju" | "Biologi & Bioteknologi" | "Astronomi & Antariksa" | "Energi & Iklim"), categoryColor (indigo untuk Fisika & Kuantum, teal untuk Kimia & Material Maju, emerald untuk Biologi & Bioteknologi, amber untuk Astronomi & Antariksa, cyan untuk Energi & Iklim), icon (satu emoji), publishDate: "${tglFormatted}", readTime: "5 menit baca", author: "Tim Sains AjarKita", coverImage: { type: "gradient", bg, badge, icon }, summary, tahukahKamu, kaitanMateri: [{ kelas, mapel, bab, desc, url }], contentHtml, diskusi.
+Format TEPAT JSON array of objects berisi id, slug, title, subtitle, category (HARUS salah satu persis dari: "Fisika & Kuantum" | "Kimia & Material Maju" | "Biologi & Bioteknologi" | "Astronomi & Antariksa" | "Energi & Iklim" | "Matematika & Data"; artikel berfokus Matematika sebaiknya memakai "Matematika & Data"), categoryColor (indigo untuk Fisika & Kuantum, teal untuk Kimia & Material Maju, emerald untuk Biologi & Bioteknologi, amber untuk Astronomi & Antariksa, cyan untuk Energi & Iklim, rose untuk Matematika & Data), icon (satu emoji), publishDate: "${tglFormatted}", readTime: "5 menit baca", author: "Tim Sains AjarKita", coverImage: { type: "gradient", bg, badge, icon }, summary, tahukahKamu, kaitanMateri: [{ kelas, mapel, bab, desc, url }], contentHtml, diskusi.
 kaitanMateri berisi 2 butir. Nilai kelas, mapel, bab, dan url HARUS disalin persis dari salah satu baris daftar berikut, tanpa mengarang url:
 ${daftarMateri}`;
         newArticles = await tryCallGemini(prompt);
