@@ -135,9 +135,10 @@
             // Render Kaitan Materi SMA
             const kaitanMateriHtml = (art.kaitanMateri || []).map(k => {
                 const mapelName = k.mapel || (k.url && k.url.includes('/fisika/') ? 'Fisika SMA' : k.url && k.url.includes('/biologi/') ? 'Biologi SMA' : 'Kimia SMA');
-                const icon = mapelName.includes('Fisika') ? '⚡' : mapelName.includes('Biologi') ? '🧬' : '🧪';
+                const icon = mapelName.includes('Fisika') ? '⚡' : mapelName.includes('Biologi') ? '🧬' : mapelName.includes('Matematika') ? '📐' : '🧪';
                 const badgeColor = mapelName.includes('Fisika') ? 'bg-indigo-50 text-indigo-800 border-indigo-200' :
                                    mapelName.includes('Biologi') ? 'bg-emerald-50 text-emerald-800 border-emerald-200' :
+                                   mapelName.includes('Matematika') ? 'bg-rose-50 text-rose-800 border-rose-200' :
                                    'bg-teal-50 text-teal-800 border-teal-200';
                 return `
                 <div class="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-sm transition flex flex-col justify-between">
@@ -170,6 +171,7 @@
                         <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
                             art.categoryColor === 'amber' ? 'bg-amber-100 text-amber-900' :
                             art.categoryColor === 'teal' ? 'bg-teal-100 text-teal-900' :
+                            art.categoryColor === 'rose' ? 'bg-rose-100 text-rose-900' :
                             'bg-indigo-100 text-indigo-900'
                         }">
                             ${art.category}
@@ -354,6 +356,7 @@
                             <span class="text-xs font-bold px-2 py-0.5 rounded-full ${
                                 r.categoryColor === 'amber' ? 'bg-amber-100 text-amber-800' :
                                 r.categoryColor === 'teal' ? 'bg-teal-100 text-teal-800' :
+                                r.categoryColor === 'rose' ? 'bg-rose-100 text-rose-800' :
                                 'bg-indigo-100 text-indigo-800'
                             }">
                                 ${r.category}
