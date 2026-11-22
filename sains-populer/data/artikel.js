@@ -5,6 +5,89 @@
 // =================================================================
 
 const DAFTAR_ARTIKEL_SAINS = [
+    {
+        "id": "efek-piezoelektrik-panen-energi-trotoar-pintar",
+        "slug": "efek-piezoelektrik-panen-energi-trotoar-pintar",
+        "title": "Trotoar Pintar dan Keajaiban Efek Piezoelektrik: Mengubah Langkah Kaki Menjadi Listrik Kota",
+        "subtitle": "Bagaimana tekanan mekanis langkah kaki pejalan kaki dapat diubah menjadi energi listrik bersih melalui prinsip fisika kristal.",
+        "category": "Fisika & Kuantum",
+        "categoryColor": "indigo",
+        "icon": "⚡",
+        "publishDate": "22 November 2026",
+        "readTime": "5 menit baca",
+        "author": "Tim Sains AjarKita",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-indigo-600 via-blue-600 to-cyan-500",
+            "badge": "Fisika Terapan",
+            "icon": "⚡"
+        },
+        "summary": "Setiap kali pejalan kaki melangkah di trotoar kota, ada energi mekanis kinetik yang selama ini terbuang. Menggunakan kristal piezoelektrik, material khusus kini sanggup menekan kisi kristal untuk mengalirkan elektron, menciptakan sumber energi alternatif ramah lingkungan bagi infrastruktur kota modern.",
+        "tahukahKamu": "Uji coba ubin trotoar piezoelektrik di Stasiun Kereta Tokyo dan London menunjukkan bahwa 10.000 langkah kaki manusia dapat menghasilkan energi yang cukup untuk menyalakan lampu penerangan LED jalanan selama beberapa jam!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas X",
+                "mapel": "Fisika SMA",
+                "bab": "Efisiensi Daya & Konservasi Energi",
+                "desc": "Memahami pemanfaatan konversi energi mekanis menjadi listrik serta konsep efisiensi daya dalam teknologi konservasi energi.",
+                "url": "/fisika/kelas-10/energi-terbarukan-dan-perubahan-iklim/efisiensi-dan-konservasi-energi.html"
+            },
+            {
+                "kelas": "Kelas X",
+                "mapel": "Fisika SMA",
+                "bab": "Pembangkit Listrik Energi Surya & Alternatif",
+                "desc": "Menggali potensi sumber daya energi alternatif mikro non-konvensional dalam mendukung pembangunan kota mandiri energi.",
+                "url": "/fisika/kelas-10/energi-terbarukan-dan-perubahan-iklim/pembangkit-listrik-energi-alternatif.html"
+            }
+        ],
+        "contentHtml": "<p>Bayangkan jika setiap kali Anda melangkahkan kaki di trotoar stasiun kereta atau mal, langkah Anda ikut menyalakan lampu jalanan di sekitar Anda. Konsep yang terdengar seperti fiksi ilmiah ini kini menjadi kenyataan berkat penerapan fenomena fisika yang dikenal sebagai <strong>Efek Piezoelektrik</strong>.</p><h3>Bagaimana Tekanan Menghasilkan Listrik?</h3><p>Efek piezoelektrik terjadi ketika material kristal tertentu (seperti kuarsa atau keramik PZT/<em>Lead Zirconate Titanate</em>) mengalami tekanan mekanis atau deformasi fisik. Ketika seseorang menginjak lantai trotoar berteknologi ini, kisi kristal di dalam material akan terdorong dan bergeser.</p><p>Pergeseran kedudukan muatan positif dan negatif di dalam struktur kristal menimbulkan pergeseran dipol listrik, yang pada akhirnya memicu beda potensial (tegangan listrik) di kedua ujung material. Semakin besar frekuensi dan gaya tekanan langkah kaki, semakin besar pula arus listrik searah (DC) yang dihasilkan.</p><div class=\"my-6 p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded-r-lg\"><h4 class=\"font-bold text-indigo-900 mb-1\">Konversi Energi dalam Sekejap</h4><p class=\"text-indigo-800 text-sm\">Prinsip fisika di balik sistem ini memenuhi Hukum Kekekalan Energi: Energi Kinetik (Langkah Kaki) &rarr; Energi Mekanis (Tekanan Kristal) &rarr; Energi Listrik (Aliran Elektron).</p></div><h3>Efisiensi dan Masa Depan <i>Smart City</i></h3><p>Dalam penerapan skala kota, ubin piezoelektrik dipasang di area berdensitas tinggi seperti penyeberangan jalan, stasiun MRT, dan lapangan olahraga. Energi yang dipanen kemudian disimpan dalam superkapasitor atau baterai penyimpanan untuk mengoperasikan sensor kualitas udara, sistem navigasi tunanetra, hingga pemancar Wi-Fi publik.</p><p>Meskipun efisiensi konversi daya dari satu ubin piezoelektrik masih relatif kecil per individu,akumulasi jutaan langkah pejalan kaki setiap harinya menjadikannya salah satu solusi pemanenan energi mikro (<i>micro-energy harvesting</i>) yang sangat menjanjikan untuk mendukung netralitas karbon kota masa depan.</p>",
+        "diskusi": [
+            "Bagaimana pengaruh bobot tubuh dan kecepatan langkah kaki seseorang terhadap besar potensial listrik yang dihasilkan oleh sensor piezoelektrik?",
+            "Faktor kendala material apa yang perlu diatasi agar ubin piezoelektrik tahan terhadap cuaca ekstrem dan keausan mekanis dalam jangka panjang?"
+        ]
+    },
+
+    {
+        "id": "teorema-bayes-matematika-ai-diagnosis-medis",
+        "slug": "teorema-bayes-matematika-ai-diagnosis-medis",
+        "title": "Logika Matematika di Balik AI Medis: Menyingkap Kehebatan Teorema Bayes",
+        "subtitle": "Bagaimana rumus peluang bersyarat yang dikembangkan abad ke-18 menjadi otak matematis algoritma pendeteksi penyakit modern.",
+        "category": "Biologi & Bioteknologi",
+        "categoryColor": "emerald",
+        "icon": "🧠",
+        "publishDate": "22 November 2026",
+        "readTime": "5 menit baca",
+        "author": "Tim Sains AjarKita",
+        "coverImage": {
+            "type": "gradient",
+            "bg": "from-emerald-600 via-teal-600 to-cyan-600",
+            "badge": "Matematika & Bio-AI",
+            "icon": "🧠"
+        },
+        "summary": "Teorema Bayes bukan sekadar teori probabilitas di atas kertas. Dalam modernitas bioteknologi, formula matematika ini menjadi algoritma inti kecerdasan buatan (AI) untuk menghitung risiko klinis dan mendiagnosis penyakit kompleks secara presisi berbasis riwayat medis pasien.",
+        "tahukahKamu": "Thomas Bayes merumuskan teori ini pada tahun 1763, namun formulanya baru dimanfaatkan secara masif 200 tahun kemudian ketika komputer sanggup melakukan miliaran kalkulasi peluang dalam pecahan detik!",
+        "kaitanMateri": [
+            {
+                "kelas": "Kelas XII",
+                "mapel": "Matematika SMA",
+                "bab": "Teorema Bayes & Peluang Bersyarat",
+                "desc": "Mempelajari kalkulasi peluang terjadinya suatu peristiwa berdasarkan bukti awal (prior knowledge) yang telah diketahui sebelumnya.",
+                "url": "/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/peluang-kejadian-majemuk-bersyarat-dan-teorema-bayes.html"
+            },
+            {
+                "kelas": "Kelas XII",
+                "mapel": "Matematika SMA",
+                "bab": "Distribusi Normal Baku",
+                "desc": "Memahami sebaran data variabel medis pada populasi sebagai batas ambang probabilitas antara kondisi sehat dan patologis.",
+                "url": "/matematika/kelas-12/kaidah-pencacahan-dan-distribusi-peluang/distribusi-peluang-kontinu-dan-distribusi-normal-baku.html"
+            }
+        ],
+        "contentHtml": "<p>Saat sebuah sistem Kecerdasan Buatan (AI) medis mampu memprediksi bahwa seorang pasien memiliki risiko kanker 92% berdasarkan data pemindaian MRI dan tes darah, bagaimanakah mesin tersebut berpikir? Rahasianya terletak pada sebuah konsep klasik matematika: <strong>Teorema Bayes</strong>.</p><h3>Peluang Bersyarat: Memperbarui Kepercayaan Berdasarkan Bukti</h3><p>Secara mendasar, Teorema Bayes menghitung <em>peluang bersyarat</em>—yaitu probabilitas suatu hipotesis (misalnya: \"pasien mengidap penyakit X\") benar, mengingat adanya bukti baru tertentu (misalnya: \"bercak hitam pada hasil Rontgen\").</p><p>Persamaan Bayes menghubungkan <strong>Peluang Awal (Prior Probability)</strong> dengan <strong>Kemungkinan Bukti (Likelihood)</strong> untuk menghasilkan <strong>Peluang Akhir (Posterior Probability)</strong>:</p><div class=\"my-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg\"><h4 class=\"font-bold text-emerald-900 mb-1\">Formula Prinsip Bayes</h4><p class=\"text-emerald-800 text-sm\">P(A|B) = [ P(B|A) &times; P(A) ] / P(B)</p><p class=\"text-emerald-700 text-xs mt-1\">Menghitung probabilitas kondisi A terjadi setelah bukti B ditemukan secara akurat.</p></div><h3>Revolusi Diagnosis Diagnostik dan Bioteknologi</h3><p>Mengapa Bayes sangat ampuh dalam AI Medis? Dokter tidak hanya melihat satu gejala terisolasi. Jika seorang pasien dites positif untuk penyakit langka yang hanya menyerang 1 dari 10.000 orang, akurasi tes 99% tidak berarti pasien pasti sakit 99%. Teorema Bayes memperhitungkan prevalensi penyakit dasar tersebut dalam populasi sehingga mencegah diagnosis <em>false positive</em> (positif palsu).</p><p>Kini, jaringan saraf tiruan (<em>Bayesian Neural Networks</em>) digunakan dalam penyusunan obat baru, analisis genomik manusia, hingga prediksi penyebaran epidemiologi secara global. Matematika membuktikan dirinya sebagai fondasi tak terlihat yang menyelamatkan jutaan nyawa manusia.</p>",
+        "diskusi": [
+            "Mengapa mengabaikan prevalensi populasi (Prior Probability) sering kali menimbulkan eror statistik dalam interpretasi hasil laboratorium medis?",
+            "Bagaimana Teorema Bayes dapat diintegrasikan dengan algoritma machine learning untuk memprediksi mutasi genetik pada virus?"
+        ]
+    },
 {
         "id": "eht-memotret-lubang-hitam-sagittarius-a",
         "slug": "eht-memotret-lubang-hitam-sagittarius-a",
